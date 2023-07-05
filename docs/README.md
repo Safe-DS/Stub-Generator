@@ -1,4 +1,4 @@
-# Library Analyzer
+# Stub Generator
 
 [![Main](https://github.com/Safe-DS/Stub-Generator/actions/workflows/main.yml/badge.svg)](https://github.com/Safe-DS/Stub-Generator/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/Safe-DS/Stub-Generator/branch/main/graph/badge.svg?token=UyCUY59HKM)](https://codecov.io/gh/Safe-DS/Stub-Generator)
