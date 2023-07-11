@@ -3,6 +3,7 @@ repo_url: https://github.com/Safe-DS/Stub-Generator
 repo_name: Safe-DS/Stub-Generator
 edit_uri: edit/main/docs/
 site_url: !ENV READTHEDOCS_CANONICAL_URL
+strict: true
 
 nav:
   - Home:
