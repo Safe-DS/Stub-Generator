@@ -1,2 +1,15 @@
-def main():
-    raise NotImplementedError()
+"""The entrypoint to the program."""
+
+import time
+
+from safeds_stubgen.api_analyzer.cli import cli
+
+
+def main() -> None:
+    """Launch the program."""
+    start_time = time.time()
+
+    cli()
+
+    print("\n============================================================")  # noqa: T201
+    print(f"Program ran in {time.time() - start_time}s")  # noqa: T201
