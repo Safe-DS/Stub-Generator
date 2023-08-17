@@ -5,11 +5,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-# from black import FileMode, InvalidInput, format_str
-# from black.brackets import BracketMatchError
-# from black.linegen import CannotSplit
-# from black.trans import CannotTransform
-
 from ._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
 from ._types import AbstractType, create_type
 
@@ -73,9 +68,10 @@ class API:
         self.attributes_: dict[str, Attribute] | None = None
         self.parameters_: dict[str, Parameter] | None = None
         self.results_: dict[str, Result] | None = None
-        # Todo new | Package?
         self.enums: dict[str, Enum] | None = None
 
+
+    # Todo Bei den add Funktionen statt id eine Klasse
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
 
@@ -85,7 +81,6 @@ class API:
     def add_function(self, function: Function) -> None:
         self.functions[function.id] = function
 
-    # Todo new
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
 
@@ -131,7 +126,7 @@ class API:
         attributes_: dict[str, Attribute] = {}
 
         for class_ in self.classes.values():
-            for attribute in class_.instance_attributes:
+            for attribute in class_.attributes:
                 attribute_id = f"{class_.id}/{attribute.name}"
                 attributes_[attribute_id] = attribute
         self.attributes_ = attributes_
@@ -172,14 +167,14 @@ class API:
             if class_.is_public:
                 copy = Class(
                     id=class_.id,
-                    qname=class_.qname,
+                    name=class_.name,
                     decorators=class_.decorators,
                     superclasses=class_.superclasses,
                     is_public=class_.is_public,
                     reexported_by=class_.reexported_by,
                     docstring=class_.docstring,
                     code=class_.code,
-                    instance_attributes=class_.instance_attributes,
+                    attributes=class_.attributes,
                 )
                 for method in class_.methods:
                     if self.is_public_function(method):
@@ -212,216 +207,99 @@ class API:
 
 
 class Module:
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> Module:
-        result = Module(
-            d["id"],
-            d["name"],
-            # [Import.from_dict(import_json) for import_json in d.get("imports", [])],
-            # [FromImport.from_dict(from_import_json) for from_import_json in d.get("from_imports", [])],
-        )
-
-        for class_id in d.get("classes", []):
-            result.add_class(class_id)
-
-        for function_id in d.get("functions", []):
-            result.add_function(function_id)
-
-        return result
-
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            # "imports": [import_.to_dict() for import_ in self.imports],
-            # "from_imports": [from_import.to_dict() for from_import in self.from_imports],
-            "classes": self.classes,
-            "functions": self.functions,
-            # Todo new
-            "attributes": self.attributes,
+            "classes": [class_.id for class_ in self.classes],
+            "functions": [function.id for function in self.global_functions],
+            "enums": [enum.id for enum in self.enums],
             "docstring": self.docstring,
-            "enums": self.enums,
         }
 
-    def __init__(self, id_: str, name: str):  # , imports: list[Import], from_imports: list[FromImport]):
+    def __init__(self, id_: str, name: str):
         self.id: str = id_
         self.name: str = name
-        # self.imports: list[Import] = imports
-        # self.from_imports: list[FromImport] = from_imports
-        self.classes: list[str] = []
-        self.functions: list[str] = []
-        # todo new
-        self.attributes: list[str] = []
+        self.classes: list[Class] = []
+        self.global_functions: list[Function] = []
+        self.enums: list[Enum] = []
         self.docstring: str = ""
-        self.enums: list[str] = []
-        # annotations
 
-    def add_class(self, class_id: str) -> None:
-        self.classes.append(class_id)
+    def add_class(self, class_: Class) -> None:
+        self.classes.append(class_)
 
-    def add_function(self, function_id: str) -> None:
-        self.functions.append(function_id)
+    def add_function(self, function: Function) -> None:
+        self.global_functions.append(function)
 
-    # Todo new
-    def add_attribute(self, attribute_id: str) -> None:
-        self.attributes.append(attribute_id)
-
-    # Todo new
-    def add_docstring(self, docstring: str) -> None:
-        self.docstring = docstring
-
-    # Todo new
-    def add_enums(self, enum_id: str) -> None:
-        self.enums.append(enum_id)
+    def add_enums(self, enum: Enum) -> None:
+        self.enums.append(enum)
 
 
-# @dataclass
-# class Import:
-#     module_name: str
-#     alias: str | None
-#
-#     @staticmethod
-#     def from_dict(d: dict[str, Any]) -> Import:
-#         return Import(d["module"], d["alias"])
-#
-#     def to_dict(self) -> dict[str, Any]:
-#         return {"module": self.module_name, "alias": self.alias}
+@dataclass
+class QualifiedImport:
+    qualified_name: str
+    alias: str | None
+
+    @staticmethod
+    def from_dict(d: dict[str, Any]) -> QualifiedImport:
+        return QualifiedImport(
+            d["qualified_name"],
+            d["alias"]
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "qualified_name": self.qualified_name,
+            "alias": self.alias
+        }
 
 
-# @dataclass
-# class FromImport:
-#     module_name: str
-#     declaration_name: str
-#     alias: str | None
-#
-#     @staticmethod
-#     def from_dict(d: dict[str, Any]) -> FromImport:
-#         return FromImport(d["module"], d["declaration"], d["alias"])
-#
-#     def to_dict(self) -> dict[str, Any]:
-#         return {
-#             "module": self.module_name,
-#             "declaration": self.declaration_name,
-#             "alias": self.alias,
-#         }
+@dataclass
+class WildcardImport:
+    module_name: str
+
+    @staticmethod
+    def from_dict(d: dict[str, Any]) -> WildcardImport:
+        return WildcardImport(d["module_name"])
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"module_name": self.module_name}
 
 
 @dataclass
 class Class:
     id: str
-    qname: str
-    decorators: list[str]
-    superclasses: list[str]
-    methods: list[str] = field(init=False)
+    name: str
+    superclasses: list[Class]
     is_public: bool
-    reexported_by: list[str]
+    reexported_by: list[Module]
     docstring: ClassDocstring
-    code: str
-    instance_attributes: list[Attribute]
-    # Todo new
-    classes: list[str]
-    # original_class, constructor (auch Klasse), _todo, is_expert, annotations (auch Klasse)
+    constructor: Function | None = None
+    attributes: list[Attribute] = field(default_factory=list)
+    methods: list[Function] = field(default_factory=list)
+    classes: list[Class] = field(default_factory=list)
 
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> Class:
-        result = Class(
-            d["id"],
-            d["qname"],
-            d.get("decorators", []),
-            d.get("superclasses", []),
-            d.get("is_public", True),
-            d.get("reexported_by", []),
-            ClassDocstring(description=d.get("description", "")),
-            d.get("code", ""),
-            [
-                Attribute.from_dict(instance_attribute, d["id"])
-                for instance_attribute in d.get("instance_attributes", [])
-            ],
-            # Todo new
-            d.get("classes", [])
-        )
-
-        for method_id in d["methods"]:
-            result.add_method(method_id)
-
-        return result
-
+    # Todo Wie in Module.to_dict die ID's raus iterieren
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "qname": self.qname,
-            "decorators": self.decorators,
+            "qname": self.name,
             "superclasses": self.superclasses,
-            "methods": self.methods,
             "is_public": self.is_public,
             "reexported_by": self.reexported_by,
             "description": self.docstring.description,
-            "code": self.code,
-            "instance_attributes": [attribute.to_dict() for attribute in self.instance_attributes],
-            # Todo new
+            "constructor": self.constructor,
+            "attributes": [attribute.to_dict() for attribute in self.attributes],
+            "methods": self.methods,
             "classes": self.classes
         }
 
-    def __post_init__(self) -> None:
-        self.methods: list[str] = []
+    def add_method(self, method: Function) -> None:
+        self.methods.append(method)
 
-    @property
-    def name(self) -> str:
-        return self.qname.split(".")[-1]
-
-    def add_method(self, method_id: str) -> None:
-        self.methods.append(method_id)
-
-    # Todo new
-    def add_class(self, class_id: str) -> None:
-        self.classes.append(class_id)
-
-    # def get_formatted_code(self, *, cut_documentation: bool = False) -> str:
-    #     formatted_code = _generate_formatted_code(self)
-    #     if cut_documentation:
-    #         formatted_code = _cut_documentation_from_code(formatted_code, self)
-    #     return formatted_code
-
-
-# def _generate_formatted_code(api_element: Class | Function) -> str:
-#     code = api_element.code
-#     try:
-#         code_tmp = format_str(code, mode=FileMode())
-#     except (CannotSplit, CannotTransform, InvalidInput, BracketMatchError):
-#         # As long as the api black has no documentation, we do not know which exceptions are raised
-#         pass
-#     else:
-#         code = code_tmp
-#     return code
-#
-#
-# def _cut_documentation_from_code(code: str, api_element: Class | Function) -> str:
-#     start_keyword = "class " if isinstance(api_element, Class) else "def "
-#     lines = code.split("\n")
-#     start_line = -1
-#     for index, line in enumerate(lines):
-#         if line.lstrip().startswith(start_keyword):
-#             start_line = index + 1
-#             break
-#     if 0 <= start_line < len(lines):
-#         line = lines[start_line].lstrip()
-#         if line.startswith('"""'):
-#             end_line = -1
-#             lines[start_line] = line[3:]
-#             if lines[start_line].rstrip().endswith('"""'):
-#                 end_line = start_line
-#             else:
-#                 for index in range(start_line, len(lines)):
-#                     line = lines[index]
-#                     if line.lstrip().startswith('"""'):
-#                         end_line = index
-#                         break
-#             if end_line >= 0:
-#                 if (end_line + 1) < len(lines) and lines[end_line + 1].lstrip() == "":
-#                     end_line += 1
-#                 return "\n".join(lines[:start_line]) + "\n" + "\n".join(lines[end_line + 1 :])
-#     return code
+    def add_class(self, class_: Class) -> None:
+        self.classes.append(class_)
 
 
 @dataclass(frozen=True)
@@ -429,28 +307,9 @@ class Attribute:
     id: str
     name: str
     types: AbstractType | None
-    class_id: str | None = None
-    # Todo new
-    value: Any = None
     is_public: bool = False
     description: str = ""
-    boundary: str = ""
-    # annotations: list[str] = ""
-
-    @staticmethod
-    def from_dict(d: dict[str, Any], class_id: str | None = None, value=None, is_public=False,
-                  description="", boundary="") -> Attribute:
-
-        return Attribute(
-            d["id"],
-            d["name"],
-            AbstractType.from_dict(d.get("types", {})),
-            class_id,
-            value,
-            is_public,
-            description,
-            boundary
-        )
+    is_static: bool = True
 
     def to_dict(self) -> dict[str, Any]:
         types_json = self.types.to_dict() if self.types is not None else None
@@ -458,156 +317,54 @@ class Attribute:
             "id": self.id,
             "name": self.name,
             "types": types_json,
-            "value": self.value,
             "is_public": self.is_public,
             "description": self.description,
-            "boundary": self.boundary
+            "is_static": self.is_static
         }
 
 
 @dataclass(frozen=True)
 class Function:
     id: str
-    qname: str
-    decorators: list[str]
+    name: str
     parameters: list[Parameter]
     results: list[Result]
     is_public: bool
     reexported_by: list[str]
     docstring: FunctionDocstring
-    code: str
-    # Todo new
-    functions: ... = ...
-    classes: ... = ...
-    # is_pure: ... = ...
-    # annotations: ... = ...
+    is_static: bool
 
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> Function:
-        return Function(
-            d["id"],
-            d["qname"],
-            d.get("decorators", []),
-            [Parameter.from_dict(parameter_json) for parameter_json in d.get("parameters", [])],
-            [Result.from_dict(result_json) for result_json in d.get("results", [])],
-            d.get("is_public", True),
-            d.get("reexported_by", []),
-            FunctionDocstring(description=d.get("description", "")),
-            d.get("code", ""),
-            d.get("functions"),
-            d.get("classes")
-        )
-
-    @property
-    def name(self) -> str:
-        return self.qname.rsplit(".", maxsplit=1)[-1]
-
+    # Todo Wie in Module.to_dict die ID's raus iterieren
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "qname": self.qname,
-            "decorators": self.decorators,
             "parameters": [parameter.to_dict() for parameter in self.parameters],
             "results": [result.to_dict() for result in self.results],
             "is_public": self.is_public,
             "reexported_by": self.reexported_by,
             "description": self.docstring.description,
-            "code": self.code,
-            "functions": self.functions,
-            "classes": self.classes,
+            "is_static": self.is_static,
         }
 
-    # def get_formatted_code(self, *, cut_documentation: bool = False) -> str:
-    #     formatted_code = _generate_formatted_code(self)
-    #     if cut_documentation:
-    #         formatted_code = _cut_documentation_from_code(formatted_code, self)
-    #     return formatted_code
 
-    # Todo new
-    def add_function(self, function_id: str) -> None:
-        self.functions.append(function_id)
-
-    # Todo new
-    def add_class(self, class_id: str) -> None:
-        self.classes.append(class_id)
-
-    # Todo new
-    def is_method(self): ...
-
-    # Todo new
-    def is_static_method(self): ...
-
-
+# Todo Dataclass?
 class Parameter:
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> Parameter:
-        return Parameter(
-            d["id"],
-            d["name"],
-            d["qname"],
-            d.get("default_value", None),
-            ParameterAssignment[d.get("assigned_by", "POSITION_OR_NAME")],
-            d.get("is_public", True),
-            ParameterDocstring.from_dict(d.get("docstring", {})),
-            # Todo new
-            d.get("boundary", None)
-        )
-
-    def __hash__(self) -> int:
-        return hash(
-            (
-                self.id,
-                self.name,
-                self.qname,
-                self.default_value,
-                self.assigned_by,
-                self.is_public,
-                self.docstring,
-                # Todo new
-                self.boundary
-            ),
-        )
-
-    def __eq__(self, other: object) -> bool:
-        return (
-            isinstance(other, Parameter)
-            and self.id == other.id
-            and self.name == other.name
-            and self.qname == other.qname
-            and self.default_value == other.default_value
-            and self.assigned_by == other.assigned_by
-            and self.is_public == other.is_public
-            and self.docstring == other.docstring
-            and self.type == other.type
-            # Todo new
-            and self.boundary == other.boundary
-        )
-
     def __init__(
         self,
         id_: str,
         name: str,
-        qname: str,
-        default_value: str | None,  # Todo warum str und nicht Any
+        default_value: Expression | None,
         assigned_by: ParameterAssignment,  # Todo assignment kann man auch von mypy bekommen
-        is_public: bool,
         docstring: ParameterDocstring,
-        # Todo new
-        # _type: ... = ...,
-        # is_expert, _todo, annotations
-        boundary: str | None = None,
+        type_: ... = ...,
     ) -> None:
         self.id: str = id_
         self.name: str = name
-        self.qname: str = qname
-        self.default_value: str | None = default_value
+        self.default_value: Expression | None = default_value
         self.assigned_by: ParameterAssignment = assigned_by
-        self.is_public: bool = is_public
         self.docstring = docstring
         self.type: AbstractType | None = create_type(docstring.type, docstring.description)
-        # Todo new
-        self.boundary = boundary
 
     def is_optional(self) -> bool:
         return self.default_value is not None
@@ -622,33 +379,11 @@ class Parameter:
         return {
             "id": self.id,
             "name": self.name,
-            "qname": self.qname,
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
-            "is_public": self.is_public,
             "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict() if self.type is not None else {},
-            # Todo new
-            "boundary": self.boundary
         }
-
-
-class AttributeAssignment(Enum):
-    """
-    How arguments are assigned to attributes. The attributes must appear exactly in this order in an attribute list.
-
-    IMPLICIT attributes appear on instance methods (usually called "self") and on class methods (usually called "cls").
-    POSITION_ONLY attributes precede the "/" in an attribute list. NAME_ONLY attributes follow the "*" or the
-    POSITIONAL_VARARGS attribute ("*args"). Between the "/" and the "*" the POSITION_OR_NAME attributes reside. Finally,
-    the attribute list might optionally include a NAMED_VARARG attribute ("**kwargs").
-    """
-
-    IMPLICIT = "IMPLICIT"
-    POSITION_ONLY = "POSITION_ONLY"
-    POSITION_OR_NAME = "POSITION_OR_NAME"
-    POSITIONAL_VARARG = "POSITIONAL_VARARG"
-    NAME_ONLY = "NAME_ONLY"
-    NAMED_VARARG = "NAMED_VARARG"
 
 
 class ParameterAssignment(Enum):
@@ -672,54 +407,33 @@ class ParameterAssignment(Enum):
 @dataclass(frozen=True)
 class Result:
     id: str
-    name: str
+    name: str | None
+    type_: Any | None = None
     docstring: ResultDocstring
-    function_id: str | None = None
-    # Todo new
-    type: Any | None = None
-    boundary: str | None = None
-
-    @staticmethod
-    def from_dict(d: dict[str, Any], function_id: str | None = None) -> Result:
-        return Result(
-            d["id"],
-            d["name"],
-            ResultDocstring.from_dict(d.get("docstring", {})),
-            function_id,
-            d.get("type", None),
-            d.get("boundary", None)
-        )
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
+            "type": self.type_,
             "docstring": self.docstring.to_dict(),
-            "type": self.type,
-            "boundary": self.boundary
         }
 
 
 # Todo new
-#  Ist eine Enum Klasse nötig oder reichen normale Klassen?
 class Enum:
     id: str
     name: str
-    instances: ... = ...  # Todo eigene Klasse?
-    description: ... = ...
-    annotations: ... = ...
-
-    def from_dict(self): ...
+    instances: EnumInstance  # Todo eigene Klasse
+    description: str
 
     def to_dict(self): ...
 
 
-# Todo new
-class Package:
-    dist: str
-    name: str
-    version: str
-    modules: list[Module]
+class Expression: ...
+
+
+class EnumInstance: ...
 
 
 # Todo new
