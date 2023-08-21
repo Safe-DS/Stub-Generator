@@ -5,7 +5,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from ._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+from safeds_stubgen.docstring_parsing._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, \
+    ResultDocstring
 from ._types import AbstractType, create_type
 
 if TYPE_CHECKING:
@@ -32,32 +33,6 @@ def parent_id(id_: str) -> str:
 
 
 class API:
-    @staticmethod
-    def from_json_file(path: Path) -> API:
-        with path.open(encoding="utf-8") as api_file:
-            api_json = json.load(api_file)
-
-        return API.from_dict(api_json)
-
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> API:
-        result = API(d["distribution"], d["package"], d["version"])
-
-        for module_json in d.get("modules", []):
-            result.add_module(Module.from_dict(module_json))
-
-        for class_json in d.get("classes", []):
-            result.add_class(Class.from_dict(class_json))
-
-        for function_json in d.get("functions", []):
-            result.add_function(Function.from_dict(function_json))
-
-        # Todo new
-        for enum_json in d.get("enums", []):
-            result.add_enum(Enum.from_dict(enum_json))
-
-        return result
-
     def __init__(self, distribution: str, package: str, version: str) -> None:
         self.distribution: str = distribution
         self.package: str = package
@@ -70,8 +45,6 @@ class API:
         self.results_: dict[str, Result] | None = None
         self.enums: dict[str, Enum] | None = None
 
-
-    # Todo Bei den add Funktionen statt id eine Klasse
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
 
@@ -104,9 +77,6 @@ class API:
 
     def parameter_count(self) -> int:
         return len(self.parameters())
-
-    def public_parameter_count(self) -> int:
-        return len([it for it in self.parameters().values() if it.is_public])
 
     def parameters(self) -> dict[str, Parameter]:
         if self.parameters_ is not None:
@@ -168,16 +138,17 @@ class API:
                 copy = Class(
                     id=class_.id,
                     name=class_.name,
-                    decorators=class_.decorators,
                     superclasses=class_.superclasses,
                     is_public=class_.is_public,
                     reexported_by=class_.reexported_by,
                     docstring=class_.docstring,
-                    code=class_.code,
+                    constructor=class_.constructor,
                     attributes=class_.attributes,
+                    methods=class_.methods,
+                    classes=class_.classes
                 )
                 for method in class_.methods:
-                    if self.is_public_function(method):
+                    if self.is_public_function(method.id):
                         copy.add_method(method)
                 result.add_class(copy)
 
@@ -198,11 +169,22 @@ class API:
             "distribution": self.distribution,
             "package": self.package,
             "version": self.version,
-            "modules": [module.to_dict() for module in sorted(self.modules.values(), key=lambda it: it.id)],
-            "classes": [class_.to_dict() for class_ in sorted(self.classes.values(), key=lambda it: it.id)],
-            "functions": [function.to_dict() for function in sorted(self.functions.values(), key=lambda it: it.id)],
-            # Todo new
-            "enums": [enum.to_dict() for enum in sorted(self.enums.values(), key=lambda it: it.id)],
+            "modules": [
+                module.to_dict()
+                for module in sorted(self.modules.values(), key=lambda it: it.id)
+            ],
+            "classes": [
+                class_.to_dict()
+                for class_ in sorted(self.classes.values(), key=lambda it: it.id)
+            ],
+            "functions": [
+                function.to_dict()
+                for function in sorted(self.functions.values(), key=lambda it: it.id)
+            ],
+            "enums": [
+                enum.to_dict()
+                for enum in sorted(self.enums.values(), key=lambda it: it.id)
+            ],
         }
 
 
@@ -279,7 +261,6 @@ class Class:
     methods: list[Function] = field(default_factory=list)
     classes: list[Class] = field(default_factory=list)
 
-    # Todo Wie in Module.to_dict die ID's raus iterieren
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
@@ -290,9 +271,9 @@ class Class:
             "reexported_by": self.reexported_by,
             "description": self.docstring.description,
             "constructor": self.constructor,
-            "attributes": [attribute.to_dict() for attribute in self.attributes],
-            "methods": self.methods,
-            "classes": self.classes
+            "attributes": [attribute.id for attribute in self.attributes],
+            "methods": [method.id for method in self.methods],
+            "classes": [class_.id for class_ in self.classes]
         }
 
     def add_method(self, method: Function) -> None:
@@ -327,27 +308,27 @@ class Attribute:
 class Function:
     id: str
     name: str
-    parameters: list[Parameter]
-    results: list[Result]
-    is_public: bool
     reexported_by: list[str]
     docstring: FunctionDocstring
+    is_public: bool
     is_static: bool
+    parameters: list[Parameter]
+    results: list[Result]
 
-    # Todo Wie in Module.to_dict die ID's raus iterieren
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "parameters": [parameter.to_dict() for parameter in self.parameters],
-            "results": [result.to_dict() for result in self.results],
-            "is_public": self.is_public,
             "reexported_by": self.reexported_by,
             "description": self.docstring.description,
+            "is_public": self.is_public,
             "is_static": self.is_static,
+            "parameters": [parameter.id for parameter in self.parameters],
+            "results": [result.id for result in self.results],
         }
 
 
+# Todo assignment kann man auch von mypy bekommen
 # Todo Dataclass?
 class Parameter:
     def __init__(
@@ -355,15 +336,16 @@ class Parameter:
         id_: str,
         name: str,
         default_value: Expression | None,
-        assigned_by: ParameterAssignment,  # Todo assignment kann man auch von mypy bekommen
+        assigned_by: ParameterAssignment,
         docstring: ParameterDocstring,
-        type_: ... = ...,
+        type_: AbstractType | None,
     ) -> None:
         self.id: str = id_
         self.name: str = name
         self.default_value: Expression | None = default_value
         self.assigned_by: ParameterAssignment = assigned_by
         self.docstring = docstring
+        # Todo wie mit type_ arbeiten?
         self.type: AbstractType | None = create_type(docstring.type, docstring.description)
 
     def is_optional(self) -> bool:
@@ -372,7 +354,7 @@ class Parameter:
     def is_required(self) -> bool:
         return self.default_value is None
 
-    # Todo new
+    # Todo
     def is_variadic(self): ...
 
     def to_dict(self) -> dict[str, Any]:
@@ -408,7 +390,7 @@ class ParameterAssignment(Enum):
 class Result:
     id: str
     name: str | None
-    type_: Any | None = None
+    type_: AbstractType | None
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
@@ -420,27 +402,35 @@ class Result:
         }
 
 
-# Todo new
 class Enum:
     id: str
     name: str
-    instances: EnumInstance  # Todo eigene Klasse
     description: str
+    instances: list[EnumInstance] = field(default_factory=list)
 
-    def to_dict(self): ...
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "description": self.description,
+            "instances": [instance.id for instance in self.instances],
+        }
 
 
-class Expression: ...
+class EnumInstance:
+    id: str
 
 
-class EnumInstance: ...
+class Expression:
+    id: str
+    value: str
 
 
-# Todo new
+# Todo
 def dict_to_stub(): ...
 
 
-# Todo new
+# Todo
 def dict_to_json(): ...
 
 

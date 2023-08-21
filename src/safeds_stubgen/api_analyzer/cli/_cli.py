@@ -1,14 +1,9 @@
 import argparse
 import logging
-
-# noinspection PyUnresolvedReferences,PyProtectedMember
-from argparse import _SubParsersAction
 from pathlib import Path
 
-from safeds_stubgen.api_analyzer.cli._run_api import _run_api_command
 from ._docstring_style import DocstringStyle
-
-_API_COMMAND = "api"
+from safeds_stubgen.api_analyzer import get_api
 
 
 def cli() -> None:
@@ -19,11 +14,10 @@ def cli() -> None:
     _run_api_command(args.package, args.src, args.out, args.docstyle)
 
 
-def _get_args() -> argparse.ArgumentParser:
+def _get_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Analyze Python code.")
-    parser.add_argument("-v", "--verbose", help="show info messages", action="store_true")
 
-    # Commands
+    parser.add_argument("-v", "--verbose", help="show info messages", action="store_true")
     parser.add_argument(
         "-p",
         "--package",
@@ -35,7 +29,7 @@ def _get_args() -> argparse.ArgumentParser:
         "-s",
         "--src",
         help="Directory containing the Python code of the package. If this is omitted, we try to locate the package "
-        "with the given name in the current Python interpreter.",
+             "with the given name in the current Python interpreter.",
         type=Path,
         required=False,
         default=None,
@@ -50,4 +44,27 @@ def _get_args() -> argparse.ArgumentParser:
         default=DocstringStyle.PLAINTEXT.name,
     )
 
-    return parser
+    return parser.parse_args()
+
+
+def _run_api_command(
+    package: str,
+    src_dir_path: Path,
+    out_dir_path: Path,
+    docstring_style: DocstringStyle,
+) -> None:
+    """
+    List the API of a package.
+
+    Parameters
+    ----------
+    package : str
+        The name of the package.
+    out_dir_path : Path
+        The path to the output directory.
+    docstring_style : DocstringStyle
+        The style of docstrings that used in the library.
+    """
+    api = get_api(package, src_dir_path, docstring_style)
+    out_file_api = out_dir_path.joinpath(f"{package}__api.json")
+    api.to_json_file(out_file_api)

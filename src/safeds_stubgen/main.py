@@ -13,3 +13,7 @@ def main() -> None:
 
     print("\n============================================================")  # noqa: T201
     print(f"Program ran in {time.time() - start_time}s")  # noqa: T201
+
+
+if __name__ == '__main__':
+    main()
