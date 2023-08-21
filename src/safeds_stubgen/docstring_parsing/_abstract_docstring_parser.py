@@ -9,9 +9,10 @@ if TYPE_CHECKING:
     from ._docstring import (
         ClassDocstring,
         FunctionDocstring,
-        ParameterAssignment,
         ParameterDocstring,
     )
+
+    from safeds_stubgen.api_analyzer import ParameterAssignment
 
 
 class AbstractDocstringParser(ABC):

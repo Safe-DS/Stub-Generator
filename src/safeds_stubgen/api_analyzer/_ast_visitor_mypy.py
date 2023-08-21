@@ -1,6 +1,4 @@
 # TODO Vgl. mit dem alten _ast_visitor.py
-
-
 import re
 
 import astroid
@@ -17,7 +15,7 @@ from ._names import parent_qualified_name
 
 # from ._file_filters import _is_init_file
 from ._get_parameter_list import get_parameter_list
-from ..docstring_parsing._abstract_docstring_parser import AbstractDocstringParser
+from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 
 
 class MyPyAstVisitor:

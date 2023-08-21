@@ -2,7 +2,7 @@ import astroid
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
 
-from safeds_stubgen.api_analyzer._api import ParameterAssignment
+from safeds_stubgen.api_analyzer import ParameterAssignment
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
     AttributeDocstring,

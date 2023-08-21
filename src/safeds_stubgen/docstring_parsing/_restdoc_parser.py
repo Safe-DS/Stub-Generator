@@ -2,7 +2,7 @@ import astroid
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
 
-from safeds_stubgen.api_analyzer._api import ParameterAssignment
+from safeds_stubgen.api_analyzer import ParameterAssignment
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
     ClassDocstring,
@@ -15,7 +15,8 @@ from ._helpers import get_description, get_full_docstring
 
 class RestDocParser(AbstractDocstringParser):
     """
-    Parses documentation in the Restdoc format. See https://spring.io/projects/spring-restdocs#samples for more information.
+    Parses documentation in the Restdoc format. See
+    https://spring.io/projects/spring-restdocs#samples for more information.
 
     This class is not thread-safe. Each thread should create its own instance.
     """

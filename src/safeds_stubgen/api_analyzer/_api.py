@@ -5,7 +5,7 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from safeds_stubgen.docstring_parsing._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, \
+from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, \
     ResultDocstring
 from ._types import AbstractType, create_type
 

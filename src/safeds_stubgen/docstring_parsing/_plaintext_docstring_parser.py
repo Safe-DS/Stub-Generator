@@ -1,6 +1,6 @@
 import astroid
 
-from safeds_stubgen.api_analyzer._api import (
+from safeds_stubgen.api_analyzer import (
     ClassDocstring,
     FunctionDocstring,
     ParameterAssignment,

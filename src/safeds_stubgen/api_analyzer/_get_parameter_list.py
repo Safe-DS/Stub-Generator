@@ -1,7 +1,7 @@
 import astroid
 
+from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 from ._api import Parameter, ParameterAssignment
-from ..docstring_parsing._abstract_docstring_parser import AbstractDocstringParser
 
 
 def get_parameter_list(

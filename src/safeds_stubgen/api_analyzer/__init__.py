@@ -5,11 +5,21 @@ from ._package_metadata import (
     package_files,
     package_root,
 )
+from _api import (
+    ClassDocstring,
+    FunctionDocstring,
+    ParameterAssignment,
+    ParameterDocstring,
+)
 
 __all__ = [
-    "get_api",
+    "ClassDocstring",
     "distribution",
     "distribution_version",
+    "FunctionDocstring",
+    "get_api",
     "package_files",
     "package_root",
+    "ParameterAssignment",
+    "ParameterDocstring",
 ]
