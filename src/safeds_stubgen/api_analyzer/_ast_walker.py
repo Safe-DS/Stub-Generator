@@ -1,11 +1,12 @@
 from collections.abc import Callable
 from typing import Any
 
-import astroid
+from mypy import nodes
+from mypy.nodes import FuncDef, ClassDef
 
 _EnterAndLeaveFunctions = tuple[
-    Callable[[astroid.NodeNG], None] | None,
-    Callable[[astroid.NodeNG], None] | None,
+    Callable[[nodes.Statement], None] | None,
+    Callable[[nodes.Statement], None] | None,
 ]
 
 
@@ -22,39 +23,55 @@ class ASTWalker:
         self._handler = handler
         self._cache: dict[type, _EnterAndLeaveFunctions] = {}
 
-    def walk(self, node: astroid.NodeNG) -> None:
-        self.__walk(node, set())
+    def walk(self, tree: nodes.MypyFile) -> None:
+        self.__walk(tree, set(), True)
 
-    def __walk(self, node: astroid.NodeNG, visited_nodes: set[astroid.NodeNG]) -> None:
+    def __walk(self, node, visited_nodes: set, is_module: bool = False) -> None:
         if node in visited_nodes:
             raise AssertionError("Node visited twice")
         visited_nodes.add(node)
 
-        self.__enter(node)
-        for child_node in node.get_children():
+        self.__enter(node, is_module)
+
+        if isinstance(node, FuncDef):
+            definitions = node.body.body
+        elif isinstance(node, ClassDef):
+            definitions = node.defs.body
+        else:
+            definitions = node.defs
+
+        child_nodes = [
+            _def for _def in definitions
+            if _def.__class__.__name__ not in [
+                "ImportFrom", "Import", "ImportAll", "ExpressionStmt", "AssignmentStmt", "ReturnStmt"
+            ]
+        ]
+
+        for child_node in child_nodes:
             self.__walk(child_node, visited_nodes)
-        self.__leave(node)
+        self.__leave(node, is_module)
 
-    def __enter(self, node: astroid.NodeNG) -> None:
-        method = self.__get_callbacks(node)[0]
+    def __enter(self, node, is_module: bool) -> None:
+        method = self.__get_callbacks(node, is_module)[0]
         if method is not None:
             method(node)
 
-    def __leave(self, node: astroid.NodeNG) -> None:
-        method = self.__get_callbacks(node)[1]
+    def __leave(self, node, is_module: bool) -> None:
+        method = self.__get_callbacks(node, is_module)[1]
         if method is not None:
             method(node)
 
-    def __get_callbacks(self, node: astroid.NodeNG) -> _EnterAndLeaveFunctions:
-        klass = node.__class__
-        methods = self._cache.get(klass)
+    def __get_callbacks(self, node: nodes.MypyFile, is_module: bool) -> _EnterAndLeaveFunctions:
+        class_ = node.__class__
+        methods = self._cache.get(class_)
 
         if methods is None:
             handler = self._handler
-            class_name = klass.__name__.lower()
-            enter_method = getattr(handler, f"enter_{class_name}", getattr(handler, "enter_default", None))
-            leave_method = getattr(handler, f"leave_{class_name}", getattr(handler, "leave_default", None))
-            self._cache[klass] = (enter_method, leave_method)
+            class_name = class_.__name__.lower()
+            name = "moduledef" if class_name == "mypyfile" else class_name
+            enter_method = getattr(handler, f"enter_{name}", getattr(handler, "enter_default", None))
+            leave_method = getattr(handler, f"leave_{name}", getattr(handler, "leave_default", None))
+            self._cache[class_] = (enter_method, leave_method)
         else:
             enter_method, leave_method = methods
 

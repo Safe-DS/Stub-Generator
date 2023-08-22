@@ -188,24 +188,34 @@ class API:
         }
 
 
+# Todo added global attribute
 class Module:
+    def __init__(self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None):
+        self.id: str = id_
+        self.name: str = name
+        self.docstring: str = docstring
+        self.qualified_imports: list[QualifiedImport] = qualified_imports or []
+        self.wildcard_imports: list[WildcardImport] = wildcard_imports or []
+        self.global_attributes: list[Attribute] = []
+        self.classes: list[Class] = []
+        self.global_functions: list[Function] = []
+        self.enums: list[Enum] = []
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
+            "docstring": self.docstring,
+            "qualified_imports": [import_.qualified_name for import_ in self.qualified_imports],
+            "wildcard_imports": [import_.module_name for import_ in self.wildcard_imports],
+            "global_attributes": [attribute.id for attribute in self.global_attributes],
             "classes": [class_.id for class_ in self.classes],
             "functions": [function.id for function in self.global_functions],
             "enums": [enum.id for enum in self.enums],
-            "docstring": self.docstring,
         }
 
-    def __init__(self, id_: str, name: str):
-        self.id: str = id_
-        self.name: str = name
-        self.classes: list[Class] = []
-        self.global_functions: list[Function] = []
-        self.enums: list[Enum] = []
-        self.docstring: str = ""
+    def add_global_attribute(self, attribute: Attribute) -> None:
+        self.global_attributes.append(attribute)
 
     def add_class(self, class_: Class) -> None:
         self.classes.append(class_)
@@ -217,17 +227,16 @@ class Module:
         self.enums.append(enum)
 
 
+# Todo Was ist mit selective imports? Ich hab diese erstmal zu den QualifiedImport hinzugefügt (siehe ast visitor)
+# Todo Import können auch in Klassen und Funktionen vorkommen -> to handle?
 @dataclass
 class QualifiedImport:
     qualified_name: str
     alias: str | None
 
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> QualifiedImport:
-        return QualifiedImport(
-            d["qualified_name"],
-            d["alias"]
-        )
+    def __init__(self, qualified_name: str, alias: str | None = ""):
+        self.qualified_name = qualified_name
+        self.alias = alias or ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -240,9 +249,8 @@ class QualifiedImport:
 class WildcardImport:
     module_name: str
 
-    @staticmethod
-    def from_dict(d: dict[str, Any]) -> WildcardImport:
-        return WildcardImport(d["module_name"])
+    def __init__(self, module_name: str):
+        self.module_name = module_name
 
     def to_dict(self) -> dict[str, Any]:
         return {"module_name": self.module_name}
@@ -275,6 +283,9 @@ class Class:
             "methods": [method.id for method in self.methods],
             "classes": [class_.id for class_ in self.classes]
         }
+
+    def add_attribute(self, attribute: Attribute) -> None:
+        self.attributes.append(attribute)
 
     def add_method(self, method: Function) -> None:
         self.methods.append(method)

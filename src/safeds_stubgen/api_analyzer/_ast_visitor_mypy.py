@@ -1,19 +1,26 @@
-# TODO Vgl. mit dem alten _ast_visitor.py
-import re
+# TODO !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+#  Aktuell klappt der mypy analyzer nicht ganz, irgendwie bekommen wir aliase nicht mehr hin (fehlen infos?)
+#  -> Teste das nochmal nur mit der some_class datei wie ganz am Anfang -> Was geht hier falsch? Ist es der mypy
+#  Aufruf _get_mypy_ast() in _get_api.py? ---> Eine Möglichkeit ist, dass er nicht alles richtig auflösen kann, weil wir
+#  jede Datei einzeln mit mypy analysieren, anstatt die ganze directory anzugeben -> Aber wie hatten wir das vorher
+#  gemacht und geschafft (also mit some_class)?
 
-import astroid
+# Todo Enum handling (for modules)
+from mypy.nodes import (
+    Import, ImportFrom, ImportAll, FuncDef, ClassDef, MypyFile, ExpressionStmt, AssignmentStmt, ReturnStmt, StrExpr
+)
 
 from ._api import (
     API,
+    Attribute,
     Class,
     Function,
     Module,
-    # QualifiedImport,
-    # WildcardImport,
+    QualifiedImport,
+    WildcardImport,
 )
 from ._names import parent_qualified_name
 
-# from ._file_filters import _is_init_file
 from ._get_parameter_list import get_parameter_list
 from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 
@@ -32,88 +39,83 @@ class MyPyAstVisitor:
 
         return "/".join(segments)
 
-    def __get_function_id(self, name: str, decorators: list[str]) -> str:
-        def is_getter() -> bool:
-            return "property" in decorators
+    def enter_moduledef(self, module_node: MypyFile) -> None:
+        qualified_imports: list[QualifiedImport] = []
+        wildcard_imports: list[WildcardImport] = []
+        docstring = ""
 
-        def is_setter() -> bool:
-            return any(re.search("^[^.]*.setter$", decorator) for decorator in decorators)
+        child_definitions = [
+            _definition for _definition in module_node.defs
+            if _definition.__class__.__name__ not in ["FuncDef", "ClassDef"]
+        ]
 
-        def is_deleter() -> bool:
-            return any(re.search("^[^.]*.deleter$", decorator) for decorator in decorators)
+        for definition in child_definitions:
+            # Imports
+            if isinstance(definition, Import):
+                for import_name, import_alias in definition.ids:
+                    qualified_imports.append(
+                        QualifiedImport(import_name, import_alias)
+                    )
 
-        result = self.__get_id(name)
+            elif isinstance(definition, ImportFrom):
+                for import_name, import_alias in definition.names:
+                    qualified_imports.append(
+                        QualifiedImport(
+                            f"{definition.id}.{import_name}",
+                            import_alias
+                        )
+                    )
 
-        if is_getter():
-            result += "@getter"
-        elif is_setter():
-            result += "@setter"
-        elif is_deleter():
-            result += "@deleter"
+            elif isinstance(definition, ImportAll):
+                wildcard_imports.append(
+                    WildcardImport(definition.id)
+                )
 
-        return result
+            # Docstring
+            elif isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
+                docstring = definition.expr.value
 
-    # todo module_node ist der ganze ast vom file.py?
-    def enter_module(self, mypy_ast) -> None:
-        # imports: list[Import] = []
-        # from_imports: list[FromImport] = []
-        # visited_global_nodes: set[astroid.NodeNG] = set()
-        id_ = f"{self.api.package}/{mypy_ast.fullname}"
-
-        # # todo Brauchen ggf. imports und fromimports nicht mehr
-        # # todo for def in defs
-        # for definition in mypy_ast.definitions:
-        #     definitions = global_node_list[0]
-        #
-        #     # For some reason from-imports get visited as often as there are imported names, leading to duplicates
-        #     if global_node in visited_global_nodes:
-        #         continue
-        #     visited_global_nodes.add(global_node)
-        #
-        #     # todo get Imports
-        #     if isinstance(definition, astroid.Import):
-        #         for name, alias in definition.names:
-        #             imports.append(Import(name, alias))
-        #
-        #     # Todo get ImportFroms
-        #     if isinstance(definition, astroid.ImportFrom):
-        #         base_import_path = definition.relative_to_absolute_name(definition.modname, definition.level)
+        id_ = f"{self.api.package}/{module_node.fullname}"
 
         # Remember module, so we can later add classes and global functions
         module = Module(
-            id_,
-            mypy_ast.fullname
+            id_=id_,
+            name=module_node.fullname,
+            docstring=docstring,
+            qualified_imports=qualified_imports,
+            wildcard_imports=wildcard_imports,
         )
         self.__declaration_stack.append(module)
 
-    def leave_module(self, _: astroid.Module) -> None:
+    def leave_moduledef(self, _: MypyFile) -> None:
         module = self.__declaration_stack.pop()
         if not isinstance(module, Module):
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         self.api.add_module(module)
 
-    def enter_classdef(self, class_node: astroid.ClassDef) -> None:
+    def enter_classdef(self, class_node: ClassDef) -> None:
         id_ = self.__get_id(class_node.name)
-        name = class_node.qname()
+        name = class_node.name
+        docstring = ""
+
+        for definition in class_node.defs.body:
+            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
+                docstring = definition.expr.value
 
         # Remember class, so we can later add methods
         class_ = Class(
             id=id_,
             name=name,
-            superclasses=class_node.basenames,
-            is_public=self.is_public(class_node.name, name),
-            reexported_by=self.reexported.get(name, []),
-            docstring=self.docstring_parser.get_class_documentation(class_node),
-            # Todo
-            constructor=None,
-            attributes=[],
-            methods=[],
-            classes=[]
+            superclasses=class_node.basenames,  # Todo -> class_node.base_type_exprs
+            is_public=self.is_public(class_node.name, name),  # Todo
+            reexported_by=self.reexported.get(name, []),  # Todo
+            docstring=docstring,
+            constructor=None  # Todo
         )
         self.__declaration_stack.append(class_)
 
-    def leave_classdef(self, _: astroid.ClassDef) -> None:
+    def leave_classdef(self, _: ClassDef) -> None:
         class_ = self.__declaration_stack.pop()
         if not isinstance(class_, Class):
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -126,37 +128,60 @@ class MyPyAstVisitor:
                 self.api.add_class(class_)
                 parent.add_class(class_)
 
-    def enter_functiondef(self, function_node: astroid.FunctionDef) -> None:
-        qname = function_node.qname()
+    def enter_funcdef(self, function_node: FuncDef) -> None:
+        function_id = self.__get_id(function_node.name)
+        docstring = ""
+        qname = function_node.fullname
+        is_public = self.is_public(function_node.name, qname)  # Todo
+        is_static = self.is_static(function_node.name, qname)  # Todo
 
-        decorators: astroid.Decorators | None = function_node.decorators
-        if decorators is not None:
-            decorator_names = [decorator.as_string() for decorator in decorators.nodes]
-        else:
-            decorator_names = []
+        for definition in function_node.body.body:
+            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
+                docstring = definition.expr.value
+            elif isinstance(definition, ReturnStmt):
+                pass  # Todo
 
-        is_public = self.is_public(function_node.name, qname)
-        is_static = self.is_static(function_node.name, qname)
+        for args in function_node.arguments:
+            pass  # Todo
 
-        function_id = self.__get_function_id(function_node.name, decorator_names)
         function = Function(
             id=function_id,
-            name=qname,
-            reexported_by=self.reexported.get(qname, []),
-            docstring=self.docstring_parser.get_function_documentation(function_node),
+            name=function_node.name,
+            reexported_by=self.reexported.get(qname, []),  # todo
+            docstring=docstring,
             is_public=is_public,
             is_static=is_static,
-            parameters=get_parameter_list(
-                self.docstring_parser,
-                function_node,
-                function_id,
-                qname,
-                is_public,
-            ),
-            # Todo
-            results=[],
+            parameters=[],  # Todo
+            # parameters=get_parameter_list(
+            #     self.docstring_parser,
+            #     function_node,
+            #     function_id,
+            #     qname,
+            #     is_public,
+            # ),
+            results=[]  # Todo
         )
         self.__declaration_stack.append(function)
+
+    def leave_funcdef(self, _: FuncDef) -> None:
+        function = self.__declaration_stack.pop()
+        if not isinstance(function, Function):
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+
+            # Ignore nested functions for now
+            if isinstance(parent, Module):
+                self.api.add_function(function)
+                parent.add_function(function)
+            elif isinstance(parent, Class):
+                self.api.add_function(function)
+                parent.add_method(function)
+
+    # Todo
+    def enter_attr(self): ...
+    def leave_attr(self): ...
 
     # Todo
     def is_static(self, name: str, qualified_name: str) -> bool:
@@ -175,16 +200,3 @@ class MyPyAstVisitor:
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])
-
-
-def is_public_module(module_name: str) -> bool:
-    return all(not it.startswith("_") for it in module_name.split("."))
-
-
-def trim_code(code: str | None, from_line_no: int, to_line_no: int, encoding: str) -> str:
-    if code is None:
-        return ""
-    if isinstance(code, bytes):
-        code = code.decode(encoding)
-    lines = code.split("\n")
-    return "\n".join(lines[from_line_no - 1 : to_line_no])

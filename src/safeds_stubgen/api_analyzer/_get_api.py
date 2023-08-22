@@ -9,7 +9,7 @@ from ._api import API
 from ._ast_walker import ASTWalker
 
 from ._ast_visitor_mypy import MyPyAstVisitor
-from ._file_filters import _is_test_file
+from ._file_filters import _is_test_file, _is_init_file
 from ._package_metadata import (
     distribution,
     distribution_version,
@@ -24,11 +24,15 @@ def get_api(
     root: Path | None = None,
     docstring_style: DocstringStyle = DocstringStyle.PLAINTEXT,
 ) -> API:
+    # Check root
     if root is None:
         root = package_root(package_name)
+
+    # Get dist data
     dist = distribution(package_name) or ""
     dist_version = distribution_version(dist) or ""
 
+    # Setup api walker
     api = API(dist, package_name, dist_version)
     docstring_parser = create_docstring_parser(docstring_style)
     callable_visitor = MyPyAstVisitor(docstring_parser, api)
@@ -45,7 +49,8 @@ def get_api(
             logging.info("Skipping test file")
             continue
 
-        if file.endswith("__init__.py"):
+        # Todo entscheid dich für eins
+        if file.endswith("__init__.py") or _is_init_file(file):
             logging.info("Skipping init file")
             continue
 
@@ -59,7 +64,7 @@ def _get_mypy_ast(file: str) -> MypyFile:
     opt.preserve_asts = True
     opt.fine_grained_incremental = True
     result = mypy_build.build(files, options=opt)
-    mod = file.replace("/", ".").replace("\\", ".").replace(".py", "")
+    mod = Path(file).parts[-1].replace(".py", "")
     return result.graph[mod].tree
 
 
