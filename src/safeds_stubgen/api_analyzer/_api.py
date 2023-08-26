@@ -5,6 +5,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
+from mypy.types import ProperType
+
 from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, \
     ResultDocstring
 from ._types import AbstractType, create_type
@@ -172,31 +174,34 @@ class API:
             "modules": [
                 module.to_dict()
                 for module in sorted(self.modules.values(), key=lambda it: it.id)
-            ],
+            ] if self.modules is not None else [],
             "classes": [
                 class_.to_dict()
                 for class_ in sorted(self.classes.values(), key=lambda it: it.id)
-            ],
+            ] if self.classes is not None else [],
             "functions": [
                 function.to_dict()
                 for function in sorted(self.functions.values(), key=lambda it: it.id)
-            ],
+            ] if self.functions is not None else [],
             "enums": [
                 enum.to_dict()
                 for enum in sorted(self.enums.values(), key=lambda it: it.id)
-            ],
+            ] if self.enums is not None else [],
         }
 
 
-# Todo added global attribute
+# Todo new: added global_attribute
 class Module:
-    def __init__(self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None):
+    def __init__(
+        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None,
+        global_attributes=None
+    ):
         self.id: str = id_
         self.name: str = name
         self.docstring: str = docstring
         self.qualified_imports: list[QualifiedImport] = qualified_imports or []
         self.wildcard_imports: list[WildcardImport] = wildcard_imports or []
-        self.global_attributes: list[Attribute] = []
+        self.global_attributes: list[Attribute] = global_attributes or []
         self.classes: list[Class] = []
         self.global_functions: list[Function] = []
         self.enums: list[Enum] = []
@@ -214,16 +219,13 @@ class Module:
             "enums": [enum.id for enum in self.enums],
         }
 
-    def add_global_attribute(self, attribute: Attribute) -> None:
-        self.global_attributes.append(attribute)
-
     def add_class(self, class_: Class) -> None:
         self.classes.append(class_)
 
     def add_function(self, function: Function) -> None:
         self.global_functions.append(function)
 
-    def add_enums(self, enum: Enum) -> None:
+    def add_enum(self, enum: Enum) -> None:
         self.enums.append(enum)
 
 
@@ -284,9 +286,6 @@ class Class:
             "classes": [class_.id for class_ in self.classes]
         }
 
-    def add_attribute(self, attribute: Attribute) -> None:
-        self.attributes.append(attribute)
-
     def add_method(self, method: Function) -> None:
         self.methods.append(method)
 
@@ -298,17 +297,16 @@ class Class:
 class Attribute:
     id: str
     name: str
-    types: AbstractType | None
+    type: ProperType | None
     is_public: bool = False
     description: str = ""
     is_static: bool = True
 
     def to_dict(self) -> dict[str, Any]:
-        types_json = self.types.to_dict() if self.types is not None else None
         return {
             "id": self.id,
             "name": self.name,
-            "types": types_json,
+            "types": _get_types(self.type),
             "is_public": self.is_public,
             "description": self.description,
             "is_static": self.is_static
@@ -435,6 +433,11 @@ class EnumInstance:
 class Expression:
     id: str
     value: str
+
+
+# Todo
+def _get_types(type: ProperType | None):
+    return None
 
 
 # Todo

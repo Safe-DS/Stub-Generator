@@ -38,6 +38,7 @@ def get_api(
     callable_visitor = MyPyAstVisitor(docstring_parser, api)
     walker = ASTWalker(callable_visitor)
 
+    walkable_files = []
     for file in package_files(root):
         logging.info(
             "Working on file {posix_path}",
@@ -49,23 +50,31 @@ def get_api(
             logging.info("Skipping test file")
             continue
 
-        # Todo entscheid dich für eins
-        if file.endswith("__init__.py") or _is_init_file(file):
+        if _is_init_file(file):
             logging.info("Skipping init file")
             continue
 
-        walker.walk(_get_mypy_ast(file))
+        walkable_files.append(file)
+
+    mypy_trees = _get_mypy_ast(walkable_files)
+
+    for tree in mypy_trees:
+        walker.walk(tree)
 
     return callable_visitor.api
 
 
-def _get_mypy_ast(file: str) -> MypyFile:
-    files, opt = mypy_main.process_options([file])
+def _get_mypy_ast(files: list[str]) -> list[MypyFile]:
+    mypyfiles, opt = mypy_main.process_options(files)
     opt.preserve_asts = True
     opt.fine_grained_incremental = True
-    result = mypy_build.build(files, options=opt)
-    mod = Path(file).parts[-1].replace(".py", "")
-    return result.graph[mod].tree
+    result = mypy_build.build(mypyfiles, options=opt)
+
+    modules = [
+        Path(file).parts[-1].replace(".py", "")
+        for file in files
+    ]
+    return [result.graph[mod].tree for mod in modules]
 
 
 def __module_name(root: Path, file: Path) -> str:
