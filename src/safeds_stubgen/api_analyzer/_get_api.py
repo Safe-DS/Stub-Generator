@@ -74,7 +74,19 @@ def _get_mypy_ast(files: list[str]) -> list[MypyFile]:
         Path(file).parts[-1].replace(".py", "")
         for file in files
     ]
-    return [result.graph[mod].tree for mod in modules]
+
+    # Todo Die Struktur des Pfad-Schlüssels (mod_key) immer unterschiedlich aufgebaut, weshalb
+    #  auch die IDs der einzelnen Objekte später komisch aussehen (__get_id())
+    #  -> "package_name/path.to.the.module/attribute_or_function_or_class"
+    #  -> Struktur finden
+    mod_keys = [
+        key
+        for mod in modules
+        for key in list(result.graph.keys())
+        if key.endswith(mod)
+    ]
+
+    return [result.graph[mod_key].tree for mod_key in mod_keys]
 
 
 def __module_name(root: Path, file: Path) -> str:

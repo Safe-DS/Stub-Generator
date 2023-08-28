@@ -1,4 +1,4 @@
-from ._get_api import get_api
+from ._get_api import API, get_api
 from ._package_metadata import (
     distribution,
     distribution_version,
@@ -8,6 +8,7 @@ from ._package_metadata import (
 from ._api import ParameterAssignment
 
 __all__ = [
+    "API",
     "distribution",
     "distribution_version",
     "get_api",

@@ -16,18 +16,23 @@ from ._api import (
     Attribute,
     Class,
     Enum,
+    EnumInstance,
     Function,
     Module,
     Parameter,
     ParameterAssignment,
     QualifiedImport,
+    Result,
     WildcardImport,
 )
 from ._names import parent_qualified_name
 
-# from ._get_parameter_list import get_parameter_list
-from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ClassDocstring, FunctionDocstring, \
+from safeds_stubgen.docstring_parsing import (
+    AbstractDocstringParser,
+    ClassDocstring,
+    FunctionDocstring,
     ParameterDocstring
+)
 
 
 class MyPyAstVisitor:
@@ -35,7 +40,7 @@ class MyPyAstVisitor:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.reexported: dict[str, list[str]] = {}
         self.api: API = api
-        self.__declaration_stack: list[Module | Class | Function] = []
+        self.__declaration_stack: list[Module | Class | Function | Enum] = []
 
     def __get_id(self, name: str) -> str:
         segments = [self.api.package]
@@ -45,7 +50,7 @@ class MyPyAstVisitor:
         return "/".join(segments)
 
     def enter_moduledef(self, module_node: MypyFile) -> None:
-        id_ = f"{self.api.package}/{module_node.fullname}"
+        id_ = self.__get_id(module_node.name)
         qualified_imports: list[QualifiedImport] = []
         wildcard_imports: list[WildcardImport] = []
         attributes: list[Attribute] = []
@@ -55,7 +60,7 @@ class MyPyAstVisitor:
         child_definitions = [
             _definition for _definition in module_node.defs
             if _definition.__class__.__name__ not in
-            ["FuncDef", "ClassDef", "Decorator"]
+            ["FuncDef", "Decorator", "ClassDef"]
         ]
 
         for definition in child_definitions:
@@ -81,17 +86,29 @@ class MyPyAstVisitor:
                 )
 
             # Docstring
-            elif isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
+            elif isinstance(definition, ExpressionStmt) and \
+                    isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
             # Attributes
             elif isinstance(definition, AssignmentStmt):
-                attr_name = definition.lvalues[0].name
-                attributes.append(Attribute(
-                    id=f"{id_}/{attr_name}",
-                    name=attr_name,
-                    type=definition.type
-                ))
+                if hasattr(definition.lvalues[0], "name"):
+                    attr_name = definition.lvalues[0].name
+
+                    attributes.append(Attribute(
+                        id=f"{id_}/{attr_name}",
+                        name=attr_name,
+                        type=definition.type
+                    ))
+
+                elif hasattr(definition.lvalues[0], "items"):
+                    attr_names = [item.name for item in definition.lvalues[0].items]
+                    for attr_name in attr_names:
+                        attributes.append(Attribute(
+                            id=f"{id_}/{attr_name}",
+                            name=attr_name,
+                            type=None
+                        ))
 
         # Remember module, so we can later add classes and global functions
         module = Module(
@@ -117,6 +134,7 @@ class MyPyAstVisitor:
         docstring: ClassDocstring | None = None
 
         for definition in class_node.defs.body:
+            # Docstring
             if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
                 # Todo
                 docstring = ClassDocstring(definition.expr.value, definition.expr.value)
@@ -135,8 +153,8 @@ class MyPyAstVisitor:
             superclasses=superclasses,
             is_public=self.is_public(class_node.name, name),
             reexported_by=self.reexported.get(name, []),  # Todo
-            docstring=docstring if docstring is not None else ClassDocstring(),
-            constructor=None  # Todo Wie soll das aussehen
+            docstring=docstring or ClassDocstring(),
+            constructor=None
         )
         self.__declaration_stack.append(class_)
 
@@ -151,7 +169,7 @@ class MyPyAstVisitor:
             if isinstance(parent, Module):
                 self.api.add_class(class_)
                 parent.add_class(class_)
-            if isinstance(parent, Class):
+            elif isinstance(parent, Class):
                 self.api.add_class(class_)
                 parent.add_class(class_)
 
@@ -160,42 +178,51 @@ class MyPyAstVisitor:
         docstring: FunctionDocstring | None = None
         qname = function_node.fullname
         is_public = self.is_public(function_node.name, qname)
-        is_static = self.is_static(function_node.name, qname)  # Todo
+        is_static = function_node.is_static
+        function_result = None
 
         for definition in function_node.body.body:
+            # Docstring
             if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
-                # Todo
-                docstring = FunctionDocstring(definition.expr.value, definition.expr.value)
+                docstring = FunctionDocstring(definition.expr.value, definition.expr.value)  # Todo
 
+            # Function Result
             elif isinstance(definition, ReturnStmt):
-                pass  # Todo
+                function_result = Result(
+                    id=f"{function_id}/result",
+                    type_=function_node.type.ret_type,  # Todo
+                    docstring=""  # todo
+                )
 
         # Function args
         arguments: list[Parameter] = []
-        argument_info: list[tuple] = []
-
-        if function_node.arguments is not None:
-            argument_info = list(
-                zip(
-                    function_node.type.arg_names,
-                    function_node.type.arg_types
+        if function_node.type is not None:
+            argument_info: list[tuple] = []
+            if function_node.arguments is not None:
+                argument_info = list(
+                    zip(
+                        function_node.type.arg_names,
+                        function_node.type.arg_types
+                    )
                 )
-            )
 
-        for arg_counter, arg in enumerate(function_node.arguments):
-            arg_name = argument_info[arg_counter][0]
-            arg_type = argument_info[arg_counter][1]
-            # Todo "has_default_value" Feld, oder wie differenzieren wir?
-            default_value = arg.initializer.value if arg.initializer is not None else None
+            for arg_counter, arg in enumerate(function_node.arguments):
+                arg_name = argument_info[arg_counter][0]
+                arg_type = argument_info[arg_counter][1]
+                # Todo "has_default_value" Feld, oder wie differenzieren wir?
 
-            arguments.append(Parameter(
-                id_=f"{function_id}/{arg_name}",
-                name=arg_name,
-                default_value=default_value,
-                assigned_by=ParameterAssignment(),  # Todo
-                docstring=ParameterDocstring(),  # Todo
-                type_=arg_type,
-            ))
+                default_value = None
+                if arg.initializer is not None:
+                    default_value = getattr(arg.initializer, 'value', None)
+
+                arguments.append(Parameter(
+                    id_=f"{function_id}/{arg_name}",
+                    name=arg_name,
+                    default_value=default_value,
+                    assigned_by=ParameterAssignment.IMPLICIT,  # Todo
+                    docstring=ParameterDocstring(),  # Todo
+                    type_=arg_type,
+                ))
 
         function = Function(
             id=function_id,
@@ -204,15 +231,8 @@ class MyPyAstVisitor:
             docstring=docstring if docstring is not None else FunctionDocstring(),
             is_public=is_public,
             is_static=is_static,
-            parameters=arguments,  # Todo
-            # parameters=get_parameter_list(
-            #     self.docstring_parser,
-            #     function_node,
-            #     function_id,
-            #     qname,
-            #     is_public,
-            # ),
-            results=[]  # Todo
+            parameters=arguments,
+            result=function_result
         )
         self.__declaration_stack.append(function)
 
@@ -232,10 +252,39 @@ class MyPyAstVisitor:
                 self.api.add_function(function)
                 parent.add_method(function)
 
-    # Todo
-    def enter_enum(self): ...
+                if function.name == "__init__":
+                    parent.add_constructor(function)
 
-    def leave_enum(self):
+    def enter_enumdef(self, enum_node: ClassDef) -> None:
+        id_ = self.__get_id(enum_node.name)
+        docstring: ClassDocstring | None = None
+        enum_instances: list[EnumInstance] = []
+
+        for definition in enum_node.defs.body:
+            # Instances
+            if isinstance(definition, AssignmentStmt):
+                instance_name = definition.lvalues[0].name
+
+                enum_instances.append(EnumInstance(
+                    id=f"{id_}/{instance_name}",
+                    name=instance_name,
+                    value=definition.rvalue.value,
+                ))
+
+            # Docstring
+            elif isinstance(definition, ExpressionStmt) and \
+                    isinstance(definition.expr, StrExpr):
+                docstring = ClassDocstring(definition.expr.value, definition.expr.value)  # Todo
+
+        enum = Enum(
+            id=id_,
+            name=enum_node.name,
+            docstring=docstring if docstring is not None else FunctionDocstring(),
+            instances=enum_instances
+        )
+        self.__declaration_stack.append(enum)
+
+    def leave_enumdef(self):
         enum = self.__declaration_stack.pop()
         if not isinstance(enum, Enum):
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -248,10 +297,6 @@ class MyPyAstVisitor:
                 self.api.add_enum(enum)
                 parent.add_enum(enum)
 
-    # Todo
-    def is_static(self, name: str, qualified_name: str) -> bool:
-        return True
-
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
@@ -259,9 +304,14 @@ class MyPyAstVisitor:
         if qualified_name in self.reexported:
             return True
 
-        # Containing class is re-exported (always false if the current API element is not a method)
-        if isinstance(self.__declaration_stack[-1], Class) and parent_qualified_name(qualified_name) in self.reexported:
-            return True
+        parent = self.__declaration_stack[-1]
+        if isinstance(parent, Class):
+            # Containing class is re-exported (always false if the current API element is not a method) Todo
+            if parent_qualified_name(qualified_name) in self.reexported:
+                return True
 
-        # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
+            if name == "__init__":
+                return parent.is_public
+
+        # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition). Todo
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])

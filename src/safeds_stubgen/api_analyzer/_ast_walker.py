@@ -1,12 +1,11 @@
 from collections.abc import Callable
 from typing import Any
 
-from mypy import nodes
-from mypy.nodes import FuncDef, ClassDef, Decorator
+from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, Statement
 
 _EnterAndLeaveFunctions = tuple[
-    Callable[[nodes.Statement], None] | None,
-    Callable[[nodes.Statement], None] | None,
+    Callable[[Statement], None] | None,
+    Callable[[Statement], None] | None,
 ]
 
 
@@ -23,10 +22,15 @@ class ASTWalker:
         self._handler = handler
         self._cache: dict[type, _EnterAndLeaveFunctions] = {}
 
-    def walk(self, tree: nodes.MypyFile) -> None:
+    def walk(self, tree: MypyFile) -> None:
         self.__walk(tree, set())
 
     def __walk(self, node, visited_nodes: set) -> None:
+        # It's possible to get decorator data but for now we'll ignore them and just get the func
+        if isinstance(node, Decorator):
+            node = node.func
+
+        # Todo Is this check still necessary?
         if node in visited_nodes:
             raise AssertionError("Node visited twice")
         visited_nodes.add(node)
@@ -35,8 +39,6 @@ class ASTWalker:
 
         if isinstance(node, FuncDef):
             definitions = node.body.body
-        elif isinstance(node, Decorator):
-            definitions = node.func.body.body
         elif isinstance(node, ClassDef):
             definitions = node.defs.body
         else:
@@ -65,8 +67,14 @@ class ASTWalker:
         if method is not None:
             method(node)
 
-    def __get_callbacks(self, node: nodes.MypyFile) -> _EnterAndLeaveFunctions:
+    def __get_callbacks(self, node: MypyFile | ClassDef | FuncDef) -> _EnterAndLeaveFunctions:
         class_ = node.__class__
+
+        if class_ == "ClassDef":
+            for superclass in node.base_type_exprs:
+                if superclass.fullname == "enum.Enum":
+                    class_ = "EnumDef"
+
         methods = self._cache.get(class_)
 
         if methods is None:

@@ -42,10 +42,10 @@ class API:
         self.modules: dict[str, Module] = {}
         self.classes: dict[str, Class] = {}
         self.functions: dict[str, Function] = {}
+        self.enums: dict[str, Enum] = {}
         self.attributes_: dict[str, Attribute] | None = None
         self.parameters_: dict[str, Parameter] | None = None
         self.results_: dict[str, Result] | None = None
-        self.enums: dict[str, Enum] | None = None
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
@@ -105,6 +105,7 @@ class API:
 
         return attributes_
 
+    # Todo
     def results(self) -> dict[str, Result]:
         if self.results_ is not None:
             return self.results_
@@ -211,9 +212,9 @@ class Module:
             "id": self.id,
             "name": self.name,
             "docstring": self.docstring,
-            "qualified_imports": [import_.qualified_name for import_ in self.qualified_imports],
-            "wildcard_imports": [import_.module_name for import_ in self.wildcard_imports],
-            "global_attributes": [attribute.id for attribute in self.global_attributes],
+            "qualified_imports": [import_.to_dict() for import_ in self.qualified_imports],
+            "wildcard_imports": [import_.to_dict() for import_ in self.wildcard_imports],
+            "global_attributes": [attribute.to_dict() for attribute in self.global_attributes],
             "classes": [class_.id for class_ in self.classes],
             "functions": [function.id for function in self.global_functions],
             "enums": [enum.id for enum in self.enums],
@@ -234,11 +235,7 @@ class Module:
 @dataclass
 class QualifiedImport:
     qualified_name: str
-    alias: str | None
-
-    def __init__(self, qualified_name: str, alias: str | None = ""):
-        self.qualified_name = qualified_name
-        self.alias = alias or ""
+    alias: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -250,9 +247,6 @@ class QualifiedImport:
 @dataclass
 class WildcardImport:
     module_name: str
-
-    def __init__(self, module_name: str):
-        self.module_name = module_name
 
     def to_dict(self) -> dict[str, Any]:
         return {"module_name": self.module_name}
@@ -275,7 +269,6 @@ class Class:
         return {
             "id": self.id,
             "name": self.name,
-            "qname": self.name,
             "superclasses": self.superclasses,
             "is_public": self.is_public,
             "reexported_by": self.reexported_by,
@@ -292,7 +285,11 @@ class Class:
     def add_class(self, class_: Class) -> None:
         self.classes.append(class_)
 
+    def add_constructor(self, constructor: Function) -> None:
+        self.constructor = constructor
 
+
+# Todo default value?
 @dataclass(frozen=True)
 class Attribute:
     id: str
@@ -307,7 +304,7 @@ class Attribute:
             "id": self.id,
             "name": self.name,
             "types": _get_types(self.type),
-            "is_public": self.is_public,
+            "is_public": self.is_public,  # Todo ?
             "description": self.description,
             "is_static": self.is_static
         }
@@ -322,7 +319,7 @@ class Function:
     is_public: bool
     is_static: bool
     parameters: list[Parameter]
-    results: list[Result]
+    result: Result | None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -333,7 +330,7 @@ class Function:
             "is_public": self.is_public,
             "is_static": self.is_static,
             "parameters": [parameter.id for parameter in self.parameters],
-            "results": [result.id for result in self.results],
+            "results": self.result.to_dict() if self.result is not None else None,
         }
 
 
@@ -398,36 +395,38 @@ class ParameterAssignment(Enum):
 @dataclass(frozen=True)
 class Result:
     id: str
-    name: str | None
     type_: AbstractType | None
-    docstring: ResultDocstring
+    docstring: ResultDocstring | str
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
-            "name": self.name,
             "type": self.type_,
-            "docstring": self.docstring.to_dict(),
+            "docstring": self.docstring.to_dict() if self.docstring else "",
         }
 
 
+@dataclass
 class Enum:
     id: str
     name: str
-    description: str
+    docstring: ClassDocstring  # Todo EnumDocstring?
     instances: list[EnumInstance] = field(default_factory=list)
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
-            "description": self.description,
+            "description": self.docstring.description,
             "instances": [instance.id for instance in self.instances],
         }
 
 
+@dataclass(frozen=True)
 class EnumInstance:
     id: str
+    name: str
+    value: Any  # Todo
 
 
 class Expression:
