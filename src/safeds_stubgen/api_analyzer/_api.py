@@ -42,10 +42,11 @@ class API:
         self.modules: dict[str, Module] = {}
         self.classes: dict[str, Class] = {}
         self.functions: dict[str, Function] = {}
+        self.results: dict[str, Result] = {}
         self.enums: dict[str, Enum] = {}
-        self.attributes_: dict[str, Attribute] | None = None
-        self.parameters_: dict[str, Parameter] | None = None
-        self.results_: dict[str, Result] | None = None
+        self.enum_instances: dict[str, EnumInstance] = {}
+        self.attributes_: dict[str, Attribute] = {}
+        self.parameters_: dict[str, Parameter] | None = None  # Todo -> Wird im visitor noch nicht der classe beigefügt
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
@@ -58,6 +59,15 @@ class API:
 
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
+
+    def add_result(self, result: Result) -> None:
+        self.results[result.id] = result
+
+    def add_enum_instance(self, enum_instance: EnumInstance) -> None:
+        self.enum_instances[enum_instance.id] = enum_instance
+
+    def add_attribute(self, attribute: Attribute) -> None:
+        self.attributes_[attribute.id] = attribute
 
     def is_public_class(self, class_id: str) -> bool:
         return class_id in self.classes and self.classes[class_id].is_public
@@ -105,10 +115,10 @@ class API:
 
         return attributes_
 
-    # Todo
+    # Todo Warum plural results für functions
     def results(self) -> dict[str, Result]:
-        if self.results_ is not None:
-            return self.results_
+        if self.results is not None:
+            return self.results
         results_: dict[str, Result] = {}
 
         for function in self.functions.values():
@@ -175,19 +185,31 @@ class API:
             "modules": [
                 module.to_dict()
                 for module in sorted(self.modules.values(), key=lambda it: it.id)
-            ] if self.modules is not None else [],
+            ],
             "classes": [
                 class_.to_dict()
                 for class_ in sorted(self.classes.values(), key=lambda it: it.id)
-            ] if self.classes is not None else [],
+            ],
             "functions": [
                 function.to_dict()
                 for function in sorted(self.functions.values(), key=lambda it: it.id)
-            ] if self.functions is not None else [],
+            ],
+            "results": [
+                result.to_dict()
+                for result in sorted(self.results.values(), key=lambda it: it.id)
+            ],
             "enums": [
                 enum.to_dict()
                 for enum in sorted(self.enums.values(), key=lambda it: it.id)
-            ] if self.enums is not None else [],
+            ],
+            "enum_instances": [
+                enum_instance.to_dict()
+                for enum_instance in sorted(self.enum_instances.values(), key=lambda it: it.id)
+            ],
+            "attributes": [
+                attribute.to_dict()
+                for attribute in sorted(self.attributes_.values(), key=lambda it: it.id)
+            ],
         }
 
 
@@ -228,6 +250,9 @@ class Module:
 
     def add_enum(self, enum: Enum) -> None:
         self.enums.append(enum)
+
+    def add_attribute(self, attribute: Attribute) -> None:
+        self.global_attributes.append(attribute)
 
 
 # Todo Was ist mit selective imports? Ich hab diese erstmal zu den QualifiedImport hinzugefügt (siehe ast visitor)
@@ -273,7 +298,7 @@ class Class:
             "is_public": self.is_public,
             "reexported_by": self.reexported_by,
             "description": self.docstring.description,
-            "constructor": self.constructor,
+            "constructor": self.constructor.to_dict() if self.constructor is not None else None,
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],
             "classes": [class_.id for class_ in self.classes]
@@ -287,6 +312,9 @@ class Class:
 
     def add_constructor(self, constructor: Function) -> None:
         self.constructor = constructor
+
+    def add_attribute(self, attribute: Attribute) -> None:
+        self.attributes.append(attribute)
 
 
 # Todo default value?
@@ -310,7 +338,7 @@ class Attribute:
         }
 
 
-@dataclass(frozen=True)
+@dataclass
 class Function:
     id: str
     name: str
@@ -319,7 +347,8 @@ class Function:
     is_public: bool
     is_static: bool
     parameters: list[Parameter]
-    result: Result | None
+    # Todo Warum results (vorher plural)?
+    result: Result | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -330,8 +359,11 @@ class Function:
             "is_public": self.is_public,
             "is_static": self.is_static,
             "parameters": [parameter.id for parameter in self.parameters],
-            "results": self.result.to_dict() if self.result is not None else None,
+            "result": self.result.to_dict() if self.result is not None else None,
         }
+
+    def set_result(self, result: Result) -> None:
+        self.result = result
 
 
 # Todo assignment kann man auch von mypy bekommen
@@ -401,7 +433,7 @@ class Result:
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
-            "type": self.type_,
+            "type": self.type_,  # Todo
             "docstring": self.docstring.to_dict() if self.docstring else "",
         }
 
@@ -421,6 +453,9 @@ class Enum:
             "instances": [instance.id for instance in self.instances],
         }
 
+    def add_enum_instance(self, enum_instance: EnumInstance) -> None:
+        self.instances.append(enum_instance)
+
 
 @dataclass(frozen=True)
 class EnumInstance:
@@ -428,13 +463,20 @@ class EnumInstance:
     name: str
     value: Any  # Todo
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "value": self.value  # Todo
+        }
+
 
 class Expression:
     id: str
     value: str
 
 
-# Todo
+# Todo type to json
 def _get_types(type: ProperType | None):
     return None
 

@@ -1,11 +1,11 @@
 from collections.abc import Callable
 from typing import Any
 
-from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, Statement
+from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, AssignmentStmt
 
 _EnterAndLeaveFunctions = tuple[
-    Callable[[Statement], None] | None,
-    Callable[[Statement], None] | None,
+    Callable[[MypyFile | ClassDef | FuncDef], None] | None,
+    Callable[[MypyFile | ClassDef | FuncDef], None] | None,
 ]
 
 
@@ -37,23 +37,27 @@ class ASTWalker:
 
         self.__enter(node)
 
-        if isinstance(node, FuncDef):
-            definitions = node.body.body
+        definitions = []
+        if isinstance(node, MypyFile):
+            definitions = node.defs
         elif isinstance(node, ClassDef):
             definitions = node.defs.body
-        else:
-            definitions = node.defs
+        elif isinstance(node, FuncDef):
+            definitions = node.body.body
 
         child_nodes = [
             _def for _def in definitions
-            # Don't need to check these, since we get the data in the ast visitor
+            # TODO
             if _def.__class__.__name__ not in [
-                "ImportFrom", "Import", "ImportAll", "ExpressionStmt", "AssignmentStmt",
-                "ReturnStmt"
+                "ExpressionStmt", "ImportFrom", "Import", "ImportAll"
             ]
         ]
 
         for child_node in child_nodes:
+            # Ignore function attributes
+            if isinstance(node, FuncDef) and isinstance(child_node, AssignmentStmt):
+                continue
+
             self.__walk(child_node, visited_nodes)
         self.__leave(node)
 
@@ -70,6 +74,7 @@ class ASTWalker:
     def __get_callbacks(self, node: MypyFile | ClassDef | FuncDef) -> _EnterAndLeaveFunctions:
         class_ = node.__class__
 
+        # Enums are a special case
         if class_ == "ClassDef":
             for superclass in node.base_type_exprs:
                 if superclass.fullname == "enum.Enum":

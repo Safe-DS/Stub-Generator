@@ -1,4 +1,5 @@
 """Docstring of the some_class.py module"""
+"""Second Docstring"""
 from .another_path.another_class import AnotherClass
 from .another_path.another_class import AnotherClass as k
 from enum import Enum
@@ -12,11 +13,12 @@ this_a_dict = {"a": a, "b": 2}
 b: int = True
 c: int | bool = "str"
 a_2, a_3 = (123456, "I am a String")
-a_4 = a_5 = ["Some", "kind of list"]
+a_4 = a_5 = ["I am some", "kind of list"]
 
 
 def get_another_class(param_1: str = "first param", param_2: a | None = None) -> a:
     """method docstring"""
+    """Second method Docstring"""
     param_1
     param_2
     return a()
@@ -24,6 +26,7 @@ def get_another_class(param_1: str = "first param", param_2: a | None = None) ->
 
 class SomeClass(mathematics, k):
     """Class docstring"""
+    """Second class Docstring"""
     attr_1: int = 1
     attr_2, attr_3 = (False, True)
     attr_4 = attr_5 = ["Some", "list"]
@@ -48,5 +51,5 @@ class SomeEnum(Enum):
     FIRST = "first"
     SECOND = "second"
     THIRD = "third"
-    FORTH = FIFTH = "NOTHING"
+    FORTH = FIFTH = "forth and fifth"
     SIXTH, SEVENTH = ("sixth", "seventh")
