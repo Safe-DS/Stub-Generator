@@ -255,7 +255,7 @@ class Module:
 @dataclass
 class QualifiedImport:
     qualified_name: str
-    alias: str = ""
+    alias: str | None = None
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -483,13 +483,8 @@ class Type:
     name: str
 
     def to_dict(self) -> dict[str, str]:
-        if isinstance(self.kind, UnboundType):
-            type_kind = "UnboundType"  # self.kind.__class__.__name__
-        else:
-            type_kind = self.kind.__name__ if self.kind is not None else "None"
-
         return {
-            "kind": type_kind,
+            "kind": "UnboundType" if isinstance(self.kind, UnboundType) else "builtins",
             "name": self.name
         }
 
