@@ -5,7 +5,8 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from mypy.types import ProperType
+from mypy.nodes import ArgKind
+from mypy.types import ProperType, UnboundType
 
 from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, \
     ResultDocstring
@@ -46,7 +47,7 @@ class API:
         self.enums: dict[str, Enum] = {}
         self.enum_instances: dict[str, EnumInstance] = {}
         self.attributes_: dict[str, Attribute] = {}
-        self.parameters_: dict[str, Parameter] | None = None  # Todo -> Wird im visitor noch nicht der classe beigefügt
+        self.parameters_: dict[str, Parameter] = {}
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
@@ -60,14 +61,18 @@ class API:
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
 
-    def add_result(self, result: Result) -> None:
-        self.results[result.id] = result
+    def add_result(self, results: list[Result]) -> None:
+        for result in results:
+            self.results[result.id] = result
 
     def add_enum_instance(self, enum_instance: EnumInstance) -> None:
         self.enum_instances[enum_instance.id] = enum_instance
 
     def add_attribute(self, attribute: Attribute) -> None:
         self.attributes_[attribute.id] = attribute
+
+    def add_parameter(self, parameter: Parameter) -> None:
+        self.parameters_[parameter.id] = parameter
 
     def is_public_class(self, class_id: str) -> bool:
         return class_id in self.classes and self.classes[class_id].is_public
@@ -115,9 +120,8 @@ class API:
 
         return attributes_
 
-    # Todo Warum plural results für functions
     def results(self) -> dict[str, Result]:
-        if self.results is not None:
+        if self.results != {}:
             return self.results
         results_: dict[str, Result] = {}
 
@@ -125,7 +129,7 @@ class API:
             for result in function.results:
                 result_id = f"{function.id}/{result.name}"
                 results_[result_id] = result
-        self.results_ = results_
+        self.results = results_
         return results_
 
     def get_default_value(self, parameter_id: str) -> str | None:
@@ -213,18 +217,15 @@ class API:
         }
 
 
-# Todo new: added global_attribute
 class Module:
     def __init__(
-        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None,
-        global_attributes=None
+        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None
     ):
         self.id: str = id_
         self.name: str = name
         self.docstring: str = docstring
         self.qualified_imports: list[QualifiedImport] = qualified_imports or []
         self.wildcard_imports: list[WildcardImport] = wildcard_imports or []
-        self.global_attributes: list[Attribute] = global_attributes or []
         self.classes: list[Class] = []
         self.global_functions: list[Function] = []
         self.enums: list[Enum] = []
@@ -236,7 +237,6 @@ class Module:
             "docstring": self.docstring,
             "qualified_imports": [import_.to_dict() for import_ in self.qualified_imports],
             "wildcard_imports": [import_.to_dict() for import_ in self.wildcard_imports],
-            "global_attributes": [attribute.to_dict() for attribute in self.global_attributes],
             "classes": [class_.id for class_ in self.classes],
             "functions": [function.id for function in self.global_functions],
             "enums": [enum.id for enum in self.enums],
@@ -251,12 +251,7 @@ class Module:
     def add_enum(self, enum: Enum) -> None:
         self.enums.append(enum)
 
-    def add_attribute(self, attribute: Attribute) -> None:
-        self.global_attributes.append(attribute)
 
-
-# Todo Was ist mit selective imports? Ich hab diese erstmal zu den QualifiedImport hinzugefügt (siehe ast visitor)
-# Todo Import können auch in Klassen und Funktionen vorkommen -> to handle?
 @dataclass
 class QualifiedImport:
     qualified_name: str
@@ -317,24 +312,23 @@ class Class:
         self.attributes.append(attribute)
 
 
-# Todo default value?
 @dataclass(frozen=True)
 class Attribute:
     id: str
     name: str
-    type: ProperType | None
-    is_public: bool = False
+    is_public: bool
+    is_static: bool
+    type: Type | None
     description: str = ""
-    is_static: bool = True
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "types": _get_types(self.type),
-            "is_public": self.is_public,  # Todo ?
+            "is_public": self.is_public,
+            "is_static": self.is_static,
+            "types": self.type.to_dict() if self.type else None,
             "description": self.description,
-            "is_static": self.is_static
         }
 
 
@@ -342,48 +336,47 @@ class Attribute:
 class Function:
     id: str
     name: str
-    reexported_by: list[str]
     docstring: FunctionDocstring
     is_public: bool
     is_static: bool
-    parameters: list[Parameter]
-    # Todo Warum results (vorher plural)?
-    result: Result | None = None
+    reexported_by: list[str] = field(default_factory=list)
+    parameters: list[Parameter] = field(default_factory=list)
+    results: list[Result] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "reexported_by": self.reexported_by,
             "description": self.docstring.description,
             "is_public": self.is_public,
             "is_static": self.is_static,
+            "reexported_by": self.reexported_by,
             "parameters": [parameter.id for parameter in self.parameters],
-            "result": self.result.to_dict() if self.result is not None else None,
+            "results": [result.id for result in self.results]
         }
 
-    def set_result(self, result: Result) -> None:
-        self.result = result
+    def add_results(self, results: list[Result]) -> None:
+        for result in results:
+            self.results.append(result)
 
 
-# Todo assignment kann man auch von mypy bekommen
 # Todo Dataclass?
 class Parameter:
     def __init__(
         self,
         id_: str,
         name: str,
-        default_value: Expression | None,
-        assigned_by: ParameterAssignment,
+        default_value: Literal | None,
+        assigned_by: ArgKind,  # Todo ParameterAssignment
         docstring: ParameterDocstring,
         type_: AbstractType | None,
     ) -> None:
         self.id: str = id_
         self.name: str = name
-        self.default_value: Expression | None = default_value
-        self.assigned_by: ParameterAssignment = assigned_by
+        self.default_value: Literal | None = default_value
+        self.assigned_by: ArgKind = assigned_by
         self.docstring = docstring
-        # Todo wie mit type_ arbeiten?
+        # Todo create_type anpassen
         self.type: AbstractType | None = create_type(docstring.type, docstring.description)
 
     def is_optional(self) -> bool:
@@ -392,8 +385,8 @@ class Parameter:
     def is_required(self) -> bool:
         return self.default_value is None
 
-    # Todo
-    def is_variadic(self): ...
+    # Todo *args...
+    def is_variadic(self) -> bool: ...
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -406,6 +399,7 @@ class Parameter:
         }
 
 
+# Todo Frage: Wie mappen wir das mit der ArgKind Klasse von mypy?
 class ParameterAssignment(Enum):
     """
     How arguments are assigned to parameters. The parameters must appear exactly in this order in a parameter list.
@@ -416,25 +410,27 @@ class ParameterAssignment(Enum):
     the parameter list might optionally include a NAMED_VARARG parameter ("**kwargs").
     """
 
-    IMPLICIT = "IMPLICIT"
-    POSITION_ONLY = "POSITION_ONLY"
-    POSITION_OR_NAME = "POSITION_OR_NAME"
-    POSITIONAL_VARARG = "POSITIONAL_VARARG"
-    NAME_ONLY = "NAME_ONLY"
-    NAMED_VARARG = "NAMED_VARARG"
+    IMPLICIT = "IMPLICIT"  # variable.is_self
+    POSITION_ONLY = "POSITION_ONLY"  # ARG_POS
+    POSITION_OR_NAME = "POSITION_OR_NAME"  # ARG_POS
+    POSITIONAL_VARARG = "POSITIONAL_VARARG"  # ARG_STAR
+    NAME_ONLY = "NAME_ONLY"  # ARG_NAMED
+    NAMED_VARARG = "NAMED_VARARG"  # ARG_STAR2
 
 
 @dataclass(frozen=True)
 class Result:
     id: str
-    type_: AbstractType | None
-    docstring: ResultDocstring | str
+    name: str
+    type_: Type
+    docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
-            "type": self.type_,  # Todo
-            "docstring": self.docstring.to_dict() if self.docstring else "",
+            "name": self.name,
+            "type": self.type_.to_dict(),
+            "docstring": self.docstring.to_dict(),
         }
 
 
@@ -471,9 +467,31 @@ class EnumInstance:
         }
 
 
-class Expression:
-    id: str
-    value: str
+@dataclass(frozen=True)
+class Literal:
+    value: str | bool | int | float | None
+
+    def to_dict(self) -> dict[str, str | bool | int | float | None]:
+        return {
+            "value": self.value
+        }
+
+
+@dataclass
+class Type:
+    kind: str | bool | int | float | None | UnboundType
+    name: str
+
+    def to_dict(self) -> dict[str, str]:
+        if isinstance(self.kind, UnboundType):
+            type_kind = "UnboundType"  # self.kind.__class__.__name__
+        else:
+            type_kind = self.kind.__name__ if self.kind is not None else "None"
+
+        return {
+            "kind": type_kind,
+            "name": self.name
+        }
 
 
 # Todo type to json

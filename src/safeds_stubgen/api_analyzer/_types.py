@@ -484,6 +484,7 @@ def _parse_type_string_bracket_content(substring: str) -> (str, str):
     raise TypeParsingError("")
 
 
+# Todo Return mypy\types -> Type class
 def create_type(type_string: str, description: str) -> AbstractType | None:
     if not type_string:
         return NamedType("None")

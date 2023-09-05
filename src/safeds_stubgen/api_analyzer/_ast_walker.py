@@ -1,7 +1,8 @@
 from collections.abc import Callable
 from typing import Any
 
-from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, AssignmentStmt
+from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, AssignmentStmt, ReturnStmt
+from mypy.traverser import all_return_statements
 
 _EnterAndLeaveFunctions = tuple[
     Callable[[MypyFile | ClassDef | FuncDef], None] | None,
@@ -30,26 +31,29 @@ class ASTWalker:
         if isinstance(node, Decorator):
             node = node.func
 
-        # Todo Is this check still necessary?
         if node in visited_nodes:
             raise AssertionError("Node visited twice")
         visited_nodes.add(node)
 
         self.__enter(node)
 
-        definitions = []
+        definitions: list | set = []
         if isinstance(node, MypyFile):
             definitions = node.defs
         elif isinstance(node, ClassDef):
             definitions = node.defs.body
         elif isinstance(node, FuncDef):
-            definitions = node.body.body
+            definitions = set()
+            definitions.update(node.body.body)
+            # Some return statements can be hidden behind if statements, so we have to get them seperately
+            definitions.update(all_return_statements(node))
 
+        # Skip other types, since we either get them through the ast_visitor, some other way or
+        # don't need to parse them
         child_nodes = [
             _def for _def in definitions
-            # TODO
-            if _def.__class__.__name__ not in [
-                "ExpressionStmt", "ImportFrom", "Import", "ImportAll"
+            if _def.__class__.__name__ in [
+                "AssignmentStmt", "FuncDef", "ClassDef", "ReturnStmt", "Decorator"
             ]
         ]
 
@@ -73,22 +77,23 @@ class ASTWalker:
 
     def __get_callbacks(self, node: MypyFile | ClassDef | FuncDef) -> _EnterAndLeaveFunctions:
         class_ = node.__class__
+        class_name = class_.__name__.lower()
 
-        # Enums are a special case
-        if class_ == "ClassDef":
+        # Handle special cases
+        if class_name == "classdef":
             for superclass in node.base_type_exprs:
                 if superclass.fullname == "enum.Enum":
-                    class_ = "EnumDef"
+                    class_name = "enumdef"
+        elif class_name == "mypyfile":
+            class_name = "moduledef"
 
-        methods = self._cache.get(class_)
-
+        # Get class methods
+        methods = self._cache.get(class_name)
         if methods is None:
             handler = self._handler
-            class_name = class_.__name__.lower()
-            name = "moduledef" if class_name == "mypyfile" else class_name
-            enter_method = getattr(handler, f"enter_{name}", getattr(handler, "enter_default", None))
-            leave_method = getattr(handler, f"leave_{name}", getattr(handler, "leave_default", None))
-            self._cache[class_] = (enter_method, leave_method)
+            enter_method = getattr(handler, f"enter_{class_name}", getattr(handler, "enter_default", None))
+            leave_method = getattr(handler, f"leave_{class_name}", getattr(handler, "leave_default", None))
+            self._cache[class_name] = (enter_method, leave_method)
         else:
             enter_method, leave_method = methods
 
