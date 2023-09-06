@@ -377,15 +377,18 @@ class Parameter:
         default_value: Literal | None,
         assigned_by: ArgKind,  # Todo ParameterAssignment
         docstring: ParameterDocstring,
-        type_: AbstractType | None,
+        types: list[Type] | None = None
     ) -> None:
+        if types is None:
+            types: list[Type] = []
+
         self.id: str = id_
         self.name: str = name
         self.default_value: Literal | None = default_value
         self.assigned_by: ArgKind = assigned_by
         self.docstring = docstring
         # Todo create_type anpassen
-        self.type: AbstractType | None = create_type(docstring.type, docstring.description)
+        self.types = types  # AbstractType | None = create_type(docstring.type, docstring.description)
 
     def is_optional(self) -> bool:
         return self.default_value is not None
@@ -403,7 +406,7 @@ class Parameter:
             "default_value": self.default_value.to_dict() if self.default_value else None,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_dict(),
-            "type": self.type.to_dict() if self.type is not None else {},
+            "type": [type_.to_dict() for type_ in self.types],
         }
 
 
@@ -426,18 +429,19 @@ class ParameterAssignment(Enum):
     NAMED_VARARG = "NAMED_VARARG"  # ARG_STAR2
 
 
+# Todo Frage: Was genau sollen Results darstellen? Nur den Type Hint oder mehr?
 @dataclass(frozen=True)
 class Result:
     id: str
     name: str
-    type_: Type
+    types: list[Type]
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "type": self.type_.to_dict(),
+            "type": [type_.to_dict() for type_ in self.types],
             "docstring": self.docstring.to_dict(),
         }
 

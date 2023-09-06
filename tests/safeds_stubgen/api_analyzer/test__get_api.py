@@ -16,18 +16,30 @@ api_data = get_api(
 
 
 # Utilites
-def _get_specific_module_for_tests(module_name: str) -> dict:
+def _get_specific_module_data(module_name: str) -> dict:
     for module in api_data["modules"]:
-        if module['name'].endswith(module_name):
+        if module["name"].endswith(module_name):
             return module
     assert False
 
 
-def _get_specific_class_for_tests(class_id: str, is_enum=False) -> dict:
+def _get_specific_class_data(class_name: str, is_enum=False) -> dict:
     data_type = "enums" if is_enum else "classes"
     for class_ in api_data[data_type]:
-        if class_["id"].endswith(class_id):
+        if class_["id"].endswith(class_name):
             return class_
+    assert False
+
+
+def _get_specific_function_data(
+    function_name: str, parent_class_name: str = "", test_module_name: str = _main_test_module_name
+) -> dict:
+    if parent_class_name == "":
+        parent_class_name = test_module_name
+
+    for function in api_data["functions"]:
+        if function["id"].endswith(f"{parent_class_name}/{function_name}"):
+            return function
     assert False
 
 
@@ -97,7 +109,7 @@ def test_imports(
     import_type: str
 ) -> None:
     # Get module import data
-    module_data = _get_specific_module_for_tests(module_name)
+    module_data = _get_specific_module_data(module_name)
     module_import_data: list[dict] = module_data.get(import_type, [])
 
     # Assert
@@ -289,7 +301,7 @@ def test_classes(
     expected_class_data: dict
 ) -> None:
     # Get class data
-    class_data: dict = _get_specific_class_for_tests(class_name)
+    class_data: dict = _get_specific_class_data(class_name)
 
     # Sort data before comparing
     for data_pack in [expected_class_data, class_data]:
@@ -715,7 +727,7 @@ def test_class_attributes(
     expected_attribute_data: list[dict]
 ) -> None:
     # Get class data
-    class_data: dict = _get_specific_class_for_tests(class_name)
+    class_data: dict = _get_specific_class_data(class_name)
 
     # Get all class attr ids
     class_attr_ids: list[str] = class_data["attributes"]
@@ -805,7 +817,7 @@ def test_enums(
     expected_enum_data: dict
 ) -> None:
     # Get enum data
-    enum_data = _get_specific_class_for_tests(enum_name, is_enum=True)
+    enum_data = _get_specific_class_data(enum_name, is_enum=True)
 
     # Sort data before comparing
     enum_data["instances"] = sorted(enum_data["instances"])
@@ -929,7 +941,7 @@ def test_enum_instances(
     expected_enum_instance_data: list[dict]
 ) -> None:
     # Get enum data
-    enum_data = _get_specific_class_for_tests(enum_name, is_enum=True)
+    enum_data = _get_specific_class_data(enum_name, is_enum=True)
     enum_instance_ids = enum_data["instances"]
 
     all_enum_instances = api_data["enum_instances"]
@@ -996,7 +1008,7 @@ def test_global_functions(
     expected_function_data: list[dict]
 ) -> None:
     # Get function data
-    module_data = _get_specific_module_for_tests(module_name)
+    module_data = _get_specific_module_data(module_name)
     global_function_ids = module_data["functions"]
 
     all_functions: list[dict] = api_data["functions"]
@@ -1126,9 +1138,12 @@ test_module_NestedClass_methods = [
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/self"
+            "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/self",
+            "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
         ],
-        "results": []
+        "results": [
+            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/result_124_41_48"
+        ]
     }
 ]
 
@@ -1215,7 +1230,7 @@ def test_class_methods(
     expected_method_data: list[dict]
 ) -> None:
     # Get function data
-    class_data: dict = _get_specific_class_for_tests(class_name)
+    class_data: dict = _get_specific_class_data(class_name)
     class_method_ids: list[str] = class_data["methods"]
 
     all_functions: list[dict] = api_data["functions"]
@@ -1241,6 +1256,424 @@ def test_class_methods(
     assert method_data == expected_method_data
 
 
-# ############################## Function Parameters ############################## # Todo
+# ############################## Function Parameters ############################## # Todo Adjust Test data!
+test_module_global_func = [
+    {
+        "id": "some_package/tests.data.some_package.test_module/global_func/param_1",
+        "name": "param_1",
+        "default_value": {
+            "value": "first param"
+        },
+        "assigned_by": "ARG_OPT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/global_func/param_2",
+        "name": "param_2",
+        "default_value": {
+            "value": None
+        },
+        "assigned_by": "ARG_OPT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    }
+
+]
+test_module_SomeClass___init__ = [
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__/self",
+        "name": "self",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__/init_param_1",
+        "name": "init_param_1",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    }
+]
+test_module_SomeClass_static_function = [
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_1",
+        "name": "param_1",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_2",
+        "name": "param_2",
+        "default_value": {
+            "value": 123456
+        },
+        "assigned_by": "ARG_OPT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    },
+
+]
+test_module_SomeClass_test_position = [
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param1",
+        "name": "param1",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param2",
+        "name": "param2",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "builtins",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param3",
+        "name": "param3",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param4",
+        "name": "param4",
+        "default_value": "AnotherClass()",
+        "assigned_by": "ARG_NAMED",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param5",
+        "name": "param5",
+        "default_value": {
+            "value": 1
+        },
+        "assigned_by": "ARG_NAMED_OPT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/self",
+        "name": "self",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "None"
+        }
+    },
+]
+test_module_SomeClass_NestedClass_nested_class_function = [
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
+        "name": "param_1",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "types": [{
+            "kind": "builtins",
+            "name": "None"
+        }]
+    },
+    {
+        "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/self",
+        "name": "self",
+        "default_value": None,
+        "assigned_by": "ARG_POS",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "types": [{
+            "kind": "builtins",
+            "name": "None"
+        }]
+    },
+]
+
+
+@pytest.mark.parametrize(
+    ("function_name", "parent_class_name", "expected_parameter_data"),
+    [
+        (
+            "global_func",
+            "",
+            test_module_global_func
+        ),
+        (
+            "__init__",
+            "SomeClass",
+            test_module_global_func
+        ),
+        (
+            "static_function",
+            "SomeClass",
+            test_module_global_func
+        ),
+        (
+            "test_position",
+            "SomeClass",
+            test_module_global_func
+        ),
+        (
+            "nested_class_function",
+            "NestedClass",
+            test_module_global_func
+        ),
+    ],
+    ids=[
+        "Function Parameters: xxxx"
+    ]
+)
+def test_function_parameters(
+    function_name: str,
+    parent_class_name: str,
+    expected_parameter_data: list[dict]
+) -> None:
+    # Get function data
+    function_data: dict = _get_specific_function_data(function_name, parent_class_name)
+    function_parameter_ids: list[str] = function_data["methods"]
+
+    all_parameters: list[dict] = api_data["functions"]
+
+    # Sort out the functions we need
+    parameter_data: list[dict] = [
+        parameter
+        for parameter in all_parameters
+        if parameter["id"] in function_parameter_ids
+    ]
+    assert len(parameter_data) == len(expected_parameter_data)
+
+    # Sort data before comparing
+    for data_set in [parameter_data, expected_parameter_data]:
+        for parameter in data_set:
+            parameter["types"] = _sort_list_of_dicts(parameter["types"], ["name"])
+
+    parameter_data = _sort_list_of_dicts(parameter_data, ["id"])
+    expected_parameter_data = _sort_list_of_dicts(expected_parameter_data, ["id"])
+
+    # Assert
+    assert parameter_data == expected_parameter_data
+
+
 # ############################## Function Results ############################## # Todo
-# ############################## Module ############################## # Todo
+results_test_module__private_global_func = []
+results_test_module_SomeClass_multiple_results = []
+results_test_module_SomeClass_test_position = []
+results_test_module_SomeClass_NestedClass_nested_class_function = []
+
+
+@pytest.mark.parametrize(
+    ("function_name", "parent_class_name", "expected_result_data"),
+    [],
+    ids=[]
+)
+def test_function_parameters(
+    function_name: str,
+    parent_class_name: str,
+    expected_result_data: list[dict]
+) -> None:
+    ...
+
+
+# ############################## Module ############################## #
+module_test_module = [
+    {
+        "id": "some_package/test_module",
+        "name": "tests.data.some_package.test_module",
+        "docstring": "Docstring of the some_class.py module",
+        "qualified_imports": [
+            {
+                "qualified_name": "math",
+                "alias": "mathematics"
+            },
+            {
+                "qualified_name": "enum.Enum",
+                "alias": None
+            },
+            {
+                "qualified_name": "enum.Enum",
+                "alias": "_Enum"
+            },
+            {
+                "qualified_name": "mypy",
+                "alias": None
+            },
+            {
+                "qualified_name": "another_path.another_module.AnotherClass",
+                "alias": None
+            },
+            {
+                "qualified_name": "another_path.another_module.AnotherClass",
+                "alias": "_AcImportAlias"
+            }
+        ],
+        "wildcard_imports": [
+            {
+                "module_name": "typing"
+            },
+            {
+                "module_name": "docstring_parser"
+            }
+        ],
+        "classes": [
+            "some_package/tests.data.some_package.test_module/SomeClass",
+            "some_package/tests.data.some_package.test_module/_PrivateClass"
+        ],
+        "functions": [
+            "some_package/tests.data.some_package.test_module/global_func",
+            "some_package/tests.data.some_package.test_module/_private_global_func"
+        ],
+        "enums": [
+            "some_package/tests.data.some_package.test_module/TestEnum",
+            "some_package/tests.data.some_package.test_module/EmptyEnum",
+            "some_package/tests.data.some_package.test_module/AnotherTestEnum"
+        ]
+    }
+]
+
+module_another_module = [
+    {
+        "id": "some_package/another_module",
+        "name": "tests.data.some_package.another_path.another_module",
+        "docstring": "Another Module Docstring\nFull Docstring Description",
+        "qualified_imports": [],
+        "wildcard_imports": [],
+        "classes": [
+            "some_package/tests.data.some_package.another_path.another_module/AnotherClass"
+        ],
+        "functions": [],
+        "enums": []
+    },
+]
+
+
+@pytest.mark.parametrize(
+    ("module_name", "expected_module_data"),
+    [
+        (
+            _main_test_module_name,
+            test_module_SomeClass_data
+        ),
+        (
+            "another_module",
+            test_module_NestedClass_data
+        )
+    ],
+    ids=[
+        f"Modules: {_main_test_module_name}",
+        "Modules: another_module"
+    ]
+)
+def test_modules(
+    module_name: str,
+    expected_module_data: dict
+) -> None:
+    # Get class data
+    module_data: dict = _get_specific_module_data(module_name)
+
+    # Sort data before comparing
+    for data_pack in [expected_module_data, module_data]:
+        for entry_to_sort in ["enums", "functions", "classes", "wildcard_imports", "qualified_imports"]:
+            data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
+
+    # Assert
+    assert module_data == expected_module_data
+

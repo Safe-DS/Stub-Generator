@@ -318,7 +318,7 @@ class MyPyAstVisitor:
             results.append(Result(
                 id=self.__get_id(name),
                 name=name,
-                type_=Type(kind=None, name="None"),
+                types=[Type(kind=None, name="None")],
                 docstring=ResultDocstring("")  # Todo
             ))
         elif isinstance(return_expr, TupleExpr):
@@ -390,13 +390,14 @@ class MyPyAstVisitor:
                 if type(value) in [str, bool, int, float, NoneType]:
                     default_value = Literal(value)
 
+            # Todo Ein Parameter kann mehrere mögliche Typen haben -> Not handled yet!
             arguments.append(Parameter(
                 id_=f"{function_id}/{arg_name}",
                 name=arg_name,
                 default_value=default_value,
                 assigned_by=arg_kind,
                 docstring=ParameterDocstring(),  # Todo
-                type_=arg_type,
+                types=[arg_type]
             ))
 
         return arguments
@@ -494,14 +495,16 @@ class MyPyAstVisitor:
         )
 
     def create_result(self, return_expr: Expression) -> Result:
+        # Todo Frage: Result id Format
         name = f"result_{return_expr.line}_{return_expr.column}_{return_expr.end_column}"
         id_ = self.__get_id(name)
 
         return_type = self.create_type_from_expression(return_expr)
 
+        # Todo Result can have multiple types -> To handle!
         return Result(
             id=id_,
-            type_=return_type,
+            types=[return_type],
             name=name,
             docstring=ResultDocstring("")  # todo
         )

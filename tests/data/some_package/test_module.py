@@ -66,7 +66,7 @@ class SomeClass(mathematics, AcDoubleAlias):
 
     override_in_init: int
 
-    def __init__(self):
+    def __init__(self, init_param_1):
         """Summary of the init description
         Full init description
         """
@@ -82,14 +82,14 @@ class SomeClass(mathematics, AcDoubleAlias):
         return ac_alias()
 
     @staticmethod
-    def static_function(param_1: bool, param_2: int = 123456) -> tuple[bool, int]:
+    def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
         """Function Docstring"""
         return param_1, param_2
 
-    def test_position(self, param1, /, param2: bool, param3, *, param4, param5: int = 1) -> Any:
+    def test_position(self, param1, /, param2: bool, param3, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
         """Function Docstring"""
         self.something = param2 + param3
-        return param1 + self.something + param4 - param5
+        return param1 + self.something - param5
 
     @staticmethod
     def multiple_results(param_1: int) -> Any:
@@ -121,7 +121,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         return
 
     class NestedClass(_AcImportAlias, mypy):
-        def nested_class_function(self):
+        def nested_class_function(self, param_1: int) -> bool | None:
             pass
 
 
@@ -145,22 +145,22 @@ class _PrivateClass:
             pass
 
 
-# class TestEnum(Enum):
-#     """Enum Docstring
-#     Full Docstring Description
-#     """
-#     ONE = "first"
-#     TWO = (2, 2)
-#     THREE = 3
-#     FOUR = FIVE = "forth and fifth"
-#     SIX, SEVEN = ("sixth", 7)
-#     EIGHT, NINE = "89"
-#     TEN = _AcImportAlias()
-#
-#
-# class EmptyEnum(_Enum):
-#     """Nothing's here"""
-#
-#
-# class AnotherTestEnum(_Enum, Enum):
-#     ELEVEN = 11
+class TestEnum(Enum):
+    """Enum Docstring
+    Full Docstring Description
+    """
+    ONE = "first"
+    TWO = (2, 2)
+    THREE = 3
+    FOUR = FIVE = "forth and fifth"
+    SIX, SEVEN = ("sixth", 7)
+    EIGHT, NINE = "89"
+    TEN = _AcImportAlias()
+
+
+class EmptyEnum(_Enum):
+    """Nothing's here"""
+
+
+class AnotherTestEnum(_Enum, Enum):
+    ELEVEN = 11
