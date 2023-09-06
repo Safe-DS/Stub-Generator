@@ -356,12 +356,13 @@ class MyPyAstVisitor:
         if qname == name and getattr(lvalue, "node", None) is not None:
             qname = lvalue.node.fullname
 
+        # Todo Attributes können mehrere typen haben -> Handling noch nicht da!
         attribute_type: Type | None = self.create_var_type(lvalue)
 
         return Attribute(
             id=self.__get_id(name),
             name=name,
-            type=attribute_type,
+            types=[attribute_type],
             is_public=self.is_public(name, qname),
             is_static=is_static
         )
@@ -390,7 +391,7 @@ class MyPyAstVisitor:
                     default_value = Literal(value)
 
             arguments.append(Parameter(
-                id_=f"{function_id}-{arg_name}",
+                id_=f"{function_id}/{arg_name}",
                 name=arg_name,
                 default_value=default_value,
                 assigned_by=arg_kind,

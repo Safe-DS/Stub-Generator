@@ -214,6 +214,10 @@ class API:
                 attribute.to_dict()
                 for attribute in sorted(self.attributes_.values(), key=lambda it: it.id)
             ],
+            "parameters": [
+                parameter.to_dict()
+                for parameter in sorted(self.parameters_.values(), key=lambda it: it.id)
+            ],
         }
 
 
@@ -318,7 +322,7 @@ class Attribute:
     name: str
     is_public: bool
     is_static: bool
-    type: Type | None
+    types: list[Type] = field(default_factory=list)
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -327,7 +331,11 @@ class Attribute:
             "name": self.name,
             "is_public": self.is_public,
             "is_static": self.is_static,
-            "types": self.type.to_dict() if self.type else None,
+            "types": [
+                type_.to_dict()
+                for type_ in self.types
+                if type_ is not None
+            ],
             "description": self.description,
         }
 
@@ -392,7 +400,7 @@ class Parameter:
         return {
             "id": self.id,
             "name": self.name,
-            "default_value": self.default_value,
+            "default_value": self.default_value.to_dict() if self.default_value else None,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict() if self.type is not None else {},
@@ -457,16 +465,18 @@ class Enum:
 class EnumInstance:
     id: str
     name: str
-    value: Any  # Todo
+    value: Literal  # Todo
 
     def to_dict(self):
         return {
             "id": self.id,
             "name": self.name,
-            "value": self.value  # Todo
+            "value": self.value.to_dict()
         }
 
 
+# Todo Frage: Anstatt to_dict, können wir doch auch einfach direkt value ausgeben, oder?
+#  Wie handeln wir bspw. tuple? Wo soll Literal überall genutzt werden (Enums?)?
 @dataclass(frozen=True)
 class Literal:
     value: str | bool | int | float | None
@@ -487,11 +497,6 @@ class Type:
             "kind": "UnboundType" if isinstance(self.kind, UnboundType) else "builtins",
             "name": self.name
         }
-
-
-# Todo type to json
-def _get_types(type: ProperType | None):
-    return None
 
 
 # Todo
