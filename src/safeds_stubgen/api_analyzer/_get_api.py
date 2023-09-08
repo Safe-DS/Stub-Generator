@@ -50,6 +50,7 @@ def get_api(
             logging.info("Skipping test file")
             continue
 
+        # Todo check why we cant parse them
         if _is_init_file(file):
             logging.info("Skipping init file")
             continue

@@ -281,7 +281,7 @@ class MyPyAstVisitor:
                 name=name,
                 value=node.rvalue.value
             ))
-        # Todo Frage: Attr. von Modulen trotzdem der API Klasse hinzufügen? Oder komplett ignorieren?
+        # Todo Attr. von Modulen komplett ignorieren
         elif isinstance(parent, Module):
             pass
 
@@ -386,7 +386,7 @@ class MyPyAstVisitor:
                         raise ValueError("No value found for parameter")
                 else:
                     value = initializer.value
-                # Todo Frage: Wie behandeln wir andere Fälle, also wenn der Typ nicht in dieser Liste ist
+                # Todo Wie behandeln wir andere Fälle, also wenn der Typ nicht in dieser Liste ist? --> Ignorieren
                 if type(value) in [str, bool, int, float, NoneType]:
                     default_value = Literal(value)
 
@@ -495,7 +495,7 @@ class MyPyAstVisitor:
         )
 
     def create_result(self, return_expr: Expression) -> Result:
-        # Todo Frage: Result id Format
+        # Todo Result name fortlaufend hochzählen
         name = f"result_{return_expr.line}_{return_expr.column}_{return_expr.end_column}"
         id_ = self.__get_id(name)
 

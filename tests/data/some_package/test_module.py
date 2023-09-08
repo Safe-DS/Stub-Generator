@@ -86,7 +86,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         """Function Docstring"""
         return param_1, param_2
 
-    def test_position(self, param1, /, param2: bool, param3, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
+    def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
         """Function Docstring"""
         self.something = param2 + param3
         return param1 + self.something - param5

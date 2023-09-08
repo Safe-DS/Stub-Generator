@@ -43,6 +43,11 @@ def _get_specific_function_data(
     assert False
 
 
+# Todo
+def _assert_lists_equal_ignoring_order(list_1: list[dict], list_2: list[dict]) -> None:
+    ...
+
+
 def _sort_list_of_dicts(list_of_dicts: list[dict], keys: list[str]) -> list[dict]:
     # Sometimes the first key is repeated, so we have to sort by several keys
     for key in keys:

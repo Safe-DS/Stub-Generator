@@ -12,6 +12,10 @@ from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, 
     ResultDocstring
 from ._types import AbstractType, create_type
 
+
+# Todo nur ein Typ, nie list[Type]!!
+
+
 if TYPE_CHECKING:
     from pathlib import Path
 
@@ -369,6 +373,8 @@ class Function:
 
 
 # Todo Dataclass?
+# Todo is_optional field, weil wir ggf. Werte nicht abspeichern können wegen dem Typ, aber dann is_optional trotzdem
+#  true ist
 class Parameter:
     def __init__(
         self,
@@ -377,7 +383,7 @@ class Parameter:
         default_value: Literal | None,
         assigned_by: ArgKind,  # Todo ParameterAssignment
         docstring: ParameterDocstring,
-        types: list[Type] | None = None
+        types: list[Type] | None = None  # Todo nur ein Typ
     ) -> None:
         if types is None:
             types: list[Type] = []
@@ -390,13 +396,16 @@ class Parameter:
         # Todo create_type anpassen
         self.types = types  # AbstractType | None = create_type(docstring.type, docstring.description)
 
+    # Todo remove
     def is_optional(self) -> bool:
         return self.default_value is not None
 
+    @property
     def is_required(self) -> bool:
         return self.default_value is None
 
     # Todo *args...
+    @property
     def is_variadic(self) -> bool: ...
 
     def to_dict(self) -> dict[str, Any]:
@@ -410,7 +419,7 @@ class Parameter:
         }
 
 
-# Todo Frage: Wie mappen wir das mit der ArgKind Klasse von mypy?
+# Todo Mapping übernehmen
 class ParameterAssignment(Enum):
     """
     How arguments are assigned to parameters. The parameters must appear exactly in this order in a parameter list.
@@ -421,27 +430,27 @@ class ParameterAssignment(Enum):
     the parameter list might optionally include a NAMED_VARARG parameter ("**kwargs").
     """
 
-    IMPLICIT = "IMPLICIT"  # variable.is_self
-    POSITION_ONLY = "POSITION_ONLY"  # ARG_POS
-    POSITION_OR_NAME = "POSITION_OR_NAME"  # ARG_POS
+    IMPLICIT = "IMPLICIT"  # variable.is_self or variable.is_cls
+    POSITION_ONLY = "POSITION_ONLY"  # ARG_POS and node.pos_only
+    POSITION_OR_NAME = "POSITION_OR_NAME"  # (ARG_OPT or ARG_POS) and not pos_only
     POSITIONAL_VARARG = "POSITIONAL_VARARG"  # ARG_STAR
-    NAME_ONLY = "NAME_ONLY"  # ARG_NAMED
+    NAME_ONLY = "NAME_ONLY"  # ARG_NAMED or ARG_NAMED_OPT
     NAMED_VARARG = "NAMED_VARARG"  # ARG_STAR2
 
 
-# Todo Frage: Was genau sollen Results darstellen? Nur den Type Hint oder mehr?
+# Todo Result nur Type Hint, nur ein Result
 @dataclass(frozen=True)
 class Result:
     id: str
     name: str
-    types: list[Type]
+    type: Type
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "type": [type_.to_dict() for type_ in self.types],
+            "type": self.type.to_dict(),
             "docstring": self.docstring.to_dict(),
         }
 
@@ -465,6 +474,7 @@ class Enum:
         self.instances.append(enum_instance)
 
 
+# Todo Remove value field
 @dataclass(frozen=True)
 class EnumInstance:
     id: str
@@ -479,8 +489,7 @@ class EnumInstance:
         }
 
 
-# Todo Frage: Anstatt to_dict, können wir doch auch einfach direkt value ausgeben, oder?
-#  Wie handeln wir bspw. tuple? Wo soll Literal überall genutzt werden (Enums?)?
+# Todo Literal Klasse löschen und values direkt in Parameter rein speichern
 @dataclass(frozen=True)
 class Literal:
     value: str | bool | int | float | None
@@ -491,6 +500,7 @@ class Literal:
         }
 
 
+# Todo mit AbstractType ersetzen aus _types.py und das hier entfernen
 @dataclass
 class Type:
     kind: str | bool | int | float | None | UnboundType
