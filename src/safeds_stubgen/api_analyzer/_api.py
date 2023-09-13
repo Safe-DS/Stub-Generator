@@ -13,7 +13,7 @@ from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, 
 from ._types import AbstractType, create_type
 
 
-# Todo nur ein Typ, nie list[Type]!!
+# Todo type field überall anpassen
 
 
 if TYPE_CHECKING:
@@ -65,9 +65,8 @@ class API:
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
 
-    def add_result(self, results: list[Result]) -> None:
-        for result in results:
-            self.results[result.id] = result
+    def add_result(self, result: Result) -> None:
+        self.results[result.id] = result
 
     def add_enum_instance(self, enum_instance: EnumInstance) -> None:
         self.enum_instances[enum_instance.id] = enum_instance
@@ -326,7 +325,7 @@ class Attribute:
     name: str
     is_public: bool
     is_static: bool
-    types: list[Type] = field(default_factory=list)
+    type: str | None
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -335,15 +334,12 @@ class Attribute:
             "name": self.name,
             "is_public": self.is_public,
             "is_static": self.is_static,
-            "types": [
-                type_.to_dict()
-                for type_ in self.types
-                if type_ is not None
-            ],
+            "type": self.type,
             "description": self.description,
         }
 
 
+# Todo Frage: Wie kann eine Funktion mehrere Results haben?
 @dataclass
 class Function:
     id: str
@@ -351,9 +347,9 @@ class Function:
     docstring: FunctionDocstring
     is_public: bool
     is_static: bool
+    result: Result
     reexported_by: list[str] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
-    results: list[Result] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -364,41 +360,29 @@ class Function:
             "is_static": self.is_static,
             "reexported_by": self.reexported_by,
             "parameters": [parameter.id for parameter in self.parameters],
-            "results": [result.id for result in self.results]
+            "result": self.result.id
         }
-
-    def add_results(self, results: list[Result]) -> None:
-        for result in results:
-            self.results.append(result)
 
 
 # Todo Dataclass?
-# Todo is_optional field, weil wir ggf. Werte nicht abspeichern können wegen dem Typ, aber dann is_optional trotzdem
-#  true ist
 class Parameter:
     def __init__(
         self,
         id_: str,
         name: str,
-        default_value: Literal | None,
-        assigned_by: ArgKind,  # Todo ParameterAssignment
+        is_optional: bool,
+        default_value: str | bool | int | float | None,
+        assigned_by: ParameterAssignment,
         docstring: ParameterDocstring,
-        types: list[Type] | None = None  # Todo nur ein Typ
+        type_: str | None
     ) -> None:
-        if types is None:
-            types: list[Type] = []
-
         self.id: str = id_
         self.name: str = name
-        self.default_value: Literal | None = default_value
-        self.assigned_by: ArgKind = assigned_by
+        self.is_optional: bool = is_optional
+        self.default_value: str | bool | int | float | None = default_value
+        self.assigned_by: ParameterAssignment = assigned_by
         self.docstring = docstring
-        # Todo create_type anpassen
-        self.types = types  # AbstractType | None = create_type(docstring.type, docstring.description)
-
-    # Todo remove
-    def is_optional(self) -> bool:
-        return self.default_value is not None
+        self.type = type_
 
     @property
     def is_required(self) -> bool:
@@ -412,14 +396,14 @@ class Parameter:
         return {
             "id": self.id,
             "name": self.name,
-            "default_value": self.default_value.to_dict() if self.default_value else None,
+            "is_optional": self.is_optional,
+            "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_dict(),
-            "type": [type_.to_dict() for type_ in self.types],
+            "type": self.type
         }
 
 
-# Todo Mapping übernehmen
 class ParameterAssignment(Enum):
     """
     How arguments are assigned to parameters. The parameters must appear exactly in this order in a parameter list.
@@ -430,27 +414,26 @@ class ParameterAssignment(Enum):
     the parameter list might optionally include a NAMED_VARARG parameter ("**kwargs").
     """
 
-    IMPLICIT = "IMPLICIT"  # variable.is_self or variable.is_cls
-    POSITION_ONLY = "POSITION_ONLY"  # ARG_POS and node.pos_only
-    POSITION_OR_NAME = "POSITION_OR_NAME"  # (ARG_OPT or ARG_POS) and not pos_only
-    POSITIONAL_VARARG = "POSITIONAL_VARARG"  # ARG_STAR
-    NAME_ONLY = "NAME_ONLY"  # ARG_NAMED or ARG_NAMED_OPT
-    NAMED_VARARG = "NAMED_VARARG"  # ARG_STAR2
+    IMPLICIT = "IMPLICIT"
+    POSITION_ONLY = "POSITION_ONLY"
+    POSITION_OR_NAME = "POSITION_OR_NAME"
+    POSITIONAL_VARARG = "POSITIONAL_VARARG"
+    NAME_ONLY = "NAME_ONLY"
+    NAMED_VARARG = "NAMED_VARARG"
 
 
-# Todo Result nur Type Hint, nur ein Result
 @dataclass(frozen=True)
 class Result:
     id: str
     name: str
-    type: Type
+    type: str | None
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "type": self.type.to_dict(),
+            "type": self.type,
             "docstring": self.docstring.to_dict(),
         }
 
@@ -474,29 +457,15 @@ class Enum:
         self.instances.append(enum_instance)
 
 
-# Todo Remove value field
 @dataclass(frozen=True)
 class EnumInstance:
     id: str
     name: str
-    value: Literal  # Todo
 
     def to_dict(self):
         return {
             "id": self.id,
-            "name": self.name,
-            "value": self.value.to_dict()
-        }
-
-
-# Todo Literal Klasse löschen und values direkt in Parameter rein speichern
-@dataclass(frozen=True)
-class Literal:
-    value: str | bool | int | float | None
-
-    def to_dict(self) -> dict[str, str | bool | int | float | None]:
-        return {
-            "value": self.value
+            "name": self.name
         }
 
 

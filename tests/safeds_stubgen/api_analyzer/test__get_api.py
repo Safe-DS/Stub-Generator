@@ -43,16 +43,34 @@ def _get_specific_function_data(
     assert False
 
 
-# Todo
-def _assert_lists_equal_ignoring_order(list_1: list[dict], list_2: list[dict]) -> None:
-    ...
-
-
 def _sort_list_of_dicts(list_of_dicts: list[dict], keys: list[str]) -> list[dict]:
+    """Sometimes we have a list[dict[str, list | ...] format and have to sort the innermost list before being able to
+    assert equality
+    """
+
     # Sometimes the first key is repeated, so we have to sort by several keys
     for key in keys:
         list_of_dicts = sorted(list_of_dicts, key=lambda x: (x[key] is None, x[key]))
     return list_of_dicts
+
+
+def _assert_list_of_dicts(list_1: list[dict], list_2: list[dict]) -> None:
+    assert len(list_1) == len(list_2)
+    if len(list_1) == 0:
+        return
+
+    keys_1 = list(list_1[0].keys())
+    keys_2 = list(list_2[0].keys())
+
+    assert sorted(keys_1) == sorted(keys_2)
+
+    for key in keys_1:
+        list_1 = sorted(list_1, key=lambda x: (x[key] is None, x[key]))
+
+    for key in keys_1:
+        list_2 = sorted(list_2, key=lambda x: (x[key] is None, x[key]))
+
+    assert list_1 == list_2
 
 
 # ############################## Imports ############################## #
@@ -118,12 +136,7 @@ def test_imports(
     module_import_data: list[dict] = module_data.get(import_type, [])
 
     # Assert
-    assert len(module_import_data) == len(expected_import_data)
-
-    keys = list(expected_import_data[0].keys())
-    module_import_data = _sort_list_of_dicts(module_import_data, keys)
-    expected_import_data = _sort_list_of_dicts(expected_import_data, keys)
-    assert module_import_data == expected_import_data
+    _assert_list_of_dicts(module_import_data, expected_import_data)
 
 
 # ############################## Classes ############################## # Todo reexported
@@ -745,18 +758,12 @@ def test_class_attributes(
         if attr["id"] in class_attr_ids
     ]
 
-    assert len(full_attribute_data) == len(expected_attribute_data)
-
     # Sort data before comparing
     for data_set in [full_attribute_data, expected_attribute_data]:
         for attr_data in data_set:
             attr_data["types"] = _sort_list_of_dicts(attr_data["types"], ["name"])
 
-    full_attribute_data = _sort_list_of_dicts(full_attribute_data, ["id"])
-    expected_attribute_data = _sort_list_of_dicts(expected_attribute_data, ["id"])
-
-    # Assert
-    assert full_attribute_data == expected_attribute_data
+    _assert_list_of_dicts(full_attribute_data, expected_attribute_data)
 
 
 # ############################## Enums ############################## #
@@ -957,14 +964,9 @@ def test_enum_instances(
         for enum_instance in all_enum_instances
         if enum_instance["id"] in enum_instance_ids
     ]
-    assert len(enum_instances) == len(expected_enum_instance_data)
-
-    # Sort data before comparing
-    enum_instances = _sort_list_of_dicts(enum_instances, ["id"])
-    expected_enum_instance_data = _sort_list_of_dicts(expected_enum_instance_data, ["id"])
 
     # Assert
-    assert enum_instances == expected_enum_instance_data
+    _assert_list_of_dicts(enum_instances, expected_enum_instance_data)
 
 
 # ############################## Global Functions ############################## # Todo reexported
@@ -1024,7 +1026,6 @@ def test_global_functions(
         for function in all_functions
         if function["id"] in global_function_ids
     ]
-    assert len(function_data) == len(expected_function_data)
 
     # Sort data before comparing
     for data_set in [function_data, expected_function_data]:
@@ -1032,11 +1033,7 @@ def test_global_functions(
             for data_type in ["parameters", "results"]:
                 function[data_type] = sorted(function[data_type])
 
-    function_data = _sort_list_of_dicts(function_data, ["id"])
-    expected_function_data = _sort_list_of_dicts(expected_function_data, ["id"])
-
-    # Assert
-    assert function_data == expected_function_data
+    _assert_list_of_dicts(function_data, expected_function_data)
 
 
 # ############################## Class Methods ############################## # Todo reexported
@@ -1246,7 +1243,6 @@ def test_class_methods(
         for method in all_functions
         if method["id"] in class_method_ids
     ]
-    assert len(method_data) == len(expected_method_data)
 
     # Sort data before comparing
     for data_set in [method_data, expected_method_data]:
@@ -1254,11 +1250,8 @@ def test_class_methods(
             for data_type in ["parameters", "results"]:
                 method[data_type] = sorted(method[data_type])
 
-    method_data = _sort_list_of_dicts(method_data, ["id"])
-    expected_method_data = _sort_list_of_dicts(expected_method_data, ["id"])
-
     # Assert
-    assert method_data == expected_method_data
+    _assert_list_of_dicts(method_data, expected_method_data)
 
 
 # ############################## Function Parameters ############################## # Todo Adjust Test data!
@@ -1544,18 +1537,14 @@ def test_function_parameters(
         for parameter in all_parameters
         if parameter["id"] in function_parameter_ids
     ]
-    assert len(parameter_data) == len(expected_parameter_data)
 
     # Sort data before comparing
     for data_set in [parameter_data, expected_parameter_data]:
         for parameter in data_set:
             parameter["types"] = _sort_list_of_dicts(parameter["types"], ["name"])
 
-    parameter_data = _sort_list_of_dicts(parameter_data, ["id"])
-    expected_parameter_data = _sort_list_of_dicts(expected_parameter_data, ["id"])
-
     # Assert
-    assert parameter_data == expected_parameter_data
+    _assert_list_of_dicts(parameter_data, expected_parameter_data)
 
 
 # ############################## Function Results ############################## # Todo

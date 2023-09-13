@@ -53,14 +53,17 @@ class ASTWalker:
         child_nodes = [
             _def for _def in definitions
             if _def.__class__.__name__ in [
-                "AssignmentStmt", "FuncDef", "ClassDef", "ReturnStmt", "Decorator"
+                "AssignmentStmt", "FuncDef", "ClassDef", "Decorator"
             ]
         ]
 
         for child_node in child_nodes:
-            # Ignore function attributes
-            if isinstance(node, FuncDef) and isinstance(child_node, AssignmentStmt):
-                continue
+            # Ignore global variables and function attributes if the function is an __init__
+            if isinstance(child_node, AssignmentStmt):
+                if isinstance(node, MypyFile):
+                    continue
+                if isinstance(node, FuncDef) and not node.name == "__init__":
+                    continue
 
             self.__walk(child_node, visited_nodes)
         self.__leave(node)
