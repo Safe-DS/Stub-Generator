@@ -5,7 +5,7 @@ import pytest
 from safeds_stubgen.api_analyzer import get_api
 
 _test_dir = Path(__file__).parent.parent.parent
-_test_package_name = "some_package"
+_test_package_name = "test_package"
 _main_test_module_name = "test_module"
 
 # Setup
@@ -141,70 +141,70 @@ def test_imports(
 
 # ############################## Classes ############################## # Todo reexported
 test_module_SomeClass_data = {
-    "id": "some_package/tests.data.some_package.test_module/SomeClass",
+    "id": "test_package/tests.data.test_package.test_module/SomeClass",
     "name": "SomeClass",
     "superclasses": [
         "math",
-        "tests.data.some_package.test_module.s"
+        "tests.data.test_package.test_module.s"
     ],
     "is_public": True,
     "reexported_by": [],
     "description": "Summary of the description\nFull description",
     "constructor": {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/__init__",
         "name": "__init__",
         "description": "Summary of the init description\nFull init description",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/__init__-self"
+            "test_package/tests.data.test_package.test_module/SomeClass/__init__-self"
         ],
         "results": []
     },
     "attributes": [
-        "some_package/tests.data.some_package.test_module/SomeClass/no_type_hint_public",
-        "some_package/tests.data.some_package.test_module/SomeClass/_no_type_hint_private",
-        "some_package/tests.data.some_package.test_module/SomeClass/type_hint_public",
-        "some_package/tests.data.some_package.test_module/SomeClass/_type_hint_private",
-        "some_package/tests.data.some_package.test_module/SomeClass/object_attr",
-        "some_package/tests.data.some_package.test_module/SomeClass/object_attr_2",
-        "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_1",
-        "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_2",
-        "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_3",
-        "some_package/tests.data.some_package.test_module/SomeClass/list_attr_1",
-        "some_package/tests.data.some_package.test_module/SomeClass/list_attr_2",
-        "some_package/tests.data.some_package.test_module/SomeClass/list_attr_3",
-        "some_package/tests.data.some_package.test_module/SomeClass/list_attr_4",
-        "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_1",
-        "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_2",
-        "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_3",
-        "some_package/tests.data.some_package.test_module/SomeClass/bool_attr",
-        "some_package/tests.data.some_package.test_module/SomeClass/none_attr",
-        "some_package/tests.data.some_package.test_module/SomeClass/flaot_attr",
-        "some_package/tests.data.some_package.test_module/SomeClass/int_or_bool_attr",
-        "some_package/tests.data.some_package.test_module/SomeClass/str_attr_with_none_value",
-        "some_package/tests.data.some_package.test_module/SomeClass/mulit_attr_1",
-        "some_package/tests.data.some_package.test_module/SomeClass/_mulit_attr_2_private",
-        "some_package/tests.data.some_package.test_module/SomeClass/mulit_attr_3",
-        "some_package/tests.data.some_package.test_module/SomeClass/override_in_init"
+        "test_package/tests.data.test_package.test_module/SomeClass/no_type_hint_public",
+        "test_package/tests.data.test_package.test_module/SomeClass/_no_type_hint_private",
+        "test_package/tests.data.test_package.test_module/SomeClass/type_hint_public",
+        "test_package/tests.data.test_package.test_module/SomeClass/_type_hint_private",
+        "test_package/tests.data.test_package.test_module/SomeClass/object_attr",
+        "test_package/tests.data.test_package.test_module/SomeClass/object_attr_2",
+        "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_1",
+        "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_2",
+        "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_3",
+        "test_package/tests.data.test_package.test_module/SomeClass/list_attr_1",
+        "test_package/tests.data.test_package.test_module/SomeClass/list_attr_2",
+        "test_package/tests.data.test_package.test_module/SomeClass/list_attr_3",
+        "test_package/tests.data.test_package.test_module/SomeClass/list_attr_4",
+        "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_1",
+        "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_2",
+        "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_3",
+        "test_package/tests.data.test_package.test_module/SomeClass/bool_attr",
+        "test_package/tests.data.test_package.test_module/SomeClass/none_attr",
+        "test_package/tests.data.test_package.test_module/SomeClass/flaot_attr",
+        "test_package/tests.data.test_package.test_module/SomeClass/int_or_bool_attr",
+        "test_package/tests.data.test_package.test_module/SomeClass/str_attr_with_none_value",
+        "test_package/tests.data.test_package.test_module/SomeClass/mulit_attr_1",
+        "test_package/tests.data.test_package.test_module/SomeClass/_mulit_attr_2_private",
+        "test_package/tests.data.test_package.test_module/SomeClass/mulit_attr_3",
+        "test_package/tests.data.test_package.test_module/SomeClass/override_in_init"
     ],
     "methods": [
-        "some_package/tests.data.some_package.test_module/SomeClass/_some_function",
-        "some_package/tests.data.some_package.test_module/SomeClass/static_function",
-        "some_package/tests.data.some_package.test_module/SomeClass/test_position",
-        "some_package/tests.data.some_package.test_module/SomeClass/multiple_results"
+        "test_package/tests.data.test_package.test_module/SomeClass/_some_function",
+        "test_package/tests.data.test_package.test_module/SomeClass/static_function",
+        "test_package/tests.data.test_package.test_module/SomeClass/test_position",
+        "test_package/tests.data.test_package.test_module/SomeClass/multiple_results"
     ],
     "classes": [
-        "some_package/tests.data.some_package.test_module/SomeClass/NestedClass"
+        "test_package/tests.data.test_package.test_module/SomeClass/NestedClass"
     ]
 }
 
 test_module_NestedClass_data = {
-    "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass",
+    "id": "test_package/tests.data.test_package.test_module/SomeClass/NestedClass",
     "name": "NestedClass",
     "superclasses": [
-        "tests.data.some_package.another_path.another_module.AnotherClass",
+        "tests.data.test_package.another_path.another_module.AnotherClass",
         "mypy"
     ],
     "is_public": True,
@@ -213,43 +213,43 @@ test_module_NestedClass_data = {
     "constructor": None,
     "attributes": [],
     "methods": [
-        "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function"
+        "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function"
     ],
     "classes": []
 }
 
 test_module__PrivateClass_data = {
-    "id": "some_package/tests.data.some_package.test_module/_PrivateClass",
+    "id": "test_package/tests.data.test_package.test_module/_PrivateClass",
     "name": "_PrivateClass",
     "superclasses": [],
     "is_public": False,
     "reexported_by": [],
     "description": "",
     "constructor": {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/__init__",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/__init__",
         "name": "__init__",
         "description": "",
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/_PrivateClass/__init__-self"
+            "test_package/tests.data.test_package.test_module/_PrivateClass/__init__-self"
         ],
         "results": []
     },
     "attributes": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/public_attr_in_private_class"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/public_attr_in_private_class"
     ],
     "methods": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/public_func_in_private_class"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/public_func_in_private_class"
     ],
     "classes": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass"
     ]
 }
 
 test_module_NestedPrivateClass_data = {
-    "id": "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass",
+    "id": "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass",
     "name": "NestedPrivateClass",
     "superclasses": [],
     "is_public": False,
@@ -257,19 +257,19 @@ test_module_NestedPrivateClass_data = {
     "description": "",
     "constructor": None,
     "attributes": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/nested_class_attr"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/nested_class_attr"
     ],
     "methods": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/"
         "nested_private_class_function"
     ],
     "classes": [
-        "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass"
+        "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass"
     ]
 }
 
 test_module_NestedNestedPrivateClass_data = {
-    "id": "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass",
+    "id": "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass",
     "name": "NestedNestedPrivateClass",
     "superclasses": [],
     "is_public": False,
@@ -333,7 +333,7 @@ def test_classes(
 # ############################## Class Attributes ############################## # Todo Attr Desc.
 test_module_SomeClass_attributes = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/no_type_hint_public",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/no_type_hint_public",
         "name": "no_type_hint_public",
         "is_public": True,
         "is_static": True,
@@ -341,7 +341,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_no_type_hint_private",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_no_type_hint_private",
         "name": "_no_type_hint_private",
         "is_public": False,
         "is_static": True,
@@ -349,7 +349,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/type_hint_public",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/type_hint_public",
         "name": "type_hint_public",
         "is_public": True,
         "is_static": True,
@@ -360,7 +360,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_type_hint_private",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_type_hint_private",
         "name": "_type_hint_private",
         "is_public": False,
         "is_static": True,
@@ -371,7 +371,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/object_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/object_attr",
         "name": "object_attr",
         "is_public": True,
         "is_static": True,
@@ -382,7 +382,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/object_attr_2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/object_attr_2",
         "name": "object_attr_2",
         "is_public": True,
         "is_static": True,
@@ -399,7 +399,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_1",
         "name": "tuple_attr_1",
         "is_public": True,
         "is_static": True,
@@ -412,7 +412,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_2",
         "name": "tuple_attr_2",
         "is_public": True,
         "is_static": True,
@@ -425,7 +425,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/tuple_attr_3",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/tuple_attr_3",
         "name": "tuple_attr_3",
         "is_public": True,
         "is_static": True,
@@ -438,7 +438,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/list_attr_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/list_attr_1",
         "name": "list_attr_1",
         "is_public": True,
         "is_static": True,
@@ -451,7 +451,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/list_attr_2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/list_attr_2",
         "name": "list_attr_2",
         "is_public": True,
         "is_static": True,
@@ -464,7 +464,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/list_attr_3",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/list_attr_3",
         "name": "list_attr_3",
         "is_public": True,
         "is_static": True,
@@ -477,7 +477,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/list_attr_4",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/list_attr_4",
         "name": "list_attr_4",
         "is_public": True,
         "is_static": True,
@@ -490,7 +490,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_1",
         "name": "dict_attr_1",
         "is_public": True,
         "is_static": True,
@@ -503,7 +503,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_2",
         "name": "dict_attr_2",
         "is_public": True,
         "is_static": True,
@@ -516,7 +516,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/dict_attr_3",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/dict_attr_3",
         "name": "dict_attr_3",
         "is_public": True,
         "is_static": True,
@@ -529,7 +529,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/bool_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/bool_attr",
         "name": "bool_attr",
         "is_public": True,
         "is_static": True,
@@ -542,7 +542,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/none_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/none_attr",
         "name": "none_attr",
         "is_public": True,
         "is_static": True,
@@ -555,7 +555,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/flaot_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/flaot_attr",
         "name": "flaot_attr",
         "is_public": True,
         "is_static": True,
@@ -568,7 +568,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/int_or_bool_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/int_or_bool_attr",
         "name": "int_or_bool_attr",
         "is_public": True,
         "is_static": True,
@@ -585,7 +585,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/str_attr_with_none_value",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/str_attr_with_none_value",
         "name": "str_attr_with_none_value",
         "is_public": True,
         "is_static": True,
@@ -598,7 +598,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/mulit_attr_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/mulit_attr_1",
         "name": "x",
         "is_public": True,
         "is_static": True,
@@ -606,7 +606,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_mulit_attr_2_private",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_mulit_attr_2_private",
         "name": "_mulit_attr_2_private",
         "is_public": False,
         "is_static": True,
@@ -614,7 +614,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/mulit_attr_3",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/mulit_attr_3",
         "name": "x",
         "is_public": True,
         "is_static": True,
@@ -622,7 +622,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_mulit_attr_4_private",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_mulit_attr_4_private",
         "name": "_mulit_attr_4_private",
         "is_public": False,
         "is_static": True,
@@ -630,7 +630,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/override_in_init",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/override_in_init",
         "name": "override_in_init",
         "is_public": True,
         "is_static": False,
@@ -643,7 +643,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/init_attr",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/init_attr",
         "name": "init_attr",
         "is_public": True,
         "is_static": False,
@@ -656,7 +656,7 @@ test_module_SomeClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_init_attr_private",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_init_attr_private",
         "name": "_init_attr_private",
         "is_public": False,
         "is_static": False,
@@ -674,7 +674,7 @@ test_module_NestedClass_attributes = []
 
 test_module__PrivateClass_attributes = [
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/public_attr_in_private_class",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/public_attr_in_private_class",
         "name": "public_attr_in_private_class",
         "is_public": False,
         "is_static": True,
@@ -682,7 +682,7 @@ test_module__PrivateClass_attributes = [
         "description": ""
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/public_init_attr_in_private_class",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/public_init_attr_in_private_class",
         "name": "public_init_attr_in_private_class",
         "is_public": False,
         "is_static": False,
@@ -696,7 +696,7 @@ test_module__PrivateClass_attributes = [
 
 test_module_NestedPrivateClass_attributes = [
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/nested_class_attr",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/nested_class_attr",
         "name": "nested_class_attr",
         "is_public": False,
         "is_static": True,
@@ -768,36 +768,36 @@ def test_class_attributes(
 
 # ############################## Enums ############################## #
 test_module_TestEnum = {
-    "id": "some_package/tests.data.some_package.test_module/TestEnum",
+    "id": "test_package/tests.data.test_package.test_module/TestEnum",
     "name": "TestEnum",
     "description": "Enum Docstring\nFull Docstring Description",
     "instances": [
-        "some_package/tests.data.some_package.test_module/TestEnum/ONE",
-        "some_package/tests.data.some_package.test_module/TestEnum/TWO",
-        "some_package/tests.data.some_package.test_module/TestEnum/THREE",
-        "some_package/tests.data.some_package.test_module/TestEnum/FOUR",
-        "some_package/tests.data.some_package.test_module/TestEnum/FIVE",
-        "some_package/tests.data.some_package.test_module/TestEnum/SIX",
-        "some_package/tests.data.some_package.test_module/TestEnum/SEVEN",
-        "some_package/tests.data.some_package.test_module/TestEnum/EIGHT",
-        "some_package/tests.data.some_package.test_module/TestEnum/NINE",
-        "some_package/tests.data.some_package.test_module/TestEnum/TEN"
+        "test_package/tests.data.test_package.test_module/TestEnum/ONE",
+        "test_package/tests.data.test_package.test_module/TestEnum/TWO",
+        "test_package/tests.data.test_package.test_module/TestEnum/THREE",
+        "test_package/tests.data.test_package.test_module/TestEnum/FOUR",
+        "test_package/tests.data.test_package.test_module/TestEnum/FIVE",
+        "test_package/tests.data.test_package.test_module/TestEnum/SIX",
+        "test_package/tests.data.test_package.test_module/TestEnum/SEVEN",
+        "test_package/tests.data.test_package.test_module/TestEnum/EIGHT",
+        "test_package/tests.data.test_package.test_module/TestEnum/NINE",
+        "test_package/tests.data.test_package.test_module/TestEnum/TEN"
     ],
 }
 
 test_module_EmptyEnum = {
-    "id": "some_package/tests.data.some_package.test_module/EmptyEnum",
+    "id": "test_package/tests.data.test_package.test_module/EmptyEnum",
     "name": "EmptyEnum",
     "description": "Nothing's here",
     "instances": [],
 }
 
 test_module_AnotherTestEnum = {
-    "id": "some_package/tests.data.some_package.test_module/AnotherTestEnum",
+    "id": "test_package/tests.data.test_package.test_module/AnotherTestEnum",
     "name": "AnotherTestEnum",
     "description": "Nothing's here",
     "instances": [
-        "some_package/tests.data.some_package.test_module/AnotherTestEnum/ELEVEN",
+        "test_package/tests.data.test_package.test_module/AnotherTestEnum/ELEVEN",
     ],
 }
 
@@ -842,70 +842,70 @@ def test_enums(
 # ############################## Enum Instances ############################## # Todo values
 test_module_TestEnum_instances = [
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/ONE",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/ONE",
         "name": "ONE",
         "value": {
             "value": "first"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/TWO",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/TWO",
         "name": "TWO",
         "value": {
             "value": (2, 2)
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/THREE",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/THREE",
         "name": "THREE",
         "value": {
             "value": 3
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/FOUR",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/FOUR",
         "name": "FOUR",
         "value": {
             "value": "forth and fifth"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/FIVE",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/FIVE",
         "name": "FIVE",
         "value": {
             "value": "forth and fifth"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/SIX",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/SIX",
         "name": "SIX",
         "value": {
             "value": "sixth"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/SEVEN",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/SEVEN",
         "name": "SEVEN",
         "value": {
             "value": 7
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/EIGHT",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/EIGHT",
         "name": "EIGHT",
         "value": {
             "value": "8"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/NINE",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/NINE",
         "name": "NINE",
         "value": {
             "value": "9"
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/TestEnum/TEN",
+        "id": "test_package/tests.data.test_package.test_module/TestEnum/TEN",
         "name": "TEN",
         "value": {
             "value": "k()"
@@ -917,7 +917,7 @@ test_module_EmptyEnum_instances = []
 
 test_module_AnotherTestEnum_instances = [
     {
-        "id": "some_package/tests.data.some_package.test_module/AnotherTestEnum/ELEVEN",
+        "id": "test_package/tests.data.test_package.test_module/AnotherTestEnum/ELEVEN",
         "name": "ELEVEN",
         "value": {
             "value": 11
@@ -972,22 +972,22 @@ def test_enum_instances(
 # ############################## Global Functions ############################## # Todo reexported
 test_module_global_functions = [
     {
-        "id": "some_package/tests.data.some_package.test_module/global_func",
+        "id": "test_package/tests.data.test_package.test_module/global_func",
         "name": "global_func",
         "description": "",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/global_func/param_1",
-            "some_package/tests.data.some_package.test_module/global_func/param_2"
+            "test_package/tests.data.test_package.test_module/global_func/param_1",
+            "test_package/tests.data.test_package.test_module/global_func/param_2"
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/global_func/result_23_11_14"
+            "test_package/tests.data.test_package.test_module/global_func/result_23_11_14"
         ]
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/_private_global_func",
+        "id": "test_package/tests.data.test_package.test_module/_private_global_func",
         "name": "_private_global_func",
         "description": "",
         "is_public": False,
@@ -995,7 +995,7 @@ test_module_global_functions = [
         "reexported_by": [],
         "parameters": [],
         "results": [
-            "some_package/tests.data.some_package.test_module/_private_global_func/result_27_11_25"
+            "test_package/tests.data.test_package.test_module/_private_global_func/result_27_11_25"
         ]
     }
 ]
@@ -1039,138 +1039,138 @@ def test_global_functions(
 # ############################## Class Methods ############################## # Todo reexported
 test_module_SomeClass_methods = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/__init__",
         "name": "__init__",
         "description": "",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/__init__/self"
+            "test_package/tests.data.test_package.test_module/SomeClass/__init__/self"
         ],
         "results": []
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/_some_function",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/_some_function",
         "name": "_some_function",
         "description": "",
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/self",
-            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/param_1",
-            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/param_2"
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/self",
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/param_1",
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/param_2"
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/result_82_15_25"
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_82_15_25"
         ]
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/multiple_results",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/multiple_results",
         "name": "multiple_results",
         "description": "",
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/param_1"
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/param_1"
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_121_8_14",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_106_19_32",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_118_19_33",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_98_19_21",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_112_19_31",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_108_19_35",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_104_19_24",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_100_19_24",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_114_19_41",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_116_19_28",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_120_19_23",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_120_25_41",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_120_43_45",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_102_19_23",
-            "some_package/tests.data.some_package.test_module/SomeClass/multiple_results/result_110_19_34"
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_121_8_14",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_106_19_32",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_118_19_33",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_98_19_21",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_112_19_31",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_108_19_35",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_104_19_24",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_100_19_24",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_114_19_41",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_116_19_28",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_19_23",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_25_41",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_43_45",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_102_19_23",
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_110_19_34"
         ]
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/static_function",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/static_function",
         "name": "static_function",
         "description": "",
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_1",
-            "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_2"
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/param_1",
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/param_2"
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/SomeClass/static_function/result_87_15_22",
-            "some_package/tests.data.some_package.test_module/SomeClass/static_function/result_87_24_31"
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_87_15_22",
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_87_24_31"
         ]
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position",
         "name": "test_position",
         "description": "",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/self",
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/param1",
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/param2",
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/param3",
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/param4",
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/param5"
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/self",
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/param1",
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/param2",
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/param3",
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/param4",
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/param5"
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/SomeClass/test_position/result_92_15_56"
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/result_92_15_56"
         ]
     }
 ]
 
 test_module_NestedClass_methods = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function",
         "name": "nested_class_function",
         "description": "",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/self",
-            "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
+            "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function/self",
+            "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
         ],
         "results": [
-            "some_package/tests.data.some_package.test_module/SomeClass/_some_function/result_124_41_48"
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_124_41_48"
         ]
     }
 ]
 
 test_module__PrivateClass_methods = [
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/__init__",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/__init__",
         "name": "__init__",
         "description": "",
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/_PrivateClass/__init__/self"
+            "test_package/tests.data.test_package.test_module/_PrivateClass/__init__/self"
         ],
         "results": []
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/public_func_in_private_class",
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/public_func_in_private_class",
         "name": "public_func_in_private_class",
         "description": "",
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "some_package/tests.data.some_package.test_module/_PrivateClass/public_func_in_private_class/self"
+            "test_package/tests.data.test_package.test_module/_PrivateClass/public_func_in_private_class/self"
         ],
         "results": []
     },
@@ -1179,7 +1179,7 @@ test_module__PrivateClass_methods = [
 
 test_module_NestedPrivateClass_methods = [
     {
-        "id": "some_package/tests.data.some_package.test_module/_PrivateClass/NestedPrivateClass/"
+        "id": "test_package/tests.data.test_package.test_module/_PrivateClass/NestedPrivateClass/"
               "static_nested_private_class_function",
         "name": "static_nested_private_class_function",
         "description": "",
@@ -1257,7 +1257,7 @@ def test_class_methods(
 # ############################## Function Parameters ############################## # Todo Adjust Test data!
 test_module_global_func = [
     {
-        "id": "some_package/tests.data.some_package.test_module/global_func/param_1",
+        "id": "test_package/tests.data.test_package.test_module/global_func/param_1",
         "name": "param_1",
         "default_value": {
             "value": "first param"
@@ -1274,7 +1274,7 @@ test_module_global_func = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/global_func/param_2",
+        "id": "test_package/tests.data.test_package.test_module/global_func/param_2",
         "name": "param_2",
         "default_value": {
             "value": None
@@ -1294,7 +1294,7 @@ test_module_global_func = [
 ]
 test_module_SomeClass___init__ = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__/self",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/__init__/self",
         "name": "self",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1309,7 +1309,7 @@ test_module_SomeClass___init__ = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/__init__/init_param_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/__init__/init_param_1",
         "name": "init_param_1",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1326,7 +1326,7 @@ test_module_SomeClass___init__ = [
 ]
 test_module_SomeClass_static_function = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/static_function/param_1",
         "name": "param_1",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1341,7 +1341,7 @@ test_module_SomeClass_static_function = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/static_function/param_2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/static_function/param_2",
         "name": "param_2",
         "default_value": {
             "value": 123456
@@ -1361,7 +1361,7 @@ test_module_SomeClass_static_function = [
 ]
 test_module_SomeClass_test_position = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/param1",
         "name": "param1",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1376,7 +1376,7 @@ test_module_SomeClass_test_position = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param2",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/param2",
         "name": "param2",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1391,7 +1391,7 @@ test_module_SomeClass_test_position = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param3",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/param3",
         "name": "param3",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1406,7 +1406,7 @@ test_module_SomeClass_test_position = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param4",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/param4",
         "name": "param4",
         "default_value": "AnotherClass()",
         "assigned_by": "ARG_NAMED",
@@ -1421,7 +1421,7 @@ test_module_SomeClass_test_position = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/param5",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/param5",
         "name": "param5",
         "default_value": {
             "value": 1
@@ -1438,7 +1438,7 @@ test_module_SomeClass_test_position = [
         }
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/test_position/self",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/test_position/self",
         "name": "self",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1455,7 +1455,7 @@ test_module_SomeClass_test_position = [
 ]
 test_module_SomeClass_NestedClass_nested_class_function = [
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
         "name": "param_1",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1470,7 +1470,7 @@ test_module_SomeClass_NestedClass_nested_class_function = [
         }]
     },
     {
-        "id": "some_package/tests.data.some_package.test_module/SomeClass/NestedClass/nested_class_function/self",
+        "id": "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function/self",
         "name": "self",
         "default_value": None,
         "assigned_by": "ARG_POS",
@@ -1570,8 +1570,8 @@ def test_function_parameters(
 # ############################## Module ############################## #
 module_test_module = [
     {
-        "id": "some_package/test_module",
-        "name": "tests.data.some_package.test_module",
+        "id": "test_package/test_module",
+        "name": "tests.data.test_package.test_module",
         "docstring": "Docstring of the some_class.py module",
         "qualified_imports": [
             {
@@ -1608,30 +1608,30 @@ module_test_module = [
             }
         ],
         "classes": [
-            "some_package/tests.data.some_package.test_module/SomeClass",
-            "some_package/tests.data.some_package.test_module/_PrivateClass"
+            "test_package/tests.data.test_package.test_module/SomeClass",
+            "test_package/tests.data.test_package.test_module/_PrivateClass"
         ],
         "functions": [
-            "some_package/tests.data.some_package.test_module/global_func",
-            "some_package/tests.data.some_package.test_module/_private_global_func"
+            "test_package/tests.data.test_package.test_module/global_func",
+            "test_package/tests.data.test_package.test_module/_private_global_func"
         ],
         "enums": [
-            "some_package/tests.data.some_package.test_module/TestEnum",
-            "some_package/tests.data.some_package.test_module/EmptyEnum",
-            "some_package/tests.data.some_package.test_module/AnotherTestEnum"
+            "test_package/tests.data.test_package.test_module/TestEnum",
+            "test_package/tests.data.test_package.test_module/EmptyEnum",
+            "test_package/tests.data.test_package.test_module/AnotherTestEnum"
         ]
     }
 ]
 
 module_another_module = [
     {
-        "id": "some_package/another_module",
-        "name": "tests.data.some_package.another_path.another_module",
+        "id": "test_package/another_module",
+        "name": "tests.data.test_package.another_path.another_module",
         "docstring": "Another Module Docstring\nFull Docstring Description",
         "qualified_imports": [],
         "wildcard_imports": [],
         "classes": [
-            "some_package/tests.data.some_package.another_path.another_module/AnotherClass"
+            "test_package/tests.data.test_package.another_path.another_module/AnotherClass"
         ],
         "functions": [],
         "enums": []

@@ -43,11 +43,7 @@ from safeds_stubgen.docstring_parsing import (
 )
 
 
-# Todo
-#  1. How to handle multiple docstrings
-#  2. Attribute Types: Mehrere Typen? Gucken wir uns nur den type hint Typ an, oder auch den value Typ?
-#  3. Type Klasse: Wenn kein Type Hint, dann sollte da kein Typ sein, also None!
-#  4. Docstring / description & Reexport field handling
+# Todo Docstring / description & Reexport field handling
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser

@@ -13,7 +13,9 @@ from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, 
 from ._types import AbstractType, create_type
 
 
-# Todo type field überall anpassen
+# Todo type field überall anpassen und AbstractType als Klasse setzen
+# Todo Frage: Wie genau soll das Parsing von den aktuellen Strings ("Union[builtins.bool, list, ...]") aussehen?
+#  Besprochen war, dass wir die MyPy Typen übernehmen, aber MyPy übergibt Instanzen der Typen weiter
 
 
 if TYPE_CHECKING:
@@ -432,7 +434,7 @@ class Result:
 class Enum:
     id: str
     name: str
-    docstring: ClassDocstring  # Todo EnumDocstring?
+    docstring: ClassDocstring
     instances: list[EnumInstance] = field(default_factory=list)
 
     def to_dict(self):
@@ -457,27 +459,6 @@ class EnumInstance:
             "id": self.id,
             "name": self.name
         }
-
-
-# Todo mit AbstractType ersetzen aus _types.py und das hier entfernen
-@dataclass
-class Type:
-    kind: str | bool | int | float | None | UnboundType
-    name: str
-
-    def to_dict(self) -> dict[str, str]:
-        return {
-            "kind": "UnboundType" if isinstance(self.kind, UnboundType) else "builtins",
-            "name": self.name
-        }
-
-
-# Todo
-def dict_to_stub(): ...
-
-
-# Todo
-def dict_to_json(): ...
 
 
 ApiElement: TypeAlias = Module | Class | Attribute | Function | Parameter | Result

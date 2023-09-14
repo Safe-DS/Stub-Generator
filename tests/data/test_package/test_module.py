@@ -33,11 +33,13 @@ class SomeClass(mathematics, AcDoubleAlias):
     """Summary of the description
     Full description
     """
-    no_type_hint_public = 1
-    _no_type_hint_private = 1
+    dict_attr_2: dict[str | int, None | _AcImportAlias]
 
     type_hint_public: int
     _type_hint_private: int
+
+    no_type_hint_public = 1
+    _no_type_hint_private = 1
 
     object_attr: _AcImportAlias
     object_attr_2: AcDoubleAlias | mathematics
@@ -64,15 +66,18 @@ class SomeClass(mathematics, AcDoubleAlias):
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
     mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
 
-    override_in_init: int
+    no_hint = 123  # is_new_def == True and node.is_inferred == True
+    yes_hint: float = "str"  # is_new_def == True and node.is_inferred == False
+    override_in_init: int  # is_new_def == True and node.is_inferred == False
 
     def __init__(self, init_param_1):
         """Summary of the init description
         Full init description
         """
         self.init_attr: bool
-        self._init_attr_private: float
+        self._init_attr_private: float = "I'm a string"
         self.override_in_init: str
+        no_class_attr: bool
 
     def _some_function(self, param_1: bool, param_2: ac_alias) -> ac_alias:
         """Function Docstring

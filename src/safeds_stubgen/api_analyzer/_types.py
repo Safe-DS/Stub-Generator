@@ -545,6 +545,7 @@ def create_type(type_string: str, description: str) -> AbstractType | None:
     # return NamedType(type_string)
     return _create_enum_boundry_type(type_string, description)
 
+
 # todo übernehmen in create_type -> Tests schlagen nun fehl
 def _create_enum_boundry_type(type_string: str, description: str) -> AbstractType | None:
     types: list[AbstractType] = []
