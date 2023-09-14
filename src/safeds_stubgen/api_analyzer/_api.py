@@ -364,33 +364,23 @@ class Function:
         }
 
 
-# Todo Dataclass?
+@dataclass(frozen=True)
 class Parameter:
-    def __init__(
-        self,
-        id_: str,
-        name: str,
-        is_optional: bool,
-        default_value: str | bool | int | float | None,
-        assigned_by: ParameterAssignment,
-        docstring: ParameterDocstring,
-        type_: str | None
-    ) -> None:
-        self.id: str = id_
-        self.name: str = name
-        self.is_optional: bool = is_optional
-        self.default_value: str | bool | int | float | None = default_value
-        self.assigned_by: ParameterAssignment = assigned_by
-        self.docstring = docstring
-        self.type = type_
+    id: str
+    name: str
+    is_optional: bool
+    default_value: str | bool | int | float | None
+    assigned_by: ParameterAssignment
+    docstring: ParameterDocstring
+    type: str | None
 
     @property
     def is_required(self) -> bool:
         return self.default_value is None
 
-    # Todo *args...
     @property
-    def is_variadic(self) -> bool: ...
+    def is_variadic(self) -> bool:
+        return self.assigned_by in (ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG)
 
     def to_dict(self) -> dict[str, Any]:
         return {

@@ -1,19 +1,20 @@
 from types import NoneType
 
 from mypy.nodes import (
+    ArgKind,
+    Argument,
     AssignmentStmt,
+    CallExpr,
     ClassDef,
     ExpressionStmt,
     FuncDef,
     Import,
     ImportAll,
     ImportFrom,
-    MypyFile,
-    StrExpr,
-    NameExpr,
     MemberExpr,
-    ArgKind,
-    Argument
+    MypyFile,
+    NameExpr,
+    StrExpr,
 )
 from mypy.types import get_proper_type, Instance
 
@@ -378,7 +379,10 @@ class MyPyAstVisitor:
             initializer = argument.initializer
             if initializer is not None:
                 if not hasattr(initializer, "value"):
-                    if initializer.name == "None":
+                    if isinstance(initializer, CallExpr):
+                        # Special case when the default is a call expression
+                        value = None
+                    elif initializer.name == "None":
                         value = None
                     else:
                         raise ValueError("No value found for parameter")
@@ -389,15 +393,14 @@ class MyPyAstVisitor:
                     default_value = value
                     is_optional = True
 
-            # Todo Ein Parameter kann mehrere mögliche Typen haben -> Not handled yet!
             arguments.append(Parameter(
-                id_=f"{function_id}/{arg_name}",
+                id=f"{function_id}/{arg_name}",
                 name=arg_name,
                 is_optional=is_optional,
                 default_value=default_value,
                 assigned_by=arg_kind,
                 docstring=ParameterDocstring(),
-                type_=str(arg_type)
+                type=str(arg_type)
             ))
 
         return arguments
