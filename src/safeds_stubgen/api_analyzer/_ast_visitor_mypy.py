@@ -177,7 +177,7 @@ class MyPyAstVisitor:
 
         # Create results
         ret_type = "Any"
-        if hasattr(node, "type"):
+        if getattr(node, "type", None):
             ret_type = str(node.type.ret_type)
 
         result = Result(
@@ -321,18 +321,38 @@ class MyPyAstVisitor:
         attributes: list[Attribute] = []
 
         if hasattr(lvalue, "name"):
+            if self.check_attribute_already_defined(lvalue, lvalue.name):
+                return attributes
+
             attributes.append(
                 self.create_attribute(lvalue, is_static)
             )
 
         elif hasattr(lvalue, "items"):
             lvalues = [item for item in lvalue.items]
-            for lvalue in lvalues:
+            for lvalue_ in lvalues:
+                if self.check_attribute_already_defined(lvalue_, lvalue_.name):
+                    continue
+
                 attributes.append(
-                    self.create_attribute(lvalue, is_static)
+                    self.create_attribute(lvalue_, is_static)
                 )
 
         return attributes
+
+    def check_attribute_already_defined(self, lvalue: NameExpr, value_name: str) -> bool:
+        # If node is None, it's possible that the attribute was already defined once
+        if lvalue.node is None:
+            parent = self.__declaration_stack[-1]
+            if isinstance(parent, Function):
+                parent = self.__declaration_stack[-2]
+
+            for attribute in parent.attributes:
+                if value_name == attribute.name:
+                    return True
+
+            raise ValueError(f"The attribute {value_name} has no value.")
+        return False
 
     def create_attribute(self, attribute, is_static: bool) -> Attribute:
         # Get name and qname
