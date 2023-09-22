@@ -252,30 +252,35 @@ class MyPyAstVisitor:
         """Assignments are attributes or enum instances"""
         parent = self.__declaration_stack[-1]
         assignments: list[Attribute | EnumInstance] = []
-        lvalue = node.lvalues[0]
 
-        if isinstance(parent, Class):
-            assignments = self.parse_attributes(lvalue, is_static=True)
-        elif isinstance(parent, Function) and parent.name == "__init__":
-            try:
-                grand_parent = self.__declaration_stack[-2]
-            except IndexError:
-                # If the function has no parent (and is therefore not a class method) ignore the attributes
-                grand_parent = None
+        for lvalue in node.lvalues:
+            if isinstance(parent, Class):
+                assignments = self.parse_attributes(lvalue, is_static=True)
+            elif isinstance(parent, Function) and parent.name == "__init__":
+                try:
+                    grand_parent = self.__declaration_stack[-2]
+                except IndexError:
+                    # If the function has no parent (and is therefore not a class method) ignore the attributes
+                    grand_parent = None
 
-            if grand_parent is not None and isinstance(grand_parent, Class):
-                # Ignore non instance attributes in __init__ classes
-                if not isinstance(lvalue, NameExpr):
-                    assignments = self.parse_attributes(lvalue, is_static=False)
+                if grand_parent is not None and isinstance(grand_parent, Class):
+                    # Ignore non instance attributes in __init__ classes
+                    if not isinstance(lvalue, NameExpr):
+                        assignments = self.parse_attributes(lvalue, is_static=False)
 
-        elif isinstance(parent, Enum):
-            name = lvalue.name
-            id_ = self.__get_id(name)
+            elif isinstance(parent, Enum):
+                names = []
+                if hasattr(lvalue, "items"):
+                    for item in lvalue.items:
+                        names.append(item.name)
+                else:
+                    names.append(lvalue.name)
 
-            assignments.append(EnumInstance(
-                id=f"{id_}/{name}",
-                name=name
-            ))
+                for name in names:
+                    assignments.append(EnumInstance(
+                        id=f"{parent.id}/{name}",
+                        name=name
+                    ))
 
         self.__declaration_stack.append(assignments)
 

@@ -983,7 +983,7 @@ test_module_global_functions = [
             "test_package/tests.data.test_package.test_module/global_func/param_2"
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/global_func/result_23_11_14"
+            "test_package/tests.data.test_package.test_module/global_func/result_1"
         ]
     },
     {
@@ -995,7 +995,7 @@ test_module_global_functions = [
         "reexported_by": [],
         "parameters": [],
         "results": [
-            "test_package/tests.data.test_package.test_module/_private_global_func/result_27_11_25"
+            "test_package/tests.data.test_package.test_module/_private_global_func/result_1"
         ]
     }
 ]
@@ -1063,7 +1063,7 @@ test_module_SomeClass_methods = [
             "test_package/tests.data.test_package.test_module/SomeClass/_some_function/param_2"
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_82_15_25"
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_1"
         ]
     },
     {
@@ -1077,21 +1077,7 @@ test_module_SomeClass_methods = [
             "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/param_1"
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_121_8_14",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_106_19_32",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_118_19_33",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_98_19_21",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_112_19_31",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_108_19_35",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_104_19_24",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_100_19_24",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_114_19_41",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_116_19_28",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_19_23",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_25_41",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_120_43_45",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_102_19_23",
-            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_110_19_34"
+            "test_package/tests.data.test_package.test_module/SomeClass/multiple_results/result_1",
         ]
     },
     {
@@ -1106,8 +1092,8 @@ test_module_SomeClass_methods = [
             "test_package/tests.data.test_package.test_module/SomeClass/static_function/param_2"
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_87_15_22",
-            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_87_24_31"
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_1",
+            "test_package/tests.data.test_package.test_module/SomeClass/static_function/result_2"
         ]
     },
     {
@@ -1126,7 +1112,7 @@ test_module_SomeClass_methods = [
             "test_package/tests.data.test_package.test_module/SomeClass/test_position/param5"
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/SomeClass/test_position/result_92_15_56"
+            "test_package/tests.data.test_package.test_module/SomeClass/test_position/result_1"
         ]
     }
 ]
@@ -1144,7 +1130,7 @@ test_module_NestedClass_methods = [
             "test_package/tests.data.test_package.test_module/SomeClass/NestedClass/nested_class_function/param_1",
         ],
         "results": [
-            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_124_41_48"
+            "test_package/tests.data.test_package.test_module/SomeClass/_some_function/result_1"
         ]
     }
 ]

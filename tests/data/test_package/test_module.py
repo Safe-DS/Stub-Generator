@@ -11,6 +11,7 @@ import mypy
 # noinspection PyUnresolvedReferences
 from docstring_parser import *
 
+from . import YetAnotherClass, yet_another_function
 from .another_path.another_module import AnotherClass
 from .another_path.another_module import AnotherClass as _AcImportAlias
 
@@ -26,6 +27,7 @@ def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -
 
 
 def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
+    yet_another_function()
     return AnotherClass()
 
 
@@ -87,7 +89,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         return ac_alias()
 
     @staticmethod
-    def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
+    def static_function(param_1: bool, param_2: int | YetAnotherClass = 123456) -> tuple[bool, int]:
         """Function Docstring"""
         return param_1, param_2
 
@@ -97,7 +99,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         return param1 + self.something - param5
 
     @staticmethod
-    def multiple_results(param_1: int) -> Any:
+    def multiple_results(param_1: int) -> Any | tuple[int, str]:
         """Function Docstring"""
         if param_1 == 1:
             return 99
@@ -126,7 +128,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         return
 
     class NestedClass(_AcImportAlias, mypy):
-        def nested_class_function(self, param_1: int) -> bool | None:
+        def nested_class_function(self, param_1: int) -> set[bool | None]:
             pass
 
 
