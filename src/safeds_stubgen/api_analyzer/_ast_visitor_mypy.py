@@ -16,7 +16,9 @@ from mypy.nodes import (
     NameExpr,
     StrExpr,
 )
-from mypy.types import get_proper_type, Instance
+from mypy.types import Instance, ProperType
+import mypy.types as mp_types
+import safeds_stubgen.api_analyzer._types as sds_types
 
 from ._api import (
     API,
@@ -41,6 +43,7 @@ from safeds_stubgen.docstring_parsing import (
     ParameterDocstring,
     ResultDocstring
 )
+from ._types import AbstractType
 
 
 # Todo Docstring / description & Reexport field handling
@@ -50,7 +53,7 @@ class MyPyAstVisitor:
         self.reexported: dict[str, list[str]] = {}
         self.api: API = api
         self.__declaration_stack: list[
-            Module | Class | Function | Enum | list[Attribute | EnumInstance] | Result
+            Module | Class | Function | Enum | list[Attribute | EnumInstance | Result]
         ] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
@@ -176,16 +179,7 @@ class MyPyAstVisitor:
             arguments = self.parse_parameter_data(node, function_id)
 
         # Create results
-        ret_type = "Any"
-        if getattr(node, "type", None):
-            ret_type = str(node.type.ret_type)
-
-        result = Result(
-            id=f"{function_id}/result",
-            type=ret_type,
-            name="result",
-            docstring=ResultDocstring("")
-        )
+        results = self.create_result(node, function_id)
 
         # Create and add Function to stack
         function = Function(
@@ -194,7 +188,7 @@ class MyPyAstVisitor:
             docstring=docstring if docstring is not None else FunctionDocstring(),
             is_public=is_public,
             is_static=is_static,
-            result=result,
+            results=results,
             reexported_by=self.reexported.get(qname, []),
             parameters=arguments,
         )
@@ -208,9 +202,9 @@ class MyPyAstVisitor:
         if len(self.__declaration_stack) > 0:
             parent = self.__declaration_stack[-1]
 
-            # Add the data of the function and its result to the API class
+            # Add the data of the function and its results to the API class
             self.api.add_function(function)
-            self.api.add_result(function.result)
+            self.api.add_results(function.results)
 
             for parameter in function.parameters:
                 self.api.add_parameter(parameter)
@@ -317,6 +311,37 @@ class MyPyAstVisitor:
 
     # ############################## Utilities ############################## #
 
+    # #### Result Utilities
+
+    def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
+        ret_type = None
+        # Todo Frage: Was für ein Typ wenn kein Typ Hint? Any oder None? Aktuell setze ich das Feld leer auf None
+        if getattr(node, "type", None):
+            ret_type = self.mypy_type_to_abstract_type(node.type.ret_type)
+
+        results = []
+        if isinstance(ret_type, sds_types.TupleType):
+            for i, type_ in enumerate(ret_type.types):
+                name = f"result_{i}"
+                results.append(Result(
+                    id=f"{function_id}/{name}",
+                    type=ret_type,
+                    name=name,
+                    docstring=ResultDocstring("")
+                ))
+        else:
+            name = "result_1"
+            results.append(Result(
+                id=f"{function_id}/{name}",
+                type=ret_type,
+                name=name,
+                docstring=ResultDocstring("")
+            ))
+
+        return results
+
+    # #### Attribute Utilities
+
     def parse_attributes(self, lvalue: NameExpr | MemberExpr, is_static=True) -> list[Attribute]:
         attributes: list[Attribute] = []
 
@@ -361,33 +386,38 @@ class MyPyAstVisitor:
         if (qname == name or qname == "") and attribute.node is not None:
             qname = attribute.node.fullname
 
-        # Todo Type parsing of get_proper_type result
         # Check if there is a type hint and get its value
         attribute_type: Instance | None = None
         if isinstance(attribute, MemberExpr):
             if not attribute.node.is_inferred:
-                attribute_type: Instance = get_proper_type(attribute.node.type)
+                attribute_type: Instance = attribute.node.type
         elif isinstance(attribute, NameExpr):
             if not attribute.node.explicit_self_type:
-                attribute_type: Instance = get_proper_type(attribute.node.type)
+                attribute_type: Instance = attribute.node.type
         else:
             raise ValueError("Attribute has an unexpected type.")
+
+        type_ = None
+        if attribute_type is not None:
+            type_ = self.mypy_type_to_abstract_type(attribute_type)
 
         return Attribute(
             id=self.__get_id(name),
             name=name,
-            type=str(attribute_type),
+            type=type_,
             is_public=self.is_public(name, qname),
             is_static=is_static,
             description=""
         )
+
+    # #### Parameter Utilities
 
     def parse_parameter_data(self, node: FuncDef, function_id: str) -> list[Parameter]:
         arguments: list[Parameter] = []
 
         for argument in node.arguments:
             arg_name = argument.variable.name
-            arg_type = argument.variable.type
+            arg_type = self.mypy_type_to_abstract_type(argument.variable.type)
             arg_kind = self.get_argument_kind(argument)
 
             default_value = None
@@ -416,7 +446,7 @@ class MyPyAstVisitor:
                 default_value=default_value,
                 assigned_by=arg_kind,
                 docstring=ParameterDocstring(),
-                type=str(arg_type)
+                type=arg_type
             ))
 
         return arguments
@@ -437,6 +467,76 @@ class MyPyAstVisitor:
             return ParameterAssignment.NAMED_VARARG
         else:
             raise ValueError("Could not find an appropriate parameter assignment.")
+
+    # #### Misc. Utilities
+
+    def mypy_type_to_abstract_type(self, mypy_type: Instance | ProperType) -> AbstractType:
+        types = []
+
+        # Iterable mypy types
+        if isinstance(mypy_type, mp_types.TupleType):
+            for item in mypy_type.items:
+                types.append(
+                    self.mypy_type_to_abstract_type(item)
+                )
+            return sds_types.TupleType(types=types)
+        elif isinstance(mypy_type, mp_types.UnionType):
+            for item in mypy_type.items:
+                types.append(
+                    self.mypy_type_to_abstract_type(item)
+                )
+            return sds_types.UnionType(types=types)
+
+        # Special Cases
+        # Todo Frage: Wie gehen wir mit Any Types um? Ignorieren?
+        elif isinstance(mypy_type, mp_types.AnyType):
+            return sds_types.NamedType(name="Any")
+        elif isinstance(mypy_type, mp_types.NoneType):
+            return sds_types.NamedType(name="None")
+        elif isinstance(mypy_type, mp_types.UnboundType):
+            # Todo Import aliasing auflösen
+            return sds_types.NamedType(name=mypy_type.name)
+
+        # Builtins
+        elif isinstance(mypy_type, Instance):
+            type_name = mypy_type.type.name
+            if type_name in ["int", "str", "bool", "float"]:
+                return sds_types.NamedType(name=type_name)
+            elif type_name == "tuple":
+                return sds_types.TupleType(types=[])
+            elif type_name == "list":
+                for arg in mypy_type.args:
+                    types.append(
+                        self.mypy_type_to_abstract_type(arg)
+                    )
+                return sds_types.ListType(types=types)
+            elif type_name == "set":
+                for arg in mypy_type.args:
+                    types.append(
+                        self.mypy_type_to_abstract_type(arg)
+                    )
+                return sds_types.SetType(types=types)
+            elif type_name == "dict":
+                key_type = None
+                value_type = None
+                value_types = []
+                for i, arg in enumerate(mypy_type.args):
+                    if i == 1:
+                        key_type = self.mypy_type_to_abstract_type(arg)
+                    else:
+                        value_types.append(
+                            self.mypy_type_to_abstract_type(arg)
+                        )
+
+                if len(value_types) == 1:
+                    value_type = value_types[0]
+                elif len(value_types) >= 2:
+                    value_type = sds_types.UnionType(types=value_types)
+
+                return sds_types.DictType(key_type=key_type, value_type=value_type)
+            else:
+                return sds_types.NamedType(name=type_name)
+        raise ValueError("Unexpected type.")
 
     # Todo Test function after implementing reexported functionalities
     def is_public(self, name: str, qualified_name: str) -> bool:

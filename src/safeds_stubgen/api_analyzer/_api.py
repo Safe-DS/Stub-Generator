@@ -5,17 +5,9 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from mypy.nodes import ArgKind
-from mypy.types import ProperType, UnboundType
-
 from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, \
     ResultDocstring
-from ._types import AbstractType, create_type
-
-
-# Todo type field überall anpassen und AbstractType als Klasse setzen
-# Todo Frage: Wie genau soll das Parsing von den aktuellen Strings ("Union[builtins.bool, list, ...]") aussehen?
-#  Besprochen war, dass wir die MyPy Typen übernehmen, aber MyPy übergibt Instanzen der Typen weiter
+from ._types import AbstractType
 
 
 if TYPE_CHECKING:
@@ -67,8 +59,9 @@ class API:
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
 
-    def add_result(self, result: Result) -> None:
-        self.results[result.id] = result
+    def add_results(self, results: list[Result]) -> None:
+        for result in results:
+            self.results[result.id] = result
 
     def add_enum_instance(self, enum_instance: EnumInstance) -> None:
         self.enum_instances[enum_instance.id] = enum_instance
@@ -327,7 +320,7 @@ class Attribute:
     name: str
     is_public: bool
     is_static: bool
-    type: str | None
+    type: AbstractType | None
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -336,12 +329,11 @@ class Attribute:
             "name": self.name,
             "is_public": self.is_public,
             "is_static": self.is_static,
-            "type": self.type,
+            "type": self.type.to_dict() if self.type is not None else None,
             "description": self.description,
         }
 
 
-# Todo Frage: Wie kann eine Funktion mehrere Results haben?
 @dataclass
 class Function:
     id: str
@@ -349,7 +341,7 @@ class Function:
     docstring: FunctionDocstring
     is_public: bool
     is_static: bool
-    result: Result
+    results: list[Result]
     reexported_by: list[str] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
 
@@ -362,7 +354,7 @@ class Function:
             "is_static": self.is_static,
             "reexported_by": self.reexported_by,
             "parameters": [parameter.id for parameter in self.parameters],
-            "result": self.result.id
+            "results": [result.id for result in self.results]
         }
 
 
@@ -374,7 +366,7 @@ class Parameter:
     default_value: str | bool | int | float | None
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring
-    type: str | None
+    type: AbstractType
 
     @property
     def is_required(self) -> bool:
@@ -382,7 +374,9 @@ class Parameter:
 
     @property
     def is_variadic(self) -> bool:
-        return self.assigned_by in (ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG)
+        return self.assigned_by in (
+            ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -392,7 +386,7 @@ class Parameter:
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_dict(),
-            "type": self.type
+            "type": self.type.to_dict()
         }
 
 
@@ -418,14 +412,14 @@ class ParameterAssignment(Enum):
 class Result:
     id: str
     name: str
-    type: str | None
+    type: AbstractType | None
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "type": self.type,
+            "type": self.type.to_dict() if self.type is not None else None,
             "docstring": self.docstring.to_dict(),
         }
 
