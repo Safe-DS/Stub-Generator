@@ -39,6 +39,7 @@ def get_api(
     walker = ASTWalker(callable_visitor)
 
     walkable_files = []
+    package_paths = []
     for file in package_files(root):
         logging.info(
             "Working on file {posix_path}",
@@ -50,40 +51,57 @@ def get_api(
             logging.info("Skipping test file")
             continue
 
-        # Todo check why we cant parse them
         if _is_init_file(file):
-            logging.info("Skipping init file")
+            # if a directory contains an __init__.py file it's a package
+            package_paths.append(
+                Path(file).parent
+            )
             continue
 
         walkable_files.append(file)
 
-    mypy_trees = _get_mypy_ast(walkable_files)
-
+    mypy_trees = _get_mypy_ast(walkable_files, package_paths, root)
     for tree in mypy_trees:
         walker.walk(tree)
 
     return callable_visitor.api
 
 
-def _get_mypy_ast(files: list[str]) -> list[MypyFile]:
+def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> list[MypyFile]:
+    # Build mypy checker
     mypyfiles, opt = mypy_main.process_options(files)
     opt.preserve_asts = True
     opt.fine_grained_incremental = True
     result = mypy_build.build(mypyfiles, options=opt)
 
+    # Check mypy data key root start
+    parts = root.parts
+    graph_keys = list(result.graph.keys())
+    root_start_after = 0
+    for i in range(len(parts)):
+        if '.'.join(parts[i:]) in graph_keys:
+            root_start_after = i
+            break
+
+    # Create the keys for getting the corresponding data
+    packages = [
+        ".".join(
+            package_path.parts[root_start_after:]
+        ).replace(".py", "")
+        for package_path in package_paths
+    ]
+
     modules = [
-        Path(file).parts[-1].replace(".py", "")
+        ".".join(
+            Path(file).parts[root_start_after:]
+        ).replace(".py", "")
         for file in files
     ]
 
-    mod_keys = [
-        key
-        for mod in modules
-        for key in list(result.graph.keys())
-        if key.endswith(mod)
-    ]
-
-    return [result.graph[mod_key].tree for mod_key in mod_keys]
+    # Get the needed data from mypy. The packages need to be checked first, since we have
+    # to get the reexported data first
+    all_paths = packages + modules
+    return [result.graph[path_key].tree for path_key in all_paths]
 
 
 def __module_name(root: Path, file: Path) -> str:

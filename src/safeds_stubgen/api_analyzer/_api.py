@@ -280,9 +280,9 @@ class Class:
     name: str
     superclasses: list[Class]
     is_public: bool
-    reexported_by: list[Module]
     docstring: ClassDocstring
     constructor: Function | None = None
+    reexported_by: list[Module] = field(default_factory=list)
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
     classes: list[Class] = field(default_factory=list)
@@ -293,9 +293,9 @@ class Class:
             "name": self.name,
             "superclasses": self.superclasses,
             "is_public": self.is_public,
-            "reexported_by": self.reexported_by,
             "description": self.docstring.description,
             "constructor": self.constructor.to_dict() if self.constructor is not None else None,
+            "reexported_by": [module.id for module in self.reexported_by],
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],
             "classes": [class_.id for class_ in self.classes]
@@ -342,7 +342,7 @@ class Function:
     is_public: bool
     is_static: bool
     results: list[Result]
-    reexported_by: list[str] = field(default_factory=list)
+    reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
@@ -352,9 +352,9 @@ class Function:
             "description": self.docstring.description,
             "is_public": self.is_public,
             "is_static": self.is_static,
-            "reexported_by": self.reexported_by,
+            "results": [result.id for result in self.results],
+            "reexported_by": [module.id for module in self.reexported_by],
             "parameters": [parameter.id for parameter in self.parameters],
-            "results": [result.id for result in self.results]
         }
 
 

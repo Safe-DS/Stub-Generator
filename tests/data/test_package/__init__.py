@@ -1,6 +1,4 @@
-from _yet_another_module import YetAnotherClass, yet_another_function
-
-__all__ = [
-    "YetAnotherClass",
-    "yet_another_function"
-]
+from _reexport_module_1 import YetAnotherReexportClass
+import _reexport_module_1 as reex_1
+from _reexport_module_2 import another_reexport_function
+from _reexport_module_3 import *

@@ -11,7 +11,6 @@ import mypy
 # noinspection PyUnresolvedReferences
 from docstring_parser import *
 
-from . import YetAnotherClass, yet_another_function
 from .another_path.another_module import AnotherClass
 from .another_path.another_module import AnotherClass as _AcImportAlias
 
@@ -27,7 +26,6 @@ def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -
 
 
 def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
-    yet_another_function()
     return AnotherClass()
 
 
@@ -89,7 +87,7 @@ class SomeClass(mathematics, AcDoubleAlias):
         return ac_alias()
 
     @staticmethod
-    def static_function(param_1: bool, param_2: int | YetAnotherClass = 123456) -> tuple[bool, int]:
+    def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
         """Function Docstring"""
         return param_1, param_2
 

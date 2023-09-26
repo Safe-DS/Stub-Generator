@@ -34,7 +34,6 @@ from ._api import (
     Result,
     WildcardImport,
 )
-from ._names import parent_qualified_name
 
 from safeds_stubgen.docstring_parsing import (
     AbstractDocstringParser,
@@ -46,18 +45,19 @@ from safeds_stubgen.docstring_parsing import (
 from ._types import AbstractType
 
 
-# Todo Docstring / description & Reexport field handling
+# Todo Docstring / description
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
-        self.reexported: dict[str, list[str]] = {}
+        self.reexported: dict[str, list[Module]] = {}
         self.api: API = api
         self.__declaration_stack: list[
             Module | Class | Function | Enum | list[Attribute | EnumInstance | Result]
         ] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
-        id_ = self.__get_id(node.name)
+        is_package = node.path.endswith("__init__.py")
+
         qualified_imports: list[QualifiedImport] = []
         wildcard_imports: list[WildcardImport] = []
         docstring = ""
@@ -96,14 +96,24 @@ class MyPyAstVisitor:
                     isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
+        if is_package:
+            name = "__init__"
+        else:
+            name = node.name
+        id_ = self.__get_id(name)
+
         # Remember module, so we can later add classes and global functions
         module = Module(
             id_=id_,
-            name=node.fullname,
+            name=name,
             docstring=docstring,
             qualified_imports=qualified_imports,
             wildcard_imports=wildcard_imports
         )
+
+        if is_package:
+            self.add_reexports(module)
+
         self.__declaration_stack.append(module)
 
     def leave_moduledef(self, _: MypyFile) -> None:
@@ -131,15 +141,17 @@ class MyPyAstVisitor:
             for superclass in node.base_type_exprs
         ]
 
+        # Get reexported data
+        reexported_by = self.get_reexported_by(name)
+
         # Remember class, so we can later add methods
         class_ = Class(
             id=id_,
             name=name,
             superclasses=superclasses,
             is_public=self.is_public(node.name, name),
-            reexported_by=self.reexported.get(name, []),
             docstring=docstring or ClassDocstring(),
-            constructor=None
+            reexported_by=reexported_by
         )
         self.__declaration_stack.append(class_)
 
@@ -160,12 +172,11 @@ class MyPyAstVisitor:
 
     def enter_funcdef(self, node: FuncDef) -> None:
         name = node.name
-        qname = node.fullname
         function_id = self.__get_id(name)
 
         docstring: FunctionDocstring | None = None
 
-        is_public = self.is_public(name, qname)
+        is_public = self.is_public(name, node.fullname)
         is_static = node.is_static
 
         for definition in node.body.body:
@@ -181,6 +192,9 @@ class MyPyAstVisitor:
         # Create results
         results = self.create_result(node, function_id)
 
+        # Get reexported data
+        reexported_by = self.get_reexported_by(name)
+
         # Create and add Function to stack
         function = Function(
             id=function_id,
@@ -189,7 +203,7 @@ class MyPyAstVisitor:
             is_public=is_public,
             is_static=is_static,
             results=results,
-            reexported_by=self.reexported.get(qname, []),
+            reexported_by=reexported_by,
             parameters=arguments,
         )
         self.__declaration_stack.append(function)
@@ -316,7 +330,7 @@ class MyPyAstVisitor:
 
     # ############################## Utilities ############################## #
 
-    # #### Result Utilities
+    # #### Result utilities
 
     def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
         ret_type = None
@@ -345,7 +359,7 @@ class MyPyAstVisitor:
 
         return results
 
-    # #### Attribute Utilities
+    # #### Attribute utilities
 
     def parse_attributes(self, lvalue: NameExpr | MemberExpr, is_static=True) -> list[Attribute]:
         attributes: list[Attribute] = []
@@ -415,7 +429,7 @@ class MyPyAstVisitor:
             description=""
         )
 
-    # #### Parameter Utilities
+    # #### Parameter utilities
 
     def parse_parameter_data(self, node: FuncDef, function_id: str) -> list[Parameter]:
         arguments: list[Parameter] = []
@@ -473,7 +487,47 @@ class MyPyAstVisitor:
         else:
             raise ValueError("Could not find an appropriate parameter assignment.")
 
-    # #### Misc. Utilities
+    # #### Reexport utilities
+
+    def get_reexported_by(self, name: str) -> list[Module]:
+        # Get the uppermost module and the path to the current node
+        parents = []
+        parent = None
+        i = 1
+        while not isinstance(parent, Module):
+            parent = self.__declaration_stack[-i]
+            parents.append(parent.name)
+            i += 1
+        path = list(reversed(parents)) + [name]
+
+        # Check if there is a reexport entry for each item in the path to the current module
+        reexported_by = set()
+        for i in range(len(path)):
+            reexport_name = ".".join(path[:i+1])
+            if reexport_name in self.reexported:
+                for mod in self.reexported[reexport_name]:
+                    reexported_by.add(mod)
+
+        return list(reexported_by)
+
+    def add_reexports(self, module: Module) -> None:
+        for qualified_import in module.qualified_imports:
+            name = qualified_import.qualified_name
+            if name in self.reexported:
+                if module not in self.reexported[name]:
+                    self.reexported[name].append(module)
+            else:
+                self.reexported[name] = [module]
+
+        for wildcard_import in module.wildcard_imports:
+            name = wildcard_import.module_name
+            if name in self.reexported:
+                if module not in self.reexported[name]:
+                    self.reexported[name].append(module)
+            else:
+                self.reexported[name] = [module]
+
+    # #### Misc. utilities
 
     def mypy_type_to_abstract_type(self, mypy_type: Instance | ProperType) -> AbstractType:
         types = []
@@ -543,7 +597,6 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name)
         raise ValueError("Unexpected type.")
 
-    # Todo Test function after implementing reexported functionalities
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
@@ -554,7 +607,7 @@ class MyPyAstVisitor:
         parent = self.__declaration_stack[-1]
         if isinstance(parent, Class):
             # Containing class is re-exported (always false if the current API element is not a method)
-            if parent_qualified_name(qualified_name) in self.reexported:
+            if parent.reexported_by:
                 return True
 
             if name == "__init__":
