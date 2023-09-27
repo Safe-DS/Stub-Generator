@@ -69,6 +69,9 @@ def get_api(
 
 
 def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> list[MypyFile]:
+    if not files:
+        raise ValueError("No files to analyse found.")
+
     # Build mypy checker
     mypyfiles, opt = mypy_main.process_options(files)
     opt.preserve_asts = True
