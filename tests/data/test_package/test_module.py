@@ -13,6 +13,7 @@ AcDoubleAlias = _AcImportAlias
 ac_alias = AnotherClass
 
 
+# noinspection PyUnusedLocal
 def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:
     """Docstring 1
     Docstring 2
@@ -61,15 +62,17 @@ class SomeClass(mathematics, AcDoubleAlias):
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
     mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
 
-    no_hint = 123  # is_new_def == True and node.is_inferred == True
-    yes_hint: float = "str"  # is_new_def == True and node.is_inferred == False
-    override_in_init: int  # is_new_def == True and node.is_inferred == False
+    no_hint = 123
+    yes_hint: float = "str"
+    override_in_init: int
 
+    # noinspection PyUnusedLocal
     def __init__(self, init_param_1):
         """Summary of the init description
         Full init description
         """
         self.init_attr: bool
+        # noinspection PyTypeChecker
         self._init_attr_private: float = "I'm a string"
         self.override_in_init: str
         no_class_attr: bool
