@@ -1,6 +1,6 @@
-import astroid
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
+from mypy import nodes
 
 from safeds_stubgen.api_analyzer import ParameterAssignment
 from ._abstract_docstring_parser import AbstractDocstringParser
@@ -22,10 +22,10 @@ class RestDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: astroid.FunctionDef | None = None
+        self.__cached_function_node: nodes.FuncDef | None = None
         self.__cached_docstring: DocstringParam | None = None
 
-    def get_class_documentation(self, class_node: astroid.ClassDef) -> ClassDocstring:
+    def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
         docstring_obj = parse_docstring(docstring, style=DocstringStyle.REST)
 
@@ -34,7 +34,7 @@ class RestDocParser(AbstractDocstringParser):
             full_docstring=docstring,
         )
 
-    def get_function_documentation(self, function_node: astroid.FunctionDef) -> FunctionDocstring:
+    def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
         docstring_obj = self.__get_cached_function_restdoc_string(function_node, docstring)
 
@@ -45,12 +45,12 @@ class RestDocParser(AbstractDocstringParser):
 
     def get_parameter_documentation(
         self,
-        function_node: astroid.FunctionDef,
+        function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
     ) -> ParameterDocstring:
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, astroid.ClassDef):
+        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
             docstring = get_full_docstring(function_node.parent)
         else:
             docstring = get_full_docstring(function_node)
@@ -70,8 +70,8 @@ class RestDocParser(AbstractDocstringParser):
             description=last_parameter_docstring_obj.description,
         )
 
-    def get_result_documentation(self, function_node: astroid.FunctionDef) -> ResultDocstring:
-        if function_node.name == "__init__" and isinstance(function_node.parent, astroid.ClassDef):
+    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
+        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
             docstring = get_full_docstring(function_node.parent)
         else:
             docstring = get_full_docstring(function_node)
@@ -88,7 +88,7 @@ class RestDocParser(AbstractDocstringParser):
             description=function_returns.description or "",
         )
 
-    def __get_cached_function_restdoc_string(self, function_node: astroid.FunctionDef, docstring: str) -> Docstring:
+    def __get_cached_function_restdoc_string(self, function_node: nodes.FuncDef, docstring: str) -> Docstring:
         """
         Return the RestDocString for the given function node.
 

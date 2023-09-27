@@ -1,15 +1,16 @@
 import inspect
 
-import astroid
 from docstring_parser import Docstring
+from mypy import nodes
 
 
-def get_full_docstring(declaration: astroid.ClassDef | astroid.FunctionDef) -> str:
+def get_full_docstring(declaration: nodes.ClassDef | nodes.FuncDef) -> str:
     """
     Return the full docstring of the given declaration.
 
     If no docstring is available, an empty string is returned. Indentation is cleaned up.
     """
+    # Todo fix for new mypy syntax
     doc_node = declaration.doc_node
     if doc_node is None:
         return ""

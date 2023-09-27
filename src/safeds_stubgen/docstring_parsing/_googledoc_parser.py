@@ -1,6 +1,6 @@
-import astroid
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
+from mypy import nodes
 
 from safeds_stubgen.api_analyzer import ParameterAssignment
 from ._abstract_docstring_parser import AbstractDocstringParser
@@ -16,16 +16,17 @@ from ._helpers import get_description, get_full_docstring
 
 class GoogleDocParser(AbstractDocstringParser):
     """
-    Parses documentation in the Googledoc format. See https://google.github.io/styleguide/pyguide.html#381-docstrings for more information.
+    Parses documentation in the Googledoc format. See https://google.github.io/styleguide/pyguide.html#381-docstrings
+    for more information.
 
     This class is not thread-safe. Each thread should create its own instance.
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: astroid.FunctionDef | None = None
+        self.__cached_function_node: nodes.FuncDef | None = None
         self.__cached_docstring: DocstringParam | None = None
 
-    def get_class_documentation(self, class_node: astroid.ClassDef) -> ClassDocstring:
+    def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
         docstring_obj = parse_docstring(docstring, style=DocstringStyle.GOOGLE)
 
@@ -34,7 +35,7 @@ class GoogleDocParser(AbstractDocstringParser):
             full_docstring=docstring,
         )
 
-    def get_function_documentation(self, function_node: astroid.FunctionDef) -> FunctionDocstring:
+    def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
         docstring_obj = self.__get_cached_function_googledoc_string(function_node, docstring)
 
@@ -45,12 +46,12 @@ class GoogleDocParser(AbstractDocstringParser):
 
     def get_parameter_documentation(
         self,
-        function_node: astroid.FunctionDef,
+        function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
     ) -> ParameterDocstring:
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, astroid.ClassDef):
+        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
             docstring = get_full_docstring(function_node.parent)
         else:
             docstring = get_full_docstring(function_node)
@@ -74,11 +75,11 @@ class GoogleDocParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        function_node: astroid.FunctionDef,
+        function_node: nodes.FuncDef,
         attribute_name: str,
     ) -> AttributeDocstring:
         # For constructors (__init__ functions) the attributes are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, astroid.ClassDef):
+        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
             docstring = get_full_docstring(function_node.parent)
         else:
             docstring = get_full_docstring(function_node)
@@ -100,8 +101,8 @@ class GoogleDocParser(AbstractDocstringParser):
             description=last_attribute_docstring_obj.description,
         )
 
-    def get_result_documentation(self, function_node: astroid.FunctionDef) -> ResultDocstring:
-        if function_node.name == "__init__" and isinstance(function_node.parent, astroid.ClassDef):
+    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
+        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
             docstring = get_full_docstring(function_node.parent)
         else:
             docstring = get_full_docstring(function_node)
@@ -115,7 +116,7 @@ class GoogleDocParser(AbstractDocstringParser):
 
         return ResultDocstring(type=function_returns.type_name or "", description=function_returns.description or "")
 
-    def __get_cached_function_googledoc_string(self, function_node: astroid.FunctionDef, docstring: str) -> Docstring:
+    def __get_cached_function_googledoc_string(self, function_node: nodes.FuncDef, docstring: str) -> Docstring:
         """
         Return the GoogleDocString for the given function node.
 
