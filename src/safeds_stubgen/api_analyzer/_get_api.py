@@ -9,12 +9,11 @@ from ._api import API
 from ._ast_walker import ASTWalker
 
 from ._ast_visitor_mypy import MyPyAstVisitor
-from ._file_filters import _is_test_file, _is_init_file
+from ._files import list_files
 from ._package_metadata import (
     distribution,
     distribution_version,
-    package_files,
-    package_root,
+    package_root
 )
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
@@ -28,7 +27,7 @@ def get_api(
     if root is None:
         root = package_root(package_name)
 
-    # Get dist data
+    # Get distribution data
     dist = distribution(package_name) or ""
     dist_version = distribution_version(dist) or ""
 
@@ -40,21 +39,23 @@ def get_api(
 
     walkable_files = []
     package_paths = []
-    for file in package_files(root):
+    for file in list_files(root, ".py"):
+        file_path = Path(file)
         logging.info(
             "Working on file {posix_path}",
             extra={"posix_path": file},
         )
 
-        # Todo klappt aktuell nicht mehr
-        if _is_test_file(file):
+        # Check if the current path is a test directory
+        if "test" in file_path.parts or "tests" in file_path.parts:
             logging.info("Skipping test file")
             continue
 
-        if _is_init_file(file):
+        # Check if the current file is an init file
+        if file_path.parts[-1] == "__init__.py":
             # if a directory contains an __init__.py file it's a package
             package_paths.append(
-                Path(file).parent
+                file_path.parent
             )
             continue
 
@@ -102,8 +103,3 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     # to get the reexported data first
     all_paths = packages + modules
     return [result.graph[path_key].tree for path_key in all_paths]
-
-
-def __module_name(root: Path, file: Path) -> str:
-    relative_path = file.relative_to(root.parent).as_posix()
-    return str(relative_path).replace(".py", "").replace("/", ".")
