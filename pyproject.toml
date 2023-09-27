@@ -19,7 +19,6 @@ generate-safeds-stubs = "safeds_stubgen.main:main"
 python = "^3.10,<3.12"
 mypy = "^1.4.1"
 docstring-parser = "^0.15"
-astroid = "^2.15.6"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.2.1"
