@@ -1,10 +1,10 @@
-from ._get_api import API, get_api
+from ._get_api import get_api
 from ._package_metadata import (
     distribution,
     distribution_version,
-    package_root,
+    package_root
 )
-from ._api import ParameterAssignment
+from ._api import API, ParameterAssignment
 
 __all__ = [
     "API",

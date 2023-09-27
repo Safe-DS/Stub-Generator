@@ -3,7 +3,7 @@ from docstring_parser import parse as parse_docstring
 from mypy import nodes
 
 from safeds_stubgen.api_analyzer import ParameterAssignment
-from safeds_stubgen.docstring_parsing import (
+from ._docstring import (
     ClassDocstring,
     FunctionDocstring,
     ParameterDocstring,
