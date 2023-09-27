@@ -339,6 +339,9 @@ class MyPyAstVisitor:
         if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
             ret_type = self.mypy_type_to_abstract_type(node.type.ret_type)
 
+        if ret_type is None:
+            return []
+
         results = []
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):

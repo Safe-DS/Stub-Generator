@@ -2,5 +2,5 @@ class AnotherReexportClass:
     pass
 
 
-def another_reexport_function():
+def reexported_function_2():
     pass

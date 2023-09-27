@@ -1,6 +1,6 @@
-class ThirdReexportClass:
+class _ThirdReexportClass:
     pass
 
 
-def third_reeported_function():
+def reexported_function_3():
     pass

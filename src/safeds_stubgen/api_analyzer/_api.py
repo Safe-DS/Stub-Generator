@@ -344,7 +344,7 @@ class Function:
     docstring: FunctionDocstring
     is_public: bool
     is_static: bool
-    results: list[Result]
+    results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
 

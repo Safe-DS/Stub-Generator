@@ -1,10 +1,10 @@
 class EpydocDocstringClass:
     """
-    A class with a vary of different methods for calculations.
+    A class with a variety of different methods for calculations. (Epydoc)
 
-    @ivar attr_1: Attribute of the calculator
+    @ivar attr_1: Attribute of the calculator. (Epydoc)
     @type attr_1: str
-    @param param_1: Parameter of the calculator
+    @param param_1: Parameter of the calculator. (Epydoc)
     @type param_1: str
     """
     attr_1: str
@@ -15,13 +15,13 @@ class EpydocDocstringClass:
     def epydoc_docstring_func(self, x: int, y: int) -> bool:
         """
         This function checks if the sum of x and y is less than the value 10
-        and returns True if it is.
+        and returns True if it is. (Epydoc)
 
-        @param x: First integer value for the calculation
+        @param x: First integer value for the calculation. (Epydoc)
         @type x: int
-        @param y: Second integer value for the calculation
+        @param y: Second integer value for the calculation. (Epydoc)
         @type y: int
-        @return: Checks if the sum of x and y is greater than 10
+        @return: Checks if the sum of x and y is greater than 10. (Epydoc)
         @rtype: bool
         """
         z = x + y
@@ -30,11 +30,11 @@ class EpydocDocstringClass:
 
 class RestDocstringClass:
     """
-    A class with a vary of different methods for calculations.
+    A class with a variety of different methods for calculations. (ReST)
 
-    :param attr_1: Attribute of the calculator
+    :param attr_1: Attribute of the calculator. (ReST)
     :type attr_1: str
-    :param param_1: Parameter of the calculator
+    :param param_1: Parameter of the calculator. (ReST)
     :type param_1: str
     """
     attr_1: str
@@ -45,13 +45,13 @@ class RestDocstringClass:
     def rest_docstring_func(self, x: int, y: int) -> bool:
         """
         This function checks if the sum of x and y is less than the value 10
-        and returns True if it is.
+        and returns True if it is. (ReST)
 
-        :param x: First integer value for the calculation
+        :param x: First integer value for the calculation. (ReST)
         :type x: int
-        :param y: Second integer value for the calculation
+        :param y: Second integer value for the calculation. (ReST)
         :type y: int
-        :returns: Checks if the sum of x and y is greater than 10
+        :returns: Checks if the sum of x and y is greater than 10. (ReST)
         :rtype: bool
         """
         z = x + y
@@ -59,19 +59,19 @@ class RestDocstringClass:
 
 
 class NumpyDocstringClass:
-    """A class that calculates stuff
+    """A class that calculates stuff. (Numpy)
 
-    A class with a vary of different methods for calculations.
+    A class with a variety of different methods for calculations. (Numpy)
 
     Attributes
     ----------
     attr_1 : str
-        Attribute of the calculator
+        Attribute of the calculator. (Numpy)
 
     Parameters
     ----------
     param_1 : str
-        Parameter of the calculator
+        Parameter of the calculator. (Numpy)
     """
     attr_1: str
 
@@ -79,37 +79,37 @@ class NumpyDocstringClass:
         pass
 
     def numpy_docstring_func(self, x: int, y: int) -> bool:
-        """Checks if the sum of two variables is over the value of 10.
+        """Checks if the sum of two variables is over the value of 10. (Numpy)
 
         This function checks if the sum of `x` and `y` is less than the value
-        10 and returns True if it is.
+        10 and returns True if it is. (Numpy)
 
         Parameters
         ----------
         x : int
-            First integer value for the calculation
+            First integer value for the calculation. (Numpy)
         y : int
-            Second integer value for the calculation
+            Second integer value for the calculation. (Numpy)
 
         Returns
         -------
         bool
-            Checks if the sum of `x` and `y` is greater than 10
+            Checks if the sum of `x` and `y` is greater than 10. (Numpy)
         """
         z = x + y
         return z < 10
 
 
 class GoogleDocstringClass:
-    """A class that calculates stuff
+    """A class that calculates stuff. (Google Style)
 
-    A class with a vary of different methods for calculations.
+    A class with a variety of different methods for calculations. (Google Style)
 
     Attributes:
-        attr_1 (str): Attribute of the calculator
+        attr_1 (str): Attribute of the calculator. (Google Style)
 
     Args:
-        param_1 (str): Parameter of the calculator
+        param_1 (str): Parameter of the calculator. (Google Style)
     """
     attr_1: str
 
@@ -117,18 +117,18 @@ class GoogleDocstringClass:
         pass
 
     def google_docstring_func(self, x: int, y: int) -> bool:
-        """Checks if the sum of two variables is over the value of 10.
+        """Checks if the sum of two variables is over the value of 10. (Google Style)
 
         This function checks if the sum of x and y is less than the value 10
-        and returns True if it is.
+        and returns True if it is. (Google Style)
 
         Args:
-            x (int): First integer value for the calculation
-            y (int): Second integer value for the calculation
+            x (int): First integer value for the calculation. (Google Style)
+            y (int): Second integer value for the calculation. (Google Style)
 
         Returns:
             bool: Checks if the sum of x and y is greater than 10 and returns
-                  a boolean value
+                  a boolean value. (Google Style)
         """
         z = x + y
         return z < 10
