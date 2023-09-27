@@ -1,5 +1,9 @@
-from types import NoneType
+from __future__ import annotations
 
+from types import NoneType
+from typing import TYPE_CHECKING
+
+import mypy.types as mp_types
 from mypy.nodes import (
     ArgKind,
     Argument,
@@ -17,8 +21,15 @@ from mypy.nodes import (
     StrExpr,
 )
 from mypy.types import Instance, ProperType
-import mypy.types as mp_types
+
 import safeds_stubgen.api_analyzer._types as sds_types
+from safeds_stubgen.docstring_parsing import (
+    AbstractDocstringParser,
+    ClassDocstring,
+    FunctionDocstring,
+    ParameterDocstring,
+    ResultDocstring,
+)
 
 from ._api import (
     API,
@@ -35,14 +46,8 @@ from ._api import (
     WildcardImport,
 )
 
-from safeds_stubgen.docstring_parsing import (
-    AbstractDocstringParser,
-    ClassDocstring,
-    FunctionDocstring,
-    ParameterDocstring,
-    ResultDocstring
-)
-from ._types import AbstractType
+if TYPE_CHECKING:
+    from ._types import AbstractType
 
 
 # Todo Docstring / description
@@ -53,7 +58,7 @@ class MyPyAstVisitor:
         self.api: API = api
         self.__declaration_stack: list[
             Module | Class | Function | Enum | list[Attribute | EnumInstance | Result]
-        ] = []
+            ] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
         is_package = node.path.endswith("__init__.py")
@@ -66,7 +71,7 @@ class MyPyAstVisitor:
         child_definitions = [
             _definition for _definition in node.defs
             if _definition.__class__.__name__ not in
-            ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
+               ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
         for definition in child_definitions:
@@ -74,7 +79,7 @@ class MyPyAstVisitor:
             if isinstance(definition, Import):
                 for import_name, import_alias in definition.ids:
                     qualified_imports.append(
-                        QualifiedImport(import_name, import_alias)
+                        QualifiedImport(import_name, import_alias),
                     )
 
             elif isinstance(definition, ImportFrom):
@@ -82,18 +87,18 @@ class MyPyAstVisitor:
                     qualified_imports.append(
                         QualifiedImport(
                             f"{definition.id}.{import_name}",
-                            import_alias
-                        )
+                            import_alias,
+                        ),
                     )
 
             elif isinstance(definition, ImportAll):
                 wildcard_imports.append(
-                    WildcardImport(definition.id)
+                    WildcardImport(definition.id),
                 )
 
             # Docstring
             elif isinstance(definition, ExpressionStmt) and \
-                    isinstance(definition.expr, StrExpr):
+                isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
         # If we are checking a package node.name will be the package name, but since we get import information from
@@ -110,7 +115,7 @@ class MyPyAstVisitor:
             name=name,
             docstring=docstring,
             qualified_imports=qualified_imports,
-            wildcard_imports=wildcard_imports
+            wildcard_imports=wildcard_imports,
         )
 
         if is_package:
@@ -153,7 +158,7 @@ class MyPyAstVisitor:
             superclasses=superclasses,
             is_public=self.is_public(node.name, name),
             docstring=docstring or ClassDocstring(),
-            reexported_by=reexported_by
+            reexported_by=reexported_by,
         )
         self.__declaration_stack.append(class_)
 
@@ -241,13 +246,13 @@ class MyPyAstVisitor:
         for definition in node.defs.body:
             # Docstring
             if isinstance(definition, ExpressionStmt) and \
-                    isinstance(definition.expr, StrExpr):
+                isinstance(definition.expr, StrExpr):
                 docstring = ClassDocstring(definition.expr.value, definition.expr.value)
 
         enum = Enum(
             id=id_,
             name=node.name,
-            docstring=docstring if docstring is not None else FunctionDocstring()
+            docstring=docstring if docstring is not None else FunctionDocstring(),
         )
         self.__declaration_stack.append(enum)
 
@@ -265,7 +270,7 @@ class MyPyAstVisitor:
                 parent.add_enum(enum)
 
     def enter_assignmentstmt(self, node: AssignmentStmt) -> None:
-        """Assignments are attributes or enum instances"""
+        """Assignments are attributes or enum instances."""
         parent = self.__declaration_stack[-1]
         assignments: list[Attribute | EnumInstance] = []
 
@@ -295,13 +300,13 @@ class MyPyAstVisitor:
                 for name in names:
                     assignments.append(EnumInstance(
                         id=f"{parent.id}/{name}",
-                        name=name
+                        name=name,
                     ))
 
         self.__declaration_stack.append(assignments)
 
     def leave_assignmentstmt(self, _: AssignmentStmt) -> None:
-        """Assignments are attributes or enum instances"""
+        """Assignments are attributes or enum instances."""
         assignments: list[Attribute | EnumInstance] = self.__declaration_stack.pop()
 
         if not isinstance(assignments, list):
@@ -309,7 +314,7 @@ class MyPyAstVisitor:
 
         if len(self.__declaration_stack) > 0:
             parent = self.__declaration_stack[-1]
-            assert isinstance(parent, (Function, Class, Enum))
+            assert isinstance(parent, Function | Class | Enum)
 
             for assignment in assignments:
                 if isinstance(assignment, Attribute):
@@ -350,7 +355,7 @@ class MyPyAstVisitor:
                     id=f"{function_id}/{name}",
                     type=ret_type,
                     name=name,
-                    docstring=ResultDocstring("")
+                    docstring=ResultDocstring(""),
                 ))
         else:
             name = "result_1"
@@ -358,7 +363,7 @@ class MyPyAstVisitor:
                 id=f"{function_id}/{name}",
                 type=ret_type,
                 name=name,
-                docstring=ResultDocstring("")
+                docstring=ResultDocstring(""),
             ))
 
         return results
@@ -373,17 +378,17 @@ class MyPyAstVisitor:
                 return attributes
 
             attributes.append(
-                self.create_attribute(lvalue, is_static)
+                self.create_attribute(lvalue, is_static),
             )
 
         elif hasattr(lvalue, "items"):
-            lvalues = [item for item in lvalue.items]
+            lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
                 if self.check_attribute_already_defined(lvalue_, lvalue_.name):
                     continue
 
                 attributes.append(
-                    self.create_attribute(lvalue_, is_static)
+                    self.create_attribute(lvalue_, is_static),
                 )
 
         return attributes
@@ -430,7 +435,7 @@ class MyPyAstVisitor:
             type=type_,
             is_public=self.is_public(name, qname),
             is_static=is_static,
-            description=""
+            description="",
         )
 
     # #### Parameter utilities
@@ -469,7 +474,7 @@ class MyPyAstVisitor:
                 default_value=default_value,
                 assigned_by=arg_kind,
                 docstring=ParameterDocstring(),
-                type=arg_type
+                type=arg_type,
             ))
 
         return arguments
@@ -502,12 +507,12 @@ class MyPyAstVisitor:
             parent = self.__declaration_stack[-i]
             parents.append(parent.name)
             i += 1
-        path = list(reversed(parents)) + [name]
+        path = [*list(reversed(parents)), name]
 
         # Check if there is a reexport entry for each item in the path to the current module
         reexported_by = set()
         for i in range(len(path)):
-            reexport_name = ".".join(path[:i+1])
+            reexport_name = ".".join(path[:i + 1])
             if reexport_name in self.reexported:
                 for mod in self.reexported[reexport_name]:
                     reexported_by.add(mod)
@@ -540,13 +545,13 @@ class MyPyAstVisitor:
         if isinstance(mypy_type, mp_types.TupleType):
             for item in mypy_type.items:
                 types.append(
-                    self.mypy_type_to_abstract_type(item)
+                    self.mypy_type_to_abstract_type(item),
                 )
             return sds_types.TupleType(types=types)
         elif isinstance(mypy_type, mp_types.UnionType):
             for item in mypy_type.items:
                 types.append(
-                    self.mypy_type_to_abstract_type(item)
+                    self.mypy_type_to_abstract_type(item),
                 )
             return sds_types.UnionType(types=types)
 
@@ -570,13 +575,13 @@ class MyPyAstVisitor:
             elif type_name == "list":
                 for arg in mypy_type.args:
                     types.append(
-                        self.mypy_type_to_abstract_type(arg)
+                        self.mypy_type_to_abstract_type(arg),
                     )
                 return sds_types.ListType(types=types)
             elif type_name == "set":
                 for arg in mypy_type.args:
                     types.append(
-                        self.mypy_type_to_abstract_type(arg)
+                        self.mypy_type_to_abstract_type(arg),
                     )
                 return sds_types.SetType(types=types)
             elif type_name == "dict":
@@ -588,7 +593,7 @@ class MyPyAstVisitor:
                         key_type = self.mypy_type_to_abstract_type(arg)
                     else:
                         value_types.append(
-                            self.mypy_type_to_abstract_type(arg)
+                            self.mypy_type_to_abstract_type(arg),
                         )
 
                 if len(value_types) == 1:
