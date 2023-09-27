@@ -1,12 +1,7 @@
 """Docstring of the some_class.py module"""
 import math as mathematics
-# noinspection PyUnresolvedReferences
-from enum import Enum
-# noinspection PyUnresolvedReferences
-from enum import Enum as _Enum
 from typing import *
 
-# noinspection PyUnresolvedReferences
 import mypy
 # noinspection PyUnresolvedReferences
 from docstring_parser import *
@@ -22,11 +17,11 @@ def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -
     """Docstring 1
     Docstring 2
     """
-    return ac_alias()
+    pass
 
 
 def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
-    return AnotherClass()
+    pass
 
 
 class SomeClass(mathematics, AcDoubleAlias):
@@ -83,47 +78,27 @@ class SomeClass(mathematics, AcDoubleAlias):
         """Function Docstring
         param_1: bool
         """
-        self.attr_2 = param_1
-        return ac_alias()
+        pass
 
     @staticmethod
     def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
         """Function Docstring"""
-        return param_1, param_2
+        pass
 
     def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
         """Function Docstring"""
-        self.something = param2 + param3
-        return param1 + self.something - param5
+        pass
 
     @staticmethod
     def multiple_results(param_1: int) -> Any | tuple[int, str]:
         """Function Docstring"""
-        if param_1 == 1:
-            return 99
-        elif param_1 == 2:
-            return False
-        elif param_1 == 3:
-            return None
-        elif param_1 == 4:
-            return 2.324
-        elif param_1 == 5:
-            return "some string"
-        elif param_1 == 6:
-            return _AcImportAlias()
-        elif param_1 == 7:
-            return [1, 2, 3, 4, 5]
-        elif param_1 == 8:
-            return {1: 1, 2: 2}
-        elif param_1 == 9:
-            return [x for x in [1, 2, 3]]
-        elif param_1 == 10:
-            return {1, 2, 3}
-        elif param_1 == 11:
-            return _AcImportAlias
-        elif param_1 == 12:
-            return True, _AcImportAlias(), 33
-        return
+        pass
+
+    def no_return_1(self):
+        pass
+
+    def no_return_2(self) -> None:
+        pass
 
     class NestedClass(_AcImportAlias, mypy):
         def nested_class_function(self, param_1: int) -> set[bool | None]:
@@ -148,24 +123,3 @@ class _PrivateClass:
 
         class NestedNestedPrivateClass:
             pass
-
-
-class TestEnum(Enum):
-    """Enum Docstring
-    Full Docstring Description
-    """
-    ONE = "first"
-    TWO = (2, 2)
-    THREE = 3
-    FOUR = FIVE = "forth and fifth"
-    SIX, SEVEN = ("sixth", 7)
-    EIGHT, NINE = "89"
-    TEN = _AcImportAlias()
-
-
-class EmptyEnum(_Enum):
-    """Nothing's here"""
-
-
-class AnotherTestEnum(_Enum, Enum):
-    ELEVEN = 11

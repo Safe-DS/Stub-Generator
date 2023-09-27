@@ -2,3 +2,4 @@ from _reexport_module_1 import YetAnotherReexportClass
 import _reexport_module_1 as reex_1
 from _reexport_module_2 import another_reexport_function
 from _reexport_module_3 import *
+from test_enums import _ReexportedEmptyEnum

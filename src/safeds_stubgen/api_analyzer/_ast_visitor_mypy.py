@@ -62,7 +62,7 @@ class MyPyAstVisitor:
         wildcard_imports: list[WildcardImport] = []
         docstring = ""
 
-        # We don't need to check functions and classes, since the ast walker will check them anyway
+        # We don't need to check functions, classes and assignments, since the ast walker will already check them
         child_definitions = [
             _definition for _definition in node.defs
             if _definition.__class__.__name__ not in
@@ -96,6 +96,8 @@ class MyPyAstVisitor:
                     isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
+        # If we are checking a package node.name will be the package name, but since we get import information from
+        # the __init__.py file we set the name to __init__
         if is_package:
             name = "__init__"
         else:
@@ -334,8 +336,7 @@ class MyPyAstVisitor:
 
     def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
         ret_type = None
-        # Todo Frage: Was für ein Typ wenn kein Typ Hint? Any oder None? Aktuell setze ich das Feld leer auf None
-        if getattr(node, "type", None):
+        if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
             ret_type = self.mypy_type_to_abstract_type(node.type.ret_type)
 
         results = []
