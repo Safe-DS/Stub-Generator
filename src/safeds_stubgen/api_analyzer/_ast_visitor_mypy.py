@@ -71,7 +71,7 @@ class MyPyAstVisitor:
         child_definitions = [
             _definition for _definition in node.defs
             if _definition.__class__.__name__ not in
-               ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
+            ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
         for definition in child_definitions:
@@ -97,8 +97,7 @@ class MyPyAstVisitor:
                 )
 
             # Docstring
-            elif isinstance(definition, ExpressionStmt) and \
-                isinstance(definition.expr, StrExpr):
+            elif isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
         # If we are checking a package node.name will be the package name, but since we get import information from
@@ -170,10 +169,7 @@ class MyPyAstVisitor:
         if len(self.__declaration_stack) > 0:
             parent = self.__declaration_stack[-1]
 
-            if isinstance(parent, Module):
-                self.api.add_class(class_)
-                parent.add_class(class_)
-            elif isinstance(parent, Class):
+            if isinstance(parent, (Module, Class)):
                 self.api.add_class(class_)
                 parent.add_class(class_)
 
@@ -245,8 +241,7 @@ class MyPyAstVisitor:
 
         for definition in node.defs.body:
             # Docstring
-            if isinstance(definition, ExpressionStmt) and \
-                isinstance(definition.expr, StrExpr):
+            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
                 docstring = ClassDocstring(definition.expr.value, definition.expr.value)
 
         enum = Enum(
@@ -284,10 +279,9 @@ class MyPyAstVisitor:
                     # If the function has no parent (and is therefore not a class method) ignore the attributes
                     grand_parent = None
 
-                if grand_parent is not None and isinstance(grand_parent, Class):
+                if grand_parent is not None and isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
                     # Ignore non instance attributes in __init__ classes
-                    if not isinstance(lvalue, NameExpr):
-                        assignments = self.parse_attributes(lvalue, is_static=False)
+                    assignments = self.parse_attributes(lvalue, is_static=False)
 
             elif isinstance(parent, Enum):
                 names = []
@@ -333,7 +327,7 @@ class MyPyAstVisitor:
                         parent.add_enum_instance(assignment)
 
                 else:
-                    raise ValueError("Unexpected value type for assignments")
+                    raise TypeError("Unexpected value type for assignments")
 
     # ############################## Utilities ############################## #
 
@@ -353,7 +347,7 @@ class MyPyAstVisitor:
                 name = f"result_{i + 1}"
                 results.append(Result(
                     id=f"{function_id}/{name}",
-                    type=ret_type,
+                    type=type_,
                     name=name,
                     docstring=ResultDocstring(""),
                 ))
@@ -411,7 +405,7 @@ class MyPyAstVisitor:
         # Get name and qname
         name = attribute.name
         qname = getattr(attribute, "fullname", "")
-        if (qname == name or qname == "") and attribute.node is not None:
+        if qname in (name, "") and attribute.node is not None:
             qname = attribute.node.fullname
 
         # Check if there is a type hint and get its value
@@ -423,7 +417,7 @@ class MyPyAstVisitor:
             if not attribute.node.explicit_self_type:
                 attribute_type: Instance = attribute.node.type
         else:
-            raise ValueError("Attribute has an unexpected type.")
+            raise TypeError("Attribute has an unexpected type.")
 
         type_ = None
         if attribute_type is not None:

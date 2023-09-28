@@ -2666,36 +2666,19 @@ results_test_module_SomeClass_static_function = [
     {
         "id": "test_package/test_module/SomeClass/static_function/result_1",
         "name": "result_1",
-        "type": {
-            "kind": "TupleType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "bool"
-                },
-                {
-                    "kind": "NamedType",
-                    "name": "int"
-                }
-            ]
-        },
+        "type":
+            {
+                "kind": "NamedType",
+                "name": "bool"
+            },
         "docstring": None
     },
     {
         "id": "test_package/test_module/SomeClass/static_function/result_2",
         "name": "result_2",
         "type": {
-            "kind": "TupleType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "bool"
-                },
-                {
-                    "kind": "NamedType",
-                    "name": "int"
-                }
-            ]
+            "kind": "NamedType",
+            "name": "int"
         },
         "docstring": None
     }
