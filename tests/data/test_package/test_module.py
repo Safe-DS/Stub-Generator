@@ -1,10 +1,11 @@
-"""Docstring of the some_class.py module"""
+"""Docstring of the some_class.py module."""
 import math as mathematics
-from typing import *
+from typing import *  # noqa: F403
 
 import mypy
+
 # noinspection PyUnresolvedReferences
-from docstring_parser import *
+from docstring_parser import *  # noqa: F403
 
 from .another_path.another_module import AnotherClass
 from .another_path.another_module import AnotherClass as _AcImportAlias
@@ -14,11 +15,11 @@ ac_alias = AnotherClass
 
 
 # noinspection PyUnusedLocal
-def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:
-    """Docstring 1
-    Docstring 2
+def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:  # noqa: ARG001
+    """Docstring 1.
+
+    Docstring 2.
     """
-    pass
 
 
 def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
@@ -26,9 +27,11 @@ def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
 
 
 class SomeClass(mathematics, AcDoubleAlias):
-    """Summary of the description
+    """Summary of the description.
+
     Full description
     """
+
     dict_attr_2: dict[str | int, None | _AcImportAlias]
 
     type_hint_public: int
@@ -50,7 +53,6 @@ class SomeClass(mathematics, AcDoubleAlias):
     list_attr_4: list[str, _AcImportAlias | int]
 
     dict_attr_1: dict
-    dict_attr_2: dict[str | int, None | _AcImportAlias]
     dict_attr_3: dict[str, int]
 
     bool_attr: bool
@@ -60,46 +62,44 @@ class SomeClass(mathematics, AcDoubleAlias):
     str_attr_with_none_value: str = None
 
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
-    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
+    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]  # noqa: RUF012
 
     no_hint = 123
     yes_hint: float = "str"
     override_in_init: int
 
     # noinspection PyUnusedLocal
-    def __init__(self, init_param_1):
-        """Summary of the init description
-        Full init description
+    def __init__(self, init_param_1):  # noqa: ARG002
+        """Summary of the init description.
+
+        Full init description.
         """
         self.init_attr: bool
         # noinspection PyTypeChecker
         self._init_attr_private: float = "I'm a string"
         self.override_in_init: str
-        no_class_attr: bool
+        no_class_attr: bool  # noqa: F842
 
     def _some_function(self, param_1: bool, param_2: ac_alias) -> ac_alias:
-        """Function Docstring
-        param_1: bool
-        """
-        pass
+        """Function Docstring.
+
+        param_1: bool.
+        """  # noqa: D401
 
     @staticmethod
     def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
-        """Function Docstring"""
-        pass
+        """Function Docstring."""  # noqa: D401
 
-    def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
-        """Function Docstring"""
-        pass
+    def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:  # noqa: B008, F405
+        """Function Docstring."""
 
     @staticmethod
     def test_params(*args, **kwargs):
         pass
 
     @staticmethod
-    def multiple_results(param_1: int) -> Any | tuple[int, str]:
-        """Function Docstring"""
-        pass
+    def multiple_results(param_1: int) -> Any | tuple[int, str]:  # noqa: F405
+        """Function Docstring."""  # noqa: D401
 
     def no_return_1(self):
         pass

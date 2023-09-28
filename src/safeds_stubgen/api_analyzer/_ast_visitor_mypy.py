@@ -169,7 +169,7 @@ class MyPyAstVisitor:
         if len(self.__declaration_stack) > 0:
             parent = self.__declaration_stack[-1]
 
-            if isinstance(parent, (Module, Class)):
+            if isinstance(parent, Module | Class):
                 self.api.add_class(class_)
                 parent.add_class(class_)
 
@@ -265,7 +265,7 @@ class MyPyAstVisitor:
                 parent.add_enum(enum)
 
     def enter_assignmentstmt(self, node: AssignmentStmt) -> None:
-        """Assignments are attributes or enum instances."""
+        # Assignments are attributes or enum instances
         parent = self.__declaration_stack[-1]
         assignments: list[Attribute | EnumInstance] = []
 
@@ -300,7 +300,7 @@ class MyPyAstVisitor:
         self.__declaration_stack.append(assignments)
 
     def leave_assignmentstmt(self, _: AssignmentStmt) -> None:
-        """Assignments are attributes or enum instances."""
+        # Assignments are attributes or enum instances
         assignments: list[Attribute | EnumInstance] = self.__declaration_stack.pop()
 
         if not isinstance(assignments, list):
@@ -550,7 +550,6 @@ class MyPyAstVisitor:
             return sds_types.UnionType(types=types)
 
         # Special Cases
-        # Todo Frage: Wie gehen wir mit Any Types um? Ignorieren?
         elif isinstance(mypy_type, mp_types.AnyType):
             return sds_types.NamedType(name="Any")
         elif isinstance(mypy_type, mp_types.NoneType):
@@ -600,10 +599,9 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name)
         raise ValueError("Unexpected type.")
 
-    # Todo Frage: Wann gilt eine Klasse / Function als public / privat, wenn reexportiert wird?
-    #  How do we handle the names in the self.reexpoted list? (qualified_name does not work)
+    # Todo How do we handle the names in the self.reexpoted list? (qualified_name does not work) -> id statt qname
+    # Todo Test Daten anpassen, wenn _ dann immer private
     def is_public(self, name: str, qualified_name: str) -> bool:
-        # Todo Frage: Dieser check sollte erst später kommen, da reexportierte Funk. und Klassen public wären
         if name.startswith("_") and not name.endswith("__"):
             return False
 

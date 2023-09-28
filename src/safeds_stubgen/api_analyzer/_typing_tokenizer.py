@@ -1,10 +1,11 @@
+from __future__ import annotations
+
 from enum import Enum
 from typing import Final, Literal
 
 
 # Todo Zweiten Tokenizer für Docstrings
 #  Siehe Griffe, hat auch einen Tokenizer
-
 class TypingTokenType(Enum):
     """Token Enum."""
 

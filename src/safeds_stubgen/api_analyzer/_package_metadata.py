@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import importlib
 from importlib.metadata import packages_distributions, version
 from pathlib import Path

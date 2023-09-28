@@ -18,6 +18,7 @@ from ._helpers import get_description, get_full_docstring
 if TYPE_CHECKING:
     from safeds_stubgen.api_analyzer import ParameterAssignment
 
+
 class NumpyDocParser(AbstractDocstringParser):
     """
     Parse documentation in the NumpyDoc format.

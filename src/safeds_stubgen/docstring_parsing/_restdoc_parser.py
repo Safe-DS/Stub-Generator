@@ -20,10 +20,9 @@ if TYPE_CHECKING:
 
 
 class RestDocParser(AbstractDocstringParser):
-    """
-    Parses documentation in the Restdoc format. See
-    https://spring.io/projects/spring-restdocs#samples for more information.
+    """Parses documentation in the Restdoc format.
 
+    See https://spring.io/projects/spring-restdocs#samples for more information.
     This class is not thread-safe. Each thread should create its own instance.
     """
 

@@ -1,9 +1,12 @@
+from __future__ import annotations
+
 import argparse
 import logging
 from pathlib import Path
 
-from ._docstring_style import DocstringStyle
 from safeds_stubgen.api_analyzer import get_api
+
+from ._docstring_style import DocstringStyle
 
 
 def cli() -> None:

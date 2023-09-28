@@ -1,9 +1,9 @@
 """Parsing docstrings into a common format."""
 
-from ._create_docstring_parser import create_docstring_parser
-from ._docstring_style import DocstringStyle
-from ._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
 from ._abstract_docstring_parser import AbstractDocstringParser
+from ._create_docstring_parser import create_docstring_parser
+from ._docstring import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+from ._docstring_style import DocstringStyle
 
 __all__ = [
     "AbstractDocstringParser",
@@ -12,5 +12,5 @@ __all__ = [
     "DocstringStyle",
     "FunctionDocstring",
     "ParameterDocstring",
-    "ResultDocstring"
+    "ResultDocstring",
 ]

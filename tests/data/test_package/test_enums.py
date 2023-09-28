@@ -1,12 +1,15 @@
 from enum import Enum
 from enum import Enum as _Enum
+
 from .another_path.another_module import AnotherClass as _AcImportAlias
 
 
 class TestEnum(Enum):
-    """Enum Docstring
+    """Enum Docstring.
+
     Full Docstring Description
     """
+
     ONE = "first"
     TWO = (2, 2)
     THREE = 3
@@ -17,7 +20,7 @@ class TestEnum(Enum):
 
 
 class _ReexportedEmptyEnum(_Enum):
-    """Nothing's here"""
+    """Nothing's here."""
 
 
 class AnotherTestEnum(_Enum, Enum):

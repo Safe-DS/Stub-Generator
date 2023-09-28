@@ -21,10 +21,9 @@ if TYPE_CHECKING:
 
 
 class GoogleDocParser(AbstractDocstringParser):
-    """
-    Parses documentation in the Googledoc format. See https://google.github.io/styleguide/pyguide.html#381-docstrings
-    for more information.
+    """Parses documentation in the Googledoc format.
 
+    See https://google.github.io/styleguide/pyguide.html#381-docstrings for more information.
     This class is not thread-safe. Each thread should create its own instance.
     """
 

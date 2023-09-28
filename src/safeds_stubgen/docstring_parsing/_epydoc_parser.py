@@ -17,10 +17,11 @@ from ._helpers import get_description, get_full_docstring
 if TYPE_CHECKING:
     from safeds_stubgen.api_analyzer import ParameterAssignment
 
-class EpydocParser(AbstractDocstringParser):
-    """
-    Parses documentation in the Epydoc format. See https://epydoc.sourceforge.net/epytext.html for more information.
 
+class EpydocParser(AbstractDocstringParser):
+    """Parses documentation in the Epydoc format.
+
+    See https://epydoc.sourceforge.net/epytext.html for more information.
     This class is not thread-safe. Each thread should create its own instance.
     """
 

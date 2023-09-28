@@ -1,7 +1,9 @@
+from __future__ import annotations
+
 from collections.abc import Callable
 from typing import Any
 
-from mypy.nodes import FuncDef, ClassDef, Decorator, MypyFile, AssignmentStmt, ReturnStmt
+from mypy.nodes import AssignmentStmt, ClassDef, Decorator, FuncDef, MypyFile
 from mypy.traverser import all_return_statements
 
 _EnterAndLeaveFunctions = tuple[
@@ -53,7 +55,7 @@ class ASTWalker:
         child_nodes = [
             _def for _def in definitions
             if _def.__class__.__name__ in [
-                "AssignmentStmt", "FuncDef", "ClassDef", "Decorator"
+                "AssignmentStmt", "FuncDef", "ClassDef", "Decorator",
             ]
         ]
 
@@ -62,7 +64,7 @@ class ASTWalker:
             if isinstance(child_node, AssignmentStmt):
                 if isinstance(node, MypyFile):
                     continue
-                if isinstance(node, FuncDef) and not node.name == "__init__":
+                if isinstance(node, FuncDef) and node.name != "__init__":
                     continue
 
             self.__walk(child_node, visited_nodes)
