@@ -119,7 +119,7 @@ module_test_module = [{
 module_another_module = [{
     "id": "test_package/another_module",
     "name": "another_module",
-    "docstring": "Another Module Docstring\nFull Docstring Description\n",
+    "docstring": "Another Module Docstring.\n\nFull Docstring Description\n",
     "qualified_imports": [],
     "wildcard_imports": [],
     "classes": [

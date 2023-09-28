@@ -1,4 +1,5 @@
-"""Another Module Docstring
+"""Another Module Docstring.
+
 Full Docstring Description
 """
 
