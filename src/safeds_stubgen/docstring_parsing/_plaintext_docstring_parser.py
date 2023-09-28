@@ -1,6 +1,9 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from mypy import nodes
 
-from safeds_stubgen.api_analyzer import ParameterAssignment
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
     ClassDocstring,
@@ -8,6 +11,9 @@ from ._docstring import (
     ParameterDocstring,
 )
 from ._helpers import get_full_docstring
+
+if TYPE_CHECKING:
+    from safeds_stubgen.api_analyzer import ParameterAssignment
 
 
 class PlaintextDocstringParser(AbstractDocstringParser):

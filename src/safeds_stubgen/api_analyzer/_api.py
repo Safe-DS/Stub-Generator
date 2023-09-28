@@ -5,16 +5,12 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import TYPE_CHECKING, Any, TypeAlias
 
-from safeds_stubgen.docstring_parsing import (
-    ClassDocstring,
-    FunctionDocstring,
-    ParameterDocstring,
-    ResultDocstring
-)
-from ._types import AbstractType
-
 if TYPE_CHECKING:
     from pathlib import Path
+
+    from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+
+    from ._types import AbstractType
 
 API_SCHEMA_VERSION = 1
 
@@ -163,7 +159,7 @@ class API:
                     constructor=class_.constructor,
                     attributes=class_.attributes,
                     methods=class_.methods,
-                    classes=class_.classes
+                    classes=class_.classes,
                 )
                 for method in class_.methods:
                     if self.is_public_function(method.id):
@@ -224,7 +220,7 @@ class API:
 
 class Module:
     def __init__(
-        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None
+        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None,
     ):
         self.id: str = id_
         self.name: str = name
@@ -265,7 +261,7 @@ class QualifiedImport:
     def to_dict(self) -> dict[str, Any]:
         return {
             "qualified_name": self.qualified_name,
-            "alias": self.alias
+            "alias": self.alias,
         }
 
 
@@ -301,7 +297,7 @@ class Class:
             "reexported_by": [module.id for module in self.reexported_by],
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],
-            "classes": [class_.id for class_ in self.classes]
+            "classes": [class_.id for class_ in self.classes],
         }
 
     def add_method(self, method: Function) -> None:
@@ -378,7 +374,7 @@ class Parameter:
     @property
     def is_variadic(self) -> bool:
         return self.assigned_by in (
-            ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG
+            ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG,
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -389,7 +385,7 @@ class Parameter:
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
             "docstring": self.docstring.to_dict() if self.docstring is not None else None,
-            "type": self.type.to_dict()
+            "type": self.type.to_dict(),
         }
 
 
@@ -454,7 +450,7 @@ class EnumInstance:
     def to_dict(self):
         return {
             "id": self.id,
-            "name": self.name
+            "name": self.name,
         }
 
 

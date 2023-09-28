@@ -1,16 +1,21 @@
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
 from mypy import nodes
 
-from safeds_stubgen.api_analyzer import ParameterAssignment
+from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
     ClassDocstring,
     FunctionDocstring,
     ParameterDocstring,
 )
-from ._abstract_docstring_parser import AbstractDocstringParser
 from ._helpers import get_description, get_full_docstring
 
+if TYPE_CHECKING:
+    from safeds_stubgen.api_analyzer import ParameterAssignment
 
 class EpydocParser(AbstractDocstringParser):
     """
