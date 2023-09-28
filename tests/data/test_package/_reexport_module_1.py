@@ -1,5 +1,6 @@
 class ReexportClass:
-    def _private_class_method_of_reexported_class(self):
+    @staticmethod
+    def _private_class_method_of_reexported_class():
         pass
 
 

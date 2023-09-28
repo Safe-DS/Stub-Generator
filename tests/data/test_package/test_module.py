@@ -93,6 +93,10 @@ class SomeClass(mathematics, AcDoubleAlias):
         pass
 
     @staticmethod
+    def test_params(*args, **kwargs):
+        pass
+
+    @staticmethod
     def multiple_results(param_1: int) -> Any | tuple[int, str]:
         """Function Docstring"""
         pass

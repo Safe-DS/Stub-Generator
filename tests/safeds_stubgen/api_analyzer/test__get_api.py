@@ -73,6 +73,165 @@ def _assert_list_of_dicts(list_1: list[dict], list_2: list[dict]) -> None:
     assert list_1 == list_2
 
 
+# ############################## Module ############################## #
+module_test_module = [{
+    "id": "test_package/test_module",
+    "name": "test_module",
+    "docstring": "Docstring of the some_class.py module",
+    "qualified_imports": [
+        {
+            "qualified_name": "math",
+            "alias": "mathematics"
+        },
+        {
+            "qualified_name": "mypy",
+            "alias": None
+        },
+        {
+            "qualified_name": "another_path.another_module.AnotherClass",
+            "alias": None
+        },
+        {
+            "qualified_name": "another_path.another_module.AnotherClass",
+            "alias": "_AcImportAlias"
+        }
+    ],
+    "wildcard_imports": [
+        {
+            "module_name": "typing"
+        },
+        {
+            "module_name": "docstring_parser"
+        }
+    ],
+    "classes": [
+        "test_package/test_module/SomeClass",
+        "test_package/test_module/_PrivateClass"
+    ],
+    "functions": [
+        "test_package/test_module/global_func",
+        "test_package/test_module/_private_global_func"
+    ],
+    "enums": []
+}]
+
+module_another_module = [{
+    "id": "test_package/another_module",
+    "name": "another_module",
+    "docstring": "Another Module Docstring\nFull Docstring Description\n",
+    "qualified_imports": [],
+    "wildcard_imports": [],
+    "classes": [
+        "test_package/another_module/AnotherClass"
+    ],
+    "functions": [],
+    "enums": []
+}]
+
+module_test_enums = [{
+    "id": "test_package/test_enums",
+    "name": "test_enums",
+    "docstring": "",
+    "qualified_imports": [
+        {
+            "qualified_name": "enum.Enum",
+            "alias": None
+        },
+        {
+            "qualified_name": "enum.Enum",
+            "alias": "_Enum"
+        },
+        {
+            "qualified_name": "another_path.another_module.AnotherClass",
+            "alias": "_AcImportAlias"
+        }
+    ],
+    "wildcard_imports": [],
+    "classes": [],
+    "functions": [],
+    "enums": [
+        "test_package/test_enums/TestEnum",
+        "test_package/test_enums/_ReexportedEmptyEnum",
+        "test_package/test_enums/AnotherTestEnum"
+    ]
+}]
+
+module___init__ = [{
+    "id": "test_package/__init__",
+    "name": "__init__",
+    "docstring": "",
+    "qualified_imports": [
+        {
+            "qualified_name": "_reexport_module_1.ReexportClass",
+            "alias": None
+        },
+        {
+            "qualified_name": "_reexport_module_1",
+            "alias": "reex_1"
+        },
+        {
+            "qualified_name": "_reexport_module_2.reexported_function_2",
+            "alias": None
+        },
+        {
+            "qualified_name": "test_enums._ReexportedEmptyEnum",
+            "alias": None
+        }
+    ],
+    "wildcard_imports": [
+        {
+            "module_name": "_reexport_module_3"
+        }
+    ],
+    "classes": [],
+    "functions": [],
+    "enums": []
+}]
+
+
+@pytest.mark.parametrize(
+    ("module_name", "expected_module_data"),
+    [
+        (
+            _main_test_module_name,
+            module_test_module
+        ),
+        (
+            "another_module",
+            module_another_module
+        ),
+        (
+            "test_enums",
+            module_test_enums
+        ),
+        (
+            "__init__",
+            module___init__
+        )
+    ],
+    ids=[
+        f"Modules: {_main_test_module_name}",
+        "Modules: another_module",
+        "Modules: test_enums",
+        "Modules: __init__",
+    ]
+)
+def test_modules(
+    module_name: str,
+    expected_module_data: dict
+) -> None:
+    # Get class data
+    module_data: dict = _get_specific_module_data(module_name)
+
+    # Sort data before comparing
+    for data_pack in [expected_module_data, module_data]:
+        for entry_to_sort in ["enums", "functions", "classes", "wildcard_imports", "qualified_imports"]:
+            data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
+
+    # Assert
+    assert module_data == expected_module_data
+
+
 # ############################## Imports ############################## #
 imports_test_module_qualified_imports = [
     {
@@ -204,6 +363,7 @@ def test_imports(
 
 
 # ############################## Classes ############################## #
+# Todo Frage: Description for docstring __init__ methods -> Docstrings nötig? -> Schon für Klasse
 class_test_module_SomeClass = {
     "id": "test_package/test_module/SomeClass",
     "name": "SomeClass",
@@ -257,7 +417,10 @@ class_test_module_SomeClass = {
         "test_package/test_module/SomeClass/_some_function",
         "test_package/test_module/SomeClass/static_function",
         "test_package/test_module/SomeClass/test_position",
-        "test_package/test_module/SomeClass/multiple_results"
+        "test_package/test_module/SomeClass/test_params",
+        "test_package/test_module/SomeClass/multiple_results",
+        "test_package/test_module/SomeClass/no_return_1",
+        "test_package/test_module/SomeClass/no_return_2"
     ],
     "classes": [
         "test_package/test_module/SomeClass/NestedClass"
@@ -1427,8 +1590,8 @@ def test_global_functions(
     _assert_list_of_dicts(function_data, expected_function_data)
 
 
-# ############################## Class Methods ############################## # Todo reexported & docstring
-test_module_SomeClass_methods = [
+# ############################## Class Methods ############################## #
+class_methods_test_module_SomeClass = [
     {
         "id": "test_package/test_module/SomeClass/__init__",
         "name": "__init__",
@@ -1437,7 +1600,8 @@ test_module_SomeClass_methods = [
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "test_package/test_module/SomeClass/__init__/self"
+            "test_package/test_module/SomeClass/__init__/self",
+            "test_package/test_module/SomeClass/__init__/init_param_1"
         ],
         "results": []
     },
@@ -1468,7 +1632,7 @@ test_module_SomeClass_methods = [
             "test_package/test_module/SomeClass/multiple_results/param_1"
         ],
         "results": [
-            "test_package/test_module/SomeClass/multiple_results/result_1",
+            "test_package/test_module/SomeClass/multiple_results/result_1"
         ]
     },
     {
@@ -1505,10 +1669,47 @@ test_module_SomeClass_methods = [
         "results": [
             "test_package/test_module/SomeClass/test_position/result_1"
         ]
+    },
+    {
+        "id": "test_package/test_module/SomeClass/test_params",
+        "name": "test_params",
+        "description": "",
+        "is_public": True,
+        "is_static": True,
+        "reexported_by": [],
+        "parameters": [
+            "test_package/test_module/SomeClass/test_params/args",
+            "test_package/test_module/SomeClass/test_params/kwargs",
+        ],
+        "results": []
+    },
+    {
+        "id": "test_package/test_module/SomeClass/no_return_1",
+        "name": "no_return_1",
+        "description": "",
+        "is_public": True,
+        "is_static": False,
+        "reexported_by": [],
+        "parameters": [
+            "test_package/test_module/SomeClass/no_return_1/self",
+        ],
+        "results": []
+    },
+    {
+        "id": "test_package/test_module/SomeClass/no_return_2",
+        "name": "no_return_2",
+        "description": "",
+        "is_public": True,
+        "is_static": False,
+        "reexported_by": [],
+        "parameters": [
+            "test_package/test_module/SomeClass/no_return_2/self",
+        ],
+        "results": []
     }
 ]
 
-test_module_NestedClass_methods = [
+class_methods_test_module_NestedClass = [
     {
         "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function",
         "name": "nested_class_function",
@@ -1526,7 +1727,7 @@ test_module_NestedClass_methods = [
     }
 ]
 
-test_module__PrivateClass_methods = [
+class_methods_test_module__PrivateClass = [
     {
         "id": "test_package/test_module/_PrivateClass/__init__",
         "name": "__init__",
@@ -1554,7 +1755,7 @@ test_module__PrivateClass_methods = [
 
 ]
 
-test_module_NestedPrivateClass_methods = [
+class_methods_test_module_NestedPrivateClass = [
     {
         "id": "test_package/test_module/_PrivateClass/NestedPrivateClass/"
               "static_nested_private_class_function",
@@ -1569,7 +1770,93 @@ test_module_NestedPrivateClass_methods = [
 
 ]
 
-test_module_NestedNestedPrivateClass_methods = []
+class_methods_test_module_NestedNestedPrivateClass = []
+
+# Todo Frage: Wie reexportiert man Klassen Methoden? Ist diese Methode privat oder public?
+class_methods__reexport_module_1_ReexportClass = [{
+    "id": "test_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class",
+    "name": "_private_class_method_of_reexported_class",
+    "description": "",
+    "is_public": True,
+    "is_static": True,
+    "results": [],
+    "reexported_by": [
+        "test_package/__init__"
+    ],
+    "parameters": []
+}]
+
+class_methods_test_docstrings_EpydocDocstringClass = [{
+    "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func",
+    "name": "epydoc_docstring_func",
+    "description": "This function checks if the sum of x and y is less than the value 10 and "
+                   "returns True if it is. (Epydoc)",
+    "is_public": True,
+    "is_static": False,
+    "results": [
+        "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/result_1"
+    ],
+    "reexported_by": [],
+    "parameters": [
+        "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/self",
+        "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/x",
+        "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/y"
+    ]
+}]
+
+class_methods_test_docstrings_RestDocstringClass = [{
+    "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func",
+    "name": "rest_docstring_func",
+    "description": "This function checks if the sum of x and y is less than the value 10 "
+                   "and returns True if it is. (ReST)",
+    "is_public": True,
+    "is_static": False,
+    "results": [
+        "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/result_1"
+    ],
+    "reexported_by": [],
+    "parameters": [
+        "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/self",
+        "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/x",
+        "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/y"
+    ]
+}]
+
+class_methods_test_docstrings_NumpyDocstringClass = [{
+    "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func",
+    "name": "numpy_docstring_func",
+    "description": "This function checks if the sum of `x` and `y` is less than the value "
+                   "10 and returns True if it is. (Numpy)",
+    "is_public": True,
+    "is_static": False,
+    "results": [
+        "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/result_1"
+    ],
+    "reexported_by": [],
+    "parameters": [
+        "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/self",
+        "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/x",
+        "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/y"
+    ]
+}]
+
+class_methods_test_docstrings_GoogleDocstringClass = [{
+    "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func",
+    "name": "google_docstring_func",
+    "description": "This function checks if the sum of x and y is less than the value 10 "
+                   "and returns True if it is. (Google Style)",
+    "is_public": True,
+    "is_static": False,
+    "results": [
+        "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/result_1"
+    ],
+    "reexported_by": [],
+    "parameters": [
+        "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/self",
+        "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/x",
+        "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/y"
+    ]
+}]
 
 
 @pytest.mark.parametrize(
@@ -1577,23 +1864,43 @@ test_module_NestedNestedPrivateClass_methods = []
     [
         (
             "SomeClass",
-            test_module_SomeClass_methods
+            class_methods_test_module_SomeClass
         ),
         (
             "NestedClass",
-            test_module_NestedClass_methods
+            class_methods_test_module_NestedClass
         ),
         (
             "_PrivateClass",
-            test_module__PrivateClass_methods
+            class_methods_test_module__PrivateClass
         ),
         (
             "NestedPrivateClass",
-            test_module_NestedPrivateClass_methods
+            class_methods_test_module_NestedPrivateClass
         ),
         (
             "NestedNestedPrivateClass",
-            test_module_NestedNestedPrivateClass_methods
+            class_methods_test_module_NestedNestedPrivateClass
+        ),
+        (
+            "ReexportClass",
+            class_methods__reexport_module_1_ReexportClass
+        ),
+        (
+            "EpydocDocstringClass",
+            class_methods_test_docstrings_EpydocDocstringClass
+        ),
+        (
+            "RestDocstringClass",
+            class_methods_test_docstrings_RestDocstringClass
+        ),
+        (
+            "NumpyDocstringClass",
+            class_methods_test_docstrings_NumpyDocstringClass
+        ),
+        (
+            "GoogleDocstringClass",
+            class_methods_test_docstrings_GoogleDocstringClass
         )
     ],
     ids=[
@@ -1601,7 +1908,12 @@ test_module_NestedNestedPrivateClass_methods = []
         "Class Methods: NestedClass",
         "Class Methods: _PrivateClass",
         "Class Methods: NestedPrivateClass",
-        "Class Methods: NestedNestedPrivateClass"
+        "Class Methods: NestedNestedPrivateClass",
+        "Class Methods: ReexportClass",
+        "Class Methods: EpydocDocstringClass",
+        "Class Methods: RestDocstringClass",
+        "Class Methods: NumpyDocstringClass",
+        "Class Methods: GoogleDocstringClass",
     ]
 )
 def test_class_methods(
@@ -1631,194 +1943,250 @@ def test_class_methods(
     _assert_list_of_dicts(method_data, expected_method_data)
 
 
-# ############################## Function Parameters ############################## # Todo Adjust Test data!
-test_module_global_func = [
+# ############################## Function Parameters ############################## # Todo Docstrings
+func_params_test_module_global_func = [
     {
         "id": "test_package/test_module/global_func/param_1",
         "name": "param_1",
-        "default_value": {
-            "value": "first param"
-        },
-        "assigned_by": "ARG_OPT",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": "first param",
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
             "kind": "NamedType",
-            "name": "None"
+            "name": "str"
         }
     },
     {
         "id": "test_package/test_module/global_func/param_2",
         "name": "param_2",
-        "default_value": {
-            "value": None
-        },
-        "assigned_by": "ARG_OPT",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
-            "kind": "NamedType",
-            "name": "None"
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "AnotherClass"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "None"
+                }
+            ]
         }
     }
-
 ]
-test_module_SomeClass___init__ = [
-    {
-        "id": "test_package/test_module/SomeClass/__init__/self",
-        "name": "self",
-        "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
-        "type": {
-            "kind": "builtins",
-            "name": "None"
-        }
-    },
+
+func_params_test_module_SomeClass___init__ = [
     {
         "id": "test_package/test_module/SomeClass/__init__/init_param_1",
         "name": "init_param_1",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
-            "kind": "builtins",
-            "name": "None"
+            "kind": "NamedType",
+            "name": "Any"
+        }
+    },
+    {
+        "id": "test_package/test_module/SomeClass/__init__/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": None,
+        "type": {
+            "kind": "NamedType",
+            "name": "SomeClass"
         }
     }
 ]
-test_module_SomeClass_static_function = [
+
+func_params_test_module_SomeClass_static_function = [
     {
         "id": "test_package/test_module/SomeClass/static_function/param_1",
         "name": "param_1",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
-            "kind": "builtins",
-            "name": "None"
+            "kind": "NamedType",
+            "name": "bool"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/static_function/param_2",
         "name": "param_2",
-        "default_value": {
-            "value": 123456
-        },
-        "assigned_by": "ARG_OPT",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": 123456,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
-            "kind": "builtins",
-            "name": "None"
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "int"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "bool"
+                }
+            ]
         }
-    },
-
+    }
 ]
-test_module_SomeClass_test_position = [
+
+func_params_test_module_SomeClass_test_position = [
     {
         "id": "test_package/test_module/SomeClass/test_position/param1",
         "name": "param1",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "assigned_by": "POSITION_ONLY",
+        "docstring": None,
         "type": {
-            "kind": "builtins",
-            "name": "None"
+            "kind": "NamedType",
+            "name": "Any"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/test_position/param2",
         "name": "param2",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
-            "kind": "builtins",
-            "name": "None"
+            "kind": "NamedType",
+            "name": "bool"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/test_position/param3",
         "name": "param3",
-        "default_value": None,
-        "assigned_by": "ARG_POS",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": 1,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
         "type": {
             "kind": "NamedType",
-            "name": "None"
+            "name": "Any"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/test_position/param4",
         "name": "param4",
-        "default_value": "AnotherClass()",
-        "assigned_by": "ARG_NAMED",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": None,
+        "assigned_by": "NAME_ONLY",
+        "docstring": None,
         "type": {
             "kind": "NamedType",
-            "name": "None"
+            "name": "Any"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/test_position/param5",
         "name": "param5",
-        "default_value": {
-            "value": 1
-        },
-        "assigned_by": "ARG_NAMED_OPT",
-        "docstring": {
-            "type": "",
-            "default_value": "",
-            "description": ""
-        },
+        "is_optional": True,
+        "default_value": 1,
+        "assigned_by": "NAME_ONLY",
+        "docstring": None,
         "type": {
             "kind": "NamedType",
-            "name": "None"
+            "name": "int"
         }
     },
     {
         "id": "test_package/test_module/SomeClass/test_position/self",
         "name": "self",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
+        "assigned_by": "IMPLICIT",
+        "docstring": None,
+        "type": {
+            "kind": "NamedType",
+            "name": "SomeClass"
+        }
+    }
+]
+
+# Todo Check if types are correct
+func_params_test_module_SomeClass_test_params = [
+    {
+        "id": "test_package/test_module/SomeClass/test_params/args",
+        "name": "args",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITIONAL_VARARG",
+        "docstring": None,
+        "type": {
+            "kind": "TupleType",
+            "types": []
+        }
+    },
+    {
+        "id": "test_package/test_module/SomeClass/test_params/kwargs",
+        "name": "kwargs",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "NAMED_VARARG",
+        "docstring": None,
+        "type": {
+            "kind": "DictType",
+            "key_type": {
+                "kind": "NamedType",
+                "name": "Any"
+            },
+            "value_type": {
+                "kind": "NamedType",
+                "name": "str"
+            }
+        }
+    }
+]
+
+func_params_test_module_SomeClass_NestedClass_nested_class_function = [
+    {
+        "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1",
+        "name": "param_1",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": None,
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    },
+    {
+        "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": None,
+        "type": {
+            "kind": "NamedType",
+            "name": "NestedClass"
+        }
+    }
+]
+
+func_params_test_docstrings_EpydocDocstringClass_epydoc_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
         "docstring": {
             "type": "",
             "default_value": "",
@@ -1826,41 +2194,334 @@ test_module_SomeClass_test_position = [
         },
         "type": {
             "kind": "NamedType",
-            "name": "None"
+            "name": "EpydocDocstringClass"
         }
     },
+    {
+        "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/x",
+        "name": "x",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/y",
+        "name": "y",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    }
 ]
-test_module_SomeClass_NestedClass_nested_class_function = [
+
+func_params_test_docstrings_EpydocDocstringClass___init__ = [
     {
-        "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1",
+        "id": "test_package/test_docstrings/EpydocDocstringClass/__init__/param_1",
         "name": "param_1",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
+        "assigned_by": "POSITION_OR_NAME",
         "docstring": {
             "type": "",
             "default_value": "",
             "description": ""
         },
-        "types": [{
-            "kind": "builtins",
-            "name": "None"
-        }]
+        "type": {
+            "kind": "NamedType",
+            "name": "str"
+        }
     },
     {
-        "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function/self",
+        "id": "test_package/test_docstrings/EpydocDocstringClass/__init__/self",
         "name": "self",
+        "is_optional": False,
         "default_value": None,
-        "assigned_by": "ARG_POS",
+        "assigned_by": "IMPLICIT",
         "docstring": {
             "type": "",
             "default_value": "",
             "description": ""
         },
-        "types": [{
-            "kind": "builtins",
-            "name": "None"
-        }]
+        "type": {
+            "kind": "NamedType",
+            "name": "EpydocDocstringClass"
+        }
+    }
+]
+
+func_params_test_docstrings_RestDocstringClass_rest_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "RestDocstringClass"
+        }
     },
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/x",
+        "name": "x",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/y",
+        "name": "y",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    }
+]
+
+func_params_test_docstrings_RestDocstringClass___init__ = [
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/__init__/param_1",
+        "name": "param_1",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "str"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/__init__/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "RestDocstringClass"
+        }
+    }
+]
+
+func_params_test_docstrings_NumpyDocstringClass_numpy_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "NumpyDocstringClass"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/x",
+        "name": "x",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/y",
+        "name": "y",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    }
+]
+
+func_params_test_docstrings_NumpyDocstringClass___init__ = [
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/__init__/param_1",
+        "name": "param_1",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "str"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/__init__/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "NumpyDocstringClass"
+        }
+    }
+]
+
+func_params_test_docstrings_GoogleDocstringClass_google_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "GoogleDocstringClass"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/x",
+        "name": "x",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/y",
+        "name": "y",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "int"
+        }
+    }
+]
+
+func_params_test_docstrings_GoogleDocstringClass___init__ = [
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/__init__/param_1",
+        "name": "param_1",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "POSITION_OR_NAME",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "str"
+        }
+    },
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/__init__/self",
+        "name": "self",
+        "is_optional": False,
+        "default_value": None,
+        "assigned_by": "IMPLICIT",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
+        "type": {
+            "kind": "NamedType",
+            "name": "GoogleDocstringClass"
+        }
+    }
 ]
 
 
@@ -1870,31 +2531,65 @@ test_module_SomeClass_NestedClass_nested_class_function = [
         (
             "global_func",
             "",
-            test_module_global_func
+            func_params_test_module_global_func
         ),
         (
             "__init__",
             "SomeClass",
-            test_module_global_func
+            func_params_test_module_SomeClass___init__
         ),
         (
             "static_function",
             "SomeClass",
-            test_module_global_func
+            func_params_test_module_SomeClass_static_function
         ),
         (
             "test_position",
             "SomeClass",
-            test_module_global_func
+            func_params_test_module_SomeClass_test_position
+        ),
+        (
+            "test_params",
+            "SomeClass",
+            func_params_test_module_SomeClass_test_params
         ),
         (
             "nested_class_function",
             "NestedClass",
-            test_module_global_func
+            func_params_test_module_SomeClass_NestedClass_nested_class_function
+        ),
+        (
+            "epydoc_docstring_func",
+            "EpydocDocstringClass",
+            func_params_test_docstrings_EpydocDocstringClass_epydoc_docstring_func
+        ),
+        (
+            "rest_docstring_func",
+            "RestDocstringClass",
+            func_params_test_docstrings_RestDocstringClass_rest_docstring_func
+        ),
+        (
+            "numpy_docstring_func",
+            "NumpyDocstringClass",
+            func_params_test_docstrings_NumpyDocstringClass_numpy_docstring_func
+        ),
+        (
+            "google_docstring_func",
+            "GoogleDocstringClass",
+            func_params_test_docstrings_GoogleDocstringClass_google_docstring_func
         ),
     ],
     ids=[
-        "Function Parameters: xxxx"
+        "Function Parameters: global_func",
+        "Function Parameters: __init__",
+        "Function Parameters: static_function",
+        "Function Parameters: test_position",
+        "Function Parameters: test_params",
+        "Function Parameters: nested_class_function",
+        "Function Parameters: epydoc_docstring_func",
+        "Function Parameters: rest_docstring_func",
+        "Function Parameters: numpy_docstring_func",
+        "Function Parameters: google_docstring_func",
     ]
 )
 def test_function_parameters(
@@ -1904,11 +2599,11 @@ def test_function_parameters(
 ) -> None:
     # Get function data
     function_data: dict = _get_specific_function_data(function_name, parent_class_name)
-    function_parameter_ids: list[str] = function_data["methods"]
+    function_parameter_ids: list[str] = function_data["parameters"]
 
-    all_parameters: list[dict] = api_data["functions"]
+    all_parameters: list[dict] = api_data["parameters"]
 
-    # Sort out the functions we need
+    # Sort out the parameters we need
     parameter_data: list[dict] = [
         parameter
         for parameter in all_parameters
@@ -1924,11 +2619,185 @@ def test_function_parameters(
     _assert_list_of_dicts(parameter_data, expected_parameter_data)
 
 
-# ############################## Function Results ############################## # Todo
-results_test_module__private_global_func = []
-results_test_module_SomeClass_multiple_results = []
-results_test_module_SomeClass_test_position = []
-results_test_module_SomeClass_NestedClass_nested_class_function = []
+# ############################## Function Results ############################## # Todo Docstring
+results_test_module__private_global_func = [
+    {
+        "id": "test_package/test_module/global_func/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "AnotherClass"
+        },
+        "docstring": None
+    }
+]
+
+results_test_module_SomeClass_multiple_results = [
+    {
+        "id": "test_package/test_module/SomeClass/multiple_results/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "Any"
+                },
+                {
+                    "kind": "TupleType",
+                    "types": [
+                        {
+                            "kind": "NamedType",
+                            "name": "int"
+                        },
+                        {
+                            "kind": "NamedType",
+                            "name": "str"
+                        }
+                    ]
+                }
+            ]
+        },
+        "docstring": None
+    }
+]
+
+results_test_module_SomeClass_static_function = [
+    {
+        "id": "test_package/test_module/SomeClass/static_function/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "TupleType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "bool"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "int"
+                }
+            ]
+        },
+        "docstring": None
+    },
+    {
+        "id": "test_package/test_module/SomeClass/static_function/result_2",
+        "name": "result_2",
+        "type": {
+            "kind": "TupleType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "bool"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "int"
+                }
+            ]
+        },
+        "docstring": None
+    }
+]
+
+results_test_module_SomeClass_test_position = [
+    {
+        "id": "test_package/test_module/SomeClass/test_position/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "Any"
+        },
+        "docstring": None
+    }
+]
+
+results_test_module_SomeClass_NestedClass_nested_class_function = [
+    {
+        "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "SetType",
+            "types": [
+                {
+                    "kind": "UnionType",
+                    "types": [
+                        {
+                            "kind": "NamedType",
+                            "name": "bool"
+                        },
+                        {
+                            "kind": "NamedType",
+                            "name": "None"
+                        }
+                    ]
+                }
+            ]
+        },
+        "docstring": None
+    }
+]
+
+results_test_docstring_EpydocDocstringClass_epydoc_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "bool"
+        },
+        "docstring": {
+            "type": "",
+            "description": ""
+        }
+    }
+]
+
+results_test_docstring_RestDocstringClass_rest_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "bool"
+        },
+        "docstring": {
+            "type": "",
+            "description": ""
+        }
+    }
+]
+
+results_test_docstring_NumpyDocstringClass_numpy_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "bool"
+        },
+        "docstring": {
+            "type": "",
+            "description": ""
+        }
+    }
+]
+
+results_test_docstring_GoogleDocstringClass_google_docstring_func = [
+    {
+        "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/result_1",
+        "name": "result_1",
+        "type": {
+            "kind": "NamedType",
+            "name": "bool"
+        },
+        "docstring": {
+            "type": "",
+            "description": ""
+        }
+    }
+]
 
 
 @pytest.mark.parametrize(
@@ -1941,163 +2810,23 @@ def test_function_results(
     parent_class_name: str,
     expected_result_data: list[dict]
 ) -> None:
-    ...
+    # Get function data
+    function_data: dict = _get_specific_function_data(function_name, parent_class_name)
+    function_result_ids: list[str] = function_data["results"]
 
+    all_results: list[dict] = api_data["results"]
 
-# ############################## Module ############################## #
-module_test_module = [{
-    "id": "test_package/test_module",
-    "name": "test_module",
-    "docstring": "Docstring of the some_class.py module",
-    "qualified_imports": [
-        {
-            "qualified_name": "math",
-            "alias": "mathematics"
-        },
-        {
-            "qualified_name": "mypy",
-            "alias": None
-        },
-        {
-            "qualified_name": "another_path.another_module.AnotherClass",
-            "alias": None
-        },
-        {
-            "qualified_name": "another_path.another_module.AnotherClass",
-            "alias": "_AcImportAlias"
-        }
-    ],
-    "wildcard_imports": [
-        {
-            "module_name": "typing"
-        },
-        {
-            "module_name": "docstring_parser"
-        }
-    ],
-    "classes": [
-        "test_package/test_module/SomeClass",
-        "test_package/test_module/_PrivateClass"
-    ],
-    "functions": [
-        "test_package/test_module/global_func",
-        "test_package/test_module/_private_global_func"
-    ],
-    "enums": []
-}]
-
-module_another_module = [{
-    "id": "test_package/another_module",
-    "name": "another_module",
-    "docstring": "Another Module Docstring\nFull Docstring Description\n",
-    "qualified_imports": [],
-    "wildcard_imports": [],
-    "classes": [
-        "test_package/another_module/AnotherClass"
-    ],
-    "functions": [],
-    "enums": []
-}]
-
-module_test_enums = [{
-    "id": "test_package/test_enums",
-    "name": "test_enums",
-    "docstring": "",
-    "qualified_imports": [
-        {
-            "qualified_name": "enum.Enum",
-            "alias": None
-        },
-        {
-            "qualified_name": "enum.Enum",
-            "alias": "_Enum"
-        },
-        {
-            "qualified_name": "another_path.another_module.AnotherClass",
-            "alias": "_AcImportAlias"
-        }
-    ],
-    "wildcard_imports": [],
-    "classes": [],
-    "functions": [],
-    "enums": [
-        "test_package/test_enums/TestEnum",
-        "test_package/test_enums/_ReexportedEmptyEnum",
-        "test_package/test_enums/AnotherTestEnum"
+    # Sort out the results we need
+    result_data: list[dict] = [
+        result
+        for result in all_results
+        if result["id"] in function_result_ids
     ]
-}]
-
-module___init__ = [{
-    "id": "test_package/__init__",
-    "name": "__init__",
-    "docstring": "",
-    "qualified_imports": [
-        {
-            "qualified_name": "_reexport_module_1.ReexportClass",
-            "alias": None
-        },
-        {
-            "qualified_name": "_reexport_module_1",
-            "alias": "reex_1"
-        },
-        {
-            "qualified_name": "_reexport_module_2.reexported_function_2",
-            "alias": None
-        },
-        {
-            "qualified_name": "test_enums._ReexportedEmptyEnum",
-            "alias": None
-        }
-    ],
-    "wildcard_imports": [
-        {
-            "module_name": "_reexport_module_3"
-        }
-    ],
-    "classes": [],
-    "functions": [],
-    "enums": []
-}]
-
-
-@pytest.mark.parametrize(
-    ("module_name", "expected_module_data"),
-    [
-        (
-            _main_test_module_name,
-            class_test_module_SomeClass
-        ),
-        (
-            "another_module",
-            class_test_module_NestedClass
-        ),
-        (
-            "test_enums",
-            module_test_enums
-        ),
-        (
-            "__init__",
-            module___init__
-        )
-    ],
-    ids=[
-        f"Modules: {_main_test_module_name}",
-        "Modules: another_module",
-        "Modules: test_enums",
-        "Modules: __init__",
-    ]
-)
-def test_modules(
-    module_name: str,
-    expected_module_data: dict
-) -> None:
-    # Get class data
-    module_data: dict = _get_specific_module_data(module_name)
 
     # Sort data before comparing
-    for data_pack in [expected_module_data, module_data]:
-        for entry_to_sort in ["enums", "functions", "classes", "wildcard_imports", "qualified_imports"]:
-            data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
+    for data_set in [result_data, expected_result_data]:
+        for parameter in data_set:
+            parameter["types"] = _sort_list_of_dicts(parameter["types"], ["name"])
 
     # Assert
-    assert module_data == expected_module_data
+    _assert_list_of_dicts(result_data, expected_result_data)

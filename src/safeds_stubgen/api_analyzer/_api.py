@@ -368,7 +368,7 @@ class Parameter:
     is_optional: bool
     default_value: str | bool | int | float | None
     assigned_by: ParameterAssignment
-    docstring: ParameterDocstring
+    docstring: ParameterDocstring | None
     type: AbstractType
 
     @property
@@ -388,7 +388,7 @@ class Parameter:
             "is_optional": self.is_optional,
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
-            "docstring": self.docstring.to_dict(),
+            "docstring": self.docstring.to_dict() if self.docstring is not None else None,
             "type": self.type.to_dict()
         }
 
@@ -416,14 +416,14 @@ class Result:
     id: str
     name: str
     type: AbstractType | None
-    docstring: ResultDocstring
+    docstring: ResultDocstring | None
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
             "type": self.type.to_dict() if self.type is not None else None,
-            "docstring": self.docstring.to_dict(),
+            "docstring": self.docstring.to_dict() if self.docstring is not None else None,
         }
 
 

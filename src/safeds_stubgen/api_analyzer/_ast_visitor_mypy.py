@@ -1,5 +1,6 @@
 from types import NoneType
 
+import mypy.types as mp_types
 from mypy.nodes import (
     ArgKind,
     Argument,
@@ -17,9 +18,15 @@ from mypy.nodes import (
     StrExpr,
 )
 from mypy.types import Instance, ProperType
-import mypy.types as mp_types
-import safeds_stubgen.api_analyzer._types as sds_types
 
+import safeds_stubgen.api_analyzer._types as sds_types
+from safeds_stubgen.docstring_parsing import (
+    AbstractDocstringParser,
+    ClassDocstring,
+    FunctionDocstring,
+    ParameterDocstring,
+    ResultDocstring
+)
 from ._api import (
     API,
     Attribute,
@@ -34,14 +41,6 @@ from ._api import (
     Result,
     WildcardImport,
 )
-
-from safeds_stubgen.docstring_parsing import (
-    AbstractDocstringParser,
-    ClassDocstring,
-    FunctionDocstring,
-    ParameterDocstring,
-    ResultDocstring
-)
 from ._types import AbstractType
 
 
@@ -53,7 +52,7 @@ class MyPyAstVisitor:
         self.api: API = api
         self.__declaration_stack: list[
             Module | Class | Function | Enum | list[Attribute | EnumInstance | Result]
-        ] = []
+            ] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
         is_package = node.path.endswith("__init__.py")
@@ -66,7 +65,7 @@ class MyPyAstVisitor:
         child_definitions = [
             _definition for _definition in node.defs
             if _definition.__class__.__name__ not in
-            ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
+               ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
         for definition in child_definitions:
@@ -345,7 +344,7 @@ class MyPyAstVisitor:
         results = []
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):
-                name = f"result_{i}"
+                name = f"result_{i + 1}"
                 results.append(Result(
                     id=f"{function_id}/{name}",
                     type=ret_type,
@@ -507,7 +506,7 @@ class MyPyAstVisitor:
         # Check if there is a reexport entry for each item in the path to the current module
         reexported_by = set()
         for i in range(len(path)):
-            reexport_name = ".".join(path[:i+1])
+            reexport_name = ".".join(path[:i + 1])
             if reexport_name in self.reexported:
                 for mod in self.reexported[reexport_name]:
                     reexported_by.add(mod)
@@ -601,7 +600,10 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name)
         raise ValueError("Unexpected type.")
 
+    # Todo Frage: Wann gilt eine Klasse / Function als public / privat, wenn reexportiert wird?
+    #  How do we handle the names in the self.reexpoted list? (qualified_name does not work)
     def is_public(self, name: str, qualified_name: str) -> bool:
+        # Todo Frage: Dieser check sollte erst später kommen, da reexportierte Funk. und Klassen public wären
         if name.startswith("_") and not name.endswith("__"):
             return False
 
