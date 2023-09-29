@@ -1,7 +1,12 @@
-import inspect
+from __future__ import annotations
 
-from docstring_parser import Docstring
+import inspect
+from typing import TYPE_CHECKING
+
 from mypy import nodes
+
+if TYPE_CHECKING:
+    from docstring_parser import Docstring
 
 
 def get_full_docstring(declaration: nodes.ClassDef | nodes.FuncDef) -> str:
@@ -10,11 +15,21 @@ def get_full_docstring(declaration: nodes.ClassDef | nodes.FuncDef) -> str:
 
     If no docstring is available, an empty string is returned. Indentation is cleaned up.
     """
-    # Todo fix for new mypy syntax
-    doc_node = declaration.doc_node
-    if doc_node is None:
-        return ""
-    return inspect.cleandoc(doc_node.value)
+    from safeds_stubgen.api_analyzer import get_classdef_definitions, get_funcdef_definitions
+
+    if isinstance(declaration, nodes.ClassDef):
+        definitions = get_classdef_definitions(declaration)
+    elif isinstance(declaration, nodes.FuncDef):
+        definitions = get_funcdef_definitions(declaration)
+    else:
+        raise TypeError("Declaration is of wrong type.")
+
+    full_docstring = ""
+    for definition in definitions:
+        if isinstance(definition, nodes.ExpressionStmt) and isinstance(definition.expr, nodes.StrExpr):
+            full_docstring = definition.expr.value
+
+    return inspect.cleandoc(full_docstring)
 
 
 def get_description(docstring_obj: Docstring) -> str:

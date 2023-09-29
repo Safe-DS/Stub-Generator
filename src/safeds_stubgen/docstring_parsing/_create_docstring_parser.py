@@ -14,13 +14,13 @@ if TYPE_CHECKING:
 
 
 def create_docstring_parser(style: DocstringStyle) -> AbstractDocstringParser:
-    if style == DocstringStyle.EPYDOC:
+    if style.value == DocstringStyle.EPYDOC.value:
         return EpydocParser()
-    if style == DocstringStyle.GOOGLE:
+    elif style.value == DocstringStyle.GOOGLE.value:
         return GoogleDocParser()
-    if style == DocstringStyle.NUMPY:
+    elif style.value == DocstringStyle.NUMPY.value:
         return NumpyDocParser()
-    if style == DocstringStyle.REST:
+    elif style.value == DocstringStyle.REST.value:
         return RestDocParser()
     else:
         return PlaintextDocstringParser()

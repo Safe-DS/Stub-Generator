@@ -4,7 +4,8 @@ from collections.abc import Callable
 from typing import Any
 
 from mypy.nodes import AssignmentStmt, ClassDef, Decorator, FuncDef, MypyFile
-from mypy.traverser import all_return_statements
+
+from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 
 _EnterAndLeaveFunctions = tuple[
     Callable[[MypyFile | ClassDef | FuncDef], None] | None,
@@ -39,24 +40,21 @@ class ASTWalker:
 
         self.__enter(node)
 
-        definitions: list | set = []
+        definitions: list = []
         if isinstance(node, MypyFile):
-            definitions = node.defs
+            definitions = get_mypyfile_definitions(node)
         elif isinstance(node, ClassDef):
-            definitions = node.defs.body
+            definitions = get_classdef_definitions(node)
         elif isinstance(node, FuncDef):
-            definitions = set()
-            definitions.update(node.body.body)
-            # Some return statements can be hidden behind if statements, so we have to get them seperately
-            definitions.update(all_return_statements(node))
+            definitions = get_funcdef_definitions(node)
 
         # Skip other types, since we either get them through the ast_visitor, some other way or
         # don't need to parse them
         child_nodes = [
             _def for _def in definitions
-            if _def.__class__.__name__ in [
+            if _def.__class__.__name__ in {
                 "AssignmentStmt", "FuncDef", "ClassDef", "Decorator",
-            ]
+            }
         ]
 
         for child_node in child_nodes:
@@ -87,7 +85,7 @@ class ASTWalker:
         # Handle special cases
         if class_name == "classdef":
             for superclass in node.base_type_exprs:
-                if superclass.fullname == "enum.Enum":
+                if superclass.fullname in ("enum.Enum", "enum.IntEnum"):
                     class_name = "enumdef"
         elif class_name == "mypyfile":
             class_name = "moduledef"

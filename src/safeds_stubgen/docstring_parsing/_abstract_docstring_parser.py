@@ -6,13 +6,15 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from mypy import nodes
 
+    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+
     from ._docstring import (
+        AttributeDocstring,
         ClassDocstring,
         FunctionDocstring,
         ParameterDocstring,
+        ResultDocstring,
     )
-
-    from safeds_stubgen.api_analyzer import ParameterAssignment
 
 
 class AbstractDocstringParser(ABC):
@@ -30,5 +32,23 @@ class AbstractDocstringParser(ABC):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,
+        parent_class: Class,
     ) -> ParameterDocstring:
+        pass
+
+    @abstractmethod
+    def get_attribute_documentation(
+        self,
+        function_node: nodes.FuncDef,
+        attribute_name: str,
+        parent_class: Class,
+    ) -> AttributeDocstring:
+        pass
+
+    @abstractmethod
+    def get_result_documentation(
+        self,
+        function_node: nodes.FuncDef,
+        parent_class: Class,
+    ) -> ResultDocstring:
         pass

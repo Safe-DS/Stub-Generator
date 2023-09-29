@@ -1,3 +1,9 @@
+"""Test module for docstring tests.
+
+A module for testing the various docstring types.
+"""
+
+
 class EpydocDocstringClass:
     """
     A class with a variety of different methods for calculations. (Epydoc).

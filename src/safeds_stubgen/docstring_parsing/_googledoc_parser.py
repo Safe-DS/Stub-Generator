@@ -4,7 +4,6 @@ from typing import TYPE_CHECKING
 
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
-from mypy import nodes
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -17,7 +16,9 @@ from ._docstring import (
 from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
-    from safeds_stubgen.api_analyzer import ParameterAssignment
+    from mypy import nodes
+
+    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
 class GoogleDocParser(AbstractDocstringParser):
@@ -54,10 +55,13 @@ class GoogleDocParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
+        parent_class: Class,
     ) -> ParameterDocstring:
+        from safeds_stubgen.api_analyzer import Class
+
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
-            docstring = get_full_docstring(function_node.parent)
+        if function_node.name == "__init__" and isinstance(parent_class, Class):
+            docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
@@ -65,11 +69,12 @@ class GoogleDocParser(AbstractDocstringParser):
         function_googledoc = self.__get_cached_function_googledoc_string(function_node, docstring)
         all_parameters_googledoc: list[DocstringParam] = function_googledoc.params
         matching_parameters_googledoc = [
-            it for it in all_parameters_googledoc if it.arg_name == parameter_name and it.args[0] == "param"
+            it for it in all_parameters_googledoc
+            if it.arg_name == parameter_name and it.args[0] == "param"
         ]
 
         if len(matching_parameters_googledoc) == 0:
-            return ParameterDocstring(type="", default_value="", description="")
+            return ParameterDocstring()
 
         last_parameter_docstring_obj = matching_parameters_googledoc[-1]
         return ParameterDocstring(
@@ -82,10 +87,13 @@ class GoogleDocParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,
         attribute_name: str,
+        parent_class: Class,
     ) -> AttributeDocstring:
+        from safeds_stubgen.api_analyzer import Class
+
         # For constructors (__init__ functions) the attributes are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
-            docstring = get_full_docstring(function_node.parent)
+        if function_node.name == "__init__" and isinstance(parent_class, Class):
+            docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
@@ -97,7 +105,7 @@ class GoogleDocParser(AbstractDocstringParser):
         ]
 
         if len(matching_attributes_googledoc) == 0:
-            return AttributeDocstring(type="", default_value="", description="")
+            return AttributeDocstring()
 
         last_attribute_docstring_obj = matching_attributes_googledoc[-1]
         return AttributeDocstring(
@@ -106,9 +114,11 @@ class GoogleDocParser(AbstractDocstringParser):
             description=last_attribute_docstring_obj.description,
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
-        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
-            docstring = get_full_docstring(function_node.parent)
+    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
+        from safeds_stubgen.api_analyzer import Class
+
+        if function_node.name == "__init__" and isinstance(parent_class, Class):
+            docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
@@ -117,7 +127,7 @@ class GoogleDocParser(AbstractDocstringParser):
         function_returns = function_googledoc.returns
 
         if function_returns is None:
-            return ResultDocstring(type="", description="")
+            return ResultDocstring()
 
         return ResultDocstring(type=function_returns.type_name or "", description=function_returns.description or "")
 

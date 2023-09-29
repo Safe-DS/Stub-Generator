@@ -10,7 +10,7 @@ import mypy.main as mypy_main
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API
-from ._ast_visitor_mypy import MyPyAstVisitor
+from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._files import list_files
 from ._package_metadata import distribution, distribution_version, package_root
@@ -72,7 +72,7 @@ def get_api(
 
 def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> list[MypyFile]:
     if not files:
-        raise ValueError("No files to analyse found.")
+        raise ValueError("No files found to analyse.")
 
     # Build mypy checker
     mypyfiles, opt = mypy_main.process_options(files)

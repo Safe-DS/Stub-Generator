@@ -3,39 +3,86 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from docstring_parser import DocstringStyle
 from safeds_stubgen.api_analyzer import get_api
 
 _test_dir = Path(__file__).parent.parent.parent
 _test_package_name = "test_package"
 _main_test_module_name = "test_module"
 
-# Setup
-api_data = get_api(
+# API data setup
+api_data_paintext = get_api(
     package_name=_test_package_name,
     root=Path(_test_dir / "data" / _test_package_name),
     is_test_run=True,
 ).to_dict()
 
+api_data_epydoc = get_api(
+    package_name=_test_package_name,
+    root=Path(_test_dir / "data" / _test_package_name),
+    docstring_style=DocstringStyle.EPYDOC,
+    is_test_run=True,
+).to_dict()
+
+api_data_numpy = get_api(
+    package_name=_test_package_name,
+    root=Path(_test_dir / "data" / _test_package_name),
+    docstring_style=DocstringStyle.NUMPYDOC,
+    is_test_run=True,
+).to_dict()
+
+api_data_rest = get_api(
+    package_name=_test_package_name,
+    root=Path(_test_dir / "data" / _test_package_name),
+    docstring_style=DocstringStyle.REST,
+    is_test_run=True,
+).to_dict()
+
+api_data_google = get_api(
+    package_name=_test_package_name,
+    root=Path(_test_dir / "data" / _test_package_name),
+    docstring_style=DocstringStyle.GOOGLE,
+    is_test_run=True,
+).to_dict()
+
 
 # Utilites
-def _get_specific_module_data(module_name: str) -> dict:
+def _get_specific_module_data(module_name: str, docstring_style: str = "plaintext") -> dict:
+    api_data = get_api_data(docstring_style)
+
     for module in api_data["modules"]:
         if module["name"] == module_name:
             return module
     raise AssertionError
 
 
-def _get_specific_class_data(class_name: str, is_enum=False) -> dict:
+def _get_specific_class_data(class_name: str, docstring_style: str = "plaintext", is_enum=False) -> dict:
     data_type = "enums" if is_enum else "classes"
+    api_data = get_api_data(docstring_style)
     for class_ in api_data[data_type]:
         if class_["id"].endswith(class_name):
             return class_
     raise AssertionError
 
 
+def get_api_data(docstring_style: str):
+    return {
+        "plaintext": api_data_paintext,
+        "epydoc": api_data_epydoc,
+        "numpy": api_data_numpy,
+        "rest": api_data_rest,
+        "google": api_data_google,
+    }[docstring_style]
+
+
 def _get_specific_function_data(
-    function_name: str, parent_class_name: str = "", test_module_name: str = _main_test_module_name,
+    function_name: str,
+    parent_class_name: str = "",
+    test_module_name: str = _main_test_module_name,
+    docstring_style: str = "plaintext",
 ) -> dict:
+    api_data = get_api_data(docstring_style)
+
     if parent_class_name == "":
         parent_class_name = test_module_name
 
@@ -189,6 +236,22 @@ module___init__ = [{
     "enums": [],
 }]
 
+module_test_docstrings = [{
+    "id": "test_package/test_docstrings",
+    "name": "test_docstrings",
+    "docstring": "Test module for docstring tests.\n\nA module for testing the various docstring types.\n",
+    "qualified_imports": [],
+    "wildcard_imports": [],
+    "classes": [
+        "test_package/test_docstrings/EpydocDocstringClass",
+        "test_package/test_docstrings/RestDocstringClass",
+        "test_package/test_docstrings/NumpyDocstringClass",
+        "test_package/test_docstrings/GoogleDocstringClass",
+    ],
+    "functions": [],
+    "enums": [],
+}]
+
 
 @pytest.mark.parametrize(
     ("module_name", "expected_module_data"),
@@ -209,12 +272,17 @@ module___init__ = [{
             "__init__",
             module___init__,
         ),
+        (
+            "test_docstrings",
+            module_test_docstrings,
+        ),
     ],
     ids=[
         f"Modules: {_main_test_module_name}",
         "Modules: another_module",
         "Modules: test_enums",
         "Modules: __init__",
+        "Modules: test_docstrings",
     ],
 )
 def test_modules(
@@ -660,7 +728,7 @@ class__reexport_module_3_thirdreexportclass = {
     "id": "test_package/_reexport_module_3/_ThirdReexportClass",
     "name": "_ThirdReexportClass",
     "superclasses": [],
-    "is_public": True,
+    "is_public": False,
     "description": "",
     "constructor": None,
     "reexported_by": [
@@ -688,59 +756,72 @@ class__reexport_module_4_fourthreexportclass = {
 
 
 @pytest.mark.parametrize(
-    ("class_name", "expected_class_data"),
+    ("class_name", "expected_class_data", "docstring_style"),
     [
         (
             "SomeClass",
             class_test_module_someclass,
+            "plaintext",
         ),
         (
             "NestedClass",
             class_test_module_nestedclass,
+            "plaintext",
         ),
         (
             "_PrivateClass",
             class_test_module__privateclass,
+            "plaintext",
         ),
         (
             "NestedPrivateClass",
             class_test_module_nestedprivateclass,
+            "plaintext",
         ),
         (
             "NestedNestedPrivateClass",
             class_test_module_nestednestedprivateclass,
+            "plaintext",
         ),
         (
             "EpydocDocstringClass",
             class_test_docstrings_epydocdocstringclass,
+            "epydoc",
         ),
         (
             "RestDocstringClass",
             class_test_docstrings_restdocstringclass,
+            "rest",
         ),
         (
             "NumpyDocstringClass",
             class_test_docstrings_numpydocstringclass,
+            "numpy",
         ),
         (
             "GoogleDocstringClass",
             class_test_docstrings_googledocstringclass,
+            "google",
         ),
         (
             "ReexportClass",
             class__reexport_module_1_reexportclass,
+            "plaintext",
         ),
         (
             "AnotherReexportClass",
             class__reexport_module_2_anotherreexportclass,
+            "plaintext",
         ),
         (
             "ThirdReexportClass",
             class__reexport_module_3_thirdreexportclass,
+            "plaintext",
         ),
         (
             "FourthReexportClass",
             class__reexport_module_4_fourthreexportclass,
+            "plaintext",
         ),
     ],
     ids=[
@@ -762,9 +843,10 @@ class__reexport_module_4_fourthreexportclass = {
 def test_classes(
     class_name: str,
     expected_class_data: dict,
+    docstring_style: str,
 ) -> None:
     # Get class data
-    class_data: dict = _get_specific_class_data(class_name)
+    class_data: dict = _get_specific_class_data(class_name, docstring_style)
 
     # Sort data before comparing
     for data_pack in [expected_class_data, class_data]:
@@ -1204,43 +1286,52 @@ class_attributes_test_docstrings_googledocstringclass = [{
 
 
 @pytest.mark.parametrize(
-    ("class_name", "expected_attribute_data"),
+    ("class_name", "expected_attribute_data", "docstring_style"),
     [
         (
             "SomeClass",
             class_attributes_test_module_someclass,
+            "plaintext",
         ),
         (
             "NestedClass",
             class_attributes_test_module_nestedclass,
+            "plaintext",
         ),
         (
             "_PrivateClass",
             class_attributes_test_module__privateclass,
+            "plaintext",
         ),
         (
             "NestedPrivateClass",
             class_attributes_test_module_nestedprivateclass,
+            "plaintext",
         ),
         (
             "NestedNestedPrivateClass",
             class_attributes_test_module_nestednestedprivateclass,
+            "plaintext",
         ),
         (
             "EpydocDocstringClass",
             class_attributes_test_docstrings_epydocdocstringclass,
+            "epydoc",
         ),
         (
             "RestDocstringClass",
             class_attributes_test_docstrings_restdocstringclass,
+            "rest",
         ),
         (
             "NumpyDocstringClass",
             class_attributes_test_docstrings_numpydocstringclass,
+            "numpy",
         ),
         (
             "GoogleDocstringClass",
             class_attributes_test_docstrings_googledocstringclass,
+            "google",
         ),
     ],
     ids=[
@@ -1258,6 +1349,7 @@ class_attributes_test_docstrings_googledocstringclass = [{
 def test_class_attributes(
     class_name: str,
     expected_attribute_data: list[dict],
+    docstring_style: str,
 ) -> None:
     # Get class data
     class_data: dict = _get_specific_class_data(class_name)
@@ -1267,6 +1359,7 @@ def test_class_attributes(
     assert len(class_attr_ids) == len(expected_attribute_data)
 
     # Sort out the class attribute data we need
+    api_data = get_api_data(docstring_style)
     full_attribute_data = [
         attr
         for attr in api_data["attributes"]
@@ -1438,7 +1531,7 @@ def test_enum_instances(
     enum_data = _get_specific_class_data(enum_name, is_enum=True)
     enum_instance_ids = enum_data["instances"]
 
-    all_enum_instances = api_data["enum_instances"]
+    all_enum_instances = api_data_paintext["enum_instances"]
 
     # Sort out the enum instances we need
     enum_instances = [
@@ -1573,7 +1666,7 @@ def test_global_functions(
     module_data = _get_specific_module_data(module_name)
     global_function_ids = module_data["functions"]
 
-    all_functions: list[dict] = api_data["functions"]
+    all_functions: list[dict] = api_data_paintext["functions"]
 
     # Sort out the functions we need
     function_data: list[dict] = [
@@ -1860,47 +1953,57 @@ class_methods_test_docstrings_googledocstringclass = [{
 
 
 @pytest.mark.parametrize(
-    ("class_name", "expected_method_data"),
+    ("class_name", "expected_method_data", "docstring_style"),
     [
         (
             "SomeClass",
             class_methods_test_module_someclass,
+            "plaintext",
         ),
         (
             "NestedClass",
             class_methods_test_module_nestedclass,
+            "plaintext",
         ),
         (
             "_PrivateClass",
             class_methods_test_module__privateclass,
+            "plaintext",
         ),
         (
             "NestedPrivateClass",
             class_methods_test_module_nestedprivateclass,
+            "plaintext",
         ),
         (
             "NestedNestedPrivateClass",
             class_methods_test_module_nestednestedprivateclass,
+            "plaintext",
         ),
         (
             "ReexportClass",
             class_methods__reexport_module_1_reexportclass,
+            "plaintext",
         ),
         (
             "EpydocDocstringClass",
             class_methods_test_docstrings_epydocdocstringclass,
+            "epydoc",
         ),
         (
             "RestDocstringClass",
             class_methods_test_docstrings_restdocstringclass,
+            "rest",
         ),
         (
             "NumpyDocstringClass",
             class_methods_test_docstrings_numpydocstringclass,
+            "numpy",
         ),
         (
             "GoogleDocstringClass",
             class_methods_test_docstrings_googledocstringclass,
+            "google",
         ),
     ],
     ids=[
@@ -1919,11 +2022,13 @@ class_methods_test_docstrings_googledocstringclass = [{
 def test_class_methods(
     class_name: str,
     expected_method_data: list[dict],
+    docstring_style: str,
 ) -> None:
     # Get function data
     class_data: dict = _get_specific_class_data(class_name)
     class_method_ids: list[str] = class_data["methods"]
 
+    api_data = get_api_data(docstring_style)
     all_functions: list[dict] = api_data["functions"]
 
     # Sort out the functions we need
@@ -2526,57 +2631,67 @@ func_params_test_docstrings_googledocstringclass___init__ = [
 
 
 @pytest.mark.parametrize(
-    ("function_name", "parent_class_name", "expected_parameter_data"),
+    ("function_name", "parent_class_name", "expected_parameter_data", "docstring_style"),
     [
         (
             "global_func",
             "",
             func_params_test_module_global_func,
+            "plaintext",
         ),
         (
             "__init__",
             "SomeClass",
             func_params_test_module_someclass___init__,
+            "plaintext",
         ),
         (
             "static_function",
             "SomeClass",
             func_params_test_module_someclass_static_function,
+            "plaintext",
         ),
         (
             "test_position",
             "SomeClass",
             func_params_test_module_someclass_test_position,
+            "plaintext",
         ),
         (
             "test_params",
             "SomeClass",
             func_params_test_module_someclass_test_params,
+            "plaintext",
         ),
         (
             "nested_class_function",
             "NestedClass",
             func_params_test_module_someclass_nestedclass_nested_class_function,
+            "plaintext",
         ),
         (
             "epydoc_docstring_func",
             "EpydocDocstringClass",
             func_params_test_docstrings_epydocdocstringclass_epydoc_docstring_func,
+            "epydoc",
         ),
         (
             "rest_docstring_func",
             "RestDocstringClass",
             func_params_test_docstrings_restdocstringclass_rest_docstring_func,
+            "rest",
         ),
         (
             "numpy_docstring_func",
             "NumpyDocstringClass",
             func_params_test_docstrings_numpydocstringclass_numpy_docstring_func,
+            "numpy",
         ),
         (
             "google_docstring_func",
             "GoogleDocstringClass",
             func_params_test_docstrings_googledocstringclass_google_docstring_func,
+            "google",
         ),
     ],
     ids=[
@@ -2596,11 +2711,13 @@ def test_function_parameters(
     function_name: str,
     parent_class_name: str,
     expected_parameter_data: list[dict],
+    docstring_style: str,
 ) -> None:
     # Get function data
     function_data: dict = _get_specific_function_data(function_name, parent_class_name)
     function_parameter_ids: list[str] = function_data["parameters"]
 
+    api_data = get_api_data(docstring_style)
     all_parameters: list[dict] = api_data["parameters"]
 
     # Sort out the parameters we need
@@ -2784,19 +2901,86 @@ results_test_docstring_googledocstringclass_google_docstring_func = [
 
 
 @pytest.mark.parametrize(
-    ("function_name", "parent_class_name", "expected_result_data"),
-    [],
-    ids=[],
+    ("function_name", "parent_class_name", "expected_result_data", "docstring_style"),
+    [
+        (
+            "_private_global_func",
+            "",
+            results_test_module__private_global_func,
+            "plaintext",
+        ),
+        (
+            "multiple_results",
+            "SomeClass",
+            results_test_module_someclass_multiple_results,
+            "plaintext",
+        ),
+        (
+            "static_function",
+            "SomeClass",
+            results_test_module_someclass_static_function,
+            "plaintext",
+        ),
+        (
+            "test_position",
+            "SomeClass",
+            results_test_module_someclass_test_position,
+            "plaintext",
+        ),
+        (
+            "nested_class_function",
+            "NestedClass",
+            results_test_module_someclass_nestedclass_nested_class_function,
+            "plaintext",
+        ),
+        (
+            "epydoc_docstring_func",
+            "EpydocDocstringClass",
+            results_test_docstring_epydocdocstringclass_epydoc_docstring_func,
+            "epydoc",
+        ),
+        (
+            "rest_docstring_func",
+            "RestDocstringClass",
+            results_test_docstring_restdocstringclass_rest_docstring_func,
+            "rest",
+        ),
+        (
+            "numpy_docstring_func",
+            "NumpyDocstringClass",
+            results_test_docstring_numpydocstringclass_numpy_docstring_func,
+            "numpy",
+        ),
+        (
+            "google_docstring_func",
+            "GoogleDocstringClass",
+            results_test_docstring_googledocstringclass_google_docstring_func,
+            "google",
+        ),
+    ],
+    ids=[
+        "Function Results: _private_global_func",
+        "Function Results: multiple_results",
+        "Function Results: static_function",
+        "Function Results: test_position",
+        "Function Results: nested_class_function",
+        "Function Results: epydoc_docstring_func",
+        "Function Results: rest_docstring_func",
+        "Function Results: numpy_docstring_func",
+        "Function Results: google_docstring_func",
+    ],
 )
 def test_function_results(
     function_name: str,
     parent_class_name: str,
     expected_result_data: list[dict],
+    docstring_style: str,
 ) -> None:
     # Get function data
     function_data: dict = _get_specific_function_data(function_name, parent_class_name)
     function_result_ids: list[str] = function_data["results"]
 
+    api_data = get_api_data(docstring_style)
     all_results: list[dict] = api_data["results"]
 
     # Sort out the results we need

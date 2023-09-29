@@ -4,10 +4,10 @@ from typing import TYPE_CHECKING
 
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
-from mypy import nodes
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
+    AttributeDocstring,
     ClassDocstring,
     FunctionDocstring,
     ParameterDocstring,
@@ -16,7 +16,8 @@ from ._docstring import (
 from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
-    from safeds_stubgen.api_analyzer import ParameterAssignment
+    from mypy import nodes
+    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
 class RestDocParser(AbstractDocstringParser):
@@ -53,20 +54,26 @@ class RestDocParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
+        parent_class: Class,
     ) -> ParameterDocstring:
+        from safeds_stubgen.api_analyzer import Class
+
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
-            docstring = get_full_docstring(function_node.parent)
+        if function_node.name == "__init__" and isinstance(parent_class, Class):
+            docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
         function_restdoc = self.__get_cached_function_restdoc_string(function_node, docstring)
         all_parameters_restdoc: list[DocstringParam] = function_restdoc.params
-        matching_parameters_restdoc = [it for it in all_parameters_restdoc if it.arg_name == parameter_name]
+        matching_parameters_restdoc = [
+            it for it in all_parameters_restdoc
+            if it.arg_name == parameter_name
+        ]
 
         if len(matching_parameters_restdoc) == 0:
-            return ParameterDocstring(type="", default_value="", description="")
+            return ParameterDocstring()
 
         last_parameter_docstring_obj = matching_parameters_restdoc[-1]
         return ParameterDocstring(
@@ -75,9 +82,35 @@ class RestDocParser(AbstractDocstringParser):
             description=last_parameter_docstring_obj.description,
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
-        if function_node.name == "__init__" and isinstance(function_node.parent, nodes.ClassDef):
-            docstring = get_full_docstring(function_node.parent)
+    def get_attribute_documentation(
+        self,
+        function_node: nodes.FuncDef,
+        attribute_name: str,
+        parent_class: Class,
+    ) -> AttributeDocstring:
+        from safeds_stubgen.api_analyzer import ParameterAssignment
+        # ReST docstrings do not differentiate between parameter and attributes,
+        # therefore we recycle the parameter function
+
+        # ParameterAssignment is unimportant and therefore only a random assignment
+        documentation = self.get_parameter_documentation(
+            function_node=function_node,
+            parameter_name=attribute_name,
+            parameter_assigned_by=ParameterAssignment.POSITION_OR_NAME,
+            parent_class=parent_class,
+        )
+
+        return AttributeDocstring(
+            type=documentation.type,
+            default_value=documentation.default_value,
+            description=documentation.description,
+        )
+
+    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
+        from safeds_stubgen.api_analyzer import Class
+
+        if function_node.name == "__init__" and isinstance(parent_class, Class):
+            docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
@@ -86,7 +119,7 @@ class RestDocParser(AbstractDocstringParser):
         function_returns = function_restdoc.returns
 
         if function_returns is None:
-            return ResultDocstring(type="", description="")
+            return ResultDocstring()
 
         return ResultDocstring(
             type=function_returns.type_name or "",

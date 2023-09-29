@@ -3,17 +3,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ._abstract_docstring_parser import AbstractDocstringParser
-from ._docstring import (
-    ClassDocstring,
-    FunctionDocstring,
-    ParameterDocstring,
-)
+from ._docstring import AttributeDocstring, ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
 from ._helpers import get_full_docstring
 
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
 class PlaintextDocstringParser(AbstractDocstringParser):
@@ -40,5 +36,21 @@ class PlaintextDocstringParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,  # noqa: ARG002
         parameter_name: str,  # noqa: ARG002
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
+        parent_class: Class,  # noqa: ARG002
     ) -> ParameterDocstring:
         return ParameterDocstring()
+
+    def get_attribute_documentation(
+        self,
+        function_node: nodes.FuncDef,  # noqa: ARG002
+        attribute_name: str,  # noqa: ARG002
+        parent_class: Class,  # noqa: ARG002
+    ) -> AttributeDocstring:
+        return AttributeDocstring()
+
+    def get_result_documentation(
+        self,
+        function_node: nodes.FuncDef,  # noqa: ARG002
+        parent_class: Class,  # noqa: ARG002
+    ) -> ResultDocstring:
+        return ResultDocstring()

@@ -20,7 +20,6 @@ from mypy.nodes import (
     NameExpr,
     StrExpr,
 )
-from mypy.types import Instance, ProperType
 
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen.docstring_parsing import (
@@ -45,9 +44,10 @@ from ._api import (
     Result,
     WildcardImport,
 )
+from ._mypy_helpers import get_classdef_definitions, get_mypyfile_definitions, mypy_type_to_abstract_type
 
 if TYPE_CHECKING:
-    from ._types import AbstractType
+    from mypy.types import Instance
 
 
 # Todo Docstring / description
@@ -69,7 +69,7 @@ class MyPyAstVisitor:
 
         # We don't need to check functions, classes and assignments, since the ast walker will already check them
         child_definitions = [
-            _definition for _definition in node.defs
+            _definition for _definition in get_mypyfile_definitions(node)
             if _definition.__class__.__name__ not in
             ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
@@ -132,12 +132,9 @@ class MyPyAstVisitor:
     def enter_classdef(self, node: ClassDef) -> None:
         id_ = self.__get_id(node.name)
         name = node.name
-        docstring: ClassDocstring | None = None
 
-        for definition in node.defs.body:
-            # Docstring
-            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
-                docstring = ClassDocstring("", definition.expr.value)
+        # Get docstring
+        docstring = self.docstring_parser.get_class_documentation(node)
 
         # superclasses
         # Todo Aliase werden noch nicht aufgelöst -> Such nach einer mypy Funktion die die Typen auflöst
@@ -156,7 +153,7 @@ class MyPyAstVisitor:
             name=name,
             superclasses=superclasses,
             is_public=self.is_public(node.name, name),
-            docstring=docstring or ClassDocstring(),
+            docstring=docstring,
             reexported_by=reexported_by,
         )
         self.__declaration_stack.append(class_)
@@ -177,15 +174,11 @@ class MyPyAstVisitor:
         name = node.name
         function_id = self.__get_id(name)
 
-        docstring: FunctionDocstring | None = None
-
         is_public = self.is_public(name, node.fullname)
         is_static = node.is_static
 
-        for definition in node.body.body:
-            # Docstring
-            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
-                docstring = FunctionDocstring("", definition.expr.value)
+        # Get docstring
+        docstring = self.docstring_parser.get_function_documentation(node)
 
         # Function args
         arguments: list[Parameter] = []
@@ -202,7 +195,7 @@ class MyPyAstVisitor:
         function = Function(
             id=function_id,
             name=name,
-            docstring=docstring if docstring is not None else FunctionDocstring(),
+            docstring=docstring,
             is_public=is_public,
             is_static=is_static,
             results=results,
@@ -239,7 +232,7 @@ class MyPyAstVisitor:
         id_ = self.__get_id(node.name)
         docstring: ClassDocstring | None = None
 
-        for definition in node.defs.body:
+        for definition in get_classdef_definitions(node):
             # Docstring
             if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
                 docstring = ClassDocstring(definition.expr.value, definition.expr.value)
@@ -333,10 +326,11 @@ class MyPyAstVisitor:
 
     # #### Result utilities
 
-    def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
+    @staticmethod
+    def create_result(node: FuncDef, function_id: str) -> list[Result]:
         ret_type = None
         if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
-            ret_type = self.mypy_type_to_abstract_type(node.type.ret_type)
+            ret_type = mypy_type_to_abstract_type(node.type.ret_type)
 
         if ret_type is None:
             return []
@@ -421,7 +415,7 @@ class MyPyAstVisitor:
 
         type_ = None
         if attribute_type is not None:
-            type_ = self.mypy_type_to_abstract_type(attribute_type)
+            type_ = mypy_type_to_abstract_type(attribute_type)
 
         return Attribute(
             id=self.__get_id(name),
@@ -439,7 +433,7 @@ class MyPyAstVisitor:
 
         for argument in node.arguments:
             arg_name = argument.variable.name
-            arg_type = self.mypy_type_to_abstract_type(argument.variable.type)
+            arg_type = mypy_type_to_abstract_type(argument.variable.type)
             arg_kind = self.get_argument_kind(argument)
 
             default_value = None
@@ -457,7 +451,7 @@ class MyPyAstVisitor:
                 else:
                     value = initializer.value
 
-                if type(value) in [str, bool, int, float, NoneType]:
+                if type(value) in {str, bool, int, float, NoneType}:
                     default_value = value
                     is_optional = True
 
@@ -532,75 +526,7 @@ class MyPyAstVisitor:
 
     # #### Misc. utilities
 
-    def mypy_type_to_abstract_type(self, mypy_type: Instance | ProperType) -> AbstractType:
-        types = []
-
-        # Iterable mypy types
-        if isinstance(mypy_type, mp_types.TupleType):
-            for item in mypy_type.items:
-                types.append(
-                    self.mypy_type_to_abstract_type(item),
-                )
-            return sds_types.TupleType(types=types)
-        elif isinstance(mypy_type, mp_types.UnionType):
-            for item in mypy_type.items:
-                types.append(
-                    self.mypy_type_to_abstract_type(item),
-                )
-            return sds_types.UnionType(types=types)
-
-        # Special Cases
-        elif isinstance(mypy_type, mp_types.AnyType):
-            return sds_types.NamedType(name="Any")
-        elif isinstance(mypy_type, mp_types.NoneType):
-            return sds_types.NamedType(name="None")
-        elif isinstance(mypy_type, mp_types.UnboundType):
-            # Todo Import aliasing auflösen
-            return sds_types.NamedType(name=mypy_type.name)
-
-        # Builtins
-        elif isinstance(mypy_type, Instance):
-            type_name = mypy_type.type.name
-            if type_name in ["int", "str", "bool", "float"]:
-                return sds_types.NamedType(name=type_name)
-            elif type_name == "tuple":
-                return sds_types.TupleType(types=[])
-            elif type_name == "list":
-                for arg in mypy_type.args:
-                    types.append(
-                        self.mypy_type_to_abstract_type(arg),
-                    )
-                return sds_types.ListType(types=types)
-            elif type_name == "set":
-                for arg in mypy_type.args:
-                    types.append(
-                        self.mypy_type_to_abstract_type(arg),
-                    )
-                return sds_types.SetType(types=types)
-            elif type_name == "dict":
-                key_type = None
-                value_type = None
-                value_types = []
-                for i, arg in enumerate(mypy_type.args):
-                    if i == 1:
-                        key_type = self.mypy_type_to_abstract_type(arg)
-                    else:
-                        value_types.append(
-                            self.mypy_type_to_abstract_type(arg),
-                        )
-
-                if len(value_types) == 1:
-                    value_type = value_types[0]
-                elif len(value_types) >= 2:
-                    value_type = sds_types.UnionType(types=value_types)
-
-                return sds_types.DictType(key_type=key_type, value_type=value_type)
-            else:
-                return sds_types.NamedType(name=type_name)
-        raise ValueError("Unexpected type.")
-
     # Todo How do we handle the names in the self.reexpoted list? (qualified_name does not work) -> id statt qname
-    # Todo Test Daten anpassen, wenn _ dann immer private
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
