@@ -1,13 +1,32 @@
-from mypy import nodes
+from __future__ import annotations
+
+from pathlib import Path
+
 import pytest
+from mypy import nodes
+from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
+
+# noinspection PyProtectedMember
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
+    EpydocParser,
     FunctionDocstring,
     ParameterDocstring,
     ResultDocstring,
-    EpydocParser
 )
-from safeds_stubgen.api_analyzer import ParameterAssignment
+
+from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+
+# Setup
+_test_dir = Path(__file__).parent.parent.parent
+mypy_file = _get_mypy_ast(
+    files=[
+        str(Path(_test_dir / "data" / "test_docstring_parser_package" / "test_epydoc.py")),
+    ],
+    package_paths=[],
+    root=Path(_test_dir / "data" / "test_docstring_parser_package"),
+)[0]
 
 
 @pytest.fixture()
@@ -15,37 +34,19 @@ def epydoc_parser() -> EpydocParser:
     return EpydocParser()
 
 
-# language=python
-class_with_documentation = '''
-class C:
-    """
-    Lorem ipsum. Code::
-
-        pass
-
-    Dolor sit amet.
-    """
-'''
-
-# language=python
-class_without_documentation = """
-class C:
-    pass
-"""
-
-
+# ############################## Class Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_class_documentation"),
+    ("class_name", "expected_class_documentation"),
     [
         (
-            class_with_documentation,
+            "ClassWithDocumentation",
             ClassDocstring(
                 description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
-            class_without_documentation,
+            "ClassWithoutDocumentation",
             ClassDocstring(
                 description="",
                 full_docstring="",
@@ -59,48 +60,28 @@ class C:
 )
 def test_get_class_documentation(
     epydoc_parser: EpydocParser,
-    python_code: str,
+    class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, class_name)
 
-    assert isinstance(node, astroid.ClassDef)
+    assert isinstance(node, nodes.ClassDef)
     assert epydoc_parser.get_class_documentation(node) == expected_class_documentation
 
 
-# language=python
-function_with_documentation = '''
-def f():
-    """
-    Lorem ipsum. Code::
-
-        pass
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-# language=python
-function_without_documentation = """
-def f():
-    pass
-"""
-
-
+# ############################## Function Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_function_documentation"),
+    ("function_name", "expected_function_documentation"),
     [
         (
-            function_with_documentation,
+            "function_with_documentation",
             FunctionDocstring(
                 description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
-            function_without_documentation,
+            "function_without_documentation",
             FunctionDocstring(
                 description="",
                 full_docstring="",
@@ -114,92 +95,22 @@ def f():
 )
 def test_get_function_documentation(
     epydoc_parser: EpydocParser,
-    python_code: str,
+    function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, function_name)
 
-    assert isinstance(node, astroid.FunctionDef)
+    assert isinstance(node, nodes.FuncDef)
     assert epydoc_parser.get_function_documentation(node) == expected_function_documentation
 
 
-# language=python
-class_with_parameters = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-class C:
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    @param p: foo defaults to 1
-    @type p: int
-    """
-
-    def __init__(self):
-        pass
-'''
-
-# # language=python
-# class_with_attributes = '''
-# # noinspection PyUnresolvedReferences,PyIncorrectDocstring
-# class C:
-#     """
-#     Lorem ipsum.
-#
-#     Dolor sit amet.
-#
-#     @ivar p: foo defaults to 1
-#     @type p: int
-#     """
-#
-#     def __init__(self):
-#         pass
-# '''
-#
-# # language=python
-# class_with_attributes_no_type = '''
-# # noinspection PyUnresolvedReferences,PyIncorrectDocstring
-# class C:
-#     """
-#     Lorem ipsum.
-#
-#     Dolor sit amet.
-#
-#     @ivar p: foo defaults to 1
-#     """
-#
-#     def __init__(self):
-#         pass
-# '''
-
-# language=python
-function_with_parameters = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    Parameters
-    ----------
-    @param no_type_no_default: no type and no default
-    @param type_no_default: type but no default
-    @type type_no_default: int
-    @param with_default: foo that defaults to 2
-    @type with_default: int
-    """
-
-    pass
-'''
-
-
+# ############################## Parameter Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
+    ("name", "is_class", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
     [
         (
-            class_with_parameters,
+            "ClassWithParameters",
+            True,
             "p",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -209,7 +120,8 @@ def f():
             ),
         ),
         (
-            class_with_parameters,
+            "ClassWithParameters",
+            True,
             "missing",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -218,28 +130,9 @@ def f():
                 description="",
             ),
         ),
-        # (
-        #     class_with_attributes,
-        #     "p",
-        #     ParameterAssignment.POSITION_OR_NAME,
-        #     ParameterDocstring(
-        #         type="int",
-        #         default_value="1",
-        #         description="foo defaults to 1",
-        #     ),
-        # ),
-        # (
-        #     class_with_attributes_no_type,
-        #     "p",
-        #     ParameterAssignment.POSITION_OR_NAME,
-        #     ParameterDocstring(
-        #         type="",
-        #         default_value="1",
-        #         description="foo defaults to 1",
-        #     ),
-        # ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "no_type_no_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -249,7 +142,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "type_no_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -259,7 +153,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "with_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -269,7 +164,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "missing",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(type="", default_value="", description=""),
@@ -278,8 +174,6 @@ def f():
     ids=[
         "existing class parameter",
         "missing class parameter",
-        # "existing class attributes",
-        # "existing class attributes no type",
         "function parameter with no type and no default",
         "function parameter with type and no default",
         "function parameter with default",
@@ -288,109 +182,129 @@ def f():
 )
 def test_get_parameter_documentation(
     epydoc_parser: EpydocParser,
-    python_code: str,
+    name: str,
+    is_class: bool,
     parameter_name: str,
     parameter_assigned_by: ParameterAssignment,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
-    assert isinstance(node, astroid.ClassDef | astroid.FunctionDef)
+    parent = None
+    node = _get_specific_mypy_node(mypy_file, name)
+    if is_class:
+        assert isinstance(node, nodes.ClassDef)
+        class_doc = epydoc_parser.get_class_documentation(node)
+        parent = Class(
+            id=node.fullname,
+            name=node.name,
+            superclasses=[],
+            is_public=True,
+            docstring=class_doc
+        )
+    else:
+        assert isinstance(node, nodes.FuncDef)
 
     # Find the constructor
-    if isinstance(node, astroid.ClassDef):
-        for method in node.mymethods():
-            if method.name == "__init__":
-                node = method
+    if isinstance(node, nodes.ClassDef):
+        for definition in get_classdef_definitions(node):
+            if isinstance(definition, nodes.FuncDef) and definition.name == "__init__":
+                node = definition
+                break
+        assert isinstance(node, nodes.FuncDef)
 
-    assert isinstance(node, astroid.FunctionDef)
+    parameter_documentation = epydoc_parser.get_parameter_documentation(
+        function_node=node,
+        parameter_name=parameter_name,
+        parameter_assigned_by=parameter_assigned_by,
+        parent_class=parent
+    )
+
     assert (
-        epydoc_parser.get_parameter_documentation(node, parameter_name, parameter_assigned_by)
+        parameter_documentation
         == expected_parameter_documentation
     )
 
-# language=python
-function_with_result_value_and_type = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
 
-    Dolor sit amet.
-
-    @return: return value
-    @rtype: float
-    """
-
-    pass
-'''
-
-# language=python
-function_with_result_value_no_type = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    @return: return value
-    """
-
-    pass
-'''
-
-# language=python
-function_without_result_value = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-
+# ############################## Attribute Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_result_documentation"),
+    ("class_name", "attribute_name", "expected_parameter_documentation"),
     [
         (
-            function_with_result_value_and_type,
+            "ClassWithAttributes",
+            "p",
+            ParameterDocstring(
+                type="int",
+                default_value="1",
+                description="foo defaults to 1",
+            ),
+        ),
+        (
+            "ClassWithAttributesNoType",
+            "p",
+            ParameterDocstring(
+                type="",
+                default_value="1",
+                description="foo defaults to 1",
+            ),
+        )
+    ],
+    ids=[
+        "existing class attributes",
+        "existing class attributes no type",
+    ],
+)
+def test_get_attribute_documentation(
+    epydoc_parser: EpydocParser,
+    class_name: str,
+    attribute_name: str,
+    expected_parameter_documentation: ParameterDocstring,
+) -> None:
+    node = _get_specific_mypy_node(mypy_file, class_name)
+    assert isinstance(node, nodes.ClassDef)
+
+    attribute_documentation = epydoc_parser.get_attribute_documentation(
+        class_node=node,
+        attribute_name=attribute_name,
+    )
+
+    assert (
+        attribute_documentation
+        == expected_parameter_documentation
+    )
+
+
+# ############################## Result Documentation ############################## #
+@pytest.mark.parametrize(
+    ("function_name", "expected_result_documentation"),
+    [
+        (
+            "function_with_result_value_and_type",
             ResultDocstring(type="float", description="return value"),
         ),
         (
-            function_with_result_value_no_type,
+            "function_with_result_value_no_type",
             ResultDocstring(type="", description="return value"),
         ),
         (
-            function_without_result_value,
-            ResultDocstring(type="", description="")
+            "function_without_result_value",
+            ResultDocstring(type="", description=""),
         ),
     ],
     ids=[
         "existing return value and type",
         "existing return value no type",
-        "function without return value"
+        "function without return value",
     ],
 )
 def test_get_result_documentation(
     epydoc_parser: EpydocParser,
-    python_code: str,
+    function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
-    assert isinstance(node, astroid.ClassDef | astroid.FunctionDef)
+    node = _get_specific_mypy_node(mypy_file, function_name)
+    assert isinstance(node, nodes.FuncDef)
 
-    # Find the constructor
-    if isinstance(node, astroid.ClassDef):
-        for method in node.mymethods():
-            if method.name == "__init__":
-                node = method
-
-    assert isinstance(node, astroid.FunctionDef)
+    fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
     assert (
-        epydoc_parser.get_result_documentation(node)
+        epydoc_parser.get_result_documentation(node, fake_parent)
         == expected_result_documentation
     )

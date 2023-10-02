@@ -1,14 +1,34 @@
-import astroid
+from __future__ import annotations
+
+from pathlib import Path
+
 import pytest
-from library_analyzer.processing.api.docstring_parsing import (
-    PlaintextDocstringParser,
-)
-from library_analyzer.processing.api.model import (
+from mypy import nodes
+from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+
+# noinspection PyProtectedMember
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
+from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
     FunctionDocstring,
-    ParameterAssignment,
     ParameterDocstring,
+    PlaintextDocstringParser,
 )
+
+# noinspection PyProtectedMember
+from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstring
+
+from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+
+# Setup
+_test_dir = Path(__file__).parent.parent.parent
+mypy_file = _get_mypy_ast(
+    files=[
+        str(Path(_test_dir / "data" / "test_docstring_parser_package" / "test_plaintext.py")),
+    ],
+    package_paths=[],
+    root=Path(_test_dir / "data" / "test_docstring_parser_package"),
+)[0]
 
 
 @pytest.fixture()
@@ -16,36 +36,19 @@ def plaintext_docstring_parser() -> PlaintextDocstringParser:
     return PlaintextDocstringParser()
 
 
-class_with_documentation = '''
-class C:
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-    """
-
-    def __init__(self, p: int):
-        pass
-'''
-
-class_without_documentation = """
-class C:
-    pass
-"""
-
-
+# ############################## Class Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_class_documentation"),
+    ("class_name", "expected_class_documentation"),
     [
         (
-            class_with_documentation,
+            "ClassWithDocumentation",
             ClassDocstring(
                 description="Lorem ipsum.\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum.\n\nDolor sit amet.",
             ),
         ),
         (
-            class_without_documentation,
+            "ClassWithoutDocumentation",
             ClassDocstring(
                 description="",
                 full_docstring="",
@@ -59,44 +62,28 @@ class C:
 )
 def test_get_class_documentation(
     plaintext_docstring_parser: PlaintextDocstringParser,
-    python_code: str,
+    class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, class_name)
 
-    assert isinstance(node, astroid.ClassDef)
+    assert isinstance(node, nodes.ClassDef)
     assert plaintext_docstring_parser.get_class_documentation(node) == expected_class_documentation
 
 
-function_with_documentation = '''
-def f(p: int):
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-function_without_documentation = """
-def f(p: int):
-    pass
-"""
-
-
+# ############################## Function Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_function_documentation"),
+    ("function_name", "expected_function_documentation"),
     [
         (
-            function_with_documentation,
+            "function_with_documentation",
             FunctionDocstring(
                 description="Lorem ipsum.\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum.\n\nDolor sit amet.",
             ),
         ),
         (
-            function_without_documentation,
+            "function_without_documentation",
             FunctionDocstring(description=""),
         ),
     ],
@@ -107,35 +94,28 @@ def f(p: int):
 )
 def test_get_function_documentation(
     plaintext_docstring_parser: PlaintextDocstringParser,
-    python_code: str,
+    function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, function_name)
 
-    assert isinstance(node, astroid.FunctionDef)
+    assert isinstance(node, nodes.FuncDef)
     assert plaintext_docstring_parser.get_function_documentation(node) == expected_function_documentation
 
 
+# ############################## Parameter Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "parameter_name", "expected_parameter_documentation"),
+    ("function_name", "parameter_name", "expected_parameter_documentation"),
     [
         (
-            function_with_documentation,
+            "function_with_documentation",
             "p",
-            ParameterDocstring(
-                type="",
-                default_value="",
-                description="",
-            ),
+            ParameterDocstring(),
         ),
         (
-            function_without_documentation,
+            "function_without_documentation",
             "p",
-            ParameterDocstring(
-                type="",
-                default_value="",
-                description="",
-            ),
+            ParameterDocstring(),
         ),
     ],
     ids=[
@@ -145,17 +125,89 @@ def test_get_function_documentation(
 )
 def test_get_parameter_documentation(
     plaintext_docstring_parser: PlaintextDocstringParser,
-    python_code: str,
+    function_name: str,
     parameter_name: str,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
-    assert isinstance(node, astroid.FunctionDef)
+    node = _get_specific_mypy_node(mypy_file, function_name)
+    assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_parameter_documentation(
             node,
             parameter_name,
             ParameterAssignment.POSITION_OR_NAME,
+            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
         )
         == expected_parameter_documentation
+    )
+
+
+# ############################## Attribute Documentation ############################## #
+@pytest.mark.parametrize(
+    ("class_name", "attribute_name", "expected_attribute_documentation"),
+    [
+        (
+            "ClassWithDocumentation",
+            "p",
+            AttributeDocstring(),
+        ),
+        (
+            "ClassWithoutDocumentation",
+            "p",
+            AttributeDocstring(),
+        ),
+    ],
+    ids=[
+        "function with documentation",
+        "function without documentation",
+    ],
+)
+def test_get_attribute_documentation(
+    plaintext_docstring_parser: PlaintextDocstringParser,
+    class_name: str,
+    attribute_name: str,
+    expected_attribute_documentation: ParameterDocstring,
+) -> None:
+    node = _get_specific_mypy_node(mypy_file, class_name)
+    assert isinstance(node, nodes.ClassDef)
+    assert (
+        plaintext_docstring_parser.get_attribute_documentation(
+            node,
+            attribute_name
+        )
+        == expected_attribute_documentation
+    )
+
+
+# ############################## Result Documentation ############################## #
+@pytest.mark.parametrize(
+    ("function_name", "expected_result_documentation"),
+    [
+        (
+            "function_with_documentation",
+            ResultDocstring(),
+        ),
+        (
+            "function_without_documentation",
+            ResultDocstring(),
+        ),
+    ],
+    ids=[
+        "class with documentation",
+        "class without documentation",
+    ],
+)
+def test_get_result_documentation(
+    plaintext_docstring_parser: PlaintextDocstringParser,
+    function_name: str,
+    expected_result_documentation: ParameterDocstring,
+) -> None:
+    node = _get_specific_mypy_node(mypy_file, function_name)
+    assert isinstance(node, nodes.FuncDef)
+    assert (
+        plaintext_docstring_parser.get_result_documentation(
+            node,
+            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
+        )
+        == expected_result_documentation
     )

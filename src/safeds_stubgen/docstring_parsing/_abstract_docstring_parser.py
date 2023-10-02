@@ -39,9 +39,8 @@ class AbstractDocstringParser(ABC):
     @abstractmethod
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,
+        class_node: nodes.ClassDef,
         attribute_name: str,
-        parent_class: Class,
     ) -> AttributeDocstring:
         pass
 

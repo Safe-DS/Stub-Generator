@@ -15,10 +15,9 @@ from ._docstring import (
     ResultDocstring,
 )
 from ._helpers import get_description, get_full_docstring
+from mypy import nodes
 
 if TYPE_CHECKING:
-    from mypy import nodes
-
     from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
@@ -36,7 +35,7 @@ class NumpyDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: nodes.FuncDef | None = None
+        self.__cached_node: nodes.FuncDef | None = None
         self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
@@ -50,7 +49,7 @@ class NumpyDocParser(AbstractDocstringParser):
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
-        docstring_obj = self.__get_cached_function_numpydoc_string(function_node, docstring)
+        docstring_obj = self.__get_cached_numpydoc_string(function_node, docstring)
 
         return FunctionDocstring(
             description=get_description(docstring_obj),
@@ -73,7 +72,7 @@ class NumpyDocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_numpydoc = self.__get_cached_function_numpydoc_string(function_node, docstring)
+        function_numpydoc = self.__get_cached_numpydoc_string(function_node, docstring)
         all_parameters_numpydoc: list[DocstringParam] = function_numpydoc.params
         matching_parameters_numpydoc = [
             it
@@ -110,20 +109,14 @@ class NumpyDocParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,
+        class_node: nodes.ClassDef,
         attribute_name: str,
-        parent_class: Class,
     ) -> AttributeDocstring:
-        from safeds_stubgen.api_analyzer import Class
-
-        # For constructors (__init__ functions) the attributes are described on the class
-        if function_node.name == "__init__" and isinstance(parent_class, Class):
-            docstring = parent_class.docstring.full_docstring
-        else:
-            docstring = get_full_docstring(function_node)
+        from safeds_stubgen.api_analyzer import get_classdef_definitions
+        docstring = get_full_docstring(class_node)
 
         # Find matching attribute docstrings
-        function_numpydoc = self.__get_cached_function_numpydoc_string(function_node, docstring)
+        function_numpydoc = self.__get_cached_numpydoc_string(class_node, docstring)
         all_attributes_numpydoc: list[DocstringParam] = function_numpydoc.params
         matching_attributes_numpydoc = [
             it
@@ -132,19 +125,21 @@ class NumpyDocParser(AbstractDocstringParser):
         ]
 
         if len(matching_attributes_numpydoc) == 0:
-            # If we have a constructor we have to check both, the class and then the constructor (see issue #10)
-            if function_node.name == "__init__":
-                docstring_constructor = get_full_docstring(function_node)
-                # Find matching attribute docstrings
-                function_numpydoc = parse_docstring(docstring_constructor, style=DocstringStyle.NUMPYDOC)
-                all_attributes_numpydoc: list[DocstringParam] = function_numpydoc.params
+            # If the class has a constructor we have to check both the class and then the constructor (see issue #10)
+            for definition in get_classdef_definitions(class_node):
+                if isinstance(definition, nodes.FuncDef) and definition.name == "__init__":
+                    docstring_constructor = get_full_docstring(definition)
 
-                # Overwrite previous matching_attributes_numpydoc list
-                matching_attributes_numpydoc = [
-                    it
-                    for it in all_attributes_numpydoc
-                    if _is_matching_attribute_numpydoc(it, attribute_name)
-                ]
+                    # Find matching attribute docstrings
+                    function_numpydoc = parse_docstring(docstring_constructor, style=DocstringStyle.NUMPYDOC)
+                    all_attributes_numpydoc: list[DocstringParam] = function_numpydoc.params
+
+                    # Overwrite previous matching_attributes_numpydoc list
+                    matching_attributes_numpydoc = [
+                        it
+                        for it in all_attributes_numpydoc
+                        if _is_matching_attribute_numpydoc(it, attribute_name)
+                    ]
 
             if len(matching_attributes_numpydoc) == 0:
                 return AttributeDocstring(type="", default_value="", description="")
@@ -167,7 +162,7 @@ class NumpyDocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_numpydoc = self.__get_cached_function_numpydoc_string(function_node, docstring)
+        function_numpydoc = self.__get_cached_numpydoc_string(function_node, docstring)
         function_result = function_numpydoc.returns
 
         if function_result is None:
@@ -178,9 +173,9 @@ class NumpyDocParser(AbstractDocstringParser):
             description=function_result.description or "",
         )
 
-    def __get_cached_function_numpydoc_string(
+    def __get_cached_numpydoc_string(
         self,
-        function_node: nodes.FuncDef,
+        node: nodes.FuncDef | nodes.ClassDef,
         docstring: str,
     ) -> Docstring:
         """
@@ -192,8 +187,8 @@ class NumpyDocParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function `get_parameter_documentation` when parsing sklearn. Afterwards, it was only 2.113s.
         """
-        if self.__cached_function_node is not function_node:
-            self.__cached_function_node = function_node
+        if self.__cached_node is not node:
+            self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DocstringStyle.NUMPYDOC)
 
         return self.__cached_docstring

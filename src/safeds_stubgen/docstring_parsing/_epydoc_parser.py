@@ -29,7 +29,7 @@ class EpydocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: nodes.FuncDef | None = None
+        self.__cached_node: nodes.FuncDef | None = None
         self.__cached_docstring: DocstringParam | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
@@ -43,7 +43,7 @@ class EpydocParser(AbstractDocstringParser):
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
-        docstring_obj = self.__get_cached_function_epydoc_string(function_node, docstring)
+        docstring_obj = self.__get_cached_epydoc_string(function_node, docstring)
 
         return FunctionDocstring(
             description=get_description(docstring_obj),
@@ -66,7 +66,7 @@ class EpydocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_epydoc = self.__get_cached_function_epydoc_string(function_node, docstring)
+        function_epydoc = self.__get_cached_epydoc_string(function_node, docstring)
         all_parameters_epydoc: list[DocstringParam] = function_epydoc.params
         matching_parameters_epydoc = [
             it for it in all_parameters_epydoc
@@ -86,9 +86,8 @@ class EpydocParser(AbstractDocstringParser):
     # Todo Attribute handling not yet implemented in docstring_parser library
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,  # noqa: ARG002
+        class_node: nodes.ClassDef,  # noqa: ARG002
         attribute_name: str,  # noqa: ARG002
-        parent_class: Class,  # noqa: ARG002
     ) -> AttributeDocstring:
         return AttributeDocstring()
 
@@ -105,7 +104,7 @@ class EpydocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_epydoc = self.__get_cached_function_epydoc_string(function_node, docstring)
+        function_epydoc = self.__get_cached_epydoc_string(function_node, docstring)
         function_returns = function_epydoc.returns
 
         if function_returns is None:
@@ -116,7 +115,7 @@ class EpydocParser(AbstractDocstringParser):
             description=function_returns.description or "",
         )
 
-    def __get_cached_function_epydoc_string(self, function_node: nodes.FuncDef, docstring: str) -> Docstring:
+    def __get_cached_epydoc_string(self, node: nodes.FuncDef, docstring: str) -> Docstring:
         """
         Return the EpydocString for the given function node.
 
@@ -126,8 +125,8 @@ class EpydocParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function get_parameter_documentation when parsing sklearn. Afterwards, it was only 2.113s.
         """
-        if self.__cached_function_node is not function_node:
-            self.__cached_function_node = function_node
+        if self.__cached_node is not node:
+            self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DocstringStyle.EPYDOC)
 
         return self.__cached_docstring

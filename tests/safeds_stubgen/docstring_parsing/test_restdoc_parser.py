@@ -1,14 +1,32 @@
-# Todo Function with return value
-import astroid
+from __future__ import annotations
+
+from pathlib import Path
+
 import pytest
-from library_analyzer.processing.api.docstring_parsing import RestDocParser
-from library_analyzer.processing.api.model import (
+from mypy import nodes
+from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
+
+# noinspection PyProtectedMember
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
+from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
     FunctionDocstring,
-    ParameterAssignment,
     ParameterDocstring,
+    RestDocParser,
     ResultDocstring,
 )
+
+from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+
+# Setup
+_test_dir = Path(__file__).parent.parent.parent
+mypy_file = _get_mypy_ast(
+    files=[
+        str(Path(_test_dir / "data" / "test_docstring_parser_package" / "test_restdoc.py")),
+    ],
+    package_paths=[],
+    root=Path(_test_dir / "data" / "test_docstring_parser_package"),
+)[0]
 
 
 @pytest.fixture()
@@ -16,35 +34,19 @@ def restdoc_parser() -> RestDocParser:
     return RestDocParser()
 
 
-class_with_documentation = '''
-class C:
-    """
-    Lorem ipsum. Code::
-
-        pass
-
-    Dolor sit amet.
-    """
-'''
-
-class_without_documentation = """
-class C:
-    pass
-"""
-
-
+# ############################## Class Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_class_documentation"),
+    ("class_name", "expected_class_documentation"),
     [
         (
-            class_with_documentation,
+            "ClassWithDocumentation",
             ClassDocstring(
                 description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
-            class_without_documentation,
+            "ClassWithoutDocumentation",
             ClassDocstring(
                 description="",
                 full_docstring="",
@@ -58,48 +60,28 @@ class C:
 )
 def test_get_class_documentation(
     restdoc_parser: RestDocParser,
-    python_code: str,
+    class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, class_name)
 
-    assert isinstance(node, astroid.ClassDef)
+    assert isinstance(node, nodes.ClassDef)
     assert restdoc_parser.get_class_documentation(node) == expected_class_documentation
 
 
-# language=python
-function_with_documentation = '''
-def f():
-    """
-    Lorem ipsum. Code::
-
-        pass
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-# language=python
-function_without_documentation = """
-def f():
-    pass
-"""
-
-
+# ############################## Function Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_function_documentation"),
+    ("function_name", "expected_function_documentation"),
     [
         (
-            function_with_documentation,
+            "function_with_documentation",
             FunctionDocstring(
                 description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
-            function_without_documentation,
+            "function_without_documentation",
             FunctionDocstring(
                 description="",
                 full_docstring="",
@@ -113,61 +95,22 @@ def f():
 )
 def test_get_function_documentation(
     restdoc_parser: RestDocParser,
-    python_code: str,
+    function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
+    node = _get_specific_mypy_node(mypy_file, function_name)
 
-    assert isinstance(node, astroid.FunctionDef)
+    assert isinstance(node, nodes.FuncDef)
     assert restdoc_parser.get_function_documentation(node) == expected_function_documentation
 
 
-# language=python
-class_with_parameters = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-class C:
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    :param p: foo defaults to 1
-    :type p: int
-    """
-
-    def __init__(self):
-        pass
-'''
-
-# language=python
-function_with_parameters = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    :param no_type_no_default: no type and no default
-    :param type_no_default: type but no default
-    :type type_no_default: int
-    :param with_default: foo that defaults to 2
-    :type with_default: int
-    :param *args: foo: *args
-    :type *args: int
-    :param **kwargs: foo: **kwargs
-    :type **kwargs: int
-    """
-
-    pass
-'''
-
-
+# ############################## Parameter Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
+    ("name", "is_class", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
     [
         (
-            class_with_parameters,
+            "ClassWithParameters",
+            True,
             "p",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -177,7 +120,8 @@ def f():
             ),
         ),
         (
-            class_with_parameters,
+            "ClassWithParameters",
+            True,
             "missing",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -187,7 +131,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "no_type_no_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -197,7 +142,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "type_no_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -207,7 +153,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "with_default",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
@@ -217,7 +164,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "*args",
             ParameterAssignment.POSITIONAL_VARARG,
             ParameterDocstring(
@@ -227,7 +175,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "**kwargs",
             ParameterAssignment.NAMED_VARARG,
             ParameterDocstring(
@@ -237,7 +186,8 @@ def f():
             ),
         ),
         (
-            function_with_parameters,
+            "function_with_parameters",
+            False,
             "missing",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(type="", default_value="", description=""),
@@ -256,100 +206,81 @@ def f():
 )
 def test_get_parameter_documentation(
     restdoc_parser: RestDocParser,
-    python_code: str,
+    name: str,
+    is_class: bool,
     parameter_name: str,
     parameter_assigned_by: ParameterAssignment,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
-    assert isinstance(node, astroid.ClassDef | astroid.FunctionDef)
+    parent = None
+    node = _get_specific_mypy_node(mypy_file, name)
+    if is_class:
+        assert isinstance(node, nodes.ClassDef)
+        class_doc = restdoc_parser.get_class_documentation(node)
+        parent = Class(
+            id=node.fullname,
+            name=node.name,
+            superclasses=[],
+            is_public=True,
+            docstring=class_doc
+        )
+    else:
+        assert isinstance(node, nodes.FuncDef)
 
     # Find the constructor
-    if isinstance(node, astroid.ClassDef):
-        for method in node.mymethods():
-            if method.name == "__init__":
-                node = method
+    if isinstance(node, nodes.ClassDef):
+        for definition in get_classdef_definitions(node):
+            if isinstance(definition, nodes.FuncDef) and definition.name == "__init__":
+                node = definition
+                break
+        assert isinstance(node, nodes.FuncDef)
 
-    assert isinstance(node, astroid.FunctionDef)
+    parameter_documentation = restdoc_parser.get_parameter_documentation(
+        function_node=node,
+        parameter_name=parameter_name,
+        parameter_assigned_by=parameter_assigned_by,
+        parent_class=parent
+    )
+
     assert (
-        restdoc_parser.get_parameter_documentation(node, parameter_name, parameter_assigned_by)
+        parameter_documentation
         == expected_parameter_documentation
     )
 
 
-# language=python
-function_with_return_value_and_type = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    :return: return value
-    :rtype: bool
-    """
-
-    pass
-'''
-
-# language=python
-function_with_return_value_no_type = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-
-    :return: return value
-    """
-
-    pass
-'''
-
-# language=python
-function_without_return_value = '''
-# noinspection PyUnresolvedReferences,PyIncorrectDocstring
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-
+# ############################## Result Documentation ############################## #
 @pytest.mark.parametrize(
-    ("python_code", "expected_return_documentation"),
+    ("function_name", "expected_result_documentation"),
     [
         (
-            function_with_return_value_and_type,
+            "function_with_return_value_and_type",
             ResultDocstring(type="bool", description="return value"),
         ),
         (
-            function_with_return_value_no_type,
+            "function_with_return_value_no_type",
             ResultDocstring(type="", description="return value"),
         ),
-        (function_without_return_value, ResultDocstring(type="", description="")),
+        (
+            "function_without_return_value",
+            ResultDocstring(type="", description="")
+        ),
     ],
-    ids=["existing return value and type", "existing return value no type", "function without return value"],
+    ids=[
+        "existing return value and type",
+        "existing return value no type",
+        "function without return value"
+    ],
 )
 def test_get_result_documentation(
     restdoc_parser: RestDocParser,
-    python_code: str,
-    expected_return_documentation: ResultDocstring,
+    function_name: str,
+    expected_result_documentation: ResultDocstring,
 ) -> None:
-    node = astroid.extract_node(python_code)
-    assert isinstance(node, astroid.ClassDef | astroid.FunctionDef)
+    node = _get_specific_mypy_node(mypy_file, function_name)
+    assert isinstance(node, nodes.FuncDef)
 
-    # Find the constructor
-    if isinstance(node, astroid.ClassDef):
-        for method in node.mymethods():
-            if method.name == "__init__":
-                node = method
-
-    assert isinstance(node, astroid.FunctionDef)
-    assert restdoc_parser.get_result_documentation(node) == expected_return_documentation
+    fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
+    assert (
+        restdoc_parser.get_result_documentation(node, fake_parent)
+        == expected_result_documentation
+    )

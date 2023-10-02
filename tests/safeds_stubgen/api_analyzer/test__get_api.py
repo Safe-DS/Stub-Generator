@@ -60,7 +60,7 @@ def _get_specific_class_data(class_name: str, docstring_style: str = "plaintext"
     data_type = "enums" if is_enum else "classes"
     api_data = get_api_data(docstring_style)
     for class_ in api_data[data_type]:
-        if class_["id"].endswith(class_name):
+        if class_["id"].endswith(f"/{class_name}"):
             return class_
     raise AssertionError
 

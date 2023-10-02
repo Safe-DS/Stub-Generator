@@ -29,7 +29,7 @@ class GoogleDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: nodes.FuncDef | None = None
+        self.__cached_node: nodes.FuncDef | None = None
         self.__cached_docstring: DocstringParam | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
@@ -43,7 +43,7 @@ class GoogleDocParser(AbstractDocstringParser):
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
-        docstring_obj = self.__get_cached_function_googledoc_string(function_node, docstring)
+        docstring_obj = self.__get_cached_googledoc_string(function_node, docstring)
 
         return FunctionDocstring(
             description=get_description(docstring_obj),
@@ -66,7 +66,7 @@ class GoogleDocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_googledoc = self.__get_cached_function_googledoc_string(function_node, docstring)
+        function_googledoc = self.__get_cached_googledoc_string(function_node, docstring)
         all_parameters_googledoc: list[DocstringParam] = function_googledoc.params
         matching_parameters_googledoc = [
             it for it in all_parameters_googledoc
@@ -85,23 +85,17 @@ class GoogleDocParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,
+        class_node: nodes.ClassDef,
         attribute_name: str,
-        parent_class: Class,
     ) -> AttributeDocstring:
-        from safeds_stubgen.api_analyzer import Class
-
-        # For constructors (__init__ functions) the attributes are described on the class
-        if function_node.name == "__init__" and isinstance(parent_class, Class):
-            docstring = parent_class.docstring.full_docstring
-        else:
-            docstring = get_full_docstring(function_node)
+        docstring = get_full_docstring(class_node)
 
         # Find matching attribute docstrings
-        function_googledoc = self.__get_cached_function_googledoc_string(function_node, docstring)
+        function_googledoc = self.__get_cached_googledoc_string(class_node, docstring)
         all_attributes_googledoc: list[DocstringParam] = function_googledoc.params
         matching_attributes_googledoc = [
-            it for it in all_attributes_googledoc if it.arg_name == attribute_name and it.args[0] == "attribute"
+            it for it in all_attributes_googledoc
+            if it.arg_name == attribute_name and it.args[0] == "attribute"
         ]
 
         if len(matching_attributes_googledoc) == 0:
@@ -123,7 +117,7 @@ class GoogleDocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_googledoc = self.__get_cached_function_googledoc_string(function_node, docstring)
+        function_googledoc = self.__get_cached_googledoc_string(function_node, docstring)
         function_returns = function_googledoc.returns
 
         if function_returns is None:
@@ -131,7 +125,7 @@ class GoogleDocParser(AbstractDocstringParser):
 
         return ResultDocstring(type=function_returns.type_name or "", description=function_returns.description or "")
 
-    def __get_cached_function_googledoc_string(self, function_node: nodes.FuncDef, docstring: str) -> Docstring:
+    def __get_cached_googledoc_string(self, node: nodes.FuncDef | nodes.ClassDef, docstring: str) -> Docstring:
         """
         Return the GoogleDocString for the given function node.
 
@@ -141,8 +135,8 @@ class GoogleDocParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function get_parameter_documentation when parsing sklearn. Afterward, it was only 2.113s.
         """
-        if self.__cached_function_node is not function_node:
-            self.__cached_function_node = function_node
+        if self.__cached_node is not node:
+            self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DocstringStyle.GOOGLE)
 
         return self.__cached_docstring

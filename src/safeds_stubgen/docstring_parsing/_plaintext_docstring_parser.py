@@ -42,9 +42,8 @@ class PlaintextDocstringParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,  # noqa: ARG002
+        class_node: nodes.ClassDef,  # noqa: ARG002
         attribute_name: str,  # noqa: ARG002
-        parent_class: Class,  # noqa: ARG002
     ) -> AttributeDocstring:
         return AttributeDocstring()
 

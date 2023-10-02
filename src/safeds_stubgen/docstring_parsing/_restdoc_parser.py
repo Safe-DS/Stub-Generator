@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 
 from docstring_parser import Docstring, DocstringParam, DocstringStyle
 from docstring_parser import parse as parse_docstring
+from mypy import nodes
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -16,7 +17,6 @@ from ._docstring import (
 from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
-    from mypy import nodes
     from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
@@ -84,27 +84,38 @@ class RestDocParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        function_node: nodes.FuncDef,
+        class_node: nodes.ClassDef,
         attribute_name: str,
-        parent_class: Class,
     ) -> AttributeDocstring:
-        from safeds_stubgen.api_analyzer import ParameterAssignment
         # ReST docstrings do not differentiate between parameter and attributes,
         # therefore we recycle the parameter function
+        from safeds_stubgen.api_analyzer import ParameterAssignment, get_classdef_definitions, Class
 
-        # ParameterAssignment is unimportant and therefore only a random assignment
-        documentation = self.get_parameter_documentation(
-            function_node=function_node,
-            parameter_name=attribute_name,
-            parameter_assigned_by=ParameterAssignment.POSITION_OR_NAME,
-            parent_class=parent_class,
-        )
+        function_node = None
+        for definition in get_classdef_definitions(class_node):
+            if isinstance(definition, nodes.FuncDef) and definition.name == "__init__":
+                function_node = definition
 
-        return AttributeDocstring(
-            type=documentation.type,
-            default_value=documentation.default_value,
-            description=documentation.description,
-        )
+        if function_node is not None:
+            # ParameterAssignment and parent are unimportant in this case
+            class_docs = self.get_class_documentation(class_node)
+            fake_parent = Class(
+                id="", name="", superclasses=[], is_public=True, docstring=class_docs
+            )
+
+            documentation = self.get_parameter_documentation(
+                function_node=function_node,
+                parameter_name=attribute_name,
+                parameter_assigned_by=ParameterAssignment.POSITION_OR_NAME,
+                parent_class=fake_parent,
+            )
+
+            return AttributeDocstring(
+                type=documentation.type,
+                default_value=documentation.default_value,
+                description=documentation.description,
+            )
+        return AttributeDocstring()
 
     def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
         from safeds_stubgen.api_analyzer import Class

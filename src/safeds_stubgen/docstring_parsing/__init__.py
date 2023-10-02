@@ -7,6 +7,7 @@ from ._docstring_style import DocstringStyle
 from ._epydoc_parser import EpydocParser
 from ._googledoc_parser import GoogleDocParser
 from ._numpydoc_parser import NumpyDocParser
+from ._plaintext_docstring_parser import PlaintextDocstringParser
 from ._restdoc_parser import RestDocParser
 
 __all__ = [
@@ -19,6 +20,7 @@ __all__ = [
     "GoogleDocParser",
     "NumpyDocParser",
     "ParameterDocstring",
+    "PlaintextDocstringParser",
     "RestDocParser",
     "ResultDocstring",
 ]

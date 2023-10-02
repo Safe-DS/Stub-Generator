@@ -1,63 +1,56 @@
-import astroid
+from __future__ import annotations
+
+from pathlib import Path
+
 import pytest
-from library_analyzer.processing.api.docstring_parsing._helpers import get_full_docstring
+from mypy import nodes
 
-class_with_multi_line_documentation = '''
-class C:
-    """
-    Lorem ipsum.
+# noinspection PyProtectedMember
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
 
-    Dolor sit amet.
-    """
+# noinspection PyProtectedMember
+from safeds_stubgen.docstring_parsing._helpers import get_full_docstring
 
-    pass
-'''
+from tests.safeds_stubgen._helpers import _get_specific_mypy_node
 
-class_with_single_line_documentation = '''
-class C:
-    """Lorem ipsum."""
-
-    pass
-'''
-
-class_without_documentation = """
-class C:
-    pass
-"""
-
-function_with_multi_line_documentation = '''
-def f():
-    """
-    Lorem ipsum.
-
-    Dolor sit amet.
-    """
-
-    pass
-'''
-
-function_with_single_line_documentation = '''
-def f():
-    """Lorem ipsum."""
-
-    pass
-'''
-
-function_without_documentation = """
-def f():
-    pass
-"""
+# Setup
+_test_dir = Path(__file__).parent.parent.parent
+mypy_file = _get_mypy_ast(
+    files=[
+        str(Path(_test_dir / "data" / "test_docstring_parser_package" / "test_full_docstring.py")),
+    ],
+    package_paths=[],
+    root=Path(_test_dir / "data" / "test_docstring_parser_package"),
+)[0]
 
 
 @pytest.mark.parametrize(
-    ("python_code", "expected_docstring"),
+    ("name", "expected_docstring"),
     [
-        (class_with_multi_line_documentation, "Lorem ipsum.\n\nDolor sit amet."),
-        (class_with_single_line_documentation, "Lorem ipsum."),
-        (class_without_documentation, ""),
-        (function_with_multi_line_documentation, "Lorem ipsum.\n\nDolor sit amet."),
-        (function_with_single_line_documentation, "Lorem ipsum."),
-        (function_without_documentation, ""),
+        (
+            "ClassWithMultiLineDocumentation",
+            "Lorem ipsum.\n\nDolor sit amet.",
+        ),
+        (
+            "ClassWithSingleLineDocumentation",
+            "Lorem ipsum.",
+        ),
+        (
+            "ClassWithoutDocumentation",
+            "",
+        ),
+        (
+            "function_with_multi_line_documentation",
+            "Lorem ipsum.\n\nDolor sit amet.",
+        ),
+        (
+            "function_with_single_line_documentation",
+            "Lorem ipsum.",
+        ),
+        (
+            "function_without_documentation",
+            "",
+        ),
     ],
     ids=[
         "class with multi line documentation",
@@ -68,8 +61,8 @@ def f():
         "function without documentation",
     ],
 )
-def test_get_full_docstring(python_code: str, expected_docstring: str) -> None:
-    node = astroid.extract_node(python_code)
+def test_get_full_docstring(name: str, expected_docstring: str) -> None:
+    node = _get_specific_mypy_node(mypy_file, name)
 
-    assert isinstance(node, astroid.ClassDef | astroid.FunctionDef)
+    assert isinstance(node, nodes.ClassDef | nodes.FuncDef)
     assert get_full_docstring(node) == expected_docstring
