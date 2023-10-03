@@ -26,7 +26,6 @@ from safeds_stubgen.docstring_parsing import (
     AbstractDocstringParser,
     ClassDocstring,
     FunctionDocstring,
-    ParameterDocstring,
     ResultDocstring,
 )
 
@@ -147,6 +146,14 @@ class MyPyAstVisitor:
         # Get reexported data
         reexported_by = self.get_reexported_by(name)
 
+        # Get constructor docstring
+        definitions = get_classdef_definitions(node)
+        constructor_fulldocstring = ""
+        for definition in definitions:
+            if isinstance(definition, FuncDef) and definition.name == "__init__":
+                constructor_docstring = self.docstring_parser.get_function_documentation(definition)
+                constructor_fulldocstring = constructor_docstring.full_docstring
+
         # Remember class, so we can later add methods
         class_ = Class(
             id=id_,
@@ -155,6 +162,7 @@ class MyPyAstVisitor:
             is_public=self.is_public(node.name, name),
             docstring=docstring,
             reexported_by=reexported_by,
+            constructor_fulldocstring=constructor_fulldocstring,
         )
         self.__declaration_stack.append(class_)
 
@@ -264,7 +272,8 @@ class MyPyAstVisitor:
 
         for lvalue in node.lvalues:
             if isinstance(parent, Class):
-                assignments = self.parse_attributes(lvalue, is_static=True)
+                for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
+                    assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
                 try:
                     grand_parent = self.__declaration_stack[-2]
@@ -274,7 +283,8 @@ class MyPyAstVisitor:
 
                 if grand_parent is not None and isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
                     # Ignore non instance attributes in __init__ classes
-                    assignments = self.parse_attributes(lvalue, is_static=False)
+                    for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
+                        assignments.append(assignment)
 
             elif isinstance(parent, Enum):
                 names = []
@@ -358,7 +368,12 @@ class MyPyAstVisitor:
 
     # #### Attribute utilities
 
-    def parse_attributes(self, lvalue: NameExpr | MemberExpr, is_static=True) -> list[Attribute]:
+    def parse_attributes(
+        self,
+        lvalue: NameExpr | MemberExpr,
+        unanalyzed_type: mp_types.UnboundType,
+        is_static=True,
+    ) -> list[Attribute]:
         attributes: list[Attribute] = []
 
         if hasattr(lvalue, "name"):
@@ -366,7 +381,7 @@ class MyPyAstVisitor:
                 return attributes
 
             attributes.append(
-                self.create_attribute(lvalue, is_static),
+                self.create_attribute(lvalue, unanalyzed_type, is_static),
             )
 
         elif hasattr(lvalue, "items"):
@@ -376,7 +391,7 @@ class MyPyAstVisitor:
                     continue
 
                 attributes.append(
-                    self.create_attribute(lvalue_, is_static),
+                    self.create_attribute(lvalue_, unanalyzed_type, is_static),
                 )
 
         return attributes
@@ -395,7 +410,12 @@ class MyPyAstVisitor:
             raise ValueError(f"The attribute {value_name} has no value.")
         return False
 
-    def create_attribute(self, attribute, is_static: bool) -> Attribute:
+    def create_attribute(
+        self,
+        attribute: NameExpr | MemberExpr,
+        unanalyzed_type: mp_types.UnboundType,
+        is_static: bool,
+    ) -> Attribute:
         # Get name and qname
         name = attribute.name
         qname = getattr(attribute, "fullname", "")
@@ -408,8 +428,14 @@ class MyPyAstVisitor:
             if not attribute.node.is_inferred:
                 attribute_type: Instance = attribute.node.type
         elif isinstance(attribute, NameExpr):
-            if not attribute.node.explicit_self_type:
+            if not attribute.node.explicit_self_type and not attribute.node.is_inferred:
                 attribute_type: Instance = attribute.node.type
+
+                # We need to get the unanalyzed_type for lists, since mypy is not able to check information regarding
+                #  list item types
+                if hasattr(attribute_type, "type") and attribute_type.type.fullname == "builtins.list":
+                    attribute_type.args = unanalyzed_type.args
+
         else:
             raise TypeError("Attribute has an unexpected type.")
 
@@ -417,13 +443,20 @@ class MyPyAstVisitor:
         if attribute_type is not None:
             type_ = mypy_type_to_abstract_type(attribute_type)
 
+        # Get docstring
+        parent = self.__declaration_stack[-1]
+        if isinstance(parent, Function) and parent.name == "__init__":
+            parent = self.__declaration_stack[-2]
+        assert isinstance(parent, Class)
+        docstring = self.docstring_parser.get_attribute_documentation(parent, name)
+
         return Attribute(
             id=self.__get_id(name),
             name=name,
             type=type_,
             is_public=self.is_public(name, qname),
             is_static=is_static,
-            description="",
+            docstring=docstring,
         )
 
     # #### Parameter utilities
@@ -455,13 +488,22 @@ class MyPyAstVisitor:
                     default_value = value
                     is_optional = True
 
+            parent = self.__declaration_stack[-1]
+            parent = parent if isinstance(parent, Class) else None
+            docstring = self.docstring_parser.get_parameter_documentation(
+                function_node=node,
+                parameter_name=arg_name,
+                parameter_assigned_by=arg_kind,
+                parent_class=parent
+            )
+
             arguments.append(Parameter(
                 id=f"{function_id}/{arg_name}",
                 name=arg_name,
                 is_optional=is_optional,
                 default_value=default_value,
                 assigned_by=arg_kind,
-                docstring=ParameterDocstring(),
+                docstring=docstring,
                 type=arg_type,
             ))
 

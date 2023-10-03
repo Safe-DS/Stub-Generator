@@ -112,13 +112,12 @@ class GoogleDocstringClass:
 
     A class with a variety of different methods for calculations. (Google Style)
 
-    Attributes
-    ----------
+    Attributes:
         attr_1 (str): Attribute of the calculator. (Google Style)
 
     Args:
         param_1 (str): Parameter of the calculator. (Google Style)
-    """
+    """  # noqa: D406, D407
 
     attr_1: str
 
@@ -135,10 +134,9 @@ class GoogleDocstringClass:
             x (int): First integer value for the calculation. (Google Style)
             y (int): Second integer value for the calculation. (Google Style)
 
-        Returns
-        -------
+        Returns:
             bool: Checks if the sum of x and y is greater than 10 and returns
                   a boolean value. (Google Style)
-        """  # noqa: D401
+        """  # noqa: D401, D406, D407
         z = x + y
         return z < 10

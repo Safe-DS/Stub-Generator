@@ -3,8 +3,8 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from docstring_parser import DocstringStyle
 from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.docstring_parsing import DocstringStyle
 
 _test_dir = Path(__file__).parent.parent.parent
 _test_package_name = "test_package"
@@ -69,7 +69,7 @@ def get_api_data(docstring_style: str):
     return {
         "plaintext": api_data_paintext,
         "epydoc": api_data_epydoc,
-        "numpy": api_data_numpy,
+        "numpydoc": api_data_numpy,
         "rest": api_data_rest,
         "google": api_data_google,
     }[docstring_style]
@@ -122,10 +122,10 @@ def _assert_list_of_dicts(list_1: list[dict], list_2: list[dict]) -> None:
 
 
 # ############################## Module ############################## #
-module_test_module = [{
+module_test_module = {
     "id": "test_package/test_module",
     "name": "test_module",
-    "docstring": "Docstring of the some_class.py module",
+    "docstring": "Docstring of the some_class.py module.",
     "qualified_imports": [
         {
             "qualified_name": "math",
@@ -161,9 +161,9 @@ module_test_module = [{
         "test_package/test_module/_private_global_func",
     ],
     "enums": [],
-}]
+}
 
-module_another_module = [{
+module_another_module = {
     "id": "test_package/another_module",
     "name": "another_module",
     "docstring": "Another Module Docstring.\n\nFull Docstring Description\n",
@@ -174,9 +174,9 @@ module_another_module = [{
     ],
     "functions": [],
     "enums": [],
-}]
+}
 
-module_test_enums = [{
+module_test_enums = {
     "id": "test_package/test_enums",
     "name": "test_enums",
     "docstring": "",
@@ -202,9 +202,9 @@ module_test_enums = [{
         "test_package/test_enums/_ReexportedEmptyEnum",
         "test_package/test_enums/AnotherTestEnum",
     ],
-}]
+}
 
-module___init__ = [{
+module___init__ = {
     "id": "test_package/__init__",
     "name": "__init__",
     "docstring": "",
@@ -225,6 +225,10 @@ module___init__ = [{
             "qualified_name": "test_enums._ReexportedEmptyEnum",
             "alias": None,
         },
+        {
+            "qualified_name": "_reexport_module_4.FourthReexportClass",
+            "alias": None,
+        },
     ],
     "wildcard_imports": [
         {
@@ -234,9 +238,9 @@ module___init__ = [{
     "classes": [],
     "functions": [],
     "enums": [],
-}]
+}
 
-module_test_docstrings = [{
+module_test_docstrings = {
     "id": "test_package/test_docstrings",
     "name": "test_docstrings",
     "docstring": "Test module for docstring tests.\n\nA module for testing the various docstring types.\n",
@@ -250,7 +254,7 @@ module_test_docstrings = [{
     ],
     "functions": [],
     "enums": [],
-}]
+}
 
 
 @pytest.mark.parametrize(
@@ -294,8 +298,11 @@ def test_modules(
 
     # Sort data before comparing
     for data_pack in [expected_module_data, module_data]:
-        for entry_to_sort in ["enums", "functions", "classes", "wildcard_imports", "qualified_imports"]:
+        for entry_to_sort in ["enums", "functions", "classes"]:
             data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
+
+        data_pack["qualified_imports"] = _sort_list_of_dicts(data_pack["qualified_imports"], ["qualified_name"])
+        data_pack["wildcard_imports"] = _sort_list_of_dicts(data_pack["wildcard_imports"], ["module_name"])
 
     # Assert
     assert module_data == expected_module_data
@@ -432,13 +439,13 @@ def test_imports(
 
 
 # ############################## Classes ############################## #
-# Todo Description for docstring __init__ methods -> Docstrings nötig? -> Ja
+# Todo Frage: Wie behandeln wir self attr in __init__? Soll ID ../__init__/attr mit oder ohne init sein?
 class_test_module_someclass = {
     "id": "test_package/test_module/SomeClass",
     "name": "SomeClass",
     "superclasses": [
         "math",
-        "tests.data.test_package.test_module.s",
+        "tests.data.test_package.test_module.AcDoubleAlias",
     ],
     "is_public": True,
     "reexported_by": [],
@@ -446,20 +453,22 @@ class_test_module_someclass = {
     "constructor": {
         "id": "test_package/test_module/SomeClass/__init__",
         "name": "__init__",
-        "description": "Summary of the init description.\n\nFull init description",
+        "description": "Summary of the init description.\n\nFull init description.",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "test_package/test_module/SomeClass/__init__-self",
+            "test_package/test_module/SomeClass/__init__/self",
+            "test_package/test_module/SomeClass/__init__/init_param_1",
         ],
         "results": [],
     },
     "attributes": [
-        "test_package/test_module/SomeClass/no_type_hint_public",
-        "test_package/test_module/SomeClass/_no_type_hint_private",
+        "test_package/test_module/SomeClass/dict_attr_2",
         "test_package/test_module/SomeClass/type_hint_public",
         "test_package/test_module/SomeClass/_type_hint_private",
+        "test_package/test_module/SomeClass/no_type_hint_public",
+        "test_package/test_module/SomeClass/_no_type_hint_private",
         "test_package/test_module/SomeClass/object_attr",
         "test_package/test_module/SomeClass/object_attr_2",
         "test_package/test_module/SomeClass/tuple_attr_1",
@@ -470,7 +479,6 @@ class_test_module_someclass = {
         "test_package/test_module/SomeClass/list_attr_3",
         "test_package/test_module/SomeClass/list_attr_4",
         "test_package/test_module/SomeClass/dict_attr_1",
-        "test_package/test_module/SomeClass/dict_attr_2",
         "test_package/test_module/SomeClass/dict_attr_3",
         "test_package/test_module/SomeClass/bool_attr",
         "test_package/test_module/SomeClass/none_attr",
@@ -479,8 +487,10 @@ class_test_module_someclass = {
         "test_package/test_module/SomeClass/str_attr_with_none_value",
         "test_package/test_module/SomeClass/mulit_attr_1",
         "test_package/test_module/SomeClass/_mulit_attr_2_private",
-        "test_package/test_module/SomeClass/mulit_attr_3",
+        "test_package/test_module/SomeClass/_mulit_attr_4_private",
         "test_package/test_module/SomeClass/override_in_init",
+        "test_package/test_module/SomeClass/__init__/init_attr",
+        "test_package/test_module/SomeClass/__init__/_init_attr_private",
     ],
     "methods": [
         "test_package/test_module/SomeClass/_some_function",
@@ -529,12 +539,13 @@ class_test_module__privateclass = {
         "is_static": False,
         "reexported_by": [],
         "parameters": [
-            "test_package/test_module/_PrivateClass/__init__-self",
+            "test_package/test_module/_PrivateClass/__init__/self",
         ],
         "results": [],
     },
     "attributes": [
         "test_package/test_module/_PrivateClass/public_attr_in_private_class",
+        "test_package/test_module/_PrivateClass/__init__/public_init_attr_in_private_class",
     ],
     "methods": [
         "test_package/test_module/_PrivateClass/public_func_in_private_class",
@@ -548,7 +559,7 @@ class_test_module_nestedprivateclass = {
     "id": "test_package/test_module/_PrivateClass/NestedPrivateClass",
     "name": "NestedPrivateClass",
     "superclasses": [],
-    "is_public": False,
+    "is_public": True,
     "reexported_by": [],
     "description": "",
     "constructor": None,
@@ -556,8 +567,7 @@ class_test_module_nestedprivateclass = {
         "test_package/test_module/_PrivateClass/NestedPrivateClass/nested_class_attr",
     ],
     "methods": [
-        "test_package/test_module/_PrivateClass/NestedPrivateClass/"
-        "nested_private_class_function",
+        "test_package/test_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function",
     ],
     "classes": [
         "test_package/test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass",
@@ -568,7 +578,7 @@ class_test_module_nestednestedprivateclass = {
     "id": "test_package/test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass",
     "name": "NestedNestedPrivateClass",
     "superclasses": [],
-    "is_public": False,
+    "is_public": True,
     "reexported_by": [],
     "description": "",
     "constructor": None,
@@ -582,8 +592,7 @@ class_test_docstrings_epydocdocstringclass = {
     "name": "EpydocDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations."
-                   " (Epydoc)",
+    "description": "A class with a variety of different methods for calculations. (Epydoc).",
     "constructor": {
         "id": "test_package/test_docstrings/EpydocDocstringClass/__init__",
         "name": "__init__",
@@ -612,7 +621,7 @@ class_test_docstrings_restdocstringclass = {
     "name": "RestDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations. (ReST)",
+    "description": "A class with a variety of different methods for calculations. (ReST).",
     "constructor": {
         "id": "test_package/test_docstrings/RestDocstringClass/__init__",
         "name": "__init__",
@@ -641,7 +650,8 @@ class_test_docstrings_numpydocstringclass = {
     "name": "NumpyDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations. (Numpy)",
+    "description": "A class that calculates stuff. (Numpy).\n\n"
+                   "A class with a variety of different methods for calculations. (Numpy)",
     "constructor": {
         "id": "test_package/test_docstrings/NumpyDocstringClass/__init__",
         "name": "__init__",
@@ -670,7 +680,8 @@ class_test_docstrings_googledocstringclass = {
     "name": "GoogleDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations. (Google Style)",
+    "description": "A class that calculates stuff. (Google Style).\n\n"
+                   "A class with a variety of different methods for calculations. (Google Style)",
     "constructor": {
         "id": "test_package/test_docstrings/GoogleDocstringClass/__init__",
         "name": "__init__",
@@ -796,7 +807,7 @@ class__reexport_module_4_fourthreexportclass = {
         (
             "NumpyDocstringClass",
             class_test_docstrings_numpydocstringclass,
-            "numpy",
+            "numpydoc",
         ),
         (
             "GoogleDocstringClass",
@@ -814,7 +825,7 @@ class__reexport_module_4_fourthreexportclass = {
             "plaintext",
         ),
         (
-            "ThirdReexportClass",
+            "_ThirdReexportClass",
             class__reexport_module_3_thirdreexportclass,
             "plaintext",
         ),
@@ -836,7 +847,7 @@ class__reexport_module_4_fourthreexportclass = {
         "Classes: GoogleDocstringClass",
         "Classes: ReexportClass",
         "Classes: AnotherReexportClass",
-        "Classes: ThirdReexportClass",
+        "Classes: _ThirdReexportClass",
         "Classes: FourthReexportClass",
     ],
 )
@@ -853,6 +864,9 @@ def test_classes(
         for entry_to_sort in ["superclasses", "attributes", "methods", "classes"]:
             data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
 
+        if data_pack["constructor"]:
+            data_pack["constructor"]["parameters"] = sorted(data_pack["constructor"]["parameters"])
+
     # Assert
     assert class_data == expected_class_data
 
@@ -860,30 +874,14 @@ def test_classes(
 # ############################## Class Attributes ############################## #
 class_attributes_test_module_someclass = [
     {
-        "id": "test_package/test_module/SomeClass/no_type_hint_public",
-        "name": "no_type_hint_public",
-        "is_public": True,
-        "is_static": True,
-        "types": [],
-        "description": "",
-    },
-    {
-        "id": "test_package/test_module/SomeClass/_no_type_hint_private",
-        "name": "_no_type_hint_private",
-        "is_public": False,
-        "is_static": True,
-        "types": [],
-        "description": "",
-    },
-    {
         "id": "test_package/test_module/SomeClass/type_hint_public",
         "name": "type_hint_public",
         "is_public": True,
         "is_static": True,
-        "types": [{
+        "type": {
             "kind": "builtins",
             "name": "int",
-        }],
+        },
         "description": "",
     },
     {
@@ -891,10 +889,26 @@ class_attributes_test_module_someclass = [
         "name": "_type_hint_private",
         "is_public": False,
         "is_static": True,
-        "types": [{
+        "types": {
             "kind": "builtins",
             "name": "int",
-        }],
+        },
+        "description": "",
+    },
+    {
+        "id": "test_package/test_module/SomeClass/no_type_hint_public",
+        "name": "no_type_hint_public",
+        "is_public": True,
+        "is_static": True,
+        "type": None,
+        "description": "",
+    },
+    {
+        "id": "test_package/test_module/SomeClass/_no_type_hint_private",
+        "name": "_no_type_hint_private",
+        "is_public": False,
+        "is_static": True,
+        "type": None,
         "description": "",
     },
     {
@@ -902,10 +916,10 @@ class_attributes_test_module_someclass = [
         "name": "object_attr",
         "is_public": True,
         "is_static": True,
-        "types": [{
-            "kind": "UnboundType",
+        "type": {
+            "kind": "NamedType",
             "name": "AnotherClass",
-        }],
+        },
         "description": "",
     },
     {
@@ -914,16 +928,19 @@ class_attributes_test_module_someclass = [
         "name": "object_attr_2",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "AnotherClass",
-            },
-            {
-                "kind": "UnboundType",
-                "name": "math",
-            },
-        ],
+        "type": {
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "AnotherClass",
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "mathematics",
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -931,12 +948,10 @@ class_attributes_test_module_someclass = [
         "name": "tuple_attr_1",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "tuple",
-            },
-        ],
+        "type": {
+            "kind": "UnboundType",
+            "name": "tuple",
+        },
         "description": "",
     },
     {
@@ -944,12 +959,24 @@ class_attributes_test_module_someclass = [
         "name": "tuple_attr_2",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "tuple[str | int]",  # Todo Wie soll das dargestellt werden?
-            },
-        ],
+        "type": {
+            "kind": "TupleType",
+            "types": [
+                {
+                    "kind": "UnionType",
+                    "types": [
+                        {
+                            "kind": "NamedType",
+                            "name": "str",
+                        },
+                        {
+                            "kind": "NamedType",
+                            "name": "int",
+                        },
+                    ],
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -957,12 +984,19 @@ class_attributes_test_module_someclass = [
         "name": "tuple_attr_3",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "tuple[str, int]",  # Todo Wie soll das dargestellt werden?
-            },
-        ],
+        "type": {
+            "kind": "TupleType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "str",
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "int",
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -970,12 +1004,15 @@ class_attributes_test_module_someclass = [
         "name": "list_attr_1",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "list",
-            },
-        ],
+        "type": {
+            "kind": "ListType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "Any",
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -983,12 +1020,24 @@ class_attributes_test_module_someclass = [
         "name": "list_attr_2",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "list[str | AnotherClass]",
-            },
-        ],
+        "type": {
+            "kind": "ListType",
+            "types": [
+                {
+                    "kind": "UnionType",
+                    "types": [
+                        {
+                            "kind": "NamedType",
+                            "name": "str",
+                        },
+                        {
+                            "kind": "NamedType",
+                            "name": "AnotherClass",
+                        },
+                    ],
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -996,12 +1045,19 @@ class_attributes_test_module_someclass = [
         "name": "list_attr_3",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "list[str, AnotherClass]",
-            },
-        ],
+        "type": {
+            "kind": "ListType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "str"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "AcDoubleAlias"
+                }
+            ]
+        },
         "description": "",
     },
     {
@@ -1009,12 +1065,28 @@ class_attributes_test_module_someclass = [
         "name": "list_attr_4",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "list[str, AnotherClass | int]",
-            },
-        ],
+        "type": {
+            "kind": "ListType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "str"
+                },
+                {
+                    "kind": "UnionType",
+                    "types": [
+                        {
+                            "kind": "NamedType",
+                            "name": "_AcImportAlias"
+                        },
+                        {
+                            "kind": "NamedType",
+                            "name": "int"
+                        }
+                    ]
+                }
+            ]
+        },
         "description": "",
     },
     {
@@ -1022,12 +1094,17 @@ class_attributes_test_module_someclass = [
         "name": "dict_attr_1",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "dict",
+        "type": {
+            "kind": "DictType",
+            "key_type": {
+                "kind": "NamedType",
+                "name": "Any",
             },
-        ],
+            "value_type": {
+                "kind": "NamedType",
+                "name": "Any",
+            },
+        },
         "description": "",
     },
     {
@@ -1035,12 +1112,17 @@ class_attributes_test_module_someclass = [
         "name": "dict_attr_2",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "dict[str | int, None | AnotherClass]",
+        "type": {
+            "kind": "DictType",
+            "key_type": {
+                "kind": "NamedType",
+                "name": "str",
             },
-        ],
+            "value_type": {
+                "kind": "NamedType",
+                "name": "int",
+            },
+        },
         "description": "",
     },
     {
@@ -1048,12 +1130,35 @@ class_attributes_test_module_someclass = [
         "name": "dict_attr_3",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "UnboundType",
-                "name": "dict[str, int]",
+        "type": {
+            "kind": "DictType",
+            "value_type": {
+                "kind": "UnionType",
+                "types": [
+                    {
+                        "kind": "NamedType",
+                        "name": "None",
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "AnotherClass",
+                    },
+                ],
             },
-        ],
+            "key_type": {
+                "kind": "UnionType",
+                "types": [
+                    {
+                        "kind": "NamedType",
+                        "name": "str",
+                    },
+                    {
+                        "kind": "NamedType",
+                        "name": "int",
+                    },
+                ],
+            },
+        },
         "description": "",
     },
     {
@@ -1061,12 +1166,10 @@ class_attributes_test_module_someclass = [
         "name": "bool_attr",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "bool",
-            },
-        ],
+        "type": {
+            "kind": "NamedType",
+            "name": "bool",
+        },
         "description": "",
     },
     {
@@ -1074,12 +1177,10 @@ class_attributes_test_module_someclass = [
         "name": "none_attr",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "None",
-            },
-        ],
+        "type": {
+            "kind": "NamedType",
+            "name": "None",
+        },
         "description": "",
     },
     {
@@ -1087,12 +1188,10 @@ class_attributes_test_module_someclass = [
         "name": "flaot_attr",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "float",
-            },
-        ],
+        "type": {
+            "kind": "NamedType",
+            "name": "float",
+        },
         "description": "",
     },
     {
@@ -1100,16 +1199,19 @@ class_attributes_test_module_someclass = [
         "name": "int_or_bool_attr",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "int",
-            },
-            {
-                "kind": "builtins",
-                "name": "bool",
-            },
-        ],
+        "type": {
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "int",
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "bool",
+                },
+            ],
+        },
         "description": "",
     },
     {
@@ -1117,12 +1219,10 @@ class_attributes_test_module_someclass = [
         "name": "str_attr_with_none_value",
         "is_public": True,
         "is_static": True,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "str",
-            },
-        ],
+        "type": {
+            "kind": "NamedType",
+            "name": "str",
+        },
         "description": "",
     },
     {
@@ -1130,7 +1230,7 @@ class_attributes_test_module_someclass = [
         "name": "x",
         "is_public": True,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
     {
@@ -1138,7 +1238,7 @@ class_attributes_test_module_someclass = [
         "name": "_mulit_attr_2_private",
         "is_public": False,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
     {
@@ -1146,7 +1246,7 @@ class_attributes_test_module_someclass = [
         "name": "x",
         "is_public": True,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
     {
@@ -1154,7 +1254,7 @@ class_attributes_test_module_someclass = [
         "name": "_mulit_attr_4_private",
         "is_public": False,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
     {
@@ -1171,7 +1271,7 @@ class_attributes_test_module_someclass = [
         "description": "",
     },
     {
-        "id": "test_package/test_module/SomeClass/init_attr",
+        "id": "test_package/test_module/SomeClass/__init__/init_attr",
         "name": "init_attr",
         "is_public": True,
         "is_static": False,
@@ -1184,7 +1284,7 @@ class_attributes_test_module_someclass = [
         "description": "",
     },
     {
-        "id": "test_package/test_module/SomeClass/_init_attr_private",
+        "id": "test_package/test_module/SomeClass/__init__/_init_attr_private",
         "name": "_init_attr_private",
         "is_public": False,
         "is_static": False,
@@ -1206,7 +1306,7 @@ class_attributes_test_module__privateclass = [
         "name": "public_attr_in_private_class",
         "is_public": False,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
     {
@@ -1215,7 +1315,7 @@ class_attributes_test_module__privateclass = [
         "name": "public_init_attr_in_private_class",
         "is_public": False,
         "is_static": False,
-        "types": {
+        "type": {
             "kind": "builtins",
             "name": "int",
         },
@@ -1229,7 +1329,7 @@ class_attributes_test_module_nestedprivateclass = [
         "name": "nested_class_attr",
         "is_public": False,
         "is_static": True,
-        "types": [],
+        "type": None,
         "description": "",
     },
 ]
@@ -1326,7 +1426,7 @@ class_attributes_test_docstrings_googledocstringclass = [{
         (
             "NumpyDocstringClass",
             class_attributes_test_docstrings_numpydocstringclass,
-            "numpy",
+            "numpydoc",
         ),
         (
             "GoogleDocstringClass",
@@ -1369,9 +1469,13 @@ def test_class_attributes(
     # Sort data before comparing
     for data_set in [full_attribute_data, expected_attribute_data]:
         for attr_data in data_set:
-            attr_data["types"] = _sort_list_of_dicts(attr_data["types"], ["name"])
+            if "type" in attr_data and attr_data["type"] is not None and "types" in attr_data["type"]:
+                attr_data["type"]["types"] = _sort_list_of_dicts(attr_data["type"]["types"], ["kind"])
 
-    _assert_list_of_dicts(full_attribute_data, expected_attribute_data)
+    try:
+        _assert_list_of_dicts(full_attribute_data, expected_attribute_data)
+    except AssertionError as e:
+        raise AssertionError(e)
 
 
 # ############################## Enums ############################## #
@@ -1998,7 +2102,7 @@ class_methods_test_docstrings_googledocstringclass = [{
         (
             "NumpyDocstringClass",
             class_methods_test_docstrings_numpydocstringclass,
-            "numpy",
+            "numpydoc",
         ),
         (
             "GoogleDocstringClass",
@@ -2685,7 +2789,7 @@ func_params_test_docstrings_googledocstringclass___init__ = [
             "numpy_docstring_func",
             "NumpyDocstringClass",
             func_params_test_docstrings_numpydocstringclass_numpy_docstring_func,
-            "numpy",
+            "numpydoc",
         ),
         (
             "google_docstring_func",
@@ -2949,7 +3053,7 @@ results_test_docstring_googledocstringclass_google_docstring_func = [
             "numpy_docstring_func",
             "NumpyDocstringClass",
             results_test_docstring_numpydocstringclass_numpy_docstring_func,
-            "numpy",
+            "numpydoc",
         ),
         (
             "google_docstring_func",

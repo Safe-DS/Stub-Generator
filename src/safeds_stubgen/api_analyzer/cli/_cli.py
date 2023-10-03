@@ -3,10 +3,12 @@ from __future__ import annotations
 import argparse
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
 
-from ._docstring_style import DocstringStyle
+if TYPE_CHECKING:
+    from safeds_stubgen.docstring_parsing import DocstringStyle
 
 
 def cli() -> None:
@@ -18,6 +20,7 @@ def cli() -> None:
 
 
 def _get_args() -> argparse.Namespace:
+    from safeds_stubgen.docstring_parsing import DocstringStyle
     parser = argparse.ArgumentParser(description="Analyze Python code.")
 
     parser.add_argument("-v", "--verbose", help="show info messages", action="store_true")

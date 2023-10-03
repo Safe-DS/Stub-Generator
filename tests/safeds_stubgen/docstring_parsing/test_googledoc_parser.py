@@ -313,7 +313,7 @@ def test_get_attribute_documentation(
     assert isinstance(node, nodes.ClassDef)
 
     attribute_documentation = googlestyledoc_parser.get_attribute_documentation(
-        class_node=node,
+        parent_class=node,
         attribute_name=attribute_name,
     )
 

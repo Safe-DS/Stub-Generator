@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from docstring_parser import Docstring, DocstringParam, DocstringStyle
+from docstring_parser import Docstring, DocstringParam
+from docstring_parser import DocstringStyle as DP_DocstringStyle
 from docstring_parser import parse as parse_docstring
-from mypy import nodes
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -17,7 +17,8 @@ from ._docstring import (
 from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from mypy import nodes
+    from safeds_stubgen.api_analyzer import Class, Function, ParameterAssignment
 
 
 class RestDocParser(AbstractDocstringParser):
@@ -28,12 +29,12 @@ class RestDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_function_node: nodes.FuncDef | None = None
+        self.__cached_node: nodes.FuncDef | None = None
         self.__cached_docstring: DocstringParam | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
-        docstring_obj = parse_docstring(docstring, style=DocstringStyle.REST)
+        docstring_obj = parse_docstring(docstring, style=DP_DocstringStyle.REST)
 
         return ClassDocstring(
             description=get_description(docstring_obj),
@@ -42,7 +43,7 @@ class RestDocParser(AbstractDocstringParser):
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
-        docstring_obj = self.__get_cached_function_restdoc_string(function_node, docstring)
+        docstring_obj = self.__get_cached_restdoc_string(function_node, docstring)
 
         return FunctionDocstring(
             description=get_description(docstring_obj),
@@ -54,18 +55,18 @@ class RestDocParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
-        parent_class: Class,
+        parent_class: Class | None,
     ) -> ParameterDocstring:
         from safeds_stubgen.api_analyzer import Class
 
-        # For constructors (__init__ functions) the parameters are described on the class
+        # For constructors the parameters are described in the class
         if function_node.name == "__init__" and isinstance(parent_class, Class):
             docstring = parent_class.docstring.full_docstring
         else:
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_restdoc = self.__get_cached_function_restdoc_string(function_node, docstring)
+        function_restdoc = self.__get_cached_restdoc_string(function_node, docstring)
         all_parameters_restdoc: list[DocstringParam] = function_restdoc.params
         matching_parameters_restdoc = [
             it for it in all_parameters_restdoc
@@ -84,38 +85,32 @@ class RestDocParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        class_node: nodes.ClassDef,
+        parent_class: Class,
         attribute_name: str,
     ) -> AttributeDocstring:
-        # ReST docstrings do not differentiate between parameter and attributes,
-        # therefore we recycle the parameter function
-        from safeds_stubgen.api_analyzer import ParameterAssignment, get_classdef_definitions, Class
+        # ReST docstrings do not differentiate between parameter and attributes, therefore the parameter and attribute
+        #  functions are quite similiar
 
-        function_node = None
-        for definition in get_classdef_definitions(class_node):
-            if isinstance(definition, nodes.FuncDef) and definition.name == "__init__":
-                function_node = definition
+        # Find matching attribute docstrings
+        class_restdoc = self.__get_cached_restdoc_string(
+            parent_class,
+            parent_class.docstring.full_docstring
+        )
+        all_attributes_restdoc: list[DocstringParam] = class_restdoc.params
+        matching_attributes_restdoc = [
+            it for it in all_attributes_restdoc
+            if it.arg_name == attribute_name
+        ]
 
-        if function_node is not None:
-            # ParameterAssignment and parent are unimportant in this case
-            class_docs = self.get_class_documentation(class_node)
-            fake_parent = Class(
-                id="", name="", superclasses=[], is_public=True, docstring=class_docs
-            )
+        if len(matching_attributes_restdoc) == 0:
+            return AttributeDocstring()
 
-            documentation = self.get_parameter_documentation(
-                function_node=function_node,
-                parameter_name=attribute_name,
-                parameter_assigned_by=ParameterAssignment.POSITION_OR_NAME,
-                parent_class=fake_parent,
-            )
-
-            return AttributeDocstring(
-                type=documentation.type,
-                default_value=documentation.default_value,
-                description=documentation.description,
-            )
-        return AttributeDocstring()
+        last_attribute_docstring_obj = matching_attributes_restdoc[-1]
+        return AttributeDocstring(
+            type=last_attribute_docstring_obj.type_name or "",
+            default_value=last_attribute_docstring_obj.default or "",
+            description=last_attribute_docstring_obj.description,
+        )
 
     def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
         from safeds_stubgen.api_analyzer import Class
@@ -126,7 +121,7 @@ class RestDocParser(AbstractDocstringParser):
             docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
-        function_restdoc = self.__get_cached_function_restdoc_string(function_node, docstring)
+        function_restdoc = self.__get_cached_restdoc_string(function_node, docstring)
         function_returns = function_restdoc.returns
 
         if function_returns is None:
@@ -137,7 +132,11 @@ class RestDocParser(AbstractDocstringParser):
             description=function_returns.description or "",
         )
 
-    def __get_cached_function_restdoc_string(self, function_node: nodes.FuncDef, docstring: str) -> Docstring:
+    def __get_cached_restdoc_string(
+        self,
+        node: nodes.FuncDef | Class,
+        docstring: str
+    ) -> Docstring:
         """
         Return the RestDocString for the given function node.
 
@@ -147,8 +146,8 @@ class RestDocParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function get_parameter_documentation when parsing sklearn. Afterward, it was only 2.113s.
         """
-        if self.__cached_function_node is not function_node:
-            self.__cached_function_node = function_node
-            self.__cached_docstring = parse_docstring(docstring, style=DocstringStyle.REST)
+        if self.__cached_node is not node:
+            self.__cached_node = node
+            self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.REST)
 
         return self.__cached_docstring

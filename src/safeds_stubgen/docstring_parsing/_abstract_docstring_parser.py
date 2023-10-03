@@ -32,14 +32,14 @@ class AbstractDocstringParser(ABC):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,
-        parent_class: Class,
+        parent_class: Class | None,
     ) -> ParameterDocstring:
         pass
 
     @abstractmethod
     def get_attribute_documentation(
         self,
-        class_node: nodes.ClassDef,
+        parent_class: Class,
         attribute_name: str,
     ) -> AttributeDocstring:
         pass

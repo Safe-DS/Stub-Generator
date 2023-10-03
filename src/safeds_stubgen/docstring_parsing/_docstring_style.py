@@ -8,7 +8,7 @@ class DocstringStyle(Enum):
     PLAINTEXT = "plaintext"
     EPYDOC = "epydoc"
     GOOGLE = "google"
-    NUMPY = "numpy"
+    NUMPYDOC = "numpydoc"
     REST = "rest"
 
     def __str__(self) -> str:

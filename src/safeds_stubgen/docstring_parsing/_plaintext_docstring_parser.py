@@ -36,13 +36,13 @@ class PlaintextDocstringParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,  # noqa: ARG002
         parameter_name: str,  # noqa: ARG002
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
-        parent_class: Class,  # noqa: ARG002
+        parent_class: Class | None,  # noqa: ARG002
     ) -> ParameterDocstring:
         return ParameterDocstring()
 
     def get_attribute_documentation(
         self,
-        class_node: nodes.ClassDef,  # noqa: ARG002
+        parent_class: Class,  # noqa: ARG002
         attribute_name: str,  # noqa: ARG002
     ) -> AttributeDocstring:
         return AttributeDocstring()

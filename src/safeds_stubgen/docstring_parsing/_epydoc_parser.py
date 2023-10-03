@@ -2,7 +2,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from docstring_parser import Docstring, DocstringParam, DocstringStyle
+from docstring_parser import Docstring, DocstringParam
+from docstring_parser import DocstringStyle as DP_DocstringStyle
 from docstring_parser import parse as parse_docstring
 
 from ._abstract_docstring_parser import AbstractDocstringParser
@@ -34,7 +35,7 @@ class EpydocParser(AbstractDocstringParser):
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
-        docstring_obj = parse_docstring(docstring, style=DocstringStyle.EPYDOC)
+        docstring_obj = parse_docstring(docstring, style=DP_DocstringStyle.EPYDOC)
 
         return ClassDocstring(
             description=get_description(docstring_obj),
@@ -55,7 +56,7 @@ class EpydocParser(AbstractDocstringParser):
         function_node: nodes.FuncDef,
         parameter_name: str,
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
-        parent_class: Class,
+        parent_class: Class | None,
     ) -> ParameterDocstring:
         from safeds_stubgen.api_analyzer import Class
 
@@ -86,7 +87,7 @@ class EpydocParser(AbstractDocstringParser):
     # Todo Attribute handling not yet implemented in docstring_parser library
     def get_attribute_documentation(
         self,
-        class_node: nodes.ClassDef,  # noqa: ARG002
+        parent_class: Class,  # noqa: ARG002
         attribute_name: str,  # noqa: ARG002
     ) -> AttributeDocstring:
         return AttributeDocstring()
@@ -127,6 +128,6 @@ class EpydocParser(AbstractDocstringParser):
         """
         if self.__cached_node is not node:
             self.__cached_node = node
-            self.__cached_docstring = parse_docstring(docstring, style=DocstringStyle.EPYDOC)
+            self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.EPYDOC)
 
         return self.__cached_docstring

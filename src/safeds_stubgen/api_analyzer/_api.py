@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+    from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
 
     from ._types import AbstractType
 
@@ -281,6 +281,7 @@ class Class:
     is_public: bool
     docstring: ClassDocstring
     constructor: Function | None = None
+    constructor_fulldocstring: str = ""
     reexported_by: list[Module] = field(default_factory=list)
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
@@ -320,7 +321,7 @@ class Attribute:
     is_public: bool
     is_static: bool
     type: AbstractType | None
-    description: str = ""
+    docstring: AttributeDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -329,7 +330,7 @@ class Attribute:
             "is_public": self.is_public,
             "is_static": self.is_static,
             "type": self.type.to_dict() if self.type is not None else None,
-            "description": self.description,
+            "docstring": self.docstring.to_dict(),
         }
 
 
@@ -364,7 +365,7 @@ class Parameter:
     is_optional: bool
     default_value: str | bool | int | float | None
     assigned_by: ParameterAssignment
-    docstring: ParameterDocstring | None
+    docstring: ParameterDocstring
     type: AbstractType
 
     @property
@@ -384,7 +385,7 @@ class Parameter:
             "is_optional": self.is_optional,
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
-            "docstring": self.docstring.to_dict() if self.docstring is not None else None,
+            "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict(),
         }
 

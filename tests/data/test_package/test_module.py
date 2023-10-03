@@ -32,8 +32,6 @@ class SomeClass(mathematics, AcDoubleAlias):
     Full description
     """
 
-    dict_attr_2: dict[str | int, None | _AcImportAlias]
-
     type_hint_public: int
     _type_hint_private: int
 
@@ -53,7 +51,8 @@ class SomeClass(mathematics, AcDoubleAlias):
     list_attr_4: list[str, _AcImportAlias | int]
 
     dict_attr_1: dict
-    dict_attr_3: dict[str, int]
+    dict_attr_2: dict[str, int]
+    dict_attr_3: dict[str | int, None | _AcImportAlias]
 
     bool_attr: bool
     none_attr: None
@@ -64,8 +63,6 @@ class SomeClass(mathematics, AcDoubleAlias):
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
     mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]  # noqa: RUF012
 
-    no_hint = 123
-    yes_hint: float = "str"
     override_in_init: int
 
     # noinspection PyUnusedLocal
