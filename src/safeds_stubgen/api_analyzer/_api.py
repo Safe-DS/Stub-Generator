@@ -435,7 +435,7 @@ class Enum:
         return {
             "id": self.id,
             "name": self.name,
-            "description": self.docstring.description,
+            "docstring": self.docstring.to_dict(),
             "instances": [instance.id for instance in self.instances],
         }
 

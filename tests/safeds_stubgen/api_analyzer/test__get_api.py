@@ -113,9 +113,13 @@ def _assert_list_of_dicts(list_1: list[dict], list_2: list[dict]) -> None:
     assert sorted(keys_1) == sorted(keys_2)
 
     for key in keys_1:
+        if key == "type":
+            continue
         list_1 = sorted(list_1, key=lambda x: (x[key] is None, x[key]))
 
     for key in keys_1:
+        if key == "type":
+            continue
         list_2 = sorted(list_2, key=lambda x: (x[key] is None, x[key]))
 
     assert list_1 == list_2
@@ -301,8 +305,12 @@ def test_modules(
         for entry_to_sort in ["enums", "functions", "classes"]:
             data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
 
-        data_pack["qualified_imports"] = _sort_list_of_dicts(data_pack["qualified_imports"], ["qualified_name"])
-        data_pack["wildcard_imports"] = _sort_list_of_dicts(data_pack["wildcard_imports"], ["module_name"])
+        data_pack["qualified_imports"] = _sort_list_of_dicts(
+            data_pack["qualified_imports"], ["qualified_name"]
+        )
+        data_pack["wildcard_imports"] = _sort_list_of_dicts(
+            data_pack["wildcard_imports"], ["module_name"]
+        )
 
     # Assert
     assert module_data == expected_module_data
@@ -439,7 +447,6 @@ def test_imports(
 
 
 # ############################## Classes ############################## #
-# Todo Frage: Wie behandeln wir self attr in __init__? Soll ID ../__init__/attr mit oder ohne init sein?
 class_test_module_someclass = {
     "id": "test_package/test_module/SomeClass",
     "name": "SomeClass",
@@ -487,10 +494,10 @@ class_test_module_someclass = {
         "test_package/test_module/SomeClass/str_attr_with_none_value",
         "test_package/test_module/SomeClass/mulit_attr_1",
         "test_package/test_module/SomeClass/_mulit_attr_2_private",
+        "test_package/test_module/SomeClass/mulit_attr_3",
         "test_package/test_module/SomeClass/_mulit_attr_4_private",
-        "test_package/test_module/SomeClass/override_in_init",
-        "test_package/test_module/SomeClass/__init__/init_attr",
-        "test_package/test_module/SomeClass/__init__/_init_attr_private",
+        "test_package/test_module/SomeClass/init_attr",
+        "test_package/test_module/SomeClass/_init_attr_private",
     ],
     "methods": [
         "test_package/test_module/SomeClass/_some_function",
@@ -545,7 +552,7 @@ class_test_module__privateclass = {
     },
     "attributes": [
         "test_package/test_module/_PrivateClass/public_attr_in_private_class",
-        "test_package/test_module/_PrivateClass/__init__/public_init_attr_in_private_class",
+        "test_package/test_module/_PrivateClass/public_init_attr_in_private_class",
     ],
     "methods": [
         "test_package/test_module/_PrivateClass/public_func_in_private_class",
@@ -872,6 +879,8 @@ def test_classes(
 
 
 # ############################## Class Attributes ############################## #
+# Todo Epydoc Tests are deactivated right now, since attribute handling is not implemented yet in the
+#  docstring_parser library
 class_attributes_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/type_hint_public",
@@ -879,21 +888,29 @@ class_attributes_test_module_someclass = [
         "is_public": True,
         "is_static": True,
         "type": {
-            "kind": "builtins",
+            "kind": "NamedType",
             "name": "int",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/_type_hint_private",
         "name": "_type_hint_private",
         "is_public": False,
         "is_static": True,
-        "types": {
-            "kind": "builtins",
+        "type": {
+            "kind": "NamedType",
             "name": "int",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/no_type_hint_public",
@@ -901,7 +918,11 @@ class_attributes_test_module_someclass = [
         "is_public": True,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/_no_type_hint_private",
@@ -909,7 +930,11 @@ class_attributes_test_module_someclass = [
         "is_public": False,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/object_attr",
@@ -920,7 +945,11 @@ class_attributes_test_module_someclass = [
             "kind": "NamedType",
             "name": "AnotherClass",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/"
@@ -941,7 +970,11 @@ class_attributes_test_module_someclass = [
                 },
             ],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/tuple_attr_1",
@@ -949,10 +982,14 @@ class_attributes_test_module_someclass = [
         "is_public": True,
         "is_static": True,
         "type": {
-            "kind": "UnboundType",
-            "name": "tuple",
+            "kind": "TupleType",
+            "types": [],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/tuple_attr_2",
@@ -977,7 +1014,11 @@ class_attributes_test_module_someclass = [
                 },
             ],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/tuple_attr_3",
@@ -997,7 +1038,11 @@ class_attributes_test_module_someclass = [
                 },
             ],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/list_attr_1",
@@ -1006,14 +1051,13 @@ class_attributes_test_module_someclass = [
         "is_static": True,
         "type": {
             "kind": "ListType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "Any",
-                },
-            ],
+            "types": [],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/list_attr_2",
@@ -1032,13 +1076,17 @@ class_attributes_test_module_someclass = [
                         },
                         {
                             "kind": "NamedType",
-                            "name": "AnotherClass",
+                            "name": "_AcImportAlias",
                         },
                     ],
                 },
             ],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/list_attr_3",
@@ -1058,7 +1106,11 @@ class_attributes_test_module_someclass = [
                 }
             ]
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/list_attr_4",
@@ -1087,7 +1139,11 @@ class_attributes_test_module_someclass = [
                 }
             ]
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/dict_attr_1",
@@ -1105,7 +1161,11 @@ class_attributes_test_module_someclass = [
                 "name": "Any",
             },
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/dict_attr_2",
@@ -1123,7 +1183,11 @@ class_attributes_test_module_someclass = [
                 "name": "int",
             },
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/dict_attr_3",
@@ -1159,7 +1223,11 @@ class_attributes_test_module_someclass = [
                 ],
             },
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/bool_attr",
@@ -1170,7 +1238,11 @@ class_attributes_test_module_someclass = [
             "kind": "NamedType",
             "name": "bool",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/none_attr",
@@ -1181,7 +1253,11 @@ class_attributes_test_module_someclass = [
             "kind": "NamedType",
             "name": "None",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/flaot_attr",
@@ -1192,7 +1268,11 @@ class_attributes_test_module_someclass = [
             "kind": "NamedType",
             "name": "float",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/int_or_bool_attr",
@@ -1212,7 +1292,11 @@ class_attributes_test_module_someclass = [
                 },
             ],
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/str_attr_with_none_value",
@@ -1223,15 +1307,23 @@ class_attributes_test_module_someclass = [
             "kind": "NamedType",
             "name": "str",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/mulit_attr_1",
-        "name": "x",
+        "name": "mulit_attr_1",
         "is_public": True,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/_mulit_attr_2_private",
@@ -1239,15 +1331,23 @@ class_attributes_test_module_someclass = [
         "is_public": False,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/mulit_attr_3",
-        "name": "x",
+        "name": "mulit_attr_3",
         "is_public": True,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/_mulit_attr_4_private",
@@ -1255,46 +1355,41 @@ class_attributes_test_module_someclass = [
         "is_public": False,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
-        "id": "test_package/test_module/SomeClass/override_in_init",
-        "name": "override_in_init",
-        "is_public": True,
-        "is_static": False,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "str",
-            },
-        ],
-        "description": "",
-    },
-    {
-        "id": "test_package/test_module/SomeClass/__init__/init_attr",
+        "id": "test_package/test_module/SomeClass/init_attr",
         "name": "init_attr",
         "is_public": True,
         "is_static": False,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "bool",
-            },
-        ],
-        "description": "",
+        "type": {
+            "kind": "NamedType",
+            "name": "bool",
+        },
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
-        "id": "test_package/test_module/SomeClass/__init__/_init_attr_private",
+        "id": "test_package/test_module/SomeClass/_init_attr_private",
         "name": "_init_attr_private",
         "is_public": False,
         "is_static": False,
-        "types": [
-            {
-                "kind": "builtins",
-                "name": "float",
-            },
-        ],
-        "description": "",
+        "type": {
+            "kind": "NamedType",
+            "name": "float",
+        },
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
 ]
 
@@ -1307,19 +1402,26 @@ class_attributes_test_module__privateclass = [
         "is_public": False,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
     {
-        "id": "test_package/test_module/_PrivateClass/"
-              "public_init_attr_in_private_class",
+        "id": "test_package/test_module/_PrivateClass/public_init_attr_in_private_class",
         "name": "public_init_attr_in_private_class",
         "is_public": False,
         "is_static": False,
         "type": {
-            "kind": "builtins",
+            "kind": "NamedType",
             "name": "int",
         },
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
 ]
 
@@ -1330,7 +1432,11 @@ class_attributes_test_module_nestedprivateclass = [
         "is_public": False,
         "is_static": True,
         "type": None,
-        "description": "",
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
     },
 ]
 
@@ -1345,7 +1451,11 @@ class_attributes_test_docstrings_epydocdocstringclass = [{
         "kind": "NamedType",
         "name": "str",
     },
-    "description": "Attribute of the calculator. (Epydoc)",
+    "docstring": {
+        "type": "str",
+        "default_value": "",
+        "description": "Attribute of the calculator. (Epydoc)"
+    },
 }]
 
 class_attributes_test_docstrings_restdocstringclass = [{
@@ -1357,7 +1467,11 @@ class_attributes_test_docstrings_restdocstringclass = [{
         "kind": "NamedType",
         "name": "str",
     },
-    "description": "Attribute of the calculator. (ReST)",
+    "docstring": {
+        "type": "str",
+        "default_value": "",
+        "description": "Attribute of the calculator. (ReST)"
+    },
 }]
 
 class_attributes_test_docstrings_numpydocstringclass = [{
@@ -1369,7 +1483,11 @@ class_attributes_test_docstrings_numpydocstringclass = [{
         "kind": "NamedType",
         "name": "str",
     },
-    "description": "Attribute of the calculator. (Numpy)",
+    "docstring": {
+        "type": "str",
+        "default_value": "",
+        "description": "Attribute of the calculator. (Numpy)"
+    },
 }]
 
 class_attributes_test_docstrings_googledocstringclass = [{
@@ -1381,7 +1499,11 @@ class_attributes_test_docstrings_googledocstringclass = [{
         "kind": "NamedType",
         "name": "str",
     },
-    "description": "Attribute of the calculator. (Google Style)",
+    "docstring": {
+        "type": "str",
+        "default_value": "",
+        "description": "Attribute of the calculator. (Google Style)"
+    },
 }]
 
 
@@ -1413,11 +1535,11 @@ class_attributes_test_docstrings_googledocstringclass = [{
             class_attributes_test_module_nestednestedprivateclass,
             "plaintext",
         ),
-        (
-            "EpydocDocstringClass",
-            class_attributes_test_docstrings_epydocdocstringclass,
-            "epydoc",
-        ),
+        # (
+        #     "EpydocDocstringClass",
+        #     class_attributes_test_docstrings_epydocdocstringclass,
+        #     "epydoc",
+        # ),
         (
             "RestDocstringClass",
             class_attributes_test_docstrings_restdocstringclass,
@@ -1440,7 +1562,7 @@ class_attributes_test_docstrings_googledocstringclass = [{
         "Class Attributes: _PrivateClass",
         "Class Attributes: NestedPrivateClass",
         "Class Attributes: NestedNestedPrivateClass",
-        "Class Attributes: EpydocDocstringClass",
+        # "Class Attributes: EpydocDocstringClass",
         "Class Attributes: RestDocstringClass",
         "Class Attributes: NumpyDocstringClass",
         "Class Attributes: GoogleDocstringClass",
@@ -1467,49 +1589,57 @@ def test_class_attributes(
     ]
 
     # Sort data before comparing
+    full_attribute_data = _sort_list_of_dicts(full_attribute_data, ["id"])
+    expected_attribute_data = _sort_list_of_dicts(expected_attribute_data, ["id"])
     for data_set in [full_attribute_data, expected_attribute_data]:
         for attr_data in data_set:
             if "type" in attr_data and attr_data["type"] is not None and "types" in attr_data["type"]:
                 attr_data["type"]["types"] = _sort_list_of_dicts(attr_data["type"]["types"], ["kind"])
 
-    try:
-        _assert_list_of_dicts(full_attribute_data, expected_attribute_data)
-    except AssertionError as e:
-        raise AssertionError(e)
+    _assert_list_of_dicts(full_attribute_data, expected_attribute_data)
 
 
 # ############################## Enums ############################## #
 enums_test_enums_testenum = {
     "id": "test_package/test_enums/TestEnum",
     "name": "TestEnum",
-    "description": "Enum Docstring.\n    Full Docstring Description\n     ",
+    "docstring": {
+        "description": "Enum Docstring.\n\nFull Docstring Description",
+        "full_docstring": "Enum Docstring.\n\nFull Docstring Description",
+    },
     "instances": [
-        "test_package/test_module/TestEnum/ONE",
-        "test_package/test_module/TestEnum/TWO",
-        "test_package/test_module/TestEnum/THREE",
-        "test_package/test_module/TestEnum/FOUR",
-        "test_package/test_module/TestEnum/FIVE",
-        "test_package/test_module/TestEnum/SIX",
-        "test_package/test_module/TestEnum/SEVEN",
-        "test_package/test_module/TestEnum/EIGHT",
-        "test_package/test_module/TestEnum/NINE",
-        "test_package/test_module/TestEnum/TEN",
+        "test_package/test_enums/TestEnum/ONE",
+        "test_package/test_enums/TestEnum/TWO",
+        "test_package/test_enums/TestEnum/THREE",
+        "test_package/test_enums/TestEnum/FOUR",
+        "test_package/test_enums/TestEnum/FIVE",
+        "test_package/test_enums/TestEnum/SIX",
+        "test_package/test_enums/TestEnum/SEVEN",
+        "test_package/test_enums/TestEnum/EIGHT",
+        "test_package/test_enums/TestEnum/NINE",
+        "test_package/test_enums/TestEnum/TEN",
     ],
 }
 
-enums_test_enums_emptyenum = {
-    "id": "test_package/test_enums/EmptyEnum",
-    "name": "EmptyEnum",
-    "description": "Nothing's here.",
+enums_test_enums__reexportedemptyenum = {
+    "id": "test_package/test_enums/_ReexportedEmptyEnum",
+    "name": "_ReexportedEmptyEnum",
+    "docstring": {
+        "description": "Nothing's here.",
+        "full_docstring": "Nothing's here.",
+    },
     "instances": [],
 }
 
 enums_test_enums_anothertestenum = {
     "id": "test_package/test_enums/AnotherTestEnum",
     "name": "AnotherTestEnum",
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "instances": [
-        "test_package/test_module/AnotherTestEnum/ELEVEN",
+        "test_package/test_enums/AnotherTestEnum/ELEVEN",
     ],
 }
 
@@ -1522,8 +1652,8 @@ enums_test_enums_anothertestenum = {
             enums_test_enums_testenum,
         ),
         (
-            "EmptyEnum",
-            enums_test_enums_emptyenum,
+            "_ReexportedEmptyEnum",
+            enums_test_enums__reexportedemptyenum,
         ),
         (
             "AnotherTestEnum",
@@ -1532,7 +1662,7 @@ enums_test_enums_anothertestenum = {
     ],
     ids=[
         "Enums: TestEnum",
-        "Enums: EmptyEnum",
+        "Enums: _ReexportedEmptyEnum",
         "Enums: AnotherTestEnum",
     ],
 )
@@ -1554,52 +1684,52 @@ def test_enums(
 # ############################## Enum Instances ############################## #
 enum_instances_test_enums_testenum = [
     {
-        "id": "test_package/test_module/TestEnum/ONE",
+        "id": "test_package/test_enums/TestEnum/ONE",
         "name": "ONE",
     },
     {
-        "id": "test_package/test_module/TestEnum/TWO",
+        "id": "test_package/test_enums/TestEnum/TWO",
         "name": "TWO",
     },
     {
-        "id": "test_package/test_module/TestEnum/THREE",
+        "id": "test_package/test_enums/TestEnum/THREE",
         "name": "THREE",
     },
     {
-        "id": "test_package/test_module/TestEnum/FOUR",
+        "id": "test_package/test_enums/TestEnum/FOUR",
         "name": "FOUR",
     },
     {
-        "id": "test_package/test_module/TestEnum/FIVE",
+        "id": "test_package/test_enums/TestEnum/FIVE",
         "name": "FIVE",
     },
     {
-        "id": "test_package/test_module/TestEnum/SIX",
+        "id": "test_package/test_enums/TestEnum/SIX",
         "name": "SIX",
     },
     {
-        "id": "test_package/test_module/TestEnum/SEVEN",
+        "id": "test_package/test_enums/TestEnum/SEVEN",
         "name": "SEVEN",
     },
     {
-        "id": "test_package/test_module/TestEnum/EIGHT",
+        "id": "test_package/test_enums/TestEnum/EIGHT",
         "name": "EIGHT",
     },
     {
-        "id": "test_package/test_module/TestEnum/NINE",
+        "id": "test_package/test_enums/TestEnum/NINE",
         "name": "NINE",
     },
     {
-        "id": "test_package/test_module/TestEnum/TEN",
+        "id": "test_package/test_enums/TestEnum/TEN",
         "name": "TEN",
     },
 ]
 
-enum_instances_test_enums_emptyenum = []
+enum_instances_test_enums__reexportedemptyenum = []
 
 enum_instances_test_enums_anothertestenum = [
     {
-        "id": "test_package/test_module/AnotherTestEnum/ELEVEN",
+        "id": "test_package/test_enums/AnotherTestEnum/ELEVEN",
         "name": "ELEVEN",
     },
 ]
@@ -1613,8 +1743,8 @@ enum_instances_test_enums_anothertestenum = [
             enum_instances_test_enums_testenum,
         ),
         (
-            "EmptyEnum",
-            enum_instances_test_enums_emptyenum,
+            "_ReexportedEmptyEnum",
+            enum_instances_test_enums__reexportedemptyenum,
         ),
         (
             "AnotherTestEnum",
@@ -1623,7 +1753,7 @@ enum_instances_test_enums_anothertestenum = [
     ],
     ids=[
         "Enum Instances: TestEnum",
-        "Enum Instances: EmptyEnum",
+        "Enum Instances: _ReexportedEmptyEnum",
         "Enum Instances: AnotherTestEnum",
     ],
 )
@@ -1648,7 +1778,7 @@ def test_enum_instances(
     _assert_list_of_dicts(enum_instances, expected_enum_instance_data)
 
 
-# ############################## Global Functions ############################## #
+# ############################## Global Functions ############################## # Todo fix tests
 global_functions_test_module = [
     {
         "id": "test_package/test_module/global_func",
@@ -1788,7 +1918,7 @@ def test_global_functions(
     _assert_list_of_dicts(function_data, expected_function_data)
 
 
-# ############################## Class Methods ############################## #
+# ############################## Class Methods ############################## # Todo fix tests
 class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/__init__",

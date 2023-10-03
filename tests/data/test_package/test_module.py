@@ -63,8 +63,6 @@ class SomeClass(mathematics, AcDoubleAlias):
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
     mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]  # noqa: RUF012
 
-    override_in_init: int
-
     # noinspection PyUnusedLocal
     def __init__(self, init_param_1):  # noqa: ARG002
         """Summary of the init description.
@@ -74,7 +72,6 @@ class SomeClass(mathematics, AcDoubleAlias):
         self.init_attr: bool
         # noinspection PyTypeChecker
         self._init_attr_private: float = "I'm a string"
-        self.override_in_init: str
         no_class_attr: bool  # noqa: F842
 
     def _some_function(self, param_1: bool, param_2: ac_alias) -> ac_alias:

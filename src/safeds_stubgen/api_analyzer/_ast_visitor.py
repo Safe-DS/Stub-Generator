@@ -238,17 +238,10 @@ class MyPyAstVisitor:
 
     def enter_enumdef(self, node: ClassDef) -> None:
         id_ = self.__get_id(node.name)
-        docstring: ClassDocstring | None = None
-
-        for definition in get_classdef_definitions(node):
-            # Docstring
-            if isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
-                docstring = ClassDocstring(definition.expr.value, definition.expr.value)
-
         enum = Enum(
             id=id_,
             name=node.name,
-            docstring=docstring if docstring is not None else FunctionDocstring(),
+            docstring=self.docstring_parser.get_class_documentation(node),
         )
         self.__declaration_stack.append(enum)
 
@@ -425,7 +418,8 @@ class MyPyAstVisitor:
         # Check if there is a type hint and get its value
         attribute_type: Instance | None = None
         if isinstance(attribute, MemberExpr):
-            if not attribute.node.is_inferred:
+            # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus the second check
+            if not attribute.node.is_inferred or (attribute.node.is_inferred and not attribute.node.has_explicit_value):
                 attribute_type: Instance = attribute.node.type
         elif isinstance(attribute, NameExpr):
             if not attribute.node.explicit_self_type and not attribute.node.is_inferred:
@@ -450,8 +444,11 @@ class MyPyAstVisitor:
         assert isinstance(parent, Class)
         docstring = self.docstring_parser.get_attribute_documentation(parent, name)
 
+        # Remove __init__ for attribute ids
+        id_ = self.__get_id(name).replace("__init__/", "")
+
         return Attribute(
-            id=self.__get_id(name),
+            id=id_,
             name=name,
             type=type_,
             is_public=self.is_public(name, qname),

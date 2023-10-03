@@ -75,7 +75,7 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType) -> AbstractType
             value_type = None
             value_types = []
             for i, arg in enumerate(mypy_type.args):
-                if i == 1:
+                if i == 0:
                     key_type = mypy_type_to_abstract_type(arg)
                 else:
                     value_types.append(
