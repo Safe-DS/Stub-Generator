@@ -1,10 +1,10 @@
-from enum import Enum
+from enum import Enum, IntEnum
 from enum import Enum as _Enum
 
 from .another_path.another_module import AnotherClass as _AcImportAlias
 
 
-class TestEnum(Enum):
+class EnumTest(Enum):
     """Enum Docstring.
 
     Full Docstring Description
@@ -23,5 +23,5 @@ class _ReexportedEmptyEnum(_Enum):
     """Nothing's here."""
 
 
-class AnotherTestEnum(_Enum, Enum):
+class AnotherTestEnum(IntEnum):
     ELEVEN = 11

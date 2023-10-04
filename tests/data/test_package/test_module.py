@@ -26,7 +26,7 @@ def _private_global_func() -> _AcImportAlias | AcDoubleAlias | ac_alias:
     pass
 
 
-class SomeClass(mathematics, AcDoubleAlias):
+class SomeClass(AcDoubleAlias):
     """Summary of the description.
 
     Full description
@@ -39,7 +39,7 @@ class SomeClass(mathematics, AcDoubleAlias):
     _no_type_hint_private = 1
 
     object_attr: _AcImportAlias
-    object_attr_2: AcDoubleAlias | mathematics
+    object_attr_2: AcDoubleAlias
 
     tuple_attr_1: tuple
     tuple_attr_2: tuple[str | int]
@@ -101,7 +101,7 @@ class SomeClass(mathematics, AcDoubleAlias):
     def no_return_2(self) -> None:
         pass
 
-    class NestedClass(_AcImportAlias, mypy):
+    class NestedClass(_AcImportAlias):
         def nested_class_function(self, param_1: int) -> set[bool | None]:
             pass
 

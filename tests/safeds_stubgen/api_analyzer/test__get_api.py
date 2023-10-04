@@ -194,6 +194,10 @@ module_test_enums = {
             "alias": None,
         },
         {
+            "qualified_name": "enum.IntEnum",
+            "alias": None,
+        },
+        {
             "qualified_name": "enum.Enum",
             "alias": "_Enum",
         },
@@ -206,7 +210,7 @@ module_test_enums = {
     "classes": [],
     "functions": [],
     "enums": [
-        "test_package/test_enums/TestEnum",
+        "test_package/test_enums/EnumTest",
         "test_package/test_enums/_ReexportedEmptyEnum",
         "test_package/test_enums/AnotherTestEnum",
     ],
@@ -222,7 +226,7 @@ module___init__ = {
             "alias": None,
         },
         {
-            "qualified_name": "_reexport_module_1",
+            "qualified_name": "._reexport_module_1",
             "alias": "reex_1",
         },
         {
@@ -359,6 +363,10 @@ imports_test_enums_qualified_imports = [
         "alias": "_Enum",
     },
     {
+        "qualified_name": "enum.IntEnum",
+        "alias": None,
+    },
+    {
         "qualified_name": "another_path.another_module.AnotherClass",
         "alias": "_AcImportAlias",
     },
@@ -372,7 +380,7 @@ imports___init___qualified_imports = [
         "alias": None,
     },
     {
-        "qualified_name": "_reexport_module_1",
+        "qualified_name": "._reexport_module_1",
         "alias": "reex_1",
     },
     {
@@ -455,7 +463,6 @@ class_test_module_someclass = {
     "id": "test_package/test_module/SomeClass",
     "name": "SomeClass",
     "superclasses": [
-        "math",
         "tests.data.test_package.test_module.AcDoubleAlias",
     ],
     "is_public": True,
@@ -522,7 +529,6 @@ class_test_module_nestedclass = {
     "name": "NestedClass",
     "superclasses": [
         "tests.data.test_package.another_path.another_module.AnotherClass",
-        "mypy",
     ],
     "is_public": True,
     "reexported_by": [],
@@ -962,17 +968,8 @@ class_attributes_test_module_someclass = [
         "is_public": True,
         "is_static": True,
         "type": {
-            "kind": "UnionType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "AnotherClass",
-                },
-                {
-                    "kind": "NamedType",
-                    "name": "mathematics",
-                },
-            ],
+            "kind": "NamedType",
+            "name": "AnotherClass",
         },
         "docstring": {
             "type": "",
@@ -1605,23 +1602,23 @@ def test_class_attributes(
 
 # ############################## Enums ############################## #
 enums_test_enums_testenum = {
-    "id": "test_package/test_enums/TestEnum",
-    "name": "TestEnum",
+    "id": "test_package/test_enums/EnumTest",
+    "name": "EnumTest",
     "docstring": {
         "description": "Enum Docstring.\n\nFull Docstring Description",
         "full_docstring": "Enum Docstring.\n\nFull Docstring Description",
     },
     "instances": [
-        "test_package/test_enums/TestEnum/ONE",
-        "test_package/test_enums/TestEnum/TWO",
-        "test_package/test_enums/TestEnum/THREE",
-        "test_package/test_enums/TestEnum/FOUR",
-        "test_package/test_enums/TestEnum/FIVE",
-        "test_package/test_enums/TestEnum/SIX",
-        "test_package/test_enums/TestEnum/SEVEN",
-        "test_package/test_enums/TestEnum/EIGHT",
-        "test_package/test_enums/TestEnum/NINE",
-        "test_package/test_enums/TestEnum/TEN",
+        "test_package/test_enums/EnumTest/ONE",
+        "test_package/test_enums/EnumTest/TWO",
+        "test_package/test_enums/EnumTest/THREE",
+        "test_package/test_enums/EnumTest/FOUR",
+        "test_package/test_enums/EnumTest/FIVE",
+        "test_package/test_enums/EnumTest/SIX",
+        "test_package/test_enums/EnumTest/SEVEN",
+        "test_package/test_enums/EnumTest/EIGHT",
+        "test_package/test_enums/EnumTest/NINE",
+        "test_package/test_enums/EnumTest/TEN",
     ],
 }
 
@@ -1652,7 +1649,7 @@ enums_test_enums_anothertestenum = {
     ("enum_name", "expected_enum_data"),
     [
         (
-            "TestEnum",
+            "EnumTest",
             enums_test_enums_testenum,
         ),
         (
@@ -1665,7 +1662,7 @@ enums_test_enums_anothertestenum = {
         ),
     ],
     ids=[
-        "Enums: TestEnum",
+        "Enums: EnumTest",
         "Enums: _ReexportedEmptyEnum",
         "Enums: AnotherTestEnum",
     ],
@@ -1688,43 +1685,43 @@ def test_enums(
 # ############################## Enum Instances ############################## #
 enum_instances_test_enums_testenum = [
     {
-        "id": "test_package/test_enums/TestEnum/ONE",
+        "id": "test_package/test_enums/EnumTest/ONE",
         "name": "ONE",
     },
     {
-        "id": "test_package/test_enums/TestEnum/TWO",
+        "id": "test_package/test_enums/EnumTest/TWO",
         "name": "TWO",
     },
     {
-        "id": "test_package/test_enums/TestEnum/THREE",
+        "id": "test_package/test_enums/EnumTest/THREE",
         "name": "THREE",
     },
     {
-        "id": "test_package/test_enums/TestEnum/FOUR",
+        "id": "test_package/test_enums/EnumTest/FOUR",
         "name": "FOUR",
     },
     {
-        "id": "test_package/test_enums/TestEnum/FIVE",
+        "id": "test_package/test_enums/EnumTest/FIVE",
         "name": "FIVE",
     },
     {
-        "id": "test_package/test_enums/TestEnum/SIX",
+        "id": "test_package/test_enums/EnumTest/SIX",
         "name": "SIX",
     },
     {
-        "id": "test_package/test_enums/TestEnum/SEVEN",
+        "id": "test_package/test_enums/EnumTest/SEVEN",
         "name": "SEVEN",
     },
     {
-        "id": "test_package/test_enums/TestEnum/EIGHT",
+        "id": "test_package/test_enums/EnumTest/EIGHT",
         "name": "EIGHT",
     },
     {
-        "id": "test_package/test_enums/TestEnum/NINE",
+        "id": "test_package/test_enums/EnumTest/NINE",
         "name": "NINE",
     },
     {
-        "id": "test_package/test_enums/TestEnum/TEN",
+        "id": "test_package/test_enums/EnumTest/TEN",
         "name": "TEN",
     },
 ]
@@ -1743,7 +1740,7 @@ enum_instances_test_enums_anothertestenum = [
     ("enum_name", "expected_enum_instance_data"),
     [
         (
-            "TestEnum",
+            "EnumTest",
             enum_instances_test_enums_testenum,
         ),
         (
@@ -1756,7 +1753,7 @@ enum_instances_test_enums_anothertestenum = [
         ),
     ],
     ids=[
-        "Enum Instances: TestEnum",
+        "Enum Instances: EnumTest",
         "Enum Instances: _ReexportedEmptyEnum",
         "Enum Instances: AnotherTestEnum",
     ],
@@ -1821,9 +1818,7 @@ global_functions__reexport_module_1 = [{
     "is_public": False,
     "is_static": False,
     "results": [],
-    "reexported_by": [
-        "test_package/__init__",
-    ],
+    "reexported_by": [],
     "parameters": [],
 }]
 
@@ -1890,7 +1885,7 @@ global_functions__reexport_module_4 = [{
         ),
     ],
     ids=[
-        "Global Functions: TestEnum",
+        "Global Functions: EnumTest",
         "Global Functions: _reexport_module_1",
         "Global Functions: _reexport_module_2",
         "Global Functions: _reexport_module_3",
