@@ -18,7 +18,7 @@ from safeds_stubgen.docstring_parsing import (
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstring
 
-from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
 _test_dir = Path(__file__).parent.parent.parent
@@ -65,7 +65,7 @@ def test_get_class_documentation(
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, class_name)
+    node = get_specific_mypy_node(mypy_file, class_name)
 
     assert isinstance(node, nodes.ClassDef)
     assert plaintext_docstring_parser.get_class_documentation(node) == expected_class_documentation
@@ -97,7 +97,7 @@ def test_get_function_documentation(
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, function_name)
+    node = get_specific_mypy_node(mypy_file, function_name)
 
     assert isinstance(node, nodes.FuncDef)
     assert plaintext_docstring_parser.get_function_documentation(node) == expected_function_documentation
@@ -129,7 +129,7 @@ def test_get_parameter_documentation(
     parameter_name: str,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, function_name)
+    node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_parameter_documentation(
@@ -168,7 +168,7 @@ def test_get_attribute_documentation(
     attribute_name: str,
     expected_attribute_documentation: ParameterDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, class_name)
+    node = get_specific_mypy_node(mypy_file, class_name)
     assert isinstance(node, nodes.ClassDef)
     assert (
         plaintext_docstring_parser.get_attribute_documentation(
@@ -202,7 +202,7 @@ def test_get_result_documentation(
     function_name: str,
     expected_result_documentation: ParameterDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, function_name)
+    node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_result_documentation(

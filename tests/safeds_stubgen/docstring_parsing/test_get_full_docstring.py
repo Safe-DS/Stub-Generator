@@ -11,7 +11,7 @@ from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._helpers import get_full_docstring
 
-from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
 _test_dir = Path(__file__).parent.parent.parent
@@ -62,7 +62,7 @@ mypy_file = _get_mypy_ast(
     ],
 )
 def test_get_full_docstring(name: str, expected_docstring: str) -> None:
-    node = _get_specific_mypy_node(mypy_file, name)
+    node = get_specific_mypy_node(mypy_file, name)
 
     assert isinstance(node, nodes.ClassDef | nodes.FuncDef)
     assert get_full_docstring(node) == expected_docstring

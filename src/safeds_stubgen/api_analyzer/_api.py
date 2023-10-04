@@ -413,14 +413,14 @@ class Result:
     id: str
     name: str
     type: AbstractType | None
-    docstring: ResultDocstring | None
+    docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
             "type": self.type.to_dict() if self.type is not None else None,
-            "docstring": self.docstring.to_dict() if self.docstring is not None else None,
+            "docstring": self.docstring.to_dict(),
         }
 
 

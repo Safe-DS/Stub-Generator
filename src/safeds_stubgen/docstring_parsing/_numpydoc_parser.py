@@ -183,7 +183,7 @@ class NumpyDocParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function `get_parameter_documentation` when parsing sklearn. Afterwards, it was only 2.113s.
         """
-        if self.__cached_node is not node:
+        if self.__cached_node is not node or node.name == "__init__":
             self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.NUMPYDOC)
 

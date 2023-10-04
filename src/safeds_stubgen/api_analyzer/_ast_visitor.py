@@ -22,12 +22,7 @@ from mypy.nodes import (
 )
 
 import safeds_stubgen.api_analyzer._types as sds_types
-from safeds_stubgen.docstring_parsing import (
-    AbstractDocstringParser,
-    ClassDocstring,
-    FunctionDocstring,
-    ResultDocstring,
-)
+from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 
 from ._api import (
     API,
@@ -329,8 +324,7 @@ class MyPyAstVisitor:
 
     # #### Result utilities
 
-    @staticmethod
-    def create_result(node: FuncDef, function_id: str) -> list[Result]:
+    def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
         ret_type = None
         if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
             ret_type = mypy_type_to_abstract_type(node.type.ret_type)
@@ -339,6 +333,8 @@ class MyPyAstVisitor:
             return []
 
         results = []
+        parent = self.__declaration_stack[-1]
+        docstring = self.docstring_parser.get_result_documentation(node, parent)
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):
                 name = f"result_{i + 1}"
@@ -346,7 +342,7 @@ class MyPyAstVisitor:
                     id=f"{function_id}/{name}",
                     type=type_,
                     name=name,
-                    docstring=ResultDocstring(""),
+                    docstring=docstring,
                 ))
         else:
             name = "result_1"
@@ -354,7 +350,7 @@ class MyPyAstVisitor:
                 id=f"{function_id}/{name}",
                 type=ret_type,
                 name=name,
-                docstring=ResultDocstring(""),
+                docstring=docstring,
             ))
 
         return results
@@ -565,13 +561,13 @@ class MyPyAstVisitor:
 
     # #### Misc. utilities
 
-    # Todo How do we handle the names in the self.reexpoted list? (qualified_name does not work) -> id statt qname
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
 
-        if qualified_name in self.reexported:
-            return True
+        for reexported_item in self.reexported:
+            if reexported_item.endswith(f".{name}"):
+                return True
 
         parent = self.__declaration_stack[-1]
         if isinstance(parent, Class):

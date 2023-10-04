@@ -113,14 +113,18 @@ def _assert_list_of_dicts(list_1: list[dict], list_2: list[dict]) -> None:
     assert sorted(keys_1) == sorted(keys_2)
 
     for key in keys_1:
-        if key == "type":
+        if isinstance(list_1[0][key], dict):
             continue
         list_1 = sorted(list_1, key=lambda x: (x[key] is None, x[key]))
 
-    for key in keys_1:
-        if key == "type":
+    for key in keys_2:
+        if isinstance(list_2[0][key], dict):
             continue
         list_2 = sorted(list_2, key=lambda x: (x[key] is None, x[key]))
+
+    if "id" in keys_1:
+        list_1 = _sort_list_of_dicts(list_1, ["id"])
+        list_2 = _sort_list_of_dicts(list_2, ["id"])
 
     assert list_1 == list_2
 
@@ -1778,7 +1782,8 @@ def test_enum_instances(
     _assert_list_of_dicts(enum_instances, expected_enum_instance_data)
 
 
-# ############################## Global Functions ############################## # Todo fix tests
+# ############################## Global Functions ############################## #
+# Todo Frage: Sind die is_public Felder hier alle richtig gesetzt?
 global_functions_test_module = [
     {
         "id": "test_package/test_module/global_func",
@@ -1813,7 +1818,7 @@ global_functions__reexport_module_1 = [{
     "id": "test_package/_reexport_module_1/reexported_function",
     "name": "reexported_function",
     "description": "",
-    "is_public": True,
+    "is_public": False,
     "is_static": False,
     "results": [],
     "reexported_by": [
@@ -1839,7 +1844,7 @@ global_functions__reexport_module_3 = [{
     "id": "test_package/_reexport_module_3/reexported_function_3",
     "name": "reexported_function_3",
     "description": "",
-    "is_public": True,
+    "is_public": False,
     "is_static": False,
     "results": [],
     "reexported_by": [
@@ -1918,12 +1923,12 @@ def test_global_functions(
     _assert_list_of_dicts(function_data, expected_function_data)
 
 
-# ############################## Class Methods ############################## # Todo fix tests
+# ############################## Class Methods ############################## #
 class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/__init__",
         "name": "__init__",
-        "description": "",
+        "description": "Summary of the init description.\n\nFull init description.",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -1952,7 +1957,7 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/multiple_results",
         "name": "multiple_results",
-        "description": "",
+        "description": "Function Docstring.",
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
@@ -1966,7 +1971,7 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/static_function",
         "name": "static_function",
-        "description": "",
+        "description": "Function Docstring.",
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
@@ -1982,7 +1987,7 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/test_position",
         "name": "test_position",
-        "description": "",
+        "description": "Function Docstring.",
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -2050,7 +2055,7 @@ class_methods_test_module_nestedclass = [
             "test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1",
         ],
         "results": [
-            "test_package/test_module/SomeClass/_some_function/result_1",
+            "test_package/test_module/SomeClass/NestedClass/nested_class_function/result_1",
         ],
     },
 ]
@@ -2090,12 +2095,11 @@ class_methods_test_module_nestedprivateclass = [
         "name": "static_nested_private_class_function",
         "description": "",
         "is_public": False,
-        "is_static": False,
+        "is_static": True,
         "reexported_by": [],
         "parameters": [],
         "results": [],
     },
-
 ]
 
 class_methods_test_module_nestednestedprivateclass = []
@@ -2117,7 +2121,7 @@ class_methods_test_docstrings_epydocdocstringclass = [{
     "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func",
     "name": "epydoc_docstring_func",
     "description": "This function checks if the sum of x and y is less than the value 10 and "
-                   "returns True if it is. (Epydoc)",
+                   "returns True if it is. (Epydoc).",
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2134,8 +2138,8 @@ class_methods_test_docstrings_epydocdocstringclass = [{
 class_methods_test_docstrings_restdocstringclass = [{
     "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func",
     "name": "rest_docstring_func",
-    "description": "This function checks if the sum of x and y is less than the value 10 "
-                   "and returns True if it is. (ReST)",
+    "description": "This function checks if the sum of x and y is less than the value 10\n\n"
+                   "and returns True if it is. (ReST).",
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2152,8 +2156,8 @@ class_methods_test_docstrings_restdocstringclass = [{
 class_methods_test_docstrings_numpydocstringclass = [{
     "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func",
     "name": "numpy_docstring_func",
-    "description": "This function checks if the sum of `x` and `y` is less than the value "
-                   "10 and returns True if it is. (Numpy)",
+    "description": "Checks if the sum of two variables is over the value of 10. (Numpy).\n\nThis function checks if "
+                   "the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)",
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2170,8 +2174,8 @@ class_methods_test_docstrings_numpydocstringclass = [{
 class_methods_test_docstrings_googledocstringclass = [{
     "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func",
     "name": "google_docstring_func",
-    "description": "This function checks if the sum of x and y is less than the value 10 "
-                   "and returns True if it is. (Google Style)",
+    "description": "Checks if the sum of two variables is over the value of 10. (Google Style).\n\nThis function "
+                   "checks if the sum of x and y is less than the value 10\nand returns True if it is. (Google Style)",
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2261,6 +2265,7 @@ def test_class_methods(
     # Get function data
     class_data: dict = _get_specific_class_data(class_name)
     class_method_ids: list[str] = class_data["methods"]
+    class_constructor = class_data["constructor"]
 
     api_data = get_api_data(docstring_style)
     all_functions: list[dict] = api_data["functions"]
@@ -2278,11 +2283,19 @@ def test_class_methods(
             for data_type in ["parameters", "results"]:
                 method[data_type] = sorted(method[data_type])
 
+    # Assert constructor data and remove it from the list
+    for i, method in enumerate(expected_method_data):
+        if method["name"] == "__init__":
+            class_constructor["parameters"] = sorted(method["parameters"])
+            assert method == class_constructor
+            expected_method_data.pop(i)
+            break
+
     # Assert
     _assert_list_of_dicts(method_data, expected_method_data)
 
 
-# ############################## Function Parameters ############################## # Todo Docstrings
+# ############################## Function Parameters ############################## #
 func_params_test_module_global_func = [
     {
         "id": "test_package/test_module/global_func/param_1",
@@ -2290,7 +2303,11 @@ func_params_test_module_global_func = [
         "is_optional": True,
         "default_value": "first param",
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "str",
@@ -2302,7 +2319,11 @@ func_params_test_module_global_func = [
         "is_optional": True,
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "UnionType",
             "types": [
@@ -2326,7 +2347,11 @@ func_params_test_module_someclass___init__ = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "Any",
@@ -2338,7 +2363,11 @@ func_params_test_module_someclass___init__ = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "IMPLICIT",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "SomeClass",
@@ -2353,7 +2382,11 @@ func_params_test_module_someclass_static_function = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "bool",
@@ -2365,7 +2398,11 @@ func_params_test_module_someclass_static_function = [
         "is_optional": True,
         "default_value": 123456,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "UnionType",
             "types": [
@@ -2389,7 +2426,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITION_ONLY",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "Any",
@@ -2401,7 +2442,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "bool",
@@ -2413,7 +2458,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": True,
         "default_value": 1,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "Any",
@@ -2425,7 +2474,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": True,
         "default_value": None,
         "assigned_by": "NAME_ONLY",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "Any",
@@ -2437,7 +2490,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": True,
         "default_value": 1,
         "assigned_by": "NAME_ONLY",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "int",
@@ -2449,7 +2506,11 @@ func_params_test_module_someclass_test_position = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "IMPLICIT",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "SomeClass",
@@ -2457,7 +2518,6 @@ func_params_test_module_someclass_test_position = [
     },
 ]
 
-# Todo Check if types are correct
 func_params_test_module_someclass_test_params = [
     {
         "id": "test_package/test_module/SomeClass/test_params/args",
@@ -2465,7 +2525,11 @@ func_params_test_module_someclass_test_params = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITIONAL_VARARG",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "TupleType",
             "types": [],
@@ -2477,16 +2541,20 @@ func_params_test_module_someclass_test_params = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "NAMED_VARARG",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "DictType",
             "key_type": {
                 "kind": "NamedType",
-                "name": "Any",
+                "name": "str",
             },
             "value_type": {
                 "kind": "NamedType",
-                "name": "str",
+                "name": "Any",
             },
         },
     },
@@ -2499,7 +2567,11 @@ func_params_test_module_someclass_nestedclass_nested_class_function = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "int",
@@ -2511,7 +2583,11 @@ func_params_test_module_someclass_nestedclass_nested_class_function = [
         "is_optional": False,
         "default_value": None,
         "assigned_by": "IMPLICIT",
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "default_value": "",
+            "description": ""
+        },
         "type": {
             "kind": "NamedType",
             "name": "NestedClass",
@@ -2543,9 +2619,9 @@ func_params_test_docstrings_epydocdocstringclass_epydoc_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "First integer value for the calculation. (Epydoc)",
         },
         "type": {
             "kind": "NamedType",
@@ -2559,9 +2635,9 @@ func_params_test_docstrings_epydocdocstringclass_epydoc_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "Second integer value for the calculation. (Epydoc)",
         },
         "type": {
             "kind": "NamedType",
@@ -2578,9 +2654,9 @@ func_params_test_docstrings_epydocdocstringclass___init__ = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "str",
             "default_value": "",
-            "description": "",
+            "description": "Parameter of the calculator. (Epydoc)",
         },
         "type": {
             "kind": "NamedType",
@@ -2629,9 +2705,9 @@ func_params_test_docstrings_restdocstringclass_rest_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "First integer value for the calculation. (ReST)",
         },
         "type": {
             "kind": "NamedType",
@@ -2645,9 +2721,9 @@ func_params_test_docstrings_restdocstringclass_rest_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "Second integer value for the calculation. (ReST)",
         },
         "type": {
             "kind": "NamedType",
@@ -2664,9 +2740,9 @@ func_params_test_docstrings_restdocstringclass___init__ = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "str",
             "default_value": "",
-            "description": "",
+            "description": "Parameter of the calculator. (ReST)",
         },
         "type": {
             "kind": "NamedType",
@@ -2715,9 +2791,9 @@ func_params_test_docstrings_numpydocstringclass_numpy_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "First integer value for the calculation. (Numpy)",
         },
         "type": {
             "kind": "NamedType",
@@ -2731,9 +2807,9 @@ func_params_test_docstrings_numpydocstringclass_numpy_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "Second integer value for the calculation. (Numpy)",
         },
         "type": {
             "kind": "NamedType",
@@ -2750,9 +2826,9 @@ func_params_test_docstrings_numpydocstringclass___init__ = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "str",
             "default_value": "",
-            "description": "",
+            "description": "Parameter of the calculator. (Numpy)",
         },
         "type": {
             "kind": "NamedType",
@@ -2801,9 +2877,9 @@ func_params_test_docstrings_googledocstringclass_google_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "First integer value for the calculation. (Google Style)",
         },
         "type": {
             "kind": "NamedType",
@@ -2817,9 +2893,9 @@ func_params_test_docstrings_googledocstringclass_google_docstring_func = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "int",
             "default_value": "",
-            "description": "",
+            "description": "Second integer value for the calculation. (Google Style)",
         },
         "type": {
             "kind": "NamedType",
@@ -2836,9 +2912,9 @@ func_params_test_docstrings_googledocstringclass___init__ = [
         "default_value": None,
         "assigned_by": "POSITION_OR_NAME",
         "docstring": {
-            "type": "",
+            "type": "str",
             "default_value": "",
-            "description": "",
+            "description": "Parameter of the calculator. (Google Style)",
         },
         "type": {
             "kind": "NamedType",
@@ -2910,9 +2986,21 @@ func_params_test_docstrings_googledocstringclass___init__ = [
             "epydoc",
         ),
         (
+            "__init__",
+            "EpydocDocstringClass",
+            func_params_test_docstrings_epydocdocstringclass___init__,
+            "epydoc",
+        ),
+        (
             "rest_docstring_func",
             "RestDocstringClass",
             func_params_test_docstrings_restdocstringclass_rest_docstring_func,
+            "rest",
+        ),
+        (
+            "__init__",
+            "RestDocstringClass",
+            func_params_test_docstrings_restdocstringclass___init__,
             "rest",
         ),
         (
@@ -2922,23 +3010,39 @@ func_params_test_docstrings_googledocstringclass___init__ = [
             "numpydoc",
         ),
         (
+            "__init__",
+            "NumpyDocstringClass",
+            func_params_test_docstrings_numpydocstringclass___init__,
+            "numpydoc",
+        ),
+        (
             "google_docstring_func",
             "GoogleDocstringClass",
             func_params_test_docstrings_googledocstringclass_google_docstring_func,
             "google",
         ),
+        (
+            "__init__",
+            "GoogleDocstringClass",
+            func_params_test_docstrings_googledocstringclass___init__,
+            "google",
+        ),
     ],
     ids=[
         "Function Parameters: global_func",
-        "Function Parameters: __init__",
+        "Function Parameters: SomeClass.__init__",
         "Function Parameters: static_function",
         "Function Parameters: test_position",
         "Function Parameters: test_params",
         "Function Parameters: nested_class_function",
         "Function Parameters: epydoc_docstring_func",
+        "Function Parameters: EpydocDocstringClass.__init__",
         "Function Parameters: rest_docstring_func",
+        "Function Parameters: RestDocstringClass.__init__",
         "Function Parameters: numpy_docstring_func",
+        "Function Parameters: NumpyDocstringClass.__init__",
         "Function Parameters: google_docstring_func",
+        "Function Parameters: GoogleDocstringClass.__init__",
     ],
 )
 def test_function_parameters(
@@ -2964,13 +3068,14 @@ def test_function_parameters(
     # Sort data before comparing
     for data_set in [parameter_data, expected_parameter_data]:
         for parameter in data_set:
-            parameter["types"] = _sort_list_of_dicts(parameter["types"], ["name"])
+            if "types" in parameter["type"]:
+                parameter["type"]["types"] = _sort_list_of_dicts(parameter["type"]["types"], ["name"])
 
     # Assert
     _assert_list_of_dicts(parameter_data, expected_parameter_data)
 
 
-# ############################## Function Results ############################## # Todo Docstring
+# ############################## Function Results ############################## #
 results_test_module__private_global_func = [
     {
         "id": "test_package/test_module/global_func/result_1",
@@ -2979,7 +3084,10 @@ results_test_module__private_global_func = [
             "kind": "NamedType",
             "name": "AnotherClass",
         },
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "description": ""
+        },
     },
 ]
 
@@ -3009,7 +3117,10 @@ results_test_module_someclass_multiple_results = [
                 },
             ],
         },
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "description": ""
+        },
     },
 ]
 
@@ -3022,7 +3133,10 @@ results_test_module_someclass_static_function = [
                 "kind": "NamedType",
                 "name": "bool",
             },
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "description": ""
+        },
     },
     {
         "id": "test_package/test_module/SomeClass/static_function/result_2",
@@ -3031,7 +3145,10 @@ results_test_module_someclass_static_function = [
             "kind": "NamedType",
             "name": "int",
         },
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "description": ""
+        },
     },
 ]
 
@@ -3043,7 +3160,10 @@ results_test_module_someclass_test_position = [
             "kind": "NamedType",
             "name": "Any",
         },
-        "docstring": None,
+        "docstring": {
+            "type": "",
+            "description": ""
+        },
     },
 ]
 
@@ -3069,7 +3189,10 @@ results_test_module_someclass_nestedclass_nested_class_function = [
                 },
             ],
         },
-        "docstring": None,
+        "docstring": {
+            "description": "",
+            "type": ""
+        },
     },
 ]
 
@@ -3082,8 +3205,8 @@ results_test_docstring_epydocdocstringclass_epydoc_docstring_func = [
             "name": "bool",
         },
         "docstring": {
-            "type": "",
-            "description": "",
+            "type": "bool",
+            "description": "Checks if the sum of x and y is greater than 10. (Epydoc)",
         },
     },
 ]
@@ -3097,8 +3220,8 @@ results_test_docstring_restdocstringclass_rest_docstring_func = [
             "name": "bool",
         },
         "docstring": {
-            "type": "",
-            "description": "",
+            "type": "bool",
+            "description": "Checks if the sum of x and y is greater than 10. (ReST)",
         },
     },
 ]
@@ -3112,8 +3235,8 @@ results_test_docstring_numpydocstringclass_numpy_docstring_func = [
             "name": "bool",
         },
         "docstring": {
-            "type": "",
-            "description": "",
+            "type": "bool",
+            "description": "Checks if the sum of `x` and `y` is greater than 10. (Numpy)",
         },
     },
 ]
@@ -3127,8 +3250,9 @@ results_test_docstring_googledocstringclass_google_docstring_func = [
             "name": "bool",
         },
         "docstring": {
-            "type": "",
-            "description": "",
+            "type": "bool",
+            "description": "Checks if the sum of x and y is greater than 10 and returns\na boolean value."
+                           " (Google Style)",
         },
     },
 ]
@@ -3138,7 +3262,7 @@ results_test_docstring_googledocstringclass_google_docstring_func = [
     ("function_name", "parent_class_name", "expected_result_data", "docstring_style"),
     [
         (
-            "_private_global_func",
+            "global_func",
             "",
             results_test_module__private_global_func,
             "plaintext",
@@ -3226,8 +3350,9 @@ def test_function_results(
 
     # Sort data before comparing
     for data_set in [result_data, expected_result_data]:
-        for parameter in data_set:
-            parameter["types"] = _sort_list_of_dicts(parameter["types"], ["name"])
+        for result in data_set:
+            if "types" in result["type"]:
+                result["type"] = _sort_list_of_dicts(result["type"]["types"], ["kind"])
 
     # Assert
     _assert_list_of_dicts(result_data, expected_result_data)

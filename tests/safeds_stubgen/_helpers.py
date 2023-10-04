@@ -6,7 +6,7 @@ if TYPE_CHECKING:
     from mypy.nodes import FuncDef, ClassDef, MypyFile
 
 
-def _get_specific_mypy_node(
+def get_specific_mypy_node(
     mypy_file: MypyFile,
     node_name: str,
 ) -> ClassDef | FuncDef:

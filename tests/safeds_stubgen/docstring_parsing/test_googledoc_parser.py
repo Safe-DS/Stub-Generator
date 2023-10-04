@@ -19,7 +19,7 @@ from safeds_stubgen.docstring_parsing import (
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring
 
-from tests.safeds_stubgen._helpers import _get_specific_mypy_node
+from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
 _test_dir = Path(__file__).parent.parent.parent
@@ -66,7 +66,7 @@ def test_get_class_documentation(
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, class_name)
+    node = get_specific_mypy_node(mypy_file, class_name)
 
     assert isinstance(node, nodes.ClassDef)
     assert googlestyledoc_parser.get_class_documentation(node) == expected_class_documentation
@@ -101,7 +101,7 @@ def test_get_function_documentation(
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, function_name)
+    node = get_specific_mypy_node(mypy_file, function_name)
 
     assert isinstance(node, nodes.FuncDef)
     assert googlestyledoc_parser.get_function_documentation(node) == expected_function_documentation
@@ -240,7 +240,7 @@ def test_get_parameter_documentation(
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
     parent = None
-    node = _get_specific_mypy_node(mypy_file, name)
+    node = get_specific_mypy_node(mypy_file, name)
     if is_class:
         assert isinstance(node, nodes.ClassDef)
         class_doc = googlestyledoc_parser.get_class_documentation(node)
@@ -275,7 +275,7 @@ def test_get_parameter_documentation(
     )
 
 
-# ############################## Attribute Documentation ############################## # Todo fix tests
+# ############################## Attribute Documentation ############################## #
 @pytest.mark.parametrize(
     ("class_name", "attribute_name", "expected_attribute_documentation"),
     [
@@ -309,11 +309,13 @@ def test_get_attribute_documentation(
     attribute_name: str,
     expected_attribute_documentation: AttributeDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, class_name)
+    node = get_specific_mypy_node(mypy_file, class_name)
     assert isinstance(node, nodes.ClassDef)
+    docstring = googlestyledoc_parser.get_class_documentation(node)
+    fake_class = Class(id="some_id", name="some_class", superclasses=[], is_public=True, docstring=docstring)
 
     attribute_documentation = googlestyledoc_parser.get_attribute_documentation(
-        parent_class=node,
+        parent_class=fake_class,
         attribute_name=attribute_name,
     )
 
@@ -351,7 +353,7 @@ def test_get_result_documentation(
     function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:
-    node = _get_specific_mypy_node(mypy_file, function_name)
+    node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
 
     fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
