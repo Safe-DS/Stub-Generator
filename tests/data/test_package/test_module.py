@@ -1,8 +1,8 @@
 """Docstring of the some_class.py module."""
-import math as mathematics
+import math as mathematics  # noqa: F401
 from typing import *  # noqa: F403
 
-import mypy
+import mypy  # noqa: F401
 
 # noinspection PyUnresolvedReferences
 from docstring_parser import *  # noqa: F403

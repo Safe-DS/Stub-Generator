@@ -13,7 +13,7 @@ class ClassWithoutDocumentation:
     pass
 
 
-def function_with_documentation(p: int) -> None:
+def function_with_documentation(p: int) -> None:  # noqa: ARG001
     """
     Lorem ipsum.
 
@@ -21,5 +21,5 @@ def function_with_documentation(p: int) -> None:
     """
 
 
-def function_without_documentation(p: int) -> None:
+def function_without_documentation(p: int) -> None:  # noqa: ARG001
     pass
