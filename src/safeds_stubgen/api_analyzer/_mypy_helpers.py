@@ -48,7 +48,7 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType) -> AbstractType
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None")
     elif isinstance(mypy_type, mp_types.UnboundType):
-        # Todo Import aliasing auflösen
+        # Todo Aliasing: Import auflösen
         return sds_types.NamedType(name=mypy_type.name)
 
     # Builtins

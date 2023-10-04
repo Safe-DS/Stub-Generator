@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import typing
 from enum import Enum
 from typing import Final, Literal
 
@@ -46,11 +47,11 @@ class TypingScanner:
     _start: int = 0
     _current: int = 0
 
-    possible_typings = [
+    possible_typings: typing.ClassVar = [
         "List", "Dict", "Optional", "Final", "Set", "Tuple", "List", "Literal", "Union",
         "set", "tuple", "dict", "list",
     ]
-    possible_built_in_types = ["bool", "int", "str", "tuple", "list", "float", "None", "dict"]
+    possible_built_in_types: typing.ClassVar = ["bool", "int", "str", "tuple", "list", "float", "None", "dict"]
 
     def __init__(self, source: str):
         self._source = source
@@ -144,7 +145,7 @@ class TypingScanner:
             return ""  # "\0"
         return self._source[self._current]
 
-    def _string_in_quotes(self, string_type: Literal['"'] | Literal["'"]) -> None:
+    def _string_in_quotes(self, string_type: Literal['"', "'"]) -> None:
         while self._peek_next() != string_type and not self._is_at_end():
             self._advance()
 

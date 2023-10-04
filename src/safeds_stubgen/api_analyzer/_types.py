@@ -93,8 +93,7 @@ class EnumType(AbstractType):
     def from_string(cls, string: str) -> EnumType | None:
         def remove_backslash(e: str) -> str:
             e = e.replace(r"\"", '"')
-            e = e.replace(r"\'", "'")
-            return e
+            return e.replace(r"\'", "'")
 
         enum_match = re.search(r"{(.*?)}", string)
         if enum_match:
@@ -169,7 +168,8 @@ class BoundaryType(AbstractType):
     @classmethod
     def from_string(cls, string: str) -> BoundaryType | None:
         pattern = r"""(?P<base_type>float|int)?[ ]  # optional base type of either float or int
-                    (in|of)[ ](the[ ])?(range|interval)[ ](of[ ])?  # 'in' or 'of', optional 'the', 'range' or 'interval', optional 'of'
+                    (in|of)[ ](the[ ])?(range|interval)[ ](of[ ])?
+                    # 'in' or 'of', optional 'the', 'range' or 'interval', optional 'of'
                     `?(?P<min_bracket>[\[(])(?P<min>[-+]?\d+(.\d*)?|negative_infinity),[ ]  # left side of the range
                     (?P<max>[-+]?\d+(.\d*)?|infinity)(?P<max_bracket>[\])])`?"""  # right side of the range
         match = re.search(pattern, string, re.VERBOSE)

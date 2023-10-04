@@ -210,7 +210,6 @@ def _is_matching_parameter_numpydoc(
     return any(name.strip() == lookup_name for name in parameter_docstring_obj.arg_name.split(","))
 
 
-# Todo Test if this works
 def _is_matching_attribute_numpydoc(parameter_docstring_obj: DocstringParam, parameter_name: str):
     return any(name.strip() == parameter_name for name in parameter_docstring_obj.arg_name.split(","))
 

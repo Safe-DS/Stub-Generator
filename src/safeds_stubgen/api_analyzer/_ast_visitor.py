@@ -22,7 +22,6 @@ from mypy.nodes import (
 )
 
 import safeds_stubgen.api_analyzer._types as sds_types
-from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 
 from ._api import (
     API,
@@ -41,10 +40,10 @@ from ._api import (
 from ._mypy_helpers import get_classdef_definitions, get_mypyfile_definitions, mypy_type_to_abstract_type
 
 if TYPE_CHECKING:
+    from safeds_stubgen.docstring_parsing import AbstractDocstringParser
     from mypy.types import Instance
 
 
-# Todo Docstring / description
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
@@ -131,7 +130,7 @@ class MyPyAstVisitor:
         docstring = self.docstring_parser.get_class_documentation(node)
 
         # superclasses
-        # Todo Aliase werden noch nicht aufgelöst -> Such nach einer mypy Funktion die die Typen auflöst
+        # Todo Aliasing: Werden noch nicht aufgelöst -> Such nach einer mypy Funktion die die Typen auflöst
         #  irgendwas im zusammenhand mit "type" suchen bzw auflösen von aliasen
         superclasses = [
             superclass.fullname

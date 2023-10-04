@@ -18,7 +18,7 @@ from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
     from mypy import nodes
-    from safeds_stubgen.api_analyzer import Class, Function, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
 class RestDocParser(AbstractDocstringParser):

@@ -8,7 +8,13 @@ from typing import TYPE_CHECKING, Any, TypeAlias
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+    from safeds_stubgen.docstring_parsing import (
+        AttributeDocstring,
+        ClassDocstring,
+        FunctionDocstring,
+        ParameterDocstring,
+        ResultDocstring
+    )
 
     from ._types import AbstractType
 

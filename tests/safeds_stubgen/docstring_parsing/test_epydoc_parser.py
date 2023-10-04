@@ -225,7 +225,8 @@ def test_get_parameter_documentation(
 
 
 # ############################## Attribute Documentation ############################## #
-# Todo Attribute handling not yet implemented in dosctring_parser library, therefore the tests also don't work yet
+# Todo Epydoc: Attribute handling not yet implemented in dosctring_parser library, thus the tests
+#  also don't work yet and are therefore deactivated!
 @pytest.mark.parametrize(
     ("class_name", "attribute_name", "expected_parameter_documentation"),
     [

@@ -84,7 +84,7 @@ class EpydocParser(AbstractDocstringParser):
             description=last_parameter_docstring_obj.description,
         )
 
-    # Todo Attribute handling not yet implemented in docstring_parser library
+    # Todo Epydoc: Attribute handling not yet implemented in docstring_parser library
     def get_attribute_documentation(
         self,
         parent_class: Class,  # noqa: ARG002
