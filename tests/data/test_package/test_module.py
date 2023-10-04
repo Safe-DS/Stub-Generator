@@ -1,4 +1,5 @@
 """Docstring of the some_class.py module."""
+# type: ignore  # noqa: PGH003
 import math as mathematics  # noqa: F401
 from typing import *  # noqa: F403
 
