@@ -12,7 +12,7 @@ class ClassWithoutDocumentation:
     pass
 
 
-def function_with_documentation():
+def function_with_documentation() -> None:
     """
     Lorem ipsum. Code::
 
@@ -22,7 +22,7 @@ def function_with_documentation():
     """  # noqa: D400
 
 
-def function_without_documentation():
+def function_without_documentation() -> None:
     pass
 
 
@@ -38,11 +38,11 @@ class ClassWithParameters:
         foo
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
 
-def function_with_parameters():
+def function_with_parameters() -> None:
     """
     Lorem ipsum.
 
@@ -83,7 +83,7 @@ class ClassAndFunctionWithParameters:
         Lorem ipsum 3.
     """  # noqa: D205
 
-    def __init__(self, x, y, z):
+    def __init__(self, x, y, z) -> None:
         """
         Parameters
         ----------
@@ -111,7 +111,7 @@ class ClassWithParametersAndAttributes:
         foo
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
 
@@ -141,11 +141,11 @@ class ClassWithAttributes:
         foo: grouped_attribute_1 and grouped_attribute_2
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
 
-def function_with_result_value_and_type():
+def function_with_result_value_and_type() -> None:
     """
     Lorem ipsum.
 
@@ -158,7 +158,7 @@ def function_with_result_value_and_type():
     """
 
 
-def function_without_result_value():
+def function_without_result_value() -> None:
     """
     Lorem ipsum.
 

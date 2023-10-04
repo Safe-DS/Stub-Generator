@@ -2,5 +2,5 @@ class _ThirdReexportClass:
     pass
 
 
-def reexported_function_3():
+def reexported_function_3() -> None:
     pass

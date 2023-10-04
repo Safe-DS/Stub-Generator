@@ -12,7 +12,7 @@ class ClassWithoutDocumentation:
     pass
 
 
-def function_with_documentation():
+def function_with_documentation() -> None:
     """
     Lorem ipsum. Code::
 
@@ -22,7 +22,7 @@ def function_with_documentation():
     """  # noqa: D400
 
 
-def function_without_documentation():
+def function_without_documentation() -> None:
     pass
 
 
@@ -35,11 +35,11 @@ class ClassWithParameters:
         p (int): foo. Defaults to 1.
     """
 
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
 
-def function_with_parameters():
+def function_with_parameters() -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -53,7 +53,7 @@ def function_with_parameters():
     """
 
 
-def function_with_attributes_and_parameters():
+def function_with_attributes_and_parameters() -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -77,7 +77,7 @@ class ClassWithAttributes:
     """  # noqa: D406, D407
 
 
-def function_with_return_value_and_type():
+def function_with_return_value_and_type() -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -87,7 +87,7 @@ def function_with_return_value_and_type():
     """  # noqa: D406, D407
 
 
-def function_with_return_value_no_type():
+def function_with_return_value_no_type() -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -97,7 +97,7 @@ def function_with_return_value_no_type():
     """  # noqa: D406, D407
 
 
-def function_without_return_value():
+def function_without_return_value() -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
