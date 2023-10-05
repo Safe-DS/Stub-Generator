@@ -1,11 +1,13 @@
 """Docstring of the some_class.py module."""
-import math as mathematics  # noqa: F401
-from typing import *  # noqa: F403
-
-import mypy  # noqa: F401
+# noinspection PyUnresolvedReferences
+import math as mathematics
+from typing import *
 
 # noinspection PyUnresolvedReferences
-from docstring_parser import *  # noqa: F403
+import mypy
+
+# noinspection PyUnresolvedReferences
+from docstring_parser import *
 
 from .another_path.another_module import AnotherClass
 from .another_path.another_module import AnotherClass as _AcImportAlias
@@ -15,7 +17,7 @@ ac_alias = AnotherClass
 
 
 # noinspection PyUnusedLocal
-def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:  # noqa: ARG001
+def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:
     """Docstring 1.
 
     Docstring 2.
@@ -61,10 +63,10 @@ class SomeClass(AcDoubleAlias):
     str_attr_with_none_value: str = None
 
     mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
-    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]  # noqa: RUF012
+    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
 
     # noinspection PyUnusedLocal
-    def __init__(self, init_param_1):  # noqa: ARG002
+    def __init__(self, init_param_1):
         """Summary of the init description.
 
         Full init description.
@@ -72,19 +74,19 @@ class SomeClass(AcDoubleAlias):
         self.init_attr: bool
         # noinspection PyTypeChecker
         self._init_attr_private: float = "I'm a string"
-        no_class_attr: bool  # noqa: F842
+        no_class_attr: bool
 
     def _some_function(self, param_1: bool, param_2: ac_alias) -> ac_alias:
         """Function Docstring.
 
         param_1: bool.
-        """  # noqa: D401
+        """
 
     @staticmethod
     def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
-        """Function Docstring."""  # noqa: D401
+        """Function Docstring."""
 
-    def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:  # noqa: B008, F405
+    def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:
         """Function Docstring."""
 
     @staticmethod
@@ -92,8 +94,8 @@ class SomeClass(AcDoubleAlias):
         pass
 
     @staticmethod
-    def multiple_results(param_1: int) -> Any | tuple[int, str]:  # noqa: F405
-        """Function Docstring."""  # noqa: D401
+    def multiple_results(param_1: int) -> Any | tuple[int, str]:
+        """Function Docstring."""
 
     def no_return_1(self):
         pass

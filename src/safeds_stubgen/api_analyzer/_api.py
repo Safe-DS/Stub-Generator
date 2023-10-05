@@ -38,6 +38,7 @@ def parent_id(id_: str) -> str:
     return "/".join(id_.split("/")[:-1])
 
 
+# Todo Remove unused functions
 class API:
     def __init__(self, distribution: str, package: str, version: str) -> None:
         self.distribution: str = distribution
@@ -297,9 +298,9 @@ class Class:
         return {
             "id": self.id,
             "name": self.name,
-            "superclasses": self.superclasses,
+            "docstring": self.docstring.to_dict(),
             "is_public": self.is_public,
-            "description": self.docstring.description,
+            "superclasses": self.superclasses,
             "constructor": self.constructor.to_dict() if self.constructor is not None else None,
             "reexported_by": [module.id for module in self.reexported_by],
             "attributes": [attribute.id for attribute in self.attributes],
@@ -333,10 +334,10 @@ class Attribute:
         return {
             "id": self.id,
             "name": self.name,
+            "docstring": self.docstring.to_dict(),
             "is_public": self.is_public,
             "is_static": self.is_static,
             "type": self.type.to_dict() if self.type is not None else None,
-            "docstring": self.docstring.to_dict(),
         }
 
 
@@ -355,7 +356,7 @@ class Function:
         return {
             "id": self.id,
             "name": self.name,
-            "description": self.docstring.description,
+            "docstring": self.docstring.to_dict(),
             "is_public": self.is_public,
             "is_static": self.is_static,
             "results": [result.id for result in self.results],
@@ -388,10 +389,10 @@ class Parameter:
         return {
             "id": self.id,
             "name": self.name,
+            "docstring": self.docstring.to_dict(),
             "is_optional": self.is_optional,
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
-            "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict(),
         }
 
@@ -425,8 +426,8 @@ class Result:
         return {
             "id": self.id,
             "name": self.name,
-            "type": self.type.to_dict() if self.type is not None else None,
             "docstring": self.docstring.to_dict(),
+            "type": self.type.to_dict() if self.type is not None else None,
         }
 
 

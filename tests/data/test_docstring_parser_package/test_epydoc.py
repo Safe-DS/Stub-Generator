@@ -5,7 +5,7 @@ class ClassWithDocumentation:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 class ClassWithoutDocumentation:
@@ -19,7 +19,7 @@ def function_with_documentation() -> None:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 def function_without_documentation() -> None:

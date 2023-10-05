@@ -234,6 +234,10 @@ module___init__ = {
             "alias": None,
         },
         {
+            "qualified_name": "_reexport_module_4._reexported_function_4",
+            "alias": None,
+        },
+        {
             "qualified_name": "test_enums._ReexportedEmptyEnum",
             "alias": None,
         },
@@ -314,10 +318,10 @@ def test_modules(
             data_pack[entry_to_sort] = sorted(data_pack[entry_to_sort])
 
         data_pack["qualified_imports"] = _sort_list_of_dicts(
-            data_pack["qualified_imports"], ["qualified_name"]
+            data_pack["qualified_imports"], ["qualified_name"],
         )
         data_pack["wildcard_imports"] = _sort_list_of_dicts(
-            data_pack["wildcard_imports"], ["module_name"]
+            data_pack["wildcard_imports"], ["module_name"],
         )
 
     # Assert
@@ -389,6 +393,10 @@ imports___init___qualified_imports = [
     },
     {
         "qualified_name": "_reexport_module_4.FourthReexportClass",
+        "alias": None,
+    },
+    {
+        "qualified_name": "_reexport_module_4._reexported_function_4",
         "alias": None,
     },
     {
@@ -467,11 +475,17 @@ class_test_module_someclass = {
     ],
     "is_public": True,
     "reexported_by": [],
-    "description": "Summary of the description.\n\nFull description",
+    "docstring": {
+        "description": "Summary of the description.\n\nFull description",
+        "full_docstring": "Summary of the description.\n\nFull description",
+    },
     "constructor": {
         "id": "test_package/test_module/SomeClass/__init__",
         "name": "__init__",
-        "description": "Summary of the init description.\n\nFull init description.",
+        "docstring": {
+          "description": "Summary of the init description.\n\nFull init description.",
+          "full_docstring": "Summary of the init description.\n\nFull init description."
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -532,7 +546,10 @@ class_test_module_nestedclass = {
     ],
     "is_public": True,
     "reexported_by": [],
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "attributes": [],
     "methods": [
@@ -547,11 +564,17 @@ class_test_module__privateclass = {
     "superclasses": [],
     "is_public": False,
     "reexported_by": [],
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": {
         "id": "test_package/test_module/_PrivateClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+          "description": "",
+          "full_docstring": ""
+        },
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
@@ -578,7 +601,10 @@ class_test_module_nestedprivateclass = {
     "superclasses": [],
     "is_public": True,
     "reexported_by": [],
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "attributes": [
         "test_package/test_module/_PrivateClass/NestedPrivateClass/nested_class_attr",
@@ -597,7 +623,10 @@ class_test_module_nestednestedprivateclass = {
     "superclasses": [],
     "is_public": True,
     "reexported_by": [],
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "attributes": [],
     "methods": [],
@@ -609,11 +638,19 @@ class_test_docstrings_epydocdocstringclass = {
     "name": "EpydocDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations. (Epydoc).",
+    "docstring": {
+        "description": "A class with a variety of different methods for calculations. (Epydoc).",
+        "full_docstring": "A class with a variety of different methods for calculations. (Epydoc).\n\n"
+                          "@ivar attr_1: Attribute of the calculator. (Epydoc)\n@type attr_1: str\n"
+                          "@param param_1: Parameter of the calculator. (Epydoc)\n@type param_1: str",
+    },
     "constructor": {
         "id": "test_package/test_docstrings/EpydocDocstringClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+          "description": "",
+          "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "results": [],
@@ -638,11 +675,19 @@ class_test_docstrings_restdocstringclass = {
     "name": "RestDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class with a variety of different methods for calculations. (ReST).",
+    "docstring": {
+        "description": "A class with a variety of different methods for calculations. (ReST).",
+        "full_docstring": "A class with a variety of different methods for calculations. (ReST).\n\n"
+                          ":param attr_1: Attribute of the calculator. (ReST)\n:type attr_1: str\n"
+                          ":param param_1: Parameter of the calculator. (ReST)\n:type param_1: str"
+    },
     "constructor": {
         "id": "test_package/test_docstrings/RestDocstringClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+          "description": "",
+          "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "results": [],
@@ -667,12 +712,21 @@ class_test_docstrings_numpydocstringclass = {
     "name": "NumpyDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class that calculates stuff. (Numpy).\n\n"
-                   "A class with a variety of different methods for calculations. (Numpy)",
+    "docstring": {
+        "description": "A class that calculates stuff. (Numpy).\n\n"
+                       "A class with a variety of different methods for calculations. (Numpy)",
+        "full_docstring": "A class that calculates stuff. (Numpy).\n\n"
+                          "A class with a variety of different methods for calculations. (Numpy)\n\n"
+                          "Attributes\n----------\nattr_1 : str\n    Attribute of the calculator. (Numpy)\n\n"
+                          "Parameters\n----------\nparam_1 : str\n    Parameter of the calculator. (Numpy)"
+    },
     "constructor": {
         "id": "test_package/test_docstrings/NumpyDocstringClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "results": [],
@@ -697,12 +751,21 @@ class_test_docstrings_googledocstringclass = {
     "name": "GoogleDocstringClass",
     "superclasses": [],
     "is_public": True,
-    "description": "A class that calculates stuff. (Google Style).\n\n"
-                   "A class with a variety of different methods for calculations. (Google Style)",
+    "docstring": {
+        "description": "A class that calculates stuff. (Google Style).\n\n"
+                       "A class with a variety of different methods for calculations. (Google Style)",
+        "full_docstring": "A class that calculates stuff. (Google Style).\n\n"
+                          "A class with a variety of different methods for calculations. (Google Style)\n\nAttributes:"
+                          "\n    attr_1 (str): Attribute of the calculator. (Google Style)\n\nArgs:"
+                          "\n    param_1 (str): Parameter of the calculator. (Google Style)"
+    },
     "constructor": {
         "id": "test_package/test_docstrings/GoogleDocstringClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "results": [],
@@ -727,7 +790,10 @@ class__reexport_module_1_reexportclass = {
     "name": "ReexportClass",
     "superclasses": [],
     "is_public": True,
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "reexported_by": [
         "test_package/__init__",
@@ -744,7 +810,10 @@ class__reexport_module_2_anotherreexportclass = {
     "name": "AnotherReexportClass",
     "superclasses": [],
     "is_public": True,
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "reexported_by": [],
     "attributes": [],
@@ -757,7 +826,10 @@ class__reexport_module_3_thirdreexportclass = {
     "name": "_ThirdReexportClass",
     "superclasses": [],
     "is_public": False,
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "reexported_by": [
         "test_package/__init__",
@@ -772,7 +844,10 @@ class__reexport_module_4_fourthreexportclass = {
     "name": "FourthReexportClass",
     "superclasses": [],
     "is_public": True,
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": "",
+    },
     "constructor": None,
     "reexported_by": [
         "test_package/__init__",
@@ -904,7 +979,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -919,7 +994,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -931,7 +1006,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -943,7 +1018,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -958,7 +1033,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -974,7 +1049,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -989,7 +1064,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1018,7 +1093,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1042,7 +1117,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1057,7 +1132,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1086,7 +1161,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1099,18 +1174,18 @@ class_attributes_test_module_someclass = [
             "types": [
                 {
                     "kind": "NamedType",
-                    "name": "str"
+                    "name": "str",
                 },
                 {
                     "kind": "NamedType",
-                    "name": "AcDoubleAlias"
-                }
-            ]
+                    "name": "AcDoubleAlias",
+                },
+            ],
         },
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1123,27 +1198,27 @@ class_attributes_test_module_someclass = [
             "types": [
                 {
                     "kind": "NamedType",
-                    "name": "str"
+                    "name": "str",
                 },
                 {
                     "kind": "UnionType",
                     "types": [
                         {
                             "kind": "NamedType",
-                            "name": "_AcImportAlias"
+                            "name": "_AcImportAlias",
                         },
                         {
                             "kind": "NamedType",
-                            "name": "int"
-                        }
-                    ]
-                }
-            ]
+                            "name": "int",
+                        },
+                    ],
+                },
+            ],
         },
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1165,7 +1240,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1187,7 +1262,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1227,7 +1302,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1242,7 +1317,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1257,7 +1332,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1272,7 +1347,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1296,7 +1371,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1311,7 +1386,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1323,7 +1398,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1335,7 +1410,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1347,7 +1422,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1359,7 +1434,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1374,7 +1449,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1389,7 +1464,7 @@ class_attributes_test_module_someclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -1406,7 +1481,7 @@ class_attributes_test_module__privateclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -1421,7 +1496,7 @@ class_attributes_test_module__privateclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -1436,7 +1511,7 @@ class_attributes_test_module_nestedprivateclass = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -1455,7 +1530,7 @@ class_attributes_test_docstrings_epydocdocstringclass = [{
     "docstring": {
         "type": "str",
         "default_value": "",
-        "description": "Attribute of the calculator. (Epydoc)"
+        "description": "Attribute of the calculator. (Epydoc)",
     },
 }]
 
@@ -1471,7 +1546,7 @@ class_attributes_test_docstrings_restdocstringclass = [{
     "docstring": {
         "type": "str",
         "default_value": "",
-        "description": "Attribute of the calculator. (ReST)"
+        "description": "Attribute of the calculator. (ReST)",
     },
 }]
 
@@ -1487,7 +1562,7 @@ class_attributes_test_docstrings_numpydocstringclass = [{
     "docstring": {
         "type": "str",
         "default_value": "",
-        "description": "Attribute of the calculator. (Numpy)"
+        "description": "Attribute of the calculator. (Numpy)",
     },
 }]
 
@@ -1503,7 +1578,7 @@ class_attributes_test_docstrings_googledocstringclass = [{
     "docstring": {
         "type": "str",
         "default_value": "",
-        "description": "Attribute of the calculator. (Google Style)"
+        "description": "Attribute of the calculator. (Google Style)",
     },
 }]
 
@@ -1780,12 +1855,14 @@ def test_enum_instances(
 
 
 # ############################## Global Functions ############################## #
-# Todo Frage: Sind die is_public Felder hier alle richtig gesetzt?
 global_functions_test_module = [
     {
         "id": "test_package/test_module/global_func",
         "name": "global_func",
-        "description": "Docstring 1.\n\nDocstring 2.",
+        "docstring": {
+            "description": "Docstring 1.\n\nDocstring 2.",
+            "full_docstring": "Docstring 1.\n\nDocstring 2."
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -1800,7 +1877,10 @@ global_functions_test_module = [
     {
         "id": "test_package/test_module/_private_global_func",
         "name": "_private_global_func",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
@@ -1814,7 +1894,10 @@ global_functions_test_module = [
 global_functions__reexport_module_1 = [{
     "id": "test_package/_reexport_module_1/reexported_function",
     "name": "reexported_function",
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": ""
+    },
     "is_public": False,
     "is_static": False,
     "results": [],
@@ -1825,7 +1908,10 @@ global_functions__reexport_module_1 = [{
 global_functions__reexport_module_2 = [{
     "id": "test_package/_reexport_module_2/reexported_function_2",
     "name": "reexported_function_2",
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": ""
+    },
     "is_public": True,
     "is_static": False,
     "results": [],
@@ -1838,7 +1924,10 @@ global_functions__reexport_module_2 = [{
 global_functions__reexport_module_3 = [{
     "id": "test_package/_reexport_module_3/reexported_function_3",
     "name": "reexported_function_3",
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": ""
+    },
     "is_public": False,
     "is_static": False,
     "results": [],
@@ -1848,16 +1937,34 @@ global_functions__reexport_module_3 = [{
     "parameters": [],
 }]
 
-global_functions__reexport_module_4 = [{
-    "id": "test_package/_reexport_module_4/_unreexported_function",
-    "name": "_unreexported_function",
-    "description": "",
-    "is_public": False,
-    "is_static": False,
-    "results": [],
-    "reexported_by": [],
-    "parameters": [],
-}]
+global_functions__reexport_module_4 = [
+    {
+        "id": "test_package/_reexport_module_4/_unreexported_function",
+        "name": "_unreexported_function",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
+        "is_public": False,
+        "is_static": False,
+        "results": [],
+        "reexported_by": [],
+        "parameters": [],
+    },
+    {
+        "id": "test_package/_reexport_module_4/_reexported_function_4",
+        "name": "_reexported_function_4",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
+        "is_public": False,
+        "is_static": False,
+        "results": [],
+        "reexported_by": ["test_package/__init__"],
+        "parameters": [],
+    },
+]
 
 
 @pytest.mark.parametrize(
@@ -1923,7 +2030,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/__init__",
         "name": "__init__",
-        "description": "Summary of the init description.\n\nFull init description.",
+        "docstring": {
+            "description": "Summary of the init description.\n\nFull init description.",
+            "full_docstring": "Summary of the init description.\n\nFull init description."
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -1936,7 +2046,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/_some_function",
         "name": "_some_function",
-        "description": "Function Docstring.\n\nparam_1: bool.",
+        "docstring": {
+            "description": "Function Docstring.\n\nparam_1: bool.",
+            "full_docstring": "Function Docstring.\n\nparam_1: bool."
+        },
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
@@ -1952,7 +2065,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/multiple_results",
         "name": "multiple_results",
-        "description": "Function Docstring.",
+        "docstring": {
+            "description": "Function Docstring.",
+            "full_docstring": "Function Docstring."
+        },
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
@@ -1966,7 +2082,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/static_function",
         "name": "static_function",
-        "description": "Function Docstring.",
+        "docstring": {
+            "description": "Function Docstring.",
+            "full_docstring": "Function Docstring."
+        },
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
@@ -1982,7 +2101,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/test_position",
         "name": "test_position",
-        "description": "Function Docstring.",
+        "docstring": {
+            "description": "Function Docstring.",
+            "full_docstring": "Function Docstring."
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -2001,7 +2123,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/test_params",
         "name": "test_params",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": True,
         "reexported_by": [],
@@ -2014,7 +2139,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/no_return_1",
         "name": "no_return_1",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -2026,7 +2154,10 @@ class_methods_test_module_someclass = [
     {
         "id": "test_package/test_module/SomeClass/no_return_2",
         "name": "no_return_2",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -2041,7 +2172,10 @@ class_methods_test_module_nestedclass = [
     {
         "id": "test_package/test_module/SomeClass/NestedClass/nested_class_function",
         "name": "nested_class_function",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": True,
         "is_static": False,
         "reexported_by": [],
@@ -2059,7 +2193,10 @@ class_methods_test_module__privateclass = [
     {
         "id": "test_package/test_module/_PrivateClass/__init__",
         "name": "__init__",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
@@ -2071,7 +2208,10 @@ class_methods_test_module__privateclass = [
     {
         "id": "test_package/test_module/_PrivateClass/public_func_in_private_class",
         "name": "public_func_in_private_class",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": False,
         "is_static": False,
         "reexported_by": [],
@@ -2088,7 +2228,10 @@ class_methods_test_module_nestedprivateclass = [
         "id": "test_package/test_module/_PrivateClass/NestedPrivateClass/"
               "static_nested_private_class_function",
         "name": "static_nested_private_class_function",
-        "description": "",
+        "docstring": {
+            "description": "",
+            "full_docstring": ""
+        },
         "is_public": False,
         "is_static": True,
         "reexported_by": [],
@@ -2102,7 +2245,10 @@ class_methods_test_module_nestednestedprivateclass = []
 class_methods__reexport_module_1_reexportclass = [{
     "id": "test_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class",
     "name": "_private_class_method_of_reexported_class",
-    "description": "",
+    "docstring": {
+        "description": "",
+        "full_docstring": ""
+    },
     "is_public": False,
     "is_static": True,
     "results": [],
@@ -2115,8 +2261,14 @@ class_methods__reexport_module_1_reexportclass = [{
 class_methods_test_docstrings_epydocdocstringclass = [{
     "id": "test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func",
     "name": "epydoc_docstring_func",
-    "description": "This function checks if the sum of x and y is less than the value 10 and "
-                   "returns True if it is. (Epydoc).",
+    "docstring": {
+        "description": "This function checks if the sum of x and y is less than the value 10 and "
+                       "returns True if it is. (Epydoc).",
+        "full_docstring": "This function checks if the sum of x and y is less than the value 10 and returns True if it"
+                          " is. (Epydoc).\n\n@param x: First integer value for the calculation. (Epydoc)\n@type x: "
+                          "int\n@param y: Second integer value for the calculation. (Epydoc)\n@type y: int\n@return: "
+                          "Checks if the sum of x and y is greater than 10. (Epydoc)\n@rtype: bool"
+    },
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2133,8 +2285,14 @@ class_methods_test_docstrings_epydocdocstringclass = [{
 class_methods_test_docstrings_restdocstringclass = [{
     "id": "test_package/test_docstrings/RestDocstringClass/rest_docstring_func",
     "name": "rest_docstring_func",
-    "description": "This function checks if the sum of x and y is less than the value 10\n\n"
-                   "and returns True if it is. (ReST).",
+    "docstring": {
+        "description": "This function checks if the sum of x and y is less than the value 10\n\nand returns "
+                       "True if it is. (ReST).",
+        "full_docstring": "This function checks if the sum of x and y is less than the value 10\nand returns True if "
+                          "it is. (ReST).\n\n:param x: First integer value for the calculation. (ReST)\n:type x: int"
+                          "\n:param y: Second integer value for the calculation. (ReST)\n:type y: int\n:returns: "
+                          "Checks if the sum of x and y is greater than 10. (ReST)\n:rtype: bool"
+    },
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2151,8 +2309,16 @@ class_methods_test_docstrings_restdocstringclass = [{
 class_methods_test_docstrings_numpydocstringclass = [{
     "id": "test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func",
     "name": "numpy_docstring_func",
-    "description": "Checks if the sum of two variables is over the value of 10. (Numpy).\n\nThis function checks if "
-                   "the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)",
+    "docstring": {
+        "description": "Checks if the sum of two variables is over the value of 10. (Numpy).\n\n"
+                       "This function checks if the sum of `x` and `y` is less than the value 10 and "
+                       "returns True if it is. (Numpy)",
+        "full_docstring": "Checks if the sum of two variables is over the value of 10. (Numpy).\n\n"
+                          "This function checks if the sum of `x` and `y` is less than the value 10 and returns True "
+                          "if it is. (Numpy)\n\nParameters\n----------\nx : int\n    First integer value for the "
+                          "calculation. (Numpy)\ny : int\n    Second integer value for the calculation. (Numpy)\n\n"
+                          "Returns\n-------\nbool\n    Checks if the sum of `x` and `y` is greater than 10. (Numpy)"
+    },
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2169,8 +2335,17 @@ class_methods_test_docstrings_numpydocstringclass = [{
 class_methods_test_docstrings_googledocstringclass = [{
     "id": "test_package/test_docstrings/GoogleDocstringClass/google_docstring_func",
     "name": "google_docstring_func",
-    "description": "Checks if the sum of two variables is over the value of 10. (Google Style).\n\nThis function "
-                   "checks if the sum of x and y is less than the value 10\nand returns True if it is. (Google Style)",
+    "docstring": {
+        "description": "Checks if the sum of two variables is over the value of 10. (Google Style).\n\n"
+                       "This function checks if the sum of x and y is less than the value 10\n"
+                       "and returns True if it is. (Google Style)",
+        "full_docstring": "Checks if the sum of two variables is over the value of 10. (Google Style).\n\n"
+                          "This function checks if the sum of x and y is less than the value 10\nand returns "
+                          "True if it is. (Google Style)\n\nArgs:\n    x (int): First integer value for the "
+                          "calculation. (Google Style)\n    y (int): Second integer value for the calculation. "
+                          "(Google Style)\n\nReturns:\n    bool: Checks if the sum of x and y is greater than 10 "
+                          "and returns\n          a boolean value. (Google Style)"
+    },
     "is_public": True,
     "is_static": False,
     "results": [
@@ -2301,7 +2476,7 @@ func_params_test_module_global_func = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2317,7 +2492,7 @@ func_params_test_module_global_func = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "UnionType",
@@ -2345,7 +2520,7 @@ func_params_test_module_someclass___init__ = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2361,7 +2536,7 @@ func_params_test_module_someclass___init__ = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2380,7 +2555,7 @@ func_params_test_module_someclass_static_function = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2396,7 +2571,7 @@ func_params_test_module_someclass_static_function = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "UnionType",
@@ -2424,7 +2599,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2440,7 +2615,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2456,7 +2631,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2472,7 +2647,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2488,7 +2663,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2504,7 +2679,7 @@ func_params_test_module_someclass_test_position = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2523,7 +2698,7 @@ func_params_test_module_someclass_test_params = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "TupleType",
@@ -2539,7 +2714,7 @@ func_params_test_module_someclass_test_params = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "DictType",
@@ -2565,7 +2740,7 @@ func_params_test_module_someclass_nestedclass_nested_class_function = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -2581,7 +2756,7 @@ func_params_test_module_someclass_nestedclass_nested_class_function = [
         "docstring": {
             "type": "",
             "default_value": "",
-            "description": ""
+            "description": "",
         },
         "type": {
             "kind": "NamedType",
@@ -3081,7 +3256,7 @@ results_test_module__private_global_func = [
         },
         "docstring": {
             "type": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -3114,7 +3289,7 @@ results_test_module_someclass_multiple_results = [
         },
         "docstring": {
             "type": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -3130,7 +3305,7 @@ results_test_module_someclass_static_function = [
             },
         "docstring": {
             "type": "",
-            "description": ""
+            "description": "",
         },
     },
     {
@@ -3142,7 +3317,7 @@ results_test_module_someclass_static_function = [
         },
         "docstring": {
             "type": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -3157,7 +3332,7 @@ results_test_module_someclass_test_position = [
         },
         "docstring": {
             "type": "",
-            "description": ""
+            "description": "",
         },
     },
 ]
@@ -3186,7 +3361,7 @@ results_test_module_someclass_nestedclass_nested_class_function = [
         },
         "docstring": {
             "description": "",
-            "type": ""
+            "type": "",
         },
     },
 ]

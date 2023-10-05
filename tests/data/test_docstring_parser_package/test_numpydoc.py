@@ -5,7 +5,7 @@ class ClassWithDocumentation:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 class ClassWithoutDocumentation:
@@ -19,7 +19,7 @@ def function_with_documentation() -> None:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 def function_without_documentation() -> None:
@@ -81,7 +81,7 @@ class ClassAndFunctionWithParameters:
         Lorem ipsum 1.
     z: int, default=5
         Lorem ipsum 3.
-    """  # noqa: D205
+    """
 
     def __init__(self, x, y, z) -> None:
         """
@@ -91,7 +91,7 @@ class ClassAndFunctionWithParameters:
             Lorem ipsum 2.
         z: str
             Lorem ipsum 4.
-        """  # noqa: D205
+        """
 
 
 class ClassWithParametersAndAttributes:

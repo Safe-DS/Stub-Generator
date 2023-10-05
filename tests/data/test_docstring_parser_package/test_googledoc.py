@@ -5,7 +5,7 @@ class ClassWithDocumentation:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 class ClassWithoutDocumentation:
@@ -19,7 +19,7 @@ def function_with_documentation() -> None:
         pass
 
     Dolor sit amet.
-    """  # noqa: D400
+    """
 
 
 def function_without_documentation() -> None:
@@ -64,7 +64,7 @@ def function_with_attributes_and_parameters() -> None:
     Args:
         q (int): foo. Defaults to 2.
 
-    """  # noqa: D406, D407
+    """
 
 
 class ClassWithAttributes:
@@ -74,7 +74,7 @@ class ClassWithAttributes:
 
     Attributes:
         p (int): foo. Defaults to 1.
-    """  # noqa: D406, D407
+    """
 
 
 def function_with_return_value_and_type() -> None:
@@ -84,7 +84,7 @@ def function_with_return_value_and_type() -> None:
 
     Returns:
         int: this will be the return value.
-    """  # noqa: D406, D407
+    """
 
 
 def function_with_return_value_no_type() -> None:
@@ -94,7 +94,7 @@ def function_with_return_value_no_type() -> None:
 
     Returns:
         int
-    """  # noqa: D406, D407
+    """
 
 
 def function_without_return_value() -> None:

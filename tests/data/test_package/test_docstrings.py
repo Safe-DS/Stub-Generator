@@ -29,7 +29,7 @@ class EpydocDocstringClass:
         @type y: int
         @return: Checks if the sum of x and y is greater than 10. (Epydoc)
         @rtype: bool
-        """  # noqa: D401, D404
+        """
         z = x + y
         return z < 10
 
@@ -60,7 +60,7 @@ class RestDocstringClass:
         :type y: int
         :returns: Checks if the sum of x and y is greater than 10. (ReST)
         :rtype: bool
-        """  # noqa: D205, D401, D404
+        """
         z = x + y
         return z < 10
 
@@ -102,7 +102,7 @@ class NumpyDocstringClass:
         -------
         bool
             Checks if the sum of `x` and `y` is greater than 10. (Numpy)
-        """  # noqa: D401
+        """
         z = x + y
         return z < 10
 
@@ -117,7 +117,7 @@ class GoogleDocstringClass:
 
     Args:
         param_1 (str): Parameter of the calculator. (Google Style)
-    """  # noqa: D406, D407
+    """
 
     attr_1: str
 
@@ -137,6 +137,6 @@ class GoogleDocstringClass:
         Returns:
             bool: Checks if the sum of x and y is greater than 10 and returns
                   a boolean value. (Google Style)
-        """  # noqa: D401, D406, D407
+        """
         z = x + y
         return z < 10

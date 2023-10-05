@@ -89,6 +89,8 @@ ignore = [
     "TRY003",
 ]
 
+extend-exclude = ["tests/data"]
+
 [per-file-ignores]
 "*test*.py" = [
     # Undocumented declarations
