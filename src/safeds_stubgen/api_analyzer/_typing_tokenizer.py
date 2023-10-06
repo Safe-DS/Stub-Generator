@@ -188,7 +188,7 @@ class TypingScanner:
 class ScanningError(Exception):
     """Class for a ScanningError."""
 
-    def __init__(self, message) -> None:
+    def __init__(self, message: str) -> None:
         self.message = message
 
     def __str__(self) -> str:

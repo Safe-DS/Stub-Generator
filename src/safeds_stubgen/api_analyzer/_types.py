@@ -9,9 +9,9 @@ from typing import Any, ClassVar
 
 class AbstractType(metaclass=ABCMeta):
     @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> AbstractType | None:
+    def from_dict(cls, d: dict[str, Any]) -> AbstractType:
         if d is None:
-            return None
+            raise ValueError("Cannot parse None-Type value.")
 
         value: AbstractType | None = NamedType.from_dict(d)
         if value is not None:
@@ -469,7 +469,7 @@ def _dismantel_type_string_structure(type_structure: str) -> list:
     return result
 
 
-def _parse_type_string_bracket_content(substring: str) -> (str, str):
+def _parse_type_string_bracket_content(substring: str) -> tuple[str, str]:
     brackets_content = ""
     bracket_count = 0
     for i, char in enumerate(substring):
@@ -485,7 +485,7 @@ def _parse_type_string_bracket_content(substring: str) -> (str, str):
 
 
 # Todo Return mypy\types -> Type class
-def create_type(type_string: str, description: str) -> AbstractType | None:
+def create_type(type_string: str, description: str) -> AbstractType:
     if not type_string:
         return NamedType("None")
 
@@ -506,14 +506,15 @@ def create_type(type_string: str, description: str) -> AbstractType | None:
 
     # List-like structures, which take multiple type arguments
     structures = {"List": ListType, "Set": SetType, "Tuple": TupleType, "Union": UnionType}
-    for key in list(structures.keys()):
+    for key in structures:
         regex = r"^" + key + r"\[(.*)]$"
         match = re.match(regex, type_string)
         if match:
             content = match.group(1)
             content_elements = _dismantel_type_string_structure(content)
             return structures[key]([
-                create_type(element, description) for element in content_elements
+                create_type(element, description)
+                for element in content_elements
             ])
 
     match = re.match(r"^Literal\[(.*)]$", type_string)
@@ -535,7 +536,7 @@ def create_type(type_string: str, description: str) -> AbstractType | None:
         content = match.group(1)
         content_elements = _dismantel_type_string_structure(content)
         if len(content_elements) != 2:
-            raise TypeParsingError(f"Could not parse Dict from the following string:\n{type_string}")
+            raise TypeParsingError(f"Could not parse Dict from the following string: \n{type_string}")
         return DictType(
             create_type(content_elements[0], description),
             create_type(content_elements[1], description),
@@ -614,7 +615,7 @@ def _create_enum_boundry_type(type_string: str, description: str) -> AbstractTyp
 
 
 class TypeParsingError(Exception):
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
 
     def __str__(self):

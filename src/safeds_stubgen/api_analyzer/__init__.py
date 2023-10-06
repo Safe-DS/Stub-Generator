@@ -1,3 +1,4 @@
+"""API-Analyzer for the Safe-DS stubs generator."""
 from __future__ import annotations
 
 from ._api import API, Class, Function, ParameterAssignment
