@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass, field
-from enum import Enum
+from enum import Enum as PythonEnum
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -291,7 +291,7 @@ class Parameter:
         }
 
 
-class ParameterAssignment(Enum):
+class ParameterAssignment(PythonEnum):
     """
     How arguments are assigned to parameters. The parameters must appear exactly in this order in a parameter list.
 
