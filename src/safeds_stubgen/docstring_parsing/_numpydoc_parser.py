@@ -36,7 +36,7 @@ class NumpyDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_node: nodes.FuncDef | None = None
+        self.__cached_node: nodes.FuncDef | Class | None = None
         self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
@@ -88,7 +88,7 @@ class NumpyDocParser(AbstractDocstringParser):
                 docstring_constructor = get_full_docstring(function_node)
                 # Find matching parameter docstrings
                 function_numpydoc = parse_docstring(docstring_constructor, style=DP_DocstringStyle.NUMPYDOC)
-                all_parameters_numpydoc: list[DocstringParam] = function_numpydoc.params
+                all_parameters_numpydoc = function_numpydoc.params
 
                 # Overwrite previous matching_parameters_numpydoc list
                 matching_parameters_numpydoc = [
@@ -105,7 +105,7 @@ class NumpyDocParser(AbstractDocstringParser):
         return ParameterDocstring(
             type=type_,
             default_value=default_value,
-            description=last_parameter_numpydoc.description,
+            description=last_parameter_numpydoc.description or "",
         )
 
     def get_attribute_documentation(
@@ -132,7 +132,7 @@ class NumpyDocParser(AbstractDocstringParser):
                 parent_class.constructor_fulldocstring,
                 style=DP_DocstringStyle.NUMPYDOC
             )
-            all_attributes_numpydoc: list[DocstringParam] = function_numpydoc.params
+            all_attributes_numpydoc = function_numpydoc.params
 
             # Overwrite previous matching_attributes_numpydoc list
             matching_attributes_numpydoc = [
@@ -149,7 +149,7 @@ class NumpyDocParser(AbstractDocstringParser):
         return AttributeDocstring(
             type=type_,
             default_value=default_value,
-            description=last_attribute_numpydoc.description,
+            description=last_attribute_numpydoc.description or "",
         )
 
     def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class):
@@ -187,6 +187,9 @@ class NumpyDocParser(AbstractDocstringParser):
             self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.NUMPYDOC)
 
+        if self.__cached_docstring is None:
+            # pragma: no cover
+            raise ValueError("Expected a docstring, got None instead.")
         return self.__cached_docstring
 
 

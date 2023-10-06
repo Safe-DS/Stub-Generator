@@ -107,4 +107,11 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     # Get the needed data from mypy. The packages need to be checked first, since we have
     # to get the reexported data first
     all_paths = packages + modules
-    return [result.graph[path_key].tree for path_key in all_paths]
+
+    results = []
+    for path_key in all_paths:
+        tree = result.graph[path_key].tree
+        if tree is not None:
+            results.append(tree)
+
+    return results

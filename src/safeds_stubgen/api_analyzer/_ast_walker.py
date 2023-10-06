@@ -24,7 +24,7 @@ class ASTWalker:
 
     def __init__(self, handler: Any) -> None:
         self._handler = handler
-        self._cache: dict[type, _EnterAndLeaveFunctions] = {}
+        self._cache: dict[str, _EnterAndLeaveFunctions] = {}
 
     def walk(self, tree: MypyFile) -> None:
         self.__walk(tree, set())
@@ -84,14 +84,18 @@ class ASTWalker:
 
         # Handle special cases
         if class_name == "classdef":
+            if not hasattr(node, "base_type_exprs"):
+                # pragma: no cover
+                raise AttributeError("Expected classdef node to have attribute 'base_type_exprs'.")
+
             for superclass in node.base_type_exprs:
-                if superclass.fullname in ("enum.Enum", "enum.IntEnum"):
+                if hasattr(superclass, "fullname") and superclass.fullname in ("enum.Enum", "enum.IntEnum"):
                     class_name = "enumdef"
         elif class_name == "mypyfile":
             class_name = "moduledef"
 
         # Get class methods
-        methods = self._cache.get(class_name)
+        methods = self._cache.get(class_name, None)
         if methods is None:
             handler = self._handler
             enter_method = getattr(handler, f"enter_{class_name}", getattr(handler, "enter_default", None))

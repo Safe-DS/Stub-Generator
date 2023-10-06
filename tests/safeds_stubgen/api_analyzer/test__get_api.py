@@ -376,7 +376,7 @@ imports_test_enums_qualified_imports = [
     },
 ]
 
-imports_test_enums_wildcard_imports = []
+imports_test_enums_wildcard_imports: list = []
 
 imports___init___qualified_imports = [
     {
@@ -1469,7 +1469,7 @@ class_attributes_test_module_someclass = [
     },
 ]
 
-class_attributes_test_module_nestedclass = []
+class_attributes_test_module_nestedclass: list = []
 
 class_attributes_test_module__privateclass = [
     {
@@ -1516,7 +1516,7 @@ class_attributes_test_module_nestedprivateclass = [
     },
 ]
 
-class_attributes_test_module_nestednestedprivateclass = []
+class_attributes_test_module_nestednestedprivateclass: list = []
 
 class_attributes_test_docstrings_epydocdocstringclass = [{
     "id": "test_package/test_docstrings/EpydocDocstringClass/attr_1",
@@ -1801,7 +1801,7 @@ enum_instances_test_enums_testenum = [
     },
 ]
 
-enum_instances_test_enums__reexportedemptyenum = []
+enum_instances_test_enums__reexportedemptyenum: list = []
 
 enum_instances_test_enums_anothertestenum = [
     {
@@ -2240,7 +2240,7 @@ class_methods_test_module_nestedprivateclass = [
     },
 ]
 
-class_methods_test_module_nestednestedprivateclass = []
+class_methods_test_module_nestednestedprivateclass: list = []
 
 class_methods__reexport_module_1_reexportclass = [{
     "id": "test_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class",

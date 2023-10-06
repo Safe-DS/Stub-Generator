@@ -170,11 +170,16 @@ def test_get_attribute_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, class_name)
     assert isinstance(node, nodes.ClassDef)
+    docstring = plaintext_docstring_parser.get_class_documentation(node)
+    fake_class = Class(id="some_id", name="some_class", superclasses=[], is_public=True, docstring=docstring)
+
+    attribute_documentation = plaintext_docstring_parser.get_attribute_documentation(
+        parent_class=fake_class,
+        attribute_name=attribute_name,
+    )
+
     assert (
-        plaintext_docstring_parser.get_attribute_documentation(
-            node,
-            attribute_name
-        )
+        attribute_documentation
         == expected_attribute_documentation
     )
 

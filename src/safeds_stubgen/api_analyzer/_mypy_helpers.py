@@ -12,7 +12,7 @@ from ._api import ParameterAssignment
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
-    from mypy.types import ProperType
+    from mypy.types import ProperType, Type as MypyType
     from safeds_stubgen.api_analyzer._types import AbstractType
 
 
@@ -28,7 +28,7 @@ def get_mypyfile_definitions(node: MypyFile):
     return node.defs
 
 
-def mypy_type_to_abstract_type(mypy_type: Instance | ProperType) -> AbstractType:
+def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> AbstractType:
     types = []
 
     # Iterable mypy types
@@ -74,20 +74,18 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType) -> AbstractType
                 )
             return sds_types.SetType(types=types)
         elif type_name == "dict":
-            key_type = None
-            value_type = None
-            value_types = []
-            for i, arg in enumerate(mypy_type.args):
-                if i == 0:
-                    key_type = mypy_type_to_abstract_type(arg)
-                else:
-                    value_types.append(
-                        mypy_type_to_abstract_type(arg),
-                    )
+            key_type = mypy_type_to_abstract_type(mypy_type.args[0])
+            value_types = [
+                mypy_type_to_abstract_type(arg)
+                for arg in mypy_type.args[1:]
+            ]
 
-            if len(value_types) == 1:
+            value_type: AbstractType
+            if len(value_types) == 0:
+                value_type = sds_types.NamedType(name="Any")
+            elif len(value_types) == 1:
                 value_type = value_types[0]
-            elif len(value_types) >= 2:
+            else:
                 value_type = sds_types.UnionType(types=value_types)
 
             return sds_types.DictType(key_type=key_type, value_type=value_type)

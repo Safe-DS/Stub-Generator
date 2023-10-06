@@ -2,8 +2,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from mypy.nodes import ClassDef, FuncDef
+
 if TYPE_CHECKING:
-    from mypy.nodes import FuncDef, ClassDef, MypyFile
+    from mypy.nodes import MypyFile
 
 
 def get_specific_mypy_node(
@@ -11,6 +13,6 @@ def get_specific_mypy_node(
     node_name: str,
 ) -> ClassDef | FuncDef:
     for definition in mypy_file.defs:
-        if definition.name == node_name:
+        if isinstance(definition, ClassDef | FuncDef) and definition.name == node_name:
             return definition
     raise ValueError

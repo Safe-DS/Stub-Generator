@@ -3,7 +3,7 @@ from __future__ import annotations
 import json
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import TYPE_CHECKING, Any, TypeAlias
+from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -354,6 +354,3 @@ class EnumInstance:
             "id": self.id,
             "name": self.name,
         }
-
-
-ApiElement: TypeAlias = Module | Class | Attribute | Function | Parameter | Result

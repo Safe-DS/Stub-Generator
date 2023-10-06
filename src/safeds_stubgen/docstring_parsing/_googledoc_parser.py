@@ -30,8 +30,8 @@ class GoogleDocParser(AbstractDocstringParser):
     """
 
     def __init__(self) -> None:
-        self.__cached_node: nodes.FuncDef | None = None
-        self.__cached_docstring: DocstringParam | None = None
+        self.__cached_node: nodes.FuncDef | Class | None = None
+        self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
@@ -81,7 +81,7 @@ class GoogleDocParser(AbstractDocstringParser):
         return ParameterDocstring(
             type=last_parameter_docstring_obj.type_name or "",
             default_value=last_parameter_docstring_obj.default or "",
-            description=last_parameter_docstring_obj.description,
+            description=last_parameter_docstring_obj.description or "",
         )
 
     def get_attribute_documentation(
@@ -107,7 +107,7 @@ class GoogleDocParser(AbstractDocstringParser):
         return AttributeDocstring(
             type=last_attribute_docstring_obj.type_name or "",
             default_value=last_attribute_docstring_obj.default or "",
-            description=last_attribute_docstring_obj.description,
+            description=last_attribute_docstring_obj.description or "",
         )
 
     def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
@@ -141,4 +141,7 @@ class GoogleDocParser(AbstractDocstringParser):
             self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.GOOGLE)
 
+        if self.__cached_docstring is None:
+            # pragma: no cover
+            raise ValueError("Expected a docstring, got None instead.")
         return self.__cached_docstring

@@ -17,6 +17,7 @@ from mypy.nodes import (
     MypyFile,
     NameExpr,
     StrExpr,
+    Var,
 )
 
 import safeds_stubgen.api_analyzer._types as sds_types
@@ -43,7 +44,6 @@ from ._mypy_helpers import (
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import AbstractDocstringParser
-    from mypy.types import Instance
 
 
 class MyPyAstVisitor:
@@ -137,6 +137,7 @@ class MyPyAstVisitor:
         superclasses = [
             superclass.fullname
             for superclass in node.base_type_exprs
+            if hasattr(superclass, "fullname")
         ]
 
         # Get reexported data
@@ -234,12 +235,11 @@ class MyPyAstVisitor:
 
     def enter_enumdef(self, node: ClassDef) -> None:
         id_ = self.__get_id(node.name)
-        enum = Enum(
+        self.__declaration_stack.append(Enum(
             id=id_,
             name=node.name,
             docstring=self.docstring_parser.get_class_documentation(node),
-        )
-        self.__declaration_stack.append(enum)
+        ))
 
     def leave_enumdef(self, _: ClassDef) -> None:
         enum = self.__declaration_stack.pop()
@@ -281,6 +281,9 @@ class MyPyAstVisitor:
                     for item in lvalue.items:
                         names.append(item.name)
                 else:
+                    if not hasattr(lvalue, "name"):
+                        # pragma: no cover
+                        raise AttributeError("Expected lvalue to have attribtue 'name'.")
                     names.append(lvalue.name)
 
                 for name in names:
@@ -308,6 +311,11 @@ class MyPyAstVisitor:
                         self.api.add_attribute(assignment)
                         # Add the attributes to the (grand)parent class
                         grandparent = self.__declaration_stack[-2]
+
+                        if not isinstance(grandparent, Class):
+                            # pragma: no cover
+                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
+
                         grandparent.add_attribute(assignment)
                     elif isinstance(parent, Class):
                         self.api.add_attribute(assignment)
@@ -326,6 +334,8 @@ class MyPyAstVisitor:
     # #### Result utilities
 
     def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
+        from safeds_stubgen.docstring_parsing import ClassDocstring
+
         ret_type = None
         if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
             ret_type = mypy_type_to_abstract_type(node.type.ret_type)
@@ -335,6 +345,13 @@ class MyPyAstVisitor:
 
         results = []
         parent = self.__declaration_stack[-1]
+        if not isinstance(parent, Class | Module):
+            # pragma: no cover
+            raise TypeError(f"Parent has to be a Class. Instead we got {parent.__class__}.")
+        if isinstance(parent, Module):
+            # Create a fake parent, since we only need the parent if the function is an __init__ function for a class
+            parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
+
         docstring = self.docstring_parser.get_result_documentation(node, parent)
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):
@@ -386,12 +403,16 @@ class MyPyAstVisitor:
 
         return attributes
 
-    def check_attribute_already_defined(self, lvalue: NameExpr, value_name: str) -> bool:
+    def check_attribute_already_defined(self, lvalue: NameExpr | MemberExpr, value_name: str) -> bool:
         # If node is None, it's possible that the attribute was already defined once
         if lvalue.node is None:
             parent = self.__declaration_stack[-1]
             if isinstance(parent, Function):
                 parent = self.__declaration_stack[-2]
+
+            if not isinstance(parent, Class):
+                # pragma: no cover
+                raise TypeError("Parent has the wrong class, cannot get attribute values.")
 
             for attribute in parent.attributes:
                 if value_name == attribute.name:
@@ -409,22 +430,33 @@ class MyPyAstVisitor:
         # Get name and qname
         name = attribute.name
         qname = getattr(attribute, "fullname", "")
-        if qname in (name, "") and attribute.node is not None:
-            qname = attribute.node.fullname
+
+        if not isinstance(attribute.node, Var):
+            # pragma: no cover
+            raise TypeError("node has wrong type")
+
+        node: Var = attribute.node
+        if qname in (name, "") and node is not None:
+            qname = node.fullname
 
         # Check if there is a type hint and get its value
-        attribute_type: Instance | None = None
+        attribute_type = None
         if isinstance(attribute, MemberExpr):
             # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus the second check
-            if not attribute.node.is_inferred or (attribute.node.is_inferred and not attribute.node.has_explicit_value):
-                attribute_type: Instance = attribute.node.type
+            if not node.is_inferred or (node.is_inferred and not node.has_explicit_value):
+                attribute_type = node.type
         elif isinstance(attribute, NameExpr):
-            if not attribute.node.explicit_self_type and not attribute.node.is_inferred:
-                attribute_type: Instance = attribute.node.type
+            if not node.explicit_self_type and not node.is_inferred:
+                attribute_type = node.type
 
                 # We need to get the unanalyzed_type for lists, since mypy is not able to check information regarding
                 #  list item types
-                if hasattr(attribute_type, "type") and attribute_type.type.fullname == "builtins.list":
+                if (
+                    attribute_type is not None
+                    and hasattr(attribute_type, "type")
+                    and hasattr(attribute_type, "args")
+                    and attribute_type.type.fullname == "builtins.list"
+                ):
                     attribute_type.args = unanalyzed_type.args
 
         else:
@@ -460,7 +492,11 @@ class MyPyAstVisitor:
 
         for argument in node.arguments:
             arg_name = argument.variable.name
-            arg_type = mypy_type_to_abstract_type(argument.variable.type)
+            mypy_type = argument.variable.type
+            if mypy_type is None:
+                # pragma: no cover
+                raise ValueError("Argument has no type.")
+            arg_type = mypy_type_to_abstract_type(mypy_type)
             arg_kind = get_argument_kind(argument)
 
             default_value = None
@@ -471,7 +507,7 @@ class MyPyAstVisitor:
                     if isinstance(initializer, CallExpr):
                         # Special case when the default is a call expression
                         value = None
-                    elif initializer.name == "None":
+                    elif hasattr(initializer, "name") and initializer.name == "None":
                         value = None
                     else:
                         raise ValueError("No value found for parameter")
@@ -483,12 +519,11 @@ class MyPyAstVisitor:
                     is_optional = True
 
             parent = self.__declaration_stack[-1]
-            parent = parent if isinstance(parent, Class) else None
             docstring = self.docstring_parser.get_parameter_documentation(
                 function_node=node,
                 parameter_name=arg_name,
                 parameter_assigned_by=arg_kind,
-                parent_class=parent
+                parent_class=parent if isinstance(parent, Class) else None
             )
 
             arguments.append(Parameter(
@@ -512,6 +547,9 @@ class MyPyAstVisitor:
         i = 1
         while not isinstance(parent, Module):
             parent = self.__declaration_stack[-i]
+            if isinstance(parent, list):
+                # pragma: no cover
+                continue
             parents.append(parent.name)
             i += 1
         path = [*list(reversed(parents)), name]
@@ -567,7 +605,11 @@ class MyPyAstVisitor:
 
     def __get_id(self, name: str) -> str:
         segments = [self.api.package]
-        segments += [it.name for it in self.__declaration_stack]
+        segments += [
+            it.name
+            for it in self.__declaration_stack
+            if not isinstance(it, list)  # Check for the linter, on runtime can never be list type
+        ]
         segments += [name]
 
         return "/".join(segments)

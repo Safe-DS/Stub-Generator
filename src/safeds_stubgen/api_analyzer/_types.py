@@ -386,14 +386,7 @@ class TupleType(AbstractType):
         return hash(frozenset(self.types))
 
 
-########################################################################################################################
-
-class FormalGrammar:
-    ...
-
-########################################################################################################################
-
-
+# ############################## Utilities ############################## #
 def _dismantel_type_string_structure(type_structure: str) -> list:
     current_type = ""
     result = []
@@ -406,7 +399,7 @@ def _dismantel_type_string_structure(type_structure: str) -> list:
                     brackets_content, remaining_content = _parse_type_string_bracket_content(type_structure[i + 1:])
                 except TypeParsingError as parsing_error:
                     raise TypeParsingError(
-                        f"Missing brackets in the following string:\n{type_structure}") from parsing_error
+                        f"Missing brackets in the following string: \n{type_structure}") from parsing_error
 
                 result.append(current_type + "[" + brackets_content + "]")
                 type_structure = remaining_content
@@ -455,23 +448,23 @@ def create_type(type_string: str, description: str) -> AbstractType:
     #     type_string = _replace_pipes_with_union(type_string)
 
     # Structures, which only take one type argument
-    structures = {"Final": FinalType, "Optional": OptionalType}
-    for key in list(structures.keys()):
+    one_arg_structures = {"Final": FinalType, "Optional": OptionalType}
+    for key in one_arg_structures:
         regex = r"^" + key + r"\[(.*)]$"
         match = re.match(regex, type_string)
         if match:
             content = match.group(1)
-            return structures[key](create_type(content, description))
+            return one_arg_structures[key](create_type(content, description))
 
     # List-like structures, which take multiple type arguments
-    structures = {"List": ListType, "Set": SetType, "Tuple": TupleType, "Union": UnionType}
-    for key in structures:
+    mult_arg_structures = {"List": ListType, "Set": SetType, "Tuple": TupleType, "Union": UnionType}
+    for key in mult_arg_structures:
         regex = r"^" + key + r"\[(.*)]$"
         match = re.match(regex, type_string)
         if match:
             content = match.group(1)
             content_elements = _dismantel_type_string_structure(content)
-            return structures[key]([
+            return mult_arg_structures[key]([
                 create_type(element, description)
                 for element in content_elements
             ])
@@ -502,8 +495,10 @@ def create_type(type_string: str, description: str) -> AbstractType:
         )
 
     # raise TypeParsingError(f"Could not parse type for the following type string:\n{type_string}")
-    # return NamedType(type_string)
-    return _create_enum_boundry_type(type_string, description)
+    type_ = _create_enum_boundry_type(type_string, description)
+    if type_ is not None:
+        return type_
+    return NamedType(type_string)
 
 
 # todo übernehmen in create_type -> Tests schlagen nun fehl
