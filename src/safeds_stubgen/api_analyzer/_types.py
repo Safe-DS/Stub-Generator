@@ -10,50 +10,31 @@ from typing import Any, ClassVar
 class AbstractType(metaclass=ABCMeta):
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> AbstractType:
-        if d is None:
-            raise ValueError("Cannot parse None-Type value.")
-
-        value: AbstractType | None = NamedType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = EnumType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = BoundaryType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = ListType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = DictType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = SetType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = OptionalType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = LiteralType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = FinalType.from_dict(d)
-        if value is not None:
-            return value
-
-        value = TupleType.from_dict(d)
-        if value is not None:
-            return value
-
-        return UnionType.from_dict(d)
+        match d["kind"]:
+            case NamedType.__name__:
+                return NamedType.from_dict(d)
+            case EnumType.__name__:
+                return EnumType.from_dict(d)
+            case BoundaryType.__name__:
+                return BoundaryType.from_dict(d)
+            case ListType.__name__:
+                return ListType.from_dict(d)
+            case DictType.__name__:
+                return DictType.from_dict(d)
+            case SetType.__name__:
+                return SetType.from_dict(d)
+            case OptionalType.__name__:
+                return OptionalType.from_dict(d)
+            case LiteralType.__name__:
+                return LiteralType.from_dict(d)
+            case FinalType.__name__:
+                return FinalType.from_dict(d)
+            case TupleType.__name__:
+                return TupleType.from_dict(d)
+            case TupleType.__name__:
+                return UnionType.from_dict(d)
+            case _:
+                raise ValueError(f"Cannot parse {d['kind']} value.")
 
     @abstractmethod
     def to_dict(self) -> dict[str, Any]:
@@ -65,10 +46,8 @@ class NamedType(AbstractType):
     name: str
 
     @classmethod
-    def from_dict(cls, d: Any) -> NamedType | None:
-        if d.get("kind", "") == cls.__name__:
-            return NamedType(d["name"])
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> NamedType:
+        return NamedType(d["name"])
 
     @classmethod
     def from_string(cls, string: str) -> NamedType:
@@ -84,10 +63,8 @@ class EnumType(AbstractType):
     full_match: str = field(default="", compare=False)
 
     @classmethod
-    def from_dict(cls, d: Any) -> EnumType | None:
-        if d["kind"] == cls.__name__:
-            return EnumType(d["values"])
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> EnumType:
+        return EnumType(d["values"])
 
     @classmethod
     def from_string(cls, string: str) -> EnumType | None:
@@ -154,16 +131,14 @@ class BoundaryType(AbstractType):
         raise ValueError(f"{bracket} is not one of []()")
 
     @classmethod
-    def from_dict(cls, d: Any) -> BoundaryType | None:
-        if d["kind"] == cls.__name__:
-            return BoundaryType(
-                d["base_type"],
-                d["min"],
-                d["max"],
-                d["min_inclusive"],
-                d["max_inclusive"],
-            )
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> BoundaryType:
+        return BoundaryType(
+            d["base_type"],
+            d["min"],
+            d["max"],
+            d["min_inclusive"],
+            d["max_inclusive"],
+        )
 
     @classmethod
     def from_string(cls, string: str) -> BoundaryType | None:
@@ -243,15 +218,13 @@ class UnionType(AbstractType):
     types: list[AbstractType]
 
     @classmethod
-    def from_dict(cls, d: Any) -> UnionType | None:
-        if d["kind"] == cls.__name__:
-            types = []
-            for element in d["types"]:
-                type_ = AbstractType.from_dict(element)
-                if type_ is not None:
-                    types.append(type_)
-            return UnionType(types)
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> UnionType:
+        types = []
+        for element in d["types"]:
+            type_ = AbstractType.from_dict(element)
+            if type_ is not None:
+                types.append(type_)
+        return UnionType(types)
 
     def to_dict(self) -> dict[str, Any]:
         type_list = []
@@ -269,15 +242,13 @@ class ListType(AbstractType):
     types: list[AbstractType]
 
     @classmethod
-    def from_dict(cls, d: Any) -> ListType | None:
-        if d["kind"] == cls.__name__:
-            types = []
-            for element in d["types"]:
-                type_ = AbstractType.from_dict(element)
-                if type_ is not None:
-                    types.append(type_)
-            return ListType(types)
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> ListType:
+        types = []
+        for element in d["types"]:
+            type_ = AbstractType.from_dict(element)
+            if type_ is not None:
+                types.append(type_)
+        return ListType(types)
 
     def to_dict(self) -> dict[str, Any]:
         type_list = [
@@ -297,13 +268,11 @@ class DictType(AbstractType):
     value_type: AbstractType
 
     @classmethod
-    def from_dict(cls, d: Any) -> DictType | None:
-        if d["kind"] == cls.__name__:
-            return DictType(
-                AbstractType.from_dict(d["key_type"]),
-                AbstractType.from_dict(d["value_type"])
-            )
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> DictType:
+        return DictType(
+            AbstractType.from_dict(d["key_type"]),
+            AbstractType.from_dict(d["value_type"])
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -321,15 +290,13 @@ class SetType(AbstractType):
     types: list[AbstractType]
 
     @classmethod
-    def from_dict(cls, d: Any) -> SetType | None:
-        if d["kind"] == cls.__name__:
-            types = []
-            for element in d["types"]:
-                type_ = AbstractType.from_dict(element)
-                if type_ is not None:
-                    types.append(type_)
-            return SetType(types)
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> SetType:
+        types = []
+        for element in d["types"]:
+            type_ = AbstractType.from_dict(element)
+            if type_ is not None:
+                types.append(type_)
+        return SetType(types)
 
     def to_dict(self) -> dict[str, Any]:
         type_list = [
@@ -348,12 +315,10 @@ class OptionalType(AbstractType):
     type_: AbstractType
 
     @classmethod
-    def from_dict(cls, d: Any) -> OptionalType | None:
-        if d["kind"] == cls.__name__:
-            return OptionalType(
-                AbstractType.from_dict(d["type"])
-            )
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> OptionalType:
+        return OptionalType(
+            AbstractType.from_dict(d["type"])
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "type": self.type_.to_dict()}
@@ -368,11 +333,9 @@ class LiteralType(AbstractType):
     literals: list[str | int | float | bool]
 
     @classmethod
-    def from_dict(cls, d: Any) -> LiteralType | None:
-        if d["kind"] == cls.__name__:
-            literals = list(d["literals"])
-            return LiteralType(literals)
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> LiteralType:
+        literals = list(d["literals"])
+        return LiteralType(literals)
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "literals": self.literals}
@@ -386,12 +349,10 @@ class FinalType(AbstractType):
     type_: AbstractType
 
     @classmethod
-    def from_dict(cls, d: Any) -> FinalType | None:
-        if d["kind"] == cls.__name__:
-            return FinalType(
-                AbstractType.from_dict(d["type"])
-            )
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> FinalType:
+        return FinalType(
+            AbstractType.from_dict(d["type"])
+        )
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "type": self.type_.to_dict()}
@@ -405,15 +366,13 @@ class TupleType(AbstractType):
     types: list[AbstractType]
 
     @classmethod
-    def from_dict(cls, d: Any) -> TupleType | None:
-        if d["kind"] == cls.__name__:
-            types = []
-            for element in d["types"]:
-                type_ = AbstractType.from_dict(element)
-                if type_ is not None:
-                    types.append(type_)
-            return TupleType(types)
-        return None
+    def from_dict(cls, d: dict[str, Any]) -> TupleType:
+        types = []
+        for element in d["types"]:
+            type_ = AbstractType.from_dict(element)
+            if type_ is not None:
+                types.append(type_)
+        return TupleType(types)
 
     def to_dict(self) -> dict[str, Any]:
         type_list = [
