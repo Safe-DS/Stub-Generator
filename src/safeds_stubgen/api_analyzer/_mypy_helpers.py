@@ -3,9 +3,12 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
+from mypy.nodes import ArgKind, Argument
 from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
+
+from ._api import ParameterAssignment
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
@@ -91,3 +94,20 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType) -> AbstractType
         else:
             return sds_types.NamedType(name=type_name)
     raise ValueError("Unexpected type.")
+
+
+def get_argument_kind(arg: Argument) -> ParameterAssignment:
+    if arg.variable.is_self or arg.variable.is_cls:
+        return ParameterAssignment.IMPLICIT
+    elif arg.kind == ArgKind.ARG_POS and arg.pos_only:
+        return ParameterAssignment.POSITION_ONLY
+    elif arg.kind in (ArgKind.ARG_OPT, ArgKind.ARG_POS) and not arg.pos_only:
+        return ParameterAssignment.POSITION_OR_NAME
+    elif arg.kind == ArgKind.ARG_STAR:
+        return ParameterAssignment.POSITIONAL_VARARG
+    elif arg.kind in (ArgKind.ARG_NAMED, ArgKind.ARG_NAMED_OPT):
+        return ParameterAssignment.NAME_ONLY
+    elif arg.kind == ArgKind.ARG_STAR2:
+        return ParameterAssignment.NAMED_VARARG
+    else:
+        raise ValueError("Could not find an appropriate parameter assignment.")

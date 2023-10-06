@@ -34,11 +34,6 @@ def ensure_file_exists(file: Path) -> None:
     file.touch(exist_ok=True)
 
 
-def parent_id(id_: str) -> str:
-    return "/".join(id_.split("/")[:-1])
-
-
-# Todo Remove unused functions
 class API:
     def __init__(self, distribution: str, package: str, version: str) -> None:
         self.distribution: str = distribution
@@ -77,107 +72,6 @@ class API:
 
     def add_parameter(self, parameter: Parameter) -> None:
         self.parameters_[parameter.id] = parameter
-
-    def is_public_class(self, class_id: str) -> bool:
-        return class_id in self.classes and self.classes[class_id].is_public
-
-    def is_public_function(self, function_id: str) -> bool:
-        return function_id in self.functions and self.functions[function_id].is_public
-
-    def class_count(self) -> int:
-        return len(self.classes)
-
-    def public_class_count(self) -> int:
-        return len([it for it in self.classes.values() if it.is_public])
-
-    def function_count(self) -> int:
-        return len(self.functions)
-
-    def public_function_count(self) -> int:
-        return len([it for it in self.functions.values() if it.is_public])
-
-    def parameter_count(self) -> int:
-        return len(self.parameters())
-
-    def parameters(self) -> dict[str, Parameter]:
-        if self.parameters_ is not None:
-            return self.parameters_
-        parameters_: dict[str, Parameter] = {}
-
-        for function in self.functions.values():
-            for parameter in function.parameters:
-                parameter_id = f"{function.id}/{parameter.name}"
-                parameters_[parameter_id] = parameter
-        self.parameters_ = parameters_
-        return parameters_
-
-    def attributes(self) -> dict[str, Attribute]:
-        if self.attributes_ is not None:
-            return self.attributes_
-        attributes_: dict[str, Attribute] = {}
-
-        for class_ in self.classes.values():
-            for attribute in class_.attributes:
-                attribute_id = f"{class_.id}/{attribute.name}"
-                attributes_[attribute_id] = attribute
-        self.attributes_ = attributes_
-
-        return attributes_
-
-    def results(self) -> dict[str, Result]:
-        if self.results != {}:
-            return self.results
-        results_: dict[str, Result] = {}
-
-        for function in self.functions.values():
-            for result in function.results:
-                result_id = f"{function.id}/{result.name}"
-                results_[result_id] = result
-        self.results = results_
-        return results_
-
-    def get_default_value(self, parameter_id: str) -> str | None:
-        function_id = parent_id(parameter_id)
-
-        if function_id not in self.functions:
-            return None
-
-        for parameter in self.functions[function_id].parameters:
-            if parameter.id == parameter_id:
-                return parameter.default_value
-
-        return None
-
-    def get_public_api(self) -> API:
-        result = API(self.distribution, self.package, self.version)
-
-        for module in self.modules.values():
-            result.add_module(module)
-
-        for class_ in self.classes.values():
-            if class_.is_public:
-                copy = Class(
-                    id=class_.id,
-                    name=class_.name,
-                    superclasses=class_.superclasses,
-                    is_public=class_.is_public,
-                    reexported_by=class_.reexported_by,
-                    docstring=class_.docstring,
-                    constructor=class_.constructor,
-                    attributes=class_.attributes,
-                    methods=class_.methods,
-                    classes=class_.classes,
-                )
-                for method in class_.methods:
-                    if self.is_public_function(method.id):
-                        copy.add_method(method)
-                result.add_class(copy)
-
-        for function in self.functions.values():
-            if function.is_public:
-                result.add_function(function)
-
-        return result
 
     def to_json_file(self, path: Path) -> None:
         ensure_file_exists(path)

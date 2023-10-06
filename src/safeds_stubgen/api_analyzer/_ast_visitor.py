@@ -5,8 +5,6 @@ from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
 from mypy.nodes import (
-    ArgKind,
-    Argument,
     AssignmentStmt,
     CallExpr,
     ClassDef,
@@ -32,12 +30,16 @@ from ._api import (
     Function,
     Module,
     Parameter,
-    ParameterAssignment,
     QualifiedImport,
     Result,
     WildcardImport,
 )
-from ._mypy_helpers import get_classdef_definitions, get_mypyfile_definitions, mypy_type_to_abstract_type
+from ._mypy_helpers import (
+    get_argument_kind,
+    get_classdef_definitions,
+    get_mypyfile_definitions,
+    mypy_type_to_abstract_type,
+)
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import AbstractDocstringParser
@@ -459,7 +461,7 @@ class MyPyAstVisitor:
         for argument in node.arguments:
             arg_name = argument.variable.name
             arg_type = mypy_type_to_abstract_type(argument.variable.type)
-            arg_kind = self.get_argument_kind(argument)
+            arg_kind = get_argument_kind(argument)
 
             default_value = None
             is_optional = False
@@ -500,23 +502,6 @@ class MyPyAstVisitor:
             ))
 
         return arguments
-
-    @staticmethod
-    def get_argument_kind(arg: Argument) -> ParameterAssignment:
-        if arg.variable.is_self or arg.variable.is_cls:
-            return ParameterAssignment.IMPLICIT
-        elif arg.kind == ArgKind.ARG_POS and arg.pos_only:
-            return ParameterAssignment.POSITION_ONLY
-        elif arg.kind in (ArgKind.ARG_OPT, ArgKind.ARG_POS) and not arg.pos_only:
-            return ParameterAssignment.POSITION_OR_NAME
-        elif arg.kind == ArgKind.ARG_STAR:
-            return ParameterAssignment.POSITIONAL_VARARG
-        elif arg.kind in (ArgKind.ARG_NAMED, ArgKind.ARG_NAMED_OPT):
-            return ParameterAssignment.NAME_ONLY
-        elif arg.kind == ArgKind.ARG_STAR2:
-            return ParameterAssignment.NAMED_VARARG
-        else:
-            raise ValueError("Could not find an appropriate parameter assignment.")
 
     # #### Reexport utilities
 
