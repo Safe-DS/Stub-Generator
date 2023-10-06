@@ -332,7 +332,7 @@ class Enum:
     docstring: ClassDocstring
     instances: list[EnumInstance] = field(default_factory=list)
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
@@ -349,7 +349,7 @@ class EnumInstance:
     id: str
     name: str
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, str]:
         return {
             "id": self.id,
             "name": self.name,

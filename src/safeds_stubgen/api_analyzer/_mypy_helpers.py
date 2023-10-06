@@ -16,15 +16,15 @@ if TYPE_CHECKING:
     from safeds_stubgen.api_analyzer._types import AbstractType
 
 
-def get_classdef_definitions(node: ClassDef):
+def get_classdef_definitions(node: ClassDef) -> list:
     return node.defs.body
 
 
-def get_funcdef_definitions(node: FuncDef):
+def get_funcdef_definitions(node: FuncDef) -> list:
     return node.body.body
 
 
-def get_mypyfile_definitions(node: MypyFile):
+def get_mypyfile_definitions(node: MypyFile) -> list:
     return node.defs
 
 

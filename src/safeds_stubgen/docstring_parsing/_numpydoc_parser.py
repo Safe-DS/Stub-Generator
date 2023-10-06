@@ -152,7 +152,7 @@ class NumpyDocParser(AbstractDocstringParser):
             description=last_attribute_numpydoc.description or "",
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class):
+    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
         from safeds_stubgen.api_analyzer import Class
 
         # For constructors (__init__ functions) the parameters are described on the class
@@ -213,7 +213,7 @@ def _is_matching_parameter_numpydoc(
     return any(name.strip() == lookup_name for name in parameter_docstring_obj.arg_name.split(","))
 
 
-def _is_matching_attribute_numpydoc(parameter_docstring_obj: DocstringParam, parameter_name: str):
+def _is_matching_attribute_numpydoc(parameter_docstring_obj: DocstringParam, parameter_name: str) -> bool:
     return any(name.strip() == parameter_name for name in parameter_docstring_obj.arg_name.split(","))
 
 

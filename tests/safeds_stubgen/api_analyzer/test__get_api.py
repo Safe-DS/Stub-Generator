@@ -56,7 +56,7 @@ def _get_specific_module_data(module_name: str, docstring_style: str = "plaintex
     raise AssertionError
 
 
-def _get_specific_class_data(class_name: str, docstring_style: str = "plaintext", is_enum=False) -> dict:
+def _get_specific_class_data(class_name: str, docstring_style: str = "plaintext", is_enum: bool = False) -> dict:
     data_type = "enums" if is_enum else "classes"
     api_data = get_api_data(docstring_style)
     for class_ in api_data[data_type]:
@@ -65,7 +65,7 @@ def _get_specific_class_data(class_name: str, docstring_style: str = "plaintext"
     raise AssertionError
 
 
-def get_api_data(docstring_style: str):
+def get_api_data(docstring_style: str) -> dict:
     return {
         "plaintext": api_data_paintext,
         "epydoc": api_data_epydoc,

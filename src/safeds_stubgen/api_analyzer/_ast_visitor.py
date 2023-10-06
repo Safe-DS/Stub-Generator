@@ -379,7 +379,7 @@ class MyPyAstVisitor:
         self,
         lvalue: NameExpr | MemberExpr,
         unanalyzed_type: mp_types.UnboundType,
-        is_static=True,
+        is_static: bool = True,
     ) -> list[Attribute]:
         attributes: list[Attribute] = []
 
