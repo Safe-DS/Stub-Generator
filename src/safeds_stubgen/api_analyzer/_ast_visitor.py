@@ -283,8 +283,7 @@ class MyPyAstVisitor:
                     for item in lvalue.items:
                         names.append(item.name)
                 else:
-                    if not hasattr(lvalue, "name"):
-                        # pragma: no cover
+                    if not hasattr(lvalue, "name"):  # pragma: no cover
                         raise AttributeError("Expected lvalue to have attribtue 'name'.")
                     names.append(lvalue.name)
 
@@ -315,8 +314,7 @@ class MyPyAstVisitor:
                         grandparent = self.__declaration_stack[-2]
 
                         if not isinstance(grandparent, Class):
-                            # pragma: no cover
-                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
+                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")  # pragma: no cover
 
                         grandparent.add_attribute(assignment)
                     elif isinstance(parent, Class):
