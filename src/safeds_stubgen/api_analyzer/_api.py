@@ -121,7 +121,12 @@ class API:
 
 class Module:
     def __init__(
-        self, id_: str, name: str, docstring: str = "", qualified_imports=None, wildcard_imports=None,
+        self,
+        id_: str,
+        name: str,
+        docstring: str = "",
+        qualified_imports: list[QualifiedImport] | None = None,
+        wildcard_imports: list[WildcardImport] | None = None,
     ):
         self.id: str = id_
         self.name: str = name

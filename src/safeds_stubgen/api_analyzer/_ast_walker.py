@@ -8,8 +8,8 @@ from mypy.nodes import AssignmentStmt, ClassDef, Decorator, FuncDef, MypyFile
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 
 _EnterAndLeaveFunctions = tuple[
-    Callable[[MypyFile | ClassDef | FuncDef], None] | None,
-    Callable[[MypyFile | ClassDef | FuncDef], None] | None,
+    Callable[[MypyFile | ClassDef | FuncDef | AssignmentStmt], None] | None,
+    Callable[[MypyFile | ClassDef | FuncDef | AssignmentStmt], None] | None,
 ]
 
 
@@ -29,7 +29,7 @@ class ASTWalker:
     def walk(self, tree: MypyFile) -> None:
         self.__walk(tree, set())
 
-    def __walk(self, node, visited_nodes: set) -> None:
+    def __walk(self, node: MypyFile | ClassDef | Decorator | FuncDef | AssignmentStmt, visited_nodes: set) -> None:
         # It's possible to get decorator data but for now we'll ignore them and just get the func
         if isinstance(node, Decorator):
             node = node.func
@@ -68,17 +68,17 @@ class ASTWalker:
             self.__walk(child_node, visited_nodes)
         self.__leave(node)
 
-    def __enter(self, node) -> None:
+    def __enter(self, node: MypyFile | ClassDef | FuncDef | AssignmentStmt) -> None:
         method = self.__get_callbacks(node)[0]
         if method is not None:
             method(node)
 
-    def __leave(self, node) -> None:
+    def __leave(self, node: MypyFile | ClassDef | FuncDef | AssignmentStmt) -> None:
         method = self.__get_callbacks(node)[1]
         if method is not None:
             method(node)
 
-    def __get_callbacks(self, node: MypyFile | ClassDef | FuncDef) -> _EnterAndLeaveFunctions:
+    def __get_callbacks(self, node: MypyFile | ClassDef | FuncDef | AssignmentStmt) -> _EnterAndLeaveFunctions:
         class_ = node.__class__
         class_name = class_.__name__.lower()
 

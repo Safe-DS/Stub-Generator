@@ -8,6 +8,7 @@ from mypy.nodes import (
     AssignmentStmt,
     CallExpr,
     ClassDef,
+    Expression,
     ExpressionStmt,
     FuncDef,
     Import,
@@ -17,6 +18,7 @@ from mypy.nodes import (
     MypyFile,
     NameExpr,
     StrExpr,
+    TupleExpr,
     Var,
 )
 
@@ -52,7 +54,7 @@ class MyPyAstVisitor:
         self.reexported: dict[str, list[Module]] = {}
         self.api: API = api
         self.__declaration_stack: list[
-            Module | Class | Function | Enum | list[Attribute | EnumInstance | Result]
+            Module | Class | Function | Enum | list[Attribute | EnumInstance]
             ] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
@@ -296,7 +298,7 @@ class MyPyAstVisitor:
 
     def leave_assignmentstmt(self, _: AssignmentStmt) -> None:
         # Assignments are attributes or enum instances
-        assignments: list[Attribute | EnumInstance] = self.__declaration_stack.pop()
+        assignments = self.__declaration_stack.pop()
 
         if not isinstance(assignments, list):
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -337,8 +339,15 @@ class MyPyAstVisitor:
         from safeds_stubgen.docstring_parsing import ClassDocstring
 
         ret_type = None
-        if getattr(node, "type", None) and not isinstance(node.type.ret_type, mp_types.NoneType):
-            ret_type = mypy_type_to_abstract_type(node.type.ret_type)
+        if getattr(node, "type", None):
+            node_type = node.type
+            if node_type is not None and hasattr(node_type, "ret_type"):
+                node_ret_type = node_type.ret_type
+            else:
+                # pragma: no cover
+                raise AttributeError("Result has no return type information.")
+            if not isinstance(node_ret_type, mp_types.NoneType):
+                ret_type = mypy_type_to_abstract_type(node_ret_type)
 
         if ret_type is None:
             return []
@@ -377,10 +386,11 @@ class MyPyAstVisitor:
 
     def parse_attributes(
         self,
-        lvalue: NameExpr | MemberExpr,
-        unanalyzed_type: mp_types.UnboundType,
+        lvalue: Expression,
+        unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
     ) -> list[Attribute]:
+        assert isinstance(lvalue, NameExpr | MemberExpr | TupleExpr)
         attributes: list[Attribute] = []
 
         if hasattr(lvalue, "name"):
@@ -394,6 +404,10 @@ class MyPyAstVisitor:
         elif hasattr(lvalue, "items"):
             lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
+                if not hasattr(lvalue_, "name"):
+                    # pragma: no cover
+                    raise AttributeError("Expected value to have attribute 'name'.")
+
                 if self.check_attribute_already_defined(lvalue_, lvalue_.name):
                     continue
 
@@ -403,9 +417,16 @@ class MyPyAstVisitor:
 
         return attributes
 
-    def check_attribute_already_defined(self, lvalue: NameExpr | MemberExpr, value_name: str) -> bool:
+    def check_attribute_already_defined(self, lvalue: Expression, value_name: str) -> bool:
+        assert isinstance(lvalue, NameExpr | MemberExpr | TupleExpr)
+        if hasattr(lvalue, "node"):
+            node = lvalue.node
+        else:
+            # pragma: no cover
+            raise AttributeError("Expected value to have attribute 'node'.")
+
         # If node is None, it's possible that the attribute was already defined once
-        if lvalue.node is None:
+        if node is None:
             parent = self.__declaration_stack[-1]
             if isinstance(parent, Function):
                 parent = self.__declaration_stack[-2]
@@ -423,19 +444,27 @@ class MyPyAstVisitor:
 
     def create_attribute(
         self,
-        attribute: NameExpr | MemberExpr,
-        unanalyzed_type: mp_types.UnboundType,
+        attribute: Expression,
+        unanalyzed_type: mp_types.Type | None,
         is_static: bool,
     ) -> Attribute:
-        # Get name and qname
-        name = attribute.name
+        if hasattr(attribute, "name"):
+            name = attribute.name
+        else:
+            # pragma: no cover
+            raise AttributeError("Expected attribute to have attribute 'name'.")
         qname = getattr(attribute, "fullname", "")
 
-        if not isinstance(attribute.node, Var):
-            # pragma: no cover
-            raise TypeError("node has wrong type")
+        if hasattr(attribute, "node"):
+            if not isinstance(attribute.node, Var):
+                # pragma: no cover
+                raise TypeError("node has wrong type")
 
-        node: Var = attribute.node
+            node: Var = attribute.node
+        else:
+            # pragma: no cover
+            raise AttributeError("Expected attribute to have attribute 'node'.")
+
         if qname in (name, "") and node is not None:
             qname = node.fullname
 
@@ -457,7 +486,11 @@ class MyPyAstVisitor:
                     and hasattr(attribute_type, "args")
                     and attribute_type.type.fullname == "builtins.list"
                 ):
-                    attribute_type.args = unanalyzed_type.args
+                    if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
+                        attribute_type.args = unanalyzed_type.args
+                    else:
+                        # pragma: no cover
+                        raise AttributeError("Could not get argument information for attribute.")
 
         else:
             raise TypeError("Attribute has an unexpected type.")
