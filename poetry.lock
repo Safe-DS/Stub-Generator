@@ -877,6 +877,20 @@ files = [
 ]
 
 [[package]]
+name = "syrupy"
+version = "4.5.0"
+description = "Pytest Snapshot Test Utility"
+optional = false
+python-versions = ">=3.8.1,<4"
+files = [
+    {file = "syrupy-4.5.0-py3-none-any.whl", hash = "sha256:ea6a237ef374bacebbdb4049f73bf48e3dda76eabd4621a6d104d43077529de6"},
+    {file = "syrupy-4.5.0.tar.gz", hash = "sha256:6e01fccb4cd5ad37ce54e8c265cde068fa9c37b7a0946c603c328e8a38a7330d"},
+]
+
+[package.dependencies]
+pytest = ">=7.0.0,<8.0.0"
+
+[[package]]
 name = "typing-extensions"
 version = "4.8.0"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -946,4 +960,4 @@ watchmedo = ["PyYAML (>=3.10)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "2756954f4c89b8613cfce011a5564541461ff7c08ef6abb5bf72b7466458e2b9"
+content-hash = "04ee5b19d4106a4837fa7e38c32805f92d80572bf1887a9416f9d97a7c80adcd"
