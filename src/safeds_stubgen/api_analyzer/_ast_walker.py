@@ -84,8 +84,7 @@ class ASTWalker:
 
         # Handle special cases
         if class_name == "classdef":
-            if not hasattr(node, "base_type_exprs"):
-                # pragma: no cover
+            if not hasattr(node, "base_type_exprs"):  # pragma: no cover
                 raise AttributeError("Expected classdef node to have attribute 'base_type_exprs'.")
 
             for superclass in node.base_type_exprs:

@@ -313,8 +313,8 @@ class MyPyAstVisitor:
                         # Add the attributes to the (grand)parent class
                         grandparent = self.__declaration_stack[-2]
 
-                        if not isinstance(grandparent, Class):
-                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")  # pragma: no cover
+                        if not isinstance(grandparent, Class):  # pragma: no cover
+                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
 
                         grandparent.add_attribute(assignment)
                     elif isinstance(parent, Class):
@@ -341,8 +341,7 @@ class MyPyAstVisitor:
             node_type = node.type
             if node_type is not None and hasattr(node_type, "ret_type"):
                 node_ret_type = node_type.ret_type
-            else:
-                # pragma: no cover
+            else:  # pragma: no cover
                 raise AttributeError("Result has no return type information.")
             if not isinstance(node_ret_type, mp_types.NoneType):
                 ret_type = mypy_type_to_abstract_type(node_ret_type)
@@ -352,8 +351,7 @@ class MyPyAstVisitor:
 
         results = []
         parent = self.__declaration_stack[-1]
-        if not isinstance(parent, Class | Module):
-            # pragma: no cover
+        if not isinstance(parent, Class | Module):  # pragma: no cover
             raise TypeError(f"Parent has to be a Class. Instead we got {parent.__class__}.")
         if isinstance(parent, Module):
             # Create a fake parent, since we only need the parent if the function is an __init__ function for a class
@@ -402,8 +400,7 @@ class MyPyAstVisitor:
         elif hasattr(lvalue, "items"):
             lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
-                if not hasattr(lvalue_, "name"):
-                    # pragma: no cover
+                if not hasattr(lvalue_, "name"):  # pragma: no cover
                     raise AttributeError("Expected value to have attribute 'name'.")
 
                 if self.check_attribute_already_defined(lvalue_, lvalue_.name):
@@ -419,8 +416,7 @@ class MyPyAstVisitor:
         assert isinstance(lvalue, NameExpr | MemberExpr | TupleExpr)
         if hasattr(lvalue, "node"):
             node = lvalue.node
-        else:
-            # pragma: no cover
+        else:  # pragma: no cover
             raise AttributeError("Expected value to have attribute 'node'.")
 
         # If node is None, it's possible that the attribute was already defined once
@@ -429,8 +425,7 @@ class MyPyAstVisitor:
             if isinstance(parent, Function):
                 parent = self.__declaration_stack[-2]
 
-            if not isinstance(parent, Class):
-                # pragma: no cover
+            if not isinstance(parent, Class):  # pragma: no cover
                 raise TypeError("Parent has the wrong class, cannot get attribute values.")
 
             for attribute in parent.attributes:
@@ -448,19 +443,16 @@ class MyPyAstVisitor:
     ) -> Attribute:
         if hasattr(attribute, "name"):
             name = attribute.name
-        else:
-            # pragma: no cover
+        else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'name'.")
         qname = getattr(attribute, "fullname", "")
 
         if hasattr(attribute, "node"):
-            if not isinstance(attribute.node, Var):
-                # pragma: no cover
+            if not isinstance(attribute.node, Var):  # pragma: no cover
                 raise TypeError("node has wrong type")
 
             node: Var = attribute.node
-        else:
-            # pragma: no cover
+        else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'node'.")
 
         if qname in (name, "") and node is not None:
@@ -486,8 +478,7 @@ class MyPyAstVisitor:
                 ):
                     if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
                         attribute_type.args = unanalyzed_type.args
-                    else:
-                        # pragma: no cover
+                    else:  # pragma: no cover
                         raise AttributeError("Could not get argument information for attribute.")
 
         else:
@@ -524,8 +515,7 @@ class MyPyAstVisitor:
         for argument in node.arguments:
             arg_name = argument.variable.name
             mypy_type = argument.variable.type
-            if mypy_type is None:
-                # pragma: no cover
+            if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
             arg_type = mypy_type_to_abstract_type(mypy_type)
             arg_kind = get_argument_kind(argument)
@@ -578,8 +568,7 @@ class MyPyAstVisitor:
         i = 1
         while not isinstance(parent, Module):
             parent = self.__declaration_stack[-i]
-            if isinstance(parent, list):
-                # pragma: no cover
+            if isinstance(parent, list):  # pragma: no cover
                 continue
             parents.append(parent.name)
             i += 1

@@ -187,8 +187,7 @@ class NumpyDocParser(AbstractDocstringParser):
             self.__cached_node = node
             self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.NUMPYDOC)
 
-        if self.__cached_docstring is None:
-            # pragma: no cover
+        if self.__cached_docstring is None:  # pragma: no cover
             raise ValueError("Expected a docstring, got None instead.")
         return self.__cached_docstring
 
