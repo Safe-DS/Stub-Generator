@@ -525,7 +525,7 @@ def test_function_parameters_GoogleDocstringClass___init__(snapshot: SnapshotAss
 
 
 # ############################## Function Results ############################## #
-def get_function_result_data(function_name: str, parent_class_name: str, docstring_style: str):
+def get_function_result_data(function_name: str, parent_class_name: str, docstring_style: str) -> list:
     function_data: dict = _get_specific_function_data(function_name, parent_class_name)
     function_result_ids: list[str] = function_data["results"]
 
