@@ -1,9 +1,13 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
+
+if TYPE_CHECKING:
+    from syrupy import SnapshotAssertion
 
 # Setup: API data
 _test_dir = Path(__file__).parent.parent.parent
@@ -92,27 +96,27 @@ def _get_specific_function_data(
 
 
 # ############################## Module ############################## #
-def test_modules_test_module(snapshot) -> None:
+def test_modules_test_module(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data(_main_test_module_name)
     assert module_data == snapshot
 
 
-def test_modules_another_module(snapshot) -> None:
+def test_modules_another_module(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data("another_module")
     assert module_data == snapshot
 
 
-def test_modules_test_enums(snapshot) -> None:
+def test_modules_test_enums(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data("test_enums")
     assert module_data == snapshot
 
 
-def test_modules___init__(snapshot) -> None:
+def test_modules___init__(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data("__init__")
     assert module_data == snapshot
 
 
-def test_modules_test_docstrings(snapshot) -> None:
+def test_modules_test_docstrings(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data("test_docstrings")
     assert module_data == snapshot
 
@@ -123,98 +127,98 @@ def get_import_data(module_name: str, import_type: str) -> list[dict]:
     return module_data.get(import_type, [])
 
 
-def test_imports_test_module_qualified_imports(snapshot) -> None:
+def test_imports_test_module_qualified_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data(_main_test_module_name, "qualified_imports")
     assert import_data == snapshot
 
 
-def test_imports_test_module_wildcard_imports(snapshot) -> None:
+def test_imports_test_module_wildcard_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data(_main_test_module_name, "wildcard_imports")
     assert import_data == snapshot
 
 
-def test_imports_test_emums_qualified_imports(snapshot) -> None:
+def test_imports_test_emums_qualified_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data("test_enums", "qualified_imports")
     assert import_data == snapshot
 
 
-def test_imports_test_enums_wildcard_imports(snapshot) -> None:
+def test_imports_test_enums_wildcard_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data("test_enums", "wildcard_imports")
     assert import_data == snapshot
 
 
-def test_imports___init___qualified_imports(snapshot) -> None:
+def test_imports___init___qualified_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data("__init__", "qualified_imports")
     assert import_data == snapshot
 
 
-def test_imports___init___wildcard_imports(snapshot) -> None:
+def test_imports___init___wildcard_imports(snapshot: SnapshotAssertion) -> None:
     import_data = get_import_data("__init__", "wildcard_imports")
     assert import_data == snapshot
 
 
 # ############################## Classes ############################## #
-def test_classes_SomeClass(snapshot):  # noqa: N802
+def test_classes_SomeClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("SomeClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_NestedClass(snapshot):  # noqa: N802
+def test_classes_NestedClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("NestedClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes__PrivateClass(snapshot):  # noqa: N802
+def test_classes__PrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("_PrivateClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_NestedPrivateClass(snapshot):  # noqa: N802
+def test_classes_NestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("NestedPrivateClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_NestedNestedPrivateClass(snapshot):  # noqa: N802
+def test_classes_NestedNestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("NestedNestedPrivateClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_EpydocDocstringClass(snapshot):  # noqa: N802
+def test_classes_EpydocDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("EpydocDocstringClass", "epydoc")
     assert class_data == snapshot
 
 
-def test_classes_RestDocstringClass(snapshot):  # noqa: N802
+def test_classes_RestDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("RestDocstringClass", "rest")
     assert class_data == snapshot
 
 
-def test_classes_NumpyDocstringClass(snapshot):  # noqa: N802
+def test_classes_NumpyDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("NumpyDocstringClass", "numpydoc")
     assert class_data == snapshot
 
 
-def test_classes_GoogleDocstringClass(snapshot):  # noqa: N802
+def test_classes_GoogleDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("GoogleDocstringClass", "google")
     assert class_data == snapshot
 
 
-def test_classes_ReexportClass(snapshot):  # noqa: N802
+def test_classes_ReexportClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("ReexportClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_AnotherReexportClass(snapshot):  # noqa: N802
+def test_classes_AnotherReexportClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("AnotherReexportClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes__ThirdReexportClass(snapshot):  # noqa: N802
+def test_classes__ThirdReexportClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("_ThirdReexportClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_classes_FourthReexportClass(snapshot):  # noqa: N802
+def test_classes_FourthReexportClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = _get_specific_class_data("FourthReexportClass", "plaintext")
     assert class_data == snapshot
 
@@ -233,65 +237,65 @@ def get_class_attribute_data(class_name: str, docstring_style: str) -> list:
     ]
 
 
-def test_class_attributes_SomeClass(snapshot):  # noqa: N802
+def test_class_attributes_SomeClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("SomeClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_class_attributes_NestedClass(snapshot):  # noqa: N802
+def test_class_attributes_NestedClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("NestedClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_class_attributes__PrivateClass(snapshot):  # noqa: N802
+def test_class_attributes__PrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("_PrivateClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_class_attributes_NestedPrivateClass(snapshot):  # noqa: N802
+def test_class_attributes_NestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("NestedPrivateClass", "plaintext")
     assert class_data == snapshot
 
 
-def test_class_attributes_NestedNestedPrivateClass(snapshot):  # noqa: N802
+def test_class_attributes_NestedNestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("NestedNestedPrivateClass", "plaintext")
     assert class_data == snapshot
 
 
 # Todo Epydoc Tests are deactivated right now, since attribute handling is not implemented yet in the
 #  docstring_parser library
-def xtest_class_attributes_EpydocDocstringClass(snapshot):  # noqa: N802
+def xtest_class_attributes_EpydocDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("EpydocDocstringClass", "epydoc")
     assert class_data == snapshot
 
 
-def test_class_attributes_RestDocstringClass(snapshot):  # noqa: N802
+def test_class_attributes_RestDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("RestDocstringClass", "rest")
     assert class_data == snapshot
 
 
-def test_class_attributes_NumpyDocstringClass(snapshot):  # noqa: N802
+def test_class_attributes_NumpyDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("NumpyDocstringClass", "numpydoc")
     assert class_data == snapshot
 
 
-def test_class_attributes_GoogleDocstringClass(snapshot):  # noqa: N802
+def test_class_attributes_GoogleDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_data = get_class_attribute_data("GoogleDocstringClass", "google")
     assert class_data == snapshot
 
 
 # ############################## Enums ############################## #
-def test_enums_EnumTest(snapshot):  # noqa: N802
+def test_enums_EnumTest(snapshot: SnapshotAssertion):  # noqa: N802
     enum_data = _get_specific_class_data("EnumTest", is_enum=True)
     assert enum_data == snapshot
 
 
-def test_enums__ReexportedEmptyEnum(snapshot):  # noqa: N802
+def test_enums__ReexportedEmptyEnum(snapshot: SnapshotAssertion):  # noqa: N802
     enum_data = _get_specific_class_data("_ReexportedEmptyEnum", is_enum=True)
     assert enum_data == snapshot
 
 
-def test_enums_AnotherTestEnum(snapshot):  # noqa: N802
+def test_enums_AnotherTestEnum(snapshot: SnapshotAssertion):  # noqa: N802
     enum_data = _get_specific_class_data("AnotherTestEnum", is_enum=True)
     assert enum_data == snapshot
 
@@ -312,17 +316,17 @@ def get_enum_instance_data(enum_name: str) -> list:
     ]
 
 
-def test_enum_instances_EnumTest(snapshot):  # noqa: N802
+def test_enum_instances_EnumTest(snapshot: SnapshotAssertion):  # noqa: N802
     enum_instance_data = get_enum_instance_data("EnumTest")
     assert enum_instance_data == snapshot
 
 
-def test_enum_instances__ReexportedEmptyEnum(snapshot):  # noqa: N802
+def test_enum_instances__ReexportedEmptyEnum(snapshot: SnapshotAssertion):  # noqa: N802
     enum_instance_data = get_enum_instance_data("_ReexportedEmptyEnum")
     assert enum_instance_data == snapshot
 
 
-def test_enum_instances_AnotherTestEnum(snapshot):  # noqa: N802
+def test_enum_instances_AnotherTestEnum(snapshot: SnapshotAssertion):  # noqa: N802
     enum_instance_data = get_enum_instance_data("AnotherTestEnum")
     assert enum_instance_data == snapshot
 
@@ -343,27 +347,27 @@ def get_global_function_data(module_name: str) -> list:
     ]
 
 
-def test_global_functions_test_module(snapshot):
+def test_global_functions_test_module(snapshot: SnapshotAssertion):
     global_function_data = get_global_function_data(_main_test_module_name)
     assert global_function_data == snapshot
 
 
-def test_global_functions__reexport_module_1(snapshot):
+def test_global_functions__reexport_module_1(snapshot: SnapshotAssertion):
     global_function_data = get_global_function_data("_reexport_module_1")
     assert global_function_data == snapshot
 
 
-def test_global_functions__reexport_module_2(snapshot):
+def test_global_functions__reexport_module_2(snapshot: SnapshotAssertion):
     global_function_data = get_global_function_data("_reexport_module_2")
     assert global_function_data == snapshot
 
 
-def test_global_functions__reexport_module_3(snapshot):
+def test_global_functions__reexport_module_3(snapshot: SnapshotAssertion):
     global_function_data = get_global_function_data("_reexport_module_3")
     assert global_function_data == snapshot
 
 
-def test_global_functions__reexport_module_4(snapshot):
+def test_global_functions__reexport_module_4(snapshot: SnapshotAssertion):
     global_function_data = get_global_function_data("_reexport_module_4")
     assert global_function_data == snapshot
 
@@ -384,52 +388,52 @@ def get_class_methods_data(class_name: str, docstring_style: str) -> list:
     ]
 
 
-def test_class_methods_SomeClass(snapshot):  # noqa: N802
+def test_class_methods_SomeClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("SomeClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_NestedClass(snapshot):  # noqa: N802
+def test_class_methods_NestedClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("NestedClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods__PrivateClass(snapshot):  # noqa: N802
+def test_class_methods__PrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("_PrivateClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_NestedPrivateClass(snapshot):  # noqa: N802
+def test_class_methods_NestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("NestedPrivateClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_NestedNestedPrivateClass(snapshot):  # noqa: N802
+def test_class_methods_NestedNestedPrivateClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("NestedNestedPrivateClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_ReexportClass(snapshot):  # noqa: N802
+def test_class_methods_ReexportClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("ReexportClass", "plaintext")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_EpydocDocstringClass(snapshot):  # noqa: N802
+def test_class_methods_EpydocDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("EpydocDocstringClass", "epydoc")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_RestDocstringClass(snapshot):  # noqa: N802
+def test_class_methods_RestDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("RestDocstringClass", "rest")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_NumpyDocstringClass(snapshot):  # noqa: N802
+def test_class_methods_NumpyDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("NumpyDocstringClass", "numpydoc")
     assert class_methods_data == snapshot
 
 
-def test_class_methods_GoogleDocstringClass(snapshot):  # noqa: N802
+def test_class_methods_GoogleDocstringClass(snapshot: SnapshotAssertion):  # noqa: N802
     class_methods_data = get_class_methods_data("GoogleDocstringClass", "google")
     assert class_methods_data == snapshot
 
@@ -450,72 +454,72 @@ def get_function_parameter_data(function_name: str, parent_class_name: str, docs
     ]
 
 
-def test_function_parameters_global_func(snapshot):
+def test_function_parameters_global_func(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("global_func", "", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_SomeClass___init__(snapshot):  # noqa: N802
+def test_function_parameters_SomeClass___init__(snapshot: SnapshotAssertion):  # noqa: N802
     function_parameter_data = get_function_parameter_data("__init__", "SomeClass", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_static_function(snapshot):
+def test_function_parameters_static_function(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("static_function", "SomeClass", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_test_position(snapshot):
+def test_function_parameters_test_position(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("test_position", "SomeClass", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_test_params(snapshot):
+def test_function_parameters_test_params(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("test_params", "SomeClass", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_nested_class_function(snapshot):
+def test_function_parameters_nested_class_function(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("nested_class_function", "NestedClass", "plaintext")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_epydoc_docstring_func(snapshot):
+def test_function_parameters_epydoc_docstring_func(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("epydoc_docstring_func", "EpydocDocstringClass", "epydoc")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_EpydocDocstringClass___init__(snapshot):  # noqa: N802
+def test_function_parameters_EpydocDocstringClass___init__(snapshot: SnapshotAssertion):  # noqa: N802
     function_parameter_data = get_function_parameter_data("__init__", "EpydocDocstringClass", "epydoc")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_rest_docstring_func(snapshot):
+def test_function_parameters_rest_docstring_func(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("rest_docstring_func", "RestDocstringClass", "rest")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_RestDocstringClass___init__(snapshot):  # noqa: N802
+def test_function_parameters_RestDocstringClass___init__(snapshot: SnapshotAssertion):  # noqa: N802
     function_parameter_data = get_function_parameter_data("__init__", "RestDocstringClass", "rest")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_numpy_docstring_func(snapshot):
+def test_function_parameters_numpy_docstring_func(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("numpy_docstring_func", "NumpyDocstringClass", "numpydoc")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_NumpyDocstringClass___init__(snapshot):  # noqa: N802
+def test_function_parameters_NumpyDocstringClass___init__(snapshot: SnapshotAssertion):  # noqa: N802
     function_parameter_data = get_function_parameter_data("__init__", "NumpyDocstringClass", "numpydoc")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_google_docstring_func(snapshot):
+def test_function_parameters_google_docstring_func(snapshot: SnapshotAssertion):
     function_parameter_data = get_function_parameter_data("google_docstring_func", "GoogleDocstringClass", "google")
     assert function_parameter_data == snapshot
 
 
-def test_function_parameters_GoogleDocstringClass___init__(snapshot):  # noqa: N802
+def test_function_parameters_GoogleDocstringClass___init__(snapshot: SnapshotAssertion):  # noqa: N802
     function_parameter_data = get_function_parameter_data("__init__", "GoogleDocstringClass", "google")
     assert function_parameter_data == snapshot
 
@@ -536,46 +540,46 @@ def get_function_result_data(function_name: str, parent_class_name: str, docstri
     ]
 
 
-def test_function_results_global_func(snapshot):
+def test_function_results_global_func(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("global_func", "", "plaintext")
     assert function_result_data == snapshot
 
 
-def test_function_results_multiple_results(snapshot):
+def test_function_results_multiple_results(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("multiple_results", "SomeClass", "plaintext")
     assert function_result_data == snapshot
 
 
-def test_function_results_static_function(snapshot):
+def test_function_results_static_function(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("static_function", "SomeClass", "plaintext")
     assert function_result_data == snapshot
 
 
-def test_function_results_test_position(snapshot):
+def test_function_results_test_position(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("test_position", "SomeClass", "plaintext")
     assert function_result_data == snapshot
 
 
-def test_function_results_nested_class_function(snapshot):
+def test_function_results_nested_class_function(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("nested_class_function", "NestedClass", "plaintext")
     assert function_result_data == snapshot
 
 
-def test_function_results_epydoc_docstring_func(snapshot):
+def test_function_results_epydoc_docstring_func(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("epydoc_docstring_func", "EpydocDocstringClass", "epydoc")
     assert function_result_data == snapshot
 
 
-def test_function_results_rest_docstring_func(snapshot):
+def test_function_results_rest_docstring_func(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("rest_docstring_func", "RestDocstringClass", "rest")
     assert function_result_data == snapshot
 
 
-def test_function_results_numpy_docstring_func(snapshot):
+def test_function_results_numpy_docstring_func(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("numpy_docstring_func", "NumpyDocstringClass", "numpydoc")
     assert function_result_data == snapshot
 
 
-def test_function_results_google_docstring_func(snapshot):
+def test_function_results_google_docstring_func(snapshot: SnapshotAssertion):
     function_result_data = get_function_result_data("google_docstring_func", "GoogleDocstringClass", "google")
     assert function_result_data == snapshot
