@@ -147,14 +147,8 @@ class NumpyDocParser(AbstractDocstringParser):
             description=last_attribute_numpydoc.description or "",
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
-        from safeds_stubgen.api_analyzer import Class
-
-        # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(parent_class, Class):
-            docstring = parent_class.docstring.full_docstring
-        else:
-            docstring = get_full_docstring(function_node)
+    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
+        docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
         function_numpydoc = self.__get_cached_numpydoc_string(function_node, docstring)

@@ -45,9 +45,5 @@ class AbstractDocstringParser(ABC):
         pass
 
     @abstractmethod
-    def get_result_documentation(
-        self,
-        function_node: nodes.FuncDef,
-        parent_class: Class,
-    ) -> ResultDocstring:
+    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
         pass

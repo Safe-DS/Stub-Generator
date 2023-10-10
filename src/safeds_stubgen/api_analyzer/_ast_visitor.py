@@ -331,7 +331,9 @@ class MyPyAstVisitor:
     # #### Result utilities
 
     def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
-        from safeds_stubgen.docstring_parsing import ClassDocstring
+        # __init__ functions aren't supposed to have returns, so we can ignore them
+        if node.name == "__init__":
+            return []
 
         ret_type = None
         if getattr(node, "type", None):
@@ -347,14 +349,8 @@ class MyPyAstVisitor:
             return []
 
         results = []
-        parent = self.__declaration_stack[-1]
-        if not isinstance(parent, Class | Module):  # pragma: no cover
-            raise TypeError(f"Parent has to be a Class. Instead we got {parent.__class__}.")
-        if isinstance(parent, Module):
-            # Create a fake parent, since we only need the parent if the function is an __init__ function for a class
-            parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
 
-        docstring = self.docstring_parser.get_result_documentation(node, parent)
+        docstring = self.docstring_parser.get_result_documentation(node)
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):
                 name = f"result_{i + 1}"

@@ -3,6 +3,7 @@ import sys
 from pathlib import Path
 
 from safeds_stubgen.main import main
+from syrupy import SnapshotAssertion
 
 _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "test_package"
@@ -12,9 +13,10 @@ _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 _out_file_dir = Path(_out_dir / f"{_test_package_name}__api.json")
 
 
-def test_main(snapshot):
+def test_main(snapshot: SnapshotAssertion) -> None:
     sys_args = [
-        _main_dir, "-p", str(_test_package_name), "-s", str(_test_package_dir), "-o", str(_out_dir), "-tr", "True"
+        _main_dir, "-v", "-p", str(_test_package_name), "-s", str(_test_package_dir), "-o", str(_out_dir), "-tr",
+        "True", "--docstyle", "plaintext"
     ]
     sys.argv = sys_args
 

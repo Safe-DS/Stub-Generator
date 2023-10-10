@@ -206,10 +206,4 @@ def test_get_result_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
-    assert (
-        plaintext_docstring_parser.get_result_documentation(
-            node,
-            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
-        )
-        == expected_result_documentation
-    )
+    assert plaintext_docstring_parser.get_result_documentation(node) == expected_result_documentation

@@ -294,6 +294,4 @@ def test_get_result_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
-
-    fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
-    assert epydoc_parser.get_result_documentation(node, fake_parent) == expected_result_documentation
+    assert epydoc_parser.get_result_documentation(node) == expected_result_documentation

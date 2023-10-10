@@ -104,13 +104,8 @@ class RestDocParser(AbstractDocstringParser):
             description=last_attribute_docstring_obj.description or "",
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef, parent_class: Class) -> ResultDocstring:
-        from safeds_stubgen.api_analyzer import Class
-
-        if function_node.name == "__init__" and isinstance(parent_class, Class):
-            docstring = parent_class.docstring.full_docstring
-        else:
-            docstring = get_full_docstring(function_node)
+    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
+        docstring = get_full_docstring(function_node)
 
         # Find matching parameter docstrings
         function_restdoc = self.__get_cached_restdoc_string(function_node, docstring)

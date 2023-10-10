@@ -50,6 +50,5 @@ class PlaintextDocstringParser(AbstractDocstringParser):
     def get_result_documentation(
         self,
         function_node: nodes.FuncDef,  # noqa: ARG002
-        parent_class: Class,  # noqa: ARG002
     ) -> ResultDocstring:
         return ResultDocstring()
