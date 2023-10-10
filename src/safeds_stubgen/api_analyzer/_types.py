@@ -387,55 +387,55 @@ class TupleType(AbstractType):
 
 
 # ############################## Utilities ############################## #
-def _dismantel_type_string_structure(type_structure: str) -> list:
-    current_type = ""
-    result = []
-
-    while True:
-        i = 0
-        for i, char in enumerate(type_structure):
-            if char == "[":
-                try:
-                    brackets_content, remaining_content = _parse_type_string_bracket_content(type_structure[i + 1:])
-                except TypeParsingError as parsing_error:
-                    raise TypeParsingError(
-                        f"Missing brackets in the following string: \n{type_structure}") from parsing_error
-
-                result.append(current_type + "[" + brackets_content + "]")
-                type_structure = remaining_content
-                current_type = ""
-                break
-            elif char == ",":
-                if current_type:
-                    result.append(current_type)
-                    current_type = ""
-            else:
-                current_type += char
-
-        if len(type_structure) == 0 or i + 1 == len(type_structure):
-            break
-
-    if current_type:
-        result.append(current_type)
-
-    return result
-
-
-def _parse_type_string_bracket_content(substring: str) -> tuple[str, str]:
-    brackets_content = ""
-    bracket_count = 0
-    for i, char in enumerate(substring):
-        if char == "[":
-            bracket_count += 1
-        elif char == "]" and bracket_count:
-            bracket_count -= 1
-        elif char == "]" and not bracket_count:
-            return brackets_content, substring[i + 1:]
-
-        brackets_content += char
-    raise TypeParsingError("")
-
-
+# def _dismantel_type_string_structure(type_structure: str) -> list:
+#     current_type = ""
+#     result = []
+#
+#     while True:
+#         i = 0
+#         for i, char in enumerate(type_structure):
+#             if char == "[":
+#                 try:
+#                     brackets_content, remaining_content = _parse_type_string_bracket_content(type_structure[i + 1:])
+#                 except TypeParsingError as parsing_error:
+#                     raise TypeParsingError(
+#                         f"Missing brackets in the following string: \n{type_structure}") from parsing_error
+#
+#                 result.append(current_type + "[" + brackets_content + "]")
+#                 type_structure = remaining_content
+#                 current_type = ""
+#                 break
+#             elif char == ",":
+#                 if current_type:
+#                     result.append(current_type)
+#                     current_type = ""
+#             else:
+#                 current_type += char
+#
+#         if len(type_structure) == 0 or i + 1 == len(type_structure):
+#             break
+#
+#     if current_type:
+#         result.append(current_type)
+#
+#     return result
+#
+#
+# def _parse_type_string_bracket_content(substring: str) -> tuple[str, str]:
+#     brackets_content = ""
+#     bracket_count = 0
+#     for i, char in enumerate(substring):
+#         if char == "[":
+#             bracket_count += 1
+#         elif char == "]" and bracket_count:
+#             bracket_count -= 1
+#         elif char == "]" and not bracket_count:
+#             return brackets_content, substring[i + 1:]
+#
+#         brackets_content += char
+#     raise TypeParsingError("")
+#
+#
 # # Todo Return mypy\types -> Type class
 # def create_type(type_string: str, description: str) -> AbstractType:
 #     if not type_string:
@@ -566,11 +566,11 @@ def _parse_type_string_bracket_content(substring: str) -> tuple[str, str]:
 #     if len(types) == 0:
 #         return None
 #     return UnionType(types)
-
-
-class TypeParsingError(Exception):
-    def __init__(self, message: str):
-        self.message = message
-
-    def __str__(self) -> str:
-        return f"TypeParsingException: {self.message}"
+#
+#
+# class TypeParsingError(Exception):
+#     def __init__(self, message: str):
+#         self.message = message
+#
+#     def __str__(self) -> str:
+#         return f"TypeParsingException: {self.message}"
