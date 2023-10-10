@@ -132,8 +132,7 @@ class MyPyAstVisitor:
         docstring = self.docstring_parser.get_class_documentation(node)
 
         # superclasses
-        # Todo Aliasing: Werden noch nicht aufgelöst -> Such nach einer mypy Funktion die die Typen auflöst
-        #  irgendwas im zusammenhand mit "type" suchen bzw auflösen von aliasen
+        # Todo Aliasing: Werden noch nicht aufgelöst
         superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
 
         # Get reexported data

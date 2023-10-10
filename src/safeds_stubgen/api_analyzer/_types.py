@@ -315,7 +315,6 @@ class OptionalType(AbstractType):
         return hash(frozenset([self.type_]))
 
 
-# Todo Enum Values? Literal[Color.BLUE]
 @dataclass(frozen=True)
 class LiteralType(AbstractType):
     literals: list[str | int | float | bool]

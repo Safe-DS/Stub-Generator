@@ -16,7 +16,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_api_command(args.package, args.src, args.out, args.docstyle)
+    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun)
 
 
 def _get_args() -> argparse.Namespace:
@@ -52,6 +52,14 @@ def _get_args() -> argparse.Namespace:
         required=False,
         default=DocstringStyle.PLAINTEXT.name,
     )
+    parser.add_argument(
+        "-tr",
+        "--testrun",
+        help="Set this flag True if files in /test or /tests directories should be included.",
+        type=bool,
+        required=False,
+        default=False,
+    )
 
     return parser.parse_args()
 
@@ -61,6 +69,7 @@ def _run_api_command(
     src_dir_path: Path,
     out_dir_path: Path,
     docstring_style: DocstringStyle,
+    is_test_run: bool
 ) -> None:
     """
     List the API of a package.
@@ -73,7 +82,9 @@ def _run_api_command(
         The path to the output directory.
     docstring_style : DocstringStyle
         The style of docstrings that used in the library.
+    is_test_run : bool
+        Set True if files in test directories should be parsed too.
     """
-    api = get_api(package, src_dir_path, docstring_style)
+    api = get_api(package, src_dir_path, docstring_style, is_test_run)
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
