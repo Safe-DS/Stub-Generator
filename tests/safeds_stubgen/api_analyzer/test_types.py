@@ -253,6 +253,11 @@ def test_tuple_type() -> None:
     assert hash(TupleType([NamedType("a")])) != hash(TupleType([NamedType("b")]))
 
 
+def test_abstract_type_from_dict_exception() -> None:
+    with pytest.raises(ValueError, match="Cannot parse unknown_type value."):
+        AbstractType.from_dict({"kind": "unknown_type"})
+
+
 @pytest.mark.parametrize(
     ("string", "expected"),
     [
@@ -349,6 +354,7 @@ def test_boundaries_from_string(string: str, expected: BoundaryType) -> None:
 @pytest.mark.parametrize(
     ("docstring_type", "expected"),
     [
+        ("", ""),
         ('{"frobenius", "spectral"}, default="frobenius"', {"frobenius", "spectral"}),
         (
             "{'strict', 'ignore', 'replace'}, default='strict'",
