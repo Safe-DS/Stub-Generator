@@ -64,7 +64,11 @@ def _get_args() -> argparse.Namespace:
 
 
 def _run_api_command(
-    package: str, src_dir_path: Path, out_dir_path: Path, docstring_style: DocstringStyle, is_test_run: bool,
+    package: str,
+    src_dir_path: Path,
+    out_dir_path: Path,
+    docstring_style: DocstringStyle,
+    is_test_run: bool,
 ) -> None:
     """
     List the API of a package.
