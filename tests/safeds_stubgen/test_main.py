@@ -2,6 +2,8 @@ import json
 import sys
 from pathlib import Path
 
+import pytest
+
 from safeds_stubgen.main import main
 from syrupy import SnapshotAssertion
 
@@ -14,11 +16,11 @@ _out_file_dir = Path(_out_dir / f"{_test_package_name}__api.json")
 
 
 def test_main(snapshot: SnapshotAssertion) -> None:
-    sys_args = [
-        _main_dir, "-v", "-p", str(_test_package_name), "-s", str(_test_package_dir), "-o", str(_out_dir), "-tr",
-        "True", "--docstyle", "plaintext"
+    # Overwrite system arguments
+    sys.argv = [
+        str(_main_dir), "-v", "-p", str(_test_package_name), "-s", str(_test_package_dir), "-o", str(_out_dir), "-tr",
+        "--docstyle", "plaintext"
     ]
-    sys.argv = sys_args
 
     main()
 
@@ -26,3 +28,14 @@ def test_main(snapshot: SnapshotAssertion) -> None:
         json_data = json.load(f)
 
     assert json_data == snapshot
+
+
+def test_main_empty() -> None:
+    # Overwrite system arguments
+    sys.argv = [
+        str(_main_dir), "-v", "-p", str(_test_package_name), "-s", str(_test_package_dir), "-o", str(_out_dir),
+        "--docstyle", "plaintext"
+    ]
+
+    with pytest.raises(ValueError, match="No files found to analyse."):
+        main()

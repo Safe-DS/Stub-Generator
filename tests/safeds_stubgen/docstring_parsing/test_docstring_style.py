@@ -2,7 +2,7 @@ import pytest
 from safeds_stubgen.docstring_parsing import DocstringStyle
 
 
-def test_from_string():
+def test_from_string() -> None:
     assert DocstringStyle.from_string("plaintext") == DocstringStyle.PLAINTEXT
     assert DocstringStyle.from_string("epydoc") == DocstringStyle.EPYDOC
     assert DocstringStyle.from_string("google") == DocstringStyle.GOOGLE

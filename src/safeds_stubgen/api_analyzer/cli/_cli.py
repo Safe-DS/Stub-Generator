@@ -55,10 +55,9 @@ def _get_args() -> argparse.Namespace:
     parser.add_argument(
         "-tr",
         "--testrun",
-        help="Set this flag True if files in /test or /tests directories should be included.",
-        type=bool,
+        help="Set this flag if files in /test or /tests directories should be included.",
         required=False,
-        default=False,
+        action="store_true",
     )
 
     return parser.parse_args()
