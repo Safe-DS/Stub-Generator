@@ -65,10 +65,7 @@ def test_correct_hash() -> None:
 def test_named_type() -> None:
     name = "str"
     named_type = NamedType(name)
-    named_type_dict = {
-        "kind": "NamedType",
-        "name": name
-    }
+    named_type_dict = {"kind": "NamedType", "name": name}
 
     assert AbstractType.from_dict(named_type_dict) == named_type
 
@@ -81,10 +78,7 @@ def test_named_type() -> None:
 def test_enum_type() -> None:
     value = frozenset({"a", "b"})
     type_ = EnumType(value, "a, b")
-    type_dict = {
-        "kind": "EnumType",
-        "values": {"a", "b"}
-    }
+    type_dict = {"kind": "EnumType", "values": {"a", "b"}}
 
     assert AbstractType.from_dict(type_dict) == type_
     assert EnumType.from_dict(type_dict) == type_
@@ -117,16 +111,7 @@ def test_union_type() -> None:
     union_type = UnionType([NamedType("str"), NamedType("int")])
     union_type_dict = {
         "kind": "UnionType",
-        "types": [
-            {
-                "kind": "NamedType",
-                "name": "str"
-            },
-            {
-                "kind": "NamedType",
-                "name": "int"
-            }
-        ]
+        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
     }
 
     assert AbstractType.from_dict(union_type_dict) == union_type
@@ -143,16 +128,7 @@ def test_list_type() -> None:
     list_type = ListType([NamedType("str"), NamedType("int")])
     list_type_dict = {
         "kind": "ListType",
-        "types": [
-            {
-                "kind": "NamedType",
-                "name": "str"
-            },
-            {
-                "kind": "NamedType",
-                "name": "int"
-            }
-        ]
+        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
     }
 
     assert AbstractType.from_dict(list_type_dict) == list_type
@@ -168,36 +144,18 @@ def test_list_type() -> None:
 def test_dict_type() -> None:
     dict_type = DictType(
         key_type=UnionType([NamedType("str"), NamedType("int")]),
-        value_type=UnionType([NamedType("str"), NamedType("int")])
+        value_type=UnionType([NamedType("str"), NamedType("int")]),
     )
     dict_type_dict = {
         "kind": "DictType",
         "key_type": {
             "kind": "UnionType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "str"
-                },
-                {
-                    "kind": "NamedType",
-                    "name": "int"
-                }
-            ]
+            "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
         },
         "value_type": {
             "kind": "UnionType",
-            "types": [
-                {
-                    "kind": "NamedType",
-                    "name": "str"
-                },
-                {
-                    "kind": "NamedType",
-                    "name": "int"
-                }
-            ]
-        }
+            "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        },
     }
 
     assert AbstractType.from_dict(dict_type_dict) == dict_type
@@ -214,16 +172,7 @@ def test_set_type() -> None:
     set_type = SetType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "SetType",
-        "types": [
-            {
-                "kind": "NamedType",
-                "name": "str"
-            },
-            {
-                "kind": "NamedType",
-                "name": "int"
-            }
-        ]
+        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
@@ -240,10 +189,7 @@ def test_optional_type() -> None:
     type_ = OptionalType(NamedType("some_type"))
     type_dict = {
         "kind": "OptionalType",
-        "type": {
-                "kind": "NamedType",
-                "name": "some_type"
-        },
+        "type": {"kind": "NamedType", "name": "some_type"},
     }
 
     assert AbstractType.from_dict(type_dict) == type_
@@ -277,10 +223,7 @@ def test_final_type() -> None:
     type_ = FinalType(NamedType("some_type"))
     type_dict = {
         "kind": "FinalType",
-        "type": {
-                "kind": "NamedType",
-                "name": "some_type"
-        },
+        "type": {"kind": "NamedType", "name": "some_type"},
     }
 
     assert AbstractType.from_dict(type_dict) == type_
@@ -297,16 +240,7 @@ def test_tuple_type() -> None:
     set_type = TupleType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "TupleType",
-        "types": [
-            {
-                "kind": "NamedType",
-                "name": "str"
-            },
-            {
-                "kind": "NamedType",
-                "name": "int"
-            }
-        ]
+        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
