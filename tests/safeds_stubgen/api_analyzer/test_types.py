@@ -78,6 +78,41 @@ def test_named_type():
     assert named_type.to_dict() == named_type_dict
 
 
+def test_enum_type():
+    value = frozenset({"a", "b"})
+    type_ = EnumType(value, "a, b")
+    type_dict = {
+        "kind": "EnumType",
+        "values": {"a", "b"}
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert EnumType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+
+def test_boundary_type():
+    type_ = BoundaryType(
+        base_type="int",
+        min=1,
+        max="b",
+        min_inclusive=True,
+        max_inclusive=True,
+    )
+    type_dict = {
+        "kind": "BoundaryType",
+        "base_type": "int",
+        "min": 1,
+        "max": "b",
+        "min_inclusive": True,
+        "max_inclusive": True,
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert BoundaryType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+
 def test_union_type():
     union_type = UnionType([NamedType("str"), NamedType("int")])
     union_type_dict = {
