@@ -12,7 +12,9 @@ from ._api import ParameterAssignment
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
-    from mypy.types import ProperType, Type as MypyType
+    from mypy.types import ProperType
+    from mypy.types import Type as MypyType
+
     from safeds_stubgen.api_analyzer._types import AbstractType
 
 
@@ -75,10 +77,7 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
             return sds_types.SetType(types=types)
         elif type_name == "dict":
             key_type = mypy_type_to_abstract_type(mypy_type.args[0])
-            value_types = [
-                mypy_type_to_abstract_type(arg)
-                for arg in mypy_type.args[1:]
-            ]
+            value_types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args[1:]]
 
             value_type: AbstractType
             if len(value_types) == 0:

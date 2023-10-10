@@ -70,8 +70,7 @@ class GoogleDocParser(AbstractDocstringParser):
         function_googledoc = self.__get_cached_googledoc_string(function_node, docstring)
         all_parameters_googledoc: list[DocstringParam] = function_googledoc.params
         matching_parameters_googledoc = [
-            it for it in all_parameters_googledoc
-            if it.arg_name == parameter_name and it.args[0] == "param"
+            it for it in all_parameters_googledoc if it.arg_name == parameter_name and it.args[0] == "param"
         ]
 
         if len(matching_parameters_googledoc) == 0:
@@ -90,14 +89,10 @@ class GoogleDocParser(AbstractDocstringParser):
         attribute_name: str,
     ) -> AttributeDocstring:
         # Find matching attribute docstrings
-        function_googledoc = self.__get_cached_googledoc_string(
-            parent_class,
-            parent_class.docstring.full_docstring
-        )
+        function_googledoc = self.__get_cached_googledoc_string(parent_class, parent_class.docstring.full_docstring)
         all_attributes_googledoc: list[DocstringParam] = function_googledoc.params
         matching_attributes_googledoc = [
-            it for it in all_attributes_googledoc
-            if it.arg_name == attribute_name and it.args[0] == "attribute"
+            it for it in all_attributes_googledoc if it.arg_name == attribute_name and it.args[0] == "attribute"
         ]
 
         if len(matching_attributes_googledoc) == 0:

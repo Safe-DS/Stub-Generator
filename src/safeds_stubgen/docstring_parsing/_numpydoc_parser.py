@@ -19,6 +19,7 @@ from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
     from mypy import nodes
+
     from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
@@ -78,8 +79,7 @@ class NumpyDocParser(AbstractDocstringParser):
         matching_parameters_numpydoc = [
             it
             for it in all_parameters_numpydoc
-            if it.args[0] == "param"
-            and _is_matching_parameter_numpydoc(it, parameter_name, parameter_assigned_by)
+            if it.args[0] == "param" and _is_matching_parameter_numpydoc(it, parameter_name, parameter_assigned_by)
         ]
 
         if len(matching_parameters_numpydoc) == 0:
@@ -114,10 +114,7 @@ class NumpyDocParser(AbstractDocstringParser):
         attribute_name: str,
     ) -> AttributeDocstring:
         # Find matching attribute docstrings
-        function_numpydoc = self.__get_cached_numpydoc_string(
-            parent_class,
-            parent_class.docstring.full_docstring
-        )
+        function_numpydoc = self.__get_cached_numpydoc_string(parent_class, parent_class.docstring.full_docstring)
         all_attributes_numpydoc: list[DocstringParam] = function_numpydoc.params
         matching_attributes_numpydoc = [
             it
@@ -130,15 +127,13 @@ class NumpyDocParser(AbstractDocstringParser):
             # Find matching attribute docstrings
             function_numpydoc = parse_docstring(
                 parent_class.constructor_fulldocstring,
-                style=DP_DocstringStyle.NUMPYDOC
+                style=DP_DocstringStyle.NUMPYDOC,
             )
             all_attributes_numpydoc = function_numpydoc.params
 
             # Overwrite previous matching_attributes_numpydoc list
             matching_attributes_numpydoc = [
-                it
-                for it in all_attributes_numpydoc
-                if _is_matching_attribute_numpydoc(it, attribute_name)
+                it for it in all_attributes_numpydoc if _is_matching_attribute_numpydoc(it, attribute_name)
             ]
 
             if len(matching_attributes_numpydoc) == 0:

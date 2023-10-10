@@ -136,7 +136,7 @@ def test_get_parameter_documentation(
             node,
             parameter_name,
             ParameterAssignment.POSITION_OR_NAME,
-            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
+            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
         )
         == expected_parameter_documentation
     )
@@ -178,10 +178,7 @@ def test_get_attribute_documentation(
         attribute_name=attribute_name,
     )
 
-    assert (
-        attribute_documentation
-        == expected_attribute_documentation
-    )
+    assert attribute_documentation == expected_attribute_documentation
 
 
 # ############################## Result Documentation ############################## #
@@ -212,7 +209,7 @@ def test_get_result_documentation(
     assert (
         plaintext_docstring_parser.get_result_documentation(
             node,
-            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
+            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
         )
         == expected_result_documentation
     )

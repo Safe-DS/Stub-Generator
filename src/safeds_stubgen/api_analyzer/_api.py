@@ -13,7 +13,7 @@ if TYPE_CHECKING:
         ClassDocstring,
         FunctionDocstring,
         ParameterDocstring,
-        ResultDocstring
+        ResultDocstring,
     )
 
     from ._types import AbstractType
@@ -84,37 +84,19 @@ class API:
             "distribution": self.distribution,
             "package": self.package,
             "version": self.version,
-            "modules": [
-                module.to_dict()
-                for module in sorted(self.modules.values(), key=lambda it: it.id)
-            ],
-            "classes": [
-                class_.to_dict()
-                for class_ in sorted(self.classes.values(), key=lambda it: it.id)
-            ],
-            "functions": [
-                function.to_dict()
-                for function in sorted(self.functions.values(), key=lambda it: it.id)
-            ],
-            "results": [
-                result.to_dict()
-                for result in sorted(self.results.values(), key=lambda it: it.id)
-            ],
-            "enums": [
-                enum.to_dict()
-                for enum in sorted(self.enums.values(), key=lambda it: it.id)
-            ],
+            "modules": [module.to_dict() for module in sorted(self.modules.values(), key=lambda it: it.id)],
+            "classes": [class_.to_dict() for class_ in sorted(self.classes.values(), key=lambda it: it.id)],
+            "functions": [function.to_dict() for function in sorted(self.functions.values(), key=lambda it: it.id)],
+            "results": [result.to_dict() for result in sorted(self.results.values(), key=lambda it: it.id)],
+            "enums": [enum.to_dict() for enum in sorted(self.enums.values(), key=lambda it: it.id)],
             "enum_instances": [
-                enum_instance.to_dict()
-                for enum_instance in sorted(self.enum_instances.values(), key=lambda it: it.id)
+                enum_instance.to_dict() for enum_instance in sorted(self.enum_instances.values(), key=lambda it: it.id)
             ],
             "attributes": [
-                attribute.to_dict()
-                for attribute in sorted(self.attributes_.values(), key=lambda it: it.id)
+                attribute.to_dict() for attribute in sorted(self.attributes_.values(), key=lambda it: it.id)
             ],
             "parameters": [
-                parameter.to_dict()
-                for parameter in sorted(self.parameters_.values(), key=lambda it: it.id)
+                parameter.to_dict() for parameter in sorted(self.parameters_.values(), key=lambda it: it.id)
             ],
         }
 
@@ -281,7 +263,8 @@ class Parameter:
     @property
     def is_variadic(self) -> bool:
         return self.assigned_by in (
-            ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG,
+            ParameterAssignment.POSITIONAL_VARARG,
+            ParameterAssignment.NAMED_VARARG,
         )
 
     def to_dict(self) -> dict[str, Any]:

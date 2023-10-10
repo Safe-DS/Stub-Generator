@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import ast
 import re
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass, field
@@ -251,10 +250,7 @@ class ListType(AbstractType):
         return ListType(types)
 
     def to_dict(self) -> dict[str, Any]:
-        type_list = [
-            t.to_dict()
-            for t in self.types
-        ]
+        type_list = [t.to_dict() for t in self.types]
 
         return {"kind": self.__class__.__name__, "types": type_list}
 
@@ -269,10 +265,7 @@ class DictType(AbstractType):
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> DictType:
-        return DictType(
-            AbstractType.from_dict(d["key_type"]),
-            AbstractType.from_dict(d["value_type"])
-        )
+        return DictType(AbstractType.from_dict(d["key_type"]), AbstractType.from_dict(d["value_type"]))
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -299,10 +292,7 @@ class SetType(AbstractType):
         return SetType(types)
 
     def to_dict(self) -> dict[str, Any]:
-        type_list = [
-            t.to_dict()
-            for t in self.types
-        ]
+        type_list = [t.to_dict() for t in self.types]
 
         return {"kind": self.__class__.__name__, "types": type_list}
 
@@ -316,9 +306,7 @@ class OptionalType(AbstractType):
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> OptionalType:
-        return OptionalType(
-            AbstractType.from_dict(d["type"])
-        )
+        return OptionalType(AbstractType.from_dict(d["type"]))
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "type": self.type_.to_dict()}
@@ -350,9 +338,7 @@ class FinalType(AbstractType):
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> FinalType:
-        return FinalType(
-            AbstractType.from_dict(d["type"])
-        )
+        return FinalType(AbstractType.from_dict(d["type"]))
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "type": self.type_.to_dict()}
@@ -375,10 +361,7 @@ class TupleType(AbstractType):
         return TupleType(types)
 
     def to_dict(self) -> dict[str, Any]:
-        type_list = [
-            t.to_dict()
-            for t in self.types
-        ]
+        type_list = [t.to_dict() for t in self.types]
 
         return {"kind": self.__class__.__name__, "types": type_list}
 

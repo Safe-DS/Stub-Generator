@@ -297,7 +297,7 @@ def test_get_function_documentation(
                 default_value="",
                 description="",
             ),
-        )
+        ),
     ],
     ids=[
         "existing class parameter",
@@ -317,7 +317,7 @@ def test_get_function_documentation(
         "class and __init__ with params 2",
         "class and __init__ with params 3",
         "class with parameter and attribute existing parameter",
-        "class with parameter and attribute missing parameter"
+        "class with parameter and attribute missing parameter",
     ],
 )
 def test_get_parameter_documentation(
@@ -333,13 +333,7 @@ def test_get_parameter_documentation(
     if is_class:
         assert isinstance(node, nodes.ClassDef)
         class_doc = numpydoc_parser.get_class_documentation(node)
-        parent = Class(
-            id=node.fullname,
-            name=node.name,
-            superclasses=[],
-            is_public=True,
-            docstring=class_doc
-        )
+        parent = Class(id=node.fullname, name=node.name, superclasses=[], is_public=True, docstring=class_doc)
     else:
         assert isinstance(node, nodes.FuncDef)
 
@@ -355,13 +349,10 @@ def test_get_parameter_documentation(
         function_node=node,
         parameter_name=parameter_name,
         parameter_assigned_by=parameter_assigned_by,
-        parent_class=parent
+        parent_class=parent,
     )
 
-    assert (
-        parameter_documentation
-        == expected_parameter_documentation
-    )
+    assert parameter_documentation == expected_parameter_documentation
 
 
 # ############################## Attribute Documentation ############################## #
@@ -454,7 +445,7 @@ def test_get_parameter_documentation(
                 default_value="1",
                 description="foo",
             ),
-        )
+        ),
     ],
     ids=[
         "class attribute with no type and no default",
@@ -467,7 +458,7 @@ def test_get_parameter_documentation(
         "class attribute with grouped attributes 2",
         "missing function parameter",
         "class with parameter and attribute missing attribute",
-        "class with parameter and attribute existing attribute"
+        "class with parameter and attribute existing attribute",
     ],
 )
 def test_get_attribute_documentation(
@@ -486,10 +477,7 @@ def test_get_attribute_documentation(
         attribute_name=attribute_name,
     )
 
-    assert (
-        attribute_documentation
-        == expected_attribute_documentation
-    )
+    assert attribute_documentation == expected_attribute_documentation
 
 
 # ############################## Result Documentation ############################## #
@@ -500,15 +488,9 @@ def test_get_attribute_documentation(
             "function_with_result_value_and_type",
             ResultDocstring(type="int", description="this will be the return value"),
         ),
-        (
-            "function_without_result_value",
-            ResultDocstring(type="", description="")
-        ),
+        ("function_without_result_value", ResultDocstring(type="", description="")),
     ],
-    ids=[
-        "existing return value and type",
-        "function without return value"
-    ],
+    ids=["existing return value and type", "function without return value"],
 )
 def test_get_result_documentation(
     numpydoc_parser: NumpyDocParser,
@@ -519,7 +501,4 @@ def test_get_result_documentation(
     assert isinstance(node, nodes.FuncDef)
 
     fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
-    assert (
-        numpydoc_parser.get_result_documentation(node, fake_parent)
-        == expected_result_documentation
-    )
+    assert numpydoc_parser.get_result_documentation(node, fake_parent) == expected_result_documentation

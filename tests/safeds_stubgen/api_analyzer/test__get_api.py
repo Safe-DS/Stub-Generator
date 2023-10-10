@@ -230,11 +230,7 @@ def get_class_attribute_data(class_name: str, docstring_style: str) -> list:
 
     # Sort out the class attribute data we need and return
     api_data = get_api_data(docstring_style)
-    return [
-        attr
-        for attr in api_data["attributes"]
-        if attr["id"] in class_attr_ids
-    ]
+    return [attr for attr in api_data["attributes"] if attr["id"] in class_attr_ids]
 
 
 def test_class_attributes_SomeClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
@@ -309,11 +305,7 @@ def get_enum_instance_data(enum_name: str) -> list:
     all_enum_instances = api_data_paintext["enum_instances"]
 
     # Sort out the enum instances we need and return
-    return [
-        enum_instance
-        for enum_instance in all_enum_instances
-        if enum_instance["id"] in enum_instance_ids
-    ]
+    return [enum_instance for enum_instance in all_enum_instances if enum_instance["id"] in enum_instance_ids]
 
 
 def test_enum_instances_EnumTest(snapshot: SnapshotAssertion) -> None:  # noqa: N802
@@ -340,11 +332,7 @@ def get_global_function_data(module_name: str) -> list:
     all_functions: list[dict] = api_data_paintext["functions"]
 
     # Sort out the functions we need and return
-    return [
-        function
-        for function in all_functions
-        if function["id"] in global_function_ids
-    ]
+    return [function for function in all_functions if function["id"] in global_function_ids]
 
 
 def test_global_functions_test_module(snapshot: SnapshotAssertion) -> None:
@@ -381,11 +369,7 @@ def get_class_methods_data(class_name: str, docstring_style: str) -> list:
     all_functions: list[dict] = api_data["functions"]
 
     # Sort out the functions we need and return
-    return [
-        method
-        for method in all_functions
-        if method["id"] in class_method_ids
-    ]
+    return [method for method in all_functions if method["id"] in class_method_ids]
 
 
 def test_class_methods_SomeClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
@@ -447,11 +431,7 @@ def get_function_parameter_data(function_name: str, parent_class_name: str, docs
     all_parameters: list[dict] = api_data["parameters"]
 
     # Sort out the parameters we need and return
-    return [
-        parameter
-        for parameter in all_parameters
-        if parameter["id"] in function_parameter_ids
-    ]
+    return [parameter for parameter in all_parameters if parameter["id"] in function_parameter_ids]
 
 
 def test_function_parameters_global_func(snapshot: SnapshotAssertion) -> None:
@@ -533,11 +513,7 @@ def get_function_result_data(function_name: str, parent_class_name: str, docstri
     all_results: list[dict] = api_data["results"]
 
     # Sort out the results we need and return
-    return [
-        result
-        for result in all_results
-        if result["id"] in function_result_ids
-    ]
+    return [result for result in all_results if result["id"] in function_result_ids]
 
 
 def test_function_results_global_func(snapshot: SnapshotAssertion) -> None:

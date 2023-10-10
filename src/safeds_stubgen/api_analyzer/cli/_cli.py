@@ -21,6 +21,7 @@ def cli() -> None:
 
 def _get_args() -> argparse.Namespace:
     from safeds_stubgen.docstring_parsing import DocstringStyle
+
     parser = argparse.ArgumentParser(description="Analyze Python code.")
 
     parser.add_argument("-v", "--verbose", help="show info messages", action="store_true")
@@ -34,8 +35,10 @@ def _get_args() -> argparse.Namespace:
     parser.add_argument(
         "-s",
         "--src",
-        help="Directory containing the Python code of the package. If this is omitted, we try to locate the package "
-             "with the given name in the current Python interpreter.",
+        help=(
+            "Directory containing the Python code of the package. If this is omitted, we try to locate the package "
+            "with the given name in the current Python interpreter."
+        ),
         type=Path,
         required=False,
         default=None,

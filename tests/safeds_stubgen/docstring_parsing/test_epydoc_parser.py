@@ -193,13 +193,7 @@ def test_get_parameter_documentation(
     if is_class:
         assert isinstance(node, nodes.ClassDef)
         class_doc = epydoc_parser.get_class_documentation(node)
-        parent = Class(
-            id=node.fullname,
-            name=node.name,
-            superclasses=[],
-            is_public=True,
-            docstring=class_doc
-        )
+        parent = Class(id=node.fullname, name=node.name, superclasses=[], is_public=True, docstring=class_doc)
     else:
         assert isinstance(node, nodes.FuncDef)
 
@@ -215,13 +209,10 @@ def test_get_parameter_documentation(
         function_node=node,
         parameter_name=parameter_name,
         parameter_assigned_by=parameter_assigned_by,
-        parent_class=parent
+        parent_class=parent,
     )
 
-    assert (
-        parameter_documentation
-        == expected_parameter_documentation
-    )
+    assert parameter_documentation == expected_parameter_documentation
 
 
 # ############################## Attribute Documentation ############################## #
@@ -247,7 +238,7 @@ def test_get_parameter_documentation(
                 default_value="1",
                 description="foo defaults to 1",
             ),
-        )
+        ),
     ],
     ids=[
         "existing class attributes",
@@ -270,10 +261,7 @@ def xtest_get_attribute_documentation(
         attribute_name=attribute_name,
     )
 
-    assert (
-        attribute_documentation
-        == expected_parameter_documentation
-    )
+    assert attribute_documentation == expected_parameter_documentation
 
 
 # ############################## Result Documentation ############################## #
@@ -308,7 +296,4 @@ def test_get_result_documentation(
     assert isinstance(node, nodes.FuncDef)
 
     fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
-    assert (
-        epydoc_parser.get_result_documentation(node, fake_parent)
-        == expected_result_documentation
-    )
+    assert epydoc_parser.get_result_documentation(node, fake_parent) == expected_result_documentation

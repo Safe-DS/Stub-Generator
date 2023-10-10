@@ -51,9 +51,14 @@ class ASTWalker:
         # Skip other types, since we either get them through the ast_visitor, some other way or
         # don't need to parse them
         child_nodes = [
-            _def for _def in definitions
-            if _def.__class__.__name__ in {
-                "AssignmentStmt", "FuncDef", "ClassDef", "Decorator",
+            _def
+            for _def in definitions
+            if _def.__class__.__name__
+            in {
+                "AssignmentStmt",
+                "FuncDef",
+                "ClassDef",
+                "Decorator",
             }
         ]
 

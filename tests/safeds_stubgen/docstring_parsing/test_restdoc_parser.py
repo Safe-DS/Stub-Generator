@@ -217,13 +217,7 @@ def test_get_parameter_documentation(
     if is_class:
         assert isinstance(node, nodes.ClassDef)
         class_doc = restdoc_parser.get_class_documentation(node)
-        parent = Class(
-            id=node.fullname,
-            name=node.name,
-            superclasses=[],
-            is_public=True,
-            docstring=class_doc
-        )
+        parent = Class(id=node.fullname, name=node.name, superclasses=[], is_public=True, docstring=class_doc)
     else:
         assert isinstance(node, nodes.FuncDef)
 
@@ -239,13 +233,10 @@ def test_get_parameter_documentation(
         function_node=node,
         parameter_name=parameter_name,
         parameter_assigned_by=parameter_assigned_by,
-        parent_class=parent
+        parent_class=parent,
     )
 
-    assert (
-        parameter_documentation
-        == expected_parameter_documentation
-    )
+    assert parameter_documentation == expected_parameter_documentation
 
 
 # ############################## Result Documentation ############################## #
@@ -260,16 +251,9 @@ def test_get_parameter_documentation(
             "function_with_return_value_no_type",
             ResultDocstring(type="", description="return value"),
         ),
-        (
-            "function_without_return_value",
-            ResultDocstring(type="", description="")
-        ),
+        ("function_without_return_value", ResultDocstring(type="", description="")),
     ],
-    ids=[
-        "existing return value and type",
-        "existing return value no type",
-        "function without return value"
-    ],
+    ids=["existing return value and type", "existing return value no type", "function without return value"],
 )
 def test_get_result_documentation(
     restdoc_parser: RestDocParser,
@@ -280,7 +264,4 @@ def test_get_result_documentation(
     assert isinstance(node, nodes.FuncDef)
 
     fake_parent = Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring())
-    assert (
-        restdoc_parser.get_result_documentation(node, fake_parent)
-        == expected_result_documentation
-    )
+    assert restdoc_parser.get_result_documentation(node, fake_parent) == expected_result_documentation
