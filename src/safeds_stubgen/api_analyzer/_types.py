@@ -436,136 +436,136 @@ def _parse_type_string_bracket_content(substring: str) -> tuple[str, str]:
     raise TypeParsingError("")
 
 
-# Todo Return mypy\types -> Type class
-def create_type(type_string: str, description: str) -> AbstractType:
-    if not type_string:
-        return NamedType("None")
-
-    type_string = type_string.replace(" ", "")
-
-    # todo Replace pipes with Union
-    # if "|" in type_string:
-    #     type_string = _replace_pipes_with_union(type_string)
-
-    # Structures, which only take one type argument
-    one_arg_structures = {"Final": FinalType, "Optional": OptionalType}
-    for key in one_arg_structures:
-        regex = r"^" + key + r"\[(.*)]$"
-        match = re.match(regex, type_string)
-        if match:
-            content = match.group(1)
-            return one_arg_structures[key](create_type(content, description))
-
-    # List-like structures, which take multiple type arguments
-    mult_arg_structures = {"List": ListType, "Set": SetType, "Tuple": TupleType, "Union": UnionType}
-    for key in mult_arg_structures:
-        regex = r"^" + key + r"\[(.*)]$"
-        match = re.match(regex, type_string)
-        if match:
-            content = match.group(1)
-            content_elements = _dismantel_type_string_structure(content)
-            return mult_arg_structures[key]([
-                create_type(element, description)
-                for element in content_elements
-            ])
-
-    match = re.match(r"^Literal\[(.*)]$", type_string)
-    if match:
-        content = match.group(1)
-        contents = content.replace(" ", "").split(",")
-        literals = []
-        for element in contents:
-            try:
-                value = ast.literal_eval(element)
-            except (SyntaxError, ValueError):
-                value = element[1:-1]
-            literals.append(value)
-        return LiteralType(literals)
-
-    # Misc. special structures
-    match = re.match(r"^Dict\[(.*)]$", type_string)
-    if match:
-        content = match.group(1)
-        content_elements = _dismantel_type_string_structure(content)
-        if len(content_elements) != 2:
-            raise TypeParsingError(f"Could not parse Dict from the following string: \n{type_string}")
-        return DictType(
-            create_type(content_elements[0], description),
-            create_type(content_elements[1], description),
-        )
-
-    # raise TypeParsingError(f"Could not parse type for the following type string:\n{type_string}")
-    type_ = _create_enum_boundry_type(type_string, description)
-    if type_ is not None:
-        return type_
-    return NamedType(type_string)
-
-
-# todo übernehmen in create_type -> Tests schlagen nun fehl
-def _create_enum_boundry_type(type_string: str, description: str) -> AbstractType | None:
-    types: list[AbstractType] = []
-
-    # Collapse whitespaces
-    type_string = re.sub(r"\s+", " ", type_string)
-
-    # Get boundary from description
-    boundary = BoundaryType.from_string(description)
-    if boundary is not None:
-        types.append(boundary)
-
-    # Find all enums and remove them from doc_string
-    enum_array_matches = re.findall(r"\{.*?}", type_string)
-    type_string = re.sub(r"\{.*?}", " ", type_string)
-    for enum in enum_array_matches:
-        enum_type = EnumType.from_string(enum)
-        if enum_type is not None:
-            types.append(enum_type)
-
-    # Remove default value from doc_string
-    type_string = re.sub("default=.*", " ", type_string)
-
-    # Create a list with all values and types
-    # ") or (" must be replaced by a very unlikely string ("&%&") so that it is not removed when filtering out.
-    # The string will be replaced by ") or (" again after filtering out.
-    type_string = re.sub(r"\) or \(", "&%&", type_string)
-    type_string = re.sub(r" ?, ?or ", ", ", type_string)
-    type_string = re.sub(r" or ", ", ", type_string)
-    type_string = re.sub("&%&", ") or (", type_string)
-
-    brackets = 0
-    build_string = ""
-    for c in type_string:
-        if c == "(":
-            brackets += 1
-        elif c == ")":
-            brackets -= 1
-
-        if brackets > 0:
-            build_string += c
-            continue
-
-        if brackets == 0 and c != ",":
-            build_string += c
-        elif brackets == 0 and c == ",":
-            # remove leading and trailing whitespaces
-            build_string = build_string.strip()
-            if build_string != "":
-                named = NamedType.from_string(build_string)
-                types.append(named)
-                build_string = ""
-
-    build_string = build_string.strip()
-
-    # Append the last remaining entry
-    if build_string != "":
-        named = NamedType.from_string(build_string)
-        types.append(named)
-
-    if len(types) == 1:
-        return types[0]
-    if len(types) == 0:
-        return None
-    return UnionType(types)
+# # Todo Return mypy\types -> Type class
+# def create_type(type_string: str, description: str) -> AbstractType:
+#     if not type_string:
+#         return NamedType("None")
+#
+#     type_string = type_string.replace(" ", "")
+#
+#     # todo Replace pipes with Union
+#     # if "|" in type_string:
+#     #     type_string = _replace_pipes_with_union(type_string)
+#
+#     # Structures, which only take one type argument
+#     one_arg_structures = {"Final": FinalType, "Optional": OptionalType}
+#     for key in one_arg_structures:
+#         regex = r"^" + key + r"\[(.*)]$"
+#         match = re.match(regex, type_string)
+#         if match:
+#             content = match.group(1)
+#             return one_arg_structures[key](create_type(content, description))
+#
+#     # List-like structures, which take multiple type arguments
+#     mult_arg_structures = {"List": ListType, "Set": SetType, "Tuple": TupleType, "Union": UnionType}
+#     for key in mult_arg_structures:
+#         regex = r"^" + key + r"\[(.*)]$"
+#         match = re.match(regex, type_string)
+#         if match:
+#             content = match.group(1)
+#             content_elements = _dismantel_type_string_structure(content)
+#             return mult_arg_structures[key]([
+#                 create_type(element, description)
+#                 for element in content_elements
+#             ])
+#
+#     match = re.match(r"^Literal\[(.*)]$", type_string)
+#     if match:
+#         content = match.group(1)
+#         contents = content.replace(" ", "").split(",")
+#         literals = []
+#         for element in contents:
+#             try:
+#                 value = ast.literal_eval(element)
+#             except (SyntaxError, ValueError):
+#                 value = element[1:-1]
+#             literals.append(value)
+#         return LiteralType(literals)
+#
+#     # Misc. special structures
+#     match = re.match(r"^Dict\[(.*)]$", type_string)
+#     if match:
+#         content = match.group(1)
+#         content_elements = _dismantel_type_string_structure(content)
+#         if len(content_elements) != 2:
+#             raise TypeParsingError(f"Could not parse Dict from the following string: \n{type_string}")
+#         return DictType(
+#             create_type(content_elements[0], description),
+#             create_type(content_elements[1], description),
+#         )
+#
+#     # raise TypeParsingError(f"Could not parse type for the following type string:\n{type_string}")
+#     type_ = _create_enum_boundry_type(type_string, description)
+#     if type_ is not None:
+#         return type_
+#     return NamedType(type_string)
+#
+#
+# # todo übernehmen in create_type -> Tests schlagen nun fehl
+# def _create_enum_boundry_type(type_string: str, description: str) -> AbstractType | None:
+#     types: list[AbstractType] = []
+#
+#     # Collapse whitespaces
+#     type_string = re.sub(r"\s+", " ", type_string)
+#
+#     # Get boundary from description
+#     boundary = BoundaryType.from_string(description)
+#     if boundary is not None:
+#         types.append(boundary)
+#
+#     # Find all enums and remove them from doc_string
+#     enum_array_matches = re.findall(r"\{.*?}", type_string)
+#     type_string = re.sub(r"\{.*?}", " ", type_string)
+#     for enum in enum_array_matches:
+#         enum_type = EnumType.from_string(enum)
+#         if enum_type is not None:
+#             types.append(enum_type)
+#
+#     # Remove default value from doc_string
+#     type_string = re.sub("default=.*", " ", type_string)
+#
+#     # Create a list with all values and types
+#     # ") or (" must be replaced by a very unlikely string ("&%&") so that it is not removed when filtering out.
+#     # The string will be replaced by ") or (" again after filtering out.
+#     type_string = re.sub(r"\) or \(", "&%&", type_string)
+#     type_string = re.sub(r" ?, ?or ", ", ", type_string)
+#     type_string = re.sub(r" or ", ", ", type_string)
+#     type_string = re.sub("&%&", ") or (", type_string)
+#
+#     brackets = 0
+#     build_string = ""
+#     for c in type_string:
+#         if c == "(":
+#             brackets += 1
+#         elif c == ")":
+#             brackets -= 1
+#
+#         if brackets > 0:
+#             build_string += c
+#             continue
+#
+#         if brackets == 0 and c != ",":
+#             build_string += c
+#         elif brackets == 0 and c == ",":
+#             # remove leading and trailing whitespaces
+#             build_string = build_string.strip()
+#             if build_string != "":
+#                 named = NamedType.from_string(build_string)
+#                 types.append(named)
+#                 build_string = ""
+#
+#     build_string = build_string.strip()
+#
+#     # Append the last remaining entry
+#     if build_string != "":
+#         named = NamedType.from_string(build_string)
+#         types.append(named)
+#
+#     if len(types) == 1:
+#         return types[0]
+#     if len(types) == 0:
+#         return None
+#     return UnionType(types)
 
 
 class TypeParsingError(Exception):
