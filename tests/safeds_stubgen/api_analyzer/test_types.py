@@ -174,7 +174,7 @@ def test_correct_hash() -> None:
         default_value="test_str",
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
         docstring=ParameterDocstring("'hashvalue'", "r", "r"),
-        type=NamedType("str")
+        type=NamedType("str"),
     )
     assert hash(parameter) == hash(deepcopy(parameter))
     enum_values = frozenset({"a", "b", "c"})
@@ -201,7 +201,7 @@ def test_correct_hash() -> None:
         ),
         is_public=True,
         is_static=True,
-        docstring=AttributeDocstring()
+        docstring=AttributeDocstring(),
     )
     assert attribute == deepcopy(attribute)
     assert hash(attribute) == hash(deepcopy(attribute))

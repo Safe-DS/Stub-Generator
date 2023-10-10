@@ -53,9 +53,7 @@ class MyPyAstVisitor:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.reexported: dict[str, list[Module]] = {}
         self.api: API = api
-        self.__declaration_stack: list[
-            Module | Class | Function | Enum | list[Attribute | EnumInstance]
-            ] = []
+        self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
 
     def enter_moduledef(self, node: MypyFile) -> None:
         is_package = node.path.endswith("__init__.py")
@@ -66,9 +64,9 @@ class MyPyAstVisitor:
 
         # We don't need to check functions, classes and assignments, since the ast walker will already check them
         child_definitions = [
-            _definition for _definition in get_mypyfile_definitions(node)
-            if _definition.__class__.__name__ not in
-            ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
+            _definition
+            for _definition in get_mypyfile_definitions(node)
+            if _definition.__class__.__name__ not in ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
         for definition in child_definitions:
@@ -136,11 +134,7 @@ class MyPyAstVisitor:
         # superclasses
         # Todo Aliasing: Werden noch nicht aufgelöst -> Such nach einer mypy Funktion die die Typen auflöst
         #  irgendwas im zusammenhand mit "type" suchen bzw auflösen von aliasen
-        superclasses = [
-            superclass.fullname
-            for superclass in node.base_type_exprs
-            if hasattr(superclass, "fullname")
-        ]
+        superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
 
         # Get reexported data
         reexported_by = self.get_reexported_by(name)
@@ -237,11 +231,13 @@ class MyPyAstVisitor:
 
     def enter_enumdef(self, node: ClassDef) -> None:
         id_ = self.__get_id(node.name)
-        self.__declaration_stack.append(Enum(
-            id=id_,
-            name=node.name,
-            docstring=self.docstring_parser.get_class_documentation(node),
-        ))
+        self.__declaration_stack.append(
+            Enum(
+                id=id_,
+                name=node.name,
+                docstring=self.docstring_parser.get_class_documentation(node),
+            ),
+        )
 
     def leave_enumdef(self, _: ClassDef) -> None:
         enum = self.__declaration_stack.pop()
@@ -288,10 +284,12 @@ class MyPyAstVisitor:
                     names.append(lvalue.name)
 
                 for name in names:
-                    assignments.append(EnumInstance(
-                        id=f"{parent.id}/{name}",
-                        name=name,
-                    ))
+                    assignments.append(
+                        EnumInstance(
+                            id=f"{parent.id}/{name}",
+                            name=name,
+                        ),
+                    )
 
         self.__declaration_stack.append(assignments)
 
@@ -361,20 +359,24 @@ class MyPyAstVisitor:
         if isinstance(ret_type, sds_types.TupleType):
             for i, type_ in enumerate(ret_type.types):
                 name = f"result_{i + 1}"
-                results.append(Result(
-                    id=f"{function_id}/{name}",
-                    type=type_,
-                    name=name,
-                    docstring=docstring,
-                ))
+                results.append(
+                    Result(
+                        id=f"{function_id}/{name}",
+                        type=type_,
+                        name=name,
+                        docstring=docstring,
+                    ),
+                )
         else:
             name = "result_1"
-            results.append(Result(
-                id=f"{function_id}/{name}",
-                type=ret_type,
-                name=name,
-                docstring=docstring,
-            ))
+            results.append(
+                Result(
+                    id=f"{function_id}/{name}",
+                    type=ret_type,
+                    name=name,
+                    docstring=docstring,
+                ),
+            )
 
         return results
 
@@ -544,18 +546,20 @@ class MyPyAstVisitor:
                 function_node=node,
                 parameter_name=arg_name,
                 parameter_assigned_by=arg_kind,
-                parent_class=parent if isinstance(parent, Class) else None
+                parent_class=parent if isinstance(parent, Class) else None,
             )
 
-            arguments.append(Parameter(
-                id=f"{function_id}/{arg_name}",
-                name=arg_name,
-                is_optional=is_optional,
-                default_value=default_value,
-                assigned_by=arg_kind,
-                docstring=docstring,
-                type=arg_type,
-            ))
+            arguments.append(
+                Parameter(
+                    id=f"{function_id}/{arg_name}",
+                    name=arg_name,
+                    is_optional=is_optional,
+                    default_value=default_value,
+                    assigned_by=arg_kind,
+                    docstring=docstring,
+                    type=arg_type,
+                ),
+            )
 
         return arguments
 
@@ -577,7 +581,7 @@ class MyPyAstVisitor:
         # Check if there is a reexport entry for each item in the path to the current module
         reexported_by = set()
         for i in range(len(path)):
-            reexport_name = ".".join(path[:i + 1])
+            reexport_name = ".".join(path[: i + 1])
             if reexport_name in self.reexported:
                 for mod in self.reexported[reexport_name]:
                     reexported_by.add(mod)

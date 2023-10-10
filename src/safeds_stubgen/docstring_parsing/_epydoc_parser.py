@@ -69,10 +69,7 @@ class EpydocParser(AbstractDocstringParser):
         # Find matching parameter docstrings
         function_epydoc = self.__get_cached_epydoc_string(function_node, docstring)
         all_parameters_epydoc: list[DocstringParam] = function_epydoc.params
-        matching_parameters_epydoc = [
-            it for it in all_parameters_epydoc
-            if it.arg_name == parameter_name
-        ]
+        matching_parameters_epydoc = [it for it in all_parameters_epydoc if it.arg_name == parameter_name]
 
         if len(matching_parameters_epydoc) == 0:
             return ParameterDocstring()

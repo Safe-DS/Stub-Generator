@@ -48,8 +48,19 @@ class TypingScanner:
     _current: int = 0
 
     possible_typings: typing.ClassVar = [
-        "List", "Dict", "Optional", "Final", "Set", "Tuple", "List", "Literal", "Union",
-        "set", "tuple", "dict", "list",
+        "List",
+        "Dict",
+        "Optional",
+        "Final",
+        "Set",
+        "Tuple",
+        "List",
+        "Literal",
+        "Union",
+        "set",
+        "tuple",
+        "dict",
+        "list",
     ]
     possible_built_in_types: typing.ClassVar = ["bool", "int", "str", "tuple", "list", "float", "None", "dict"]
 
@@ -107,7 +118,7 @@ class TypingScanner:
         while self._is_alpha_numeric(self._peek()):
             self._advance()
 
-        text = self._source[self._start:self._current]
+        text = self._source[self._start : self._current]
 
         # Check if it's a typing object
         if text in self.possible_typings:
@@ -137,7 +148,7 @@ class TypingScanner:
         return self._source[self._current]
 
     def _add_token(self, type_: TypingTokenType, literal: object = None) -> None:
-        text: str = self._source[self._start:self._current]
+        text: str = self._source[self._start : self._current]
         self._tokens.append(TypingToken(type_, text, literal))
 
     def _peek(self) -> str:
@@ -157,7 +168,7 @@ class TypingScanner:
 
         # Without the surrounding quotes.
         self._start += 1
-        value: str = self._source[self._start:self._current]
+        value: str = self._source[self._start : self._current]
 
         token = TypingTokenType.SINGLE_QUOTATION if string_type == "'" else TypingTokenType.DOUBLE_QUOTATION
         self._add_token(token, value)
@@ -174,7 +185,7 @@ class TypingScanner:
             while self._peek().isdigit():
                 self._advance()
 
-        source: str = self._source[self._start:self._current]
+        source: str = self._source[self._start : self._current]
         number_literal: int | float = float(source) if "." in source else int(source)
 
         self._add_token(TypingTokenType.NUMBER, number_literal)

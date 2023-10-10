@@ -18,6 +18,7 @@ from ._helpers import get_description, get_full_docstring
 
 if TYPE_CHECKING:
     from mypy import nodes
+
     from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 
@@ -68,10 +69,7 @@ class RestDocParser(AbstractDocstringParser):
         # Find matching parameter docstrings
         function_restdoc = self.__get_cached_restdoc_string(function_node, docstring)
         all_parameters_restdoc: list[DocstringParam] = function_restdoc.params
-        matching_parameters_restdoc = [
-            it for it in all_parameters_restdoc
-            if it.arg_name == parameter_name
-        ]
+        matching_parameters_restdoc = [it for it in all_parameters_restdoc if it.arg_name == parameter_name]
 
         if len(matching_parameters_restdoc) == 0:
             return ParameterDocstring()
@@ -92,15 +90,9 @@ class RestDocParser(AbstractDocstringParser):
         #  functions are quite similiar
 
         # Find matching attribute docstrings
-        class_restdoc = self.__get_cached_restdoc_string(
-            parent_class,
-            parent_class.docstring.full_docstring
-        )
+        class_restdoc = self.__get_cached_restdoc_string(parent_class, parent_class.docstring.full_docstring)
         all_attributes_restdoc: list[DocstringParam] = class_restdoc.params
-        matching_attributes_restdoc = [
-            it for it in all_attributes_restdoc
-            if it.arg_name == attribute_name
-        ]
+        matching_attributes_restdoc = [it for it in all_attributes_restdoc if it.arg_name == attribute_name]
 
         if len(matching_attributes_restdoc) == 0:
             return AttributeDocstring()
@@ -132,11 +124,7 @@ class RestDocParser(AbstractDocstringParser):
             description=function_returns.description or "",
         )
 
-    def __get_cached_restdoc_string(
-        self,
-        node: nodes.FuncDef | Class,
-        docstring: str
-    ) -> Docstring:
+    def __get_cached_restdoc_string(self, node: nodes.FuncDef | Class, docstring: str) -> Docstring:
         """
         Return the RestDocString for the given function node.
 
