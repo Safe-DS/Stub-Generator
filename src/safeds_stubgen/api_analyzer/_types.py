@@ -30,7 +30,7 @@ class AbstractType(metaclass=ABCMeta):
                 return FinalType.from_dict(d)
             case TupleType.__name__:
                 return TupleType.from_dict(d)
-            case TupleType.__name__:
+            case UnionType.__name__:
                 return UnionType.from_dict(d)
             case _:
                 raise ValueError(f"Cannot parse {d['kind']} value.")
@@ -302,17 +302,17 @@ class SetType(AbstractType):
 
 @dataclass(frozen=True)
 class OptionalType(AbstractType):
-    type_: AbstractType
+    type: AbstractType
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> OptionalType:
         return OptionalType(AbstractType.from_dict(d["type"]))
 
     def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "type": self.type_.to_dict()}
+        return {"kind": self.__class__.__name__, "type": self.type.to_dict()}
 
     def __hash__(self) -> int:
-        return hash(frozenset([self.type_]))
+        return hash(frozenset([self.type]))
 
 
 @dataclass(frozen=True)

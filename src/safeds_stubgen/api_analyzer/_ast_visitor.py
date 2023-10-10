@@ -119,7 +119,7 @@ class MyPyAstVisitor:
 
     def leave_moduledef(self, _: MypyFile) -> None:
         module = self.__declaration_stack.pop()
-        if not isinstance(module, Module):
+        if not isinstance(module, Module):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         self.api.add_module(module)
@@ -160,7 +160,7 @@ class MyPyAstVisitor:
 
     def leave_classdef(self, _: ClassDef) -> None:
         class_ = self.__declaration_stack.pop()
-        if not isinstance(class_, Class):
+        if not isinstance(class_, Class):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         if len(self.__declaration_stack) > 0:
@@ -206,7 +206,7 @@ class MyPyAstVisitor:
 
     def leave_funcdef(self, _: FuncDef) -> None:
         function = self.__declaration_stack.pop()
-        if not isinstance(function, Function):
+        if not isinstance(function, Function):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         if len(self.__declaration_stack) > 0:
@@ -240,7 +240,7 @@ class MyPyAstVisitor:
 
     def leave_enumdef(self, _: ClassDef) -> None:
         enum = self.__declaration_stack.pop()
-        if not isinstance(enum, Enum):
+        if not isinstance(enum, Enum):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         if len(self.__declaration_stack) > 0:
@@ -296,7 +296,7 @@ class MyPyAstVisitor:
         # Assignments are attributes or enum instances
         assignments = self.__declaration_stack.pop()
 
-        if not isinstance(assignments, list):
+        if not isinstance(assignments, list):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         if len(self.__declaration_stack) > 0:

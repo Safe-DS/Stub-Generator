@@ -2,14 +2,415 @@ from copy import deepcopy
 
 import pytest
 from safeds_stubgen.api_analyzer import (
+    AbstractType,
     Attribute,
     BoundaryType,
+    DictType,
     EnumType,
+    FinalType,
+    ListType,
+    LiteralType,
     NamedType,
+    OptionalType,
     Parameter,
     ParameterAssignment,
+    SetType,
+    TupleType,
+    UnionType,
 )
 from safeds_stubgen.docstring_parsing import AttributeDocstring, ParameterDocstring
+
+
+def test_correct_hash() -> None:
+    parameter = Parameter(
+        id="test/test.Test/test/test_parameter_for_hashing",
+        name="test_parameter_for_hashing",
+        is_optional=True,
+        default_value="test_str",
+        assigned_by=ParameterAssignment.POSITION_OR_NAME,
+        docstring=ParameterDocstring("'hashvalue'", "r", "r"),
+        type=NamedType("str"),
+    )
+    assert hash(parameter) == hash(deepcopy(parameter))
+    enum_values = frozenset({"a", "b", "c"})
+    enum_type = EnumType(enum_values, "full_match")
+    assert enum_type == deepcopy(enum_type)
+    assert hash(enum_type) == hash(deepcopy(enum_type))
+    assert enum_type == EnumType(deepcopy(enum_values), "full_match")
+    assert hash(enum_type) == hash(EnumType(deepcopy(enum_values), "full_match"))
+    assert enum_type != EnumType(frozenset({"a", "b"}), "full_match")
+    assert hash(enum_type) != hash(EnumType(frozenset({"a", "b"}), "full_match"))
+    assert NamedType("a") == NamedType("a")
+    assert hash(NamedType("a")) == hash(NamedType("a"))
+    assert NamedType("a") != NamedType("b")
+    assert hash(NamedType("a")) != hash(NamedType("b"))
+    attribute = Attribute(
+        id="boundary",
+        name="boundary",
+        type=BoundaryType(
+            base_type="int",
+            min=0,
+            max=1,
+            min_inclusive=True,
+            max_inclusive=True,
+        ),
+        is_public=True,
+        is_static=True,
+        docstring=AttributeDocstring(),
+    )
+    assert attribute == deepcopy(attribute)
+    assert hash(attribute) == hash(deepcopy(attribute))
+
+
+def test_named_type():
+    name = "str"
+    named_type = NamedType(name)
+    named_type_dict = {
+        "kind": "NamedType",
+        "name": name
+    }
+
+    assert AbstractType.from_dict(named_type_dict) == named_type
+
+    assert NamedType.from_dict(named_type_dict) == named_type
+    assert NamedType.from_string(name) == named_type
+
+    assert named_type.to_dict() == named_type_dict
+
+
+def test_union_type():
+    union_type = UnionType([NamedType("str"), NamedType("int")])
+    union_type_dict = {
+        "kind": "UnionType",
+        "types": [
+            {
+                "kind": "NamedType",
+                "name": "str"
+            },
+            {
+                "kind": "NamedType",
+                "name": "int"
+            }
+        ]
+    }
+
+    assert AbstractType.from_dict(union_type_dict) == union_type
+    assert UnionType.from_dict(union_type_dict) == union_type
+    assert union_type.to_dict() == union_type_dict
+
+    assert UnionType([NamedType("a")]) == UnionType([NamedType("a")])
+    assert hash(UnionType([NamedType("a")])) == hash(UnionType([NamedType("a")]))
+    assert UnionType([NamedType("a")]) != UnionType([NamedType("b")])
+    assert hash(UnionType([NamedType("a")])) != hash(UnionType([NamedType("b")]))
+
+
+def test_list_type():
+    list_type = ListType([NamedType("str"), NamedType("int")])
+    list_type_dict = {
+        "kind": "ListType",
+        "types": [
+            {
+                "kind": "NamedType",
+                "name": "str"
+            },
+            {
+                "kind": "NamedType",
+                "name": "int"
+            }
+        ]
+    }
+
+    assert AbstractType.from_dict(list_type_dict) == list_type
+    assert ListType.from_dict(list_type_dict) == list_type
+    assert list_type.to_dict() == list_type_dict
+
+    assert ListType([NamedType("a")]) == ListType([NamedType("a")])
+    assert hash(ListType([NamedType("a")])) == hash(ListType([NamedType("a")]))
+    assert ListType([NamedType("a")]) != ListType([NamedType("b")])
+    assert hash(ListType([NamedType("a")])) != hash(ListType([NamedType("b")]))
+
+
+def test_dict_type():
+    dict_type = DictType(
+        key_type=UnionType([NamedType("str"), NamedType("int")]),
+        value_type=UnionType([NamedType("str"), NamedType("int")])
+    )
+    dict_type_dict = {
+        "kind": "DictType",
+        "key_type": {
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "str"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "int"
+                }
+            ]
+        },
+        "value_type": {
+            "kind": "UnionType",
+            "types": [
+                {
+                    "kind": "NamedType",
+                    "name": "str"
+                },
+                {
+                    "kind": "NamedType",
+                    "name": "int"
+                }
+            ]
+        }
+    }
+
+    assert AbstractType.from_dict(dict_type_dict) == dict_type
+    assert DictType.from_dict(dict_type_dict) == dict_type
+    assert dict_type.to_dict() == dict_type_dict
+
+    assert DictType(NamedType("a"), NamedType("a")) == DictType(NamedType("a"), NamedType("a"))
+    assert hash(DictType(NamedType("a"), NamedType("a"))) == hash(DictType(NamedType("a"), NamedType("a")))
+    assert DictType(NamedType("a"), NamedType("a")) != DictType(NamedType("b"), NamedType("a"))
+    assert hash(DictType(NamedType("a"), NamedType("a"))) != hash(DictType(NamedType("b"), NamedType("a")))
+
+
+def test_set_type():
+    set_type = SetType([NamedType("str"), NamedType("int")])
+    set_type_dict = {
+        "kind": "SetType",
+        "types": [
+            {
+                "kind": "NamedType",
+                "name": "str"
+            },
+            {
+                "kind": "NamedType",
+                "name": "int"
+            }
+        ]
+    }
+
+    assert AbstractType.from_dict(set_type_dict) == set_type
+    assert SetType.from_dict(set_type_dict) == set_type
+    assert set_type.to_dict() == set_type_dict
+
+    assert SetType([NamedType("a")]) == SetType([NamedType("a")])
+    assert hash(SetType([NamedType("a")])) == hash(SetType([NamedType("a")]))
+    assert SetType([NamedType("a")]) != SetType([NamedType("b")])
+    assert hash(SetType([NamedType("a")])) != hash(SetType([NamedType("b")]))
+
+
+def test_optional_type():
+    type_ = OptionalType(NamedType("some_type"))
+    type_dict = {
+        "kind": "OptionalType",
+        "type": {
+                "kind": "NamedType",
+                "name": "some_type"
+        },
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert OptionalType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+    assert OptionalType(NamedType("a")) == OptionalType(NamedType("a"))
+    assert hash(OptionalType(NamedType("a"))) == hash(OptionalType(NamedType("a")))
+    assert OptionalType(NamedType("a")) != OptionalType(NamedType("b"))
+    assert hash(OptionalType(NamedType("a"))) != hash(OptionalType(NamedType("b")))
+
+
+def test_literal_type():
+    type_ = LiteralType(["Literal_1", 2])
+    type_dict = {
+        "kind": "LiteralType",
+        "literals": ["Literal_1", 2],
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert LiteralType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+    assert LiteralType(["a"]) == LiteralType(["a"])
+    assert hash(LiteralType(["a"])) == hash(LiteralType(["a"]))
+    assert LiteralType(["a"]) != LiteralType(["b"])
+    assert hash(LiteralType(["a"])) != hash(LiteralType(["b"]))
+
+
+def test_final_type():
+    type_ = FinalType(NamedType("some_type"))
+    type_dict = {
+        "kind": "FinalType",
+        "type": {
+                "kind": "NamedType",
+                "name": "some_type"
+        },
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert FinalType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+    assert FinalType(NamedType("a")) == FinalType(NamedType("a"))
+    assert hash(FinalType(NamedType("a"))) == hash(FinalType(NamedType("a")))
+    assert FinalType(NamedType("a")) != FinalType(NamedType("b"))
+    assert hash(FinalType(NamedType("a"))) != hash(FinalType(NamedType("b")))
+
+
+def test_tuple_type():
+    set_type = TupleType([NamedType("str"), NamedType("int")])
+    set_type_dict = {
+        "kind": "TupleType",
+        "types": [
+            {
+                "kind": "NamedType",
+                "name": "str"
+            },
+            {
+                "kind": "NamedType",
+                "name": "int"
+            }
+        ]
+    }
+
+    assert AbstractType.from_dict(set_type_dict) == set_type
+    assert TupleType.from_dict(set_type_dict) == set_type
+    assert set_type.to_dict() == set_type_dict
+
+    assert TupleType([NamedType("a")]) == TupleType([NamedType("a")])
+    assert hash(TupleType([NamedType("a")])) == hash(TupleType([NamedType("a")]))
+    assert TupleType([NamedType("a")]) != TupleType([NamedType("b")])
+    assert hash(TupleType([NamedType("a")])) != hash(TupleType([NamedType("b")]))
+
+
+@pytest.mark.parametrize(
+    ("string", "expected"),
+    [
+        (
+            (
+                "float, default=0.0 Tolerance for singular values computed by svd_solver == 'arpack'.\nMust be of range"
+                " [0.0, infinity).\n\n.. versionadded:: 0.18.0"
+            ),
+            BoundaryType(
+                base_type="float",
+                min=0,
+                max="Infinity",
+                min_inclusive=True,
+                max_inclusive=True,
+            ),
+        ),
+        (
+            """If bootstrap is True, the number of samples to draw from X\nto train each base estimator.\n\n
+            - If None (default), then draw `X.shape[0]` samples.\n- If int, then draw `max_samples` samples.\n
+            - If float, then draw `max_samples * X.shape[0]` samples. Thus,\n  `max_samples` should be in the interval `(0.0, 1.0]`.\n\n..
+            versionadded:: 0.22""",
+            BoundaryType(
+                base_type="float",
+                min=0,
+                max=1,
+                min_inclusive=False,
+                max_inclusive=True,
+            ),
+        ),
+        (
+            """When building the vocabulary ignore terms that have a document\nfrequency strictly lower than the given threshold. This value is also\n
+            called cut-off in the literature.\nIf float in range of [0.0, 1.0], the parameter represents a proportion\nof documents, integer absolute counts.\n
+            This parameter is ignored if vocabulary is not None.""",
+            BoundaryType(
+                base_type="float",
+                min=0,
+                max=1,
+                min_inclusive=True,
+                max_inclusive=True,
+            ),
+        ),
+        (
+            """float in range [0.0, 1.0] or int, default=1.0 When building the vocabulary ignore terms that have a document\n
+            frequency strictly higher than the given threshold (corpus-specific\nstop words).\nIf float, the parameter represents a proportion of documents, integer\n
+            absolute counts.\nThis parameter is ignored if vocabulary is not None.""",
+            BoundaryType(
+                base_type="float",
+                min=0,
+                max=1,
+                min_inclusive=True,
+                max_inclusive=True,
+            ),
+        ),
+        (
+            (
+                "Tolerance for singular values computed by svd_solver == 'arpack'.\nMust be of range [-2, -1].\n\n.."
+                " versionadded:: 0.18.0"
+            ),
+            BoundaryType(
+                base_type="float",
+                min=-2,
+                max=-1,
+                min_inclusive=True,
+                max_inclusive=True,
+            ),
+        ),
+        (
+            "Damping factor in the range (-1, -0.5)",
+            BoundaryType(
+                base_type="float",
+                min=-1,
+                max=-0.5,
+                min_inclusive=False,
+                max_inclusive=False,
+            ),
+        ),
+        (
+            "'max_samples' should be in the interval (-1.0, -0.5]",
+            BoundaryType(
+                base_type="float",
+                min=-1.0,
+                max=-0.5,
+                min_inclusive=False,
+                max_inclusive=True,
+            ),
+        ),
+    ],
+)
+def test_boundaries_from_string(string: str, expected: BoundaryType) -> None:
+    ref_type = BoundaryType.from_string(string)
+    assert ref_type == expected
+
+
+@pytest.mark.parametrize(
+    ("docstring_type", "expected"),
+    [
+        ('{"frobenius", "spectral"}, default="frobenius"', {"frobenius", "spectral"}),
+        (
+            "{'strict', 'ignore', 'replace'}, default='strict'",
+            {"strict", "ignore", "replace"},
+        ),
+        (
+            "{'linear', 'poly',             'rbf', 'sigmoid', 'cosine', 'precomputed'}, default='linear'",
+            {"linear", "poly", "rbf", "sigmoid", "cosine", "precomputed"},
+        ),
+        # https://github.com/lars-reimann/sem21/pull/30#discussion_r771288528
+        (r"{\"frobenius\", \'spectral\'}", set()),
+        (r"""{"frobenius'}""", set()),
+        (r"""{'spectral"}""", set()),
+        (r"""{'text\", \"that'}""", {'text", "that'}),
+        (r"""{'text", "that'}""", {'text", "that'}),
+        (r"{'text\', \'that'}", {"text', 'that"}),
+        (r"{'text', 'that'}", {"text", "that"}),
+        (r"""{"text\', \'that"}""", {"text', 'that"}),
+        (r"""{"text', 'that"}""", {"text', 'that"}),
+        (r"""{"text\", \"that"}""", {'text", "that'}),
+        (r'{"text", "that"}', {"text", "that"}),
+        (r"""{\"not', 'be', 'matched'}""", {", "}),
+        ("""{"gini\\", \\"entropy"}""", {'gini", "entropy'}),
+        ("""{'best\\', \\'random'}""", {"best', 'random"}),
+    ],
+)
+def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> None:
+    result = EnumType.from_string(docstring_type)
+    if result is not None:
+        assert result.values == expected
+
 
 # Todo create_type Tests deactivated since create_type is not in use yet
 # @pytest.mark.parametrize(
@@ -164,172 +565,3 @@ from safeds_stubgen.docstring_parsing import AttributeDocstring, ParameterDocstr
 #         assert expected == {}
 #     else:
 #         assert result.to_dict() == expected
-
-
-def test_correct_hash() -> None:
-    parameter = Parameter(
-        id="test/test.Test/test/test_parameter_for_hashing",
-        name="test_parameter_for_hashing",
-        is_optional=True,
-        default_value="test_str",
-        assigned_by=ParameterAssignment.POSITION_OR_NAME,
-        docstring=ParameterDocstring("'hashvalue'", "r", "r"),
-        type=NamedType("str"),
-    )
-    assert hash(parameter) == hash(deepcopy(parameter))
-    enum_values = frozenset({"a", "b", "c"})
-    enum_type = EnumType(enum_values, "full_match")
-    assert enum_type == deepcopy(enum_type)
-    assert hash(enum_type) == hash(deepcopy(enum_type))
-    assert enum_type == EnumType(deepcopy(enum_values), "full_match")
-    assert hash(enum_type) == hash(EnumType(deepcopy(enum_values), "full_match"))
-    assert enum_type != EnumType(frozenset({"a", "b"}), "full_match")
-    assert hash(enum_type) != hash(EnumType(frozenset({"a", "b"}), "full_match"))
-    assert NamedType("a") == NamedType("a")
-    assert hash(NamedType("a")) == hash(NamedType("a"))
-    assert NamedType("a") != NamedType("b")
-    assert hash(NamedType("a")) != hash(NamedType("b"))
-    attribute = Attribute(
-        id="boundary",
-        name="boundary",
-        type=BoundaryType(
-            base_type="int",
-            min=0,
-            max=1,
-            min_inclusive=True,
-            max_inclusive=True,
-        ),
-        is_public=True,
-        is_static=True,
-        docstring=AttributeDocstring(),
-    )
-    assert attribute == deepcopy(attribute)
-    assert hash(attribute) == hash(deepcopy(attribute))
-
-
-@pytest.mark.parametrize(
-    ("string", "expected"),
-    [
-        (
-            (
-                "float, default=0.0 Tolerance for singular values computed by svd_solver == 'arpack'.\nMust be of range"
-                " [0.0, infinity).\n\n.. versionadded:: 0.18.0"
-            ),
-            BoundaryType(
-                base_type="float",
-                min=0,
-                max="Infinity",
-                min_inclusive=True,
-                max_inclusive=True,
-            ),
-        ),
-        (
-            """If bootstrap is True, the number of samples to draw from X\nto train each base estimator.\n\n
-            - If None (default), then draw `X.shape[0]` samples.\n- If int, then draw `max_samples` samples.\n
-            - If float, then draw `max_samples * X.shape[0]` samples. Thus,\n  `max_samples` should be in the interval `(0.0, 1.0]`.\n\n..
-            versionadded:: 0.22""",
-            BoundaryType(
-                base_type="float",
-                min=0,
-                max=1,
-                min_inclusive=False,
-                max_inclusive=True,
-            ),
-        ),
-        (
-            """When building the vocabulary ignore terms that have a document\nfrequency strictly lower than the given threshold. This value is also\n
-            called cut-off in the literature.\nIf float in range of [0.0, 1.0], the parameter represents a proportion\nof documents, integer absolute counts.\n
-            This parameter is ignored if vocabulary is not None.""",
-            BoundaryType(
-                base_type="float",
-                min=0,
-                max=1,
-                min_inclusive=True,
-                max_inclusive=True,
-            ),
-        ),
-        (
-            """float in range [0.0, 1.0] or int, default=1.0 When building the vocabulary ignore terms that have a document\n
-            frequency strictly higher than the given threshold (corpus-specific\nstop words).\nIf float, the parameter represents a proportion of documents, integer\n
-            absolute counts.\nThis parameter is ignored if vocabulary is not None.""",
-            BoundaryType(
-                base_type="float",
-                min=0,
-                max=1,
-                min_inclusive=True,
-                max_inclusive=True,
-            ),
-        ),
-        (
-            (
-                "Tolerance for singular values computed by svd_solver == 'arpack'.\nMust be of range [-2, -1].\n\n.."
-                " versionadded:: 0.18.0"
-            ),
-            BoundaryType(
-                base_type="float",
-                min=-2,
-                max=-1,
-                min_inclusive=True,
-                max_inclusive=True,
-            ),
-        ),
-        (
-            "Damping factor in the range (-1, -0.5)",
-            BoundaryType(
-                base_type="float",
-                min=-1,
-                max=-0.5,
-                min_inclusive=False,
-                max_inclusive=False,
-            ),
-        ),
-        (
-            "'max_samples' should be in the interval (-1.0, -0.5]",
-            BoundaryType(
-                base_type="float",
-                min=-1.0,
-                max=-0.5,
-                min_inclusive=False,
-                max_inclusive=True,
-            ),
-        ),
-    ],
-)
-def test_boundaries_from_string(string: str, expected: BoundaryType) -> None:
-    ref_type = BoundaryType.from_string(string)
-    assert ref_type == expected
-
-
-@pytest.mark.parametrize(
-    ("docstring_type", "expected"),
-    [
-        ('{"frobenius", "spectral"}, default="frobenius"', {"frobenius", "spectral"}),
-        (
-            "{'strict', 'ignore', 'replace'}, default='strict'",
-            {"strict", "ignore", "replace"},
-        ),
-        (
-            "{'linear', 'poly',             'rbf', 'sigmoid', 'cosine', 'precomputed'}, default='linear'",
-            {"linear", "poly", "rbf", "sigmoid", "cosine", "precomputed"},
-        ),
-        # https://github.com/lars-reimann/sem21/pull/30#discussion_r771288528
-        (r"{\"frobenius\", \'spectral\'}", set()),
-        (r"""{"frobenius'}""", set()),
-        (r"""{'spectral"}""", set()),
-        (r"""{'text\", \"that'}""", {'text", "that'}),
-        (r"""{'text", "that'}""", {'text", "that'}),
-        (r"{'text\', \'that'}", {"text', 'that"}),
-        (r"{'text', 'that'}", {"text", "that"}),
-        (r"""{"text\', \'that"}""", {"text', 'that"}),
-        (r"""{"text', 'that"}""", {"text', 'that"}),
-        (r"""{"text\", \"that"}""", {'text", "that'}),
-        (r'{"text", "that"}', {"text", "that"}),
-        (r"""{\"not', 'be', 'matched'}""", {", "}),
-        ("""{"gini\\", \\"entropy"}""", {'gini", "entropy'}),
-        ("""{'best\\', \\'random'}""", {"best', 'random"}),
-    ],
-)
-def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> None:
-    result = EnumType.from_string(docstring_type)
-    if result is not None:
-        assert result.values == expected
