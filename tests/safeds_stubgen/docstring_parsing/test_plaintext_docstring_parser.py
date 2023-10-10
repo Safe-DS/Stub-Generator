@@ -208,7 +208,8 @@ def test_get_result_documentation(
     assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_result_documentation(
-            node, parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
+            node,
+            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
         )
         == expected_result_documentation
     )

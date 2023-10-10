@@ -126,7 +126,8 @@ class NumpyDocParser(AbstractDocstringParser):
         if len(matching_attributes_numpydoc) == 0:
             # Find matching attribute docstrings
             function_numpydoc = parse_docstring(
-                parent_class.constructor_fulldocstring, style=DP_DocstringStyle.NUMPYDOC,
+                parent_class.constructor_fulldocstring,
+                style=DP_DocstringStyle.NUMPYDOC,
             )
             all_attributes_numpydoc = function_numpydoc.params
 
