@@ -62,7 +62,7 @@ def test_correct_hash() -> None:
     assert hash(attribute) == hash(deepcopy(attribute))
 
 
-def test_named_type():
+def test_named_type() -> None:
     name = "str"
     named_type = NamedType(name)
     named_type_dict = {
@@ -78,7 +78,7 @@ def test_named_type():
     assert named_type.to_dict() == named_type_dict
 
 
-def test_enum_type():
+def test_enum_type() -> None:
     value = frozenset({"a", "b"})
     type_ = EnumType(value, "a, b")
     type_dict = {
@@ -91,7 +91,7 @@ def test_enum_type():
     assert type_.to_dict() == type_dict
 
 
-def test_boundary_type():
+def test_boundary_type() -> None:
     type_ = BoundaryType(
         base_type="int",
         min=1,
@@ -113,7 +113,7 @@ def test_boundary_type():
     assert type_.to_dict() == type_dict
 
 
-def test_union_type():
+def test_union_type() -> None:
     union_type = UnionType([NamedType("str"), NamedType("int")])
     union_type_dict = {
         "kind": "UnionType",
@@ -139,7 +139,7 @@ def test_union_type():
     assert hash(UnionType([NamedType("a")])) != hash(UnionType([NamedType("b")]))
 
 
-def test_list_type():
+def test_list_type() -> None:
     list_type = ListType([NamedType("str"), NamedType("int")])
     list_type_dict = {
         "kind": "ListType",
@@ -165,7 +165,7 @@ def test_list_type():
     assert hash(ListType([NamedType("a")])) != hash(ListType([NamedType("b")]))
 
 
-def test_dict_type():
+def test_dict_type() -> None:
     dict_type = DictType(
         key_type=UnionType([NamedType("str"), NamedType("int")]),
         value_type=UnionType([NamedType("str"), NamedType("int")])
@@ -210,7 +210,7 @@ def test_dict_type():
     assert hash(DictType(NamedType("a"), NamedType("a"))) != hash(DictType(NamedType("b"), NamedType("a")))
 
 
-def test_set_type():
+def test_set_type() -> None:
     set_type = SetType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "SetType",
@@ -236,7 +236,7 @@ def test_set_type():
     assert hash(SetType([NamedType("a")])) != hash(SetType([NamedType("b")]))
 
 
-def test_optional_type():
+def test_optional_type() -> None:
     type_ = OptionalType(NamedType("some_type"))
     type_dict = {
         "kind": "OptionalType",
@@ -256,7 +256,7 @@ def test_optional_type():
     assert hash(OptionalType(NamedType("a"))) != hash(OptionalType(NamedType("b")))
 
 
-def test_literal_type():
+def test_literal_type() -> None:
     type_ = LiteralType(["Literal_1", 2])
     type_dict = {
         "kind": "LiteralType",
@@ -273,7 +273,7 @@ def test_literal_type():
     assert hash(LiteralType(["a"])) != hash(LiteralType(["b"]))
 
 
-def test_final_type():
+def test_final_type() -> None:
     type_ = FinalType(NamedType("some_type"))
     type_dict = {
         "kind": "FinalType",
@@ -293,7 +293,7 @@ def test_final_type():
     assert hash(FinalType(NamedType("a"))) != hash(FinalType(NamedType("b")))
 
 
-def test_tuple_type():
+def test_tuple_type() -> None:
     set_type = TupleType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "TupleType",
