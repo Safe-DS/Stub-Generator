@@ -1,2 +1,5 @@
-def test_dummy():
+from __future__ import annotations
+
+
+def test_dummy() -> None:
     assert True
