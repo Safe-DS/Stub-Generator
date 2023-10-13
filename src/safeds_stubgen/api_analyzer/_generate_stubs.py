@@ -40,22 +40,28 @@ class StubsGenerator:
             with file_path.open("w") as f:
                 # Create package info
                 package_info = module["id"].replace("/", ".")
-                f.write(f"package {package_info} + \n\n")
+                f.write(f"package {package_info}\n\n")
 
                 # Create imports
                 self._write_qualified_imports(f, module["qualified_imports"])
                 self._write_wildcard_imports(f, module["wildcard_imports"])
+                f.write("\n\n")
 
-                # Todo Create global functions
-                self._write_global_functions()
+                # Create global functions
+                for function in self.api_data["functions"]:
+                    if function["is_public"] and function["id"] in module["functions"]:
+                        function_string = self._create_function_string(function)
+                        f.write(f"{function_string}\n\n")
 
-                # Create classes & class attr. & class methods
+                # Create classes, class attr. & class methods
                 for class_ in self.api_data["classes"]:
                     if class_["is_public"] and class_["id"] in module["classes"]:
                         self._write_class(f, class_)
 
-                # Todo Create enums & enum instances
-                self._write_enum()
+                # Create enums & enum instances
+                for enum in self.api_data["enums"]:
+                    if enum["id"] in module["enums"]:
+                        self._write_enum(f, enum)
 
     # Todo assigned_by, constructors, subclassing
     def _write_class(self, f: TextIO, class_data: dict):
@@ -104,7 +110,6 @@ class StubsGenerator:
         # Close class
         f.write("\n}")
 
-    # Todo Wie werden mutiple results dargestellt?
     def _create_function_string(self, method_data: dict) -> str:
         static = "static " if method_data["is_static"] else ""
 
@@ -157,7 +162,7 @@ class StubsGenerator:
                 f"{from_path}import {name}{alias}",
             )
 
-        f.write(f"{'\n'.join(imports)} \n\n")
+        f.write(f"{'\n'.join(imports)}")
 
     @staticmethod
     def _write_wildcard_imports(f: TextIO, wildcard_imports: list) -> None:
@@ -169,13 +174,19 @@ class StubsGenerator:
             for wildcard_import in wildcard_imports
         ]
 
-        f.write(f"{'\n'.join(imports)} \n\n")
+        f.write(f"{'\n'.join(imports)}")
 
-    def _write_global_functions(self):
-        pass
+    def _write_enum(self, f: TextIO, enum_data: dict) -> None:
+        # Signature
+        f.write(f"enum {enum_data['name']} {{\n")
 
-    def _write_enum(self):
-        pass
+        # Enum instances
+        for enum_instance_id in enum_data["instances"]:
+            instance = get_data_by_id(self.api_data["enum_instances"], enum_instance_id)
+            f.write(f"\t{instance['name']},\n")
+
+        # Close
+        f.write("}\n\n")
 
 
 def create_type_string(type_data: dict | None):
@@ -209,13 +220,20 @@ def create_type_string(type_data: dict | None):
         ]
         # Cut out the "Type" in the kind name
         name = kind[0:-4]
-        return f"{name}[{', '.join(types)}]"
+        types_string = ""
+        if types:
+            types_string = f"[{', '.join(types)}]"
+        return f"{name}{types_string}"
     elif kind == "DictType":
-        return (
-            f"Dict["
-            f"{create_type_string(type_data["key_type"])}, "
-            f"{create_type_string(type_data["value_type"])}]"
-        )
+        key_data = create_type_string(type_data["key_type"])
+        value_data = create_type_string(type_data["value_type"])
+        key_value_data = ""
+        if key_data:
+            if value_data:
+                key_value_data = f"[{key_data}, {value_data}]"
+            else:
+                key_value_data = f"[{key_data}]"
+        return f"Dict{key_value_data}"
     elif kind == "LiteralType":
         return f"Literal[{', '.join(type_data['literals'])}]"
 
