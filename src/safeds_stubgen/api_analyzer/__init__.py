@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from ._api import API, Attribute, Class, Function, Parameter, ParameterAssignment
+from ._generate_stubs import StubsGenerator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 from ._package_metadata import distribution, distribution_version, package_root
@@ -44,6 +45,7 @@ __all__ = [
     "Parameter",
     "ParameterAssignment",
     "SetType",
+    "StubsGenerator",
     "TupleType",
     "UnionType",
 ]

@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.api_analyzer import StubsGenerator, get_api
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import DocstringStyle
@@ -87,3 +87,6 @@ def _run_api_command(
     api = get_api(package, src_dir_path, docstring_style, is_test_run)
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
+
+    stubs_generator = StubsGenerator(api.to_dict(), out_dir_path)
+    stubs_generator.generate_stubs()
