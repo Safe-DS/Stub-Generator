@@ -319,7 +319,7 @@ class MyPyAstVisitor:
                         self.api.add_enum_instance(assignment)
                         parent.add_enum_instance(assignment)
 
-                else:
+                else:  # pragma: no cover
                     raise TypeError("Unexpected value type for assignments")
 
     # ############################## Utilities ############################## #
@@ -474,7 +474,7 @@ class MyPyAstVisitor:
                     else:  # pragma: no cover
                         raise AttributeError("Could not get argument information for attribute.")
 
-        else:
+        else:  # pragma: no cover
             raise TypeError("Attribute has an unexpected type.")
 
         type_ = None
@@ -528,9 +528,9 @@ class MyPyAstVisitor:
                             value = True
                         elif initializer.name == "False":
                             value = False
-                        else:
+                        else:  # pragma: no cover
                             raise ValueError("No value found for parameter")
-                    else:
+                    else:  # pragma: no cover
                         raise ValueError("No value found for parameter")
                 else:
                     value = initializer.value
