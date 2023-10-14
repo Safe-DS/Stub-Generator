@@ -4,10 +4,10 @@ from pathlib import Path
 from typing import Any, TextIO
 
 
-# Todo: Wir ignorieren self parameter im Init, also sollten wir für __init__ Funktionen is_self für parameter
+# Todo Frage:: Wir ignorieren self parameter im Init, also sollten wir für __init__ Funktionen is_self für parameter
 #  überprüfen und diesen als Namen dann immer "self" geben, damit diese bei der Classen Erstellung ignoriert werden
 #  können
-# Todo: In der api.json output Datei alle Listen zu dictionaries, da wir sonst immer durch alle Einträge iterieren
+# Todo Frage: In der api.json output Datei alle Listen zu dictionaries, da wir sonst immer durch alle Einträge iterieren
 #  müssen
 class StubsGenerator:
     api_data: dict[str, Any]
@@ -22,7 +22,7 @@ class StubsGenerator:
         self._create_module_files()
 
     # Todo Handle __init__ files
-    #  Dont create modules that start with "_" unless they are reexported with an alias without "_"
+    # Todo Frage: Dont create modules that start with "_" unless they are reexported with an alias without "_"
     #  or contain a reexported or public class (?)
     def _create_module_files(self) -> None:
         modules = self.api_data["modules"]
@@ -45,7 +45,7 @@ class StubsGenerator:
                 # Create imports
                 self._write_qualified_imports(f, module["qualified_imports"])
                 self._write_wildcard_imports(f, module["wildcard_imports"])
-                f.write("\n\n")
+                f.write("\n")
 
                 # Create global functions
                 for function in self.api_data["functions"]:
@@ -63,13 +63,13 @@ class StubsGenerator:
                     if enum["id"] in module["enums"]:
                         self._write_enum(f, enum)
 
-    # Todo assigned_by, constructors, subclassing
-    def _write_class(self, f: TextIO, class_data: dict):
+    # Todo assigned_by, constructors
+    def _write_class(self, f: TextIO, class_data: dict) -> None:
         # Constructor parameter
         constructor = class_data["constructor"]
         parameter_info = ""
         if constructor:
-            parameter_info = self._create_parameter_string(constructor)
+            parameter_info = self._create_parameter_string(constructor["parameters"])
 
         # Superclasses
         superclasses = class_data["superclasses"]
@@ -114,15 +114,22 @@ class StubsGenerator:
         # Close class
         f.write("\n}")
 
-    def _create_function_string(self, method_data: dict) -> str:
-        static = "static " if method_data["is_static"] else ""
+    def _create_function_string(self, func_data: dict) -> str:
+        static = "static " if func_data["is_static"] else ""
 
         # Parameters
-        method_params = self._create_parameter_string(method_data)
+        func_params = self._create_parameter_string(func_data["parameters"])
+        if not func_params:
+            func_params = "()"
 
         # Results
+        func_results = self._create_result_string(func_data["results"])
+
+        return f"{static}fun {func_data['name']}{func_params}{func_results}"
+
+    def _create_result_string(self, function_result_ids: list[str]) -> str:
         results: list[str] = []
-        for result_id in method_data["results"]:
+        for result_id in function_result_ids:
             result_data = get_data_by_id(self.api_data["results"], result_id)
             ret_type = create_type_string(result_data["type"])
             type_string = f": {ret_type}" if ret_type else ""
@@ -130,26 +137,33 @@ class StubsGenerator:
                 f"{result_data['name']}"
                 f"{type_string}",
             )
-        method_results = f" -> {', '.join(results)}" if results else ""
+        if results:
+            if len(results) == 1:
+                return f" -> {results[0]}"
+            return f" -> ({', '.join(results)})"
+        return ""
 
-        return f"{static}fun {method_data['name']}{method_params}{method_results}"
-
-    def _create_parameter_string(self, node_data: dict[str, Any]) -> str:
+    def _create_parameter_string(self, param_ids: list[str]) -> str:
         parameters: list[str] = []
-        for parameter_id in node_data["parameters"]:
-            parameter_data = get_data_by_id(self.api_data["parameters"], parameter_id)
+        for param_id in param_ids:
+            param_data = get_data_by_id(self.api_data["parameters"], param_id)
 
             # Skip self parameters
-            if parameter_data["name"] == "self":
+            if param_data["name"] == "self":
                 continue
 
             # Default value
             param_value = ""
-            param_default_value = parameter_data["default_value"]
+            param_default_value = param_data["default_value"]
             if param_default_value is not None:
                 if isinstance(param_default_value, str):
-                    if parameter_data["type"]["kind"] == "NamedType" and parameter_data["type"]["name"] != "str":
-                        default_value = f"{param_default_value}"
+                    if param_data["type"]["kind"] == "NamedType" and param_data["type"]["name"] != "str":
+                        if param_default_value == "False":
+                            default_value = "false"
+                        elif param_default_value == "True":
+                            default_value = "true"
+                        else:
+                            default_value = f"{param_default_value}"
                     else:
                         default_value = f'"{param_default_value}"'
                 else:
@@ -157,12 +171,12 @@ class StubsGenerator:
                 param_value = f" = {default_value}"
 
             # Parameter type
-            param_type = create_type_string(parameter_data["type"])
+            param_type = create_type_string(param_data["type"])
             type_string = f": {param_type}" if param_type else ""
 
             # Create string and append to the list
             parameters.append(
-                f"{parameter_data['name']}"
+                f"{param_data['name']}"
                 f"{type_string}{param_value}",
             )
         return f"({', '.join(parameters)})" if parameters else ""
@@ -186,7 +200,7 @@ class StubsGenerator:
                 f"{from_path}import {name}{alias}",
             )
 
-        f.write(f"{'\n'.join(imports)}")
+        f.write(f"{'\n'.join(imports)}\n")
 
     @staticmethod
     def _write_wildcard_imports(f: TextIO, wildcard_imports: list) -> None:
@@ -198,8 +212,9 @@ class StubsGenerator:
             for wildcard_import in wildcard_imports
         ]
 
-        f.write(f"{'\n'.join(imports)}")
+        f.write(f"{'\n'.join(imports)}\n")
 
+    # Todo Frage: https://dsl.safeds.com/en/latest/language/common/types/#enum-types ff.
     def _write_enum(self, f: TextIO, enum_data: dict) -> None:
         # Signature
         f.write(f"enum {enum_data['name']} {{\n")
@@ -241,22 +256,30 @@ def create_type_string(type_data: dict | None):
                 return "Boolean"
             case "float":
                 return "Float"
+            case "None":
+                return "null"
             case _:
                 return name
-    elif kind in {"OptionalType", "FinalType"}:
-        # Cut out the "Type" in the kind name
-        name = kind[0:-4]
-        return f"{name}[{create_type_string(type_data)}]"
+    elif kind == "FinalType":
+        return f"Final[{create_type_string(type_data)}]"
+    elif kind == "OptionalType":
+        return f"{create_type_string(type_data)}?"
+    # Todo Frage: Groß- und Kleinschreibung der Listen-Arten? "union" klein (warum überhaupt nur Union?), Rest?
     elif kind in {"TupleType", "SetType", "ListType", "UnionType"}:
         types = [
             create_type_string(type_)
             for type_ in type_data["types"]
         ]
+
         # Cut out the "Type" in the kind name
         name = kind[0:-4]
+        if name == "Union":
+            name = "union"
+
         types_string = ""
         if types:
-            types_string = f"[{', '.join(types)}]"
+            types_string = f"<{', '.join(types)}>" if types else ""
+
         return f"{name}{types_string}"
     elif kind == "DictType":
         key_data = create_type_string(type_data["key_type"])
