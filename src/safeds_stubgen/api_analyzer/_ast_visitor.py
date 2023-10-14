@@ -261,13 +261,9 @@ class MyPyAstVisitor:
                 for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
                     assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
-                try:
-                    grand_parent = self.__declaration_stack[-2]
-                except IndexError:
-                    # If the function has no parent (and is therefore not a class method) ignore the attributes
-                    grand_parent = None
-
-                if grand_parent is not None and isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
+                grand_parent = self.__declaration_stack[-2]
+                # If the grandparent is not a class we ignore the attributes
+                if isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
                     # Ignore non instance attributes in __init__ classes
                     for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
                         assignments.append(assignment)
