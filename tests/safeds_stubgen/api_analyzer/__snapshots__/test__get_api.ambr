@@ -848,12 +848,12 @@
         'description': '''
           Function Docstring.
           
-          param_1: bool.
+          param_2: bool.
         ''',
         'full_docstring': '''
           Function Docstring.
           
-          param_1: bool.
+          param_2: bool.
         ''',
       }),
       'id': 'test_package/test_module/SomeClass/_some_function',
@@ -2097,14 +2097,14 @@
   list([
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
+      'default_value': True,
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
       'id': 'test_package/test_module/SomeClass/static_function/param_1',
-      'is_optional': False,
+      'is_optional': True,
       'name': 'param_1',
       'type': dict({
         'kind': 'NamedType',

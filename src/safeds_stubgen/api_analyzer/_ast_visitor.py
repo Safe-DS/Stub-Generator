@@ -525,8 +525,15 @@ class MyPyAstVisitor:
                     if isinstance(initializer, CallExpr):
                         # Special case when the default is a call expression
                         value = None
-                    elif hasattr(initializer, "name") and initializer.name == "None":
-                        value = None
+                    elif hasattr(initializer, "name"):
+                        if initializer.name == "None":
+                            value = None
+                        elif initializer.name == "True":
+                            value = True
+                        elif initializer.name == "False":
+                            value = False
+                        else:
+                            raise ValueError("No value found for parameter")
                     else:
                         raise ValueError("No value found for parameter")
                 else:
