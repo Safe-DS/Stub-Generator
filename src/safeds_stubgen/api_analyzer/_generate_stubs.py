@@ -29,13 +29,16 @@ class StubsGenerator:
 
         for module in modules:
             if module["name"] == "__init__":
+                # self._create_reexport_files()
                 continue
 
+            # Create module dir
             module_dir = Path(self.out_path / module["id"])
             create_directory(module_dir)
 
+            # Create and open module file
             file_path = Path(self.out_path / module["id"] / f"{module["name"]}.sdsstub")
-            create_file(file_path)
+            Path(file_path).touch()
 
             with file_path.open("w") as f:
                 # Create package info
@@ -300,10 +303,6 @@ def create_type_string(type_data: dict | None):
 def create_directory(path: Path) -> None:
     if not Path.exists(path):
         Path.mkdir(path)
-
-
-def create_file(path: Path) -> None:
-    Path(path).touch()
 
 
 def get_data_by_id(data: list[dict], item_id: str) -> dict:
