@@ -66,18 +66,22 @@ class StubsGenerator:
     # Todo assigned_by, constructors, subclassing
     def _write_class(self, f: TextIO, class_data: dict):
         # Constructor parameter
-        class_parameter: list[str] = []
         constructor = class_data["constructor"]
+        parameter_info = ""
         if constructor:
-            for parameter_id in constructor["parameters"]:
-                parameter_data = get_data_by_id(self.api_data["parameters"], parameter_id)
-                if parameter_data["name"] == "self":
-                    continue
-                class_parameter.append(f"{parameter_data['name']}: {parameter_data['type']['name']}")
+            parameter_info = self._create_parameter_string(constructor)
+
+        # Superclasses
+        superclasses = class_data["superclasses"]
+        superclass_info = ""
+        if superclasses:
+            superclass_names = []
+            for superclass in superclasses:
+                superclass_names.append(split_import_id(superclass)[1])
+            superclass_info = f" sub {', '.join(superclass_names)}"
 
         # Class signature line
-        parameter = ", ".join(class_parameter)
-        class_sign = f"class {class_data['name']}({parameter}) {{"
+        class_sign = f"class {class_data['name']}{superclass_info}{parameter_info} {{"
         f.write(class_sign)
 
         # Attributes
@@ -114,18 +118,7 @@ class StubsGenerator:
         static = "static " if method_data["is_static"] else ""
 
         # Parameters
-        parameters: list[str] = []
-        for parameter_id in method_data["parameters"]:
-            parameter_data = get_data_by_id(self.api_data["parameters"], parameter_id)
-            if parameter_data["name"] == "self":
-                continue
-            param_type = create_type_string(parameter_data["type"])
-            type_string = f": {param_type}" if param_type else ""
-            parameters.append(
-                f"{parameter_data['name']}"
-                f"{type_string}",
-            )
-        method_params = ", ".join(parameters)
+        method_params = self._create_parameter_string(method_data)
 
         # Results
         results: list[str] = []
@@ -139,7 +132,40 @@ class StubsGenerator:
             )
         method_results = f" -> {', '.join(results)}" if results else ""
 
-        return f"{static}fun {method_data['name']}({method_params}){method_results}"
+        return f"{static}fun {method_data['name']}{method_params}{method_results}"
+
+    def _create_parameter_string(self, node_data: dict[str, Any]) -> str:
+        parameters: list[str] = []
+        for parameter_id in node_data["parameters"]:
+            parameter_data = get_data_by_id(self.api_data["parameters"], parameter_id)
+
+            # Skip self parameters
+            if parameter_data["name"] == "self":
+                continue
+
+            # Default value
+            param_value = ""
+            param_default_value = parameter_data["default_value"]
+            if param_default_value is not None:
+                if isinstance(param_default_value, str):
+                    if parameter_data["type"]["kind"] == "NamedType" and parameter_data["type"]["name"] != "str":
+                        default_value = f"{param_default_value}"
+                    else:
+                        default_value = f'"{param_default_value}"'
+                else:
+                    default_value = param_default_value
+                param_value = f" = {default_value}"
+
+            # Parameter type
+            param_type = create_type_string(parameter_data["type"])
+            type_string = f": {param_type}" if param_type else ""
+
+            # Create string and append to the list
+            parameters.append(
+                f"{parameter_data['name']}"
+                f"{type_string}{param_value}",
+            )
+        return f"({', '.join(parameters)})" if parameters else ""
 
     @staticmethod
     def _write_qualified_imports(f: TextIO, qualified_imports: list) -> None:
@@ -149,9 +175,7 @@ class StubsGenerator:
         imports: list[str] = []
         for qualified_import in qualified_imports:
             qualified_name = qualified_import["qualified_name"]
-            split_qname = qualified_name.split(".")
-            name = split_qname.pop(-1)
-            import_path = ".".join(split_qname)
+            import_path, name = split_import_id(qualified_name)
             from_path = ""
             if import_path:
                 from_path = f"from {import_path} "
@@ -187,6 +211,16 @@ class StubsGenerator:
 
         # Close
         f.write("}\n\n")
+
+
+def split_import_id(id_: str) -> tuple[str, str]:
+    if "." not in id_:
+        return "", id_
+
+    split_qname = id_.split(".")
+    name = split_qname.pop(-1)
+    import_path = ".".join(split_qname)
+    return import_path, name
 
 
 def create_type_string(type_data: dict | None):
