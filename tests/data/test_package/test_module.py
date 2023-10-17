@@ -76,14 +76,14 @@ class SomeClass(AcDoubleAlias):
         self._init_attr_private: float = "I'm a string"
         no_class_attr: bool
 
-    def _some_function(self, param_1: bool, param_2: ac_alias) -> ac_alias:
+    def _some_function(self, param_1: ac_alias, param_2: bool = False) -> ac_alias:
         """Function Docstring.
 
-        param_1: bool.
+        param_2: bool.
         """
 
     @staticmethod
-    def static_function(param_1: bool, param_2: int | bool = 123456) -> tuple[bool, int]:
+    def static_function(param_1: bool = True, param_2: int | bool = 123456) -> tuple[bool, int]:
         """Function Docstring."""
 
     def test_position(self, param1, /, param2: bool, param3=1, *, param4=AcDoubleAlias(), param5: int = 1) -> Any:

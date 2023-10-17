@@ -261,13 +261,9 @@ class MyPyAstVisitor:
                 for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
                     assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
-                try:
-                    grand_parent = self.__declaration_stack[-2]
-                except IndexError:
-                    # If the function has no parent (and is therefore not a class method) ignore the attributes
-                    grand_parent = None
-
-                if grand_parent is not None and isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
+                grand_parent = self.__declaration_stack[-2]
+                # If the grandparent is not a class we ignore the attributes
+                if isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
                     # Ignore non instance attributes in __init__ classes
                     for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
                         assignments.append(assignment)
@@ -323,7 +319,7 @@ class MyPyAstVisitor:
                         self.api.add_enum_instance(assignment)
                         parent.add_enum_instance(assignment)
 
-                else:
+                else:  # pragma: no cover
                     raise TypeError("Unexpected value type for assignments")
 
     # ############################## Utilities ############################## #
@@ -478,7 +474,7 @@ class MyPyAstVisitor:
                     else:  # pragma: no cover
                         raise AttributeError("Could not get argument information for attribute.")
 
-        else:
+        else:  # pragma: no cover
             raise TypeError("Attribute has an unexpected type.")
 
         type_ = None
@@ -525,9 +521,16 @@ class MyPyAstVisitor:
                     if isinstance(initializer, CallExpr):
                         # Special case when the default is a call expression
                         value = None
-                    elif hasattr(initializer, "name") and initializer.name == "None":
-                        value = None
-                    else:
+                    elif hasattr(initializer, "name"):
+                        if initializer.name == "None":
+                            value = None
+                        elif initializer.name == "True":
+                            value = True
+                        elif initializer.name == "False":
+                            value = False
+                        else:  # pragma: no cover
+                            raise ValueError("No value found for parameter")
+                    else:  # pragma: no cover
                         raise ValueError("No value found for parameter")
                 else:
                     value = initializer.value
