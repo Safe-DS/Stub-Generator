@@ -37,7 +37,7 @@ class StubsGenerator:
             create_directory(module_dir)
 
             # Create and open module file
-            file_path = Path(self.out_path / module["id"] / f"{module["name"]}.sdsstub")
+            file_path = Path(self.out_path / module["id"] / f"{module['name']}.sdsstub")
             Path(file_path).touch()
 
             with file_path.open("w") as f:
@@ -203,7 +203,8 @@ class StubsGenerator:
                 f"{from_path}import {name}{alias}",
             )
 
-        f.write(f"{'\n'.join(imports)}\n")
+        all_imports = "\n".join(imports)
+        f.write(f"{all_imports}\n")
 
     @staticmethod
     def _write_wildcard_imports(f: TextIO, wildcard_imports: list) -> None:
@@ -215,7 +216,8 @@ class StubsGenerator:
             for wildcard_import in wildcard_imports
         ]
 
-        f.write(f"{'\n'.join(imports)}\n")
+        all_imports = "\n".join(imports)
+        f.write(f"{all_imports}\n")
 
     # Todo Frage: https://dsl.safeds.com/en/latest/language/common/types/#enum-types ff.
     def _write_enum(self, f: TextIO, enum_data: dict) -> None:

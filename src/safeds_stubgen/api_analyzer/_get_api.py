@@ -76,8 +76,8 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
 
     # Build mypy checker
     mypyfiles, opt = mypy_main.process_options(files)
-    opt.preserve_asts = True
-    opt.fine_grained_incremental = True
+    opt.preserve_asts = True  # Disable the memory optimization of freeing ASTs when possible
+    opt.fine_grained_incremental = True  # Only check parts of the code that have changed since the last check
     result = mypy_build.build(mypyfiles, options=opt)
 
     # Check mypy data key root start
