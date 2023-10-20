@@ -83,7 +83,7 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     # Check mypy data key root start
     parts = root.parts
     graph_keys = list(result.graph.keys())
-    root_start_after = 0
+    root_start_after = -1
     for i in range(len(parts)):
         if ".".join(parts[i:]) in graph_keys:
             root_start_after = i

@@ -4,26 +4,25 @@ from pathlib import Path
 from typing import Any, TextIO
 
 
-# Todo Frage:: Wir ignorieren self parameter im Init, also sollten wir für __init__ Funktionen is_self für parameter
-#  überprüfen und diesen als Namen dann immer "self" geben, damit diese bei der Classen Erstellung ignoriert werden
-#  können
-# Todo Frage: In der api.json output Datei alle Listen zu dictionaries, da wir sonst immer durch alle Einträge iterieren
-#  müssen
+# Todo Zugriff auf Daten der API per API-Class, damit man direkt auf die Dictionaries zugreifen kann und nicht über alle
+#  Listen iterieren muss
+# // TODO: Tuples are not allowed in SafeDS.
+# // TODO: This List has more than one inner type, which is not allowed.
 class StubsGenerator:
     api_data: dict[str, Any]
     out_path: Path
+    current_todo_msgs: set[str]
 
     def __init__(self, api_data: dict[str, Any], out_path: Path) -> None:
         self.api_data = api_data
         self.out_path = out_path
+        self.current_todo_msgs = set()
 
     def generate_stubs(self) -> None:
         create_directory(Path(self.out_path / self.api_data["package"]))
         self._create_module_files()
 
     # Todo Handle __init__ files
-    # Todo Frage: Dont create modules that start with "_" unless they are reexported with an alias without "_"
-    #  or contain a reexported or public class (?)
     def _create_module_files(self) -> None:
         modules = self.api_data["modules"]
 
@@ -53,26 +52,28 @@ class StubsGenerator:
                 # Create global functions
                 for function in self.api_data["functions"]:
                     if function["is_public"] and function["id"] in module["functions"]:
-                        function_string = self._create_function_string(function)
+                        function_string = self._create_function_string(function, 0, is_class_method=False)
                         f.write(f"{function_string}\n\n")
 
                 # Create classes, class attr. & class methods
                 for class_ in self.api_data["classes"]:
                     if class_["is_public"] and class_["id"] in module["classes"]:
-                        self._write_class(f, class_)
+                        self._write_class(f, class_, 0)
 
                 # Create enums & enum instances
                 for enum in self.api_data["enums"]:
                     if enum["id"] in module["enums"]:
                         self._write_enum(f, enum)
 
-    # Todo assigned_by, constructors
-    def _write_class(self, f: TextIO, class_data: dict) -> None:
+    # Todo assigned by https://dsl.safeds.com/en/latest/language/common/parameters/#matching-optionality -> Siehe E-Mail
+    #  -> "// Todo Falsch blabla" über die Zeile generieren
+    # Todo create inner class
+    def _write_class(self, f: TextIO, class_data: dict, indent_quant: int) -> None:
         # Constructor parameter
         constructor = class_data["constructor"]
         parameter_info = ""
         if constructor:
-            parameter_info = self._create_parameter_string(constructor["parameters"])
+            parameter_info = self._create_parameter_string(constructor["parameters"], is_instance_method=True)
 
         # Superclasses
         superclasses = class_data["superclasses"]
@@ -84,7 +85,7 @@ class StubsGenerator:
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         # Class signature line
-        class_sign = f"class {class_data['name']}{superclass_info}{parameter_info} {{"
+        class_sign = f"{self.create_todo_msg(0)}class {class_data['name']}{parameter_info}{superclass_info} {{"
         f.write(class_sign)
 
         # Attributes
@@ -94,15 +95,19 @@ class StubsGenerator:
             if not attribute_data["is_public"]:
                 continue
 
-            attr_type = create_type_string(attribute_data["type"])
+            attr_type = self._create_type_string(attribute_data["type"])
             type_string = f": {attr_type}" if attr_type else ""
             class_attributes.append(
+                f"{self.create_todo_msg(indent_quant + 1)}"
                 f"attr {attribute_data['name']}"
                 f"{type_string}",
             )
 
-        attributes = "\n\t".join(class_attributes)
+        indentations = "\t" * (indent_quant + 1)
+        attributes = f"\n{indentations}".join(class_attributes)
         f.write(f"\n\t{attributes}")
+
+        # Todo Classes
 
         # Methods
         class_methods: list[str] = []
@@ -110,50 +115,58 @@ class StubsGenerator:
             method_data = get_data_by_id(self.api_data["functions"], method_id)
             if not method_data["is_public"]:
                 continue
-            class_methods.append(self._create_function_string(method_data))
+            class_methods.append(
+                self._create_function_string(method_data, indent_quant + 1, is_class_method=True),
+            )
         methods = "\n\n\t".join(class_methods)
         f.write(f"\n\n\t{methods}")
 
         # Close class
         f.write("\n}")
 
-    def _create_function_string(self, func_data: dict) -> str:
-        static = "static " if func_data["is_static"] else ""
+    def _create_function_string(self, func_data: dict, indent_quant: int, is_class_method: bool = False) -> str:
+        is_static = func_data["is_static"]
+        static = "static " if is_static else ""
 
         # Parameters
-        func_params = self._create_parameter_string(func_data["parameters"])
+        is_instance_method = not is_static and is_class_method
+        func_params = self._create_parameter_string(func_data["parameters"], is_instance_method)
         if not func_params:
             func_params = "()"
 
-        # Results
-        func_results = self._create_result_string(func_data["results"])
-
-        return f"{static}fun {func_data['name']}{func_params}{func_results}"
+        return (
+            f"{self.create_todo_msg(indent_quant)}"
+            f"{static}fun {func_data['name']}{func_params}"
+            f"{self._create_result_string(func_data['results'])}"
+        )
 
     def _create_result_string(self, function_result_ids: list[str]) -> str:
         results: list[str] = []
         for result_id in function_result_ids:
             result_data = get_data_by_id(self.api_data["results"], result_id)
-            ret_type = create_type_string(result_data["type"])
+            ret_type = self._create_type_string(result_data["type"])
             type_string = f": {ret_type}" if ret_type else ""
             results.append(
                 f"{result_data['name']}"
                 f"{type_string}",
             )
+
         if results:
             if len(results) == 1:
                 return f" -> {results[0]}"
             return f" -> ({', '.join(results)})"
         return ""
 
-    def _create_parameter_string(self, param_ids: list[str]) -> str:
+    def _create_parameter_string(self, param_ids: list[str], is_instance_method: bool = False) -> str:
         parameters: list[str] = []
+        first_loop_skipped = False
         for param_id in param_ids:
-            param_data = get_data_by_id(self.api_data["parameters"], param_id)
-
-            # Skip self parameters
-            if param_data["name"] == "self":
+            # Skip self parameter for functions
+            if is_instance_method and not first_loop_skipped:
+                first_loop_skipped = True
                 continue
+
+            param_data = get_data_by_id(self.api_data["parameters"], param_id)
 
             # Default value
             param_value = ""
@@ -174,7 +187,7 @@ class StubsGenerator:
                 param_value = f" = {default_value}"
 
             # Parameter type
-            param_type = create_type_string(param_data["type"])
+            param_type = self._create_type_string(param_data["type"])
             type_string = f": {param_type}" if param_type else ""
 
             # Create string and append to the list
@@ -182,7 +195,9 @@ class StubsGenerator:
                 f"{param_data['name']}"
                 f"{type_string}{param_value}",
             )
-        return f"({', '.join(parameters)})" if parameters else ""
+        if parameters:
+            return f"({', '.join(parameters)})"
+        return ""
 
     @staticmethod
     def _write_qualified_imports(f: TextIO, qualified_imports: list) -> None:
@@ -219,7 +234,6 @@ class StubsGenerator:
         all_imports = "\n".join(imports)
         f.write(f"{all_imports}\n")
 
-    # Todo Frage: https://dsl.safeds.com/en/latest/language/common/types/#enum-types ff.
     def _write_enum(self, f: TextIO, enum_data: dict) -> None:
         # Signature
         f.write(f"enum {enum_data['name']} {{\n")
@@ -227,10 +241,104 @@ class StubsGenerator:
         # Enum instances
         for enum_instance_id in enum_data["instances"]:
             instance = get_data_by_id(self.api_data["enum_instances"], enum_instance_id)
-            f.write(f"\t{instance['name']},\n")
+            f.write(f"\t{instance['name']}" + ",\n")
 
         # Close
         f.write("}\n\n")
+
+    # Todo AnotherClass? anstatt union<AnotherClass, null>
+    def _create_type_string(self, type_data: dict | None) -> str:
+        """Create a SafeDS stubs type string."""
+        if type_data is None:
+            return ""
+
+        kind = type_data["kind"]
+        if kind == "NamedType":
+            name = type_data["name"]
+            match name:
+                case "tuple":
+                    self.current_todo_msgs.add("Tuple")
+                    return "Tuple"
+                case "int":
+                    return "Int"
+                case "str":
+                    return "String"
+                case "bool":
+                    return "Boolean"
+                case "float":
+                    return "Float"
+                case "None":
+                    return "null"
+                case _:
+                    return name
+        elif kind == "FinalType":
+            return self._create_type_string(type_data)
+        elif kind == "OptionalType":
+            return f"{self._create_type_string(type_data)}?"
+        elif kind in {"SetType", "ListType"}:
+            types = [
+                self._create_type_string(type_)
+                for type_ in type_data["types"]
+            ]
+
+            # Cut out the "Type" in the kind name
+            name = kind[0:-4]
+
+            if types:
+                if len(types) >= 2:
+                    self.current_todo_msgs.add(name)
+                return f"{name}<{', '.join(types)}>"
+            return f"{name}<Any>"
+        elif kind == "UnionType":
+            types = [
+                self._create_type_string(type_)
+                for type_ in type_data["types"]
+            ]
+
+            if types:
+                return f"union<{', '.join(types)}>"
+            return ""
+        elif kind == "TupleType":
+            self.current_todo_msgs.add("Tuple")
+            types = [
+                self._create_type_string(type_)
+                for type_ in type_data["types"]
+            ]
+
+            if types:
+                return f"Tuple<{', '.join(types)}>"
+            return "Tuple"
+        elif kind == "DictType":
+            key_data = self._create_type_string(type_data["key_type"])
+            value_data = self._create_type_string(type_data["value_type"])
+            if key_data:
+                if value_data:
+                    return f"Map<{key_data}, {value_data}>"
+                return f"Map<{key_data}>"
+            return "Map"
+        elif kind == "LiteralType":
+            return f"literal<{', '.join(type_data['literals'])}>"
+
+        raise ValueError(f"Unexpected type: {kind}")
+
+    def create_todo_msg(self, indenta_quant: int) -> str:
+        if not self.current_todo_msgs:
+            return ""
+
+        todo_msgs = []
+        for msg in self.current_todo_msgs:
+            if msg == "Tuple":
+                todo_msgs.append("Tuple types are not allowed")
+            elif msg in {"List", "Set"}:
+                todo_msgs.append(f"{msg} type has to many type arguments")
+            else:
+                raise ValueError(f"Unknown todo message: {msg}")
+
+        # Empty the message list
+        self.current_todo_msgs = set()
+
+        indentations = "\t" * indenta_quant
+        return f"// Todo {', '.join(todo_msgs)}\n{indentations}"
 
 
 def split_import_id(id_: str) -> tuple[str, str]:
@@ -241,65 +349,6 @@ def split_import_id(id_: str) -> tuple[str, str]:
     name = split_qname.pop(-1)
     import_path = ".".join(split_qname)
     return import_path, name
-
-
-def create_type_string(type_data: dict | None):
-    if type_data is None:
-        return ""
-
-    kind = type_data["kind"]
-    if kind == "NamedType":
-        name = type_data["name"]
-        match name:
-            case "tuple":
-                return "Tuple"
-            case "int":
-                return "Int"
-            case "str":
-                return "String"
-            case "bool":
-                return "Boolean"
-            case "float":
-                return "Float"
-            case "None":
-                return "null"
-            case _:
-                return name
-    elif kind == "FinalType":
-        return f"Final[{create_type_string(type_data)}]"
-    elif kind == "OptionalType":
-        return f"{create_type_string(type_data)}?"
-    # Todo Frage: Groß- und Kleinschreibung der Listen-Arten? "union" klein (warum überhaupt nur Union?), Rest?
-    elif kind in {"TupleType", "SetType", "ListType", "UnionType"}:
-        types = [
-            create_type_string(type_)
-            for type_ in type_data["types"]
-        ]
-
-        # Cut out the "Type" in the kind name
-        name = kind[0:-4]
-        if name == "Union":
-            name = "union"
-
-        types_string = ""
-        if types:
-            types_string = f"<{', '.join(types)}>" if types else ""
-
-        return f"{name}{types_string}"
-    elif kind == "DictType":
-        key_data = create_type_string(type_data["key_type"])
-        value_data = create_type_string(type_data["value_type"])
-        key_value_data = ""
-        if key_data:
-            if value_data:
-                key_value_data = f"[{key_data}, {value_data}]"
-            else:
-                key_value_data = f"[{key_data}]"
-        return f"Dict{key_value_data}"
-    elif kind == "LiteralType":
-        return f"Literal[{', '.join(type_data['literals'])}]"
-
-    raise ValueError(f"Unexpected type: {kind}")
 
 
 def create_directory(path: Path) -> None:
