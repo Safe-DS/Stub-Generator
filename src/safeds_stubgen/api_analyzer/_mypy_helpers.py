@@ -106,5 +106,7 @@ def get_argument_kind(arg: Argument) -> ParameterAssignment:
         return ParameterAssignment.NAME_ONLY
     elif arg.kind == ArgKind.ARG_STAR2:
         return ParameterAssignment.NAMED_VARARG
+    elif arg.kind == ArgKind.ARG_OPT and arg.pos_only:
+        return ParameterAssignment.OPT_POS_ONLY
     else:
         raise ValueError("Could not find an appropriate parameter assignment.")

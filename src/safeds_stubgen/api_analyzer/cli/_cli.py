@@ -88,5 +88,5 @@ def _run_api_command(
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
 
-    stubs_generator = StubsGenerator(api.to_dict(), out_dir_path)
+    stubs_generator = StubsGenerator(api, out_dir_path)
     stubs_generator.generate_stubs()

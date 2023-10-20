@@ -1,107 +1,121 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, TextIO
+from typing import TextIO
+
+from safeds_stubgen.api_analyzer import (
+    API,
+    Class,
+    Enum,
+    Function,
+    Parameter,
+    ParameterAssignment,
+    QualifiedImport,
+    Result,
+    WildcardImport,
+)
 
 
-# Todo Zugriff auf Daten der API per API-Class, damit man direkt auf die Dictionaries zugreifen kann und nicht über alle
-#  Listen iterieren muss
 class StubsGenerator:
-    api_data: dict[str, Any]
+    api: API
     out_path: Path
     current_todo_msgs: set[str]
 
-    def __init__(self, api_data: dict[str, Any], out_path: Path) -> None:
-        self.api_data = api_data
+    def __init__(self, api: API, out_path: Path) -> None:
+        self.api = api
         self.out_path = out_path
         self.current_todo_msgs = set()
 
     def generate_stubs(self) -> None:
-        create_directory(Path(self.out_path / self.api_data["package"]))
+        create_directory(Path(self.out_path / self.api.package))
         self._create_module_files()
 
     # Todo Handle __init__ files
     def _create_module_files(self) -> None:
-        modules = self.api_data["modules"]
+        modules = self.api.modules.values()
 
         for module in modules:
-            if module["name"] == "__init__":
+            module_name = module.name
+            module_id = module.id
+
+            if module_name == "__init__":
                 # self._create_reexport_files()
                 continue
 
             # Create module dir
-            module_dir = Path(self.out_path / module["id"])
+            module_dir = Path(self.out_path / module_id)
             create_directory(module_dir)
 
             # Create and open module file
-            file_path = Path(self.out_path / module["id"] / f"{module['name']}.sdsstub")
+            file_path = Path(self.out_path / module_id / f"{module_name}.sdsstub")
             Path(file_path).touch()
 
             with file_path.open("w") as f:
                 # Create package info
-                package_info = module["id"].replace("/", ".")
+                package_info = module_id.replace("/", ".")
                 f.write(f"package {package_info}\n\n")
 
                 # Create imports
-                self._write_qualified_imports(f, module["qualified_imports"])
-                self._write_wildcard_imports(f, module["wildcard_imports"])
+                self._write_qualified_imports(f, module.qualified_imports)
+                self._write_wildcard_imports(f, module.wildcard_imports)
                 f.write("\n")
 
                 # Create global functions
-                for function in self.api_data["functions"]:
-                    if function["is_public"] and function["id"] in module["functions"]:
+                for function in module.global_functions:
+                    if function.is_public:
                         function_string = self._create_function_string(function, 0, is_class_method=False)
                         f.write(f"{function_string}\n\n")
 
                 # Create classes, class attr. & class methods
-                for class_ in self.api_data["classes"]:
-                    if class_["is_public"] and class_["id"] in module["classes"]:
+                for class_ in module.classes:
+                    if class_.is_public:
                         self._write_class(f, class_, 0)
 
                 # Create enums & enum instances
-                for enum in self.api_data["enums"]:
-                    if enum["id"] in module["enums"]:
-                        self._write_enum(f, enum)
+                for enum in module.enums:
+                    self._write_enum(f, enum)
 
-    # Todo assigned by https://dsl.safeds.com/en/latest/language/common/parameters/#matching-optionality -> Siehe E-Mail
-    #  -> "// Todo Falsch blabla" über die Zeile generieren
-    def _write_class(self, f: TextIO, class_data: dict, indent_quant: int) -> None:
+    def _write_class(self, f: TextIO, class_: Class, indent_quant: int) -> None:
         class_indentation = "\t" * indent_quant
         inner_indentations = class_indentation + "\t"
 
         # Constructor parameter
-        constructor = class_data["constructor"]
+        constructor = class_.constructor
         parameter_info = ""
         if constructor:
-            parameter_info = self._create_parameter_string(constructor["parameters"], is_instance_method=True)
+            parameter_info = self._create_parameter_string(constructor.parameters, is_instance_method=True)
 
         # Superclasses
-        superclasses = class_data["superclasses"]
+        superclasses = class_.superclasses
         superclass_info = ""
         if superclasses:
-            superclass_names = []
-            for superclass in superclasses:
-                superclass_names.append(split_import_id(superclass)[1])
+            superclass_names = [
+                split_import_id(superclass)[1]
+                for superclass in superclasses
+            ]
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         # Class signature line
         f.write(
             f"{class_indentation}{self.create_todo_msg(0)}class "
-            f"{class_data['name']}{parameter_info}{superclass_info} {{"
+            f"{class_.name}{parameter_info}{superclass_info} {{"
         )
 
         # Attributes
         class_attributes: list[str] = []
-        for attribute_id in class_data["attributes"]:
-            attribute_data = get_data_by_id(self.api_data["attributes"], attribute_id)
-            if not attribute_data["is_public"]:
+        for attribute in class_.attributes:
+            if not attribute.is_public:
                 continue
 
-            attr_type = self._create_type_string(attribute_data["type"])
+            attribute_type = None
+            if attribute.type:
+                attribute_type = attribute.type.to_dict()
+
+            attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
             class_attributes.append(
                 f"{self.create_todo_msg(indent_quant + 1)}"
-                f"attr {attribute_data['name']}"
+                f"attr {attribute.name}"
                 f"{type_string}",
             )
 
@@ -109,19 +123,17 @@ class StubsGenerator:
         f.write(f"\n{inner_indentations}{attributes}")
 
         # Inner classes
-        for inner_class_id in class_data["classes"]:
+        for inner_class in class_.classes:
             f.write("\n\n")  # Todo
-            inner_class_data = get_data_by_id(self.api_data["classes"], inner_class_id)
-            self._write_class(f, inner_class_data, indent_quant + 1)
+            self._write_class(f, inner_class, indent_quant + 1)
 
         # Methods
         class_methods: list[str] = []
-        for method_id in class_data["methods"]:
-            method_data = get_data_by_id(self.api_data["functions"], method_id)
-            if not method_data["is_public"]:
+        for method in class_.methods:
+            if not method.is_public:
                 continue
             class_methods.append(
-                self._create_function_string(method_data, indent_quant + 1, is_class_method=True),
+                self._create_function_string(method, indent_quant + 1, is_class_method=True),
             )
         methods = f"\n\n{inner_indentations}".join(class_methods)
         f.write(f"\n\n{inner_indentations}{methods}")
@@ -129,30 +141,30 @@ class StubsGenerator:
         # Close class
         f.write(f"\n{class_indentation}}}")
 
-    def _create_function_string(self, func_data: dict, indent_quant: int, is_class_method: bool = False) -> str:
-        is_static = func_data["is_static"]
+    def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
+        is_static = function.is_static
         static = "static " if is_static else ""
 
         # Parameters
         is_instance_method = not is_static and is_class_method
-        func_params = self._create_parameter_string(func_data["parameters"], is_instance_method)
+        func_params = self._create_parameter_string(function.parameters, is_instance_method)
         if not func_params:
             func_params = "()"
 
         return (
             f"{self.create_todo_msg(indent_quant)}"
-            f"{static}fun {func_data['name']}{func_params}"
-            f"{self._create_result_string(func_data['results'])}"
+            f"{static}fun {function.name}{func_params}"
+            f"{self._create_result_string(function.results)}"
         )
 
-    def _create_result_string(self, function_result_ids: list[str]) -> str:
+    def _create_result_string(self, function_results: list[Result]) -> str:
         results: list[str] = []
-        for result_id in function_result_ids:
-            result_data = get_data_by_id(self.api_data["results"], result_id)
-            ret_type = self._create_type_string(result_data["type"])
+        for result in function_results:
+            result_type = result.type.to_dict()
+            ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
             results.append(
-                f"{result_data['name']}"
+                f"{result.name}"
                 f"{type_string}",
             )
 
@@ -162,23 +174,22 @@ class StubsGenerator:
             return f" -> ({', '.join(results)})"
         return ""
 
-    def _create_parameter_string(self, param_ids: list[str], is_instance_method: bool = False) -> str:
-        parameters: list[str] = []
+    def _create_parameter_string(self, parameters: list[Parameter], is_instance_method: bool = False) -> str:
+        parameters_data: list[str] = []
         first_loop_skipped = False
-        for param_id in param_ids:
+        for parameter in parameters:
             # Skip self parameter for functions
             if is_instance_method and not first_loop_skipped:
                 first_loop_skipped = True
                 continue
 
-            param_data = get_data_by_id(self.api_data["parameters"], param_id)
-
             # Default value
             param_value = ""
-            param_default_value = param_data["default_value"]
+            param_default_value = parameter.default_value
+            parameter_type_data = parameter.type.to_dict()
             if param_default_value is not None:
                 if isinstance(param_default_value, str):
-                    if param_data["type"]["kind"] == "NamedType" and param_data["type"]["name"] != "str":
+                    if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
                         if param_default_value == "False":
                             default_value = "false"
                         elif param_default_value == "True":
@@ -191,33 +202,40 @@ class StubsGenerator:
                     default_value = param_default_value
                 param_value = f" = {default_value}"
 
+            # Check if assigned_by is not illegal
+            assigned_by = parameter.assigned_by
+            if assigned_by == ParameterAssignment.OPT_POS_ONLY:
+                self.current_todo_msgs.add("OPT_POS_ONLY")
+            elif assigned_by == ParameterAssignment.NAME_ONLY and not parameter.is_optional:
+                self.current_todo_msgs.add("REQ_NAME_ONLY")
+
             # Parameter type
-            param_type = self._create_type_string(param_data["type"])
+            param_type = self._create_type_string(parameter_type_data)
             type_string = f": {param_type}" if param_type else ""
 
             # Create string and append to the list
-            parameters.append(
-                f"{param_data['name']}"
+            parameters_data.append(
+                f"{parameter.name}"
                 f"{type_string}{param_value}",
             )
-        if parameters:
-            return f"({', '.join(parameters)})"
+        if parameters_data:
+            return f"({', '.join(parameters_data)})"
         return ""
 
     @staticmethod
-    def _write_qualified_imports(f: TextIO, qualified_imports: list) -> None:
+    def _write_qualified_imports(f: TextIO, qualified_imports: list[QualifiedImport]) -> None:
         if not qualified_imports:
             return
 
         imports: list[str] = []
         for qualified_import in qualified_imports:
-            qualified_name = qualified_import["qualified_name"]
+            qualified_name = qualified_import.qualified_name
             import_path, name = split_import_id(qualified_name)
             from_path = ""
             if import_path:
                 from_path = f"from {import_path} "
 
-            alias = f" as {qualified_import['alias']}" if qualified_import["alias"] else ""
+            alias = f" as {qualified_import.alias}" if qualified_import.alias else ""
 
             imports.append(
                 f"{from_path}import {name}{alias}",
@@ -227,26 +245,26 @@ class StubsGenerator:
         f.write(f"{all_imports}\n")
 
     @staticmethod
-    def _write_wildcard_imports(f: TextIO, wildcard_imports: list) -> None:
+    def _write_wildcard_imports(f: TextIO, wildcard_imports: list[WildcardImport]) -> None:
         if not wildcard_imports:
             return
 
         imports = [
-            f"from {wildcard_import['module_name']} import *"
+            f"from {wildcard_import.module_name} import *"
             for wildcard_import in wildcard_imports
         ]
 
         all_imports = "\n".join(imports)
         f.write(f"{all_imports}\n")
 
-    def _write_enum(self, f: TextIO, enum_data: dict) -> None:
+    @staticmethod
+    def _write_enum(f: TextIO, enum_data: Enum) -> None:
         # Signature
-        f.write(f"enum {enum_data['name']} {{\n")
+        f.write(f"enum {enum_data.name} {{\n")
 
         # Enum instances
-        for enum_instance_id in enum_data["instances"]:
-            instance = get_data_by_id(self.api_data["enum_instances"], enum_instance_id)
-            f.write(f"\t{instance['name']}" + ",\n")
+        for enum_instance in enum_data.instances:
+            f.write(f"\t{enum_instance.name}" + ",\n")
 
         # Close
         f.write("}\n\n")
@@ -340,6 +358,10 @@ class StubsGenerator:
                 todo_msgs.append("Tuple types are not allowed")
             elif msg in {"List", "Set"}:
                 todo_msgs.append(f"{msg} type has to many type arguments")
+            elif msg == "OPT_POS_ONLY":
+                todo_msgs.append("Illegal parameter assignment: Optional but position only")
+            elif msg == "REQ_NAME_ONLY":
+                todo_msgs.append("Illegal parameter assignment: Required but name only")
             else:
                 raise ValueError(f"Unknown todo message: {msg}")
 
@@ -363,10 +385,3 @@ def split_import_id(id_: str) -> tuple[str, str]:
 def create_directory(path: Path) -> None:
     if not Path.exists(path):
         Path.mkdir(path)
-
-
-def get_data_by_id(data: list[dict], item_id: str) -> dict:
-    for item in data:
-        if item["id"] == item_id:
-            return item
-    raise ValueError("Data not found.")

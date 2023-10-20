@@ -1,7 +1,18 @@
 """API-Analyzer for the Safe-DS stubs generator."""
 from __future__ import annotations
 
-from ._api import API, Attribute, Class, Function, Parameter, ParameterAssignment
+from ._api import (
+    API,
+    Attribute,
+    Class,
+    Enum,
+    Function,
+    Parameter,
+    ParameterAssignment,
+    QualifiedImport,
+    Result,
+    WildcardImport,
+)
 from ._generate_stubs import StubsGenerator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
@@ -30,6 +41,7 @@ __all__ = [
     "DictType",
     "distribution",
     "distribution_version",
+    "Enum",
     "EnumType",
     "FinalType",
     "Function",
@@ -44,8 +56,11 @@ __all__ = [
     "package_root",
     "Parameter",
     "ParameterAssignment",
+    "QualifiedImport",
+    "Result",
     "SetType",
     "StubsGenerator",
     "TupleType",
     "UnionType",
+    "WildcardImport",
 ]
