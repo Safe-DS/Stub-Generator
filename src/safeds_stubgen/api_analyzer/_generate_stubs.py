@@ -53,18 +53,17 @@ class StubsGenerator:
             with file_path.open("w") as f:
                 # Create package info
                 package_info = module_id.replace("/", ".")
-                f.write(f"package {package_info}\n\n")
+                f.write(f"package {package_info}\n")
 
                 # Create imports
                 self._write_qualified_imports(f, module.qualified_imports)
                 self._write_wildcard_imports(f, module.wildcard_imports)
-                f.write("\n")
 
                 # Create global functions
                 for function in module.global_functions:
                     if function.is_public:
                         function_string = self._create_function_string(function, 0, is_class_method=False)
-                        f.write(f"{function_string}\n\n")
+                        f.write(f"\n{function_string}\n")
 
                 # Create classes, class attr. & class methods
                 for class_ in module.classes:
@@ -97,7 +96,7 @@ class StubsGenerator:
 
         # Class signature line
         f.write(
-            f"{class_indentation}{self.create_todo_msg(0)}class "
+            f"\n{class_indentation}{self.create_todo_msg(0)}class "
             f"{class_.name}{parameter_info}{superclass_info} {{"
         )
 
@@ -119,12 +118,12 @@ class StubsGenerator:
                 f"{type_string}",
             )
 
-        attributes = f"\n{inner_indentations}".join(class_attributes)
-        f.write(f"\n{inner_indentations}{attributes}")
+        if class_attributes:
+            attributes = f"\n{inner_indentations}".join(class_attributes)
+            f.write(f"\n{inner_indentations}{attributes}\n")
 
         # Inner classes
         for inner_class in class_.classes:
-            f.write("\n\n")  # Todo
             self._write_class(f, inner_class, indent_quant + 1)
 
         # Methods
@@ -135,11 +134,12 @@ class StubsGenerator:
             class_methods.append(
                 self._create_function_string(method, indent_quant + 1, is_class_method=True),
             )
-        methods = f"\n\n{inner_indentations}".join(class_methods)
-        f.write(f"\n\n{inner_indentations}{methods}")
+        if class_methods:
+            methods = f"\n\n{inner_indentations}".join(class_methods)
+            f.write(f"\n{inner_indentations}{methods}\n")
 
         # Close class
-        f.write(f"\n{class_indentation}}}")
+        f.write(f"{class_indentation}}}\n")
 
     def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
         is_static = function.is_static
@@ -242,7 +242,7 @@ class StubsGenerator:
             )
 
         all_imports = "\n".join(imports)
-        f.write(f"{all_imports}\n")
+        f.write(f"\n{all_imports}\n")
 
     @staticmethod
     def _write_wildcard_imports(f: TextIO, wildcard_imports: list[WildcardImport]) -> None:
@@ -255,19 +255,19 @@ class StubsGenerator:
         ]
 
         all_imports = "\n".join(imports)
-        f.write(f"{all_imports}\n")
+        f.write(f"\n{all_imports}\n")
 
     @staticmethod
     def _write_enum(f: TextIO, enum_data: Enum) -> None:
         # Signature
-        f.write(f"enum {enum_data.name} {{\n")
+        f.write(f"\nenum {enum_data.name} {{\n")
 
         # Enum instances
         for enum_instance in enum_data.instances:
             f.write(f"\t{enum_instance.name}" + ",\n")
 
         # Close
-        f.write("}\n\n")
+        f.write("}\n")
 
     def _create_type_string(self, type_data: dict | None) -> str:
         """Create a SafeDS stubs type string."""
