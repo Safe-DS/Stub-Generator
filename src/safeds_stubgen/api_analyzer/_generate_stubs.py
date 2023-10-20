@@ -6,8 +6,6 @@ from typing import Any, TextIO
 
 # Todo Zugriff auf Daten der API per API-Class, damit man direkt auf die Dictionaries zugreifen kann und nicht über alle
 #  Listen iterieren muss
-# // TODO: Tuples are not allowed in SafeDS.
-# // TODO: This List has more than one inner type, which is not allowed.
 class StubsGenerator:
     api_data: dict[str, Any]
     out_path: Path
@@ -67,8 +65,10 @@ class StubsGenerator:
 
     # Todo assigned by https://dsl.safeds.com/en/latest/language/common/parameters/#matching-optionality -> Siehe E-Mail
     #  -> "// Todo Falsch blabla" über die Zeile generieren
-    # Todo create inner class
     def _write_class(self, f: TextIO, class_data: dict, indent_quant: int) -> None:
+        class_indentation = "\t" * indent_quant
+        inner_indentations = class_indentation + "\t"
+
         # Constructor parameter
         constructor = class_data["constructor"]
         parameter_info = ""
@@ -85,8 +85,10 @@ class StubsGenerator:
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         # Class signature line
-        class_sign = f"{self.create_todo_msg(0)}class {class_data['name']}{parameter_info}{superclass_info} {{"
-        f.write(class_sign)
+        f.write(
+            f"{class_indentation}{self.create_todo_msg(0)}class "
+            f"{class_data['name']}{parameter_info}{superclass_info} {{"
+        )
 
         # Attributes
         class_attributes: list[str] = []
@@ -103,11 +105,14 @@ class StubsGenerator:
                 f"{type_string}",
             )
 
-        indentations = "\t" * (indent_quant + 1)
-        attributes = f"\n{indentations}".join(class_attributes)
-        f.write(f"\n\t{attributes}")
+        attributes = f"\n{inner_indentations}".join(class_attributes)
+        f.write(f"\n{inner_indentations}{attributes}")
 
-        # Todo Classes
+        # Inner classes
+        for inner_class_id in class_data["classes"]:
+            f.write("\n\n")  # Todo
+            inner_class_data = get_data_by_id(self.api_data["classes"], inner_class_id)
+            self._write_class(f, inner_class_data, indent_quant + 1)
 
         # Methods
         class_methods: list[str] = []
@@ -118,11 +123,11 @@ class StubsGenerator:
             class_methods.append(
                 self._create_function_string(method_data, indent_quant + 1, is_class_method=True),
             )
-        methods = "\n\n\t".join(class_methods)
-        f.write(f"\n\n\t{methods}")
+        methods = f"\n\n{inner_indentations}".join(class_methods)
+        f.write(f"\n\n{inner_indentations}{methods}")
 
         # Close class
-        f.write("\n}")
+        f.write(f"\n{class_indentation}}}")
 
     def _create_function_string(self, func_data: dict, indent_quant: int, is_class_method: bool = False) -> str:
         is_static = func_data["is_static"]
@@ -246,7 +251,6 @@ class StubsGenerator:
         # Close
         f.write("}\n\n")
 
-    # Todo AnotherClass? anstatt union<AnotherClass, null>
     def _create_type_string(self, type_data: dict | None) -> str:
         """Create a SafeDS stubs type string."""
         if type_data is None:
@@ -296,6 +300,11 @@ class StubsGenerator:
             ]
 
             if types:
+                if len(types) == 2 and "null" in types:
+                    if types[0] == "null":
+                        return f"{types[1]}?"
+                    else:
+                        return f"{types[0]}?"
                 return f"union<{', '.join(types)}>"
             return ""
         elif kind == "TupleType":
