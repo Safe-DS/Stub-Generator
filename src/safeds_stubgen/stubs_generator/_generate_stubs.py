@@ -30,7 +30,6 @@ class StubsGenerator:
         create_directory(Path(self.out_path / self.api.package))
         self._create_module_files()
 
-    # Todo Handle __init__ files
     def _create_module_files(self) -> None:
         modules = self.api.modules.values()
 
@@ -39,7 +38,9 @@ class StubsGenerator:
             module_id = module.id
 
             if module_name == "__init__":
-                # self._create_reexport_files()
+                # Todo Handle __init__ files
+                # Todo Handle reexported files that are already created
+                self._create_reexported_files()
                 continue
 
             # Create module dir
@@ -47,7 +48,7 @@ class StubsGenerator:
             create_directory(module_dir)
 
             # Create and open module file
-            file_path = Path(self.out_path / module_id / f"{module_name}.sdsstub")
+            file_path = Path(module_dir / f"{module_name}.sdsstub")
             Path(file_path).touch()
 
             with file_path.open("w") as f:
@@ -73,6 +74,9 @@ class StubsGenerator:
                 # Create enums & enum instances
                 for enum in module.enums:
                     self._write_enum(f, enum)
+
+    def _create_reexported_files(self):
+        pass
 
     def _write_class(self, f: TextIO, class_: Class, indent_quant: int) -> None:
         class_indentation = "\t" * indent_quant
@@ -355,7 +359,7 @@ class StubsGenerator:
         todo_msgs = []
         for msg in self.current_todo_msgs:
             if msg == "Tuple":
-                todo_msgs.append("Tuple types are not allowed")
+                todo_msgs.append("Tuple types are not allowed in SafeDS")
             elif msg in {"List", "Set"}:
                 todo_msgs.append(f"{msg} type has to many type arguments")
             elif msg == "OPT_POS_ONLY":
@@ -383,5 +387,7 @@ def split_import_id(id_: str) -> tuple[str, str]:
 
 
 def create_directory(path: Path) -> None:
-    if not Path.exists(path):
-        Path.mkdir(path)
+    for i, _ in enumerate(path.parts):
+        new_path = Path("/".join(path.parts[:i+1]))
+        if not new_path.exists():
+            Path.mkdir(new_path)

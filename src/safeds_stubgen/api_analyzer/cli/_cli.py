@@ -5,7 +5,8 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from safeds_stubgen.api_analyzer import StubsGenerator, get_api
+from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.stubs_generator import StubsGenerator
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import DocstringStyle
