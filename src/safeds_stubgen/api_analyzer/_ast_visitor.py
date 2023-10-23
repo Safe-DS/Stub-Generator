@@ -100,8 +100,9 @@ class MyPyAstVisitor:
         module_id = self.api.package.join(module_id_parts)
         if module_id.startswith("."):
             module_id = module_id[1:]
-        module_id = f"{self.api.package}/{module_id.replace(".", "/")}"
-        id_ = self.__get_id(module_id)
+        module_id = module_id.replace(".", "/")
+        formatted_module_id = f"{self.api.package}/{module_id}"
+        id_ = self.__get_id(formatted_module_id)
 
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
