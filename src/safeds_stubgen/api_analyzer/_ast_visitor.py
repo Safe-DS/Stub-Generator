@@ -635,8 +635,7 @@ class MyPyAstVisitor:
 
     def __get_id(self, name: str) -> str:
         segments = [
-            it.id if isinstance(it, Module)  # Special case, to get the module path info the id
-            else it.name
+            it.id if isinstance(it, Module) else it.name  # Special case, to get the module path info the id
             for it in self.__declaration_stack
             if not isinstance(it, list)  # Check for the linter, on runtime can never be list type
         ]
