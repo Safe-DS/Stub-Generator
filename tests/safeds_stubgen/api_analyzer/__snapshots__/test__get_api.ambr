@@ -616,6 +616,25 @@
     }),
   ])
 # ---
+# name: test_class_attributes_test_package
+  list([
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_package/test_package/test_package/test_package',
+      'is_public': True,
+      'is_static': True,
+      'name': 'test_package',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+  ])
+# ---
 # name: test_class_methods_EpydocDocstringClass
   list([
     dict({
@@ -1448,6 +1467,29 @@
     ]),
   })
 # ---
+# name: test_classes_TestPackage
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/test_package/test_package/TestPackage',
+    'is_public': True,
+    'methods': list([
+      'test_package/test_package/test_package/TestPackage/test_package',
+    ]),
+    'name': 'TestPackage',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+  })
+# ---
 # name: test_classes__PrivateClass
   dict({
     'attributes': list([
@@ -1508,6 +1550,29 @@
     'name': '_ThirdReexportClass',
     'reexported_by': list([
       'test_package/__init__',
+    ]),
+    'superclasses': list([
+    ]),
+  })
+# ---
+# name: test_classes_test_package
+  dict({
+    'attributes': list([
+      'test_package/test_package/test_package/test_package/test_package',
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/test_package/test_package/test_package',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'test_package',
+    'reexported_by': list([
     ]),
     'superclasses': list([
     ]),
@@ -2878,6 +2943,25 @@
       dict({
         'module_name': 'docstring_parser',
       }),
+    ]),
+  })
+# ---
+# name: test_modules_test_package
+  dict({
+    'classes': list([
+      'test_package/test_package/test_package/TestPackage',
+      'test_package/test_package/test_package/test_package',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'test_package/test_package/test_package',
+    'name': 'test_package',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
     ]),
   })
 # ---
