@@ -2756,7 +2756,7 @@
 # name: test_modules_another_module
   dict({
     'classes': list([
-      'test_package/another_module/AnotherClass',
+      'test_package/another_path/another_module/AnotherClass',
     ]),
     'docstring': '''
       Another Module Docstring.
@@ -2768,7 +2768,7 @@
     ]),
     'functions': list([
     ]),
-    'id': 'test_package/another_module',
+    'id': 'test_package/another_path/another_module',
     'name': 'another_module',
     'qualified_imports': list([
     ]),

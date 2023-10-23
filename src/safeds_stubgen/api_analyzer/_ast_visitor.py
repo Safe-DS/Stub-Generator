@@ -95,13 +95,24 @@ class MyPyAstVisitor:
             elif isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
                 docstring = definition.expr.value
 
+        # Create module id to get the full path
+        module_id_parts = node.fullname.split(self.api.package)[1:]
+        for i, id_part in enumerate(module_id_parts):
+            if id_part.startswith("."):
+                module_id_parts[i] = id_part[1:]
+            elif id_part.endswith("."):
+                module_id_parts[i] = id_part[:-1]
+            module_id_parts[i] = module_id_parts[i].replace(".", "/")
+        module_id = "/".join([self.api.package, *module_id_parts])
+        id_ = self.__get_id(module_id)
+
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
         if is_package:
             name = "__init__"
+            id_ += name
         else:
             name = node.name
-        id_ = self.__get_id(name)
 
         # Remember module, so we can later add classes and global functions
         module = Module(
@@ -626,9 +637,9 @@ class MyPyAstVisitor:
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])
 
     def __get_id(self, name: str) -> str:
-        segments = [self.api.package]
-        segments += [
-            it.name
+        segments = [
+            it.id if isinstance(it, Module)  # Special case, to get the module path info the id
+            else it.name
             for it in self.__declaration_stack
             if not isinstance(it, list)  # Check for the linter, on runtime can never be list type
         ]
