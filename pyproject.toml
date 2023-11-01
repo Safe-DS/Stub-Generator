@@ -19,12 +19,12 @@ generate-safeds-stubs = "safeds_stubgen.main:main"
 python = "^3.11"
 mypy = "^1.6.1"
 docstring-parser = "^0.15"
-syrupy = "^4.5.0"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^7.4.3"
 pytest-cov = "^4.0.0"
 setuptools = "^68.0.0"
+syrupy = "^4.6.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.5.3"
@@ -37,4 +37,3 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-
