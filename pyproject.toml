@@ -17,7 +17,7 @@ generate-safeds-stubs = "safeds_stubgen.main:main"
 
 [tool.poetry.dependencies]
 python = "^3.11"
-mypy = "^1.5.1"
+mypy = "^1.6.1"
 docstring-parser = "^0.15"
 syrupy = "^4.5.0"
 
