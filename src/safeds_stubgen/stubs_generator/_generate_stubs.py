@@ -16,6 +16,32 @@ from safeds_stubgen.api_analyzer import (
 )
 
 
+# Todo Null nicht als type (für bspw. Arugmente), stattdessen "Nothing?"
+""" Todo https://github.com/Safe-DS/DSL/blob/main/syntaxes/safe-ds.tmLanguage.json
+        {
+            "name": "constant.language.safe-ds",
+            "match": "\\b(false|null|true)\\b"
+        },
+        {
+            "name": "storage.type.safe-ds",
+            "match": "\\b(annotation|attr|class|enum|fun|package|pipeline|schema|segment|val)\\b"
+        },
+        {
+            "name": "storage.modifier.safe-ds",
+            "match": "\\b(const|in|internal|out|private|static)\\b"
+        },
+        {
+            "name": "keyword.operator.safe-ds",
+            "match": "\\b(and|not|or|sub|super)\\b"
+        },
+        {
+            "name": "keyword.other.safe-ds",
+            "match": "\\b(as|from|import|literal|union|where|yield)\\b"
+        }
+
+        In den match Felder -> bspw.: Bei enum import `enum`
+"""
+# Todo Keine Kommas nach Enum Instanzen
 class StubsGenerator:
     api: API
     out_path: Path
@@ -208,7 +234,7 @@ class StubsGenerator:
 
             # Check if assigned_by is not illegal
             assigned_by = parameter.assigned_by
-            if assigned_by == ParameterAssignment.OPT_POS_ONLY:
+            if assigned_by == ParameterAssignment.POSITION_ONLY and parameter.default_value is not None:
                 self.current_todo_msgs.add("OPT_POS_ONLY")
             elif assigned_by == ParameterAssignment.NAME_ONLY and not parameter.is_optional:
                 self.current_todo_msgs.add("REQ_NAME_ONLY")

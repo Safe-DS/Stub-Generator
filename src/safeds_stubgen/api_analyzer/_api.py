@@ -286,8 +286,7 @@ class ParameterAssignment(PythonEnum):
     IMPLICIT parameters appear on instance methods (usually called "self") and on class methods (usually called "cls").
     POSITION_ONLY parameters precede the "/" in a parameter list. NAME_ONLY parameters follow the "*" or the
     POSITIONAL_VARARGS parameter ("*args"). Between the "/" and the "*" the POSITION_OR_NAME parameters reside. Finally,
-    the parameter list might optionally include a NAMED_VARARG parameter ("**kwargs"). OPT_POS_ONLY is an illegal state
-    in which an optional parameter can only be passed by position.
+    the parameter list might optionally include a NAMED_VARARG parameter ("**kwargs").
     """
 
     IMPLICIT = "IMPLICIT"
@@ -296,7 +295,6 @@ class ParameterAssignment(PythonEnum):
     POSITIONAL_VARARG = "POSITIONAL_VARARG"
     NAME_ONLY = "NAME_ONLY"
     NAMED_VARARG = "NAMED_VARARG"
-    OPT_POS_ONLY = "OPT_POS_ONLY"
 
 
 @dataclass(frozen=True)
