@@ -1,0 +1,138 @@
+# serializer version: 1
+# name: test_class_attribute_creation
+  '''
+  package test_stub_generation.attribute_module
+  
+  class A {}
+  
+  class B {
+  	attr type_hint_public: Int
+  	attr no_type_hint_public
+  	attr object_attr: A
+  	// Todo Tuple types are not allowed in SafeDS
+  	attr tuple_attr_1: Tuple
+  	// Todo Tuple types are not allowed in SafeDS
+  	attr tuple_attr_2: Tuple<union<String, Int>>
+  	// Todo Tuple types are not allowed in SafeDS
+  	attr tuple_attr_3: Tuple<String, Int>
+  	attr list_attr_1: List<Any>
+  	attr list_attr_2: List<union<String, A>>
+  	// Todo List type has to many type arguments
+  	attr list_attr_3: List<String, A>
+  	// Todo List type has to many type arguments
+  	attr list_attr_4: List<String, union<A, Int>>
+  	attr dict_attr_1: Map<Any, Any>
+  	attr dict_attr_2: Map<String, Int>
+  	attr dict_attr_3: Map<union<String, Int>, A?>
+  	attr bool_attr: Boolean
+  	attr none_attr: Nothing?
+  	attr flaot_attr: Float
+  	attr int_or_bool_attr: union<Int, Boolean>
+  	attr str_attr_with_none_value: String
+  	attr mulit_attr_1
+  	attr mulit_attr_3
+  	attr mulit_attr_5
+  	attr mulit_attr_6
+  	attr mulit_attr_7
+  	attr mulit_attr_8
+  }
+  
+  '''
+# ---
+# name: test_class_creation
+  '''
+  package test_stub_generation.class_module
+  
+  class A {}
+  
+  class B(a: Int, b: A?) sub A {
+  	fun f()
+  }
+  
+  class C sub A, B {
+  	attr attr_1: Int
+  	attr attr_2: Int
+  
+  	fun f1()
+  }
+  
+  '''
+# ---
+# name: test_enum_creation
+  '''
+  package test_stub_generation.enum_module
+  
+  from `enum` import Enum
+  from `enum` import IntEnum
+  from `enum` import Enum as _Enum
+  
+  enum EnumTest {
+  	ONE
+  	TWO
+  	THREE
+  	FOUR
+  	FIVE
+  	SIX
+  	SEVEN
+  	EIGHT
+  	NINE
+  }
+  
+  enum EnumTest2 {
+  	TEN
+  }
+  
+  enum EnumTest3 {
+  	ELEVEN
+  }
+  
+  '''
+# ---
+# name: test_function_creation
+  '''
+  package test_stub_generation.function_module
+  
+  fun public_no_params_no_result()
+  
+  fun params(i: Int, union: union<Int, Boolean>, lst: List<Int>, obj: A) -> result_1: Any
+  
+  // Todo Tuple types are not allowed in SafeDS
+  fun illegal_params(none: Nothing?, none_union: Boolean?, tpl: Tuple<Int, String, Boolean, Int>, lst: List<Any>) -> result_1: Any
+  
+  fun param_position(self: Any, a: Any, b: Boolean, c: Any = 1, d: Any, e: Int = 1) -> result_1: Any
+  
+  // Todo Illegal parameter assignment: Optional but position only
+  fun opt_pos_only(required: Any, optional: Any = 1)
+  
+  // Todo Illegal parameter assignment: Required but name only
+  fun req_name_only(required: Any, optional: Any = 1)
+  
+  // Todo Tuple types are not allowed in SafeDS
+  fun arg(args: Tuple, kwargs: Map<String, Any>)
+  
+  fun one_result() -> result_1: Int
+  
+  fun muliple_results() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
+  
+  class A {}
+  
+  class B(init_param: Any) {
+  	fun class_method(a: A) -> result_1: A
+  
+  	static fun static_class_method()
+  }
+  
+  '''
+# ---
+# name: test_import_creation
+  '''
+  package test_stub_generation.import_module
+  
+  from `enum` import IntEnum
+  from `enum` import Enum as _Enum
+  import mypy as static
+  
+  from math import *
+  
+  '''
+# ---

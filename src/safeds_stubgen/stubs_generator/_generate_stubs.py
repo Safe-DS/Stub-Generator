@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import shutil
 from pathlib import Path
 from typing import TextIO
 
@@ -16,32 +17,7 @@ from safeds_stubgen.api_analyzer import (
 )
 
 
-# Todo Null nicht als type (für bspw. Arugmente), stattdessen "Nothing?"
-""" Todo https://github.com/Safe-DS/DSL/blob/main/syntaxes/safe-ds.tmLanguage.json
-        {
-            "name": "constant.language.safe-ds",
-            "match": "\\b(false|null|true)\\b"
-        },
-        {
-            "name": "storage.type.safe-ds",
-            "match": "\\b(annotation|attr|class|enum|fun|package|pipeline|schema|segment|val)\\b"
-        },
-        {
-            "name": "storage.modifier.safe-ds",
-            "match": "\\b(const|in|internal|out|private|static)\\b"
-        },
-        {
-            "name": "keyword.operator.safe-ds",
-            "match": "\\b(and|not|or|sub|super)\\b"
-        },
-        {
-            "name": "keyword.other.safe-ds",
-            "match": "\\b(as|from|import|literal|union|where|yield)\\b"
-        }
-
-        In den match Felder -> bspw.: Bei enum import `enum`
-"""
-# Todo Keine Kommas nach Enum Instanzen
+# Todo Docstrings
 class StubsGenerator:
     api: API
     out_path: Path
@@ -101,6 +77,15 @@ class StubsGenerator:
                 for enum in module.enums:
                     self._write_enum(f, enum)
 
+            # Todo Frage:
+            # Delete the file, if it has no content besides the "package" information in the first line
+            with file_path.open("r") as f:
+                delete_file = False
+                if sum(1 for _ in f) <= 1:
+                    delete_file = True
+            if delete_file:
+                shutil.rmtree(module_dir)
+
     def _create_reexported_files(self):
         pass
 
@@ -127,7 +112,7 @@ class StubsGenerator:
         # Class signature line
         f.write(
             f"\n{class_indentation}{self.create_todo_msg(0)}class "
-            f"{class_.name}{parameter_info}{superclass_info} {{"
+            f"{class_.name}{parameter_info}{superclass_info} {{",
         )
 
         # Attributes
@@ -261,6 +246,10 @@ class StubsGenerator:
         for qualified_import in qualified_imports:
             qualified_name = qualified_import.qualified_name
             import_path, name = split_import_id(qualified_name)
+
+            import_path = replace_if_safeds_keyword(import_path)
+            name = replace_if_safeds_keyword(name)
+
             from_path = ""
             if import_path:
                 from_path = f"from {import_path} "
@@ -294,7 +283,7 @@ class StubsGenerator:
 
         # Enum instances
         for enum_instance in enum_data.instances:
-            f.write(f"\t{enum_instance.name}" + ",\n")
+            f.write(f"\t{enum_instance.name}" + "\n")
 
         # Close
         f.write("}\n")
@@ -304,6 +293,7 @@ class StubsGenerator:
         if type_data is None:
             return ""
 
+        none_type_name = "Nothing?"
         kind = type_data["kind"]
         if kind == "NamedType":
             name = type_data["name"]
@@ -320,7 +310,7 @@ class StubsGenerator:
                 case "float":
                     return "Float"
                 case "None":
-                    return "null"
+                    return none_type_name
                 case _:
                     return name
         elif kind == "FinalType":
@@ -348,8 +338,8 @@ class StubsGenerator:
             ]
 
             if types:
-                if len(types) == 2 and "null" in types:
-                    if types[0] == "null":
+                if len(types) == 2 and none_type_name in types:
+                    if types[0] == none_type_name:
                         return f"{types[1]}?"
                     else:
                         return f"{types[0]}?"
@@ -400,6 +390,15 @@ class StubsGenerator:
 
         indentations = "\t" * indenta_quant
         return f"// Todo {', '.join(todo_msgs)}\n{indentations}"
+
+
+# Todo Frage: An welchem Stellen soll ersetz werden? Auch Variablen und Enum Instanzen?
+def replace_if_safeds_keyword(keyword: str) -> str:
+    if keyword in {"as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation",
+                   "attr", "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in",
+                   "internal", "out", "private", "static", "and", "not", "or", "sub", "super"}:
+        return f"`{keyword}`"
+    return keyword
 
 
 def split_import_id(id_: str) -> tuple[str, str]:
