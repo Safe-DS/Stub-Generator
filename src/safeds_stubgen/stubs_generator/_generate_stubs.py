@@ -426,7 +426,7 @@ def convert_snake_to_camel_case(name: str) -> str:
         for t in name_parts[1:]
     )
 
-    return f"{underscore_count_start * "_"}{camel_case}{underscore_count_end * "_"}"
+    return f"{underscore_count_start * '_'}{camel_case}{underscore_count_end * '_'}"
 
 
 # Todo Frage: An welchem Stellen soll ersetz werden? Auch Variablen und Enum Instanzen?
