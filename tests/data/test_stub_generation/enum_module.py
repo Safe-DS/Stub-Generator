@@ -17,3 +17,7 @@ class EnumTest2(_Enum):
 
 class EnumTest3(IntEnum):
     ELEVEN = 11
+
+
+class EmptyEnum(Enum, IntEnum):
+    ...

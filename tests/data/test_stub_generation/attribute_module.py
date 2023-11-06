@@ -34,3 +34,6 @@ class B:
     mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
     mulit_attr_5, mulit_attr_6 = ("A", "B")
     mulit_attr_7 = mulit_attr_8 = "A"
+
+    def __init__(self):
+        self.init_attr: bool = False

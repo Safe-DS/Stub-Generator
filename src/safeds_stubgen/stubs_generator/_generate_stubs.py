@@ -17,7 +17,7 @@ from safeds_stubgen.api_analyzer import (
 )
 
 
-# Todo Docstrings
+# Todo Docstrings / Descriptions
 class StubsGenerator:
     api: API
     out_path: Path
@@ -40,9 +40,6 @@ class StubsGenerator:
             module_id = module.id
 
             if module_name == "__init__":
-                # Todo Handle __init__ files
-                # Todo Handle reexported files that are already created
-                self._create_reexported_files()
                 continue
 
             # Create module dir
@@ -75,7 +72,7 @@ class StubsGenerator:
 
                 # Create enums & enum instances
                 for enum in module.enums:
-                    self._write_enum(f, enum)
+                    self._write_enum(f, enum, 0)
 
             # Todo Frage:
             # Delete the file, if it has no content besides the "package" information in the first line
@@ -85,9 +82,6 @@ class StubsGenerator:
                     delete_file = True
             if delete_file:
                 shutil.rmtree(module_dir)
-
-    def _create_reexported_files(self):
-        pass
 
     def _write_class(self, f: TextIO, class_: Class, indent_quant: int) -> None:
         class_indentation = "\t" * indent_quant
@@ -277,16 +271,26 @@ class StubsGenerator:
         f.write(f"\n{all_imports}\n")
 
     @staticmethod
-    def _write_enum(f: TextIO, enum_data: Enum) -> None:
+    def _write_enum(f: TextIO, enum_data: Enum, indent_quant: int) -> None:
+        indentations = "\t" * (indent_quant + 1)
+        enum_text = ""
+
         # Signature
-        f.write(f"\nenum {enum_data.name} {{\n")
+        enum_text += f"\nenum {enum_data.name} {{"
 
         # Enum instances
-        for enum_instance in enum_data.instances:
-            f.write(f"\t{enum_instance.name}" + "\n")
+        instances = enum_data.instances
+        if instances:
+            enum_text += "\n"
+
+            for enum_instance in instances:
+                enum_text += f"{indentations}{enum_instance.name}\n"
 
         # Close
-        f.write("}\n")
+        enum_text += "}\n"
+
+        # Write
+        f.write(enum_text)
 
     def _create_type_string(self, type_data: dict | None) -> str:
         """Create a SafeDS stubs type string."""
@@ -390,6 +394,34 @@ class StubsGenerator:
 
         indentations = "\t" * indenta_quant
         return f"// Todo {', '.join(todo_msgs)}\n{indentations}"
+
+
+# Todo Frage: Where to use? Classes, Enums, Functions, Attributes, Parameters, Enum Instances?
+#  PascalCase vs camelCase
+#  Do we keep underscores at the end or the beginning of a name?
+def convert_snake_to_camel_case(name: str) -> str:
+    underscore_count_start = 0
+    for character in name:
+        if character == "_":
+            underscore_count_start += 1
+        else:
+            break
+
+    underscore_count_end = 0
+    for i in reversed(range(len(name))):
+        if name[i] == "_":
+            underscore_count_end += 1
+        else:
+            break
+
+    name_parts = name[underscore_count_start:-underscore_count_end].split("_")
+
+    camel_case = name_parts[0] + "".join(
+        t.title()
+        for t in name_parts[1:]
+    )
+
+    return f"{underscore_count_start * "_"}{camel_case}{underscore_count_end * "_"}"
 
 
 # Todo Frage: An welchem Stellen soll ersetz werden? Auch Variablen und Enum Instanzen?

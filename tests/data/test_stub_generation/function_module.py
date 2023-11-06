@@ -11,7 +11,9 @@ class B:
     def static_class_method() -> None: ...
 
 
-def _private(): ...
+def _private(a): ...
+
+
 def public_no_params_no_result(): ...
 
 
@@ -25,9 +27,15 @@ def params(
 
 def illegal_params(
     none: None,
-    none_union: None | bool,
+    none_union: None | None,
     tpl: tuple[int, str, bool, int],
-    lst: list[int, str]
+    lst: list[int, str],
+    _: int = "String"
+): ...
+
+
+def special_params(
+    none_union: None | bool,
 ): ...
 
 
@@ -41,6 +49,9 @@ def req_name_only(*, required, optional=1): ...
 
 
 def arg(*args, **kwargs): ...
+
+
+def args_type(*args: int, **kwargs: int): ...
 
 
 def one_result() -> int: ...

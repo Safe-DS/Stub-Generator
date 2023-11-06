@@ -21,7 +21,7 @@ stubs_generator = StubsGenerator(api, _out_dir)
 stubs_generator.generate_stubs()
 
 
-# ############################## Utilites ############################## #
+# Utilites
 def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     assert python_path.is_dir()
     assert stub_path.is_dir()
@@ -53,7 +53,7 @@ def assert_stubs_snapshot(filename: str, snapshot: SnapshotAssertion) -> None:
         assert f.read() == snapshot
 
 
-# ############################## Test ############################## #
+# ############################## Tests ############################## #
 def test_file_creation() -> None:
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "test_file_creation"),
@@ -88,4 +88,3 @@ def test_import_creation(snapshot: SnapshotAssertion) -> None:
 
 # Todo
 def test_docstring_creation() -> None: ...
-def test_reexport_creation() -> None: ...

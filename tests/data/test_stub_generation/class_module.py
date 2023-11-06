@@ -13,3 +13,9 @@ class C(A, B):
     attr_2: int
 
     def f1(self): ...
+
+
+class D:
+    class E:
+        class F:
+            ...
