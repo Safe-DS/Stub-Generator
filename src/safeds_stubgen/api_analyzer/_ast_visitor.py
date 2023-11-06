@@ -96,13 +96,7 @@ class MyPyAstVisitor:
                 docstring = definition.expr.value
 
         # Create module id to get the full path
-        module_id_parts = node.fullname.split(self.api.package)[1:]
-        module_id = self.api.package.join(module_id_parts)
-        if module_id.startswith("."):
-            module_id = module_id[1:]
-        module_id = module_id.replace(".", "/")
-        formatted_module_id = f"{self.api.package}/{module_id}"
-        id_ = self.__get_id(formatted_module_id)
+        id_ = self._create_module_id(node.fullname)
 
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
@@ -134,7 +128,7 @@ class MyPyAstVisitor:
         self.api.add_module(module)
 
     def enter_classdef(self, node: ClassDef) -> None:
-        id_ = self.__get_id(node.name)
+        id_ = self._create_id_from_stack(node.name)
         name = node.name
 
         # Get docstring
@@ -181,7 +175,7 @@ class MyPyAstVisitor:
 
     def enter_funcdef(self, node: FuncDef) -> None:
         name = node.name
-        function_id = self.__get_id(name)
+        function_id = self._create_id_from_stack(name)
 
         is_public = self.is_public(name, node.fullname)
         is_static = node.is_static
@@ -238,7 +232,7 @@ class MyPyAstVisitor:
                     parent.add_method(function)
 
     def enter_enumdef(self, node: ClassDef) -> None:
-        id_ = self.__get_id(node.name)
+        id_ = self._create_id_from_stack(node.name)
         self.__declaration_stack.append(
             Enum(
                 id=id_,
@@ -498,7 +492,7 @@ class MyPyAstVisitor:
         docstring = self.docstring_parser.get_attribute_documentation(parent, name)
 
         # Remove __init__ for attribute ids
-        id_ = self.__get_id(name).replace("__init__/", "")
+        id_ = self._create_id_from_stack(name).replace("__init__/", "")
 
         return Attribute(
             id=id_,
@@ -614,6 +608,37 @@ class MyPyAstVisitor:
 
     # #### Misc. utilities
 
+    def _create_module_id(self, qname: str) -> str:
+        """Create an ID for the module object.
+
+        Creates the module ID while discarding possible unnecessary information from the module qname.
+
+        Paramters
+        ---------
+        qname : str
+            The qualified name of the module
+
+        Returns
+        -------
+        str
+            ID of the module
+        """
+        package_name = self.api.package
+
+        # We have to split the qname of the module at the first occurence of the package name and reconnect it while
+        # discarding everything behind it. This is necessary since the qname could contain unwanted information.
+        module_id_parts = qname.split(package_name)
+        module_id = package_name.join(module_id_parts[1:])
+
+        # If the qname is something like "unwanted_information.package_name.package_name.xxx" the result of the code
+        # above would be ".package_name.xxx", thus we would have to remove the "." character
+        if module_id.startswith("."):
+            module_id = module_id[1:]
+
+        # Replaces dots with slashes and add the package name at the start of the id, since we removed it
+        module_id = module_id.replace(".", "/")
+        return f"{package_name}/{module_id}"
+
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
@@ -634,7 +659,22 @@ class MyPyAstVisitor:
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])
 
-    def __get_id(self, name: str) -> str:
+    def _create_id_from_stack(self, name: str) -> str:
+        """Create an ID for a new object using previous objects of the stack.
+
+        Creates an ID by connecting the previous objects of the __declaration_stack stack and the new objects name,
+        which is on the highest level.
+
+        Paramters
+        ---------
+        name : str
+            The name of the new object which lies on the highest level.
+
+        Returns
+        -------
+        str
+            ID of the object
+        """
         segments = [
             it.id if isinstance(it, Module) else it.name  # Special case, to get the module path info the id
             for it in self.__declaration_stack
