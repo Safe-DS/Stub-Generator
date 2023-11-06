@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import shutil
 from pathlib import Path
-from typing import TextIO
 
 from safeds_stubgen.api_analyzer import (
     API,
@@ -53,26 +52,33 @@ class StubsGenerator:
             with file_path.open("w") as f:
                 # Create package info
                 package_info = module_id.replace("/", ".")
-                f.write(f"package {package_info}\n")
+                module_text = f"package {package_info}\n"
 
                 # Create imports
-                self._write_qualified_imports(f, module.qualified_imports)
-                self._write_wildcard_imports(f, module.wildcard_imports)
+                qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
+                if qualified_imports:
+                    module_text += f"\n{qualified_imports}\n"
+
+                wildcard_imports = self._create_wildcard_imports_string(module.wildcard_imports)
+                if wildcard_imports:
+                    module_text += f"\n{wildcard_imports}\n"
 
                 # Create global functions
                 for function in module.global_functions:
                     if function.is_public:
-                        function_string = self._create_function_string(function, 0, is_class_method=False)
-                        f.write(f"\n{function_string}\n")
+                        module_text += f"\n{self._create_function_string(function, 0, is_class_method=False)}\n"
 
                 # Create classes, class attr. & class methods
                 for class_ in module.classes:
                     if class_.is_public:
-                        self._write_class(f, class_, 0)
+                        module_text += f"\n{self._create_class_string(class_, 0)}\n"
 
                 # Create enums & enum instances
                 for enum in module.enums:
-                    self._write_enum(f, enum, 0)
+                    module_text += f"\n{self._create_enum(enum, 0)}\n"
+
+                # Write module
+                f.write(module_text)
 
             # Todo Frage:
             # Delete the file, if it has no content besides the "package" information in the first line
@@ -83,9 +89,10 @@ class StubsGenerator:
             if delete_file:
                 shutil.rmtree(module_dir)
 
-    def _write_class(self, f: TextIO, class_: Class, indent_quant: int) -> None:
+    def _create_class_string(self, class_: Class, indent_quant: int) -> str:
         class_indentation = "\t" * indent_quant
         inner_indentations = class_indentation + "\t"
+        class_text = ""
 
         # Constructor parameter
         constructor = class_.constructor
@@ -104,9 +111,9 @@ class StubsGenerator:
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         # Class signature line
-        f.write(
-            f"\n{class_indentation}{self.create_todo_msg(0)}class "
-            f"{class_.name}{parameter_info}{superclass_info} {{",
+        class_text += (
+            f"{class_indentation}{self.create_todo_msg(0)}class "
+            f"{class_.name}{parameter_info}{superclass_info} {{"
         )
 
         # Attributes
@@ -129,11 +136,11 @@ class StubsGenerator:
 
         if class_attributes:
             attributes = f"\n{inner_indentations}".join(class_attributes)
-            f.write(f"\n{inner_indentations}{attributes}\n")
+            class_text += f"\n{inner_indentations}{attributes}\n"
 
         # Inner classes
         for inner_class in class_.classes:
-            self._write_class(f, inner_class, indent_quant + 1)
+            class_text += f"\n{self._create_class_string(inner_class, indent_quant + 1)}\n"
 
         # Methods
         class_methods: list[str] = []
@@ -145,10 +152,12 @@ class StubsGenerator:
             )
         if class_methods:
             methods = f"\n\n{inner_indentations}".join(class_methods)
-            f.write(f"\n{inner_indentations}{methods}\n")
+            class_text += f"\n{inner_indentations}{methods}\n"
 
         # Close class
-        f.write(f"{class_indentation}}}\n")
+        class_text += f"{class_indentation}}}"
+
+        return class_text
 
     def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
         is_static = function.is_static
@@ -232,9 +241,9 @@ class StubsGenerator:
         return ""
 
     @staticmethod
-    def _write_qualified_imports(f: TextIO, qualified_imports: list[QualifiedImport]) -> None:
+    def _create_qualified_imports_string(qualified_imports: list[QualifiedImport]) -> str:
         if not qualified_imports:
-            return
+            return ""
 
         imports: list[str] = []
         for qualified_import in qualified_imports:
@@ -254,29 +263,27 @@ class StubsGenerator:
                 f"{from_path}import {name}{alias}",
             )
 
-        all_imports = "\n".join(imports)
-        f.write(f"\n{all_imports}\n")
+        return "\n".join(imports)
 
     @staticmethod
-    def _write_wildcard_imports(f: TextIO, wildcard_imports: list[WildcardImport]) -> None:
+    def _create_wildcard_imports_string(wildcard_imports: list[WildcardImport]) -> str:
         if not wildcard_imports:
-            return
+            return ""
 
         imports = [
             f"from {wildcard_import.module_name} import *"
             for wildcard_import in wildcard_imports
         ]
 
-        all_imports = "\n".join(imports)
-        f.write(f"\n{all_imports}\n")
+        return "\n".join(imports)
 
     @staticmethod
-    def _write_enum(f: TextIO, enum_data: Enum, indent_quant: int) -> None:
+    def _create_enum(enum_data: Enum, indent_quant: int) -> str:
         indentations = "\t" * (indent_quant + 1)
         enum_text = ""
 
         # Signature
-        enum_text += f"\nenum {enum_data.name} {{"
+        enum_text += f"enum {enum_data.name} {{"
 
         # Enum instances
         instances = enum_data.instances
@@ -286,11 +293,9 @@ class StubsGenerator:
             for enum_instance in instances:
                 enum_text += f"{indentations}{enum_instance.name}\n"
 
-        # Close
-        enum_text += "}\n"
-
-        # Write
-        f.write(enum_text)
+        # Close & Return
+        enum_text += "}"
+        return enum_text
 
     def _create_type_string(self, type_data: dict | None) -> str:
         """Create a SafeDS stubs type string."""
