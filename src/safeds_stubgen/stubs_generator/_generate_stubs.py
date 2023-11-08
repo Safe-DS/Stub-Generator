@@ -110,10 +110,13 @@ class StubsGenerator:
             ]
             superclass_info = f" sub {', '.join(superclass_names)}"
 
+        if len(superclasses) > 1:
+            self.current_todo_msgs.add("multiple_inheritance")
+
         # Class signature line
-        class_text += (
+        class_signature = (
             f"{class_indentation}{self.create_todo_msg(0)}class "
-            f"{class_.name}{parameter_info}{superclass_info} {{"
+            f"{class_.name}({parameter_info}){superclass_info}"
         )
 
         # Attributes
@@ -126,11 +129,15 @@ class StubsGenerator:
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
 
+            static_string = ""
+            if attribute.is_static:
+                static_string = "static "
+
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
             class_attributes.append(
                 f"{self.create_todo_msg(indent_quant + 1)}"
-                f"attr {attribute.name}"
+                f"{static_string}attr {attribute.name}"
                 f"{type_string}",
             )
 
@@ -154,10 +161,14 @@ class StubsGenerator:
             methods = f"\n\n{inner_indentations}".join(class_methods)
             class_text += f"\n{inner_indentations}{methods}\n"
 
+        # If the does not have a body, we just return the signature line
+        if not class_text:
+            return class_signature
+
         # Close class
         class_text += f"{class_indentation}}}"
 
-        return class_text
+        return f"{class_signature} {{{class_text}"
 
     def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
         is_static = function.is_static
@@ -166,12 +177,10 @@ class StubsGenerator:
         # Parameters
         is_instance_method = not is_static and is_class_method
         func_params = self._create_parameter_string(function.parameters, is_instance_method)
-        if not func_params:
-            func_params = "()"
 
         return (
             f"{self.create_todo_msg(indent_quant)}"
-            f"{static}fun {function.name}{func_params}"
+            f"{static}fun {function.name}({func_params})"
             f"{self._create_result_string(function.results)}"
         )
 
@@ -237,7 +246,7 @@ class StubsGenerator:
                 f"{type_string}{param_value}",
             )
         if parameters_data:
-            return f"({', '.join(parameters_data)})"
+            return f"{', '.join(parameters_data)}"
         return ""
 
     @staticmethod
@@ -280,22 +289,21 @@ class StubsGenerator:
     @staticmethod
     def _create_enum(enum_data: Enum, indent_quant: int) -> str:
         indentations = "\t" * (indent_quant + 1)
-        enum_text = ""
 
         # Signature
-        enum_text += f"enum {enum_data.name} {{"
+        enum_signature = f"enum {enum_data.name}"
 
-        # Enum instances
+        # Enum body
+        enum_text = ""
         instances = enum_data.instances
         if instances:
             enum_text += "\n"
 
             for enum_instance in instances:
                 enum_text += f"{indentations}{enum_instance.name}\n"
+            return f"{enum_signature} {{{enum_text}}}"
 
-        # Close & Return
-        enum_text += "}"
-        return enum_text
+        return enum_signature
 
     def _create_type_string(self, type_data: dict | None) -> str:
         """Create a SafeDS stubs type string."""
@@ -384,13 +392,15 @@ class StubsGenerator:
         todo_msgs = []
         for msg in self.current_todo_msgs:
             if msg == "Tuple":
-                todo_msgs.append("Tuple types are not allowed in SafeDS")
+                todo_msgs.append("Safe-DS does not support tuple types.")
             elif msg in {"List", "Set"}:
-                todo_msgs.append(f"{msg} type has to many type arguments")
+                todo_msgs.append(f"{msg} type has to many type arguments.")
             elif msg == "OPT_POS_ONLY":
-                todo_msgs.append("Illegal parameter assignment: Optional but position only")
+                todo_msgs.append("Safe-DS does not support optional but position only parameter assignments.")
             elif msg == "REQ_NAME_ONLY":
-                todo_msgs.append("Illegal parameter assignment: Required but name only")
+                todo_msgs.append("Safe-DS does not support required but name only parameter assignments.")
+            elif msg == "multiple_inheritance":
+                todo_msgs.append("Safe-DS does not support multiple inheritance.")
             else:
                 raise ValueError(f"Unknown todo message: {msg}")
 
@@ -398,7 +408,7 @@ class StubsGenerator:
         self.current_todo_msgs = set()
 
         indentations = "\t" * indenta_quant
-        return f"// Todo {', '.join(todo_msgs)}\n{indentations}"
+        return f"// TODO {', '.join(todo_msgs)}\n{indentations}"
 
 
 # Todo Frage: Where to use? Classes, Enums, Functions, Attributes, Parameters, Enum Instances?

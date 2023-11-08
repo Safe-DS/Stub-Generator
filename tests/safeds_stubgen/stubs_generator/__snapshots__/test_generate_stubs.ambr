@@ -3,38 +3,38 @@
   '''
   package test_stub_generation.attribute_module
   
-  class A {}
+  class A()
   
-  class B {
-  	attr type_hint_public: Int
-  	attr no_type_hint_public
-  	attr object_attr: A
-  	// Todo Tuple types are not allowed in SafeDS
-  	attr tuple_attr_1: Tuple
-  	// Todo Tuple types are not allowed in SafeDS
-  	attr tuple_attr_2: Tuple<union<String, Int>>
-  	// Todo Tuple types are not allowed in SafeDS
-  	attr tuple_attr_3: Tuple<String, Int>
-  	attr list_attr_1: List<Any>
-  	attr list_attr_2: List<union<String, A>>
-  	// Todo List type has to many type arguments
-  	attr list_attr_3: List<String, A>
-  	// Todo List type has to many type arguments
-  	attr list_attr_4: List<String, union<A, Int>>
-  	attr dict_attr_1: Map<Any, Any>
-  	attr dict_attr_2: Map<String, Int>
-  	attr dict_attr_3: Map<union<String, Int>, A?>
-  	attr bool_attr: Boolean
-  	attr none_attr: Nothing?
-  	attr flaot_attr: Float
-  	attr int_or_bool_attr: union<Int, Boolean>
-  	attr str_attr_with_none_value: String
-  	attr mulit_attr_1
-  	attr mulit_attr_3
-  	attr mulit_attr_5
-  	attr mulit_attr_6
-  	attr mulit_attr_7
-  	attr mulit_attr_8
+  class B() {
+  	static attr type_hint_public: Int
+  	static attr no_type_hint_public
+  	static attr object_attr: A
+  	// TODO Safe-DS does not support tuple types.
+  	static attr tuple_attr_1: Tuple
+  	// TODO Safe-DS does not support tuple types.
+  	static attr tuple_attr_2: Tuple<union<String, Int>>
+  	// TODO Safe-DS does not support tuple types.
+  	static attr tuple_attr_3: Tuple<String, Int>
+  	static attr list_attr_1: List<Any>
+  	static attr list_attr_2: List<union<String, A>>
+  	// TODO List type has to many type arguments.
+  	static attr list_attr_3: List<String, A>
+  	// TODO List type has to many type arguments.
+  	static attr list_attr_4: List<String, union<A, Int>>
+  	static attr dict_attr_1: Map<Any, Any>
+  	static attr dict_attr_2: Map<String, Int>
+  	static attr dict_attr_3: Map<union<String, Int>, A?>
+  	static attr bool_attr: Boolean
+  	static attr none_attr: Nothing?
+  	static attr flaot_attr: Float
+  	static attr int_or_bool_attr: union<Int, Boolean>
+  	static attr str_attr_with_none_value: String
+  	static attr mulit_attr_1
+  	static attr mulit_attr_3
+  	static attr mulit_attr_5
+  	static attr mulit_attr_6
+  	static attr mulit_attr_7
+  	static attr mulit_attr_8
   	attr init_attr: Boolean
   }
   
@@ -44,22 +44,23 @@
   '''
   package test_stub_generation.class_module
   
-  class A {}
+  class A()
   
   class B(a: Int, b: A?) sub A {
   	fun f()
   }
   
-  class C sub A, B {
-  	attr attr_1: Int
-  	attr attr_2: Int
+  // TODO Safe-DS does not support multiple inheritance.
+  class C() sub A, B {
+  	static attr attr_1: Int
+  	static attr attr_2: Int
   
   	fun f1()
   }
   
-  class D {
-  	class E {
-  		class F {		}
+  class D() {
+  	class E() {
+  		class F()
   	}
   }
   
@@ -93,7 +94,7 @@
   	ELEVEN
   }
   
-  enum EmptyEnum {}
+  enum EmptyEnum
   
   '''
 # ---
@@ -105,30 +106,30 @@
   
   fun params(i: Int, union: union<Int, Boolean>, lst: List<Int>, obj: A) -> result_1: Any
   
-  // Todo Tuple types are not allowed in SafeDS
+  // TODO Safe-DS does not support tuple types.
   fun illegal_params(none: Nothing?, none_union: Nothing??, tpl: Tuple<Int, String, Boolean, Int>, lst: List<Any>, _: Int = String) -> result_1: Any
   
   fun special_params(none_union: Boolean?) -> result_1: Any
   
   fun param_position(self: Any, a: Any, b: Boolean, c: Any = 1, d: Any, e: Int = 1) -> result_1: Any
   
-  // Todo Illegal parameter assignment: Optional but position only
+  // TODO Safe-DS does not support optional but position only parameter assignments.
   fun opt_pos_only(required: Any, optional: Any = 1)
   
-  // Todo Illegal parameter assignment: Required but name only
+  // TODO Safe-DS does not support required but name only parameter assignments.
   fun req_name_only(required: Any, optional: Any = 1)
   
-  // Todo Tuple types are not allowed in SafeDS
+  // TODO Safe-DS does not support tuple types.
   fun arg(args: Tuple, kwargs: Map<String, Any>)
   
-  // Todo Tuple types are not allowed in SafeDS
+  // TODO Safe-DS does not support tuple types.
   fun args_type(args: Tuple, kwargs: Map<String, Int>) -> result_1: Any
   
   fun one_result() -> result_1: Int
   
   fun muliple_results() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
   
-  class A {}
+  class A()
   
   class B(init_param: Any) {
   	fun class_method(a: A) -> result_1: A
