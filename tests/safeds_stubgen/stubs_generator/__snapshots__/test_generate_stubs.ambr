@@ -127,14 +127,16 @@
   
   fun one_result() -> result_1: Int
   
-  fun muliple_results() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
+  fun multiple_results() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
   
   class A()
   
   class B(init_param: Any) {
-  	fun class_method(a: A) -> result_1: A
+  	fun instance_method(a: A) -> result_1: A
   
   	static fun static_class_method()
+  
+  	fun class_method()
   }
   
   '''

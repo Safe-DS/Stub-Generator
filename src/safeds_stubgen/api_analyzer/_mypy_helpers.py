@@ -55,6 +55,11 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
     elif isinstance(mypy_type, mp_types.UnboundType):
         # Todo Aliasing: Import auflösen
         return sds_types.NamedType(name=mypy_type.name)
+    elif isinstance(mypy_type, mp_types.TypeType):
+        # The first parameter of cls methods
+        type_item = mypy_type.item
+        if isinstance(type_item, Instance):
+            return sds_types.NamedType(name=type_item.type.name)
 
     # Builtins
     elif isinstance(mypy_type, Instance):
