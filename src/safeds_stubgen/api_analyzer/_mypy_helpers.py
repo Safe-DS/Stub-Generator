@@ -101,7 +101,7 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
 def get_argument_kind(arg: Argument) -> ParameterAssignment:
     if arg.variable.is_self or arg.variable.is_cls:
         return ParameterAssignment.IMPLICIT
-    elif (arg.kind == ArgKind.ARG_POS or arg.kind == ArgKind.ARG_OPT) and arg.pos_only:
+    elif arg.kind in {ArgKind.ARG_POS, ArgKind.ARG_OPT} and arg.pos_only:
         return ParameterAssignment.POSITION_ONLY
     elif arg.kind in (ArgKind.ARG_OPT, ArgKind.ARG_POS) and not arg.pos_only:
         return ParameterAssignment.POSITION_OR_NAME
