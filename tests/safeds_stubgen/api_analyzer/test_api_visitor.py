@@ -57,7 +57,7 @@ from safeds_stubgen.docstring_parsing import PlaintextDocstringParser
         "Package name twice in qname 1",
         "Package name twice in qname 2",
         "Package name twice in qname 3",
-    ]
+    ],
 )
 def test__create_module_id(qname: str, expected_id: str, package_name: str) -> None:
     api = API(
