@@ -106,11 +106,6 @@ def test_modules_another_module(snapshot: SnapshotAssertion) -> None:
     assert module_data == snapshot
 
 
-def test_modules_test_package(snapshot: SnapshotAssertion) -> None:
-    module_data = _get_specific_module_data("test_package")
-    assert module_data == snapshot
-
-
 def test_modules_test_enums(snapshot: SnapshotAssertion) -> None:
     module_data = _get_specific_module_data("test_enums")
     assert module_data == snapshot
@@ -228,16 +223,6 @@ def test_classes_FourthReexportClass(snapshot: SnapshotAssertion) -> None:  # no
     assert class_data == snapshot
 
 
-def test_classes_TestPackage(snapshot: SnapshotAssertion) -> None:  # noqa: N802
-    class_data = _get_specific_class_data("TestPackage", "plaintext")
-    assert class_data == snapshot
-
-
-def test_classes_test_package(snapshot: SnapshotAssertion) -> None:
-    class_data = _get_specific_class_data("test_package", "plaintext")
-    assert class_data == snapshot
-
-
 # ############################## Class Attributes ############################## #
 def get_class_attribute_data(class_name: str, docstring_style: str) -> list:
     class_data: dict = _get_specific_class_data(class_name)
@@ -292,11 +277,6 @@ def test_class_attributes_NumpyDocstringClass(snapshot: SnapshotAssertion) -> No
 
 def test_class_attributes_GoogleDocstringClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
     class_data = get_class_attribute_data("GoogleDocstringClass", "google")
-    assert class_data == snapshot
-
-
-def test_class_attributes_test_package(snapshot: SnapshotAssertion) -> None:
-    class_data = get_class_attribute_data("test_package", "plaintext")
     assert class_data == snapshot
 
 

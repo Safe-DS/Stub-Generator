@@ -102,7 +102,7 @@ class MyPyAstVisitor:
         # the __init__.py file we set the name to __init__
         if is_package:
             name = "__init__"
-            id_ += name
+            id_ += f"/{name}"
         else:
             name = node.name
 
@@ -625,19 +625,19 @@ class MyPyAstVisitor:
         """
         package_name = self.api.package
 
-        # We have to split the qname of the module at the first occurence of the package name and reconnect it while
-        # discarding everything behind it. This is necessary since the qname could contain unwanted information.
-        module_id_parts = qname.split(package_name)
-        module_id = package_name.join(module_id_parts[1:])
+        if package_name not in qname:
+            raise ValueError("Package name could not be found in the qualified name of the module.")
 
-        # If the qname is something like "unwanted_information.package_name.package_name.xxx" the result of the code
-        # above would be ".package_name.xxx", thus we would have to remove the "." character
+        # We have to split the qname of the module at the first occurence of the package name and reconnect it while
+        # discarding everything in front of it. This is necessary since the qname could contain unwanted information.
+        module_id = qname.split(f"{package_name}", 1)[-1]
+
         if module_id.startswith("."):
             module_id = module_id[1:]
 
         # Replaces dots with slashes and add the package name at the start of the id, since we removed it
-        module_id = module_id.replace(".", "/")
-        return f"{package_name}/{module_id}"
+        module_id = f"/{module_id.replace('.', '/')}" if module_id else ""
+        return f"{package_name}{module_id}"
 
     def is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
