@@ -158,8 +158,8 @@ class StubsGenerator:
                 self._create_function_string(method, indent_quant + 1, is_class_method=True),
             )
         if class_methods:
-            methods = f"\n\n{inner_indentations}".join(class_methods)
-            class_text += f"\n{inner_indentations}{methods}\n"
+            methods = "\n\n".join(class_methods)
+            class_text += f"\n{methods}\n"
 
         # If the does not have a body, we just return the signature line
         if not class_text:
@@ -171,6 +171,7 @@ class StubsGenerator:
         return f"{class_signature} {{{class_text}"
 
     def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
+        """Create a function string for Safe-DS stubs."""
         is_static = function.is_static
         static = "static " if is_static else ""
 
@@ -178,9 +179,11 @@ class StubsGenerator:
         is_instance_method = not is_static and is_class_method
         func_params = self._create_parameter_string(function.parameters, is_instance_method)
 
+        # Create string and return
+        inner_indentations = indent_quant * "\t"
         return (
             f"{self.create_todo_msg(indent_quant)}"
-            f"{static}fun {function.name}({func_params})"
+            f"{inner_indentations}{static}fun {function.name}({func_params})"
             f"{self._create_result_string(function.results)}"
         )
 
@@ -235,6 +238,15 @@ class StubsGenerator:
                 self.current_todo_msgs.add("OPT_POS_ONLY")
             elif assigned_by == ParameterAssignment.NAME_ONLY and not parameter.is_optional:
                 self.current_todo_msgs.add("REQ_NAME_ONLY")
+
+            # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we overwrite it
+            # and set the type to a list.
+            if assigned_by == ParameterAssignment.POSITIONAL_VARARG:
+                parameter_type_data["kind"] = "ListType"
+
+            # Safe-DS does not support variadic parameters.
+            if assigned_by in {ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG}:
+                self.current_todo_msgs.add("variadic")
 
             # Parameter type
             param_type = self._create_type_string(parameter_type_data)
@@ -389,57 +401,44 @@ class StubsGenerator:
         if not self.current_todo_msgs:
             return ""
 
-        todo_msgs = []
-        for msg in self.current_todo_msgs:
-            if msg == "Tuple":
-                todo_msgs.append("Safe-DS does not support tuple types.")
-            elif msg in {"List", "Set"}:
-                todo_msgs.append(f"{msg} type has to many type arguments.")
-            elif msg == "OPT_POS_ONLY":
-                todo_msgs.append("Safe-DS does not support optional but position only parameter assignments.")
-            elif msg == "REQ_NAME_ONLY":
-                todo_msgs.append("Safe-DS does not support required but name only parameter assignments.")
-            elif msg == "multiple_inheritance":
-                todo_msgs.append("Safe-DS does not support multiple inheritance.")
-            else:
-                raise ValueError(f"Unknown todo message: {msg}")
+        todo_msgs = [
+            {
+                "Tuple": "// TODO Safe-DS does not support tuple types.",
+                "List": "// TODO List type has to many type arguments.",
+                "Set": "// TODO Set type has to many type arguments.",
+                "OPT_POS_ONLY": "// TODO Safe-DS does not support optional but position only parameter assignments.",
+                "REQ_NAME_ONLY": "// TODO Safe-DS does not support required but name only parameter assignments.",
+                "multiple_inheritance": "// TODO Safe-DS does not support multiple inheritance.",
+                "variadic": "// TODO Safe-DS does not support variadic parameters.",
+            }[msg]
+            for msg in self.current_todo_msgs
+        ]
 
         # Empty the message list
         self.current_todo_msgs = set()
 
         indentations = "\t" * indenta_quant
-        return f"// TODO {', '.join(todo_msgs)}\n{indentations}"
+        return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
 
-# Todo Frage: Where to use? Classes, Enums, Functions, Attributes, Parameters, Enum Instances?
-#  PascalCase vs camelCase
-#  Do we keep underscores at the end or the beginning of a name?
+# Todo Where to use? Functions, Attributes, Parameters, Enum Instances?
+#  __get_function_name__ --> getFunctionName
+#  Sollt vor der replace_if_safeds_keyword Funktion aufgerufen werden
+# Todo Not working if the name does not end with underscores, since the counter will be 0 and split the name at [0:0]
 def convert_snake_to_camel_case(name: str) -> str:
-    underscore_count_start = 0
-    for character in name:
-        if character == "_":
-            underscore_count_start += 1
-        else:
-            break
+    # Count underscores in front and behind the name
+    underscore_count_start = len(name) - len(name.lstrip("_"))
+    underscore_count_end = len(name) - len(name.rstrip("_"))
 
-    underscore_count_end = 0
-    for i in reversed(range(len(name))):
-        if name[i] == "_":
-            underscore_count_end += 1
-        else:
-            break
-
+    # Remove underscores and join in camelCase
     name_parts = name[underscore_count_start:-underscore_count_end].split("_")
-
-    camel_case = name_parts[0] + "".join(
-        t.title()
-        for t in name_parts[1:]
+    return name_parts[0] + "".join(
+        part.title() for part in name_parts[1:]
     )
-
-    return f"{underscore_count_start * '_'}{camel_case}{underscore_count_end * '_'}"
 
 
 # Todo Frage: An welchem Stellen soll ersetz werden? Auch Variablen und Enum Instanzen?
+#  -> Parameter, Attr., Enum instances
 def replace_if_safeds_keyword(keyword: str) -> str:
     if keyword in {"as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation",
                    "attr", "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in",

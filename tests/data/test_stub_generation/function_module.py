@@ -29,16 +29,16 @@ def params(
 
 
 def illegal_params(
-    none: None,
-    none_union: None | None,
-    tpl: tuple[int, str, bool, int],
     lst: list[int, str],
-    _: int = "String"
+    tpl: tuple[int, str, bool, int],
+    _: int = "String",
 ): ...
 
 
 def special_params(
-    none_union: None | bool,
+    none_bool_union: None | bool,
+    none_union: None | None,
+    none: None,
 ): ...
 
 

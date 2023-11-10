@@ -30,10 +30,10 @@ class B:
     int_or_bool_attr: int | bool
     str_attr_with_none_value: str = None
 
-    mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
-    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
-    mulit_attr_5, mulit_attr_6 = ("A", "B")
-    mulit_attr_7 = mulit_attr_8 = "A"
+    multi_attr_1, _multi_attr_2_private = (123456, "I am a String")
+    multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]
+    multi_attr_5, multi_attr_6 = ("A", "B")
+    multi_attr_7 = multi_attr_8 = "A"
 
     def __init__(self):
         self.init_attr: bool = False

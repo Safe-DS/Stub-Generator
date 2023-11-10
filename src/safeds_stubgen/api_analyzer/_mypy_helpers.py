@@ -66,20 +66,19 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
         type_name = mypy_type.type.name
         if type_name in {"int", "str", "bool", "float"}:
             return sds_types.NamedType(name=type_name)
-        elif type_name == "tuple":
-            return sds_types.TupleType(types=[])
-        elif type_name == "list":
-            for arg in mypy_type.args:
-                types.append(
-                    mypy_type_to_abstract_type(arg),
-                )
-            return sds_types.ListType(types=types)
-        elif type_name == "set":
-            for arg in mypy_type.args:
-                types.append(
-                    mypy_type_to_abstract_type(arg),
-                )
-            return sds_types.SetType(types=types)
+
+        # Iterable builtins
+        elif type_name in {"tuple", "list", "set"}:
+            types = [
+                mypy_type_to_abstract_type(arg)
+                for arg in mypy_type.args
+            ]
+            return {
+                "tuple": sds_types.TupleType,
+                "list": sds_types.ListType,
+                "set": sds_types.SetType,
+            }[type_name](types=types)
+
         elif type_name == "dict":
             key_type = mypy_type_to_abstract_type(mypy_type.args[0])
             value_types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args[1:]]
