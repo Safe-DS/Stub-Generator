@@ -139,10 +139,11 @@
   ) -> result_1: Any
   
   // TODO Safe-DS does not support tuple types.
+  // TODO List type has to many type arguments.
   @PythonName("illegal_params")
   fun illegalParams(
-  	lst: List<Any>,
-  	@PythonName("lst_2") lst2: List<Any>,
+  	lst: List<Int, String>,
+  	@PythonName("lst_2") lst2: List<Int, String>,
   	tpl: Tuple<Int, String, Boolean, Int>,
   	_: Int = String
   ) -> result_1: Any
@@ -150,7 +151,7 @@
   @PythonName("special_params")
   fun specialParams(
   	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
-  	@PythonName("none_union") noneUnion: Nothing??,
+  	@PythonName("none_union") noneUnion: Nothing?,
   	none: Nothing?
   ) -> result_1: Any
   
