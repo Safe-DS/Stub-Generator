@@ -100,10 +100,6 @@
   '''
   package test_stub_generation.enum_module
   
-  from `enum` import Enum
-  from `enum` import IntEnum
-  from `enum` import Enum as _Enum
-  
   enum EnumTest {
   	ONE
   	TWO
@@ -146,6 +142,7 @@
   @PythonName("illegal_params")
   fun illegalParams(
   	lst: List<Any>,
+  	@PythonName("lst_2") lst2: List<Any>,
   	tpl: Tuple<Int, String, Boolean, Int>,
   	_: Int = String
   ) -> result_1: Any
@@ -223,8 +220,6 @@
   '''
   package test_stub_generation.import_module
   
-  from `enum` import IntEnum
-  from `enum` import Enum as _Enum
   import mypy as static
   
   from math import *

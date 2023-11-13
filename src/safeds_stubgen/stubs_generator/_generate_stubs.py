@@ -306,17 +306,16 @@ class StubsGenerator:
             qualified_name = qualified_import.qualified_name
             import_path, name = split_import_id(qualified_name)
 
-            import_path = self._replace_if_safeds_keyword(import_path)
-            name = self._replace_if_safeds_keyword(name)
-
             # Ignore enum imports, since those are build in types in Safe-DS stubs
             if import_path == "enum" and name in {"Enum", "IntEnum"}:
                 continue
 
-            from_path = ""
-            if import_path:
-                from_path = f"from {import_path} "
+            # Check if Safe-DS keywords are used and escape them if necessary
+            import_path = self._replace_if_safeds_keyword(import_path)
+            name = self._replace_if_safeds_keyword(name)
 
+            # Create string
+            from_path = f"from {import_path} " if import_path else ""
             alias = f" as {qualified_import.alias}" if qualified_import.alias else ""
 
             imports.append(
