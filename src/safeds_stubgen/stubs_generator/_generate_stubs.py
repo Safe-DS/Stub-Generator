@@ -98,7 +98,9 @@ class StubsGenerator:
         constructor = class_.constructor
         parameter_info = ""
         if constructor:
-            parameter_info = self._create_parameter_string(constructor.parameters, is_instance_method=True)
+            parameter_info = self._create_parameter_string(
+                constructor.parameters, class_indentation, is_instance_method=True
+            )
 
         # Superclasses
         superclasses = class_.superclasses
@@ -129,21 +131,33 @@ class StubsGenerator:
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
 
-            static_string = ""
-            if attribute.is_static:
-                static_string = "static "
+            static_string = "static " if attribute.is_static else ""
 
+            # Convert name to camelCase and add PythonName annotation
+            attr_name = attribute.name
+            attr_name_camel_case = _convert_snake_to_camel_case(attr_name)
+            attr_name_annotation = ""
+            if attr_name_camel_case != attr_name:
+                attr_name_annotation = f"{self._create_name_annotation(attr_name)}\n{inner_indentations}"
+
+            # Check if name is a Safe-DS keyword and escape it if necessary
+            attr_name_camel_case = self._replace_if_safeds_keyword(attr_name_camel_case)
+
+            # Create type information
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
+
+            # Create attribute string
             class_attributes.append(
                 f"{self.create_todo_msg(indent_quant + 1)}"
-                f"{static_string}attr {attribute.name}"
+                f"{inner_indentations}{attr_name_annotation}"
+                f"{static_string}attr {attr_name_camel_case}"
                 f"{type_string}",
             )
 
         if class_attributes:
-            attributes = f"\n{inner_indentations}".join(class_attributes)
-            class_text += f"\n{inner_indentations}{attributes}\n"
+            attributes = "\n".join(class_attributes)
+            class_text += f"\n{attributes}\n"
 
         # Inner classes
         for inner_class in class_.classes:
@@ -174,16 +188,24 @@ class StubsGenerator:
         """Create a function string for Safe-DS stubs."""
         is_static = function.is_static
         static = "static " if is_static else ""
+        indentations = indent_quant * "\t"
 
         # Parameters
         is_instance_method = not is_static and is_class_method
-        func_params = self._create_parameter_string(function.parameters, is_instance_method)
+        func_params = self._create_parameter_string(function.parameters, indentations, is_instance_method)
+
+        # Convert function name to camelCase
+        name = function.name
+        camel_case_name = _convert_snake_to_camel_case(name)
+        function_name_annotation = ""
+        if camel_case_name != name:
+            function_name_annotation = f"{indentations}{self._create_name_annotation(name)}\n"
 
         # Create string and return
-        inner_indentations = indent_quant * "\t"
         return (
             f"{self.create_todo_msg(indent_quant)}"
-            f"{inner_indentations}{static}fun {function.name}({func_params})"
+            f"{function_name_annotation}"
+            f"{indentations}{static}fun {camel_case_name}({func_params})"
             f"{self._create_result_string(function.results)}"
         )
 
@@ -204,8 +226,11 @@ class StubsGenerator:
             return f" -> ({', '.join(results)})"
         return ""
 
-    def _create_parameter_string(self, parameters: list[Parameter], is_instance_method: bool = False) -> str:
+    def _create_parameter_string(
+        self, parameters: list[Parameter], indent: str, is_instance_method: bool = False
+    ) -> str:
         parameters_data: list[str] = []
+        indent = indent + "\t"
         first_loop_skipped = False
         for parameter in parameters:
             # Skip self parameter for functions
@@ -252,17 +277,29 @@ class StubsGenerator:
             param_type = self._create_type_string(parameter_type_data)
             type_string = f": {param_type}" if param_type else ""
 
+            # Convert to camelCase if necessary
+            name = parameter.name
+            camel_case_name = _convert_snake_to_camel_case(name)
+            name_annotation = ""
+            if camel_case_name != name:
+                # Memorize the changed name for the @PythonName() annotation
+                name_annotation = f"{self._create_name_annotation(name)} "
+
+            # Check if it's a Safe-DS keyword and escape it
+            camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+
             # Create string and append to the list
             parameters_data.append(
-                f"{parameter.name}"
+                f"{name_annotation}{camel_case_name}"
                 f"{type_string}{param_value}",
             )
+
         if parameters_data:
-            return f"{', '.join(parameters_data)}"
+            inner_param_data = f",\n{indent}".join(parameters_data)
+            return f"\n{indent}{inner_param_data}\n{indent[:-1]}"
         return ""
 
-    @staticmethod
-    def _create_qualified_imports_string(qualified_imports: list[QualifiedImport]) -> str:
+    def _create_qualified_imports_string(self, qualified_imports: list[QualifiedImport]) -> str:
         if not qualified_imports:
             return ""
 
@@ -271,8 +308,8 @@ class StubsGenerator:
             qualified_name = qualified_import.qualified_name
             import_path, name = split_import_id(qualified_name)
 
-            import_path = replace_if_safeds_keyword(import_path)
-            name = replace_if_safeds_keyword(name)
+            import_path = self._replace_if_safeds_keyword(import_path)
+            name = self._replace_if_safeds_keyword(name)
 
             from_path = ""
             if import_path:
@@ -298,8 +335,7 @@ class StubsGenerator:
 
         return "\n".join(imports)
 
-    @staticmethod
-    def _create_enum(enum_data: Enum, indent_quant: int) -> str:
+    def _create_enum(self, enum_data: Enum, indent_quant: int) -> str:
         indentations = "\t" * (indent_quant + 1)
 
         # Signature
@@ -312,7 +348,19 @@ class StubsGenerator:
             enum_text += "\n"
 
             for enum_instance in instances:
-                enum_text += f"{indentations}{enum_instance.name}\n"
+                name = enum_instance.name
+
+                # Todo Frage: Sicher, dass wir Enum Instancen umschreiben?
+                # Convert snake_case names to camelCase
+                camel_case_name = _convert_snake_to_camel_case(name)
+                annotation = ""
+                if camel_case_name != name:
+                    annotation = f"{indentations}{self._create_name_annotation(name)}\n"
+
+                # Check if the name is a Safe-DS keyword and escape it
+                camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+
+                enum_text += f"{annotation}{indentations}{camel_case_name}\n"
             return f"{enum_signature} {{{enum_text}}}"
 
         return enum_signature
@@ -420,31 +468,41 @@ class StubsGenerator:
         indentations = "\t" * indenta_quant
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
+    @staticmethod
+    def _create_name_annotation(name: str) -> str:
+        return f'@PythonName("{name}")'
 
-# Todo Where to use? Functions, Attributes, Parameters, Enum Instances?
-#  __get_function_name__ --> getFunctionName
-#  Sollt vor der replace_if_safeds_keyword Funktion aufgerufen werden
-# Todo Not working if the name does not end with underscores, since the counter will be 0 and split the name at [0:0]
-def convert_snake_to_camel_case(name: str) -> str:
+    @staticmethod
+    def _replace_if_safeds_keyword(keyword: str) -> str:
+        if keyword in {"as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true",
+                       "annotation",
+                       "attr", "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in",
+                       "internal", "out", "private", "static", "and", "not", "or", "sub", "super"}:
+            return f"`{keyword}`"
+        return keyword
+
+
+# Todo Frage: mixed_snake_camelCase_naMe -> mixedSnakeCamelCaseNaMe | _ -> _ ? Special cases? Results (Darstellung)?
+def _convert_snake_to_camel_case(name: str) -> str:
+    if name == "_":
+        return name
+
     # Count underscores in front and behind the name
     underscore_count_start = len(name) - len(name.lstrip("_"))
     underscore_count_end = len(name) - len(name.rstrip("_"))
 
+    if underscore_count_end == 0:
+        cleaned_name = name[underscore_count_start:]
+    else:
+        cleaned_name = name[underscore_count_start:-underscore_count_end]
+
     # Remove underscores and join in camelCase
-    name_parts = name[underscore_count_start:-underscore_count_end].split("_")
+    name_parts = cleaned_name.split("_")
     return name_parts[0] + "".join(
-        part.title() for part in name_parts[1:]
+        part[0].upper() + part[1:]
+        for part in name_parts[1:]
+        if part
     )
-
-
-# Todo Frage: An welchem Stellen soll ersetz werden? Auch Variablen und Enum Instanzen?
-#  -> Parameter, Attr., Enum instances
-def replace_if_safeds_keyword(keyword: str) -> str:
-    if keyword in {"as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation",
-                   "attr", "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in",
-                   "internal", "out", "private", "static", "and", "not", "or", "sub", "super"}:
-        return f"`{keyword}`"
-    return keyword
 
 
 def split_import_id(id_: str) -> tuple[str, str]:

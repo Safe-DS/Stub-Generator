@@ -24,4 +24,4 @@ class _ReexportedEmptyEnum(_Enum):
 
 
 class AnotherTestEnum(IntEnum):
-    ELEVEN = 11
+    number_eleven = 11

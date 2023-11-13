@@ -3,8 +3,12 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import pytest
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.stubs_generator import StubsGenerator
+
+# noinspection PyProtectedMember
+from safeds_stubgen.stubs_generator._generate_stubs import _convert_snake_to_camel_case
 
 if TYPE_CHECKING:
     from syrupy import SnapshotAssertion
@@ -88,3 +92,52 @@ def test_import_creation(snapshot: SnapshotAssertion) -> None:
 
 # Todo
 def test_docstring_creation() -> None: ...
+
+
+@pytest.mark.parametrize(
+    ("name", "expected_result"),
+    [
+        (
+            "",
+            "",
+        ),
+        (
+            "_",
+            "_",
+        ),
+        (
+            "__get_function_name__",
+            "getFunctionName",
+        ),
+        (
+            "__get_function_name",
+            "getFunctionName",
+        ),
+        (
+            "get_function_name__",
+            "getFunctionName",
+        ),
+        (
+            "__getFunction_name__",
+            "getFunctionName",
+        ),
+        (
+            "__get__function___name__",
+            "getFunctionName",
+        ),
+        (
+            "__get_funCtion_NamE__",
+            "getFunCtionNamE",
+        ),
+        (
+            "getFunctionName",
+            "getFunctionName",
+        ),
+        (
+            "a_a_A_aAAaA_1_1_2_aAa",
+            "aAAAAAaA112AAa",
+        ),
+    ],
+)
+def test_convert_snake_to_camel_case(name: str, expected_result: str) -> None:
+    assert _convert_snake_to_camel_case(name) == expected_result
