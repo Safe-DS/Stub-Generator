@@ -309,6 +309,10 @@ class StubsGenerator:
             import_path = self._replace_if_safeds_keyword(import_path)
             name = self._replace_if_safeds_keyword(name)
 
+            # Ignore enum imports, since those are build in types in Safe-DS stubs
+            if import_path == "enum" and name in {"Enum", "IntEnum"}:
+                continue
+
             from_path = ""
             if import_path:
                 from_path = f"from {import_path} "
