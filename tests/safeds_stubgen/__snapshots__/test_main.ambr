@@ -606,21 +606,6 @@
           'name': 'int',
         }),
       }),
-      dict({
-        'docstring': dict({
-          'default_value': '',
-          'description': '',
-          'type': '',
-        }),
-        'id': 'test_package/test_package/test_package/test_package/test_package',
-        'is_public': True,
-        'is_static': True,
-        'name': 'test_package',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'int',
-        }),
-      }),
     ]),
     'classes': list([
       dict({
@@ -1148,48 +1133,6 @@
         'methods': list([
         ]),
         'name': 'NestedNestedPrivateClass',
-        'reexported_by': list([
-        ]),
-        'superclasses': list([
-        ]),
-      }),
-      dict({
-        'attributes': list([
-        ]),
-        'classes': list([
-        ]),
-        'constructor': None,
-        'docstring': dict({
-          'description': '',
-          'full_docstring': '',
-        }),
-        'id': 'test_package/test_package/test_package/TestPackage',
-        'is_public': True,
-        'methods': list([
-          'test_package/test_package/test_package/TestPackage/test_package',
-        ]),
-        'name': 'TestPackage',
-        'reexported_by': list([
-        ]),
-        'superclasses': list([
-        ]),
-      }),
-      dict({
-        'attributes': list([
-          'test_package/test_package/test_package/test_package/test_package',
-        ]),
-        'classes': list([
-        ]),
-        'constructor': None,
-        'docstring': dict({
-          'description': '',
-          'full_docstring': '',
-        }),
-        'id': 'test_package/test_package/test_package/test_package',
-        'is_public': True,
-        'methods': list([
-        ]),
-        'name': 'test_package',
         'reexported_by': list([
         ]),
         'superclasses': list([
@@ -1923,23 +1866,6 @@
           'test_package/test_module/global_func/result_1',
         ]),
       }),
-      dict({
-        'docstring': dict({
-          'description': '',
-          'full_docstring': '',
-        }),
-        'id': 'test_package/test_package/test_package/TestPackage/test_package',
-        'is_public': True,
-        'is_static': False,
-        'name': 'test_package',
-        'parameters': list([
-          'test_package/test_package/test_package/TestPackage/test_package/self',
-        ]),
-        'reexported_by': list([
-        ]),
-        'results': list([
-        ]),
-      }),
     ]),
     'modules': list([
       dict({
@@ -2171,38 +2097,6 @@
           dict({
             'module_name': 'docstring_parser',
           }),
-        ]),
-      }),
-      dict({
-        'classes': list([
-        ]),
-        'docstring': '',
-        'enums': list([
-        ]),
-        'functions': list([
-        ]),
-        'id': 'test_package/test_package/__init__',
-        'name': '__init__',
-        'qualified_imports': list([
-        ]),
-        'wildcard_imports': list([
-        ]),
-      }),
-      dict({
-        'classes': list([
-          'test_package/test_package/test_package/TestPackage',
-          'test_package/test_package/test_package/test_package',
-        ]),
-        'docstring': '',
-        'enums': list([
-        ]),
-        'functions': list([
-        ]),
-        'id': 'test_package/test_package/test_package',
-        'name': 'test_package',
-        'qualified_imports': list([
-        ]),
-        'wildcard_imports': list([
         ]),
       }),
     ]),
@@ -2940,22 +2834,6 @@
               'name': 'None',
             }),
           ]),
-        }),
-      }),
-      dict({
-        'assigned_by': 'IMPLICIT',
-        'default_value': None,
-        'docstring': dict({
-          'default_value': '',
-          'description': '',
-          'type': '',
-        }),
-        'id': 'test_package/test_package/test_package/TestPackage/test_package/self',
-        'is_optional': False,
-        'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'TestPackage',
         }),
       }),
     ]),
