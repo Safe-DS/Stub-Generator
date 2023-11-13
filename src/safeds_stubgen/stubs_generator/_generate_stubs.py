@@ -310,27 +310,22 @@ class StubsGenerator:
             if import_path == "enum" and name in {"Enum", "IntEnum"}:
                 continue
 
-            # Check if Safe-DS keywords are used and escape them if necessary
-            import_path = self._replace_if_safeds_keyword(import_path)
-            name = self._replace_if_safeds_keyword(name)
-
-            # Create string
-            from_path = f"from {import_path} " if import_path else ""
-            alias = f" as {qualified_import.alias}" if qualified_import.alias else ""
+            # Create string and check if Safe-DS keywords are used and escape them if necessary
+            from_path = f"from {self._replace_if_safeds_keyword(import_path)} " if import_path else ""
+            alias = f" as {self._replace_if_safeds_keyword(qualified_import.alias)}" if qualified_import.alias else ""
 
             imports.append(
-                f"{from_path}import {name}{alias}",
+                f"{from_path}import {self._replace_if_safeds_keyword(name)}{alias}",
             )
 
         return "\n".join(imports)
 
-    @staticmethod
-    def _create_wildcard_imports_string(wildcard_imports: list[WildcardImport]) -> str:
+    def _create_wildcard_imports_string(self, wildcard_imports: list[WildcardImport]) -> str:
         if not wildcard_imports:
             return ""
 
         imports = [
-            f"from {wildcard_import.module_name} import *"
+            f"from {self._replace_if_safeds_keyword(wildcard_import.module_name)} import *"
             for wildcard_import in wildcard_imports
         ]
 
@@ -473,10 +468,11 @@ class StubsGenerator:
 
     @staticmethod
     def _replace_if_safeds_keyword(keyword: str) -> str:
-        if keyword in {"as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true",
-                       "annotation",
-                       "attr", "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in",
-                       "internal", "out", "private", "static", "and", "not", "or", "sub", "super"}:
+        if keyword in {
+            "as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation", "attr",
+            "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in", "internal", "out",
+            "private", "static", "and", "not", "or", "sub", "super"
+        }:
             return f"`{keyword}`"
         return keyword
 

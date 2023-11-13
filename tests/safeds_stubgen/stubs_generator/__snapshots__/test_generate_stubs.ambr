@@ -221,7 +221,7 @@
   '''
   package test_stub_generation.import_module
   
-  import mypy as static
+  import mypy as `static`
   
   from math import *
   
