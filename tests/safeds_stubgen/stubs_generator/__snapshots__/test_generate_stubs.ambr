@@ -143,7 +143,7 @@
   @PythonName("illegal_params")
   fun illegalParams(
   	lst: List<Int, String>,
-  	@PythonName("lst_2") lst2: List<Int, String>,
+  	@PythonName("lst_2") lst2: List<Int, String, Int>,
   	tpl: Tuple<Int, String, Boolean, Int>,
   	_: Int = String
   ) -> result_1: Any

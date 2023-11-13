@@ -53,6 +53,12 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None")
     elif isinstance(mypy_type, mp_types.UnboundType):
+        if mypy_type.name == "list":
+            types = [
+                mypy_type_to_abstract_type(arg)
+                for arg in mypy_type.args
+            ]
+            return sds_types.ListType(types=types)
         # Todo Aliasing: Import auflösen
         return sds_types.NamedType(name=mypy_type.name)
     elif isinstance(mypy_type, mp_types.TypeType):

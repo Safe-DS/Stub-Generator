@@ -513,7 +513,18 @@ class MyPyAstVisitor:
             mypy_type = argument.variable.type
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
-            arg_type = mypy_type_to_abstract_type(mypy_type)
+
+            type_annotation = argument.type_annotation
+            if (isinstance(type_annotation, mp_types.UnboundType) and
+                    type_annotation.name == "list" and
+                    len(type_annotation.args) >= 2):
+                # A special case where the argument is a list with multiple types. We have to handle this case like this
+                # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
+                # way in Mypy.
+                arg_type = mypy_type_to_abstract_type(type_annotation)
+            else:
+                arg_type = mypy_type_to_abstract_type(mypy_type)
+
             arg_kind = get_argument_kind(argument)
 
             default_value = None
