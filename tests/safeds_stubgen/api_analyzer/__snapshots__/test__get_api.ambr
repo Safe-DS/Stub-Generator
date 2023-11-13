@@ -512,6 +512,10 @@
       'type': dict({
         'kind': 'TupleType',
         'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'Any',
+          }),
         ]),
       }),
     }),
@@ -1581,8 +1585,8 @@
 # name: test_enum_instances_AnotherTestEnum
   list([
     dict({
-      'id': 'test_package/test_enums/AnotherTestEnum/ELEVEN',
-      'name': 'ELEVEN',
+      'id': 'test_package/test_enums/AnotherTestEnum/number_eleven',
+      'name': 'number_eleven',
     }),
   ])
 # ---
@@ -1642,7 +1646,7 @@
     }),
     'id': 'test_package/test_enums/AnotherTestEnum',
     'instances': list([
-      'test_package/test_enums/AnotherTestEnum/ELEVEN',
+      'test_package/test_enums/AnotherTestEnum/number_eleven',
     ]),
     'name': 'AnotherTestEnum',
   })
@@ -2219,6 +2223,10 @@
       'type': dict({
         'kind': 'TupleType',
         'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'Any',
+          }),
         ]),
       }),
     }),

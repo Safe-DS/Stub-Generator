@@ -6,36 +6,61 @@
   class A()
   
   class B() {
-  	static attr type_hint_public: Int
-  	static attr no_type_hint_public
-  	static attr object_attr: A
+  	@PythonName("type_hint_public")
+  	static attr typeHintPublic: Int
+  	@PythonName("no_type_hint_public")
+  	static attr noTypeHintPublic
+  	@PythonName("object_attr")
+  	static attr objectAttr: A
   	// TODO Safe-DS does not support tuple types.
-  	static attr tuple_attr_1: Tuple
+  	@PythonName("tuple_attr_1")
+  	static attr tupleAttr1: Tuple<Any>
   	// TODO Safe-DS does not support tuple types.
-  	static attr tuple_attr_2: Tuple<union<String, Int>>
+  	@PythonName("tuple_attr_2")
+  	static attr tupleAttr2: Tuple<union<String, Int>>
   	// TODO Safe-DS does not support tuple types.
-  	static attr tuple_attr_3: Tuple<String, Int>
-  	static attr list_attr_1: List<Any>
-  	static attr list_attr_2: List<union<String, A>>
+  	@PythonName("tuple_attr_3")
+  	static attr tupleAttr3: Tuple<String, Int>
+  	@PythonName("list_attr_1")
+  	static attr listAttr1: List<Any>
+  	@PythonName("list_attr_2")
+  	static attr listAttr2: List<union<String, A>>
   	// TODO List type has to many type arguments.
-  	static attr list_attr_3: List<String, A>
+  	@PythonName("list_attr_3")
+  	static attr listAttr3: List<String, A>
   	// TODO List type has to many type arguments.
-  	static attr list_attr_4: List<String, union<A, Int>>
-  	static attr dict_attr_1: Map<Any, Any>
-  	static attr dict_attr_2: Map<String, Int>
-  	static attr dict_attr_3: Map<union<String, Int>, A?>
-  	static attr bool_attr: Boolean
-  	static attr none_attr: Nothing?
-  	static attr flaot_attr: Float
-  	static attr int_or_bool_attr: union<Int, Boolean>
-  	static attr str_attr_with_none_value: String
-  	static attr mulit_attr_1
-  	static attr mulit_attr_3
-  	static attr mulit_attr_5
-  	static attr mulit_attr_6
-  	static attr mulit_attr_7
-  	static attr mulit_attr_8
-  	attr init_attr: Boolean
+  	@PythonName("list_attr_4")
+  	static attr listAttr4: List<String, union<A, Int>>
+  	@PythonName("dict_attr_1")
+  	static attr dictAttr1: Map<Any, Any>
+  	@PythonName("dict_attr_2")
+  	static attr dictAttr2: Map<String, Int>
+  	@PythonName("dict_attr_3")
+  	static attr dictAttr3: Map<union<String, Int>, A?>
+  	@PythonName("bool_attr")
+  	static attr boolAttr: Boolean
+  	@PythonName("none_attr")
+  	static attr noneAttr: Nothing?
+  	@PythonName("flaot_attr")
+  	static attr flaotAttr: Float
+  	@PythonName("int_or_bool_attr")
+  	static attr intOrBoolAttr: union<Int, Boolean>
+  	@PythonName("str_attr_with_none_value")
+  	static attr strAttrWithNoneValue: String
+  	@PythonName("multi_attr_1")
+  	static attr multiAttr1
+  	@PythonName("multi_attr_3")
+  	static attr multiAttr3
+  	@PythonName("multi_attr_5")
+  	static attr multiAttr5
+  	@PythonName("multi_attr_6")
+  	static attr multiAttr6
+  	@PythonName("multi_attr_7")
+  	static attr multiAttr7
+  	@PythonName("multi_attr_8")
+  	static attr multiAttr8
+  	@PythonName("init_attr")
+  	attr initAttr: Boolean
   }
   
   '''
@@ -46,14 +71,19 @@
   
   class A()
   
-  class B(a: Int, b: A?) sub A {
+  class B(
+  	a: Int,
+  	b: A?
+  ) sub A {
   	fun f()
   }
   
   // TODO Safe-DS does not support multiple inheritance.
   class C() sub A, B {
-  	static attr attr_1: Int
-  	static attr attr_2: Int
+  	@PythonName("attr_1")
+  	static attr attr1: Int
+  	@PythonName("attr_2")
+  	static attr attr2: Int
   
   	fun f1()
   }
@@ -102,41 +132,89 @@
   '''
   package test_stub_generation.function_module
   
-  fun public_no_params_no_result()
+  @PythonName("public_no_params_no_result")
+  fun publicNoParamsNoResult()
   
-  fun params(i: Int, union: union<Int, Boolean>, lst: List<Int>, obj: A) -> result_1: Any
+  fun params(
+  	i: Int,
+  	`union`: union<Int, Boolean>,
+  	lst: List<Int>,
+  	obj: A
+  ) -> result_1: Any
   
   // TODO Safe-DS does not support tuple types.
-  fun illegal_params(none: Nothing?, none_union: Nothing??, tpl: Tuple<Int, String, Boolean, Int>, lst: List<Any>, _: Int = String) -> result_1: Any
+  @PythonName("illegal_params")
+  fun illegalParams(
+  	lst: List<Any>,
+  	tpl: Tuple<Int, String, Boolean, Int>,
+  	_: Int = String
+  ) -> result_1: Any
   
-  fun special_params(none_union: Boolean?) -> result_1: Any
+  @PythonName("special_params")
+  fun specialParams(
+  	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
+  	@PythonName("none_union") noneUnion: Nothing??,
+  	none: Nothing?
+  ) -> result_1: Any
   
-  fun param_position(self: Any, a: Any, b: Boolean, c: Any = 1, d: Any, e: Int = 1) -> result_1: Any
+  @PythonName("param_position")
+  fun paramPosition(
+  	self: Any,
+  	a: Any,
+  	b: Boolean,
+  	c: Any = 1,
+  	d: Any,
+  	e: Int = 1
+  ) -> result_1: Any
   
   // TODO Safe-DS does not support optional but position only parameter assignments.
-  fun opt_pos_only(required: Any, optional: Any = 1)
+  @PythonName("opt_pos_only")
+  fun optPosOnly(
+  	required: Any,
+  	optional: Any = 1
+  )
   
   // TODO Safe-DS does not support required but name only parameter assignments.
-  fun req_name_only(required: Any, optional: Any = 1)
+  @PythonName("req_name_only")
+  fun reqNameOnly(
+  	required: Any,
+  	optional: Any = 1
+  )
   
-  // TODO Safe-DS does not support tuple types.
-  fun arg(args: Tuple, kwargs: Map<String, Any>)
+  // TODO Safe-DS does not support variadic parameters.
+  fun arg(
+  	args: List<Any>,
+  	kwargs: Map<String, Any>
+  )
   
-  // TODO Safe-DS does not support tuple types.
-  fun args_type(args: Tuple, kwargs: Map<String, Int>) -> result_1: Any
+  // TODO Safe-DS does not support variadic parameters.
+  @PythonName("args_type")
+  fun argsType(
+  	args: List<Int>,
+  	kwargs: Map<String, Int>
+  ) -> result_1: Any
   
-  fun one_result() -> result_1: Int
+  @PythonName("one_result")
+  fun oneResult() -> result_1: Int
   
-  fun multiple_results() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
+  @PythonName("multiple_results")
+  fun multipleResults() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
   
   class A()
   
-  class B(init_param: Any) {
-  	fun instance_method(a: A) -> result_1: A
+  class B(
+  	@PythonName("init_param") initParam: Any
+  ) {
+  	@PythonName("instance_method")
+  	fun instanceMethod(
+  		a: A
+  	) -> result_1: A
   
-  	static fun static_class_method()
+  	@PythonName("static_class_method")
+  	static fun staticClassMethod()
   
-  	fun class_method()
+  	@PythonName("class_method")
+  	fun classMethod()
   }
   
   '''

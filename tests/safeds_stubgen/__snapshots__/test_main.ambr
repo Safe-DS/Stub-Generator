@@ -492,6 +492,10 @@
         'type': dict({
           'kind': 'TupleType',
           'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'Any',
+            }),
           ]),
         }),
       }),
@@ -1195,8 +1199,8 @@
     'distribution': '',
     'enum_instances': list([
       dict({
-        'id': 'test_package/test_enums/AnotherTestEnum/ELEVEN',
-        'name': 'ELEVEN',
+        'id': 'test_package/test_enums/AnotherTestEnum/number_eleven',
+        'name': 'number_eleven',
       }),
       dict({
         'id': 'test_package/test_enums/EnumTest/EIGHT',
@@ -1247,7 +1251,7 @@
         }),
         'id': 'test_package/test_enums/AnotherTestEnum',
         'instances': list([
-          'test_package/test_enums/AnotherTestEnum/ELEVEN',
+          'test_package/test_enums/AnotherTestEnum/number_eleven',
         ]),
         'name': 'AnotherTestEnum',
       }),
@@ -2171,6 +2175,21 @@
       }),
       dict({
         'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'test_package/test_package/__init__',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
           'test_package/test_package/test_package/TestPackage',
           'test_package/test_package/test_package/test_package',
         ]),
@@ -2181,21 +2200,6 @@
         ]),
         'id': 'test_package/test_package/test_package',
         'name': 'test_package',
-        'qualified_imports': list([
-        ]),
-        'wildcard_imports': list([
-        ]),
-      }),
-      dict({
-        'classes': list([
-        ]),
-        'docstring': '',
-        'enums': list([
-        ]),
-        'functions': list([
-        ]),
-        'id': 'test_package/test_package__init__',
-        'name': '__init__',
         'qualified_imports': list([
         ]),
         'wildcard_imports': list([
@@ -2739,6 +2743,10 @@
         'type': dict({
           'kind': 'TupleType',
           'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'Any',
+            }),
           ]),
         }),
       }),
