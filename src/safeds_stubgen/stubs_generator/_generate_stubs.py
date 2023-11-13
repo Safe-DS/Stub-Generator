@@ -66,16 +66,16 @@ class StubsGenerator:
                 # Create global functions
                 for function in module.global_functions:
                     if function.is_public:
-                        module_text += f"\n{self._create_function_string(function, 0, is_class_method=False)}\n"
+                        module_text += f"\n{self._create_function_string(function, is_class_method=False)}\n"
 
                 # Create classes, class attr. & class methods
                 for class_ in module.classes:
                     if class_.is_public:
-                        module_text += f"\n{self._create_class_string(class_, 0)}\n"
+                        module_text += f"\n{self._create_class_string(class_)}\n"
 
                 # Create enums & enum instances
                 for enum in module.enums:
-                    module_text += f"\n{self._create_enum(enum, 0)}\n"
+                    module_text += f"\n{self._create_enum_string(enum)}\n"
 
                 # Write module
                 f.write(module_text)
@@ -89,8 +89,7 @@ class StubsGenerator:
             if delete_file:
                 shutil.rmtree(module_dir)
 
-    def _create_class_string(self, class_: Class, indent_quant: int) -> str:
-        class_indentation = "\t" * indent_quant
+    def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
         class_text = ""
 
@@ -117,7 +116,7 @@ class StubsGenerator:
 
         # Class signature line
         class_signature = (
-            f"{class_indentation}{self.create_todo_msg(0)}class "
+            f"{class_indentation}{self.create_todo_msg(class_indentation)}class "
             f"{class_.name}({parameter_info}){superclass_info}"
         )
 
@@ -149,7 +148,7 @@ class StubsGenerator:
 
             # Create attribute string
             class_attributes.append(
-                f"{self.create_todo_msg(indent_quant + 1)}"
+                f"{self.create_todo_msg(inner_indentations)}"
                 f"{inner_indentations}{attr_name_annotation}"
                 f"{static_string}attr {attr_name_camel_case}"
                 f"{type_string}",
@@ -161,7 +160,7 @@ class StubsGenerator:
 
         # Inner classes
         for inner_class in class_.classes:
-            class_text += f"\n{self._create_class_string(inner_class, indent_quant + 1)}\n"
+            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
 
         # Methods
         class_methods: list[str] = []
@@ -169,7 +168,7 @@ class StubsGenerator:
             if not method.is_public:
                 continue
             class_methods.append(
-                self._create_function_string(method, indent_quant + 1, is_class_method=True),
+                self._create_function_string(method, inner_indentations, is_class_method=True),
             )
         if class_methods:
             methods = "\n\n".join(class_methods)
@@ -184,11 +183,10 @@ class StubsGenerator:
 
         return f"{class_signature} {{{class_text}"
 
-    def _create_function_string(self, function: Function, indent_quant: int, is_class_method: bool = False) -> str:
+    def _create_function_string(self, function: Function, indentations: str = "", is_class_method: bool = False) -> str:
         """Create a function string for Safe-DS stubs."""
         is_static = function.is_static
         static = "static " if is_static else ""
-        indentations = indent_quant * "\t"
 
         # Parameters
         is_instance_method = not is_static and is_class_method
@@ -203,7 +201,7 @@ class StubsGenerator:
 
         # Create string and return
         return (
-            f"{self.create_todo_msg(indent_quant)}"
+            f"{self.create_todo_msg(indentations)}"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}({func_params})"
             f"{self._create_result_string(function.results)}"
@@ -227,10 +225,9 @@ class StubsGenerator:
         return ""
 
     def _create_parameter_string(
-        self, parameters: list[Parameter], indent: str, is_instance_method: bool = False
+        self, parameters: list[Parameter], indentations: str, is_instance_method: bool = False
     ) -> str:
         parameters_data: list[str] = []
-        indent = indent + "\t"
         first_loop_skipped = False
         for parameter in parameters:
             # Skip self parameter for functions
@@ -294,9 +291,10 @@ class StubsGenerator:
                 f"{type_string}{param_value}",
             )
 
+        inner_indentations = indentations + "\t"
         if parameters_data:
-            inner_param_data = f",\n{indent}".join(parameters_data)
-            return f"\n{indent}{inner_param_data}\n{indent[:-1]}"
+            inner_param_data = f",\n{inner_indentations}".join(parameters_data)
+            return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
         return ""
 
     def _create_qualified_imports_string(self, qualified_imports: list[QualifiedImport]) -> str:
@@ -335,9 +333,8 @@ class StubsGenerator:
 
         return "\n".join(imports)
 
-    def _create_enum(self, enum_data: Enum, indent_quant: int) -> str:
-        indentations = "\t" * (indent_quant + 1)
-
+    # Todo Frage: Wir unterstützen keine Schachtelungen von Enums, richtig? Weder in Enums noch in Klassen
+    def _create_enum_string(self, enum_data: Enum) -> str:
         # Signature
         enum_signature = f"enum {enum_data.name}"
 
@@ -355,12 +352,12 @@ class StubsGenerator:
                 camel_case_name = _convert_snake_to_camel_case(name)
                 annotation = ""
                 if camel_case_name != name:
-                    annotation = f"{indentations}{self._create_name_annotation(name)}\n"
+                    annotation = f"\t{self._create_name_annotation(name)}\n"
 
                 # Check if the name is a Safe-DS keyword and escape it
                 camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
 
-                enum_text += f"{annotation}{indentations}{camel_case_name}\n"
+                enum_text += f"{annotation}\t{camel_case_name}\n"
             return f"{enum_signature} {{{enum_text}}}"
 
         return enum_signature
@@ -445,19 +442,19 @@ class StubsGenerator:
 
         raise ValueError(f"Unexpected type: {kind}")
 
-    def create_todo_msg(self, indenta_quant: int) -> str:
+    def create_todo_msg(self, indentations: str) -> str:
         if not self.current_todo_msgs:
             return ""
 
         todo_msgs = [
-            {
-                "Tuple": "// TODO Safe-DS does not support tuple types.",
-                "List": "// TODO List type has to many type arguments.",
-                "Set": "// TODO Set type has to many type arguments.",
-                "OPT_POS_ONLY": "// TODO Safe-DS does not support optional but position only parameter assignments.",
-                "REQ_NAME_ONLY": "// TODO Safe-DS does not support required but name only parameter assignments.",
-                "multiple_inheritance": "// TODO Safe-DS does not support multiple inheritance.",
-                "variadic": "// TODO Safe-DS does not support variadic parameters.",
+            "// TODO " + {
+                "Tuple": "Safe-DS does not support tuple types.",
+                "List": "List type has to many type arguments.",
+                "Set": "Set type has to many type arguments.",
+                "OPT_POS_ONLY": "Safe-DS does not support optional but position only parameter assignments.",
+                "REQ_NAME_ONLY": "Safe-DS does not support required but name only parameter assignments.",
+                "multiple_inheritance": "Safe-DS does not support multiple inheritance.",
+                "variadic": "Safe-DS does not support variadic parameters.",
             }[msg]
             for msg in self.current_todo_msgs
         ]
@@ -465,7 +462,6 @@ class StubsGenerator:
         # Empty the message list
         self.current_todo_msgs = set()
 
-        indentations = "\t" * indenta_quant
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
     @staticmethod
