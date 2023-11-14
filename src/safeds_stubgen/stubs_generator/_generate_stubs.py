@@ -66,7 +66,7 @@ class StubsGenerator:
                 # Create global functions
                 for function in module.global_functions:
                     if function.is_public:
-                        module_text += f"\n{self._create_function_string(function, is_class_method=False)}\n"
+                        module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
 
                 # Create classes, class attr. & class methods
                 for class_ in module.classes:
@@ -168,7 +168,7 @@ class StubsGenerator:
             if not method.is_public:
                 continue
             class_methods.append(
-                self._create_function_string(method, inner_indentations, is_class_method=True),
+                self._create_function_string(method, inner_indentations, is_method=True),
             )
         if class_methods:
             methods = "\n\n".join(class_methods)
@@ -183,14 +183,25 @@ class StubsGenerator:
 
         return f"{class_signature} {{{class_text}"
 
-    def _create_function_string(self, function: Function, indentations: str = "", is_class_method: bool = False) -> str:
+    def _create_function_string(self, function: Function, indentations: str = "", is_method: bool = False) -> str:
         """Create a function string for Safe-DS stubs."""
+        # Check if static or class method
         is_static = function.is_static
-        static = "static " if is_static else ""
+        is_class_method = function.is_class_method
+
+        static = ""
+        if is_class_method or is_static:
+            static = "static "
+
+            if is_class_method:
+                self.current_todo_msgs.add("class_method")
 
         # Parameters
-        is_instance_method = not is_static and is_class_method
-        func_params = self._create_parameter_string(function.parameters, indentations, is_instance_method)
+        func_params = self._create_parameter_string(
+            parameters=function.parameters,
+            indentations=indentations,
+            is_instance_method=not is_static and is_method
+        )
 
         # Convert function name to camelCase
         name = function.name
@@ -453,6 +464,7 @@ class StubsGenerator:
                 "REQ_NAME_ONLY": "Safe-DS does not support required but name only parameter assignments.",
                 "multiple_inheritance": "Safe-DS does not support multiple inheritance.",
                 "variadic": "Safe-DS does not support variadic parameters.",
+                "class_method": "Safe-DS does not support class methods",
             }[msg]
             for msg in self.current_todo_msgs
         ]

@@ -103,6 +103,14 @@ class SomeClass(AcDoubleAlias):
     def no_return_2(self) -> None:
         pass
 
+    @classmethod
+    def class_method(cls) -> None:
+        pass
+
+    @classmethod
+    def class_method_params(cls, param_1: int) -> bool:
+        pass
+
     class NestedClass(_AcImportAlias):
         def nested_class_function(self, param_1: int) -> set[bool | None]:
             pass

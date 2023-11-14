@@ -201,6 +201,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             is_public=is_public,
             is_static=is_static,
+            is_class_method=node.is_class,
             results=results,
             reexported_by=reexported_by,
             parameters=arguments,
