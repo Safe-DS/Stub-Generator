@@ -37,8 +37,13 @@ def illegal_params(
 
 
 def special_params(
-    none_bool_union: None | bool,
     none_union: None | None,
+    none_bool_union: None | bool,
+    bool_none_union: bool | None,
+    none_bool_none_union: None | bool | None,
+    none_bool_int_union: None | bool | int,
+    none_none_bool_none_union: None | None | bool | None,
+    none_list_union_none_none: None | list[None | None] | None,
     none: None,
 ): ...
 

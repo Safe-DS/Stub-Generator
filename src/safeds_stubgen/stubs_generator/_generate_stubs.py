@@ -415,17 +415,26 @@ class StubsGenerator:
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
         elif kind == "UnionType":
-            types = [
+            # Union items have to be unique
+            types = list({
                 self._create_type_string(type_)
                 for type_ in type_data["types"]
-            ]
+            })
 
             if types:
                 if len(types) == 2 and none_type_name in types:
-                    if types[0] == none_type_name:
+                    # if None is one of the two possible types, we can remove the None and just return the other
+                    # type with a question mark
+                    if types[0] == types[1] == none_type_name:
+                        return none_type_name
+                    elif types[0] == none_type_name:
                         return f"{types[1]}?"
-                    else:
-                        return f"{types[0]}?"
+                    return f"{types[0]}?"
+
+                # If the union contains only one type, return the type instead of creating an union
+                elif len(types) == 1:
+                    return types[0]
+
                 return f"union<{', '.join(types)}>"
             return ""
         elif kind == "TupleType":

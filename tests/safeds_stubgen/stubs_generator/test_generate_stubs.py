@@ -25,6 +25,7 @@ stubs_generator = StubsGenerator(api, _out_dir)
 stubs_generator.generate_stubs()
 
 
+# Todo Frage: Automatische Einrückung bei .ambr Dateien -> Snapshot Test schlagen deswegen fehl
 # Utilites
 def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     assert python_path.is_dir()
