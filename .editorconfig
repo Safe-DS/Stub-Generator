@@ -10,3 +10,6 @@ insert_final_newline = true
 
 [{*.yaml,*.yml}]
 indent_size = 2
+
+[*.ambr]
+trim_trailing_whitespace = false

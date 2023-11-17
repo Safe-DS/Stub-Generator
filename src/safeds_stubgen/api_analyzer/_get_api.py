@@ -12,7 +12,6 @@ from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_pa
 from ._api import API
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
-from ._files import list_files
 from ._package_metadata import distribution, distribution_version, package_root
 
 if TYPE_CHECKING:
@@ -41,11 +40,10 @@ def get_api(
 
     walkable_files = []
     package_paths = []
-    for file in list_files(root, ".py"):
-        file_path = Path(file)
+    for file_path in root.glob(pattern="./**/*.py"):
         logging.info(
             "Working on file {posix_path}",
-            extra={"posix_path": file},
+            extra={"posix_path": str(file_path)},
         )
 
         # Check if the current path is a test directory
@@ -61,7 +59,7 @@ def get_api(
             )
             continue
 
-        walkable_files.append(file)
+        walkable_files.append(str(file_path))
 
     mypy_trees = _get_mypy_ast(walkable_files, package_paths, root)
     for tree in mypy_trees:

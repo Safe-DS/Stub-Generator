@@ -5,7 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
-from safeds_stubgen.stubs_generator import StubsGenerator
+from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
 from safeds_stubgen.stubs_generator._generate_stubs import _convert_snake_to_camel_case
@@ -21,11 +21,9 @@ _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-stubs_generator = StubsGenerator(api, _out_dir)
-stubs_generator.generate_stubs()
+generate_stubs(api, _out_dir)
 
 
-# Todo Frage: Automatische Einrückung bei .ambr Dateien -> Snapshot Test schlagen deswegen fehl
 # Utilites
 def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     assert python_path.is_dir()

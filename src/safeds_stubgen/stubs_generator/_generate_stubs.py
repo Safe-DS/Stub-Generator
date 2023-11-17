@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
 
 from safeds_stubgen.api_analyzer import (
@@ -8,6 +7,7 @@ from safeds_stubgen.api_analyzer import (
     Class,
     Enum,
     Function,
+    Module,
     Parameter,
     ParameterAssignment,
     QualifiedImport,
@@ -16,78 +16,113 @@ from safeds_stubgen.api_analyzer import (
 )
 
 
-# Todo Docstrings / Descriptions
-class StubsGenerator:
-    api: API
-    out_path: Path
-    current_todo_msgs: set[str]
+def generate_stubs(api: API, out_path: Path) -> None:
+    """Generate Safe-DS stubs.
 
-    def __init__(self, api: API, out_path: Path) -> None:
-        self.api = api
-        self.out_path = out_path
-        self.current_todo_msgs = set()
+    Generates stub files from an API object and writes them to the out_path path.
 
-    def generate_stubs(self) -> None:
-        create_directory(Path(self.out_path / self.api.package))
-        self._create_module_files()
+    Parameters
+    ----------
+    api : API
+        The API object from which the stubs
+    out_path : Path
+        The path in which the stub files should be created. If no such path exists this function creates the directory
+        files.
+    """
+    modules = api.modules.values()
+    if not modules:
+        return
 
-    def _create_module_files(self) -> None:
-        modules = self.api.modules.values()
+    Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
+    generator = StubsStringGenerator()
 
-        for module in modules:
-            module_name = module.name
-            module_id = module.id
+    for module in modules:
+        module_name = module.name
 
-            if module_name == "__init__":
-                continue
+        if module_name == "__init__":
+            continue
 
-            # Create module dir
-            module_dir = Path(self.out_path / module_id)
-            create_directory(module_dir)
+        module_text = generator.create_module_string(module)
 
-            # Create and open module file
-            file_path = Path(module_dir / f"{module_name}.sdsstub")
-            Path(file_path).touch()
+        # Each text block we create ends with "\n", therefore, is there is only the package information
+        # the file would look like this: "package path.to.package\n". With the split we can check if the module
+        # has enough information, if not, we won't create it in the first place.
+        if len(module_text.split("\n")) <= 2:
+            return
 
-            with file_path.open("w") as f:
-                # Create package info
-                package_info = module_id.replace("/", ".")
-                module_text = f"package {package_info}\n"
+        # Create module dir
+        module_dir = Path(out_path / module.id)
+        module_dir.mkdir(parents=True, exist_ok=True)
 
-                # Create imports
-                qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
-                if qualified_imports:
-                    module_text += f"\n{qualified_imports}\n"
+        # Create and open module file
+        file_path = Path(module_dir / f"{module_name}.sdsstub")
+        Path(file_path).touch()
 
-                wildcard_imports = self._create_wildcard_imports_string(module.wildcard_imports)
-                if wildcard_imports:
-                    module_text += f"\n{wildcard_imports}\n"
+        with file_path.open("w") as f:
+            f.write(module_text)
 
-                # Create global functions
-                for function in module.global_functions:
-                    if function.is_public:
-                        module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
 
-                # Create classes, class attr. & class methods
-                for class_ in module.classes:
-                    if class_.is_public:
-                        module_text += f"\n{self._create_class_string(class_)}\n"
+def _convert_snake_to_camel_case(name: str) -> str:
+    if name == "_":
+        return name
 
-                # Create enums & enum instances
-                for enum in module.enums:
-                    module_text += f"\n{self._create_enum_string(enum)}\n"
+    # Count underscores in front and behind the name
+    underscore_count_start = len(name) - len(name.lstrip("_"))
+    underscore_count_end = len(name) - len(name.rstrip("_"))
 
-                # Write module
-                f.write(module_text)
+    if underscore_count_end == 0:
+        cleaned_name = name[underscore_count_start:]
+    else:
+        cleaned_name = name[underscore_count_start:-underscore_count_end]
 
-            # Todo Frage:
-            # Delete the file, if it has no content besides the "package" information in the first line
-            with file_path.open("r") as f:
-                delete_file = False
-                if sum(1 for _ in f) <= 1:
-                    delete_file = True
-            if delete_file:
-                shutil.rmtree(module_dir)
+    # Remove underscores and join in camelCase
+    name_parts = cleaned_name.split("_")
+    return name_parts[0] + "".join(
+        part[0].upper() + part[1:]
+        for part in name_parts[1:]
+        if part
+    )
+
+
+class StubsStringGenerator:
+    """Generate Safe-DS stub strings.
+
+    Generates stub string for Safe-DS. Each part has its own method, but it all starts with the create_module_string
+    method.
+    """
+
+    def __init__(self) -> None:
+        self._current_todo_msgs: set[str] = set()
+
+    def create_module_string(self, module: Module) -> str:
+        # Create package info
+        package_info = module.id.replace("/", ".")
+        module_text = f"package {package_info}\n"
+
+        # Create imports
+        qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
+        if qualified_imports:
+            module_text += f"\n{qualified_imports}\n"
+
+        wildcard_imports = self._create_wildcard_imports_string(module.wildcard_imports)
+        if wildcard_imports:
+            module_text += f"\n{wildcard_imports}\n"
+
+        # Create global functions
+        for function in module.global_functions:
+            if function.is_public:
+                module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
+
+        # Create classes, class attr. & class methods
+        for class_ in module.classes:
+            if class_.is_public:
+                module_text += f"\n{self._create_class_string(class_)}\n"
+
+        # Create enums & enum instances
+        for enum in module.enums:
+            module_text += f"\n{self._create_enum_string(enum)}\n"
+
+        return module_text
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
@@ -106,17 +141,17 @@ class StubsGenerator:
         superclass_info = ""
         if superclasses:
             superclass_names = [
-                split_import_id(superclass)[1]
+                self._split_import_id(superclass)[1]
                 for superclass in superclasses
             ]
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         if len(superclasses) > 1:
-            self.current_todo_msgs.add("multiple_inheritance")
+            self._current_todo_msgs.add("multiple_inheritance")
 
         # Class signature line
         class_signature = (
-            f"{class_indentation}{self.create_todo_msg(class_indentation)}class "
+            f"{class_indentation}{self._create_todo_msg(class_indentation)}class "
             f"{class_.name}({parameter_info}){superclass_info}"
         )
 
@@ -148,7 +183,7 @@ class StubsGenerator:
 
             # Create attribute string
             class_attributes.append(
-                f"{self.create_todo_msg(inner_indentations)}"
+                f"{self._create_todo_msg(inner_indentations)}"
                 f"{inner_indentations}{attr_name_annotation}"
                 f"{static_string}attr {attr_name_camel_case}"
                 f"{type_string}",
@@ -194,7 +229,7 @@ class StubsGenerator:
             static = "static "
 
             if is_class_method:
-                self.current_todo_msgs.add("class_method")
+                self._current_todo_msgs.add("class_method")
 
         # Parameters
         func_params = self._create_parameter_string(
@@ -212,7 +247,7 @@ class StubsGenerator:
 
         # Create string and return
         return (
-            f"{self.create_todo_msg(indentations)}"
+            f"{self._create_todo_msg(indentations)}"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}({func_params})"
             f"{self._create_result_string(function.results)}"
@@ -224,8 +259,10 @@ class StubsGenerator:
             result_type = result.type.to_dict()
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
+            result_name = _convert_snake_to_camel_case(result.name)
+            result_name = self._replace_if_safeds_keyword(result_name)
             results.append(
-                f"{result.name}"
+                f"{result_name}"
                 f"{type_string}",
             )
 
@@ -268,9 +305,9 @@ class StubsGenerator:
             # Check if assigned_by is not illegal
             assigned_by = parameter.assigned_by
             if assigned_by == ParameterAssignment.POSITION_ONLY and parameter.default_value is not None:
-                self.current_todo_msgs.add("OPT_POS_ONLY")
+                self._current_todo_msgs.add("OPT_POS_ONLY")
             elif assigned_by == ParameterAssignment.NAME_ONLY and not parameter.is_optional:
-                self.current_todo_msgs.add("REQ_NAME_ONLY")
+                self._current_todo_msgs.add("REQ_NAME_ONLY")
 
             # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we overwrite it
             # and set the type to a list.
@@ -279,7 +316,7 @@ class StubsGenerator:
 
             # Safe-DS does not support variadic parameters.
             if assigned_by in {ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG}:
-                self.current_todo_msgs.add("variadic")
+                self._current_todo_msgs.add("variadic")
 
             # Parameter type
             param_type = self._create_type_string(parameter_type_data)
@@ -315,7 +352,7 @@ class StubsGenerator:
         imports: list[str] = []
         for qualified_import in qualified_imports:
             qualified_name = qualified_import.qualified_name
-            import_path, name = split_import_id(qualified_name)
+            import_path, name = self._split_import_id(qualified_name)
 
             # Ignore enum imports, since those are build in types in Safe-DS stubs
             if import_path == "enum" and name in {"Enum", "IntEnum"}:
@@ -342,7 +379,6 @@ class StubsGenerator:
 
         return "\n".join(imports)
 
-    # Todo Frage: Wir unterstützen keine Schachtelungen von Enums, richtig? Weder in Enums noch in Klassen
     def _create_enum_string(self, enum_data: Enum) -> str:
         # Signature
         enum_signature = f"enum {enum_data.name}"
@@ -356,7 +392,6 @@ class StubsGenerator:
             for enum_instance in instances:
                 name = enum_instance.name
 
-                # Todo Frage: Sicher, dass wir Enum Instancen umschreiben?
                 # Convert snake_case names to camelCase
                 camel_case_name = _convert_snake_to_camel_case(name)
                 annotation = ""
@@ -382,7 +417,7 @@ class StubsGenerator:
             name = type_data["name"]
             match name:
                 case "tuple":
-                    self.current_todo_msgs.add("Tuple")
+                    self._current_todo_msgs.add("Tuple")
                     return "Tuple"
                 case "int":
                     return "Int"
@@ -411,15 +446,17 @@ class StubsGenerator:
 
             if types:
                 if len(types) >= 2:
-                    self.current_todo_msgs.add(name)
+                    self._current_todo_msgs.add(name)
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
         elif kind == "UnionType":
-            # Union items have to be unique
+            # Union items have to be unique. 'types' has to be a sorted list, since otherwise the snapshot tests would
+            # fail b/c element order in sets is non-deterministic.
             types = list({
                 self._create_type_string(type_)
                 for type_ in type_data["types"]
             })
+            types.sort()
 
             if types:
                 if len(types) == 2 and none_type_name in types:
@@ -431,14 +468,14 @@ class StubsGenerator:
                         return f"{types[1]}?"
                     return f"{types[0]}?"
 
-                # If the union contains only one type, return the type instead of creating an union
+                # If the union contains only one type, return the type instead of creating a union
                 elif len(types) == 1:
                     return types[0]
 
                 return f"union<{', '.join(types)}>"
             return ""
         elif kind == "TupleType":
-            self.current_todo_msgs.add("Tuple")
+            self._current_todo_msgs.add("Tuple")
             types = [
                 self._create_type_string(type_)
                 for type_ in type_data["types"]
@@ -460,8 +497,10 @@ class StubsGenerator:
 
         raise ValueError(f"Unexpected type: {kind}")
 
-    def create_todo_msg(self, indentations: str) -> str:
-        if not self.current_todo_msgs:
+    # ############################### Utilities ############################### #
+
+    def _create_todo_msg(self, indentations: str) -> str:
+        if not self._current_todo_msgs:
             return ""
 
         todo_msgs = [
@@ -475,13 +514,24 @@ class StubsGenerator:
                 "variadic": "Safe-DS does not support variadic parameters.",
                 "class_method": "Safe-DS does not support class methods",
             }[msg]
-            for msg in self.current_todo_msgs
+            for msg in self._current_todo_msgs
         ]
+        todo_msgs.sort()
 
         # Empty the message list
-        self.current_todo_msgs = set()
+        self._current_todo_msgs = set()
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
+
+    @staticmethod
+    def _split_import_id(id_: str) -> tuple[str, str]:
+        if "." not in id_:
+            return "", id_
+
+        split_qname = id_.split(".")
+        name = split_qname.pop(-1)
+        import_path = ".".join(split_qname)
+        return import_path, name
 
     @staticmethod
     def _create_name_annotation(name: str) -> str:
@@ -492,47 +542,7 @@ class StubsGenerator:
         if keyword in {
             "as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation", "attr",
             "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in", "internal", "out",
-            "private", "static", "and", "not", "or", "sub", "super"
+            "private", "static", "and", "not", "or", "sub", "super", "_"
         }:
             return f"`{keyword}`"
         return keyword
-
-
-# Todo Frage: mixed_snake_camelCase_naMe -> mixedSnakeCamelCaseNaMe | _ -> _ ? Special cases? Results (Darstellung)?
-def _convert_snake_to_camel_case(name: str) -> str:
-    if name == "_":
-        return name
-
-    # Count underscores in front and behind the name
-    underscore_count_start = len(name) - len(name.lstrip("_"))
-    underscore_count_end = len(name) - len(name.rstrip("_"))
-
-    if underscore_count_end == 0:
-        cleaned_name = name[underscore_count_start:]
-    else:
-        cleaned_name = name[underscore_count_start:-underscore_count_end]
-
-    # Remove underscores and join in camelCase
-    name_parts = cleaned_name.split("_")
-    return name_parts[0] + "".join(
-        part[0].upper() + part[1:]
-        for part in name_parts[1:]
-        if part
-    )
-
-
-def split_import_id(id_: str) -> tuple[str, str]:
-    if "." not in id_:
-        return "", id_
-
-    split_qname = id_.split(".")
-    name = split_qname.pop(-1)
-    import_path = ".".join(split_qname)
-    return import_path, name
-
-
-def create_directory(path: Path) -> None:
-    for i, _ in enumerate(path.parts):
-        new_path = Path("/".join(path.parts[:i+1]))
-        if not new_path.exists():
-            Path.mkdir(new_path)
