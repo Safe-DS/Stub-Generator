@@ -5,6 +5,7 @@ from safeds_stubgen.api_analyzer import (
     AbstractType,
     Attribute,
     BoundaryType,
+    CallableType,
     DictType,
     EnumType,
     FinalType,
@@ -122,6 +123,29 @@ def test_union_type() -> None:
     assert hash(UnionType([NamedType("a")])) == hash(UnionType([NamedType("a")]))
     assert UnionType([NamedType("a")]) != UnionType([NamedType("b")])
     assert hash(UnionType([NamedType("a")])) != hash(UnionType([NamedType("b")]))
+
+
+def test_callable_type() -> None:
+    callable_type = CallableType(
+        parameter_types=[NamedType("str"), NamedType("int")],
+        return_type=TupleType(types=[NamedType("bool"), NamedType("None")])
+    )
+    callable_type_dict = {
+        "kind": "CallableType",
+        "parameter_types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "return_type": {"kind": "TupleType", "types": [
+            {"kind": "NamedType", "name": "bool"}, {"kind": "NamedType", "name": "None"}
+        ]},
+    }
+
+    assert AbstractType.from_dict(callable_type_dict) == callable_type
+    assert CallableType.from_dict(callable_type_dict) == callable_type
+    assert callable_type.to_dict() == callable_type_dict
+
+    assert CallableType([NamedType("a")], NamedType("a")) == CallableType([NamedType("a")], NamedType("a"))
+    assert hash(CallableType([NamedType("a")], NamedType("a"))) == hash(CallableType([NamedType("a")], NamedType("a")))
+    assert CallableType([NamedType("a")], NamedType("a")) != CallableType([NamedType("b")], NamedType("a"))
+    assert hash(CallableType([NamedType("a")], NamedType("a"))) != hash(CallableType([NamedType("b")], NamedType("a")))
 
 
 def test_list_type() -> None:

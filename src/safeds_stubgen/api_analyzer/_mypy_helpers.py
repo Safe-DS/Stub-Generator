@@ -31,34 +31,37 @@ def get_mypyfile_definitions(node: MypyFile) -> list:
 
 
 def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> AbstractType:
-    types = []
-
     # Iterable mypy types
     if isinstance(mypy_type, mp_types.TupleType):
-        for item in mypy_type.items:
-            types.append(
-                mypy_type_to_abstract_type(item),
-            )
-        return sds_types.TupleType(types=types)
+        return sds_types.TupleType(types=[
+            mypy_type_to_abstract_type(item)
+            for item in mypy_type.items
+        ])
     elif isinstance(mypy_type, mp_types.UnionType):
-        for item in mypy_type.items:
-            types.append(
-                mypy_type_to_abstract_type(item),
-            )
-        return sds_types.UnionType(types=types)
+        return sds_types.UnionType(types=[
+            mypy_type_to_abstract_type(item)
+            for item in mypy_type.items
+        ])
 
     # Special Cases
+    elif isinstance(mypy_type, mp_types.CallableType):
+        return sds_types.CallableType(
+            parameter_types=[
+                mypy_type_to_abstract_type(arg_type)
+                for arg_type in mypy_type.arg_types
+            ],
+            return_type=mypy_type_to_abstract_type(mypy_type.ret_type)
+        )
     elif isinstance(mypy_type, mp_types.AnyType):
         return sds_types.NamedType(name="Any")
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None")
     elif isinstance(mypy_type, mp_types.UnboundType):
         if mypy_type.name == "list":
-            types = [
+            return sds_types.ListType(types=[
                 mypy_type_to_abstract_type(arg)
                 for arg in mypy_type.args
-            ]
-            return sds_types.ListType(types=types)
+            ])
         # Todo Aliasing: Import auflösen
         return sds_types.NamedType(name=mypy_type.name)
     elif isinstance(mypy_type, mp_types.TypeType):

@@ -32,6 +32,8 @@ class AbstractType(metaclass=ABCMeta):
                 return TupleType.from_dict(d)
             case UnionType.__name__:
                 return UnionType.from_dict(d)
+            case CallableType.__name__:
+                return CallableType.from_dict(d)
             case _:
                 raise ValueError(f"Cannot parse {d['kind']} value.")
 
@@ -279,6 +281,35 @@ class DictType(AbstractType):
 
 
 @dataclass(frozen=True)
+class CallableType(AbstractType):
+    parameter_types: list[AbstractType]
+    return_type: AbstractType
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> CallableType:
+        params = []
+        for param in d["parameter_types"]:
+            type_ = AbstractType.from_dict(param)
+            if type_ is not None:
+                params.append(type_)
+
+        return CallableType(
+            params,
+            AbstractType.from_dict(d["return_type"])
+        )
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.__class__.__name__,
+            "parameter_types": [t.to_dict() for t in self.parameter_types],
+            "return_type": self.return_type.to_dict(),
+        }
+
+    def __hash__(self) -> int:
+        return hash(frozenset([*self.parameter_types, self.return_type]))
+
+
+@dataclass(frozen=True)
 class SetType(AbstractType):
     types: list[AbstractType]
 
@@ -292,9 +323,10 @@ class SetType(AbstractType):
         return SetType(types)
 
     def to_dict(self) -> dict[str, Any]:
-        type_list = [t.to_dict() for t in self.types]
-
-        return {"kind": self.__class__.__name__, "types": type_list}
+        return {
+            "kind": self.__class__.__name__,
+            "types": [t.to_dict() for t in self.types],
+        }
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))

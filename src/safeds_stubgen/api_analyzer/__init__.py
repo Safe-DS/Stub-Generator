@@ -20,6 +20,7 @@ from ._package_metadata import distribution, distribution_version, package_root
 from ._types import (
     AbstractType,
     BoundaryType,
+    CallableType,
     DictType,
     EnumType,
     FinalType,
@@ -37,6 +38,7 @@ __all__ = [
     "API",
     "Attribute",
     "BoundaryType",
+    "CallableType",
     "Class",
     "DictType",
     "distribution",

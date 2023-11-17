@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+import string
 from pathlib import Path
+from typing import Generator
 
 from safeds_stubgen.api_analyzer import (
     API,
@@ -433,6 +435,25 @@ class StubsStringGenerator:
                     return name
         elif kind == "FinalType":
             return self._create_type_string(type_data)
+        elif kind == "CallableType":
+            name_generator = self._callable_type_name_generator()
+
+            params = [
+                f"{next(name_generator)}: {self._create_type_string(parameter_type)}"
+                for parameter_type in type_data["parameter_types"]
+            ]
+
+            return_type = type_data["return_type"]
+            if return_type["kind"] == "TupleType":
+                return_types = [
+                    f"{next(name_generator)}: {self._create_type_string(type_)}"
+                    for type_ in return_type["types"]
+                ]
+                return_type_string = f"({', '.join(return_types)})"
+            else:
+                return_type_string = f"{next(name_generator)}: {self._create_type_string(return_type)}"
+
+            return f"({', '.join(params)}) -> {return_type_string}"
         elif kind == "OptionalType":
             return f"{self._create_type_string(type_data)}?"
         elif kind in {"SetType", "ListType"}:
@@ -498,6 +519,16 @@ class StubsStringGenerator:
         raise ValueError(f"Unexpected type: {kind}")
 
     # ############################### Utilities ############################### #
+
+    @staticmethod
+    def _callable_type_name_generator() -> Generator:
+        """Generate a name for callable type parameters starting from 'a' until 'zz'."""
+        while True:
+            for x in range(1, 27):
+                yield string.ascii_lowercase[x - 1]
+            for x in range(1, 27):
+                for y in range(1, 27):
+                    yield string.ascii_lowercase[x - 1] + string.ascii_lowercase[y - 1]
 
     def _create_todo_msg(self, indentations: str) -> str:
         if not self._current_todo_msgs:

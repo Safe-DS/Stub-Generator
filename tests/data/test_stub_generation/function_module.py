@@ -1,3 +1,6 @@
+from typing import Callable
+
+
 class A:
     ...
 
@@ -67,3 +70,6 @@ def one_result() -> int: ...
 
 
 def multiple_results() -> tuple[str, int, bool, A]: ...
+
+
+def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
