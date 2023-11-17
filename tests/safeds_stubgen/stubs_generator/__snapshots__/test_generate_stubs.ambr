@@ -17,14 +17,14 @@
   	static attr tupleAttr1: Tuple<Any>
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_2")
-  	static attr tupleAttr2: Tuple<union<String, Int>>
+  	static attr tupleAttr2: Tuple<union<Int, String>>
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_3")
   	static attr tupleAttr3: Tuple<String, Int>
   	@PythonName("list_attr_1")
   	static attr listAttr1: List<Any>
   	@PythonName("list_attr_2")
-  	static attr listAttr2: List<union<String, A>>
+  	static attr listAttr2: List<union<A, String>>
   	// TODO List type has to many type arguments.
   	@PythonName("list_attr_3")
   	static attr listAttr3: List<String, A>
@@ -36,7 +36,7 @@
   	@PythonName("dict_attr_2")
   	static attr dictAttr2: Map<String, Int>
   	@PythonName("dict_attr_3")
-  	static attr dictAttr3: Map<union<String, Int>, A?>
+  	static attr dictAttr3: Map<union<Int, String>, A?>
   	@PythonName("bool_attr")
   	static attr boolAttr: Boolean
   	@PythonName("none_attr")
@@ -44,7 +44,7 @@
   	@PythonName("flaot_attr")
   	static attr flaotAttr: Float
   	@PythonName("int_or_bool_attr")
-  	static attr intOrBoolAttr: union<Int, Boolean>
+  	static attr intOrBoolAttr: union<Boolean, Int>
   	@PythonName("str_attr_with_none_value")
   	static attr strAttrWithNoneValue: String
   	@PythonName("multi_attr_1")
@@ -128,32 +128,39 @@
   '''
   package test_stub_generation.function_module
   
+  from typing import Callable
+  
   @PythonName("public_no_params_no_result")
   fun publicNoParamsNoResult()
   
   fun params(
   	i: Int,
-  	`union`: union<Int, Boolean>,
+  	`union`: union<Boolean, Int>,
   	lst: List<Int>,
   	obj: A
-  ) -> result_1: Any
+  ) -> result1: Any
   
-  // TODO Safe-DS does not support tuple types.
   // TODO List type has to many type arguments.
+  // TODO Safe-DS does not support tuple types.
   @PythonName("illegal_params")
   fun illegalParams(
   	lst: List<Int, String>,
-  	@PythonName("lst_2") lst2: List<Int, String, Int>,
+  	@PythonName("lst_2") lst2: List<Int, String>,
   	tpl: Tuple<Int, String, Boolean, Int>,
-  	_: Int = String
-  ) -> result_1: Any
+  	`_`: Int = String
+  ) -> result1: Any
   
   @PythonName("special_params")
   fun specialParams(
-  	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
   	@PythonName("none_union") noneUnion: Nothing?,
+  	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
+  	@PythonName("bool_none_union") boolNoneUnion: Boolean?,
+  	@PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
+  	@PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
+  	@PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
+  	@PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
   	none: Nothing?
-  ) -> result_1: Any
+  ) -> result1: Any
   
   @PythonName("param_position")
   fun paramPosition(
@@ -163,7 +170,7 @@
   	c: Any = 1,
   	d: Any,
   	e: Int = 1
-  ) -> result_1: Any
+  ) -> result1: Any
   
   // TODO Safe-DS does not support optional but position only parameter assignments.
   @PythonName("opt_pos_only")
@@ -190,13 +197,18 @@
   fun argsType(
   	args: List<Int>,
   	kwargs: Map<String, Int>
-  ) -> result_1: Any
+  ) -> result1: Any
   
   @PythonName("one_result")
-  fun oneResult() -> result_1: Int
+  fun oneResult() -> result1: Int
   
   @PythonName("multiple_results")
-  fun multipleResults() -> (result_1: String, result_2: Int, result_3: Boolean, result_4: A)
+  fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: A)
+  
+  @PythonName("callable_type")
+  fun callableType(
+  	param: (a: String) -> (b: Int, c: String)
+  ) -> result1: (a: Int, b: Int) -> c: Int
   
   class A()
   
@@ -206,13 +218,14 @@
   	@PythonName("instance_method")
   	fun instanceMethod(
   		a: A
-  	) -> result_1: A
+  	) -> result1: A
   
-  	@PythonName("static_class_method")
-  	static fun staticClassMethod()
+  	@PythonName("static_method")
+  	static fun staticMethod()
   
+  	// TODO Safe-DS does not support class methods
   	@PythonName("class_method")
-  	fun classMethod()
+  	static fun classMethod()
   }
   
   '''
