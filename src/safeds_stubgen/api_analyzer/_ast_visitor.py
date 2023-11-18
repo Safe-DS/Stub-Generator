@@ -318,23 +318,27 @@ class MyPyAstVisitor:
 
     @staticmethod
     def _get_types_from_return_stmts(return_stmts: list[mp_nodes.ReturnStmt]) -> list[sds_types.AbstractType]:
-        types = []
+        types = set()
         for return_stmt in return_stmts:
             expr = return_stmt.expr
             if isinstance(expr, mp_nodes.NameExpr):
                 if expr.name in {"False", "True"}:
-                    types.append(sds_types.NamedType(name="bool"))
+                    types.add(sds_types.NamedType(name="bool"))
                 else:
-                    types.append(sds_types.NamedType(name=expr.name))
+                    types.add(sds_types.NamedType(name=expr.name))
             elif isinstance(expr, mp_nodes.IntExpr):
-                types.append(sds_types.NamedType(name="int"))
+                types.add(sds_types.NamedType(name="int"))
             elif isinstance(expr, mp_nodes.FloatExpr):
-                types.append(sds_types.NamedType(name="float"))
+                types.add(sds_types.NamedType(name="float"))
             elif isinstance(expr, mp_nodes.StrExpr):
-                types.append(sds_types.NamedType(name="str"))
+                types.add(sds_types.NamedType(name="str"))
             else:  # pragma: no cover
                 raise TypeError("Unexpected expression type for return type.")
-        return types
+
+        # We have to sort the list for the snapshot tests
+        return_types = list(types)
+        return_types.sort(key=lambda x: x.name)
+        return return_types
 
     def _create_result(self, node: mp_nodes.FuncDef, function_id: str) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
@@ -481,6 +485,9 @@ class MyPyAstVisitor:
         # MemberExpr are constructor (__init__) attributes
         if isinstance(attribute, mp_nodes.MemberExpr):
             attribute_type = node.type
+            if isinstance(attribute_type, mp_types.AnyType) and mp_types.TypeOfAny.unannotated:
+                attribute_type = None
+
             # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus we HAVE to check
             # has_explicit_value, too.
             is_type_inferred = node.is_inferred and node.has_explicit_value

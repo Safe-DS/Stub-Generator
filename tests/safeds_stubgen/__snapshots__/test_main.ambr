@@ -91,12 +91,9 @@
         'id': 'test_package/test_module/InferMyTypes/init_infer',
         'is_public': True,
         'is_static': False,
-        'is_type_inferred': True,
+        'is_type_inferred': False,
         'name': 'init_infer',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'int',
-        }),
+        'type': None,
       }),
       dict({
         'docstring': dict({
@@ -3243,7 +3240,7 @@
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'bool',
+          'name': 'InferMyTypes',
         }),
       }),
       dict({
@@ -3256,7 +3253,20 @@
         'name': 'result_2',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'int',
+          'name': 'None',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_3',
+        'is_type_inferred': True,
+        'name': 'result_3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'SomeClass',
         }),
       }),
       dict({
@@ -3266,10 +3276,10 @@
         }),
         'id': 'test_package/test_module/InferMyTypes/infer_function/result_4',
         'is_type_inferred': True,
-        'name': 'result_3',
+        'name': 'result_4',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'InferMyTypes',
+          'name': 'bool',
         }),
       }),
       dict({
@@ -3278,19 +3288,6 @@
           'type': '',
         }),
         'id': 'test_package/test_module/InferMyTypes/infer_function/result_5',
-        'is_type_inferred': True,
-        'name': 'result_4',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'None',
-        }),
-      }),
-      dict({
-        'docstring': dict({
-          'description': '',
-          'type': '',
-        }),
-        'id': 'test_package/test_module/InferMyTypes/infer_function/result_6',
         'is_type_inferred': True,
         'name': 'result_5',
         'type': dict({
@@ -3303,12 +3300,12 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/InferMyTypes/infer_function/result_7',
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_6',
         'is_type_inferred': True,
         'name': 'result_6',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'str',
+          'name': 'int',
         }),
       }),
       dict({
@@ -3316,12 +3313,12 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/InferMyTypes/infer_function/result_8',
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_7',
         'is_type_inferred': True,
         'name': 'result_7',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'SomeClass',
+          'name': 'str',
         }),
       }),
       dict({
