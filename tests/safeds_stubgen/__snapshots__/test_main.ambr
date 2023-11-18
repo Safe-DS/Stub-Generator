@@ -76,7 +76,7 @@
         'is_public': True,
         'is_static': True,
         'is_type_inferred': True,
-        'name': 'arsam',
+        'name': 'infer_attr',
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
@@ -1050,7 +1050,7 @@
       }),
       dict({
         'attributes': list([
-          'test_package/test_module/InferMyTypes/arsam',
+          'test_package/test_module/InferMyTypes/infer_attr',
           'test_package/test_module/InferMyTypes/init_infer',
         ]),
         'classes': list([
@@ -1081,7 +1081,7 @@
         'id': 'test_package/test_module/InferMyTypes',
         'is_public': True,
         'methods': list([
-          'test_package/test_module/InferMyTypes/arsam_function',
+          'test_package/test_module/InferMyTypes/infer_function',
         ]),
         'name': 'InferMyTypes',
         'reexported_by': list([
@@ -1777,7 +1777,7 @@
         'is_class_method': False,
         'is_public': True,
         'is_static': True,
-        'name': 'arsam_function',
+        'name': 'infer_function',
         'parameters': list([
           'test_package/test_module/InferMyTypes/infer_function/infer_param',
           'test_package/test_module/InferMyTypes/infer_function/infer_param_2',
@@ -1785,13 +1785,13 @@
         'reexported_by': list([
         ]),
         'results': list([
-          'test_package/test_module/InferMyTypes/arsam_function/result_1',
-          'test_package/test_module/InferMyTypes/arsam_function/result_2',
-          'test_package/test_module/InferMyTypes/arsam_function/result_3',
-          'test_package/test_module/InferMyTypes/arsam_function/result_4',
-          'test_package/test_module/InferMyTypes/arsam_function/result_5',
-          'test_package/test_module/InferMyTypes/arsam_function/result_6',
-          'test_package/test_module/InferMyTypes/arsam_function/result_7',
+          'test_package/test_module/InferMyTypes/infer_function/result_1',
+          'test_package/test_module/InferMyTypes/infer_function/result_2',
+          'test_package/test_module/InferMyTypes/infer_function/result_3',
+          'test_package/test_module/InferMyTypes/infer_function/result_4',
+          'test_package/test_module/InferMyTypes/infer_function/result_5',
+          'test_package/test_module/InferMyTypes/infer_function/result_6',
+          'test_package/test_module/InferMyTypes/infer_function/result_7',
         ]),
       }),
       dict({

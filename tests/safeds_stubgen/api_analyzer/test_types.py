@@ -56,6 +56,7 @@ def test_correct_hash() -> None:
             min_inclusive=True,
             max_inclusive=True,
         ),
+        is_type_inferred=False,
         is_public=True,
         is_static=True,
         docstring=AttributeDocstring(),
