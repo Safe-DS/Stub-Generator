@@ -89,6 +89,11 @@ def test_import_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("import_module", snapshot)
 
 
+# Todo Check snapshot
+def test_type_inference(snapshot: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("infer_types_module", snapshot)
+
+
 # Todo
 def test_docstring_creation() -> None: ...
 

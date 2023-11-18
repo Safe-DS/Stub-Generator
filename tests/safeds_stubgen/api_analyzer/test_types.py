@@ -31,6 +31,7 @@ def test_correct_hash() -> None:
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
         docstring=ParameterDocstring("'hashvalue'", "r", "r"),
         type=NamedType("str"),
+        is_type_inferred=False
     )
     assert hash(parameter) == hash(deepcopy(parameter))
     enum_values = frozenset({"a", "b", "c"})

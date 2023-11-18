@@ -285,44 +285,47 @@ class StubsStringGenerator:
                 first_loop_skipped = True
                 continue
 
-            # Default value
+            assigned_by = parameter.assigned_by
+            type_string = ""
             param_value = ""
-            param_default_value = parameter.default_value
-            parameter_type_data = parameter.type.to_dict()
-            if param_default_value is not None:
-                if isinstance(param_default_value, str):
-                    if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
-                        if param_default_value == "False":
-                            default_value = "false"
-                        elif param_default_value == "True":
-                            default_value = "true"
+
+            # Default value
+            if parameter.type is not None:
+                param_default_value = parameter.default_value
+                parameter_type_data = parameter.type.to_dict()
+                if param_default_value is not None:
+                    if isinstance(param_default_value, str):
+                        if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
+                            if param_default_value == "False":
+                                default_value = "false"
+                            elif param_default_value == "True":
+                                default_value = "true"
+                            else:
+                                default_value = f"{param_default_value}"
                         else:
-                            default_value = f"{param_default_value}"
+                            default_value = f'"{param_default_value}"'
                     else:
-                        default_value = f'"{param_default_value}"'
-                else:
-                    default_value = param_default_value
-                param_value = f" = {default_value}"
+                        default_value = param_default_value
+                    param_value = f" = {default_value}"
+
+                # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we
+                # overwrite it and set the type to a list.
+                if assigned_by == ParameterAssignment.POSITIONAL_VARARG:
+                    parameter_type_data["kind"] = "ListType"
+
+                # Parameter type
+                param_type = self._create_type_string(parameter_type_data)
+                type_string = f": {param_type}" if param_type else ""
 
             # Check if assigned_by is not illegal
-            assigned_by = parameter.assigned_by
             if assigned_by == ParameterAssignment.POSITION_ONLY and parameter.default_value is not None:
                 self._current_todo_msgs.add("OPT_POS_ONLY")
             elif assigned_by == ParameterAssignment.NAME_ONLY and not parameter.is_optional:
                 self._current_todo_msgs.add("REQ_NAME_ONLY")
 
-            # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we overwrite it
-            # and set the type to a list.
-            if assigned_by == ParameterAssignment.POSITIONAL_VARARG:
-                parameter_type_data["kind"] = "ListType"
-
             # Safe-DS does not support variadic parameters.
             if assigned_by in {ParameterAssignment.POSITIONAL_VARARG, ParameterAssignment.NAMED_VARARG}:
                 self._current_todo_msgs.add("variadic")
-
-            # Parameter type
-            param_type = self._create_type_string(parameter_type_data)
-            type_string = f": {param_type}" if param_type else ""
 
             # Convert to camelCase if necessary
             name = parameter.name

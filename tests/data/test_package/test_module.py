@@ -62,8 +62,8 @@ class SomeClass(AcDoubleAlias):
     int_or_bool_attr: int | bool
     str_attr_with_none_value: str = None
 
-    mulit_attr_1, _mulit_attr_2_private = (123456, "I am a String")
-    mulit_attr_3 = _mulit_attr_4_private = ["I am some", "kind of list"]
+    multi_attr_1, _multi_attr_2_private = (123456, "I am a String")
+    multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]
 
     # noinspection PyUnusedLocal
     def __init__(self, init_param_1):
@@ -134,3 +134,43 @@ class _PrivateClass:
 
         class NestedNestedPrivateClass:
             pass
+
+
+class InferMyTypes:
+    infer_attr = 1
+
+    def __init__(self, init_param=1):
+        self.init_infer = 3
+
+    @staticmethod
+    def infer_function(infer_param=1, infer_param_2: int = "Something"):
+        if infer_param_2:
+            return False
+        elif infer_param:
+            if infer_param:
+                return 12
+            else:
+                return bool
+
+        match infer_param:
+            case 1:
+                if 4:
+                    return InferMyTypes
+            case _:
+                return None
+
+        while infer_param_2:
+            if infer_param_2:
+                return 1.23
+            else:
+                infer_param_2 = 0
+
+        with open("no path", "r") as _:
+            if infer_param_2:
+                return "Some String"
+
+        for _ in (1, 2):
+            if infer_param_2:
+                return SomeClass
+
+        return int

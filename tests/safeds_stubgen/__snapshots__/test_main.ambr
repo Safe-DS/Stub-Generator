@@ -11,6 +11,7 @@
         'id': 'test_package/test_docstrings/EpydocDocstringClass/attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'attr_1',
         'type': dict({
           'kind': 'NamedType',
@@ -26,6 +27,7 @@
         'id': 'test_package/test_docstrings/GoogleDocstringClass/attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'attr_1',
         'type': dict({
           'kind': 'NamedType',
@@ -41,6 +43,7 @@
         'id': 'test_package/test_docstrings/NumpyDocstringClass/attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'attr_1',
         'type': dict({
           'kind': 'NamedType',
@@ -56,6 +59,7 @@
         'id': 'test_package/test_docstrings/RestDocstringClass/attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'attr_1',
         'type': dict({
           'kind': 'NamedType',
@@ -68,9 +72,42 @@
           'description': '',
           'type': '',
         }),
+        'id': 'test_package/test_module/InferMyTypes/infer_attr',
+        'is_public': True,
+        'is_static': True,
+        'is_type_inferred': True,
+        'name': 'arsam',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/init_infer',
+        'is_public': True,
+        'is_static': False,
+        'is_type_inferred': True,
+        'name': 'init_infer',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
         'id': 'test_package/test_module/SomeClass/_init_attr_private',
         'is_public': False,
         'is_static': False,
+        'is_type_inferred': False,
         'name': '_init_attr_private',
         'type': dict({
           'kind': 'NamedType',
@@ -83,11 +120,15 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/SomeClass/_mulit_attr_2_private',
+        'id': 'test_package/test_module/SomeClass/_multi_attr_2_private',
         'is_public': False,
         'is_static': True,
-        'name': '_mulit_attr_2_private',
-        'type': None,
+        'is_type_inferred': True,
+        'name': '_multi_attr_2_private',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -95,11 +136,20 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/SomeClass/_mulit_attr_4_private',
+        'id': 'test_package/test_module/SomeClass/_multi_attr_4_private',
         'is_public': False,
         'is_static': True,
-        'name': '_mulit_attr_4_private',
-        'type': None,
+        'is_type_inferred': True,
+        'name': '_multi_attr_4_private',
+        'type': dict({
+          'kind': 'ListType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+            }),
+          ]),
+        }),
       }),
       dict({
         'docstring': dict({
@@ -110,8 +160,12 @@
         'id': 'test_package/test_module/SomeClass/_no_type_hint_private',
         'is_public': False,
         'is_static': True,
+        'is_type_inferred': True,
         'name': '_no_type_hint_private',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -122,6 +176,7 @@
         'id': 'test_package/test_module/SomeClass/_type_hint_private',
         'is_public': False,
         'is_static': True,
+        'is_type_inferred': False,
         'name': '_type_hint_private',
         'type': dict({
           'kind': 'NamedType',
@@ -137,6 +192,7 @@
         'id': 'test_package/test_module/SomeClass/bool_attr',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'bool_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -152,6 +208,7 @@
         'id': 'test_package/test_module/SomeClass/dict_attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'dict_attr_1',
         'type': dict({
           'key_type': dict({
@@ -174,6 +231,7 @@
         'id': 'test_package/test_module/SomeClass/dict_attr_2',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'dict_attr_2',
         'type': dict({
           'key_type': dict({
@@ -196,6 +254,7 @@
         'id': 'test_package/test_module/SomeClass/dict_attr_3',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'dict_attr_3',
         'type': dict({
           'key_type': dict({
@@ -236,6 +295,7 @@
         'id': 'test_package/test_module/SomeClass/flaot_attr',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'flaot_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -251,6 +311,7 @@
         'id': 'test_package/test_module/SomeClass/init_attr',
         'is_public': True,
         'is_static': False,
+        'is_type_inferred': False,
         'name': 'init_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -266,6 +327,7 @@
         'id': 'test_package/test_module/SomeClass/int_or_bool_attr',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'int_or_bool_attr',
         'type': dict({
           'kind': 'UnionType',
@@ -290,6 +352,7 @@
         'id': 'test_package/test_module/SomeClass/list_attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'list_attr_1',
         'type': dict({
           'kind': 'ListType',
@@ -306,6 +369,7 @@
         'id': 'test_package/test_module/SomeClass/list_attr_2',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'list_attr_2',
         'type': dict({
           'kind': 'ListType',
@@ -335,6 +399,7 @@
         'id': 'test_package/test_module/SomeClass/list_attr_3',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'list_attr_3',
         'type': dict({
           'kind': 'ListType',
@@ -359,6 +424,7 @@
         'id': 'test_package/test_module/SomeClass/list_attr_4',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'list_attr_4',
         'type': dict({
           'kind': 'ListType',
@@ -389,11 +455,15 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/SomeClass/mulit_attr_1',
+        'id': 'test_package/test_module/SomeClass/multi_attr_1',
         'is_public': True,
         'is_static': True,
-        'name': 'mulit_attr_1',
-        'type': None,
+        'is_type_inferred': True,
+        'name': 'multi_attr_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -401,11 +471,20 @@
           'description': '',
           'type': '',
         }),
-        'id': 'test_package/test_module/SomeClass/mulit_attr_3',
+        'id': 'test_package/test_module/SomeClass/multi_attr_3',
         'is_public': True,
         'is_static': True,
-        'name': 'mulit_attr_3',
-        'type': None,
+        'is_type_inferred': True,
+        'name': 'multi_attr_3',
+        'type': dict({
+          'kind': 'ListType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+            }),
+          ]),
+        }),
       }),
       dict({
         'docstring': dict({
@@ -416,8 +495,12 @@
         'id': 'test_package/test_module/SomeClass/no_type_hint_public',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': True,
         'name': 'no_type_hint_public',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -428,6 +511,7 @@
         'id': 'test_package/test_module/SomeClass/none_attr',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'none_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -443,6 +527,7 @@
         'id': 'test_package/test_module/SomeClass/object_attr',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'object_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -458,6 +543,7 @@
         'id': 'test_package/test_module/SomeClass/object_attr_2',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'object_attr_2',
         'type': dict({
           'kind': 'NamedType',
@@ -473,6 +559,7 @@
         'id': 'test_package/test_module/SomeClass/str_attr_with_none_value',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'str_attr_with_none_value',
         'type': dict({
           'kind': 'NamedType',
@@ -488,6 +575,7 @@
         'id': 'test_package/test_module/SomeClass/tuple_attr_1',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'tuple_attr_1',
         'type': dict({
           'kind': 'TupleType',
@@ -508,6 +596,7 @@
         'id': 'test_package/test_module/SomeClass/tuple_attr_2',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'tuple_attr_2',
         'type': dict({
           'kind': 'TupleType',
@@ -537,6 +626,7 @@
         'id': 'test_package/test_module/SomeClass/tuple_attr_3',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'tuple_attr_3',
         'type': dict({
           'kind': 'TupleType',
@@ -561,6 +651,7 @@
         'id': 'test_package/test_module/SomeClass/type_hint_public',
         'is_public': True,
         'is_static': True,
+        'is_type_inferred': False,
         'name': 'type_hint_public',
         'type': dict({
           'kind': 'NamedType',
@@ -576,8 +667,12 @@
         'id': 'test_package/test_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
         'is_public': False,
         'is_static': True,
+        'is_type_inferred': True,
         'name': 'nested_class_attr',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -588,8 +683,12 @@
         'id': 'test_package/test_module/_PrivateClass/public_attr_in_private_class',
         'is_public': False,
         'is_static': True,
+        'is_type_inferred': True,
         'name': 'public_attr_in_private_class',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
       dict({
         'docstring': dict({
@@ -600,6 +699,7 @@
         'id': 'test_package/test_module/_PrivateClass/public_init_attr_in_private_class',
         'is_public': False,
         'is_static': False,
+        'is_type_inferred': False,
         'name': 'public_init_attr_in_private_class',
         'type': dict({
           'kind': 'NamedType',
@@ -950,6 +1050,47 @@
       }),
       dict({
         'attributes': list([
+          'test_package/test_module/InferMyTypes/arsam',
+          'test_package/test_module/InferMyTypes/init_infer',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'full_docstring': '',
+          }),
+          'id': 'test_package/test_module/InferMyTypes/__init__',
+          'is_class_method': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'test_package/test_module/InferMyTypes/__init__/self',
+            'test_package/test_module/InferMyTypes/__init__/init_param',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes',
+        'is_public': True,
+        'methods': list([
+          'test_package/test_module/InferMyTypes/arsam_function',
+        ]),
+        'name': 'InferMyTypes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
           'test_package/test_module/SomeClass/type_hint_public',
           'test_package/test_module/SomeClass/_type_hint_private',
           'test_package/test_module/SomeClass/no_type_hint_public',
@@ -971,10 +1112,10 @@
           'test_package/test_module/SomeClass/flaot_attr',
           'test_package/test_module/SomeClass/int_or_bool_attr',
           'test_package/test_module/SomeClass/str_attr_with_none_value',
-          'test_package/test_module/SomeClass/mulit_attr_1',
-          'test_package/test_module/SomeClass/_mulit_attr_2_private',
-          'test_package/test_module/SomeClass/mulit_attr_3',
-          'test_package/test_module/SomeClass/_mulit_attr_4_private',
+          'test_package/test_module/SomeClass/multi_attr_1',
+          'test_package/test_module/SomeClass/_multi_attr_2_private',
+          'test_package/test_module/SomeClass/multi_attr_3',
+          'test_package/test_module/SomeClass/_multi_attr_4_private',
           'test_package/test_module/SomeClass/init_attr',
           'test_package/test_module/SomeClass/_init_attr_private',
         ]),
@@ -1613,6 +1754,51 @@
           'description': '',
           'full_docstring': '',
         }),
+        'id': 'test_package/test_module/InferMyTypes/__init__',
+        'is_class_method': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'test_package/test_module/InferMyTypes/__init__/self',
+          'test_package/test_module/InferMyTypes/__init__/init_param',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function',
+        'is_class_method': False,
+        'is_public': True,
+        'is_static': True,
+        'name': 'arsam_function',
+        'parameters': list([
+          'test_package/test_module/InferMyTypes/infer_function/infer_param',
+          'test_package/test_module/InferMyTypes/infer_function/infer_param_2',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'test_package/test_module/InferMyTypes/arsam_function/result_1',
+          'test_package/test_module/InferMyTypes/arsam_function/result_2',
+          'test_package/test_module/InferMyTypes/arsam_function/result_3',
+          'test_package/test_module/InferMyTypes/arsam_function/result_4',
+          'test_package/test_module/InferMyTypes/arsam_function/result_5',
+          'test_package/test_module/InferMyTypes/arsam_function/result_6',
+          'test_package/test_module/InferMyTypes/arsam_function/result_7',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
         'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function',
         'is_class_method': False,
         'is_public': True,
@@ -2136,6 +2322,7 @@
         'classes': list([
           'test_package/test_module/SomeClass',
           'test_package/test_module/_PrivateClass',
+          'test_package/test_module/InferMyTypes',
         ]),
         'docstring': 'Docstring of the some_class.py module.',
         'enums': list([
@@ -2186,6 +2373,7 @@
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/__init__/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2202,11 +2390,9 @@
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'EpydocDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2218,11 +2404,9 @@
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'EpydocDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2234,6 +2418,7 @@
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/x',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'x',
         'type': dict({
           'kind': 'NamedType',
@@ -2250,6 +2435,7 @@
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/y',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'y',
         'type': dict({
           'kind': 'NamedType',
@@ -2266,6 +2452,7 @@
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/__init__/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2282,11 +2469,9 @@
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'GoogleDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2298,11 +2483,9 @@
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'GoogleDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2314,6 +2497,7 @@
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/x',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'x',
         'type': dict({
           'kind': 'NamedType',
@@ -2330,6 +2514,7 @@
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/y',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'y',
         'type': dict({
           'kind': 'NamedType',
@@ -2346,6 +2531,7 @@
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/__init__/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2362,11 +2548,9 @@
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'NumpyDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2378,11 +2562,9 @@
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'NumpyDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2394,6 +2576,7 @@
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/x',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'x',
         'type': dict({
           'kind': 'NamedType',
@@ -2410,6 +2593,7 @@
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/y',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'y',
         'type': dict({
           'kind': 'NamedType',
@@ -2426,6 +2610,7 @@
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/__init__/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2442,11 +2627,9 @@
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'RestDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2458,11 +2641,9 @@
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'RestDocstringClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2474,6 +2655,7 @@
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/x',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'x',
         'type': dict({
           'kind': 'NamedType',
@@ -2490,7 +2672,73 @@
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/y',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'y',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': 1,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/__init__/init_param',
+        'is_optional': True,
+        'is_type_inferred': True,
+        'name': 'init_param',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/__init__/self',
+        'is_optional': False,
+        'is_type_inferred': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': 1,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/infer_param',
+        'is_optional': True,
+        'is_type_inferred': True,
+        'name': 'infer_param',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': 'Something',
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/infer_param_2',
+        'is_optional': True,
+        'is_type_inferred': False,
+        'name': 'infer_param_2',
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
@@ -2506,6 +2754,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2522,11 +2771,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'NestedClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2538,11 +2785,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/__init__/init_param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'init_param_1',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'Any',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2554,11 +2799,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2570,6 +2813,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/_some_function/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2586,6 +2830,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/_some_function/param_2',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param_2',
         'type': dict({
           'kind': 'NamedType',
@@ -2602,11 +2847,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/_some_function/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2618,11 +2861,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/class_method/cls',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'cls',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2634,11 +2875,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/class_method_params/cls',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'cls',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2650,6 +2889,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/class_method_params/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2666,6 +2906,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/multiple_results/param_1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2682,11 +2923,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/no_return_1/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2698,11 +2937,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/no_return_2/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2714,6 +2951,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/static_function/param_1',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2730,6 +2968,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/static_function/param_2',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param_2',
         'type': dict({
           'kind': 'UnionType',
@@ -2755,16 +2994,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_params/args',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'args',
-        'type': dict({
-          'kind': 'TupleType',
-          'types': list([
-            dict({
-              'kind': 'NamedType',
-              'name': 'Any',
-            }),
-          ]),
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'NAMED_VARARG',
@@ -2776,18 +3008,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_params/kwargs',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'kwargs',
-        'type': dict({
-          'key_type': dict({
-            'kind': 'NamedType',
-            'name': 'str',
-          }),
-          'kind': 'DictType',
-          'value_type': dict({
-            'kind': 'NamedType',
-            'name': 'Any',
-          }),
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_ONLY',
@@ -2799,11 +3022,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/param1',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param1',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'Any',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2815,6 +3036,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/param2',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'param2',
         'type': dict({
           'kind': 'NamedType',
@@ -2831,10 +3053,11 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/param3',
         'is_optional': True,
+        'is_type_inferred': True,
         'name': 'param3',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'Any',
+          'name': 'int',
         }),
       }),
       dict({
@@ -2847,10 +3070,11 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/param4',
         'is_optional': True,
+        'is_type_inferred': True,
         'name': 'param4',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'Any',
+          'name': 'None',
         }),
       }),
       dict({
@@ -2863,6 +3087,7 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/param5',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param5',
         'type': dict({
           'kind': 'NamedType',
@@ -2879,11 +3104,9 @@
         }),
         'id': 'test_package/test_module/SomeClass/test_position/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': 'SomeClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2895,11 +3118,9 @@
         }),
         'id': 'test_package/test_module/_PrivateClass/__init__/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': '_PrivateClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'IMPLICIT',
@@ -2911,11 +3132,9 @@
         }),
         'id': 'test_package/test_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
+        'is_type_inferred': False,
         'name': 'self',
-        'type': dict({
-          'kind': 'NamedType',
-          'name': '_PrivateClass',
-        }),
+        'type': None,
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
@@ -2927,6 +3146,7 @@
         }),
         'id': 'test_package/test_module/global_func/param_1',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2943,6 +3163,7 @@
         }),
         'id': 'test_package/test_module/global_func/param_2',
         'is_optional': True,
+        'is_type_inferred': False,
         'name': 'param_2',
         'type': dict({
           'kind': 'UnionType',
@@ -2966,6 +3187,7 @@
           'type': '',
         }),
         'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2978,6 +3200,7 @@
           'type': '',
         }),
         'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -2990,6 +3213,7 @@
           'type': '',
         }),
         'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3002,6 +3226,7 @@
           'type': '',
         }),
         'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3013,7 +3238,99 @@
           'description': '',
           'type': '',
         }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_1',
+        'is_type_inferred': True,
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'bool',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_2',
+        'is_type_inferred': True,
+        'name': 'result_2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_4',
+        'is_type_inferred': True,
+        'name': 'result_3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'InferMyTypes',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_5',
+        'is_type_inferred': True,
+        'name': 'result_4',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'None',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_6',
+        'is_type_inferred': True,
+        'name': 'result_5',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_7',
+        'is_type_inferred': True,
+        'name': 'result_6',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'test_package/test_module/InferMyTypes/infer_function/result_8',
+        'is_type_inferred': True,
+        'name': 'result_7',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'SomeClass',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
         'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'SetType',
@@ -3040,6 +3357,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/_some_function/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3052,6 +3370,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/class_method_params/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3064,6 +3383,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/multiple_results/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'UnionType',
@@ -3094,6 +3414,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/static_function/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3106,6 +3427,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/static_function/result_2',
+        'is_type_inferred': False,
         'name': 'result_2',
         'type': dict({
           'kind': 'NamedType',
@@ -3118,6 +3440,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/SomeClass/test_position/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -3130,6 +3453,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/_private_global_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'UnionType',
@@ -3155,6 +3479,7 @@
           'type': '',
         }),
         'id': 'test_package/test_module/global_func/result_1',
+        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',

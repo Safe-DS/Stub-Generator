@@ -4,23 +4,7 @@ from types import NoneType
 from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
-from mypy.nodes import (
-    AssignmentStmt,
-    CallExpr,
-    ClassDef,
-    Expression,
-    ExpressionStmt,
-    FuncDef,
-    Import,
-    ImportAll,
-    ImportFrom,
-    MemberExpr,
-    MypyFile,
-    NameExpr,
-    StrExpr,
-    TupleExpr,
-    Var,
-)
+from mypy import nodes as mp_nodes
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -38,8 +22,10 @@ from ._api import (
     WildcardImport,
 )
 from ._mypy_helpers import (
+    find_return_stmts_recursive,
     get_argument_kind,
     get_classdef_definitions,
+    get_funcdef_definitions,
     get_mypyfile_definitions,
     mypy_type_to_abstract_type,
 )
@@ -55,7 +41,7 @@ class MyPyAstVisitor:
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
 
-    def enter_moduledef(self, node: MypyFile) -> None:
+    def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         is_package = node.path.endswith("__init__.py")
 
         qualified_imports: list[QualifiedImport] = []
@@ -71,13 +57,13 @@ class MyPyAstVisitor:
 
         for definition in child_definitions:
             # Imports
-            if isinstance(definition, Import):
+            if isinstance(definition, mp_nodes.Import):
                 for import_name, import_alias in definition.ids:
                     qualified_imports.append(
                         QualifiedImport(import_name, import_alias),
                     )
 
-            elif isinstance(definition, ImportFrom):
+            elif isinstance(definition, mp_nodes.ImportFrom):
                 for import_name, import_alias in definition.names:
                     qualified_imports.append(
                         QualifiedImport(
@@ -86,13 +72,13 @@ class MyPyAstVisitor:
                         ),
                     )
 
-            elif isinstance(definition, ImportAll):
+            elif isinstance(definition, mp_nodes.ImportAll):
                 wildcard_imports.append(
                     WildcardImport(definition.id),
                 )
 
             # Docstring
-            elif isinstance(definition, ExpressionStmt) and isinstance(definition.expr, StrExpr):
+            elif isinstance(definition, mp_nodes.ExpressionStmt) and isinstance(definition.expr, mp_nodes.StrExpr):
                 docstring = definition.expr.value
 
         # Create module id to get the full path
@@ -116,20 +102,20 @@ class MyPyAstVisitor:
         )
 
         if is_package:
-            self.add_reexports(module)
+            self._add_reexports(module)
 
         self.__declaration_stack.append(module)
 
-    def leave_moduledef(self, _: MypyFile) -> None:
+    def leave_moduledef(self, _: mp_nodes.MypyFile) -> None:
         module = self.__declaration_stack.pop()
         if not isinstance(module, Module):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
 
         self.api.add_module(module)
 
-    def enter_classdef(self, node: ClassDef) -> None:
-        id_ = self._create_id_from_stack(node.name)
+    def enter_classdef(self, node: mp_nodes.ClassDef) -> None:
         name = node.name
+        id_ = self._create_id_from_stack(name)
 
         # Get docstring
         docstring = self.docstring_parser.get_class_documentation(node)
@@ -139,13 +125,13 @@ class MyPyAstVisitor:
         superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
 
         # Get reexported data
-        reexported_by = self.get_reexported_by(name)
+        reexported_by = self._get_reexported_by(name)
 
         # Get constructor docstring
         definitions = get_classdef_definitions(node)
         constructor_fulldocstring = ""
         for definition in definitions:
-            if isinstance(definition, FuncDef) and definition.name == "__init__":
+            if isinstance(definition, mp_nodes.FuncDef) and definition.name == "__init__":
                 constructor_docstring = self.docstring_parser.get_function_documentation(definition)
                 constructor_fulldocstring = constructor_docstring.full_docstring
 
@@ -154,14 +140,14 @@ class MyPyAstVisitor:
             id=id_,
             name=name,
             superclasses=superclasses,
-            is_public=self.is_public(node.name, name),
+            is_public=self._is_public(node.name, name),
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
         )
         self.__declaration_stack.append(class_)
 
-    def leave_classdef(self, _: ClassDef) -> None:
+    def leave_classdef(self, _: mp_nodes.ClassDef) -> None:
         class_ = self.__declaration_stack.pop()
         if not isinstance(class_, Class):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -173,11 +159,11 @@ class MyPyAstVisitor:
                 self.api.add_class(class_)
                 parent.add_class(class_)
 
-    def enter_funcdef(self, node: FuncDef) -> None:
+    def enter_funcdef(self, node: mp_nodes.FuncDef) -> None:
         name = node.name
         function_id = self._create_id_from_stack(name)
 
-        is_public = self.is_public(name, node.fullname)
+        is_public = self._is_public(name, node.fullname)
         is_static = node.is_static
 
         # Get docstring
@@ -186,13 +172,13 @@ class MyPyAstVisitor:
         # Function args
         arguments: list[Parameter] = []
         if getattr(node, "arguments", None) is not None:
-            arguments = self.parse_parameter_data(node, function_id)
+            arguments = self._parse_parameter_data(node, function_id)
 
         # Create results
-        results = self.create_result(node, function_id)
+        results = self._create_result(node, function_id)
 
         # Get reexported data
-        reexported_by = self.get_reexported_by(name)
+        reexported_by = self._get_reexported_by(name)
 
         # Create and add Function to stack
         function = Function(
@@ -208,7 +194,7 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def leave_funcdef(self, _: FuncDef) -> None:
+    def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
         function = self.__declaration_stack.pop()
         if not isinstance(function, Function):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -232,7 +218,7 @@ class MyPyAstVisitor:
                 else:
                     parent.add_method(function)
 
-    def enter_enumdef(self, node: ClassDef) -> None:
+    def enter_enumdef(self, node: mp_nodes.ClassDef) -> None:
         id_ = self._create_id_from_stack(node.name)
         self.__declaration_stack.append(
             Enum(
@@ -242,7 +228,7 @@ class MyPyAstVisitor:
             ),
         )
 
-    def leave_enumdef(self, _: ClassDef) -> None:
+    def leave_enumdef(self, _: mp_nodes.ClassDef) -> None:
         enum = self.__declaration_stack.pop()
         if not isinstance(enum, Enum):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
@@ -255,21 +241,21 @@ class MyPyAstVisitor:
                 self.api.add_enum(enum)
                 parent.add_enum(enum)
 
-    def enter_assignmentstmt(self, node: AssignmentStmt) -> None:
+    def enter_assignmentstmt(self, node: mp_nodes.AssignmentStmt) -> None:
         # Assignments are attributes or enum instances
         parent = self.__declaration_stack[-1]
         assignments: list[Attribute | EnumInstance] = []
 
         for lvalue in node.lvalues:
             if isinstance(parent, Class):
-                for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
+                for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
                     assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
                 grand_parent = self.__declaration_stack[-2]
                 # If the grandparent is not a class we ignore the attributes
-                if isinstance(grand_parent, Class) and not isinstance(lvalue, NameExpr):
+                if isinstance(grand_parent, Class) and not isinstance(lvalue, mp_nodes.NameExpr):
                     # Ignore non instance attributes in __init__ classes
-                    for assignment in self.parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
+                    for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
                         assignments.append(assignment)
 
             elif isinstance(parent, Enum):
@@ -292,7 +278,7 @@ class MyPyAstVisitor:
 
         self.__declaration_stack.append(assignments)
 
-    def leave_assignmentstmt(self, _: AssignmentStmt) -> None:
+    def leave_assignmentstmt(self, _: mp_nodes.AssignmentStmt) -> None:
         # Assignments are attributes or enum instances
         assignments = self.__declaration_stack.pop()
 
@@ -330,44 +316,75 @@ class MyPyAstVisitor:
 
     # #### Result utilities
 
-    def create_result(self, node: FuncDef, function_id: str) -> list[Result]:
+    @staticmethod
+    def _get_types_from_return_stmts(return_stmts: list[mp_nodes.ReturnStmt]) -> list[sds_types.AbstractType]:
+        types = []
+        for return_stmt in return_stmts:
+            expr = return_stmt.expr
+            if isinstance(expr, mp_nodes.NameExpr):
+                if expr.name in {"False", "True"}:
+                    types.append(sds_types.NamedType(name="bool"))
+                else:
+                    types.append(sds_types.NamedType(name=expr.name))
+            elif isinstance(expr, mp_nodes.IntExpr):
+                types.append(sds_types.NamedType(name="int"))
+            elif isinstance(expr, mp_nodes.FloatExpr):
+                types.append(sds_types.NamedType(name="float"))
+            elif isinstance(expr, mp_nodes.StrExpr):
+                types.append(sds_types.NamedType(name="str"))
+            else:  # pragma: no cover
+                raise TypeError("Unexpected expression type for return type.")
+        return types
+
+    def _create_result(self, node: mp_nodes.FuncDef, function_id: str) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
             return []
 
         ret_type = None
+        is_type_inferred = False
         if getattr(node, "type", None):
             node_type = node.type
             if node_type is not None and hasattr(node_type, "ret_type"):
                 node_ret_type = node_type.ret_type
             else:  # pragma: no cover
                 raise AttributeError("Result has no return type information.")
+
             if not isinstance(node_ret_type, mp_types.NoneType):
-                ret_type = mypy_type_to_abstract_type(node_ret_type)
+                # In Mypy AnyTypes can occur because of different reasons (see TypeOfAny Class)
+                if (isinstance(node_ret_type, mp_types.AnyType) and
+                        node_ret_type.type_of_any == mp_types.TypeOfAny.unannotated):
+                    # In this case, the "Any" type was given, because there was no annotation, therefore we have to
+                    # either infer the type or set no type at all. To infer the type, we iterate through all return
+                    # statements
+                    func_defn = get_funcdef_definitions(node)
+                    return_stmts = find_return_stmts_recursive(func_defn)
+                    if return_stmts:
+                        is_type_inferred = True
+                        return_stmt_types = self._get_types_from_return_stmts(return_stmts)
+                        if len(return_stmt_types) >= 2:
+                            ret_type = sds_types.TupleType(types=return_stmt_types)
+                        else:
+                            ret_type = return_stmt_types[0]
+
+                else:
+                    ret_type = mypy_type_to_abstract_type(node_ret_type)
 
         if ret_type is None:
             return []
 
         results = []
-
         docstring = self.docstring_parser.get_result_documentation(node)
-        if isinstance(ret_type, sds_types.TupleType):
-            for i, type_ in enumerate(ret_type.types):
-                name = f"result_{i + 1}"
-                results.append(
-                    Result(
-                        id=f"{function_id}/{name}",
-                        type=type_,
-                        name=name,
-                        docstring=docstring,
-                    ),
-                )
-        else:
-            name = "result_1"
+
+        # Results that are tuples will be split into multiple results
+        ret_types = ret_type.types if isinstance(ret_type, sds_types.TupleType) else [ret_type]
+        for i, type_ in enumerate(ret_types):
+            name = f"result_{i + 1}"
             results.append(
                 Result(
                     id=f"{function_id}/{name}",
-                    type=ret_type,
+                    type=type_,
+                    is_type_inferred=is_type_inferred,
                     name=name,
                     docstring=docstring,
                 ),
@@ -377,13 +394,13 @@ class MyPyAstVisitor:
 
     # #### Attribute utilities
 
-    def parse_attributes(
+    def _parse_attributes(
         self,
-        lvalue: Expression,
+        lvalue: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
     ) -> list[Attribute]:
-        assert isinstance(lvalue, NameExpr | MemberExpr | TupleExpr)
+        assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
         attributes: list[Attribute] = []
 
         if hasattr(lvalue, "name"):
@@ -391,7 +408,7 @@ class MyPyAstVisitor:
                 return attributes
 
             attributes.append(
-                self.create_attribute(lvalue, unanalyzed_type, is_static),
+                self._create_attribute(lvalue, unanalyzed_type, is_static),
             )
 
         elif hasattr(lvalue, "items"):
@@ -404,13 +421,13 @@ class MyPyAstVisitor:
                     continue
 
                 attributes.append(
-                    self.create_attribute(lvalue_, unanalyzed_type, is_static),
+                    self._create_attribute(lvalue_, unanalyzed_type, is_static),
                 )
 
         return attributes
 
-    def check_attribute_already_defined(self, lvalue: Expression, value_name: str) -> bool:
-        assert isinstance(lvalue, NameExpr | MemberExpr | TupleExpr)
+    def check_attribute_already_defined(self, lvalue: mp_nodes.Expression, value_name: str) -> bool:
+        assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
         if hasattr(lvalue, "node"):
             node = lvalue.node
         else:  # pragma: no cover
@@ -432,46 +449,56 @@ class MyPyAstVisitor:
             raise ValueError(f"The attribute {value_name} has no value.")
         return False
 
-    def create_attribute(
+    def _create_attribute(
         self,
-        attribute: Expression,
+        attribute: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
     ) -> Attribute:
+        # Get name and qname
         if hasattr(attribute, "name"):
             name = attribute.name
         else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'name'.")
         qname = getattr(attribute, "fullname", "")
 
+        # Get node information
         if hasattr(attribute, "node"):
-            if not isinstance(attribute.node, Var):  # pragma: no cover
+            if not isinstance(attribute.node, mp_nodes.Var):  # pragma: no cover
                 raise TypeError("node has wrong type")
 
-            node: Var = attribute.node
+            node: mp_nodes.Var = attribute.node
         else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'node'.")
 
+        # Sometimes the qname is not in the attribute.fullname field, in that case we have to get it from the node
         if qname in (name, "") and node is not None:
             qname = node.fullname
 
-        # Check if there is a type hint and get its value
         attribute_type = None
-        if isinstance(attribute, MemberExpr):
-            # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus the second check
-            if not node.is_inferred or (node.is_inferred and not node.has_explicit_value):
-                attribute_type = node.type
-        elif isinstance(attribute, NameExpr):
-            if not node.explicit_self_type and not node.is_inferred:
-                attribute_type = node.type
+        is_type_inferred = False
 
-                # We need to get the unanalyzed_type for lists, since mypy is not able to check information regarding
-                #  list item types
+        # MemberExpr are constructor (__init__) attributes
+        if isinstance(attribute, mp_nodes.MemberExpr):
+            attribute_type = node.type
+            # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus we HAVE to check
+            # has_explicit_value, too.
+            is_type_inferred = node.is_inferred and node.has_explicit_value
+
+        # NameExpr are class attributes
+        elif isinstance(attribute, mp_nodes.NameExpr):
+            if not node.explicit_self_type:
+                attribute_type = node.type
+                is_type_inferred = node.is_inferred
+
+                # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
+                # regarding list item types
                 if (
                     attribute_type is not None
                     and hasattr(attribute_type, "type")
                     and hasattr(attribute_type, "args")
                     and attribute_type.type.fullname == "builtins.list"
+                    and not is_type_inferred
                 ):
                     if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
                         attribute_type.args = unanalyzed_type.args
@@ -499,19 +526,23 @@ class MyPyAstVisitor:
             id=id_,
             name=name,
             type=type_,
-            is_public=self.is_public(name, qname),
+            is_type_inferred=is_type_inferred,
+            is_public=self._is_public(name, qname),
             is_static=is_static,
             docstring=docstring,
         )
 
     # #### Parameter utilities
 
-    def parse_parameter_data(self, node: FuncDef, function_id: str) -> list[Parameter]:
+    def _parse_parameter_data(self, node: mp_nodes.FuncDef, function_id: str) -> list[Parameter]:
         arguments: list[Parameter] = []
 
         for argument in node.arguments:
             arg_name = argument.variable.name
             mypy_type = argument.variable.type
+            is_type_inferred = False
+            arg_kind = get_argument_kind(argument)
+
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
 
@@ -523,17 +554,19 @@ class MyPyAstVisitor:
                 # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
                 # way in Mypy.
                 arg_type = mypy_type_to_abstract_type(type_annotation)
-            else:
+            elif type_annotation is not None:
                 arg_type = mypy_type_to_abstract_type(mypy_type)
+            else:
+                # We try to infer the type through the default value later, if possible
+                arg_type = None
 
-            arg_kind = get_argument_kind(argument)
-
+            # Get default value information
             default_value = None
             is_optional = False
             initializer = argument.initializer
             if initializer is not None:
                 if not hasattr(initializer, "value"):
-                    if isinstance(initializer, CallExpr):
+                    if isinstance(initializer, mp_nodes.CallExpr):
                         # Special case when the default is a call expression
                         value = None
                     elif hasattr(initializer, "name"):
@@ -554,6 +587,18 @@ class MyPyAstVisitor:
                     default_value = value
                     is_optional = True
 
+                    # Infer the type, if no type hint was found
+                    if arg_type is None:
+                        value_type_name = {
+                            str: "str",
+                            bool: "bool",
+                            int: "int",
+                            float: "float",
+                            NoneType: "None",
+                        }[type(value)]
+                        arg_type = sds_types.NamedType(name=value_type_name)
+                        is_type_inferred = True
+
             parent = self.__declaration_stack[-1]
             docstring = self.docstring_parser.get_parameter_documentation(
                 function_node=node,
@@ -571,6 +616,7 @@ class MyPyAstVisitor:
                     assigned_by=arg_kind,
                     docstring=docstring,
                     type=arg_type,
+                    is_type_inferred=is_type_inferred,
                 ),
             )
 
@@ -578,7 +624,7 @@ class MyPyAstVisitor:
 
     # #### Reexport utilities
 
-    def get_reexported_by(self, name: str) -> list[Module]:
+    def _get_reexported_by(self, name: str) -> list[Module]:
         # Get the uppermost module and the path to the current node
         parents = []
         parent = None
@@ -601,7 +647,7 @@ class MyPyAstVisitor:
 
         return list(reexported_by)
 
-    def add_reexports(self, module: Module) -> None:
+    def _add_reexports(self, module: Module) -> None:
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
             if name in self.reexported:
@@ -651,7 +697,7 @@ class MyPyAstVisitor:
         module_id = f"/{module_id.replace('.', '/')}" if module_id else ""
         return f"{package_name}{module_id}"
 
-    def is_public(self, name: str, qualified_name: str) -> bool:
+    def _is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
             return False
 

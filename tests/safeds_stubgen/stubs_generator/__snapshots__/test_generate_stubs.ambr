@@ -9,7 +9,7 @@
   	@PythonName("type_hint_public")
   	static attr typeHintPublic: Int
   	@PythonName("no_type_hint_public")
-  	static attr noTypeHintPublic
+  	static attr noTypeHintPublic: Int
   	@PythonName("object_attr")
   	static attr objectAttr: A
   	// TODO Safe-DS does not support tuple types.
@@ -48,17 +48,17 @@
   	@PythonName("str_attr_with_none_value")
   	static attr strAttrWithNoneValue: String
   	@PythonName("multi_attr_1")
-  	static attr multiAttr1
+  	static attr multiAttr1: Int
   	@PythonName("multi_attr_3")
-  	static attr multiAttr3
+  	static attr multiAttr3: List<String>
   	@PythonName("multi_attr_5")
-  	static attr multiAttr5
+  	static attr multiAttr5: String
   	@PythonName("multi_attr_6")
-  	static attr multiAttr6
+  	static attr multiAttr6: String
   	@PythonName("multi_attr_7")
-  	static attr multiAttr7
+  	static attr multiAttr7: String
   	@PythonName("multi_attr_8")
-  	static attr multiAttr8
+  	static attr multiAttr8: String
   	@PythonName("init_attr")
   	attr initAttr: Boolean
   }
@@ -138,7 +138,7 @@
   	`union`: union<Boolean, Int>,
   	lst: List<Int>,
   	obj: A
-  ) -> result1: Any
+  )
   
   // TODO List type has to many type arguments.
   // TODO Safe-DS does not support tuple types.
@@ -148,7 +148,7 @@
   	@PythonName("lst_2") lst2: List<Int, String, Int>,
   	tpl: Tuple<Int, String, Boolean, Int>,
   	`_`: Int = String
-  ) -> result1: Any
+  )
   
   @PythonName("special_params")
   fun specialParams(
@@ -160,36 +160,36 @@
   	@PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
   	@PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
   	none: Nothing?
-  ) -> result1: Any
+  )
   
   @PythonName("param_position")
   fun paramPosition(
-  	self: Any,
-  	a: Any,
+  	self,
+  	a,
   	b: Boolean,
-  	c: Any = 1,
-  	d: Any,
+  	c: Int = 1,
+  	d: A,
   	e: Int = 1
-  ) -> result1: Any
+  )
   
   // TODO Safe-DS does not support optional but position only parameter assignments.
   @PythonName("opt_pos_only")
   fun optPosOnly(
-  	required: Any,
-  	optional: Any = 1
+  	required,
+  	optional: Int = 1
   )
   
   // TODO Safe-DS does not support required but name only parameter assignments.
   @PythonName("req_name_only")
   fun reqNameOnly(
-  	required: Any,
-  	optional: Any = 1
+  	required,
+  	optional: Int = 1
   )
   
   // TODO Safe-DS does not support variadic parameters.
   fun arg(
-  	args: List<Any>,
-  	kwargs: Map<String, Any>
+  	args,
+  	kwargs
   )
   
   // TODO Safe-DS does not support variadic parameters.
@@ -197,7 +197,7 @@
   fun argsType(
   	args: List<Int>,
   	kwargs: Map<String, Int>
-  ) -> result1: Any
+  )
   
   @PythonName("one_result")
   fun oneResult() -> result1: Int
@@ -213,7 +213,7 @@
   class A()
   
   class B(
-  	@PythonName("init_param") initParam: Any
+  	@PythonName("init_param") initParam
   ) {
   	@PythonName("instance_method")
   	fun instanceMethod(
@@ -237,6 +237,26 @@
   import mypy as `static`
   
   from math import *
+  
+  '''
+# ---
+# name: test_type_inference
+  '''
+  package test_stub_generation.infer_types_module
+  
+  class InferMyTypes(
+  	@PythonName("init_param") initParam: Int = 1
+  ) {
+  	static attr infer_attr: Int
+  	@PythonName("init_infer")
+  	attr initInfer: Any
+  
+  	@PythonName("infer_function")
+  	static fun inferFunction(
+  		@PythonName("infer_param") inferParam: Int = 1,
+  		@PythonName("infer_param_2") inferParam2: Int = Something
+  	) -> (result1: Boolean, result2: Int, result3: InferMyTypes, result4: Nothing?, result5: Float, result6: String, result7: SomeClass)
+  }
   
   '''
 # ---

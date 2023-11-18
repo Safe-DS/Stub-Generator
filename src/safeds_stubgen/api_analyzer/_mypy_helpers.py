@@ -3,7 +3,8 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
-from mypy.nodes import ArgKind, Argument
+from mypy import nodes as mp_nodes
+from mypy.nodes import ArgKind
 from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
@@ -106,7 +107,7 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
     raise ValueError("Unexpected type.")
 
 
-def get_argument_kind(arg: Argument) -> ParameterAssignment:
+def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
     if arg.variable.is_self or arg.variable.is_cls:
         return ParameterAssignment.IMPLICIT
     elif arg.kind in {ArgKind.ARG_POS, ArgKind.ARG_OPT} and arg.pos_only:
@@ -121,3 +122,22 @@ def get_argument_kind(arg: Argument) -> ParameterAssignment:
         return ParameterAssignment.NAMED_VARARG
     else:
         raise ValueError("Could not find an appropriate parameter assignment.")
+
+
+def find_return_stmts_recursive(stmts: list[mp_nodes.Statement]) -> list[mp_nodes.ReturnStmt]:
+    return_stmts = []
+    for stmt in stmts:
+        if isinstance(stmt, mp_nodes.IfStmt):
+            return_stmts += find_return_stmts_recursive(stmt.body)
+            if stmt.else_body:
+                return_stmts += find_return_stmts_recursive(stmt.else_body.body)
+        elif isinstance(stmt, mp_nodes.Block | mp_nodes.TryStmt):
+            return_stmts += find_return_stmts_recursive(stmt.body)
+        elif isinstance(stmt, mp_nodes.MatchStmt):
+            return_stmts += find_return_stmts_recursive(stmt.bodies)
+        elif isinstance(stmt, mp_nodes.WhileStmt | mp_nodes.WithStmt | mp_nodes.ForStmt):
+            return_stmts += find_return_stmts_recursive(stmt.body.body)
+        elif isinstance(stmt, mp_nodes.ReturnStmt):
+            return_stmts.append(stmt)
+
+    return return_stmts
