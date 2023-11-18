@@ -162,13 +162,14 @@
   	none: Nothing?
   )
   
+  // TODO Safe-DS does not support required but name only parameter assignments.
   @PythonName("param_position")
   fun paramPosition(
   	self,
   	a,
   	b: Boolean,
   	c: Int = 1,
-  	d: A,
+  	d,
   	e: Int = 1
   )
   
@@ -247,15 +248,16 @@
   class InferMyTypes(
   	@PythonName("init_param") initParam: Int = 1
   ) {
-  	static attr infer_attr: Int
+  	@PythonName("infer_attr")
+  	static attr inferAttr: Int
   	@PythonName("init_infer")
-  	attr initInfer: Any
+  	attr initInfer
   
   	@PythonName("infer_function")
   	static fun inferFunction(
   		@PythonName("infer_param") inferParam: Int = 1,
   		@PythonName("infer_param_2") inferParam2: Int = Something
-  	) -> (result1: Boolean, result2: Int, result3: InferMyTypes, result4: Nothing?, result5: Float, result6: String, result7: SomeClass)
+  	) -> (result1: InferMyTypes, result2: Nothing?, result3: SomeClass, result4: Boolean, result5: Float, result6: Int, result7: String)
   }
   
   '''

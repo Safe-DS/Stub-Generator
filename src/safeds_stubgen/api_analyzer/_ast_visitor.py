@@ -554,18 +554,19 @@ class MyPyAstVisitor:
                 raise ValueError("Argument has no type.")
 
             type_annotation = argument.type_annotation
-            if (isinstance(type_annotation, mp_types.UnboundType) and
-                    type_annotation.name == "list" and
-                    len(type_annotation.args) >= 2):
+            arg_type = None
+            if isinstance(mypy_type, mp_types.AnyType) and mp_types.TypeOfAny.unannotated:
+                # We try to infer the type through the default value later, if possible
+                pass
+            elif (isinstance(type_annotation, mp_types.UnboundType) and
+                  type_annotation.name == "list" and
+                  len(type_annotation.args) >= 2):
                 # A special case where the argument is a list with multiple types. We have to handle this case like this
                 # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
                 # way in Mypy.
                 arg_type = mypy_type_to_abstract_type(type_annotation)
             elif type_annotation is not None:
                 arg_type = mypy_type_to_abstract_type(mypy_type)
-            else:
-                # We try to infer the type through the default value later, if possible
-                arg_type = None
 
             # Get default value information
             default_value = None
@@ -574,8 +575,9 @@ class MyPyAstVisitor:
             if initializer is not None:
                 if not hasattr(initializer, "value"):
                     if isinstance(initializer, mp_nodes.CallExpr):
-                        # Special case when the default is a call expression
-                        value = None
+                        # Special case when the default is a call expression, we set the value to tuple, so that it will
+                        # be ignored later on when creating the default_value
+                        value = tuple
                     elif hasattr(initializer, "name"):
                         if initializer.name == "None":
                             value = None
@@ -583,8 +585,12 @@ class MyPyAstVisitor:
                             value = True
                         elif initializer.name == "False":
                             value = False
-                        else:  # pragma: no cover
-                            raise ValueError("No value found for parameter")
+                        else:
+                            # Todo Frage: We don't support other classes as type hints for parameters
+                            #  (Wenn z.B. ein Parameter eine Klasse als default value hat)
+                            #  Thus we set the value to tuple, so that it will be ignored later on when creating the
+                            #  default_value
+                            value = tuple
                     else:  # pragma: no cover
                         raise ValueError("No value found for parameter")
                 else:
