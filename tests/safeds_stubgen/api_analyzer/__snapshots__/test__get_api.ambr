@@ -2356,13 +2356,10 @@
         'type': '',
       }),
       'id': 'test_package/test_module/SomeClass/test_position/param4',
-      'is_optional': True,
-      'is_type_inferred': True,
+      'is_optional': False,
+      'is_type_inferred': False,
       'name': 'param4',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'None',
-      }),
+      'type': None,
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
