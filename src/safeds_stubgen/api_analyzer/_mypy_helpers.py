@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 import mypy.types as mp_types
 from mypy import nodes as mp_nodes
@@ -9,7 +9,7 @@ from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
-from ._api import ParameterAssignment
+from ._api import ParameterAssignment, VarianceType
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
@@ -57,6 +57,8 @@ def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> A
         return sds_types.NamedType(name="Any")
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None")
+    elif isinstance(mypy_type, mp_types.LiteralType):
+        return sds_types.LiteralType(literal=mypy_type.value)
     elif isinstance(mypy_type, mp_types.UnboundType):
         if mypy_type.name == "list":
             return sds_types.ListType(types=[
@@ -141,3 +143,15 @@ def find_return_stmts_recursive(stmts: list[mp_nodes.Statement]) -> list[mp_node
             return_stmts.append(stmt)
 
     return return_stmts
+
+
+def mypy_variance_parser(mypy_variance_type: Literal[0, 1, 2]) -> VarianceType:
+    match mypy_variance_type:
+        case 0:
+            return VarianceType.INVARIANT
+        case 1:
+            return VarianceType.COVARIANT
+        case 2:
+            return VarianceType.CONTRAVARIANT
+        case _:  # pragma: no cover
+            raise ValueError("Mypy variance parser received an illegal parameter value.")

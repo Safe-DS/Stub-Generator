@@ -764,6 +764,36 @@
     }),
   ])
 # ---
+# name: test_class_methods_InferMyTypes
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'infer_function',
+      'parameters': list([
+        'test_package/test_module/InferMyTypes/infer_function/infer_param',
+        'test_package/test_module/InferMyTypes/infer_function/infer_param_2',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/test_module/InferMyTypes/infer_function/result_1',
+        'test_package/test_module/InferMyTypes/infer_function/result_2',
+        'test_package/test_module/InferMyTypes/infer_function/result_3',
+        'test_package/test_module/InferMyTypes/infer_function/result_4',
+        'test_package/test_module/InferMyTypes/infer_function/result_5',
+        'test_package/test_module/InferMyTypes/infer_function/result_6',
+        'test_package/test_module/InferMyTypes/infer_function/result_7',
+      ]),
+    }),
+  ])
+# ---
 # name: test_class_methods_NestedClass
   list([
     dict({
@@ -1151,6 +1181,8 @@
     ]),
     'superclasses': list([
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes_EpydocDocstringClass
@@ -1200,6 +1232,8 @@
     ]),
     'superclasses': list([
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes_FourthReexportClass
@@ -1222,6 +1256,8 @@
       'test_package/__init__',
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -1279,6 +1315,8 @@
     ]),
     'superclasses': list([
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes_NestedClass
@@ -1303,6 +1341,8 @@
     'superclasses': list([
       'tests.data.test_package.another_path.another_module.AnotherClass',
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes_NestedNestedPrivateClass
@@ -1324,6 +1364,8 @@
     'reexported_by': list([
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -1349,6 +1391,8 @@
     'reexported_by': list([
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -1410,6 +1454,8 @@
     ]),
     'superclasses': list([
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes_ReexportClass
@@ -1433,6 +1479,8 @@
       'test_package/__init__',
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -1482,6 +1530,8 @@
     'reexported_by': list([
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -1577,6 +1627,124 @@
     'superclasses': list([
       'tests.data.test_package.test_module.AcDoubleAlias',
     ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_VarianceClassAll
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/test_module/VarianceClassAll',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassAll',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+      dict({
+        'name': '_T_co',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+        }),
+        'variance_type': 'COVARIANT',
+      }),
+      dict({
+        'name': '_T_con',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'SomeClass',
+        }),
+        'variance_type': 'CONTRAVARIANT',
+      }),
+      dict({
+        'name': '_T_in',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+            }),
+            dict({
+              'kind': 'UnionType',
+              'types': list([
+                dict({
+                  'kind': 'LiteralType',
+                  'literal': 1,
+                }),
+                dict({
+                  'kind': 'LiteralType',
+                  'literal': 2,
+                }),
+              ]),
+            }),
+          ]),
+        }),
+        'variance_type': 'INVARIANT',
+      }),
+    ]),
+  })
+# ---
+# name: test_classes_VarianceClassOnlyInvariance
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/test_module/VarianceClassOnlyInvariance',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyInvariance',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+      dict({
+        'name': '_T_in',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+            }),
+            dict({
+              'kind': 'UnionType',
+              'types': list([
+                dict({
+                  'kind': 'LiteralType',
+                  'literal': 1,
+                }),
+                dict({
+                  'kind': 'LiteralType',
+                  'literal': 2,
+                }),
+              ]),
+            }),
+          ]),
+        }),
+        'variance_type': 'INVARIANT',
+      }),
+    ]),
   })
 # ---
 # name: test_classes__PrivateClass
@@ -1620,6 +1788,8 @@
     ]),
     'superclasses': list([
     ]),
+    'variances': list([
+    ]),
   })
 # ---
 # name: test_classes__ThirdReexportClass
@@ -1642,6 +1812,8 @@
       'test_package/__init__',
     ]),
     'superclasses': list([
+    ]),
+    'variances': list([
     ]),
   })
 # ---
@@ -2448,6 +2620,101 @@
     }),
   ])
 # ---
+# name: test_function_results_infer_function
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_1',
+      'is_type_inferred': True,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'InferMyTypes',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_2',
+      'is_type_inferred': True,
+      'name': 'result_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_3',
+      'is_type_inferred': True,
+      'name': 'result_3',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'SomeClass',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_4',
+      'is_type_inferred': True,
+      'name': 'result_4',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_5',
+      'is_type_inferred': True,
+      'name': 'result_5',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_6',
+      'is_type_inferred': True,
+      'name': 'result_6',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/test_module/InferMyTypes/infer_function/result_7',
+      'is_type_inferred': True,
+      'name': 'result_7',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results_multiple_results
   list([
     dict({
@@ -2973,6 +3240,8 @@
       'test_package/test_module/SomeClass',
       'test_package/test_module/_PrivateClass',
       'test_package/test_module/InferMyTypes',
+      'test_package/test_module/VarianceClassAll',
+      'test_package/test_module/VarianceClassOnlyInvariance',
     ]),
     'docstring': 'Docstring of the some_class.py module.',
     'enums': list([

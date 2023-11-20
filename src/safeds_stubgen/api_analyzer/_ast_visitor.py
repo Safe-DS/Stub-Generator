@@ -19,6 +19,8 @@ from ._api import (
     Parameter,
     QualifiedImport,
     Result,
+    Variance,
+    VarianceType,
     WildcardImport,
 )
 from ._mypy_helpers import (
@@ -28,6 +30,7 @@ from ._mypy_helpers import (
     get_funcdef_definitions,
     get_mypyfile_definitions,
     mypy_type_to_abstract_type,
+    mypy_variance_parser,
 )
 
 if TYPE_CHECKING:
@@ -120,6 +123,41 @@ class MyPyAstVisitor:
         # Get docstring
         docstring = self.docstring_parser.get_class_documentation(node)
 
+        # Variance
+        # Special base classes like Generic[...] get moved to "removed_base_type_expr" during semantic analysis of mypy
+        generic_exprs = [
+            removed_base_type_expr
+            for removed_base_type_expr in node.removed_base_type_exprs
+            if removed_base_type_expr.base.name == "Generic"
+        ]
+        variances = []
+        if generic_exprs:
+            # Can only be one, since a class can inherit "Generic" only one time
+            generic_expr = generic_exprs[0].index
+
+            if isinstance(generic_expr, mp_nodes.TupleExpr):
+                generic_types = [item.node for item in generic_expr.items]
+            elif isinstance(generic_expr, mp_nodes.NameExpr):
+                generic_types = [generic_expr.node]
+            else:  # pragma: no cover
+                raise TypeError("Unexpected type while parsing generic type.")
+
+            for generic_type in generic_types:
+                variance_type = mypy_variance_parser(generic_type.variance)
+                if variance_type == VarianceType.INVARIANT:
+                    variance_values = sds_types.UnionType([
+                        mypy_type_to_abstract_type(value)
+                        for value in generic_type.values
+                    ])
+                else:
+                    variance_values = mypy_type_to_abstract_type(generic_type.upper_bound)
+
+                variances.append(Variance(
+                    name=generic_type.name,
+                    type=variance_values,
+                    variance_type=variance_type
+                ))
+
         # superclasses
         # Todo Aliasing: Werden noch nicht aufgelöst
         superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
@@ -144,6 +182,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
+            variances=variances
         )
         self.__declaration_stack.append(class_)
 

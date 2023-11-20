@@ -12,6 +12,7 @@ from ._api import (
     ParameterAssignment,
     QualifiedImport,
     Result,
+    VarianceType,
     WildcardImport,
 )
 from ._get_api import get_api
@@ -64,5 +65,6 @@ __all__ = [
     "SetType",
     "TupleType",
     "UnionType",
+    "VarianceType",
     "WildcardImport",
 ]

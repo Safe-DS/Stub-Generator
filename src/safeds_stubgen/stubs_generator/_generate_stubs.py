@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import string
 from pathlib import Path
-from typing import Generator
+from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import (
     API,
@@ -14,8 +14,12 @@ from safeds_stubgen.api_analyzer import (
     ParameterAssignment,
     QualifiedImport,
     Result,
+    VarianceType,
     WildcardImport,
 )
+
+if TYPE_CHECKING:
+    from collections.abc import Generator
 
 
 def generate_stubs(api: API, out_path: Path) -> None:
@@ -151,10 +155,48 @@ class StubsStringGenerator:
         if len(superclasses) > 1:
             self._current_todo_msgs.add("multiple_inheritance")
 
+        # Variance & Constrains
+        constraints_info = ""
+        variance_info = ""
+        if class_.variances:
+            constraints = []
+            variances = []
+            for variance in class_.variances:
+                match variance.variance_type.name:
+                    case VarianceType.INVARIANT.name:
+                        variance_inheritance = ""
+                        variance_direction = ""
+                    case VarianceType.COVARIANT.name:
+                        variance_inheritance = "sub"
+                        variance_direction = "out "
+                    case VarianceType.CONTRAVARIANT.name:
+                        variance_inheritance = "super"
+                        variance_direction = "in "
+                    case _:  # pragma: no cover
+                        raise ValueError(f"Expected variance kind, got {variance.variance_type.name}.")
+
+                # Convert name to camelCase and check for keywords
+                variance_name_camel_case = _convert_snake_to_camel_case(variance.name)
+                variance_name_camel_case = self._replace_if_safeds_keyword(variance_name_camel_case)
+
+                variances.append(f"{variance_direction}{variance_name_camel_case}")
+                if variance_inheritance:
+                    constraints.append(
+                            f"{variance_name_camel_case} {variance_inheritance} "
+                            f"{self._create_type_string(variance.type.to_dict())}"
+                        )
+
+            if variances:
+                variance_info = f"<{', '.join(variances)}>"
+
+            if constraints:
+                constraints_info_inner = f",\n{inner_indentations}".join(constraints)
+                constraints_info = f" where {{\n{inner_indentations}{constraints_info_inner}\n}}"
+
         # Class signature line
         class_signature = (
             f"{class_indentation}{self._create_todo_msg(class_indentation)}class "
-            f"{class_.name}({parameter_info}){superclass_info}"
+            f"{class_.name}{variance_info}({parameter_info}){superclass_info}{constraints_info}"
         )
 
         # Attributes
@@ -524,7 +566,7 @@ class StubsStringGenerator:
                 return f"Map<{key_data}>"
             return "Map"
         elif kind == "LiteralType":
-            return f"literal<{', '.join(type_data['literals'])}>"
+            return f"literal<{type_data['literal']}>"
 
         raise ValueError(f"Unexpected type: {kind}")
 

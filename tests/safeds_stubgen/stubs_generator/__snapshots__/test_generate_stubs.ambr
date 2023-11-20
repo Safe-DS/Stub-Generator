@@ -281,3 +281,22 @@
   
   '''
 # ---
+# name: test_variance_creation
+  '''
+  package test_stub_generation.variance_module
+  
+  from typing import Generic
+  from typing import TypeVar
+  from typing import Literal
+  
+  class A()
+  
+  class VarianceClassAll<out TCo, in TCon, TIn>() where {
+  	TCo sub String,
+  	TCon super A
+  }
+  
+  class VarianceClassOnlyInvariance<TIn>()
+  
+  '''
+# ---

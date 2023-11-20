@@ -183,6 +183,16 @@ def test_classes_NestedNestedPrivateClass(snapshot: SnapshotAssertion) -> None: 
     assert class_data == snapshot
 
 
+def test_classes_VarianceClassAll(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_data = _get_specific_class_data("VarianceClassAll", "plaintext")
+    assert class_data == snapshot
+
+
+def test_classes_VarianceClassOnlyInvariance(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_data = _get_specific_class_data("VarianceClassOnlyInvariance", "plaintext")
+    assert class_data == snapshot
+
+
 def test_classes_EpydocDocstringClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
     class_data = _get_specific_class_data("EpydocDocstringClass", "epydoc")
     assert class_data == snapshot
@@ -377,6 +387,11 @@ def test_class_methods_SomeClass(snapshot: SnapshotAssertion) -> None:  # noqa: 
     assert class_methods_data == snapshot
 
 
+def test_class_methods_InferMyTypes(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_methods_data = get_class_methods_data("InferMyTypes", "plaintext")
+    assert class_methods_data == snapshot
+
+
 def test_class_methods_NestedClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
     class_methods_data = get_class_methods_data("NestedClass", "plaintext")
     assert class_methods_data == snapshot
@@ -523,6 +538,11 @@ def test_function_results_global_func(snapshot: SnapshotAssertion) -> None:
 
 def test_function_results_multiple_results(snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data("multiple_results", "SomeClass", "plaintext")
+    assert function_result_data == snapshot
+
+
+def test_function_results_infer_function(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data("infer_function", "InferMyTypes", "plaintext")
     assert function_result_data == snapshot
 
 

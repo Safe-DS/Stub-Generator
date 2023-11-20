@@ -174,6 +174,7 @@ class Class:
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
     classes: list[Class] = field(default_factory=list)
+    variances: list[Variance] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -187,6 +188,7 @@ class Class:
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],
             "classes": [class_.id for class_ in self.classes],
+            "variances": [variance.to_dict() for variance in self.variances],
         }
 
     def add_method(self, method: Function) -> None:
@@ -301,6 +303,26 @@ class ParameterAssignment(PythonEnum):
     POSITIONAL_VARARG = "POSITIONAL_VARARG"
     NAME_ONLY = "NAME_ONLY"
     NAMED_VARARG = "NAMED_VARARG"
+
+
+@dataclass(frozen=True)
+class Variance:
+    name: str
+    type: AbstractType
+    variance_type: VarianceType
+
+    def to_dict(self):
+        return {
+            "name": self.name,
+            "type": self.type.to_dict(),
+            "variance_type": self.variance_type.name
+        }
+
+
+class VarianceType(PythonEnum):
+    CONTRAVARIANT = "CONTRAVARIANT"
+    COVARIANT = "COVARIANT"
+    INVARIANT = "INVARIANT"
 
 
 @dataclass(frozen=True)

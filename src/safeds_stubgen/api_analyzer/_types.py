@@ -349,18 +349,17 @@ class OptionalType(AbstractType):
 
 @dataclass(frozen=True)
 class LiteralType(AbstractType):
-    literals: list[str | int | float | bool]
+    literal: str | int | float | bool
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LiteralType:
-        literals = list(d["literals"])
-        return LiteralType(literals)
+        return LiteralType(d["literal"])
 
     def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "literals": self.literals}
+        return {"kind": self.__class__.__name__, "literal": self.literal}
 
     def __hash__(self) -> int:
-        return hash(frozenset(self.literals))
+        return hash(frozenset([self.literal]))
 
 
 @dataclass(frozen=True)

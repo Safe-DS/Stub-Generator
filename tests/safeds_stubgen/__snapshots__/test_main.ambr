@@ -726,6 +726,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -745,6 +747,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
       dict({
@@ -767,6 +771,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -788,6 +794,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -807,6 +815,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
       dict({
@@ -861,6 +871,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
       dict({
@@ -921,6 +933,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
       dict({
@@ -990,6 +1004,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -1044,6 +1060,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -1084,6 +1102,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
       dict({
@@ -1177,6 +1197,8 @@
         'superclasses': list([
           'tests.data.test_package.test_module.AcDoubleAlias',
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -1198,6 +1220,120 @@
         ]),
         'superclasses': list([
           'tests.data.test_package.another_path.another_module.AnotherClass',
+        ]),
+        'variances': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
+        'id': 'test_package/test_module/VarianceClassAll',
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'VarianceClassAll',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'variances': list([
+          dict({
+            'name': '_T_co',
+            'type': dict({
+              'kind': 'NamedType',
+              'name': 'str',
+            }),
+            'variance_type': 'COVARIANT',
+          }),
+          dict({
+            'name': '_T_con',
+            'type': dict({
+              'kind': 'NamedType',
+              'name': 'SomeClass',
+            }),
+            'variance_type': 'CONTRAVARIANT',
+          }),
+          dict({
+            'name': '_T_in',
+            'type': dict({
+              'kind': 'UnionType',
+              'types': list([
+                dict({
+                  'kind': 'NamedType',
+                  'name': 'int',
+                }),
+                dict({
+                  'kind': 'UnionType',
+                  'types': list([
+                    dict({
+                      'kind': 'LiteralType',
+                      'literal': 1,
+                    }),
+                    dict({
+                      'kind': 'LiteralType',
+                      'literal': 2,
+                    }),
+                  ]),
+                }),
+              ]),
+            }),
+            'variance_type': 'INVARIANT',
+          }),
+        ]),
+      }),
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
+        'id': 'test_package/test_module/VarianceClassOnlyInvariance',
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'VarianceClassOnlyInvariance',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'variances': list([
+          dict({
+            'name': '_T_in',
+            'type': dict({
+              'kind': 'UnionType',
+              'types': list([
+                dict({
+                  'kind': 'NamedType',
+                  'name': 'int',
+                }),
+                dict({
+                  'kind': 'UnionType',
+                  'types': list([
+                    dict({
+                      'kind': 'LiteralType',
+                      'literal': 1,
+                    }),
+                    dict({
+                      'kind': 'LiteralType',
+                      'literal': 2,
+                    }),
+                  ]),
+                }),
+              ]),
+            }),
+            'variance_type': 'INVARIANT',
+          }),
         ]),
       }),
       dict({
@@ -1240,6 +1376,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -1263,6 +1401,8 @@
         ]),
         'superclasses': list([
         ]),
+        'variances': list([
+        ]),
       }),
       dict({
         'attributes': list([
@@ -1282,6 +1422,8 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
+        ]),
+        'variances': list([
         ]),
       }),
     ]),
@@ -2320,6 +2462,8 @@
           'test_package/test_module/SomeClass',
           'test_package/test_module/_PrivateClass',
           'test_package/test_module/InferMyTypes',
+          'test_package/test_module/VarianceClassAll',
+          'test_package/test_module/VarianceClassOnlyInvariance',
         ]),
         'docstring': 'Docstring of the some_class.py module.',
         'enums': list([
