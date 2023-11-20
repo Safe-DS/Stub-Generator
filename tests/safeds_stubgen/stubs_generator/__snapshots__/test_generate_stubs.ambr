@@ -75,6 +75,7 @@
   	a: Int,
   	b: A?
   ) sub A {
+  	// TODO Result type information missing.
   	fun f()
   }
   
@@ -85,6 +86,7 @@
   	@PythonName("attr_2")
   	static attr attr2: Int
   
+  	// TODO Result type information missing.
   	fun f1()
   }
   
@@ -130,9 +132,11 @@
   
   from typing import Callable
   
+  // TODO Result type information missing.
   @PythonName("public_no_params_no_result")
   fun publicNoParamsNoResult()
   
+  // TODO Result type information missing.
   fun params(
   	i: Int,
   	`union`: union<Boolean, Int>,
@@ -141,6 +145,7 @@
   )
   
   // TODO List type has to many type arguments.
+  // TODO Result type information missing.
   // TODO Safe-DS does not support tuple types.
   @PythonName("illegal_params")
   fun illegalParams(
@@ -150,6 +155,7 @@
   	`_`: Int = String
   )
   
+  // TODO Result type information missing.
   @PythonName("special_params")
   fun specialParams(
   	@PythonName("none_union") noneUnion: Nothing?,
@@ -162,7 +168,9 @@
   	none: Nothing?
   )
   
+  // TODO Result type information missing.
   // TODO Safe-DS does not support required but name only parameter assignments.
+  // TODO Some parameter have no type information.
   @PythonName("param_position")
   fun paramPosition(
   	self,
@@ -173,26 +181,33 @@
   	e: Int = 1
   )
   
+  // TODO Result type information missing.
   // TODO Safe-DS does not support optional but position only parameter assignments.
+  // TODO Some parameter have no type information.
   @PythonName("opt_pos_only")
   fun optPosOnly(
   	required,
   	optional: Int = 1
   )
   
+  // TODO Result type information missing.
   // TODO Safe-DS does not support required but name only parameter assignments.
+  // TODO Some parameter have no type information.
   @PythonName("req_name_only")
   fun reqNameOnly(
   	required,
   	optional: Int = 1
   )
   
+  // TODO Result type information missing.
   // TODO Safe-DS does not support variadic parameters.
+  // TODO Some parameter have no type information.
   fun arg(
   	args,
   	kwargs
   )
   
+  // TODO Result type information missing.
   // TODO Safe-DS does not support variadic parameters.
   @PythonName("args_type")
   fun argsType(
@@ -213,6 +228,7 @@
   
   class A()
   
+  // TODO Some parameter have no type information.
   class B(
   	@PythonName("init_param") initParam
   ) {
@@ -221,10 +237,12 @@
   		a: A
   	) -> result1: A
   
+  	// TODO Result type information missing.
   	@PythonName("static_method")
   	static fun staticMethod()
   
-  	// TODO Safe-DS does not support class methods
+  	// TODO Result type information missing.
+  	// TODO Safe-DS does not support class methods.
   	@PythonName("class_method")
   	static fun classMethod()
   }
@@ -250,6 +268,7 @@
   ) {
   	@PythonName("infer_attr")
   	static attr inferAttr: Int
+  	// TODO Attribute has no type information.
   	@PythonName("init_infer")
   	attr initInfer
   

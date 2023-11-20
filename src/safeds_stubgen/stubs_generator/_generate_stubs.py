@@ -166,6 +166,8 @@ class StubsStringGenerator:
             attribute_type = None
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
+            else:
+                self._current_todo_msgs.add("attr without type")
 
             static_string = "static " if attribute.is_static else ""
 
@@ -247,12 +249,14 @@ class StubsStringGenerator:
         if camel_case_name != name:
             function_name_annotation = f"{indentations}{self._create_name_annotation(name)}\n"
 
+        result_string = self._create_result_string(function.results)
+
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}({func_params})"
-            f"{self._create_result_string(function.results)}"
+            f"{result_string}"
         )
 
     def _create_result_string(self, function_results: list[Result]) -> str:
@@ -272,6 +276,7 @@ class StubsStringGenerator:
             if len(results) == 1:
                 return f" -> {results[0]}"
             return f" -> ({', '.join(results)})"
+        self._current_todo_msgs.add("result without type")
         return ""
 
     def _create_parameter_string(
@@ -316,6 +321,8 @@ class StubsStringGenerator:
                 # Parameter type
                 param_type = self._create_type_string(parameter_type_data)
                 type_string = f": {param_type}" if param_type else ""
+            else:
+                self._current_todo_msgs.add("param without type")
 
             # Check if assigned_by is not illegal
             if assigned_by == ParameterAssignment.POSITION_ONLY and parameter.default_value is not None:
@@ -546,7 +553,10 @@ class StubsStringGenerator:
                 "REQ_NAME_ONLY": "Safe-DS does not support required but name only parameter assignments.",
                 "multiple_inheritance": "Safe-DS does not support multiple inheritance.",
                 "variadic": "Safe-DS does not support variadic parameters.",
-                "class_method": "Safe-DS does not support class methods",
+                "class_method": "Safe-DS does not support class methods.",
+                "param without type": "Some parameter have no type information.",
+                "attr without type": "Attribute has no type information.",
+                "result without type": "Result type information missing.",
             }[msg]
             for msg in self._current_todo_msgs
         ]
