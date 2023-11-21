@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 # Setup - Run API to create stub files
 _lib_dir = Path(__file__).parent.parent.parent
-_test_package_name = "test_stub_generation"
+_test_package_name = "test_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
@@ -33,9 +33,9 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     stub_files: list[Path] = list(stub_path.iterdir())
 
     # Remove __init__ files and private files without public reexported content.
-    # We reexport public content from _module_3 and _module_6, not from _module_2 and _module_4.
+    # We reexport public content from _module_3 and _module_6, not from empty_module, _module_2 and _module_4.
     for i, item in enumerate(python_files):
-        if item.is_file() and item.stem in {"__init__", "_module_2", "_module_4"}:
+        if item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "empty_module"}:
             python_files.pop(i)
 
     assert len(python_files) == len(stub_files)

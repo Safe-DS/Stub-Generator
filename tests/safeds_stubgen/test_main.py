@@ -7,7 +7,7 @@ from safeds_stubgen.main import main
 from syrupy import SnapshotAssertion
 
 _lib_dir = Path(__file__).parent.parent.parent
-_test_package_name = "test_package"
+_test_package_name = "test_main"
 _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")

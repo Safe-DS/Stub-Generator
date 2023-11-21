@@ -1,33 +1,5 @@
 # serializer version: 1
-# name: test_class_attributes_GoogleDocstringClass
-  list([
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': 'Attribute of the calculator. (Google Style)',
-        'type': 'str',
-      }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/attr_1',
-      'is_public': True,
-      'is_static': True,
-      'is_type_inferred': False,
-      'name': 'attr_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
-      }),
-    }),
-  ])
-# ---
-# name: test_class_attributes_NestedClass
-  list([
-  ])
-# ---
-# name: test_class_attributes_NestedNestedPrivateClass
-  list([
-  ])
-# ---
-# name: test_class_attributes_NestedPrivateClass
+# name: test_class_attributes_AttributesClassB
   list([
     dict({
       'docstring': dict({
@@ -35,83 +7,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
-      'is_public': False,
-      'is_static': True,
-      'is_type_inferred': True,
-      'name': 'nested_class_attr',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-  ])
-# ---
-# name: test_class_attributes_NumpyDocstringClass
-  list([
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': 'Attribute of the calculator. (Numpy)',
-        'type': 'str',
-      }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/attr_1',
-      'is_public': True,
-      'is_static': True,
-      'is_type_inferred': False,
-      'name': 'attr_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
-      }),
-    }),
-  ])
-# ---
-# name: test_class_attributes_RestDocstringClass
-  list([
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': 'Attribute of the calculator. (ReST)',
-        'type': 'str',
-      }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/attr_1',
-      'is_public': True,
-      'is_static': True,
-      'is_type_inferred': False,
-      'name': 'attr_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
-      }),
-    }),
-  ])
-# ---
-# name: test_class_attributes_SomeClass
-  list([
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/_init_attr_private',
-      'is_public': False,
-      'is_static': False,
-      'is_type_inferred': False,
-      'name': '_init_attr_private',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'float',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/_multi_attr_2_private',
+      'id': 'test_package/attribute_module/AttributesClassB/_multi_attr_2_private',
       'is_public': False,
       'is_static': True,
       'is_type_inferred': True,
@@ -127,7 +23,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/_multi_attr_4_private',
+      'id': 'test_package/attribute_module/AttributesClassB/_multi_attr_4_private',
       'is_public': False,
       'is_static': True,
       'is_type_inferred': True,
@@ -148,7 +44,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/_no_type_hint_private',
+      'id': 'test_package/attribute_module/AttributesClassB/_no_type_hint_private',
       'is_public': False,
       'is_static': True,
       'is_type_inferred': True,
@@ -164,7 +60,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/_type_hint_private',
+      'id': 'test_package/attribute_module/AttributesClassB/_type_hint_private',
       'is_public': False,
       'is_static': True,
       'is_type_inferred': False,
@@ -180,7 +76,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/bool_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/bool_attr',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -196,7 +92,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/dict_attr_1',
+      'id': 'test_package/attribute_module/AttributesClassB/dict_attr_1',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -219,7 +115,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/dict_attr_2',
+      'id': 'test_package/attribute_module/AttributesClassB/dict_attr_2',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -242,7 +138,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/dict_attr_3',
+      'id': 'test_package/attribute_module/AttributesClassB/dict_attr_3',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -271,7 +167,7 @@
             }),
             dict({
               'kind': 'NamedType',
-              'name': 'AnotherClass',
+              'name': 'AttributesClassA',
             }),
           ]),
         }),
@@ -283,7 +179,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/flaot_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/flaot_attr',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -299,7 +195,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/init_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/init_attr',
       'is_public': True,
       'is_static': False,
       'is_type_inferred': False,
@@ -315,7 +211,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/int_or_bool_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/int_or_bool_attr',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -340,7 +236,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/list_attr_1',
+      'id': 'test_package/attribute_module/AttributesClassB/list_attr_1',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -357,7 +253,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/list_attr_2',
+      'id': 'test_package/attribute_module/AttributesClassB/list_attr_2',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -374,7 +270,7 @@
               }),
               dict({
                 'kind': 'NamedType',
-                'name': '_AcImportAlias',
+                'name': 'AttributesClassA',
               }),
             ]),
           }),
@@ -387,7 +283,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/list_attr_3',
+      'id': 'test_package/attribute_module/AttributesClassB/list_attr_3',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -401,7 +297,7 @@
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'AcDoubleAlias',
+            'name': 'AttributesClassA',
           }),
         ]),
       }),
@@ -412,7 +308,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/list_attr_4',
+      'id': 'test_package/attribute_module/AttributesClassB/list_attr_4',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -429,7 +325,7 @@
             'types': list([
               dict({
                 'kind': 'NamedType',
-                'name': '_AcImportAlias',
+                'name': 'AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
@@ -446,7 +342,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/multi_attr_1',
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_1',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': True,
@@ -462,7 +358,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/multi_attr_3',
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_3',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': True,
@@ -483,7 +379,71 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/no_type_hint_public',
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_5',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': True,
+      'name': 'multi_attr_5',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_6',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': True,
+      'name': 'multi_attr_6',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_7',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': True,
+      'name': 'multi_attr_7',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/multi_attr_8',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': True,
+      'name': 'multi_attr_8',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/no_type_hint_public',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': True,
@@ -499,7 +459,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/none_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/none_attr',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -515,14 +475,14 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/object_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/object_attr',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
       'name': 'object_attr',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'AnotherClass',
+        'name': 'AttributesClassA',
       }),
     }),
     dict({
@@ -531,23 +491,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/object_attr_2',
-      'is_public': True,
-      'is_static': True,
-      'is_type_inferred': False,
-      'name': 'object_attr_2',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'AnotherClass',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/str_attr_with_none_value',
+      'id': 'test_package/attribute_module/AttributesClassB/str_attr_with_none_value',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -563,7 +507,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/tuple_attr_1',
+      'id': 'test_package/attribute_module/AttributesClassB/tuple_attr_1',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -584,7 +528,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/tuple_attr_2',
+      'id': 'test_package/attribute_module/AttributesClassB/tuple_attr_2',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -614,7 +558,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/tuple_attr_3',
+      'id': 'test_package/attribute_module/AttributesClassB/tuple_attr_3',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -639,7 +583,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/type_hint_public',
+      'id': 'test_package/attribute_module/AttributesClassB/type_hint_public',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
@@ -651,7 +595,7 @@
     }),
   ])
 # ---
-# name: test_class_attributes__PrivateClass
+# name: test_class_attributes_ClassModuleNestedClassE
   list([
     dict({
       'docstring': dict({
@@ -659,14 +603,14 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/_PrivateClass/public_attr_in_private_class',
+      'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
       'is_public': False,
       'is_static': True,
-      'is_type_inferred': True,
-      'name': 'public_attr_in_private_class',
+      'is_type_inferred': False,
+      'name': '_nested_attr_2',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
+        'name': 'None',
       }),
     }),
     dict({
@@ -675,15 +619,181 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/_PrivateClass/public_init_attr_in_private_class',
-      'is_public': False,
-      'is_static': False,
+      'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
+      'is_public': True,
+      'is_static': True,
       'is_type_inferred': False,
-      'name': 'public_init_attr_in_private_class',
+      'name': 'nested_attr_1',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
+        'name': 'None',
       }),
+    }),
+  ])
+# ---
+# name: test_class_attributes_GoogleDocstringClass
+  list([
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': 'Attribute of the calculator. (Google Style)',
+        'type': 'str',
+      }),
+      'id': 'test_package/docstring_module/GoogleDocstringClass/attr_1',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'attr_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+  ])
+# ---
+# name: test_class_attributes_NumpyDocstringClass
+  list([
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': 'Attribute of the calculator. (Numpy)',
+        'type': 'str',
+      }),
+      'id': 'test_package/docstring_module/NumpyDocstringClass/attr_1',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'attr_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+  ])
+# ---
+# name: test_class_attributes_RestDocstringClass
+  list([
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': 'Attribute of the calculator. (ReST)',
+        'type': 'str',
+      }),
+      'id': 'test_package/docstring_module/RestDocstringClass/attr_1',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'attr_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+  ])
+# ---
+# name: test_class_attributes__ClassModulePrivateClassG
+  list([
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/class_module/_ClassModulePrivateClassG/_attr_1',
+      'is_public': False,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': '_attr_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/class_module/_ClassModulePrivateClassG/_attr_2',
+      'is_public': False,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': '_attr_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+  ])
+# ---
+# name: test_class_methods_ClassModuleClassB
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/class_module/ClassModuleClassB/f',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'f',
+      'parameters': list([
+        'test_package/class_module/ClassModuleClassB/f/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods_ClassModuleClassC
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/class_module/ClassModuleClassC/f1',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'f1',
+      'parameters': list([
+        'test_package/class_module/ClassModuleClassC/f1/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods_ClassModuleEmptyClassA
+  list([
+  ])
+# ---
+# name: test_class_methods_ClassModuleNestedClassE
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'class_e_func',
+      'parameters': list([
+        'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
     }),
   ])
 # ---
@@ -703,20 +813,20 @@
           @rtype: bool
         ''',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': 'epydoc_docstring_func',
       'parameters': list([
-        'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/self',
-        'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/x',
-        'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/y',
+        'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
+        'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
+        'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/result_1',
+        'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
       ]),
     }),
   ])
@@ -746,20 +856,20 @@
                     a boolean value. (Google Style)
         ''',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': 'google_docstring_func',
       'parameters': list([
-        'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/self',
-        'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/x',
-        'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/y',
+        'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
+        'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
+        'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/result_1',
+        'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
       ]),
     }),
   ])
@@ -771,74 +881,25 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function',
       'is_class_method': False,
       'is_public': True,
       'is_static': True,
       'name': 'infer_function',
       'parameters': list([
-        'test_package/test_module/InferMyTypes/infer_function/infer_param',
-        'test_package/test_module/InferMyTypes/infer_function/infer_param_2',
+        'test_package/infer_types_module/InferMyTypes/infer_function/infer_param',
+        'test_package/infer_types_module/InferMyTypes/infer_function/infer_param_2',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_module/InferMyTypes/infer_function/result_1',
-        'test_package/test_module/InferMyTypes/infer_function/result_2',
-        'test_package/test_module/InferMyTypes/infer_function/result_3',
-        'test_package/test_module/InferMyTypes/infer_function/result_4',
-        'test_package/test_module/InferMyTypes/infer_function/result_5',
-        'test_package/test_module/InferMyTypes/infer_function/result_6',
-        'test_package/test_module/InferMyTypes/infer_function/result_7',
-      ]),
-    }),
-  ])
-# ---
-# name: test_class_methods_NestedClass
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'nested_class_function',
-      'parameters': list([
-        'test_package/test_module/SomeClass/NestedClass/nested_class_function/self',
-        'test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/test_module/SomeClass/NestedClass/nested_class_function/result_1',
-      ]),
-    }),
-  ])
-# ---
-# name: test_class_methods_NestedNestedPrivateClass
-  list([
-  ])
-# ---
-# name: test_class_methods_NestedPrivateClass
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/test_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
-      'is_class_method': False,
-      'is_public': False,
-      'is_static': True,
-      'name': 'static_nested_private_class_function',
-      'parameters': list([
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_1',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_2',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_3',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_4',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_5',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_6',
+        'test_package/infer_types_module/InferMyTypes/infer_function/result_7',
       ]),
     }),
   ])
@@ -870,20 +931,20 @@
               Checks if the sum of `x` and `y` is greater than 10. (Numpy)
         ''',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': 'numpy_docstring_func',
       'parameters': list([
-        'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/self',
-        'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/x',
-        'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/y',
+        'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
+        'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
+        'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/result_1',
+        'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
       ]),
     }),
   ])
@@ -931,67 +992,60 @@
           :rtype: bool
         ''',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func',
+      'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': 'rest_docstring_func',
       'parameters': list([
-        'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/self',
-        'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/x',
-        'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/y',
+        'test_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
+        'test_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
+        'test_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/result_1',
+        'test_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       ]),
     }),
   ])
 # ---
-# name: test_class_methods_SomeClass
+# name: test_class_methods__ClassModulePrivateDoubleNestedClassF
   list([
-    dict({
-      'docstring': dict({
-        'description': '''
-          Function Docstring.
-          
-          param_2: bool.
-        ''',
-        'full_docstring': '''
-          Function Docstring.
-          
-          param_2: bool.
-        ''',
-      }),
-      'id': 'test_package/test_module/SomeClass/_some_function',
-      'is_class_method': False,
-      'is_public': False,
-      'is_static': False,
-      'name': '_some_function',
-      'parameters': list([
-        'test_package/test_module/SomeClass/_some_function/self',
-        'test_package/test_module/SomeClass/_some_function/param_1',
-        'test_package/test_module/SomeClass/_some_function/param_2',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/test_module/SomeClass/_some_function/result_1',
-      ]),
-    }),
     dict({
       'docstring': dict({
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/SomeClass/class_method',
+      'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
+      'is_class_method': False,
+      'is_public': False,
+      'is_static': False,
+      'name': '_class_f_func',
+      'parameters': list([
+        'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods_function_module_FunctionModuleClassB
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method',
       'is_class_method': True,
       'is_public': True,
       'is_static': False,
       'name': 'class_method',
       'parameters': list([
-        'test_package/test_module/SomeClass/class_method/cls',
+        'test_package/function_module/FunctionModuleClassB/class_method/cls',
       ]),
       'reexported_by': list([
       ]),
@@ -1003,38 +1057,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/SomeClass/class_method_params',
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method_params',
       'is_class_method': True,
       'is_public': True,
       'is_static': False,
       'name': 'class_method_params',
       'parameters': list([
-        'test_package/test_module/SomeClass/class_method_params/cls',
-        'test_package/test_module/SomeClass/class_method_params/param_1',
+        'test_package/function_module/FunctionModuleClassB/class_method_params/cls',
+        'test_package/function_module/FunctionModuleClassB/class_method_params/param_1',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_module/SomeClass/class_method_params/result_1',
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': 'Function Docstring.',
-        'full_docstring': 'Function Docstring.',
-      }),
-      'id': 'test_package/test_module/SomeClass/multiple_results',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': True,
-      'name': 'multiple_results',
-      'parameters': list([
-        'test_package/test_module/SomeClass/multiple_results/param_1',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/test_module/SomeClass/multiple_results/result_1',
+        'test_package/function_module/FunctionModuleClassB/class_method_params/result_1',
       ]),
     }),
     dict({
@@ -1042,13 +1077,32 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/SomeClass/no_return_1',
+      'id': 'test_package/function_module/FunctionModuleClassB/instance_method',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
-      'name': 'no_return_1',
+      'name': 'instance_method',
       'parameters': list([
-        'test_package/test_module/SomeClass/no_return_1/self',
+        'test_package/function_module/FunctionModuleClassB/instance_method/self',
+        'test_package/function_module/FunctionModuleClassB/instance_method/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/FunctionModuleClassB/instance_method/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/static_method',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'static_method',
+      'parameters': list([
       ]),
       'reexported_by': list([
       ]),
@@ -1060,103 +1114,41 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/SomeClass/no_return_2',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'no_return_2',
-      'parameters': list([
-        'test_package/test_module/SomeClass/no_return_2/self',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': 'Function Docstring.',
-        'full_docstring': 'Function Docstring.',
-      }),
-      'id': 'test_package/test_module/SomeClass/static_function',
+      'id': 'test_package/function_module/FunctionModuleClassB/static_method_params',
       'is_class_method': False,
       'is_public': True,
       'is_static': True,
-      'name': 'static_function',
+      'name': 'static_method_params',
       'parameters': list([
-        'test_package/test_module/SomeClass/static_function/param_1',
-        'test_package/test_module/SomeClass/static_function/param_2',
+        'test_package/function_module/FunctionModuleClassB/static_method_params/param_1',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_module/SomeClass/static_function/result_1',
-        'test_package/test_module/SomeClass/static_function/result_2',
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_params',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': True,
-      'name': 'test_params',
-      'parameters': list([
-        'test_package/test_module/SomeClass/test_params/args',
-        'test_package/test_module/SomeClass/test_params/kwargs',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': 'Function Docstring.',
-        'full_docstring': 'Function Docstring.',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'test_position',
-      'parameters': list([
-        'test_package/test_module/SomeClass/test_position/self',
-        'test_package/test_module/SomeClass/test_position/param1',
-        'test_package/test_module/SomeClass/test_position/param2',
-        'test_package/test_module/SomeClass/test_position/param3',
-        'test_package/test_module/SomeClass/test_position/param4',
-        'test_package/test_module/SomeClass/test_position/param5',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/test_module/SomeClass/test_position/result_1',
       ]),
     }),
   ])
 # ---
-# name: test_class_methods__PrivateClass
+# name: test_class_methods_function_module_FunctionModuleClassC
   list([
     dict({
       'docstring': dict({
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/_PrivateClass/public_func_in_private_class',
+      'id': 'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function',
       'is_class_method': False,
-      'is_public': False,
+      'is_public': True,
       'is_static': False,
-      'name': 'public_func_in_private_class',
+      'name': 'nested_class_function',
       'parameters': list([
-        'test_package/test_module/_PrivateClass/public_func_in_private_class/self',
+        'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
+        'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
+        'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
       ]),
     }),
   ])
@@ -1185,10 +1177,9 @@
     ]),
   })
 # ---
-# name: test_classes_EpydocDocstringClass
+# name: test_classes_ClassModuleClassB
   dict({
     'attributes': list([
-      'test_package/test_docstrings/EpydocDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -1197,14 +1188,166 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/__init__',
+      'id': 'test_package/class_module/ClassModuleClassB/__init__',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'test_package/test_docstrings/EpydocDocstringClass/__init__/self',
-        'test_package/test_docstrings/EpydocDocstringClass/__init__/param_1',
+        'test_package/class_module/ClassModuleClassB/__init__/self',
+        'test_package/class_module/ClassModuleClassB/__init__/a',
+        'test_package/class_module/ClassModuleClassB/__init__/b',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleClassB',
+    'is_public': True,
+    'methods': list([
+      'test_package/class_module/ClassModuleClassB/f',
+    ]),
+    'name': 'ClassModuleClassB',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+      'tests.data.test_package.class_module.ClassModuleEmptyClassA',
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_ClassModuleClassC
+  dict({
+    'attributes': list([
+      'test_package/class_module/ClassModuleClassC/attr_1',
+      'test_package/class_module/ClassModuleClassC/attr_2',
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleClassC',
+    'is_public': True,
+    'methods': list([
+      'test_package/class_module/ClassModuleClassC/f1',
+    ]),
+    'name': 'ClassModuleClassC',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+      'tests.data.test_package.class_module.ClassModuleEmptyClassA',
+      'tests.data.test_package.class_module.ClassModuleClassB',
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_ClassModuleClassD
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleClassD',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'ClassModuleClassD',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_ClassModuleEmptyClassA
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleEmptyClassA',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'ClassModuleEmptyClassA',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_ClassModuleNestedClassE
+  dict({
+    'attributes': list([
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
+    ]),
+    'classes': list([
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+    'is_public': True,
+    'methods': list([
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
+    ]),
+    'name': 'ClassModuleNestedClassE',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes_EpydocDocstringClass
+  dict({
+    'attributes': list([
+      'test_package/docstring_module/EpydocDocstringClass/attr_1',
+    ]),
+    'classes': list([
+    ]),
+    'constructor': dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/docstring_module/EpydocDocstringClass/__init__',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '__init__',
+      'parameters': list([
+        'test_package/docstring_module/EpydocDocstringClass/__init__/self',
+        'test_package/docstring_module/EpydocDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -1222,10 +1365,10 @@
         @type param_1: str
       ''',
     }),
-    'id': 'test_package/test_docstrings/EpydocDocstringClass',
+    'id': 'test_package/docstring_module/EpydocDocstringClass',
     'is_public': True,
     'methods': list([
-      'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func',
+      'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
     ]),
     'name': 'EpydocDocstringClass',
     'reexported_by': list([
@@ -1264,7 +1407,7 @@
 # name: test_classes_GoogleDocstringClass
   dict({
     'attributes': list([
-      'test_package/test_docstrings/GoogleDocstringClass/attr_1',
+      'test_package/docstring_module/GoogleDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -1273,14 +1416,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/__init__',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/__init__',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'test_package/test_docstrings/GoogleDocstringClass/__init__/self',
-        'test_package/test_docstrings/GoogleDocstringClass/__init__/param_1',
+        'test_package/docstring_module/GoogleDocstringClass/__init__/self',
+        'test_package/docstring_module/GoogleDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -1305,10 +1448,10 @@
             param_1 (str): Parameter of the calculator. (Google Style)
       ''',
     }),
-    'id': 'test_package/test_docstrings/GoogleDocstringClass',
+    'id': 'test_package/docstring_module/GoogleDocstringClass',
     'is_public': True,
     'methods': list([
-      'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func',
+      'test_package/docstring_module/GoogleDocstringClass/google_docstring_func',
     ]),
     'name': 'GoogleDocstringClass',
     'reexported_by': list([
@@ -1319,75 +1462,43 @@
     ]),
   })
 # ---
-# name: test_classes_NestedClass
+# name: test_classes_InferMyTypes
   dict({
     'attributes': list([
+      'test_package/infer_types_module/InferMyTypes/infer_attr',
+      'test_package/infer_types_module/InferMyTypes/init_infer',
     ]),
     'classes': list([
     ]),
-    'constructor': None,
+    'constructor': dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/infer_types_module/InferMyTypes/__init__',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '__init__',
+      'parameters': list([
+        'test_package/infer_types_module/InferMyTypes/__init__/self',
+        'test_package/infer_types_module/InferMyTypes/__init__/init_param',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
     'docstring': dict({
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'test_package/test_module/SomeClass/NestedClass',
+    'id': 'test_package/infer_types_module/InferMyTypes',
     'is_public': True,
     'methods': list([
-      'test_package/test_module/SomeClass/NestedClass/nested_class_function',
+      'test_package/infer_types_module/InferMyTypes/infer_function',
     ]),
-    'name': 'NestedClass',
-    'reexported_by': list([
-    ]),
-    'superclasses': list([
-      'tests.data.test_package.another_path.another_module.AnotherClass',
-    ]),
-    'variances': list([
-    ]),
-  })
-# ---
-# name: test_classes_NestedNestedPrivateClass
-  dict({
-    'attributes': list([
-    ]),
-    'classes': list([
-    ]),
-    'constructor': None,
-    'docstring': dict({
-      'description': '',
-      'full_docstring': '',
-    }),
-    'id': 'test_package/test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
-    'is_public': True,
-    'methods': list([
-    ]),
-    'name': 'NestedNestedPrivateClass',
-    'reexported_by': list([
-    ]),
-    'superclasses': list([
-    ]),
-    'variances': list([
-    ]),
-  })
-# ---
-# name: test_classes_NestedPrivateClass
-  dict({
-    'attributes': list([
-      'test_package/test_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
-    ]),
-    'classes': list([
-      'test_package/test_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
-    ]),
-    'constructor': None,
-    'docstring': dict({
-      'description': '',
-      'full_docstring': '',
-    }),
-    'id': 'test_package/test_module/_PrivateClass/NestedPrivateClass',
-    'is_public': True,
-    'methods': list([
-      'test_package/test_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
-    ]),
-    'name': 'NestedPrivateClass',
+    'name': 'InferMyTypes',
     'reexported_by': list([
     ]),
     'superclasses': list([
@@ -1399,7 +1510,7 @@
 # name: test_classes_NumpyDocstringClass
   dict({
     'attributes': list([
-      'test_package/test_docstrings/NumpyDocstringClass/attr_1',
+      'test_package/docstring_module/NumpyDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -1408,14 +1519,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/__init__',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/__init__',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'test_package/test_docstrings/NumpyDocstringClass/__init__/self',
-        'test_package/test_docstrings/NumpyDocstringClass/__init__/param_1',
+        'test_package/docstring_module/NumpyDocstringClass/__init__/self',
+        'test_package/docstring_module/NumpyDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -1444,10 +1555,10 @@
             Parameter of the calculator. (Numpy)
       ''',
     }),
-    'id': 'test_package/test_docstrings/NumpyDocstringClass',
+    'id': 'test_package/docstring_module/NumpyDocstringClass',
     'is_public': True,
     'methods': list([
-      'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func',
+      'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
     ]),
     'name': 'NumpyDocstringClass',
     'reexported_by': list([
@@ -1487,7 +1598,7 @@
 # name: test_classes_RestDocstringClass
   dict({
     'attributes': list([
-      'test_package/test_docstrings/RestDocstringClass/attr_1',
+      'test_package/docstring_module/RestDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -1496,14 +1607,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/__init__',
+      'id': 'test_package/docstring_module/RestDocstringClass/__init__',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'test_package/test_docstrings/RestDocstringClass/__init__/self',
-        'test_package/test_docstrings/RestDocstringClass/__init__/param_1',
+        'test_package/docstring_module/RestDocstringClass/__init__/self',
+        'test_package/docstring_module/RestDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -1521,111 +1632,15 @@
         :type param_1: str
       ''',
     }),
-    'id': 'test_package/test_docstrings/RestDocstringClass',
+    'id': 'test_package/docstring_module/RestDocstringClass',
     'is_public': True,
     'methods': list([
-      'test_package/test_docstrings/RestDocstringClass/rest_docstring_func',
+      'test_package/docstring_module/RestDocstringClass/rest_docstring_func',
     ]),
     'name': 'RestDocstringClass',
     'reexported_by': list([
     ]),
     'superclasses': list([
-    ]),
-    'variances': list([
-    ]),
-  })
-# ---
-# name: test_classes_SomeClass
-  dict({
-    'attributes': list([
-      'test_package/test_module/SomeClass/type_hint_public',
-      'test_package/test_module/SomeClass/_type_hint_private',
-      'test_package/test_module/SomeClass/no_type_hint_public',
-      'test_package/test_module/SomeClass/_no_type_hint_private',
-      'test_package/test_module/SomeClass/object_attr',
-      'test_package/test_module/SomeClass/object_attr_2',
-      'test_package/test_module/SomeClass/tuple_attr_1',
-      'test_package/test_module/SomeClass/tuple_attr_2',
-      'test_package/test_module/SomeClass/tuple_attr_3',
-      'test_package/test_module/SomeClass/list_attr_1',
-      'test_package/test_module/SomeClass/list_attr_2',
-      'test_package/test_module/SomeClass/list_attr_3',
-      'test_package/test_module/SomeClass/list_attr_4',
-      'test_package/test_module/SomeClass/dict_attr_1',
-      'test_package/test_module/SomeClass/dict_attr_2',
-      'test_package/test_module/SomeClass/dict_attr_3',
-      'test_package/test_module/SomeClass/bool_attr',
-      'test_package/test_module/SomeClass/none_attr',
-      'test_package/test_module/SomeClass/flaot_attr',
-      'test_package/test_module/SomeClass/int_or_bool_attr',
-      'test_package/test_module/SomeClass/str_attr_with_none_value',
-      'test_package/test_module/SomeClass/multi_attr_1',
-      'test_package/test_module/SomeClass/_multi_attr_2_private',
-      'test_package/test_module/SomeClass/multi_attr_3',
-      'test_package/test_module/SomeClass/_multi_attr_4_private',
-      'test_package/test_module/SomeClass/init_attr',
-      'test_package/test_module/SomeClass/_init_attr_private',
-    ]),
-    'classes': list([
-      'test_package/test_module/SomeClass/NestedClass',
-    ]),
-    'constructor': dict({
-      'docstring': dict({
-        'description': '''
-          Summary of the init description.
-          
-          Full init description.
-        ''',
-        'full_docstring': '''
-          Summary of the init description.
-          
-          Full init description.
-        ''',
-      }),
-      'id': 'test_package/test_module/SomeClass/__init__',
-      'is_class_method': False,
-      'is_public': True,
-      'is_static': False,
-      'name': '__init__',
-      'parameters': list([
-        'test_package/test_module/SomeClass/__init__/self',
-        'test_package/test_module/SomeClass/__init__/init_param_1',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
-    'docstring': dict({
-      'description': '''
-        Summary of the description.
-        
-        Full description
-      ''',
-      'full_docstring': '''
-        Summary of the description.
-        
-        Full description
-      ''',
-    }),
-    'id': 'test_package/test_module/SomeClass',
-    'is_public': True,
-    'methods': list([
-      'test_package/test_module/SomeClass/_some_function',
-      'test_package/test_module/SomeClass/static_function',
-      'test_package/test_module/SomeClass/test_position',
-      'test_package/test_module/SomeClass/test_params',
-      'test_package/test_module/SomeClass/multiple_results',
-      'test_package/test_module/SomeClass/no_return_1',
-      'test_package/test_module/SomeClass/no_return_2',
-      'test_package/test_module/SomeClass/class_method',
-      'test_package/test_module/SomeClass/class_method_params',
-    ]),
-    'name': 'SomeClass',
-    'reexported_by': list([
-    ]),
-    'superclasses': list([
-      'tests.data.test_package.test_module.AcDoubleAlias',
     ]),
     'variances': list([
     ]),
@@ -1642,7 +1657,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'test_package/test_module/VarianceClassAll',
+    'id': 'test_package/variance_module/VarianceClassAll',
     'is_public': True,
     'methods': list([
     ]),
@@ -1664,7 +1679,7 @@
         'name': '_T_con',
         'type': dict({
           'kind': 'NamedType',
-          'name': 'SomeClass',
+          'name': 'A',
         }),
         'variance_type': 'CONTRAVARIANT',
       }),
@@ -1708,7 +1723,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'test_package/test_module/VarianceClassOnlyInvariance',
+    'id': 'test_package/variance_module/VarianceClassOnlyInvariance',
     'is_public': True,
     'methods': list([
     ]),
@@ -1747,43 +1762,49 @@
     ]),
   })
 # ---
-# name: test_classes__PrivateClass
+# name: test_classes__ClassModulePrivateClassG
   dict({
     'attributes': list([
-      'test_package/test_module/_PrivateClass/public_attr_in_private_class',
-      'test_package/test_module/_PrivateClass/public_init_attr_in_private_class',
+      'test_package/class_module/_ClassModulePrivateClassG/_attr_1',
+      'test_package/class_module/_ClassModulePrivateClassG/_attr_2',
     ]),
     'classes': list([
-      'test_package/test_module/_PrivateClass/NestedPrivateClass',
     ]),
-    'constructor': dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/test_module/_PrivateClass/__init__',
-      'is_class_method': False,
-      'is_public': False,
-      'is_static': False,
-      'name': '__init__',
-      'parameters': list([
-        'test_package/test_module/_PrivateClass/__init__/self',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
+    'constructor': None,
     'docstring': dict({
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'test_package/test_module/_PrivateClass',
+    'id': 'test_package/class_module/_ClassModulePrivateClassG',
     'is_public': False,
     'methods': list([
-      'test_package/test_module/_PrivateClass/public_func_in_private_class',
     ]),
-    'name': '_PrivateClass',
+    'name': '_ClassModulePrivateClassG',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'variances': list([
+    ]),
+  })
+# ---
+# name: test_classes__ClassModulePrivateDoubleNestedClassF
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
+    'is_public': False,
+    'methods': list([
+      'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
+    ]),
+    'name': '_ClassModulePrivateDoubleNestedClassF',
     'reexported_by': list([
     ]),
     'superclasses': list([
@@ -1817,74 +1838,57 @@
     ]),
   })
 # ---
-# name: test_enum_instances_AnotherTestEnum
-  list([
-    dict({
-      'id': 'test_package/test_enums/AnotherTestEnum/number_eleven',
-      'name': 'number_eleven',
-    }),
-  ])
-# ---
 # name: test_enum_instances_EnumTest
   list([
     dict({
-      'id': 'test_package/test_enums/EnumTest/EIGHT',
+      'id': 'test_package/enum_module/EnumTest/EIGHT',
       'name': 'EIGHT',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/FIVE',
+      'id': 'test_package/enum_module/EnumTest/FIVE',
       'name': 'FIVE',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/FOUR',
+      'id': 'test_package/enum_module/EnumTest/FOUR',
       'name': 'FOUR',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/NINE',
+      'id': 'test_package/enum_module/EnumTest/NINE',
       'name': 'NINE',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/ONE',
+      'id': 'test_package/enum_module/EnumTest/ONE',
       'name': 'ONE',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/SEVEN',
+      'id': 'test_package/enum_module/EnumTest/SEVEN',
       'name': 'SEVEN',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/SIX',
+      'id': 'test_package/enum_module/EnumTest/SIX',
       'name': 'SIX',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/TEN',
-      'name': 'TEN',
-    }),
-    dict({
-      'id': 'test_package/test_enums/EnumTest/THREE',
+      'id': 'test_package/enum_module/EnumTest/THREE',
       'name': 'THREE',
     }),
     dict({
-      'id': 'test_package/test_enums/EnumTest/TWO',
+      'id': 'test_package/enum_module/EnumTest/TWO',
       'name': 'TWO',
+    }),
+  ])
+# ---
+# name: test_enum_instances_EnumTest3
+  list([
+    dict({
+      'id': 'test_package/enum_module/EnumTest3/ELEVEN',
+      'name': 'ELEVEN',
     }),
   ])
 # ---
 # name: test_enum_instances__ReexportedEmptyEnum
   list([
   ])
-# ---
-# name: test_enums_AnotherTestEnum
-  dict({
-    'docstring': dict({
-      'description': '',
-      'full_docstring': '',
-    }),
-    'id': 'test_package/test_enums/AnotherTestEnum',
-    'instances': list([
-      'test_package/test_enums/AnotherTestEnum/number_eleven',
-    ]),
-    'name': 'AnotherTestEnum',
-  })
 # ---
 # name: test_enums_EnumTest
   dict({
@@ -1900,20 +1904,45 @@
         Full Docstring Description
       ''',
     }),
-    'id': 'test_package/test_enums/EnumTest',
+    'id': 'test_package/enum_module/EnumTest',
     'instances': list([
-      'test_package/test_enums/EnumTest/ONE',
-      'test_package/test_enums/EnumTest/TWO',
-      'test_package/test_enums/EnumTest/THREE',
-      'test_package/test_enums/EnumTest/FOUR',
-      'test_package/test_enums/EnumTest/FIVE',
-      'test_package/test_enums/EnumTest/SIX',
-      'test_package/test_enums/EnumTest/SEVEN',
-      'test_package/test_enums/EnumTest/EIGHT',
-      'test_package/test_enums/EnumTest/NINE',
-      'test_package/test_enums/EnumTest/TEN',
+      'test_package/enum_module/EnumTest/ONE',
+      'test_package/enum_module/EnumTest/TWO',
+      'test_package/enum_module/EnumTest/THREE',
+      'test_package/enum_module/EnumTest/FOUR',
+      'test_package/enum_module/EnumTest/FIVE',
+      'test_package/enum_module/EnumTest/SIX',
+      'test_package/enum_module/EnumTest/SEVEN',
+      'test_package/enum_module/EnumTest/EIGHT',
+      'test_package/enum_module/EnumTest/NINE',
     ]),
     'name': 'EnumTest',
+  })
+# ---
+# name: test_enums_EnumTest2
+  dict({
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/enum_module/EnumTest2',
+    'instances': list([
+      'test_package/enum_module/EnumTest2/TEN',
+    ]),
+    'name': 'EnumTest2',
+  })
+# ---
+# name: test_enums_EnumTest3
+  dict({
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/enum_module/EnumTest3',
+    'instances': list([
+      'test_package/enum_module/EnumTest3/ELEVEN',
+    ]),
+    'name': 'EnumTest3',
   })
 # ---
 # name: test_enums__ReexportedEmptyEnum
@@ -1922,7 +1951,7 @@
       'description': "Nothing's here.",
       'full_docstring': "Nothing's here.",
     }),
-    'id': 'test_package/test_enums/_ReexportedEmptyEnum',
+    'id': 'test_package/enum_module/_ReexportedEmptyEnum',
     'instances': list([
     ]),
     'name': '_ReexportedEmptyEnum',
@@ -1938,7 +1967,7 @@
         'description': 'Parameter of the calculator. (Epydoc)',
         'type': 'str',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/__init__/param_1',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/__init__/param_1',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'param_1',
@@ -1955,7 +1984,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/__init__/self',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/__init__/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -1973,7 +2002,7 @@
         'description': 'Parameter of the calculator. (Google Style)',
         'type': 'str',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/__init__/param_1',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/__init__/param_1',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'param_1',
@@ -1990,7 +2019,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/__init__/self',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/__init__/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2008,7 +2037,7 @@
         'description': 'Parameter of the calculator. (Numpy)',
         'type': 'str',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/__init__/param_1',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/__init__/param_1',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'param_1',
@@ -2025,7 +2054,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/__init__/self',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/__init__/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2043,7 +2072,7 @@
         'description': 'Parameter of the calculator. (ReST)',
         'type': 'str',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/__init__/param_1',
+      'id': 'test_package/docstring_module/RestDocstringClass/__init__/param_1',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'param_1',
@@ -2060,39 +2089,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/__init__/self',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'self',
-      'type': None,
-    }),
-  ])
-# ---
-# name: test_function_parameters_SomeClass___init__
-  list([
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/__init__/init_param_1',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'init_param_1',
-      'type': None,
-    }),
-    dict({
-      'assigned_by': 'IMPLICIT',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/__init__/self',
+      'id': 'test_package/docstring_module/RestDocstringClass/__init__/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2110,7 +2107,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/self',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2124,7 +2121,7 @@
         'description': 'First integer value for the calculation. (Epydoc)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/x',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'x',
@@ -2141,7 +2138,7 @@
         'description': 'Second integer value for the calculation. (Epydoc)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/y',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'y',
@@ -2152,23 +2149,303 @@
     }),
   ])
 # ---
-# name: test_function_parameters_global_func
+# name: test_function_parameters_function_module_FunctionModuleClassB___init__
   list([
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 'first param',
+      'default_value': None,
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/global_func/param_1',
-      'is_optional': True,
+      'id': 'test_package/function_module/FunctionModuleClassB/__init__/init_param',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'init_param',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/__init__/self',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'self',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_FunctionModuleClassB_class_method
+  list([
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method/cls',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'cls',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_FunctionModuleClassB_class_method_params
+  list([
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method_params/cls',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'cls',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method_params/param_1',
+      'is_optional': False,
       'is_type_inferred': False,
       'name': 'param_1',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'str',
+        'name': 'int',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_FunctionModuleClassB_static_method_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/static_method_params/param_1',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'param_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_FunctionModuleClassC_nested_class_function
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'param1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'self',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module__private
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/_private/a',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'a',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_arg
+  list([
+    dict({
+      'assigned_by': 'POSITIONAL_VARARG',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/arg/args',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'args',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'NAMED_VARARG',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/arg/kwargs',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'kwargs',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_args_type
+  list([
+    dict({
+      'assigned_by': 'POSITIONAL_VARARG',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/args_type/args',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'args',
+      'type': dict({
+        'kind': 'TupleType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'NAMED_VARARG',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/args_type/kwargs',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'kwargs',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_callable_type
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/callable_type/param',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'param',
+      'type': dict({
+        'kind': 'CallableType',
+        'parameter_types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+          }),
+        ]),
+        'return_type': dict({
+          'kind': 'TupleType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+            }),
+          ]),
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_illegal_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': 'String',
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_params/_',
+      'is_optional': True,
+      'is_type_inferred': False,
+      'name': '_',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
       }),
     }),
     dict({
@@ -2179,16 +2456,574 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/global_func/param_2',
+      'id': 'test_package/function_module/illegal_params/lst',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'lst',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_params/lst_2',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'lst_2',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_params/tpl',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'tpl',
+      'type': dict({
+        'kind': 'TupleType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_opt_pos_only
+  list([
+    dict({
+      'assigned_by': 'POSITION_ONLY',
+      'default_value': 1,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/opt_pos_only/optional',
+      'is_optional': True,
+      'is_type_inferred': True,
+      'name': 'optional',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_ONLY',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/opt_pos_only/required',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'required',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_param_position
+  list([
+    dict({
+      'assigned_by': 'POSITION_ONLY',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/a',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'a',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/b',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'b',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': 1,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/c',
+      'is_optional': True,
+      'is_type_inferred': True,
+      'name': 'c',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'NAME_ONLY',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/d',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'd',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'NAME_ONLY',
+      'default_value': 1,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/e',
       'is_optional': True,
       'is_type_inferred': False,
-      'name': 'param_2',
+      'name': 'e',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_ONLY',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/param_position/self',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'self',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/i',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'i',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/lst',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'lst',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/obj',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'obj',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'union',
       'type': dict({
         'kind': 'UnionType',
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'AnotherClass',
+            'name': 'int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_public_no_params_no_result
+  list([
+  ])
+# ---
+# name: test_function_parameters_function_module_req_name_only
+  list([
+    dict({
+      'assigned_by': 'NAME_ONLY',
+      'default_value': 1,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/req_name_only/optional',
+      'is_optional': True,
+      'is_type_inferred': True,
+      'name': 'optional',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'NAME_ONLY',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/req_name_only/required',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'required',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_function_module_special_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/bool_none_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'bool_none_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_bool_int_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_bool_int_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_bool_none_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_bool_none_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_bool_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_bool_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_list_union_none_none',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_list_union_none_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'ListType',
+            'types': list([
+              dict({
+                'kind': 'UnionType',
+                'types': list([
+                  dict({
+                    'kind': 'NamedType',
+                    'name': 'None',
+                  }),
+                  dict({
+                    'kind': 'NamedType',
+                    'name': 'None',
+                  }),
+                ]),
+              }),
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_none_bool_none_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_none_bool_none_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/special_params/none_union',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
           }),
           dict({
             'kind': 'NamedType',
@@ -2209,7 +3044,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/self',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2223,7 +3058,7 @@
         'description': 'First integer value for the calculation. (Google Style)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/x',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'x',
@@ -2240,7 +3075,7 @@
         'description': 'Second integer value for the calculation. (Google Style)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/y',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'y',
@@ -2248,41 +3083,6 @@
         'kind': 'NamedType',
         'name': 'int',
       }),
-    }),
-  ])
-# ---
-# name: test_function_parameters_nested_class_function
-  list([
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/param_1',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'param_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-    dict({
-      'assigned_by': 'IMPLICIT',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/self',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'self',
-      'type': None,
     }),
   ])
 # ---
@@ -2296,7 +3096,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/self',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2310,7 +3110,7 @@
         'description': 'First integer value for the calculation. (Numpy)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/x',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'x',
@@ -2327,7 +3127,7 @@
         'description': 'Second integer value for the calculation. (Numpy)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/y',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'y',
@@ -2348,7 +3148,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/self',
+      'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'self',
@@ -2362,7 +3162,7 @@
         'description': 'First integer value for the calculation. (ReST)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/x',
+      'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'x',
@@ -2379,7 +3179,7 @@
         'description': 'Second integer value for the calculation. (ReST)',
         'type': 'int',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/y',
+      'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'y',
@@ -2390,179 +3190,50 @@
     }),
   ])
 # ---
-# name: test_function_parameters_static_function
+# name: test_function_results_callable_type
   list([
     dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': True,
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/static_function/param_1',
-      'is_optional': True,
+      'id': 'test_package/function_module/callable_type/result_1',
       'is_type_inferred': False,
-      'name': 'param_1',
+      'name': 'result_1',
       'type': dict({
-        'kind': 'NamedType',
-        'name': 'bool',
-      }),
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 123456,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/static_function/param_2',
-      'is_optional': True,
-      'is_type_inferred': False,
-      'name': 'param_2',
-      'type': dict({
-        'kind': 'UnionType',
-        'types': list([
+        'kind': 'CallableType',
+        'parameter_types': list([
           dict({
             'kind': 'NamedType',
             'name': 'int',
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'bool',
+            'name': 'int',
           }),
         ]),
+        'return_type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+        }),
       }),
     }),
   ])
 # ---
-# name: test_function_parameters_test_params
+# name: test_function_results_class_method_params
   list([
     dict({
-      'assigned_by': 'POSITIONAL_VARARG',
-      'default_value': None,
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/test_params/args',
-      'is_optional': False,
+      'id': 'test_package/function_module/FunctionModuleClassB/class_method_params/result_1',
       'is_type_inferred': False,
-      'name': 'args',
-      'type': None,
-    }),
-    dict({
-      'assigned_by': 'NAMED_VARARG',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_params/kwargs',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'kwargs',
-      'type': None,
-    }),
-  ])
-# ---
-# name: test_function_parameters_test_position
-  list([
-    dict({
-      'assigned_by': 'POSITION_ONLY',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/param1',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'param1',
-      'type': None,
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/param2',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'param2',
+      'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
       }),
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 1,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/param3',
-      'is_optional': True,
-      'is_type_inferred': True,
-      'name': 'param3',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-    dict({
-      'assigned_by': 'NAME_ONLY',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/param4',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'param4',
-      'type': None,
-    }),
-    dict({
-      'assigned_by': 'NAME_ONLY',
-      'default_value': 1,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/param5',
-      'is_optional': True,
-      'is_type_inferred': False,
-      'name': 'param5',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-    dict({
-      'assigned_by': 'IMPLICIT',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/self',
-      'is_optional': False,
-      'is_type_inferred': False,
-      'name': 'self',
-      'type': None,
     }),
   ])
 # ---
@@ -2573,29 +3244,12 @@
         'description': 'Checks if the sum of x and y is greater than 10. (Epydoc)',
         'type': 'bool',
       }),
-      'id': 'test_package/test_docstrings/EpydocDocstringClass/epydoc_docstring_func/result_1',
+      'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-      }),
-    }),
-  ])
-# ---
-# name: test_function_results_global_func
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/global_func/result_1',
-      'is_type_inferred': False,
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'AnotherClass',
       }),
     }),
   ])
@@ -2610,7 +3264,7 @@
         ''',
         'type': 'bool',
       }),
-      'id': 'test_package/test_docstrings/GoogleDocstringClass/google_docstring_func/result_1',
+      'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
@@ -2627,7 +3281,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_1',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_1',
       'is_type_inferred': True,
       'name': 'result_1',
       'type': dict({
@@ -2640,9 +3294,22 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_2',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_2',
       'is_type_inferred': True,
       'name': 'result_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'ModuleClass',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_3',
+      'is_type_inferred': True,
+      'name': 'result_3',
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
@@ -2653,20 +3320,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_3',
-      'is_type_inferred': True,
-      'name': 'result_3',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'SomeClass',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_4',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_4',
       'is_type_inferred': True,
       'name': 'result_4',
       'type': dict({
@@ -2679,7 +3333,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_5',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_5',
       'is_type_inferred': True,
       'name': 'result_5',
       'type': dict({
@@ -2692,7 +3346,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_6',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_6',
       'is_type_inferred': True,
       'name': 'result_6',
       'type': dict({
@@ -2705,12 +3359,29 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/InferMyTypes/infer_function/result_7',
+      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_7',
       'is_type_inferred': True,
       'name': 'result_7',
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_instance_method
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/FunctionModuleClassB/instance_method/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
       }),
     }),
   ])
@@ -2722,30 +3393,51 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/multiple_results/result_1',
+      'id': 'test_package/function_module/multiple_results/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
-        'kind': 'UnionType',
-        'types': list([
-          dict({
-            'kind': 'NamedType',
-            'name': 'Any',
-          }),
-          dict({
-            'kind': 'TupleType',
-            'types': list([
-              dict({
-                'kind': 'NamedType',
-                'name': 'int',
-              }),
-              dict({
-                'kind': 'NamedType',
-                'name': 'str',
-              }),
-            ]),
-          }),
-        ]),
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/multiple_results/result_2',
+      'is_type_inferred': False,
+      'name': 'result_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/multiple_results/result_3',
+      'is_type_inferred': False,
+      'name': 'result_3',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/multiple_results/result_4',
+      'is_type_inferred': False,
+      'name': 'result_4',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
       }),
     }),
   ])
@@ -2757,26 +3449,12 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/test_module/SomeClass/NestedClass/nested_class_function/result_1',
+      'id': 'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
-        'kind': 'SetType',
-        'types': list([
-          dict({
-            'kind': 'UnionType',
-            'types': list([
-              dict({
-                'kind': 'NamedType',
-                'name': 'bool',
-              }),
-              dict({
-                'kind': 'NamedType',
-                'name': 'None',
-              }),
-            ]),
-          }),
-        ]),
+        'kind': 'NamedType',
+        'name': 'bool',
       }),
     }),
   ])
@@ -2788,7 +3466,7 @@
         'description': 'Checks if the sum of `x` and `y` is greater than 10. (Numpy)',
         'type': 'bool',
       }),
-      'id': 'test_package/test_docstrings/NumpyDocstringClass/numpy_docstring_func/result_1',
+      'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
@@ -2805,7 +3483,7 @@
         'description': 'Checks if the sum of x and y is greater than 10. (ReST)',
         'type': 'bool',
       }),
-      'id': 'test_package/test_docstrings/RestDocstringClass/rest_docstring_func/result_1',
+      'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
@@ -2815,51 +3493,8 @@
     }),
   ])
 # ---
-# name: test_function_results_static_function
+# name: test_function_results_static_method_params
   list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/static_function/result_1',
-      'is_type_inferred': False,
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'bool',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/static_function/result_2',
-      'is_type_inferred': False,
-      'name': 'result_2',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-  ])
-# ---
-# name: test_function_results_test_position
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/test_module/SomeClass/test_position/result_1',
-      'is_type_inferred': False,
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'Any',
-      }),
-    }),
   ])
 # ---
 # name: test_global_functions__reexport_module_1
@@ -2966,52 +3601,265 @@
     }),
   ])
 # ---
-# name: test_global_functions_test_module
+# name: test_global_functions_function_module
   list([
     dict({
       'docstring': dict({
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/test_module/_private_global_func',
+      'id': 'test_package/function_module/_private',
       'is_class_method': False,
       'is_public': False,
       'is_static': False,
-      'name': '_private_global_func',
+      'name': '_private',
       'parameters': list([
+        'test_package/function_module/_private/a',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_module/_private_global_func/result_1',
       ]),
     }),
     dict({
       'docstring': dict({
-        'description': '''
-          Docstring 1.
-          
-          Docstring 2.
-        ''',
-        'full_docstring': '''
-          Docstring 1.
-          
-          Docstring 2.
-        ''',
+        'description': '',
+        'full_docstring': '',
       }),
-      'id': 'test_package/test_module/global_func',
+      'id': 'test_package/function_module/arg',
       'is_class_method': False,
       'is_public': True,
       'is_static': False,
-      'name': 'global_func',
+      'name': 'arg',
       'parameters': list([
-        'test_package/test_module/global_func/param_1',
-        'test_package/test_module/global_func/param_2',
+        'test_package/function_module/arg/args',
+        'test_package/function_module/arg/kwargs',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/test_module/global_func/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/args_type',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'args_type',
+      'parameters': list([
+        'test_package/function_module/args_type/args',
+        'test_package/function_module/args_type/kwargs',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/callable_type',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'callable_type',
+      'parameters': list([
+        'test_package/function_module/callable_type/param',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/callable_type/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/illegal_params',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'illegal_params',
+      'parameters': list([
+        'test_package/function_module/illegal_params/lst',
+        'test_package/function_module/illegal_params/lst_2',
+        'test_package/function_module/illegal_params/tpl',
+        'test_package/function_module/illegal_params/_',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/multiple_results',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'multiple_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/multiple_results/result_1',
+        'test_package/function_module/multiple_results/result_2',
+        'test_package/function_module/multiple_results/result_3',
+        'test_package/function_module/multiple_results/result_4',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/one_result',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'one_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/one_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/opt_pos_only',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'opt_pos_only',
+      'parameters': list([
+        'test_package/function_module/opt_pos_only/required',
+        'test_package/function_module/opt_pos_only/optional',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/param_position',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'param_position',
+      'parameters': list([
+        'test_package/function_module/param_position/self',
+        'test_package/function_module/param_position/a',
+        'test_package/function_module/param_position/b',
+        'test_package/function_module/param_position/c',
+        'test_package/function_module/param_position/d',
+        'test_package/function_module/param_position/e',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/params',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'params',
+      'parameters': list([
+        'test_package/function_module/params/i',
+        'test_package/function_module/params/union',
+        'test_package/function_module/params/lst',
+        'test_package/function_module/params/obj',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/public_no_params_no_result',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'public_no_params_no_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/req_name_only',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'req_name_only',
+      'parameters': list([
+        'test_package/function_module/req_name_only/required',
+        'test_package/function_module/req_name_only/optional',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/special_params',
+      'is_class_method': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'special_params',
+      'parameters': list([
+        'test_package/function_module/special_params/none_union',
+        'test_package/function_module/special_params/none_bool_union',
+        'test_package/function_module/special_params/bool_none_union',
+        'test_package/function_module/special_params/none_bool_none_union',
+        'test_package/function_module/special_params/none_bool_int_union',
+        'test_package/function_module/special_params/none_none_bool_none_union',
+        'test_package/function_module/special_params/none_list_union_none_none',
+        'test_package/function_module/special_params/none',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
       ]),
     }),
   ])
@@ -3040,7 +3888,7 @@
     }),
     dict({
       'alias': None,
-      'qualified_name': 'test_enums._ReexportedEmptyEnum',
+      'qualified_name': 'enum_module._ReexportedEmptyEnum',
     }),
   ])
 # ---
@@ -3051,7 +3899,7 @@
     }),
   ])
 # ---
-# name: test_imports_test_emums_qualified_imports
+# name: test_imports_enum_module_qualified_imports
   list([
     dict({
       'alias': None,
@@ -3071,37 +3919,30 @@
     }),
   ])
 # ---
-# name: test_imports_test_enums_wildcard_imports
+# name: test_imports_enum_module_wildcard_imports
   list([
   ])
 # ---
-# name: test_imports_test_module_qualified_imports
+# name: test_imports_module_qualified_imports
   list([
     dict({
-      'alias': 'mathematics',
-      'qualified_name': 'math',
+      'alias': None,
+      'qualified_name': 'enum.IntEnum',
     }),
     dict({
-      'alias': None,
+      'alias': '_Enum',
+      'qualified_name': 'enum.Enum',
+    }),
+    dict({
+      'alias': 'static',
       'qualified_name': 'mypy',
     }),
-    dict({
-      'alias': None,
-      'qualified_name': 'another_path.another_module.AnotherClass',
-    }),
-    dict({
-      'alias': '_AcImportAlias',
-      'qualified_name': 'another_path.another_module.AnotherClass',
-    }),
   ])
 # ---
-# name: test_imports_test_module_wildcard_imports
+# name: test_imports_module_wildcard_imports
   list([
     dict({
-      'module_name': 'typing',
-    }),
-    dict({
-      'module_name': 'docstring_parser',
+      'module_name': 'math',
     }),
   ])
 # ---
@@ -3139,7 +3980,7 @@
       }),
       dict({
         'alias': None,
-        'qualified_name': 'test_enums._ReexportedEmptyEnum',
+        'qualified_name': 'enum_module._ReexportedEmptyEnum',
       }),
     ]),
     'wildcard_imports': list([
@@ -3172,13 +4013,35 @@
     ]),
   })
 # ---
-# name: test_modules_test_docstrings
+# name: test_modules_class_module
   dict({
     'classes': list([
-      'test_package/test_docstrings/EpydocDocstringClass',
-      'test_package/test_docstrings/RestDocstringClass',
-      'test_package/test_docstrings/NumpyDocstringClass',
-      'test_package/test_docstrings/GoogleDocstringClass',
+      'test_package/class_module/ClassModuleEmptyClassA',
+      'test_package/class_module/ClassModuleClassB',
+      'test_package/class_module/ClassModuleClassC',
+      'test_package/class_module/ClassModuleClassD',
+      'test_package/class_module/_ClassModulePrivateClassG',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'test_package/class_module',
+    'name': 'class_module',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules_docstring_module
+  dict({
+    'classes': list([
+      'test_package/docstring_module/EpydocDocstringClass',
+      'test_package/docstring_module/RestDocstringClass',
+      'test_package/docstring_module/NumpyDocstringClass',
+      'test_package/docstring_module/GoogleDocstringClass',
     ]),
     'docstring': '''
       Test module for docstring tests.
@@ -3190,28 +4053,30 @@
     ]),
     'functions': list([
     ]),
-    'id': 'test_package/test_docstrings',
-    'name': 'test_docstrings',
+    'id': 'test_package/docstring_module',
+    'name': 'docstring_module',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([
     ]),
   })
 # ---
-# name: test_modules_test_enums
+# name: test_modules_enum_module
   dict({
     'classes': list([
     ]),
     'docstring': '',
     'enums': list([
-      'test_package/test_enums/EnumTest',
-      'test_package/test_enums/_ReexportedEmptyEnum',
-      'test_package/test_enums/AnotherTestEnum',
+      'test_package/enum_module/_ReexportedEmptyEnum',
+      'test_package/enum_module/EnumTest',
+      'test_package/enum_module/EnumTest2',
+      'test_package/enum_module/EnumTest3',
+      'test_package/enum_module/EmptyEnum',
     ]),
     'functions': list([
     ]),
-    'id': 'test_package/test_enums',
-    'name': 'test_enums',
+    'id': 'test_package/enum_module',
+    'name': 'enum_module',
     'qualified_imports': list([
       dict({
         'alias': None,
@@ -3231,52 +4096,6 @@
       }),
     ]),
     'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules_test_module
-  dict({
-    'classes': list([
-      'test_package/test_module/SomeClass',
-      'test_package/test_module/_PrivateClass',
-      'test_package/test_module/InferMyTypes',
-      'test_package/test_module/VarianceClassAll',
-      'test_package/test_module/VarianceClassOnlyInvariance',
-    ]),
-    'docstring': 'Docstring of the some_class.py module.',
-    'enums': list([
-    ]),
-    'functions': list([
-      'test_package/test_module/global_func',
-      'test_package/test_module/_private_global_func',
-    ]),
-    'id': 'test_package/test_module',
-    'name': 'test_module',
-    'qualified_imports': list([
-      dict({
-        'alias': 'mathematics',
-        'qualified_name': 'math',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': 'mypy',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': 'another_path.another_module.AnotherClass',
-      }),
-      dict({
-        'alias': '_AcImportAlias',
-        'qualified_name': 'another_path.another_module.AnotherClass',
-      }),
-    ]),
-    'wildcard_imports': list([
-      dict({
-        'module_name': 'typing',
-      }),
-      dict({
-        'module_name': 'docstring_parser',
-      }),
     ]),
   })
 # ---

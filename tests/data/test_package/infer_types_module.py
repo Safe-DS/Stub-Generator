@@ -33,6 +33,6 @@ class InferMyTypes:
 
         for _ in (1, 2):
             if infer_param_2:
-                return SomeClass
+                return ModuleClass
 
         return int

@@ -1,17 +1,17 @@
 # serializer version: 1
 # name: test_class_attribute_creation
   '''
-  package test_stub_generation.attribute_module
+  package test_package.attribute_module
   
-  class A()
+  class AttributesClassA()
   
-  class B() {
+  class AttributesClassB() {
   	@PythonName("type_hint_public")
   	static attr typeHintPublic: Int
   	@PythonName("no_type_hint_public")
   	static attr noTypeHintPublic: Int
   	@PythonName("object_attr")
-  	static attr objectAttr: A
+  	static attr objectAttr: AttributesClassA
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_1")
   	static attr tupleAttr1: Tuple<Any>
@@ -24,19 +24,19 @@
   	@PythonName("list_attr_1")
   	static attr listAttr1: List<Any>
   	@PythonName("list_attr_2")
-  	static attr listAttr2: List<union<A, String>>
+  	static attr listAttr2: List<union<AttributesClassA, String>>
   	// TODO List type has to many type arguments.
   	@PythonName("list_attr_3")
-  	static attr listAttr3: List<String, A>
+  	static attr listAttr3: List<String, AttributesClassA>
   	// TODO List type has to many type arguments.
   	@PythonName("list_attr_4")
-  	static attr listAttr4: List<String, union<A, Int>>
+  	static attr listAttr4: List<String, union<AttributesClassA, Int>>
   	@PythonName("dict_attr_1")
   	static attr dictAttr1: Map<Any, Any>
   	@PythonName("dict_attr_2")
   	static attr dictAttr2: Map<String, Int>
   	@PythonName("dict_attr_3")
-  	static attr dictAttr3: Map<union<Int, String>, A?>
+  	static attr dictAttr3: Map<union<Int, String>, AttributesClassA?>
   	@PythonName("bool_attr")
   	static attr boolAttr: Boolean
   	@PythonName("none_attr")
@@ -67,20 +67,20 @@
 # ---
 # name: test_class_creation
   '''
-  package test_stub_generation.class_module
+  package test_package.class_module
   
-  class A()
+  class ClassModuleEmptyClassA()
   
-  class B(
+  class ClassModuleClassB(
   	a: Int,
-  	b: A?
-  ) sub A {
+  	b: ClassModuleEmptyClassA?
+  ) sub ClassModuleEmptyClassA {
   	// TODO Result type information missing.
   	fun f()
   }
   
   // TODO Safe-DS does not support multiple inheritance.
-  class C() sub A, B {
+  class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB {
   	@PythonName("attr_1")
   	static attr attr1: Int
   	@PythonName("attr_2")
@@ -90,9 +90,16 @@
   	fun f1()
   }
   
-  class D() {
-  	class E() {
-  		class F()
+  class ClassModuleClassD() {
+  	class ClassModuleNestedClassE() {
+  		@PythonName("nested_attr_1")
+  		static attr nestedAttr1: Nothing?
+  
+  		class _ClassModulePrivateDoubleNestedClassF()
+  
+  		// TODO Result type information missing.
+  		@PythonName("class_e_func")
+  		fun classEFunc()
   	}
   }
   
@@ -100,7 +107,11 @@
 # ---
 # name: test_enum_creation
   '''
-  package test_stub_generation.enum_module
+  package test_package.enum_module
+  
+  from another_path.another_module import AnotherClass as _AcImportAlias
+  
+  enum _ReexportedEmptyEnum
   
   enum EnumTest {
   	ONE
@@ -128,7 +139,7 @@
 # ---
 # name: test_function_creation
   '''
-  package test_stub_generation.function_module
+  package test_package.function_module
   
   from typing import Callable
   
@@ -141,7 +152,7 @@
   	i: Int,
   	`union`: union<Boolean, Int>,
   	lst: List<Int>,
-  	obj: A
+  	obj: FunctionModuleClassA
   )
   
   // TODO List type has to many type arguments.
@@ -219,39 +230,60 @@
   fun oneResult() -> result1: Int
   
   @PythonName("multiple_results")
-  fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: A)
+  fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: FunctionModuleClassA)
   
   @PythonName("callable_type")
   fun callableType(
   	param: (a: String) -> (b: Int, c: String)
   ) -> result1: (a: Int, b: Int) -> c: Int
   
-  class A()
+  class FunctionModuleClassA()
   
   // TODO Some parameter have no type information.
-  class B(
+  class FunctionModuleClassB(
   	@PythonName("init_param") initParam
   ) {
+  	class FunctionModuleClassC() {
+  		class FunctionModuleClassD()
+  
+  		@PythonName("nested_class_function")
+  		fun nestedClassFunction(
+  			param1: Int
+  		) -> result1: Boolean
+  	}
+  
   	@PythonName("instance_method")
   	fun instanceMethod(
-  		a: A
-  	) -> result1: A
+  		a: FunctionModuleClassA
+  	) -> result1: FunctionModuleClassA
   
   	// TODO Result type information missing.
   	@PythonName("static_method")
   	static fun staticMethod()
   
   	// TODO Result type information missing.
+  	@PythonName("static_method_params")
+  	static fun staticMethodParams(
+  		@PythonName("param_1") param1: Int
+  	)
+  
+  	// TODO Result type information missing.
   	// TODO Safe-DS does not support class methods.
   	@PythonName("class_method")
   	static fun classMethod()
+  
+  	// TODO Safe-DS does not support class methods.
+  	@PythonName("class_method_params")
+  	static fun classMethodParams(
+  		@PythonName("param_1") param1: Int
+  	) -> result1: Boolean
   }
   
   '''
 # ---
 # name: test_import_creation
   '''
-  package test_stub_generation.import_module
+  package test_package.import_module
   
   import mypy as `static`
   
@@ -261,7 +293,7 @@
 # ---
 # name: test_type_inference
   '''
-  package test_stub_generation.infer_types_module
+  package test_package.infer_types_module
   
   class InferMyTypes(
   	@PythonName("init_param") initParam: Int = 1
@@ -276,14 +308,14 @@
   	static fun inferFunction(
   		@PythonName("infer_param") inferParam: Int = 1,
   		@PythonName("infer_param_2") inferParam2: Int = Something
-  	) -> (result1: InferMyTypes, result2: Nothing?, result3: SomeClass, result4: Boolean, result5: Float, result6: Int, result7: String)
+  	) -> (result1: InferMyTypes, result2: ModuleClass, result3: Nothing?, result4: Boolean, result5: Float, result6: Int, result7: String)
   }
   
   '''
 # ---
 # name: test_variance_creation
   '''
-  package test_stub_generation.variance_module
+  package test_package.variance_module
   
   from typing import Generic
   from typing import TypeVar
