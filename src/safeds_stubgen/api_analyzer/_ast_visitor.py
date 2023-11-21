@@ -227,6 +227,8 @@ class MyPyAstVisitor:
             is_public=is_public,
             is_static=is_static,
             is_class_method=node.is_class,
+            is_abstract_method=node.abstract_status != 0,
+            is_property=node.is_property,
             results=results,
             reexported_by=reexported_by,
             parameters=arguments,

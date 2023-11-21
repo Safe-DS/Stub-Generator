@@ -252,6 +252,11 @@ def test_classes_FourthReexportClass(snapshot: SnapshotAssertion) -> None:  # no
     assert class_data == snapshot
 
 
+def test_classes_AbstractModuleClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_data = _get_specific_class_data("abstract_module", "AbstractModuleClass")
+    assert class_data == snapshot
+
+
 # ############################## Class Attributes ############################## #
 def get_class_attribute_data(module_name: str, class_name: str, docstring_style: str) -> list:
     class_data: dict = _get_specific_class_data(module_name, class_name, docstring_style)
@@ -443,6 +448,11 @@ def test_class_methods_ReexportClass(snapshot: SnapshotAssertion) -> None:  # no
     assert class_methods_data == snapshot
 
 
+def test_class_methods_AbstractModuleClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_methods_data = get_class_methods_data("abstract_module", "AbstractModuleClass")
+    assert class_methods_data == snapshot
+
+
 def test_class_methods_EpydocDocstringClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
     class_methods_data = get_class_methods_data("docstring_module", "EpydocDocstringClass", "epydoc")
     assert class_methods_data == snapshot
@@ -578,6 +588,33 @@ def test_function_parameters_function_module_callable_type(snapshot: SnapshotAss
     assert function_parameter_data == snapshot
 
 
+def test_function_parameters_abstract_module_abstract_method_params(snapshot: SnapshotAssertion) -> None:
+    function_parameter_data = get_function_parameter_data(
+        module_name="abstract_module",
+        function_name="abstract_method_params",
+        parent_class_name="AbstractModuleClass",
+    )
+    assert function_parameter_data == snapshot
+
+
+def test_function_parameters_abstract_module_abstract_static_method_params(snapshot: SnapshotAssertion) -> None:
+    function_parameter_data = get_function_parameter_data(
+        module_name="abstract_module",
+        function_name="abstract_static_method_params",
+        parent_class_name="AbstractModuleClass",
+    )
+    assert function_parameter_data == snapshot
+
+
+def test_function_parameters_abstract_module_abstract_property_method(snapshot: SnapshotAssertion) -> None:
+    function_parameter_data = get_function_parameter_data(
+        module_name="abstract_module",
+        function_name="abstract_property_method",
+        parent_class_name="AbstractModuleClass",
+    )
+    assert function_parameter_data == snapshot
+
+
 def test_function_parameters_epydoc_docstring_func(snapshot: SnapshotAssertion) -> None:
     function_parameter_data = get_function_parameter_data(
         module_name="docstring_module",
@@ -659,9 +696,9 @@ def test_function_parameters_GoogleDocstringClass___init__(snapshot: SnapshotAss
 
 # ############################## Function Results ############################## #
 def get_function_result_data(
-    module_name: str,
     function_name: str,
-    parent_class_name: str,
+    module_name: str = "function_module",
+    parent_class_name: str = "",
     docstring_style: str = "plaintext"
 ) -> list:
     function_data: dict = _get_specific_function_data(module_name, function_name, parent_class_name, docstring_style)
@@ -678,75 +715,146 @@ def get_function_result_data(
 
 
 def test_function_results_instance_method(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "instance_method", "FunctionModuleClassB")
+    function_result_data = get_function_result_data(
+        function_name="instance_method",
+        parent_class_name="FunctionModuleClassB"
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_static_method_params(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "static_method_params", "FunctionModuleClassB")
+    function_result_data = get_function_result_data(
+        function_name="static_method_params",
+        parent_class_name="FunctionModuleClassB"
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_class_method_params(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "class_method_params", "FunctionModuleClassB")
+    function_result_data = get_function_result_data(
+        function_name="class_method_params",
+        parent_class_name="FunctionModuleClassB"
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_nested_class_function(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "nested_class_function", "FunctionModuleClassC")
+    function_result_data = get_function_result_data(
+        function_name="nested_class_function",
+        parent_class_name="FunctionModuleClassC"
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_callable_type(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "callable_type", "")
+    function_result_data = get_function_result_data(
+        function_name="callable_type",
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_multiple_results(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("function_module", "multiple_results", "")
+    function_result_data = get_function_result_data(
+        function_name="multiple_results",
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_infer_function(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data("infer_types_module", "infer_function", "InferMyTypes")
+    function_result_data = get_function_result_data(
+        module_name="infer_types_module",
+        function_name="infer_function",
+        parent_class_name="InferMyTypes"
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_abstract_method_params(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="abstract_module",
+        function_name="abstract_method_params",
+        parent_class_name="AbstractModuleClass"
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_abstract_static_method_params(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="abstract_module",
+        function_name="abstract_static_method_params",
+        parent_class_name="AbstractModuleClass"
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_abstract_property_method(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="abstract_module",
+        function_name="abstract_property_method",
+        parent_class_name="AbstractModuleClass"
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_function_module_property_function(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="function_module",
+        function_name="property_function",
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_function_module_property_function_params(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="function_module",
+        function_name="property_function_params",
+    )
+    assert function_result_data == snapshot
+
+
+def test_function_results_function_module_property_function_infer(snapshot: SnapshotAssertion) -> None:
+    function_result_data = get_function_result_data(
+        module_name="function_module",
+        function_name="property_function_infer",
+    )
     assert function_result_data == snapshot
 
 
 def test_function_results_epydoc_docstring_func(snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data(
-        "docstring_module",
-        "epydoc_docstring_func",
-        "EpydocDocstringClass",
-        "epydoc"
+        module_name="docstring_module",
+        function_name="epydoc_docstring_func",
+        parent_class_name="EpydocDocstringClass",
+        docstring_style="epydoc"
     )
     assert function_result_data == snapshot
 
 
 def test_function_results_rest_docstring_func(snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data(
-        "docstring_module",
-        "rest_docstring_func",
-        "RestDocstringClass",
-        "rest"
+        module_name="docstring_module",
+        function_name="rest_docstring_func",
+        parent_class_name="RestDocstringClass",
+        docstring_style="rest"
     )
     assert function_result_data == snapshot
 
 
 def test_function_results_numpy_docstring_func(snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data(
-        "docstring_module",
-        "numpy_docstring_func",
-        "NumpyDocstringClass",
-        "numpydoc"
+        module_name="docstring_module",
+        function_name="numpy_docstring_func",
+        parent_class_name="NumpyDocstringClass",
+        docstring_style="numpydoc"
     )
     assert function_result_data == snapshot
 
 
 def test_function_results_google_docstring_func(snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data(
-        "docstring_module",
-        "google_docstring_func",
-        "GoogleDocstringClass",
-        "google"
+        module_name="docstring_module",
+        function_name="google_docstring_func",
+        parent_class_name="GoogleDocstringClass",
+        docstring_style="google"
     )
     assert function_result_data == snapshot

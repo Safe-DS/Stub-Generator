@@ -87,3 +87,16 @@ def multiple_results() -> tuple[str, int, bool, FunctionModuleClassA]: ...
 
 
 def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
+
+
+@property
+def property_function(): ...
+
+
+@property
+def property_function_params() -> str: ...
+
+
+@property
+def property_function_infer():
+    return "some string"

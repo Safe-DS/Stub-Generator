@@ -727,6 +727,115 @@
     }),
   ])
 # ---
+# name: test_class_methods_AbstractModuleClass
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method',
+      'is_abstract_method': True,
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'abstract_method',
+      'parameters': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_method/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method_params',
+      'is_abstract_method': True,
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'abstract_method_params',
+      'parameters': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
+        'test_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
+        'test_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_property_method',
+      'is_abstract_method': True,
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'abstract_property_method',
+      'parameters': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
+        'test_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_static_method',
+      'is_abstract_method': True,
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'abstract_static_method',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
+      'is_abstract_method': True,
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'abstract_static_method_params',
+      'parameters': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
+      ]),
+    }),
+  ])
+# ---
 # name: test_class_methods_ClassModuleClassB
   list([
     dict({
@@ -735,7 +844,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/class_module/ClassModuleClassB/f',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'f',
@@ -757,7 +868,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/class_module/ClassModuleClassC/f1',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'f1',
@@ -783,7 +896,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_e_func',
@@ -814,7 +929,9 @@
         ''',
       }),
       'id': 'test_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'epydoc_docstring_func',
@@ -857,7 +974,9 @@
         ''',
       }),
       'id': 'test_package/docstring_module/GoogleDocstringClass/google_docstring_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'google_docstring_func',
@@ -882,7 +1001,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/infer_types_module/InferMyTypes/infer_function',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'infer_function',
@@ -932,7 +1053,9 @@
         ''',
       }),
       'id': 'test_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'numpy_docstring_func',
@@ -957,7 +1080,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': True,
       'name': '_private_class_method_of_reexported_class',
@@ -993,7 +1118,9 @@
         ''',
       }),
       'id': 'test_package/docstring_module/RestDocstringClass/rest_docstring_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'rest_docstring_func',
@@ -1018,7 +1145,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_class_f_func',
@@ -1040,7 +1169,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/class_method',
+      'is_abstract_method': False,
       'is_class_method': True,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_method',
@@ -1058,7 +1189,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/class_method_params',
+      'is_abstract_method': False,
       'is_class_method': True,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_method_params',
@@ -1078,7 +1211,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/instance_method',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'instance_method',
@@ -1098,7 +1233,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/static_method',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'static_method',
@@ -1115,7 +1252,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/static_method_params',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'static_method_params',
@@ -1137,7 +1276,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'nested_class_function',
@@ -1152,6 +1293,56 @@
       ]),
     }),
   ])
+# ---
+# name: test_classes_AbstractModuleClass
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/__init__',
+      'is_abstract_method': False,
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '__init__',
+      'parameters': list([
+        'test_package/abstract_module/AbstractModuleClass/__init__/self',
+        'test_package/abstract_module/AbstractModuleClass/__init__/param',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'test_package/abstract_module/AbstractModuleClass',
+    'is_public': True,
+    'methods': list([
+      'test_package/abstract_module/AbstractModuleClass/abstract_method',
+      'test_package/abstract_module/AbstractModuleClass/abstract_method_params',
+      'test_package/abstract_module/AbstractModuleClass/abstract_static_method',
+      'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
+      'test_package/abstract_module/AbstractModuleClass/abstract_property_method',
+    ]),
+    'name': 'AbstractModuleClass',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+      'abc.ABC',
+    ]),
+    'variances': list([
+    ]),
+  })
 # ---
 # name: test_classes_AnotherReexportClass
   dict({
@@ -1189,7 +1380,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/class_module/ClassModuleClassB/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -1341,7 +1534,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/docstring_module/EpydocDocstringClass/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -1417,7 +1612,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/docstring_module/GoogleDocstringClass/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -1476,7 +1673,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/infer_types_module/InferMyTypes/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -1520,7 +1719,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/docstring_module/NumpyDocstringClass/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -1608,7 +1809,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/docstring_module/RestDocstringClass/__init__',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
@@ -2094,6 +2297,97 @@
       'is_type_inferred': False,
       'name': 'self',
       'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_abstract_module_abstract_method_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'param_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': False,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
+      'is_optional': True,
+      'is_type_inferred': True,
+      'name': 'param_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'self',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_abstract_module_abstract_property_method
+  list([
+    dict({
+      'assigned_by': 'IMPLICIT',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'self',
+      'type': None,
+    }),
+  ])
+# ---
+# name: test_function_parameters_abstract_module_abstract_static_method_params
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'param',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+      }),
     }),
   ])
 # ---
@@ -3190,6 +3484,79 @@
     }),
   ])
 # ---
+# name: test_function_results_abstract_method_params
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_abstract_property_method
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
+      'is_type_inferred': False,
+      'name': 'result_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_abstract_static_method_params
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results_callable_type
   list([
     dict({
@@ -3250,6 +3617,44 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_function_module_property_function
+  list([
+  ])
+# ---
+# name: test_function_results_function_module_property_function_infer
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/property_function_infer/result_1',
+      'is_type_inferred': True,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_function_module_property_function_params
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/property_function_params/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
       }),
     }),
   ])
@@ -3505,7 +3910,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_1/reexported_function',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': 'reexported_function',
@@ -3526,7 +3933,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_2/reexported_function_2',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'reexported_function_2',
@@ -3548,7 +3957,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_3/reexported_function_3',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': 'reexported_function_3',
@@ -3570,7 +3981,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_4/_reexported_function_4',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_reexported_function_4',
@@ -3588,7 +4001,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/_reexport_module_4/_unreexported_function',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_unreexported_function',
@@ -3609,7 +4024,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/_private',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_private',
@@ -3627,7 +4044,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/arg',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'arg',
@@ -3646,7 +4065,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/args_type',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'args_type',
@@ -3665,7 +4086,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/callable_type',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'callable_type',
@@ -3684,7 +4107,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/illegal_params',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'illegal_params',
@@ -3705,7 +4130,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/multiple_results',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'multiple_results',
@@ -3726,7 +4153,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/one_result',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'one_result',
@@ -3744,7 +4173,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/opt_pos_only',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'opt_pos_only',
@@ -3763,7 +4194,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/param_position',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'param_position',
@@ -3786,7 +4219,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/params',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'params',
@@ -3806,8 +4241,68 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/function_module/public_no_params_no_result',
+      'id': 'test_package/function_module/property_function',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/property_function_infer',
+      'is_abstract_method': False,
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function_infer',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/property_function_params',
+      'is_abstract_method': False,
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function_params',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/property_function_params/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/public_no_params_no_result',
+      'is_abstract_method': False,
+      'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'public_no_params_no_result',
@@ -3824,7 +4319,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/req_name_only',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'req_name_only',
@@ -3843,7 +4340,9 @@
         'full_docstring': '',
       }),
       'id': 'test_package/function_module/special_params',
+      'is_abstract_method': False,
       'is_class_method': False,
+      'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'special_params',

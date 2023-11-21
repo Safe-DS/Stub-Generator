@@ -14,6 +14,7 @@ from safeds_stubgen.api_analyzer import (
     ParameterAssignment,
     QualifiedImport,
     Result,
+    UnionType,
     VarianceType,
     WildcardImport,
 )
@@ -114,10 +115,23 @@ class StubsStringGenerator:
         if wildcard_imports:
             module_text += f"\n{wildcard_imports}\n"
 
-        # Create global functions
+        # Create global functions and properties
+        module_properties = []
+        module_functions = []
         for function in module.global_functions:
             if function.is_public:
-                module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
+                if function.is_property:
+                    module_properties.append(
+                        f"\n{self._create_property_function_string(function)}\n"
+                    )
+                else:
+                    module_functions.append(
+                        f"\n{self._create_function_string(function, is_method=False)}\n"
+                    )
+
+        # We want the properties first, then the functions
+        for item in module_properties + module_functions:
+            module_text += item
 
         # Create classes, class attr. & class methods
         for class_ in module.classes:
@@ -135,12 +149,19 @@ class StubsStringGenerator:
         class_text = ""
 
         # Constructor parameter
-        constructor = class_.constructor
-        parameter_info = ""
-        if constructor:
-            parameter_info = self._create_parameter_string(
-                constructor.parameters, class_indentation, is_instance_method=True
-            )
+        is_abstract_class = False  # Todo Frage: See PR #33
+        if is_abstract_class:
+            # Abstract classes have no constructor
+            constructor_info = ""
+        else:
+            constructor = class_.constructor
+            parameter_info = ""
+            if constructor:
+                parameter_info = self._create_parameter_string(
+                    constructor.parameters, class_indentation, is_instance_method=True
+                )
+
+            constructor_info = f"({parameter_info})"
 
         # Superclasses
         superclasses = class_.superclasses
@@ -196,7 +217,7 @@ class StubsStringGenerator:
         # Class signature line
         class_signature = (
             f"{class_indentation}{self._create_todo_msg(class_indentation)}class "
-            f"{class_.name}{variance_info}({parameter_info}){superclass_info}{constraints_info}"
+            f"{class_.name}{variance_info}{constructor_info}{superclass_info}{constraints_info}"
         )
 
         # Attributes
@@ -245,12 +266,23 @@ class StubsStringGenerator:
 
         # Methods
         class_methods: list[str] = []
+        class_property_methods: list[str] = []
         for method in class_.methods:
             if not method.is_public:
                 continue
-            class_methods.append(
-                self._create_function_string(method, inner_indentations, is_method=True),
-            )
+            elif method.is_property:
+                class_property_methods.append(
+                    self._create_property_function_string(method, inner_indentations),
+                )
+            else:
+                class_methods.append(
+                    self._create_function_string(method, inner_indentations, is_method=True),
+                )
+
+        if class_property_methods:
+            properties = "\n".join(class_property_methods)
+            class_text += f"\n{properties}\n"
+
         if class_methods:
             methods = "\n\n".join(class_methods)
             class_text += f"\n{methods}\n"
@@ -291,6 +323,9 @@ class StubsStringGenerator:
         if camel_case_name != name:
             function_name_annotation = f"{indentations}{self._create_name_annotation(name)}\n"
 
+        # Escape keywords
+        camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+
         result_string = self._create_result_string(function.results)
 
         # Create string and return
@@ -299,6 +334,31 @@ class StubsStringGenerator:
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}({func_params})"
             f"{result_string}"
+        )
+
+    def _create_property_function_string(self, function: Function, indentations: str = "") -> str:
+        """Create a string for functions with @property decorator.
+
+        Functions or methods with the @property decorator are handled the same way as class attributes.
+        """
+        name = function.name
+        camel_case_name = _convert_snake_to_camel_case(name)
+        function_name_annotation = ""
+        if camel_case_name != name:
+            function_name_annotation = f"{self._create_name_annotation(name)} "
+
+        # Escape keywords
+        camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+
+        # Create type information
+        types = UnionType(types=[result.type for result in function.results]).to_dict()
+        property_type = self._create_type_string(types)
+        type_string = f": {property_type}" if property_type else ""
+
+        return (
+            f"{self._create_todo_msg(indentations)}"
+            f"{indentations}{function_name_annotation}"
+            f"attr {camel_case_name}{type_string}"
         )
 
     def _create_result_string(self, function_results: list[Result]) -> str:

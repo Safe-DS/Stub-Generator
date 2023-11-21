@@ -99,6 +99,11 @@ def test_variance_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("variance_module", snapshot)
 
 
+# Todo Check snapshot
+def test_abstract_creation(snapshot: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("abstract_module", snapshot)
+
+
 # Todo
 def test_docstring_creation() -> None: ...
 

@@ -1,4 +1,39 @@
 # serializer version: 1
+# name: test_abstract_creation
+  '''
+  package test_package.abstract_module
+  
+  from abc import ABC
+  from abc import abstractmethod
+  
+  // TODO Some parameter have no type information.
+  class AbstractModuleClass(
+  	param
+  ) sub ABC {
+  	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
+  
+  	// TODO Result type information missing.
+  	@PythonName("abstract_method")
+  	fun abstractMethod()
+  
+  	@PythonName("abstract_method_params")
+  	fun abstractMethodParams(
+  		@PythonName("param_1") param1: Int,
+  		@PythonName("param_2") param2: Boolean = False
+  	) -> result1: List<Any>
+  
+  	// TODO Result type information missing.
+  	@PythonName("abstract_static_method")
+  	static fun abstractStaticMethod()
+  
+  	@PythonName("abstract_static_method_params")
+  	static fun abstractStaticMethodParams(
+  		param: Float
+  	) -> result1: Boolean
+  }
+  
+  '''
+# ---
 # name: test_class_attribute_creation
   '''
   package test_package.attribute_module
@@ -142,6 +177,12 @@
   package test_package.function_module
   
   from typing import Callable
+  
+  @PythonName("property_function") attr propertyFunction
+  
+  @PythonName("property_function_params") attr propertyFunctionParams: String
+  
+  @PythonName("property_function_infer") attr propertyFunctionInfer
   
   // TODO Result type information missing.
   @PythonName("public_no_params_no_result")
