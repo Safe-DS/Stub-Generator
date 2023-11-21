@@ -54,7 +54,7 @@ def generate_stubs(api: API, out_path: Path) -> None:
         # the file would look like this: "package path.to.package\n". With the split we can check if the module
         # has enough information, if not, we won't create it in the first place.
         if len(module_text.split("\n")) <= 2:
-            return
+            continue
 
         # Create module dir
         module_dir = Path(out_path / module.id)
