@@ -6,10 +6,7 @@
   from abc import ABC
   from abc import abstractmethod
   
-  // TODO Some parameter have no type information.
-  class AbstractModuleClass(
-  	param
-  ) sub ABC {
+  class AbstractModuleClass sub ABC {
   	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
   
   	// TODO Result type information missing.

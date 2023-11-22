@@ -168,6 +168,7 @@ class Class:
     superclasses: list[str]
     is_public: bool
     docstring: ClassDocstring
+    is_abstract: bool = False
     constructor: Function | None = None
     constructor_fulldocstring: str = ""
     reexported_by: list[Module] = field(default_factory=list)
@@ -234,7 +235,6 @@ class Function:
     is_public: bool
     is_static: bool
     is_class_method: bool
-    is_abstract_method: bool
     is_property: bool
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
@@ -248,7 +248,6 @@ class Function:
             "is_public": self.is_public,
             "is_static": self.is_static,
             "is_class_method": self.is_class_method,
-            "is_abstract_method": self.is_abstract_method,
             "is_property": self.is_property,
             "results": [result.id for result in self.results],
             "reexported_by": [module.id for module in self.reexported_by],

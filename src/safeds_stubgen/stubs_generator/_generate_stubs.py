@@ -149,8 +149,7 @@ class StubsStringGenerator:
         class_text = ""
 
         # Constructor parameter
-        is_abstract_class = False  # Todo Frage: See PR #33
-        if is_abstract_class:
+        if class_.is_abstract:
             # Abstract classes have no constructor
             constructor_info = ""
         else:
