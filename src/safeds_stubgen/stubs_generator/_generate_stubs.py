@@ -52,9 +52,11 @@ def generate_stubs(api: API, out_path: Path) -> None:
         module_text = generator.create_module_string(module)
 
         # Each text block we create ends with "\n", therefore, is there is only the package information
-        # the file would look like this: "package path.to.package\n". With the split we can check if the module
-        # has enough information, if not, we won't create it in the first place.
-        if len(module_text.split("\n")) <= 2:
+        # the file would look like this: "package path.to.myPackage\n" or this:
+        # '@PythonModule("path.to.my_package")\npackage path.to.myPackage\n'. With the split we check if the module
+        # has enough information, if not, we won't create it.
+        splitted_text = module_text.split("\n")
+        if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
         # Create module dir
@@ -104,7 +106,11 @@ class StubsStringGenerator:
     def create_module_string(self, module: Module) -> str:
         # Create package info
         package_info = module.id.replace("/", ".")
-        module_text = f"package {package_info}\n"
+        package_info_camel_case = _convert_snake_to_camel_case(package_info)
+        module_name_info = ""
+        if package_info != package_info_camel_case:
+            module_name_info = f'@PythonModule("{package_info}")\n'
+        module_text = f"{module_name_info}package {package_info_camel_case}\n"
 
         # Create imports
         qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
@@ -165,7 +171,7 @@ class StubsStringGenerator:
         # Superclasses
         superclasses = class_.superclasses
         superclass_info = ""
-        if superclasses:
+        if superclasses and not class_.is_abstract:
             superclass_names = [
                 self._split_import_id(superclass)[1]
                 for superclass in superclasses
@@ -213,10 +219,18 @@ class StubsStringGenerator:
                 constraints_info_inner = f",\n{inner_indentations}".join(constraints)
                 constraints_info = f" where {{\n{inner_indentations}{constraints_info_inner}\n}}"
 
+        # Class name - Convert to camelCase and check for keywords
+        class_name = class_.name
+        python_name_info = ""
+        class_name_camel_case = _convert_snake_to_camel_case(class_name)
+        if class_name_camel_case != class_name:
+            python_name_info = f"{class_indentation}{self._create_name_annotation(class_name)}\n"
+        class_name_camel_case = self._replace_if_safeds_keyword(class_name_camel_case)
+
         # Class signature line
         class_signature = (
-            f"{class_indentation}{self._create_todo_msg(class_indentation)}class "
-            f"{class_.name}{variance_info}{constructor_info}{superclass_info}{constraints_info}"
+            f"{python_name_info}{class_indentation}{self._create_todo_msg(class_indentation)}class "
+            f"{class_name_camel_case}{variance_info}{constructor_info}{superclass_info}{constraints_info}"
         )
 
         # Attributes
@@ -330,6 +344,7 @@ class StubsStringGenerator:
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
+            f"{indentations}@Pure\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}({func_params})"
             f"{result_string}"
@@ -410,6 +425,9 @@ class StubsStringGenerator:
                                 default_value = f"{param_default_value}"
                         else:
                             default_value = f'"{param_default_value}"'
+                    elif isinstance(param_default_value, bool):
+                        # Bool values have to be written in lower case
+                        default_value = "true" if param_default_value else "false"
                     else:
                         default_value = param_default_value
                     param_value = f" = {default_value}"
@@ -422,6 +440,12 @@ class StubsStringGenerator:
                 # Parameter type
                 param_type = self._create_type_string(parameter_type_data)
                 type_string = f": {param_type}" if param_type else ""
+            elif assigned_by == ParameterAssignment.POSITIONAL_VARARG:
+                # Todo Frage: Wenn *args und **kwargs keinen Typ haben und auf Any gesetzt werden trotzdem
+                #  "// TODO ..." erstellen?
+                type_string = ": List<Any>"
+            elif assigned_by == ParameterAssignment.NAMED_VARARG:
+                type_string = ": Map<String, Any>"
             else:
                 self._current_todo_msgs.add("param without type")
 

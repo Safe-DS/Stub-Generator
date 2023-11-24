@@ -433,6 +433,11 @@ def test_class_methods_InferMyTypes(snapshot: SnapshotAssertion) -> None:  # noq
     assert class_methods_data == snapshot
 
 
+def test_class_methods_FunctionModulePropertiesClass(snapshot: SnapshotAssertion) -> None:  # noqa: N802
+    class_methods_data = get_class_methods_data("function_module", "FunctionModulePropertiesClass")
+    assert class_methods_data == snapshot
+
+
 def test_class_methods_ClassModuleNestedClassE(snapshot: SnapshotAssertion) -> None:  # noqa: N802
     class_methods_data = get_class_methods_data("class_module", "ClassModuleNestedClassE")
     assert class_methods_data == snapshot
@@ -800,6 +805,7 @@ def test_function_results_function_module_property_function(snapshot: SnapshotAs
     function_result_data = get_function_result_data(
         module_name="function_module",
         function_name="property_function",
+        parent_class_name="FunctionModulePropertiesClass",
     )
     assert function_result_data == snapshot
 
@@ -808,6 +814,7 @@ def test_function_results_function_module_property_function_params(snapshot: Sna
     function_result_data = get_function_result_data(
         module_name="function_module",
         function_name="property_function_params",
+        parent_class_name="FunctionModulePropertiesClass",
     )
     assert function_result_data == snapshot
 
@@ -816,6 +823,7 @@ def test_function_results_function_module_property_function_infer(snapshot: Snap
     function_result_data = get_function_result_data(
         module_name="function_module",
         function_name="property_function_infer",
+        parent_class_name="FunctionModulePropertiesClass",
     )
     assert function_result_data == snapshot
 

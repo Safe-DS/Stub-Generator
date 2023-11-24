@@ -1,28 +1,33 @@
 # serializer version: 1
 # name: test_abstract_creation
   '''
-  package test_package.abstract_module
+  @PythonModule("test_package.abstract_module")
+  package testPackage.abstractModule
   
   from abc import ABC
   from abc import abstractmethod
   
-  class AbstractModuleClass sub ABC {
+  class AbstractModuleClass {
   	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
   
   	// TODO Result type information missing.
+  	@Pure
   	@PythonName("abstract_method")
   	fun abstractMethod()
   
+  	@Pure
   	@PythonName("abstract_method_params")
   	fun abstractMethodParams(
   		@PythonName("param_1") param1: Int,
-  		@PythonName("param_2") param2: Boolean = False
+  		@PythonName("param_2") param2: Boolean = false
   	) -> result1: List<String>
   
   	// TODO Result type information missing.
+  	@Pure
   	@PythonName("abstract_static_method")
   	static fun abstractStaticMethod()
   
+  	@Pure
   	@PythonName("abstract_static_method_params")
   	static fun abstractStaticMethodParams(
   		param: Float
@@ -33,7 +38,8 @@
 # ---
 # name: test_class_attribute_creation
   '''
-  package test_package.attribute_module
+  @PythonModule("test_package.attribute_module")
+  package testPackage.attributeModule
   
   class AttributesClassA()
   
@@ -99,7 +105,8 @@
 # ---
 # name: test_class_creation
   '''
-  package test_package.class_module
+  @PythonModule("test_package.class_module")
+  package testPackage.classModule
   
   class ClassModuleEmptyClassA()
   
@@ -108,6 +115,7 @@
   	b: ClassModuleEmptyClassA?
   ) sub ClassModuleEmptyClassA {
   	// TODO Result type information missing.
+  	@Pure
   	fun f()
   }
   
@@ -119,6 +127,7 @@
   	static attr attr2: Int
   
   	// TODO Result type information missing.
+  	@Pure
   	fun f1()
   }
   
@@ -127,9 +136,11 @@
   		@PythonName("nested_attr_1")
   		static attr nestedAttr1: Nothing?
   
-  		class _ClassModulePrivateDoubleNestedClassF()
+  		@PythonName("_ClassModulePrivateDoubleNestedClassF")
+  		class ClassModulePrivateDoubleNestedClassF()
   
   		// TODO Result type information missing.
+  		@Pure
   		@PythonName("class_e_func")
   		fun classEFunc()
   	}
@@ -139,7 +150,8 @@
 # ---
 # name: test_enum_creation
   '''
-  package test_package.enum_module
+  @PythonModule("test_package.enum_module")
+  package testPackage.enumModule
   
   from another_path.another_module import AnotherClass as _AcImportAlias
   
@@ -171,21 +183,18 @@
 # ---
 # name: test_function_creation
   '''
-  package test_package.function_module
+  @PythonModule("test_package.function_module")
+  package testPackage.functionModule
   
   from typing import Callable
   
-  @PythonName("property_function") attr propertyFunction
-  
-  @PythonName("property_function_params") attr propertyFunctionParams: String
-  
-  @PythonName("property_function_infer") attr propertyFunctionInfer: String
-  
   // TODO Result type information missing.
+  @Pure
   @PythonName("public_no_params_no_result")
   fun publicNoParamsNoResult()
   
   // TODO Result type information missing.
+  @Pure
   fun params(
   	i: Int,
   	`union`: union<Boolean, Int>,
@@ -196,6 +205,7 @@
   // TODO List type has to many type arguments.
   // TODO Result type information missing.
   // TODO Safe-DS does not support tuple types.
+  @Pure
   @PythonName("illegal_params")
   fun illegalParams(
   	lst: List<Int, String>,
@@ -205,6 +215,7 @@
   )
   
   // TODO Result type information missing.
+  @Pure
   @PythonName("special_params")
   fun specialParams(
   	@PythonName("none_union") noneUnion: Nothing?,
@@ -220,6 +231,7 @@
   // TODO Result type information missing.
   // TODO Safe-DS does not support required but name only parameter assignments.
   // TODO Some parameter have no type information.
+  @Pure
   @PythonName("param_position")
   fun paramPosition(
   	self,
@@ -233,6 +245,7 @@
   // TODO Result type information missing.
   // TODO Safe-DS does not support optional but position only parameter assignments.
   // TODO Some parameter have no type information.
+  @Pure
   @PythonName("opt_pos_only")
   fun optPosOnly(
   	required,
@@ -242,6 +255,7 @@
   // TODO Result type information missing.
   // TODO Safe-DS does not support required but name only parameter assignments.
   // TODO Some parameter have no type information.
+  @Pure
   @PythonName("req_name_only")
   fun reqNameOnly(
   	required,
@@ -250,26 +264,30 @@
   
   // TODO Result type information missing.
   // TODO Safe-DS does not support variadic parameters.
-  // TODO Some parameter have no type information.
+  @Pure
   fun arg(
-  	args,
-  	kwargs
+  	args: List<Any>,
+  	kwargs: Map<String, Any>
   )
   
   // TODO Result type information missing.
   // TODO Safe-DS does not support variadic parameters.
+  @Pure
   @PythonName("args_type")
   fun argsType(
   	args: List<Int>,
   	kwargs: Map<String, Int>
   )
   
+  @Pure
   @PythonName("one_result")
   fun oneResult() -> result1: Int
   
+  @Pure
   @PythonName("multiple_results")
   fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: FunctionModuleClassA)
   
+  @Pure
   @PythonName("callable_type")
   fun callableType(
   	param: (a: String) -> (b: Int, c: String)
@@ -284,22 +302,26 @@
   	class FunctionModuleClassC() {
   		class FunctionModuleClassD()
   
+  		@Pure
   		@PythonName("nested_class_function")
   		fun nestedClassFunction(
   			param1: Int
   		) -> result1: Boolean
   	}
   
+  	@Pure
   	@PythonName("instance_method")
   	fun instanceMethod(
   		a: FunctionModuleClassA
   	) -> result1: FunctionModuleClassA
   
   	// TODO Result type information missing.
+  	@Pure
   	@PythonName("static_method")
   	static fun staticMethod()
   
   	// TODO Result type information missing.
+  	@Pure
   	@PythonName("static_method_params")
   	static fun staticMethodParams(
   		@PythonName("param_1") param1: Int
@@ -307,21 +329,30 @@
   
   	// TODO Result type information missing.
   	// TODO Safe-DS does not support class methods.
+  	@Pure
   	@PythonName("class_method")
   	static fun classMethod()
   
   	// TODO Safe-DS does not support class methods.
+  	@Pure
   	@PythonName("class_method_params")
   	static fun classMethodParams(
   		@PythonName("param_1") param1: Int
   	) -> result1: Boolean
   }
   
+  class FunctionModulePropertiesClass() {
+  	@PythonName("property_function") attr propertyFunction
+  	@PythonName("property_function_params") attr propertyFunctionParams: String
+  	@PythonName("property_function_infer") attr propertyFunctionInfer: String
+  }
+  
   '''
 # ---
 # name: test_import_creation
   '''
-  package test_package.import_module
+  @PythonModule("test_package.import_module")
+  package testPackage.importModule
   
   import mypy as `static`
   
@@ -331,7 +362,8 @@
 # ---
 # name: test_type_inference
   '''
-  package test_package.infer_types_module
+  @PythonModule("test_package.infer_types_module")
+  package testPackage.inferTypesModule
   
   class InferMyTypes(
   	@PythonName("init_param") initParam: Int = 1
@@ -342,6 +374,7 @@
   	@PythonName("init_infer")
   	attr initInfer
   
+  	@Pure
   	@PythonName("infer_function")
   	static fun inferFunction(
   		@PythonName("infer_param") inferParam: Int = 1,
@@ -353,7 +386,8 @@
 # ---
 # name: test_variance_creation
   '''
-  package test_package.variance_module
+  @PythonModule("test_package.variance_module")
+  package testPackage.varianceModule
   
   from typing import Generic
   from typing import TypeVar

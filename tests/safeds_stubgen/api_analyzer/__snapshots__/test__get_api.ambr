@@ -939,6 +939,69 @@
     }),
   ])
 # ---
+# name: test_class_methods_FunctionModulePropertiesClass
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/FunctionModulePropertiesClass/property_function',
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function',
+      'parameters': list([
+        'test_package/function_module/FunctionModulePropertiesClass/property_function/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/FunctionModulePropertiesClass/property_function_infer',
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function_infer',
+      'parameters': list([
+        'test_package/function_module/FunctionModulePropertiesClass/property_function_infer/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/FunctionModulePropertiesClass/property_function_params',
+      'is_class_method': False,
+      'is_property': True,
+      'is_public': True,
+      'is_static': False,
+      'name': 'property_function_params',
+      'parameters': list([
+        'test_package/function_module/FunctionModulePropertiesClass/property_function_params/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
+      ]),
+    }),
+  ])
+# ---
 # name: test_class_methods_GoogleDocstringClass
   list([
     dict({
@@ -3600,7 +3663,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/function_module/property_function_infer/result_1',
+      'id': 'test_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
       'is_type_inferred': True,
       'name': 'result_1',
       'type': dict({
@@ -3617,7 +3680,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/function_module/property_function_params/result_1',
+      'id': 'test_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
       'is_type_inferred': False,
       'name': 'result_1',
       'type': dict({
@@ -4187,62 +4250,6 @@
       'reexported_by': list([
       ]),
       'results': list([
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/function_module/property_function',
-      'is_class_method': False,
-      'is_property': True,
-      'is_public': True,
-      'is_static': False,
-      'name': 'property_function',
-      'parameters': list([
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/function_module/property_function_infer',
-      'is_class_method': False,
-      'is_property': True,
-      'is_public': True,
-      'is_static': False,
-      'name': 'property_function_infer',
-      'parameters': list([
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/function_module/property_function_infer/result_1',
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'test_package/function_module/property_function_params',
-      'is_class_method': False,
-      'is_property': True,
-      'is_public': True,
-      'is_static': False,
-      'name': 'property_function_params',
-      'parameters': list([
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'test_package/function_module/property_function_params/result_1',
       ]),
     }),
     dict({

@@ -73,7 +73,6 @@ def opt_pos_only(required, optional=1, /): ...
 def req_name_only(*, required, optional=1): ...
 
 
-# Todo Frage: Welche type hints sollten hier erstellt werden? Aktuell werden gar keine erstellt
 def arg(*args, **kwargs): ...
 
 
@@ -89,14 +88,13 @@ def multiple_results() -> tuple[str, int, bool, FunctionModuleClassA]: ...
 def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
 
 
-@property
-def property_function(): ...
+class FunctionModulePropertiesClass:
+    @property
+    def property_function(self): ...
 
+    @property
+    def property_function_params(self) -> str: ...
 
-@property
-def property_function_params() -> str: ...
-
-
-@property
-def property_function_infer():
-    return "some string"
+    @property
+    def property_function_infer(self):
+        return "some string"
