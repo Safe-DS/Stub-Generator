@@ -3471,10 +3471,6 @@
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'int',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'str',
           }),
         ]),
@@ -4227,6 +4223,7 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'test_package/function_module/property_function_infer/result_1',
       ]),
     }),
     dict({

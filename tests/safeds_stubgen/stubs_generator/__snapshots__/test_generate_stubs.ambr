@@ -17,7 +17,7 @@
   	fun abstractMethodParams(
   		@PythonName("param_1") param1: Int,
   		@PythonName("param_2") param2: Boolean = False
-  	) -> result1: List<Any>
+  	) -> result1: List<String>
   
   	// TODO Result type information missing.
   	@PythonName("abstract_static_method")
@@ -179,7 +179,7 @@
   
   @PythonName("property_function_params") attr propertyFunctionParams: String
   
-  @PythonName("property_function_infer") attr propertyFunctionInfer
+  @PythonName("property_function_infer") attr propertyFunctionInfer: String
   
   // TODO Result type information missing.
   @PythonName("public_no_params_no_result")

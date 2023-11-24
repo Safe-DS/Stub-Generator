@@ -382,6 +382,16 @@ class MyPyAstVisitor:
         return_types.sort(key=lambda x: x.name)
         return return_types
 
+    def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.AbstractType | None:
+        func_defn = get_funcdef_definitions(func_node)
+        return_stmts = find_return_stmts_recursive(func_defn)
+        if return_stmts:
+            return_stmt_types = self._get_types_from_return_stmts(return_stmts)
+            if len(return_stmt_types) >= 2:
+                return sds_types.TupleType(types=return_stmt_types)
+            return return_stmt_types[0]
+        return None
+
     def _create_result(self, node: mp_nodes.FuncDef, function_id: str) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
@@ -389,32 +399,28 @@ class MyPyAstVisitor:
 
         ret_type = None
         is_type_inferred = False
-        if getattr(node, "type", None):
+        if hasattr(node, "type"):
             node_type = node.type
             if node_type is not None and hasattr(node_type, "ret_type"):
                 node_ret_type = node_type.ret_type
-            else:  # pragma: no cover
-                raise AttributeError("Result has no return type information.")
 
-            if not isinstance(node_ret_type, mp_types.NoneType):
-                # In Mypy AnyTypes can occur because of different reasons (see TypeOfAny Class)
-                if (isinstance(node_ret_type, mp_types.AnyType) and
-                        node_ret_type.type_of_any == mp_types.TypeOfAny.unannotated):
-                    # In this case, the "Any" type was given, because there was no annotation, therefore we have to
-                    # either infer the type or set no type at all. To infer the type, we iterate through all return
-                    # statements
-                    func_defn = get_funcdef_definitions(node)
-                    return_stmts = find_return_stmts_recursive(func_defn)
-                    if return_stmts:
-                        is_type_inferred = True
-                        return_stmt_types = self._get_types_from_return_stmts(return_stmts)
-                        if len(return_stmt_types) >= 2:
-                            ret_type = sds_types.TupleType(types=return_stmt_types)
-                        else:
-                            ret_type = return_stmt_types[0]
+                if not isinstance(node_ret_type, mp_types.NoneType):
+                    # In Mypy AnyType can be set as type because of different reasons (see TypeOfAny
+                    # class-documentation)
+                    if (isinstance(node_ret_type, mp_types.AnyType) and
+                            node_ret_type.type_of_any == mp_types.TypeOfAny.unannotated):
+                        # In this case, the "Any" type was given, because there was no annotation, therefore we have to
+                        # either infer the type or set no type at all. To infer the type, we iterate through all return
+                        # statements
+                        ret_type = self._infer_type_from_return_stmts(node)
+                        is_type_inferred = ret_type is not None
 
-                else:
-                    ret_type = mypy_type_to_abstract_type(node_ret_type)
+                    else:
+                        ret_type = mypy_type_to_abstract_type(node_ret_type)
+            else:
+                # Infer type
+                ret_type = self._infer_type_from_return_stmts(node)
+                is_type_inferred = ret_type is not None
 
         if ret_type is None:
             return []
