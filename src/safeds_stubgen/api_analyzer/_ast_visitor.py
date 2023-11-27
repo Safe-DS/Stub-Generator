@@ -358,35 +358,41 @@ class MyPyAstVisitor:
 
     # #### Result utilities
 
-    @staticmethod
-    def _get_types_from_return_stmts(return_stmts: list[mp_nodes.ReturnStmt]) -> list[sds_types.AbstractType]:
-        types = set()
-        for return_stmt in return_stmts:
-            expr = return_stmt.expr
-            if isinstance(expr, mp_nodes.NameExpr):
-                if expr.name in {"False", "True"}:
-                    types.add(sds_types.NamedType(name="bool"))
-                else:
-                    types.add(sds_types.NamedType(name=expr.name))
-            elif isinstance(expr, mp_nodes.IntExpr):
-                types.add(sds_types.NamedType(name="int"))
-            elif isinstance(expr, mp_nodes.FloatExpr):
-                types.add(sds_types.NamedType(name="float"))
-            elif isinstance(expr, mp_nodes.StrExpr):
-                types.add(sds_types.NamedType(name="str"))
-            else:  # pragma: no cover
-                raise TypeError("Unexpected expression type for return type.")
+    def _mypy_expression_to_sds_type(self, expr: mp_nodes.Expression) -> sds_types.NamedType | sds_types.TupleType:
+        if isinstance(expr, mp_nodes.NameExpr):
+            if expr.name in {"False", "True"}:
+                return sds_types.NamedType(name="bool")
+            else:
+                return sds_types.NamedType(name=expr.name)
+        elif isinstance(expr, mp_nodes.IntExpr):
+            return sds_types.NamedType(name="int")
+        elif isinstance(expr, mp_nodes.FloatExpr):
+            return sds_types.NamedType(name="float")
+        elif isinstance(expr, mp_nodes.StrExpr):
+            return sds_types.NamedType(name="str")
+        elif isinstance(expr, mp_nodes.TupleExpr):
+            return sds_types.TupleType(types=[
+                self._mypy_expression_to_sds_type(item)
+                for item in expr.items
+            ])
+        else:  # pragma: no cover
+            raise TypeError("Unexpected expression type for return type.")
 
-        # We have to sort the list for the snapshot tests
-        return_types = list(types)
-        return_types.sort(key=lambda x: x.name)
-        return return_types
-
-    def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.AbstractType | None:
+    def _infer_type_from_return_stmts(
+        self, func_node: mp_nodes.FuncDef
+    ) -> sds_types.NamedType | sds_types.TupleType | None:
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
         if return_stmts:
-            return_stmt_types = self._get_types_from_return_stmts(return_stmts)
+            types = {
+                self._mypy_expression_to_sds_type(return_stmt.expr)
+                for return_stmt in return_stmts
+            }
+
+            # We have to sort the list for the snapshot tests
+            return_stmt_types = list(types)
+            return_stmt_types.sort(key=lambda x: x.__hash__())
+
             if len(return_stmt_types) >= 2:
                 return sds_types.TupleType(types=return_stmt_types)
             return return_stmt_types[0]
@@ -425,24 +431,58 @@ class MyPyAstVisitor:
         if ret_type is None:
             return []
 
-        results = []
-        docstring = self.docstring_parser.get_result_documentation(node)
+        # We create a two-dimensional array for results, b/c tuples are counted as multiple results, but normal returns
+        # have to be grouped as one Union.
+        # For example, if a function has the following returns: "return 42" and "return True, 1.2" we would have to
+        # group the integer and boolean as result_1: Union[int, bool] and the float number as
+        # result_2: Union[float, None].
+        result_array: list[list] = []
+        if is_type_inferred and isinstance(ret_type, sds_types.TupleType):
+            type_: sds_types.NamedType | sds_types.TupleType
+            for type_ in ret_type.types:
+                if isinstance(type_, sds_types.NamedType):
+                    if result_array:
+                        result_array[0].append(type_)
+                    else:
+                        result_array.append([type_])
+                else:
+                    for i, type__ in enumerate(type_.types):
+                        if len(result_array) > i:
+                            result_array[i].append(type__)
+                        else:
+                            result_array.append([type__])
 
-        # Results that are tuples will be split into multiple results
-        ret_types = ret_type.types if isinstance(ret_type, sds_types.TupleType) else [ret_type]
-        for i, type_ in enumerate(ret_types):
-            name = f"result_{i + 1}"
-            results.append(
-                Result(
-                    id=f"{function_id}/{name}",
-                    type=type_,
-                    is_type_inferred=is_type_inferred,
-                    name=name,
-                    docstring=docstring,
-                ),
-            )
+            results = []
+            docstring = self.docstring_parser.get_result_documentation(node)
+            for i, result_list in enumerate(result_array):
+                result_count = len(result_list)
+                if result_count == 0:
+                    break
+                elif result_count == 1:
+                    result_type = result_list[0]
+                else:
+                    result_type = sds_types.UnionType(result_list)
 
-        return results
+                name = f"result_{i + 1}"
+                results.append(
+                    Result(
+                        id=f"{function_id}/{name}",
+                        type=result_type,
+                        is_type_inferred=is_type_inferred,
+                        name=name,
+                        docstring=docstring,
+                    )
+                )
+
+            return results
+
+        return [Result(
+            id=f"{function_id}/result_1",
+            type=ret_type,
+            is_type_inferred=is_type_inferred,
+            name="result_1",
+            docstring=self.docstring_parser.get_result_documentation(node),
+        )]
 
     # #### Attribute utilities
 
@@ -589,6 +629,60 @@ class MyPyAstVisitor:
 
     # #### Parameter utilities
 
+    def _get_default_parameter_value_and_type(
+        self, initializer: mp_nodes.Expression, infer_arg_type: bool = False
+    ) -> tuple[None | str | float | int | bool | NoneType, None | sds_types.NamedType]:
+        # Get default value information
+        default_value = None
+        arg_type = None
+
+        if hasattr(initializer, "value"):
+            value = initializer.value
+        elif isinstance(initializer, mp_nodes.NameExpr):
+            if initializer.name == "None":
+                value = None
+            elif initializer.name == "True":
+                value = True
+            elif initializer.name == "False":
+                value = False
+            else:
+                # Check if callee path is in our package and create type information
+                if self._check_if_qname_in_package(initializer.fullname):
+                    default_value = initializer.name
+                    if infer_arg_type:
+                        arg_type = sds_types.NamedType(initializer.name, initializer.fullname)
+
+                return default_value, arg_type
+
+        elif isinstance(initializer, mp_nodes.CallExpr):
+            # Check if callee path is in our package and create type information
+            # Todo Frage: Wie stellen wir Call Expressions wie SomeClass() als type dar? Mit oder ohne "()"
+            if self._check_if_qname_in_package(initializer.callee.fullname):
+                default_value = f"{initializer.callee.name}()"
+                if infer_arg_type:
+                    arg_type = sds_types.NamedType(initializer.callee.name, initializer.callee.fullname)
+
+            return default_value, arg_type
+
+        else:  # pragma: no cover
+            raise ValueError("No value found for parameter")
+
+        if type(value) in {str, bool, int, float, NoneType}:
+            default_value = value
+
+            # Infer the type, if no type hint was found
+            if infer_arg_type:
+                value_type_name = {
+                    str: "str",
+                    bool: "bool",
+                    int: "int",
+                    float: "float",
+                    NoneType: "None",
+                }[type(value)]
+                arg_type = sds_types.NamedType(name=value_type_name)
+
+        return default_value, arg_type
+
     def _parse_parameter_data(self, node: mp_nodes.FuncDef, function_id: str) -> list[Parameter]:
         arguments: list[Parameter] = []
 
@@ -616,50 +710,20 @@ class MyPyAstVisitor:
             elif type_annotation is not None:
                 arg_type = mypy_type_to_abstract_type(mypy_type)
 
-            # Get default value information
-            default_value = None
-            is_optional = False
+            # Get default value and infer type information
             initializer = argument.initializer
+            default_value = None
             if initializer is not None:
-                if not hasattr(initializer, "value"):
-                    if isinstance(initializer, mp_nodes.CallExpr):
-                        # Special case when the default is a call expression, we set the value to tuple, so that it will
-                        # be ignored later on when creating the default_value
-                        value = tuple
-                    elif hasattr(initializer, "name"):
-                        if initializer.name == "None":
-                            value = None
-                        elif initializer.name == "True":
-                            value = True
-                        elif initializer.name == "False":
-                            value = False
-                        else:
-                            # Todo Frage: We don't support other classes as type hints for parameters
-                            #  (Wenn z.B. ein Parameter eine Klasse als default value hat)
-                            #  Thus we set the value to tuple, so that it will be ignored later on when creating the
-                            #  default_value
-                            value = tuple
-                    else:  # pragma: no cover
-                        raise ValueError("No value found for parameter")
-                else:
-                    value = initializer.value
+                infer_arg_type = arg_type is None
+                default_value, inferred_arg_type = self._get_default_parameter_value_and_type(
+                    initializer=initializer,
+                    infer_arg_type=infer_arg_type
+                )
+                if infer_arg_type:
+                    arg_type = inferred_arg_type
+                    is_type_inferred = True
 
-                if type(value) in {str, bool, int, float, NoneType}:
-                    default_value = value
-                    is_optional = True
-
-                    # Infer the type, if no type hint was found
-                    if arg_type is None:
-                        value_type_name = {
-                            str: "str",
-                            bool: "bool",
-                            int: "int",
-                            float: "float",
-                            NoneType: "None",
-                        }[type(value)]
-                        arg_type = sds_types.NamedType(name=value_type_name)
-                        is_type_inferred = True
-
+            # Create parameter docstring
             parent = self.__declaration_stack[-1]
             docstring = self.docstring_parser.get_parameter_documentation(
                 function_node=node,
@@ -668,11 +732,12 @@ class MyPyAstVisitor:
                 parent_class=parent if isinstance(parent, Class) else None,
             )
 
+            # Create parameter object
             arguments.append(
                 Parameter(
                     id=f"{function_id}/{arg_name}",
                     name=arg_name,
-                    is_optional=is_optional,
+                    is_optional=default_value is not None,
                     default_value=default_value,
                     assigned_by=arg_kind,
                     docstring=docstring,
@@ -726,6 +791,11 @@ class MyPyAstVisitor:
                 self.reexported[name] = [module]
 
     # #### Misc. utilities
+
+    # Todo This check is currently too weak, we should try to get the path to the package from the api object, not
+    #  just the package name
+    def _check_if_qname_in_package(self, qname: str) -> bool:
+        return self.api.package in qname
 
     def _create_module_id(self, qname: str) -> str:
         """Create an ID for the module object.

@@ -1,3 +1,6 @@
+from typing import Optional, Final, Literal
+
+
 class AttributesClassA:
     ...
 
@@ -10,6 +13,7 @@ class AttributesClassB:
     _no_type_hint_private = 1
 
     object_attr: AttributesClassA
+    callexpr_attr: AttributesClassA()
 
     tuple_attr_1: tuple
     tuple_attr_2: tuple[str | int]
@@ -29,6 +33,11 @@ class AttributesClassB:
     flaot_attr: float
     int_or_bool_attr: int | bool
     str_attr_with_none_value: str = None
+    set_: set
+
+    optional: Optional[int]
+    final: Final[str] = "Value"
+    literal: Literal["Some String"]
 
     multi_attr_1, _multi_attr_2_private = (123456, "I am a String")
     multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]

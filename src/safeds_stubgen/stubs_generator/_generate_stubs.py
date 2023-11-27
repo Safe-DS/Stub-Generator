@@ -442,7 +442,7 @@ class StubsStringGenerator:
                 type_string = f": {param_type}" if param_type else ""
             elif assigned_by == ParameterAssignment.POSITIONAL_VARARG:
                 # Todo Frage: Wenn *args und **kwargs keinen Typ haben und auf Any gesetzt werden trotzdem
-                #  "// TODO ..." erstellen?
+                #  "param without type" msg erstellen?
                 type_string = ": List<Any>"
             elif assigned_by == ParameterAssignment.NAMED_VARARG:
                 type_string = ": Map<String, Any>"

@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Callable, Optional, Literal
 
 
 class FunctionModuleClassA:
@@ -37,10 +37,20 @@ def public_no_params_no_result(): ...
 
 
 def params(
-    i: int,
-    union: int | bool,
-    lst: list[int],
+    integer: int,
+    boolean: bool,
+    float_: 1.2,
+    none: None,
+    string: str,
     obj: FunctionModuleClassA,
+    callexpr: FunctionModuleClassA(),
+    union: int | bool,
+    list_: list[int],
+    dictionary: dict[str, int | float],
+    set_: set[str],
+    optional: Optional[int],
+    tuple_: tuple[int, str, bool],
+    literal: Literal["Some String"]
 ): ...
 
 
@@ -64,7 +74,7 @@ def special_params(
 ): ...
 
 
-def param_position(self, a, /, b: bool, c=1, *, d=FunctionModuleClassA(), e: int = 1): ...
+def param_position(self, a, /, b: bool, c=FunctionModuleClassA, *, d=FunctionModuleClassA(), e: int = 1): ...
 
 
 def opt_pos_only(required, optional=1, /): ...
