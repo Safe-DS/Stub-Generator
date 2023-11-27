@@ -8,7 +8,8 @@
   from abc import abstractmethod
   
   class AbstractModuleClass {
-  	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
+  	// TODO Safe-DS does not support tuple types.
+  	@PythonName("abstract_property_method") attr abstractPropertyMethod: Tuple<Float, Int>
   
   	// TODO Result type information missing.
   	@Pure
@@ -41,6 +42,10 @@
   @PythonModule("test_package.attribute_module")
   package testPackage.attributeModule
   
+  from typing import Optional
+  from typing import Final
+  from typing import Literal
+  
   class AttributesClassA()
   
   class AttributesClassB() {
@@ -50,6 +55,8 @@
   	static attr noTypeHintPublic: Int
   	@PythonName("object_attr")
   	static attr objectAttr: AttributesClassA
+  	@PythonName("callexpr_attr")
+  	static attr callexprAttr: Any
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_1")
   	static attr tupleAttr1: Tuple<Any>
@@ -85,6 +92,14 @@
   	static attr intOrBoolAttr: union<Boolean, Int>
   	@PythonName("str_attr_with_none_value")
   	static attr strAttrWithNoneValue: String
+  	@PythonName("set_")
+  	static attr set: Set<Any>
+  	static attr optional: Int?
+  	static attr final: String
+  	static attr finals: union<Int, String>
+  	@PythonName("final_union")
+  	static attr finalUnion: union<Int, String>
+  	static attr `literal`: literal<Some String>
   	@PythonName("multi_attr_1")
   	static attr multiAttr1: Int
   	@PythonName("multi_attr_3")
@@ -187,6 +202,8 @@
   package testPackage.functionModule
   
   from typing import Callable
+  from typing import Optional
+  from typing import Literal
   
   // TODO Result type information missing.
   @Pure
@@ -194,12 +211,24 @@
   fun publicNoParamsNoResult()
   
   // TODO Result type information missing.
+  // TODO Safe-DS does not support tuple types.
+  // TODO Some parameter have no type information.
   @Pure
   fun params(
-  	i: Int,
+  	integer: Int,
+  	boolean: Boolean,
+  	@PythonName("float_") float: Float,
+  	none: Nothing?,
+  	string: String,
+  	obj: FunctionModuleClassA,
+  	callexpr,
   	`union`: union<Boolean, Int>,
-  	lst: List<Int>,
-  	obj: FunctionModuleClassA
+  	@PythonName("list_") list: List<Int>,
+  	dictionary: Map<String, union<Float, Int>>,
+  	@PythonName("set_") set: Set<String>,
+  	optional: Int?,
+  	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+  	`literal`: literal<Some String>
   )
   
   // TODO List type has to many type arguments.
@@ -229,7 +258,6 @@
   )
   
   // TODO Result type information missing.
-  // TODO Safe-DS does not support required but name only parameter assignments.
   // TODO Some parameter have no type information.
   @Pure
   @PythonName("param_position")
@@ -237,8 +265,8 @@
   	self,
   	a,
   	b: Boolean,
-  	c: Int = 1,
-  	d,
+  	c: FunctionModuleClassA = FunctionModuleClassA,
+  	d: FunctionModuleClassA = FunctionModuleClassA(),
   	e: Int = 1
   )
   
@@ -283,6 +311,7 @@
   @PythonName("one_result")
   fun oneResult() -> result1: Int
   
+  // TODO Safe-DS does not support tuple types.
   @Pure
   @PythonName("multiple_results")
   fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: FunctionModuleClassA)
@@ -379,7 +408,7 @@
   	static fun inferFunction(
   		@PythonName("infer_param") inferParam: Int = 1,
   		@PythonName("infer_param_2") inferParam2: Int = Something
-  	) -> (result1: InferMyTypes, result2: ModuleClass, result3: Nothing?, result4: Boolean, result5: Float, result6: Int, result7: String)
+  	) -> (result1: union<Boolean, Float, InferMyTypes, Int, ModuleClass, Nothing?, String>, result2: union<Float, Int>, result3: Float)
   }
   
   '''

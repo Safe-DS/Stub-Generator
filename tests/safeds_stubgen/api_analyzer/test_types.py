@@ -68,7 +68,7 @@ def test_correct_hash() -> None:
 def test_named_type() -> None:
     name = "str"
     named_type = NamedType(name)
-    named_type_dict = {"kind": "NamedType", "name": name}
+    named_type_dict = {"kind": "NamedType", "name": name, "qname": ""}
 
     assert AbstractType.from_dict(named_type_dict) == named_type
 
@@ -114,7 +114,10 @@ def test_union_type() -> None:
     union_type = UnionType([NamedType("str"), NamedType("int")])
     union_type_dict = {
         "kind": "UnionType",
-        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": ""},
+            {"kind": "NamedType", "name": "int", "qname": ""}
+        ],
     }
 
     assert AbstractType.from_dict(union_type_dict) == union_type
@@ -134,9 +137,13 @@ def test_callable_type() -> None:
     )
     callable_type_dict = {
         "kind": "CallableType",
-        "parameter_types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "parameter_types": [
+            {"kind": "NamedType", "name": "str", "qname": ""},
+            {"kind": "NamedType", "name": "int", "qname": ""}
+        ],
         "return_type": {"kind": "TupleType", "types": [
-            {"kind": "NamedType", "name": "bool"}, {"kind": "NamedType", "name": "None"}
+            {"kind": "NamedType", "name": "bool", "qname": ""},
+            {"kind": "NamedType", "name": "None", "qname": ""}
         ]},
     }
 
@@ -154,7 +161,10 @@ def test_list_type() -> None:
     list_type = ListType([NamedType("str"), NamedType("int")])
     list_type_dict = {
         "kind": "ListType",
-        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": ""},
+            {"kind": "NamedType", "name": "int", "qname": ""}
+        ],
     }
 
     assert AbstractType.from_dict(list_type_dict) == list_type
@@ -176,11 +186,17 @@ def test_dict_type() -> None:
         "kind": "DictType",
         "key_type": {
             "kind": "UnionType",
-            "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+            "types": [
+                {"kind": "NamedType", "name": "str", "qname": ""},
+                {"kind": "NamedType", "name": "int", "qname": ""}
+            ],
         },
         "value_type": {
             "kind": "UnionType",
-            "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+            "types": [
+                {"kind": "NamedType", "name": "str", "qname": ""},
+                {"kind": "NamedType", "name": "int", "qname": ""}
+            ],
         },
     }
 
@@ -198,7 +214,10 @@ def test_set_type() -> None:
     set_type = SetType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "SetType",
-        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": ""},
+            {"kind": "NamedType", "name": "int", "qname": ""}
+        ],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
@@ -215,7 +234,7 @@ def test_optional_type() -> None:
     type_ = OptionalType(NamedType("some_type"))
     type_dict = {
         "kind": "OptionalType",
-        "type": {"kind": "NamedType", "name": "some_type"},
+        "type": {"kind": "NamedType", "name": "some_type", "qname": ""},
     }
 
     assert AbstractType.from_dict(type_dict) == type_
@@ -249,7 +268,7 @@ def test_final_type() -> None:
     type_ = FinalType(NamedType("some_type"))
     type_dict = {
         "kind": "FinalType",
-        "type": {"kind": "NamedType", "name": "some_type"},
+        "type": {"kind": "NamedType", "name": "some_type", "qname": ""},
     }
 
     assert AbstractType.from_dict(type_dict) == type_
@@ -266,7 +285,10 @@ def test_tuple_type() -> None:
     set_type = TupleType([NamedType("str"), NamedType("int")])
     set_type_dict = {
         "kind": "TupleType",
-        "types": [{"kind": "NamedType", "name": "str"}, {"kind": "NamedType", "name": "int"}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": ""},
+            {"kind": "NamedType", "name": "int", "qname": ""}
+        ],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
@@ -419,7 +441,7 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #     [
 #         (
 #             "",
-#             {"kind": "NamedType", "name": "None"}
+#             {"kind": "NamedType", "name": "None", "qname": ""}
 #         ),
 #         (
 #             "int, or None, 'manual', {'auto', 'sqrt', 'log2'}, default='auto'",
@@ -427,9 +449,9 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #                 "kind": "UnionType",
 #                 "types": [
 #                     {"kind": "EnumType", "values": {"auto", "log2", "sqrt"}},
-#                     {"kind": "NamedType", "name": "int"},
-#                     {"kind": "NamedType", "name": "None"},
-#                     {"kind": "NamedType", "name": "'manual'"},
+#                     {"kind": "NamedType", "name": "int", "qname": ""},
+#                     {"kind": "NamedType", "name": "None", "qname": ""},
+#                     {"kind": "NamedType", "name": "'manual'", "qname": ""},
 #                 ],
 #             },
 #         ),
@@ -438,20 +460,20 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #             {
 #                 "kind": "UnionType",
 #                 "types": [
-#                     {"kind": "NamedType", "name": "tuple of slice"},
-#                     {"kind": "NamedType", "name": "AUTO"},
-#                     {"kind": "NamedType", "name": "array of shape (12,2)"},
+#                     {"kind": "NamedType", "name": "tuple of slice", "qname": ""},
+#                     {"kind": "NamedType", "name": "AUTO", "qname": ""},
+#                     {"kind": "NamedType", "name": "array of shape (12,2)", "qname": ""},
 #                 ],
 #             },
 #         ),
-#         ("object", {"kind": "NamedType", "name": "object"}),
+#         ("object", {"kind": "NamedType", "name": "object", "qname": ""}),
 #         (
 #             "ndarray, shape (n_samples,), default=None",
 #             {
 #                 "kind": "UnionType",
 #                 "types": [
-#                     {"kind": "NamedType", "name": "ndarray"},
-#                     {"kind": "NamedType", "name": "shape (n_samples,)"},
+#                     {"kind": "NamedType", "name": "ndarray", "qname": ""},
+#                     {"kind": "NamedType", "name": "shape (n_samples,)", "qname": ""},
 #                 ],
 #             },
 #         ),
@@ -460,8 +482,8 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #             {
 #                 "kind": "UnionType",
 #                 "types": [
-#                     {"kind": "NamedType", "name": "estor adventus"},
-#                     {"kind": "NamedType", "name": "None"},
+#                     {"kind": "NamedType", "name": "estor adventus", "qname": ""},
+#                     {"kind": "NamedType", "name": "None", "qname": ""},
 #                 ],
 #             },
 #         ),
@@ -470,11 +492,11 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #             {
 #                 "kind": "UnionType",
 #                 "types": [
-#                     {"kind": "NamedType", "name": "int"},
-#                     {"kind": "NamedType", "name": "array-like"},
+#                     {"kind": "NamedType", "name": "int", "qname": ""},
+#                     {"kind": "NamedType", "name": "array-like", "qname": ""},
 #                     {
 #                         "kind": "NamedType",
-#                         "name": "shape (n_samples, n_classes) or (n_samples, 1) when binary.",
+#                         "name": "shape (n_samples, n_classes) or (n_samples, 1) when binary.", "qname": ""
 #                     },
 #                 ],
 #             },
@@ -546,8 +568,8 @@ def test_enum_from_string(docstring_type: str, expected: set[str] | None) -> Non
 #                         "min_inclusive": True,
 #                     },
 #                     {"kind": "EnumType", "values": ["today", "yesterday"]},
-#                     {"kind": "NamedType", "name": "int"},
-#                     {"kind": "NamedType", "name": "'Auto'"},
+#                     {"kind": "NamedType", "name": "int", "qname": ""},
+#                     {"kind": "NamedType", "name": "'Auto'", "qname": ""},
 #                 ],
 #             },
 #         ),

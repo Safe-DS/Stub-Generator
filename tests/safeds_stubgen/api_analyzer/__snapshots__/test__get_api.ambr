@@ -15,6 +15,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -34,6 +35,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
         ]),
       }),
@@ -52,6 +54,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -68,6 +71,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -84,6 +88,24 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/callexpr_attr',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'callexpr_attr',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'Any',
+        'qname': '',
       }),
     }),
     dict({
@@ -101,11 +123,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
+          'qname': '',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
+          'qname': '',
         }),
       }),
     }),
@@ -124,11 +148,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'str',
+          'qname': '',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'int',
+          'qname': '',
         }),
       }),
     }),
@@ -150,10 +176,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'str',
+              'qname': '',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'int',
+              'qname': '',
             }),
           ]),
         }),
@@ -164,10 +192,92 @@
             dict({
               'kind': 'NamedType',
               'name': 'None',
+              'qname': '',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'AttributesClassA',
+              'qname': '',
+            }),
+          ]),
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/final',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'final',
+      'type': dict({
+        'kind': 'FinalType',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': '',
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/final_union',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'final_union',
+      'type': dict({
+        'kind': 'FinalType',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': '',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': '',
+            }),
+          ]),
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/finals',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'finals',
+      'type': dict({
+        'kind': 'FinalType',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': '',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': '',
             }),
           ]),
         }),
@@ -187,6 +297,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
+        'qname': '',
       }),
     }),
     dict({
@@ -203,6 +314,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
     dict({
@@ -222,10 +334,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
         ]),
       }),
@@ -267,10 +381,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'str',
+                'qname': '',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
+                'qname': '',
               }),
             ]),
           }),
@@ -294,10 +410,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
+            'qname': '',
           }),
         ]),
       }),
@@ -319,6 +437,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
           dict({
             'kind': 'UnionType',
@@ -326,14 +445,32 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
+                'qname': '',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'int',
+                'qname': '',
               }),
             ]),
           }),
         ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/literal',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'literal',
+      'type': dict({
+        'kind': 'LiteralType',
+        'literal': 'Some String',
       }),
     }),
     dict({
@@ -350,6 +487,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -369,6 +507,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
         ]),
       }),
@@ -387,6 +526,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -403,6 +543,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -419,6 +560,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -435,6 +577,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -451,6 +594,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -467,6 +611,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
+        'qname': '',
       }),
     }),
     dict({
@@ -483,6 +628,56 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'AttributesClassA',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/optional',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'optional',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/set_',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'set_',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'Any',
+            'qname': '',
+          }),
+        ]),
       }),
     }),
     dict({
@@ -499,6 +694,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -518,6 +714,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'Any',
+            'qname': '',
           }),
         ]),
       }),
@@ -542,10 +739,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'str',
+                'qname': '',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'int',
+                'qname': '',
               }),
             ]),
           }),
@@ -569,10 +768,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -591,6 +792,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -611,6 +813,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
+        'qname': '',
       }),
     }),
     dict({
@@ -627,6 +830,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
+        'qname': '',
       }),
     }),
   ])
@@ -647,6 +851,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -667,6 +872,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -687,6 +893,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -707,6 +914,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
+        'qname': '',
       }),
     }),
     dict({
@@ -723,6 +931,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -1069,10 +1278,6 @@
         'test_package/infer_types_module/InferMyTypes/infer_function/result_1',
         'test_package/infer_types_module/InferMyTypes/infer_function/result_2',
         'test_package/infer_types_module/InferMyTypes/infer_function/result_3',
-        'test_package/infer_types_module/InferMyTypes/infer_function/result_4',
-        'test_package/infer_types_module/InferMyTypes/infer_function/result_5',
-        'test_package/infer_types_module/InferMyTypes/infer_function/result_6',
-        'test_package/infer_types_module/InferMyTypes/infer_function/result_7',
       ]),
     }),
   ])
@@ -1910,6 +2115,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
+          'qname': '',
         }),
         'variance_type': 'COVARIANT',
       }),
@@ -1918,6 +2124,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'A',
+          'qname': '',
         }),
         'variance_type': 'CONTRAVARIANT',
       }),
@@ -1929,6 +2136,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
+              'qname': '',
             }),
             dict({
               'kind': 'UnionType',
@@ -1979,6 +2187,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
+              'qname': '',
             }),
             dict({
               'kind': 'UnionType',
@@ -2212,6 +2421,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -2247,6 +2457,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -2282,6 +2493,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -2317,6 +2529,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -2352,6 +2565,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -2369,6 +2583,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
     dict({
@@ -2422,6 +2637,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
+        'qname': '',
       }),
     }),
   ])
@@ -2457,6 +2673,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -2474,6 +2691,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -2559,6 +2777,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -2580,6 +2799,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -2601,6 +2821,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -2689,6 +2910,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -2709,11 +2931,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'str',
+          'qname': '',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'int',
+          'qname': '',
         }),
       }),
     }),
@@ -2739,6 +2963,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
         ]),
         'return_type': dict({
@@ -2747,10 +2972,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
+              'qname': '',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'str',
+              'qname': '',
             }),
           ]),
         }),
@@ -2775,6 +3002,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -2795,10 +3023,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
         ]),
       }),
@@ -2821,14 +3051,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -2851,18 +3084,22 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -2886,6 +3123,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -2935,11 +3173,12 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 1,
+      'default_value': 'FunctionModuleClassA',
       'docstring': dict({
         'default_value': '',
         'description': '',
@@ -2951,22 +3190,27 @@
       'name': 'c',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
+        'name': 'FunctionModuleClassA',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
       }),
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
-      'default_value': None,
+      'default_value': 'FunctionModuleClassA()',
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
       'id': 'test_package/function_module/param_position/d',
-      'is_optional': False,
-      'is_type_inferred': False,
+      'is_optional': True,
+      'is_type_inferred': True,
       'name': 'd',
-      'type': None,
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
+      }),
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
@@ -2983,6 +3227,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -3011,13 +3256,14 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/function_module/params/i',
+      'id': 'test_package/function_module/params/boolean',
       'is_optional': False,
       'is_type_inferred': False,
-      'name': 'i',
+      'name': 'boolean',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
+        'name': 'bool',
+        'qname': '',
       }),
     }),
     dict({
@@ -3028,18 +3274,140 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/function_module/params/lst',
+      'id': 'test_package/function_module/params/callexpr',
       'is_optional': False,
       'is_type_inferred': False,
-      'name': 'lst',
+      'name': 'callexpr',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/dictionary',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'dictionary',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': '',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': '',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': '',
+            }),
+          ]),
+        }),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/float_',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'float_',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/integer',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'integer',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/list_',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'list_',
       'type': dict({
         'kind': 'ListType',
         'types': list([
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/literal',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'literal',
+      'type': dict({
+        'kind': 'LiteralType',
+        'literal': 'Some String',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/none',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'none',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+        'qname': '',
       }),
     }),
     dict({
@@ -3057,6 +3425,109 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/optional',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'optional',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/set_',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'set_',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/string',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'string',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+        'qname': '',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/tuple_',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'tuple_',
+      'type': dict({
+        'kind': 'TupleType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': '',
+          }),
+        ]),
       }),
     }),
     dict({
@@ -3077,10 +3548,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
         ]),
       }),
@@ -3108,6 +3581,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -3146,10 +3620,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
         ]),
       }),
@@ -3169,6 +3645,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
+        'qname': '',
       }),
     }),
     dict({
@@ -3189,14 +3666,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -3219,14 +3699,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
         ]),
       }),
@@ -3249,10 +3732,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
         ]),
       }),
@@ -3275,6 +3760,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'ListType',
@@ -3285,10 +3771,12 @@
                   dict({
                     'kind': 'NamedType',
                     'name': 'None',
+                    'qname': '',
                   }),
                   dict({
                     'kind': 'NamedType',
                     'name': 'None',
+                    'qname': '',
                   }),
                 ]),
               }),
@@ -3297,6 +3785,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
         ]),
       }),
@@ -3319,18 +3808,22 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
         ]),
       }),
@@ -3353,10 +3846,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': '',
           }),
         ]),
       }),
@@ -3394,6 +3889,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -3411,6 +3907,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -3446,6 +3943,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -3463,6 +3961,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -3498,6 +3997,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -3515,6 +4015,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -3535,6 +4036,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
+            'qname': '',
           }),
         ]),
       }),
@@ -3584,6 +4086,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3604,15 +4107,18 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
           }),
         ]),
         'return_type': dict({
           'kind': 'NamedType',
           'name': 'int',
+          'qname': '',
         }),
       }),
     }),
@@ -3631,6 +4137,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3648,6 +4155,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3669,6 +4177,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -3686,6 +4195,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -3706,6 +4216,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3721,8 +4232,49 @@
       'is_type_inferred': True,
       'name': 'result_1',
       'type': dict({
-        'kind': 'NamedType',
-        'name': 'InferMyTypes',
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'ModuleClass',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'InferMyTypes',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+        ]),
       }),
     }),
     dict({
@@ -3734,8 +4286,19 @@
       'is_type_inferred': True,
       'name': 'result_2',
       'type': dict({
-        'kind': 'NamedType',
-        'name': 'ModuleClass',
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+        ]),
       }),
     }),
     dict({
@@ -3748,59 +4311,8 @@
       'name': 'result_3',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'None',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_4',
-      'is_type_inferred': True,
-      'name': 'result_4',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'bool',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_5',
-      'is_type_inferred': True,
-      'name': 'result_5',
-      'type': dict({
-        'kind': 'NamedType',
         'name': 'float',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_6',
-      'is_type_inferred': True,
-      'name': 'result_6',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/infer_types_module/InferMyTypes/infer_function/result_7',
-      'is_type_inferred': True,
-      'name': 'result_7',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
+        'qname': '',
       }),
     }),
   ])
@@ -3818,6 +4330,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
+        'qname': '',
       }),
     }),
   ])
@@ -3891,6 +4404,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3908,6 +4422,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -3925,6 +4440,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
   ])
@@ -4242,10 +4758,20 @@
       'is_static': False,
       'name': 'params',
       'parameters': list([
-        'test_package/function_module/params/i',
-        'test_package/function_module/params/union',
-        'test_package/function_module/params/lst',
+        'test_package/function_module/params/integer',
+        'test_package/function_module/params/boolean',
+        'test_package/function_module/params/float_',
+        'test_package/function_module/params/none',
+        'test_package/function_module/params/string',
         'test_package/function_module/params/obj',
+        'test_package/function_module/params/callexpr',
+        'test_package/function_module/params/union',
+        'test_package/function_module/params/list_',
+        'test_package/function_module/params/dictionary',
+        'test_package/function_module/params/set_',
+        'test_package/function_module/params/optional',
+        'test_package/function_module/params/tuple_',
+        'test_package/function_module/params/literal',
       ]),
       'reexported_by': list([
       ]),

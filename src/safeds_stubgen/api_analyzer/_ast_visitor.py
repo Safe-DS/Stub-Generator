@@ -605,7 +605,7 @@ class MyPyAstVisitor:
 
         type_ = None
         if attribute_type is not None:
-            type_ = mypy_type_to_abstract_type(attribute_type)
+            type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
         # Get docstring
         parent = self.__declaration_stack[-1]

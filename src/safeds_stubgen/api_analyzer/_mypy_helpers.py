@@ -31,9 +31,23 @@ def get_mypyfile_definitions(node: MypyFile) -> list:
     return node.defs
 
 
-def mypy_type_to_abstract_type(mypy_type: Instance | ProperType | MypyType) -> AbstractType:
+def mypy_type_to_abstract_type(
+    mypy_type: Instance | ProperType | MypyType,
+    unanalyzed_type: mp_types.Type | None = None
+) -> AbstractType:
+
+    # Final type
+    if unanalyzed_type is not None and hasattr(unanalyzed_type, "name") and unanalyzed_type.name == "Final":
+        types = [
+            mypy_type_to_abstract_type(arg)
+            for arg in unanalyzed_type.args
+        ]
+        if len(types) == 1:
+            return sds_types.FinalType(type_=types[0])
+        return sds_types.FinalType(type_=sds_types.UnionType(types=types))
+
     # Iterable mypy types
-    if isinstance(mypy_type, mp_types.TupleType):
+    elif isinstance(mypy_type, mp_types.TupleType):
         return sds_types.TupleType(types=[
             mypy_type_to_abstract_type(item)
             for item in mypy_type.items

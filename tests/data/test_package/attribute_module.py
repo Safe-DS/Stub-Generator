@@ -37,6 +37,8 @@ class AttributesClassB:
 
     optional: Optional[int]
     final: Final[str] = "Value"
+    finals: Final[str, int] = "Value"
+    final_union: Final[str | int] = "Value"
     literal: Literal["Some String"]
 
     multi_attr_1, _multi_attr_2_private = (123456, "I am a String")

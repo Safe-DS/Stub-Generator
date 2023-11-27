@@ -71,7 +71,7 @@ def generate_stubs(api: API, out_path: Path) -> None:
             f.write(module_text)
 
 
-def _convert_snake_to_camel_case(name: str) -> str:
+def _convert_snake_to_camel_case(name: str, is_class_name: bool = False) -> str:
     if name == "_":
         return name
 
@@ -86,6 +86,16 @@ def _convert_snake_to_camel_case(name: str) -> str:
 
     # Remove underscores and join in camelCase
     name_parts = cleaned_name.split("_")
+
+    # UpperCamelCase for class names
+    if is_class_name:
+        return "".join(
+            part[0].upper() + part[1:]
+            for part in name_parts
+            if part
+        )
+
+    # Normal camelCase for everything else
     return name_parts[0] + "".join(
         part[0].upper() + part[1:]
         for part in name_parts[1:]
@@ -222,7 +232,7 @@ class StubsStringGenerator:
         # Class name - Convert to camelCase and check for keywords
         class_name = class_.name
         python_name_info = ""
-        class_name_camel_case = _convert_snake_to_camel_case(class_name)
+        class_name_camel_case = _convert_snake_to_camel_case(class_name, is_class_name=True)
         if class_name_camel_case != class_name:
             python_name_info = f"{class_indentation}{self._create_name_annotation(class_name)}\n"
         class_name_camel_case = self._replace_if_safeds_keyword(class_name_camel_case)
@@ -569,7 +579,8 @@ class StubsStringGenerator:
                 case _:
                     return name
         elif kind == "FinalType":
-            return self._create_type_string(type_data)
+            # Todo Frage: How are final types to be depicted?
+            return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
             name_generator = self._callable_type_name_generator()
 
