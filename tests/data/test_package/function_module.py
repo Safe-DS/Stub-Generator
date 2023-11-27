@@ -39,7 +39,7 @@ def public_no_params_no_result(): ...
 def params(
     integer: int,
     boolean: bool,
-    float_: 1.2,
+    float_: float,
     none: None,
     string: str,
     obj: FunctionModuleClassA,

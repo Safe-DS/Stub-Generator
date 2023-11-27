@@ -197,7 +197,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'AttributesClassA',
-              'qname': '',
+              'qname': 'tests.data.test_package.attribute_module.AttributesClassA',
             }),
           ]),
         }),
@@ -628,7 +628,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'AttributesClassA',
-        'qname': '',
+        'qname': 'tests.data.test_package.attribute_module.AttributesClassA',
       }),
     }),
     dict({
@@ -1905,7 +1905,12 @@
 # name: test_classes_InferMyTypes
   dict({
     'attributes': list([
-      'test_package/infer_types_module/InferMyTypes/infer_attr',
+      'test_package/infer_types_module/InferMyTypes/infer_int',
+      'test_package/infer_types_module/InferMyTypes/infer_float',
+      'test_package/infer_types_module/InferMyTypes/infer_bool',
+      'test_package/infer_types_module/InferMyTypes/infer_str',
+      'test_package/infer_types_module/InferMyTypes/infer_none',
+      'test_package/infer_types_module/InferMyTypes/infer_obj',
       'test_package/infer_types_module/InferMyTypes/init_infer',
     ]),
     'classes': list([
@@ -2124,7 +2129,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'A',
-          'qname': '',
+          'qname': 'tests.data.test_package.variance_module.A',
         }),
         'variance_type': 'CONTRAVARIANT',
       }),
@@ -3425,7 +3430,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
-        'qname': '',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
       }),
     }),
     dict({
@@ -4056,6 +4061,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
+        'qname': '',
       }),
     }),
     dict({
@@ -4069,6 +4075,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
   ])
@@ -4236,27 +4243,32 @@
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'float',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'ModuleClass',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'int',
             'qname': '',
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'bool',
-            'qname': '',
+            'name': 'InferMe',
+            'qname': 'tests.data.test_package.infer_types_module.InferMe',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': 'builtins.bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
             'qname': '',
           }),
           dict({
@@ -4267,12 +4279,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'InferMyTypes',
-            'qname': '',
+            'qname': 'tests.data.test_package.infer_types_module.InferMyTypes',
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'str',
-            'qname': '',
+            'name': 'int',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -4330,7 +4342,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
-        'qname': '',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
       }),
     }),
   ])
@@ -4348,6 +4360,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
+        'qname': '',
       }),
     }),
     dict({
@@ -4361,6 +4374,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
+        'qname': '',
       }),
     }),
     dict({
@@ -4374,6 +4388,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
+        'qname': '',
       }),
     }),
     dict({
@@ -4387,6 +4402,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
       }),
     }),
   ])

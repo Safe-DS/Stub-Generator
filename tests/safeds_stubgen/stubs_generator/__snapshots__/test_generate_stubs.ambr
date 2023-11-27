@@ -8,8 +8,7 @@
   from abc import abstractmethod
   
   class AbstractModuleClass {
-  	// TODO Safe-DS does not support tuple types.
-  	@PythonName("abstract_property_method") attr abstractPropertyMethod: Tuple<Float, Int>
+  	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
   
   	// TODO Result type information missing.
   	@Pure
@@ -311,7 +310,6 @@
   @PythonName("one_result")
   fun oneResult() -> result1: Int
   
-  // TODO Safe-DS does not support tuple types.
   @Pure
   @PythonName("multiple_results")
   fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: FunctionModuleClassA)
@@ -394,11 +392,23 @@
   @PythonModule("test_package.infer_types_module")
   package testPackage.inferTypesModule
   
+  class InferMe()
+  
   class InferMyTypes(
   	@PythonName("init_param") initParam: Int = 1
   ) {
-  	@PythonName("infer_attr")
-  	static attr inferAttr: Int
+  	@PythonName("infer_int")
+  	static attr inferInt: Int
+  	@PythonName("infer_float")
+  	static attr inferFloat: Float
+  	@PythonName("infer_bool")
+  	static attr inferBool: Boolean
+  	@PythonName("infer_str")
+  	static attr inferStr: String
+  	@PythonName("infer_none")
+  	static attr inferNone: Nothing?
+  	@PythonName("infer_obj")
+  	static attr inferObj: () -> a: InferMe
   	// TODO Attribute has no type information.
   	@PythonName("init_infer")
   	attr initInfer
@@ -408,7 +418,7 @@
   	static fun inferFunction(
   		@PythonName("infer_param") inferParam: Int = 1,
   		@PythonName("infer_param_2") inferParam2: Int = Something
-  	) -> (result1: union<Boolean, Float, InferMyTypes, Int, ModuleClass, Nothing?, String>, result2: union<Float, Int>, result3: Float)
+  	) -> (result1: union<Boolean, Float, InferMe, InferMyTypes, Int, Nothing?, String>, result2: union<Float, Int>, result3: Float)
   }
   
   '''

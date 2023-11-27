@@ -79,7 +79,7 @@ def mypy_type_to_abstract_type(
                 mypy_type_to_abstract_type(arg)
                 for arg in mypy_type.args
             ])
-        # Todo Aliasing: Import auflösen
+        # Todo Aliasing: Import auflösen, wir können wir keinen fullname (qname) bekommen
         return sds_types.NamedType(name=mypy_type.name)
     elif isinstance(mypy_type, mp_types.TypeType):
         # The first parameter of cls methods
@@ -119,7 +119,7 @@ def mypy_type_to_abstract_type(
 
             return sds_types.DictType(key_type=key_type, value_type=value_type)
         else:
-            return sds_types.NamedType(name=type_name)
+            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
     raise ValueError("Unexpected type.")
 
 

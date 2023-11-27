@@ -635,7 +635,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'AnotherClass',
-          'qname': '',
+          'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
         }),
       }),
       dict({
@@ -725,7 +725,7 @@
           'type': '',
         }),
         'id': 'test_main/main_test_module/global_func/param_2',
-        'is_optional': True,
+        'is_optional': False,
         'is_type_inferred': False,
         'name': 'param_2',
         'type': dict({
@@ -734,7 +734,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'AnotherClass',
-              'qname': '',
+              'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
             }),
             dict({
               'kind': 'NamedType',
@@ -786,7 +786,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'AnotherClass',
-          'qname': '',
+          'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
         }),
       }),
       dict({
@@ -803,17 +803,17 @@
             dict({
               'kind': 'NamedType',
               'name': 'AnotherClass',
-              'qname': '',
+              'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'AnotherClass',
-              'qname': '',
+              'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'AnotherClass',
-              'qname': '',
+              'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
             }),
           ]),
         }),
@@ -829,7 +829,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'AnotherClass',
-          'qname': '',
+          'qname': 'tests.data.test_main.another_path.another_module.AnotherClass',
         }),
       }),
     ]),

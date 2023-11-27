@@ -363,7 +363,7 @@ class MyPyAstVisitor:
             if expr.name in {"False", "True"}:
                 return sds_types.NamedType(name="bool")
             else:
-                return sds_types.NamedType(name=expr.name)
+                return sds_types.NamedType(name=expr.name, qname=expr.fullname)
         elif isinstance(expr, mp_nodes.IntExpr):
             return sds_types.NamedType(name="int")
         elif isinstance(expr, mp_nodes.FloatExpr):
@@ -475,6 +475,18 @@ class MyPyAstVisitor:
                 )
 
             return results
+
+        elif isinstance(ret_type, sds_types.TupleType):
+            return [
+                Result(
+                    id=f"{function_id}/result_{i + 1}",
+                    type=type_,
+                    is_type_inferred=is_type_inferred,
+                    name=f"result_{i + 1}",
+                    docstring=self.docstring_parser.get_result_documentation(node),
+                )
+                for i, type_ in enumerate(ret_type.types)
+            ]
 
         return [Result(
             id=f"{function_id}/result_1",

@@ -1,5 +1,14 @@
+class InferMe:
+    ...
+
+
 class InferMyTypes:
-    infer_attr = 1
+    infer_int = 1
+    infer_float = 1.2
+    infer_bool = False
+    infer_str = "String"
+    infer_none = None
+    infer_obj = InferMe  # Todo Frage: Ist "static attr inferObj: () -> a: InferMe" richtig?
 
     def __init__(self, init_param=1):
         self.init_infer = 3
@@ -33,6 +42,6 @@ class InferMyTypes:
 
         for _ in (1, 2):
             if infer_param_2:
-                return ModuleClass
+                return InferMe
 
         return int
