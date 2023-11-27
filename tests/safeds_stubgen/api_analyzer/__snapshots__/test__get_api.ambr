@@ -102,11 +102,7 @@
       'is_static': True,
       'is_type_inferred': False,
       'name': 'callexpr_attr',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'Any',
-        'qname': '',
-      }),
+      'type': None,
     }),
     dict({
       'docstring': dict({
@@ -4243,37 +4239,7 @@
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'int',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'InferMe',
-            'qname': 'tests.data.test_package.infer_types_module.InferMe',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'None',
-            'qname': 'builtins.None',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'float',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'bool',
-            'qname': 'builtins.bool',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'str',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'bool',
             'qname': '',
           }),
           dict({
@@ -4283,8 +4249,38 @@
           }),
           dict({
             'kind': 'NamedType',
+            'name': 'bool',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'InferMe',
+            'qname': 'tests.data.test_package.infer_types_module.InferMe',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': 'builtins.bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
             'name': 'int',
             'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
           }),
         ]),
       }),

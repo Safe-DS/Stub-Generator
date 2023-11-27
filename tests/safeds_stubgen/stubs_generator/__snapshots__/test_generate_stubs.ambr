@@ -54,8 +54,9 @@
   	static attr noTypeHintPublic: Int
   	@PythonName("object_attr")
   	static attr objectAttr: AttributesClassA
+  	// TODO Attribute has no type information.
   	@PythonName("callexpr_attr")
-  	static attr callexprAttr: Any
+  	static attr callexprAttr
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_1")
   	static attr tupleAttr1: Tuple<Any>

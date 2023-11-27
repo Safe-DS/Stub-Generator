@@ -616,7 +616,10 @@ class MyPyAstVisitor:
             raise TypeError("Attribute has an unexpected type.")
 
         type_ = None
-        if attribute_type is not None:
+        # Ignore types that are special mypy any types
+        if (attribute_type is not None and
+            not (isinstance(attribute_type, mp_types.AnyType) and attribute_type.type_of_any in
+                 {mp_types.TypeOfAny.unannotated, mp_types.TypeOfAny.from_error})):
             type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
         # Get docstring
