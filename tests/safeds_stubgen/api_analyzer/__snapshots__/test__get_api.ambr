@@ -4239,22 +4239,12 @@
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'float',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'InferMyTypes',
-            'qname': 'tests.data.test_package.infer_types_module.InferMyTypes',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'bool',
             'qname': '',
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'str',
+            'name': 'float',
             'qname': '',
           }),
           dict({
@@ -4264,13 +4254,18 @@
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'bool',
-            'qname': 'builtins.bool',
+            'name': 'InferMyTypes',
+            'qname': 'tests.data.test_package.infer_types_module.InferMyTypes',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
             'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
@@ -4280,6 +4275,11 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
             'qname': '',
           }),
         ]),
@@ -4298,12 +4298,12 @@
         'types': list([
           dict({
             'kind': 'NamedType',
-            'name': 'float',
+            'name': 'int',
             'qname': '',
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'int',
+            'name': 'float',
             'qname': '',
           }),
         ]),

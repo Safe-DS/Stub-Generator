@@ -391,7 +391,13 @@ class MyPyAstVisitor:
 
             # We have to sort the list for the snapshot tests
             return_stmt_types = list(types)
-            return_stmt_types.sort(key=lambda x: x.__hash__())
+            return_stmt_types.sort(
+                key=lambda x: (
+                    x.name
+                    if isinstance(x, sds_types.NamedType)
+                    else str(len(x.types))
+                )
+            )
 
             if len(return_stmt_types) >= 2:
                 return sds_types.TupleType(types=return_stmt_types)
