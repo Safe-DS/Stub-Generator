@@ -4112,39 +4112,6 @@
     }),
   ])
 # ---
-# name: test_function_results_callable_type
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/function_module/callable_type/result_1',
-      'is_type_inferred': False,
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'CallableType',
-        'parameter_types': list([
-          dict({
-            'kind': 'NamedType',
-            'name': 'int',
-            'qname': 'builtins.int',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'int',
-            'qname': 'builtins.int',
-          }),
-        ]),
-        'return_type': dict({
-          'kind': 'NamedType',
-          'name': 'int',
-          'qname': 'builtins.int',
-        }),
-      }),
-    }),
-  ])
-# ---
 # name: test_function_results_class_method_params
   list([
     dict({
@@ -4352,6 +4319,442 @@
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
         'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[any_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/any_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'Any',
+        'qname': '',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[callable_type]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/callable_type/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'CallableType',
+        'parameter_types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+        ]),
+        'return_type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[callexr_result]
+  list([
+  ])
+# ---
+# name: test_function_results_int_result[dictionary_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/dictionary_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'FunctionModuleClassA',
+          'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[float_result]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/float_result/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'float',
+        'qname': 'builtins.float',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[illegal_dictionary_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_dictionary_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[illegal_list_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_list_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[illegal_set_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/illegal_set_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[int_result]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/int_result/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+        'qname': 'builtins.int',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[list_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/list_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[literal_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/literal_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'LiteralType',
+        'literal': 'Some String',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[none_result]
+  list([
+  ])
+# ---
+# name: test_function_results_int_result[obj_result]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/obj_result/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[optional_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/optional_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[set_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/set_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[str_result]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/str_result/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+        'qname': 'builtins.str',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[tuple_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/tuple_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'str',
+        'qname': 'builtins.str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/tuple_results/result_2',
+      'is_type_inferred': False,
+      'name': 'result_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'FunctionModuleClassA',
+        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[union_dictionary_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/union_dictionary_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+          ]),
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+          ]),
+        }),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results_int_result[union_results]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/union_results/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+        ]),
       }),
     }),
   ])
@@ -4763,18 +5166,18 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/function_module/illgeal_set_results',
+      'id': 'test_package/function_module/illegal_set_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'illgeal_set_results',
+      'name': 'illegal_set_results',
       'parameters': list([
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/function_module/illgeal_set_results/result_1',
+        'test_package/function_module/illegal_set_results/result_1',
       ]),
     }),
     dict({

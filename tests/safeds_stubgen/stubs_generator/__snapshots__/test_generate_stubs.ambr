@@ -374,8 +374,8 @@
   
   // TODO Set type has to many type arguments.
   @Pure
-  @PythonName("illgeal_set_results")
-  fun illgealSetResults() -> result1: Set<String, Boolean>
+  @PythonName("illegal_set_results")
+  fun illegalSetResults() -> result1: Set<String, Boolean>
   
   @Pure
   @PythonName("optional_results")

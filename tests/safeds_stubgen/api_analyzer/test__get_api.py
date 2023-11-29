@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+import pytest
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
 
@@ -751,16 +752,54 @@ def test_function_results_nested_class_function(snapshot: SnapshotAssertion) -> 
     assert function_result_data == snapshot
 
 
-def test_function_results_callable_type(snapshot: SnapshotAssertion) -> None:
+@pytest.mark.parametrize(
+    argnames="func_name",
+    argvalues=[
+        "int_result",
+        "str_result",
+        "float_result",
+        "none_result",
+        "obj_result",
+        "callexr_result",
+        "tuple_results",
+        "union_results",
+        "list_results",
+        "illegal_list_results",
+        "dictionary_results",
+        "illegal_dictionary_results",
+        "union_dictionary_results",
+        "set_results",
+        "illegal_set_results",
+        "optional_results",
+        "literal_results",
+        "any_results",
+        "callable_type",
+    ],
+    ids=[
+        "int_result",
+        "str_result",
+        "float_result",
+        "none_result",
+        "obj_result",
+        "callexr_result",
+        "tuple_results",
+        "union_results",
+        "list_results",
+        "illegal_list_results",
+        "dictionary_results",
+        "illegal_dictionary_results",
+        "union_dictionary_results",
+        "set_results",
+        "illegal_set_results",
+        "optional_results",
+        "literal_results",
+        "any_results",
+        "callable_type",
+    ],
+)
+def test_function_results_int_result(func_name: str, snapshot: SnapshotAssertion) -> None:
     function_result_data = get_function_result_data(
-        function_name="callable_type",
-    )
-    assert function_result_data == snapshot
-
-
-def test_function_results_multiple_results(snapshot: SnapshotAssertion) -> None:
-    function_result_data = get_function_result_data(
-        function_name="multiple_results",
+        function_name=func_name,
     )
     assert function_result_data == snapshot
 
