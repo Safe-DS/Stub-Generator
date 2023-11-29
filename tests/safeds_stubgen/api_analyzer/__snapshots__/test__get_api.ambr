@@ -4352,66 +4352,6 @@
     }),
   ])
 # ---
-# name: test_function_results_multiple_results
-  list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/function_module/multiple_results/result_1',
-      'is_type_inferred': False,
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
-        'qname': 'builtins.str',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/function_module/multiple_results/result_2',
-      'is_type_inferred': False,
-      'name': 'result_2',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-        'qname': 'builtins.int',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/function_module/multiple_results/result_3',
-      'is_type_inferred': False,
-      'name': 'result_3',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'bool',
-        'qname': 'builtins.bool',
-      }),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'test_package/function_module/multiple_results/result_4',
-      'is_type_inferred': False,
-      'name': 'result_4',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'FunctionModuleClassA',
-        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
-      }),
-    }),
-  ])
-# ---
 # name: test_function_results_nested_class_function
   list([
     dict({
@@ -4605,6 +4545,25 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'test_package/function_module/any_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'any_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/any_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'test_package/function_module/arg',
       'is_class_method': False,
       'is_property': False,
@@ -4645,6 +4604,25 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'test_package/function_module/bool_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'bool_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/bool_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'test_package/function_module/callable_type',
       'is_class_method': False,
       'is_property': False,
@@ -4658,6 +4636,101 @@
       ]),
       'results': list([
         'test_package/function_module/callable_type/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/callexr_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'callexr_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/callexr_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/dictionary_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'dictionary_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/dictionary_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/float_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'float_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/float_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/illegal_dictionary_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'illegal_dictionary_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/illegal_dictionary_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/illegal_list_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'illegal_list_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/illegal_list_results/result_1',
       ]),
     }),
     dict({
@@ -4687,21 +4760,18 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/function_module/multiple_results',
+      'id': 'test_package/function_module/int_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'multiple_results',
+      'name': 'int_result',
       'parameters': list([
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/function_module/multiple_results/result_1',
-        'test_package/function_module/multiple_results/result_2',
-        'test_package/function_module/multiple_results/result_3',
-        'test_package/function_module/multiple_results/result_4',
+        'test_package/function_module/int_result/result_1',
       ]),
     }),
     dict({
@@ -4709,18 +4779,74 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/function_module/one_result',
+      'id': 'test_package/function_module/list_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'one_result',
+      'name': 'list_results',
       'parameters': list([
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/function_module/one_result/result_1',
+        'test_package/function_module/list_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/literal_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'literal_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/literal_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/none_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'none_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/obj_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'obj_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/obj_result/result_1',
       ]),
     }),
     dict({
@@ -4741,6 +4867,25 @@
       'reexported_by': list([
       ]),
       'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/optional_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'optional_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/optional_results/result_1',
       ]),
     }),
     dict({
@@ -4843,6 +4988,25 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'test_package/function_module/set_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'set_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/set_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'test_package/function_module/special_params',
       'is_class_method': False,
       'is_property': False,
@@ -4862,6 +5026,83 @@
       'reexported_by': list([
       ]),
       'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/str_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'str_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/str_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/tuple_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'tuple_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/tuple_results/result_1',
+        'test_package/function_module/tuple_results/result_2',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/union_dictionary_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'union_dictionary_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/union_dictionary_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/union_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'union_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/union_results/result_1',
       ]),
     }),
   ])

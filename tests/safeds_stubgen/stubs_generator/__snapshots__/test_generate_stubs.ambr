@@ -310,12 +310,79 @@
   )
   
   @Pure
-  @PythonName("one_result")
-  fun oneResult() -> result1: Int
+  @PythonName("int_result")
+  fun intResult() -> result1: Int
   
   @Pure
-  @PythonName("multiple_results")
-  fun multipleResults() -> (result1: String, result2: Int, result3: Boolean, result4: FunctionModuleClassA)
+  @PythonName("str_result")
+  fun strResult() -> result1: String
+  
+  @Pure
+  @PythonName("bool_result")
+  fun boolResult() -> result1: Boolean
+  
+  @Pure
+  @PythonName("float_result")
+  fun floatResult() -> result1: Float
+  
+  // TODO Result type information missing.
+  @Pure
+  @PythonName("none_result")
+  fun noneResult()
+  
+  @Pure
+  @PythonName("obj_result")
+  fun objResult() -> result1: FunctionModuleClassA
+  
+  // TODO Result type information missing.
+  @Pure
+  @PythonName("callexr_result")
+  fun callexrResult()
+  
+  @Pure
+  @PythonName("tuple_results")
+  fun tupleResults() -> (result1: String, result2: FunctionModuleClassA)
+  
+  @Pure
+  @PythonName("union_results")
+  fun unionResults() -> result1: union<Int, String>
+  
+  @Pure
+  @PythonName("list_results")
+  fun listResults() -> result1: List<Int>
+  
+  // TODO List type has to many type arguments.
+  @Pure
+  @PythonName("illegal_list_results")
+  fun illegalListResults() -> result1: List<Int, String>
+  
+  @Pure
+  @PythonName("dictionary_results")
+  fun dictionaryResults() -> result1: Map<String, FunctionModuleClassA>
+  
+  @Pure
+  @PythonName("illegal_dictionary_results")
+  fun illegalDictionaryResults() -> result1: Map<Any, Any>
+  
+  @Pure
+  @PythonName("union_dictionary_results")
+  fun unionDictionaryResults() -> result1: Map<union<Int, String>, union<Boolean, Float>>
+  
+  @Pure
+  @PythonName("set_results")
+  fun setResults() -> result1: Set<String>
+  
+  @Pure
+  @PythonName("optional_results")
+  fun optionalResults() -> result1: Int?
+  
+  @Pure
+  @PythonName("literal_results")
+  fun literalResults() -> result1: literal<"Some String">
+  
+  @Pure
+  @PythonName("any_results")
+  fun anyResults() -> result1: Any
   
   @Pure
   @PythonName("callable_type")
