@@ -16,7 +16,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'float',
-          'qname': '',
+          'qname': 'builtins.float',
         }),
       }),
       dict({
@@ -33,7 +33,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
       dict({
@@ -50,7 +50,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'bool',
-          'qname': '',
+          'qname': 'builtins.bool',
         }),
       }),
       dict({
@@ -67,7 +67,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
       dict({
@@ -84,7 +84,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
       dict({
@@ -101,7 +101,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
     ]),
@@ -575,7 +575,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
       dict({
@@ -653,7 +653,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'bool',
-          'qname': '',
+          'qname': 'builtins.bool',
         }),
       }),
       dict({
@@ -713,7 +713,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
       }),
       dict({
@@ -739,7 +739,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'None',
-              'qname': '',
+              'qname': 'builtins.None',
             }),
           ]),
         }),
@@ -763,12 +763,12 @@
                 dict({
                   'kind': 'NamedType',
                   'name': 'bool',
-                  'qname': '',
+                  'qname': 'builtins.bool',
                 }),
                 dict({
                   'kind': 'NamedType',
                   'name': 'None',
-                  'qname': '',
+                  'qname': 'builtins.None',
                 }),
               ]),
             }),

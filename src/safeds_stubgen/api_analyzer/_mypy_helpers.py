@@ -70,7 +70,7 @@ def mypy_type_to_abstract_type(
     elif isinstance(mypy_type, mp_types.AnyType):
         return sds_types.NamedType(name="Any")
     elif isinstance(mypy_type, mp_types.NoneType):
-        return sds_types.NamedType(name="None")
+        return sds_types.NamedType(name="None", qname="builtins.None")
     elif isinstance(mypy_type, mp_types.LiteralType):
         return sds_types.LiteralType(literal=mypy_type.value)
     elif isinstance(mypy_type, mp_types.UnboundType):
@@ -81,17 +81,12 @@ def mypy_type_to_abstract_type(
             ])
         # Todo Aliasing: Import auflösen, wir können wir keinen fullname (qname) bekommen
         return sds_types.NamedType(name=mypy_type.name)
-    elif isinstance(mypy_type, mp_types.TypeType):
-        # The first parameter of cls methods
-        type_item = mypy_type.item
-        if isinstance(type_item, Instance):
-            return sds_types.NamedType(name=type_item.type.name)
 
     # Builtins
     elif isinstance(mypy_type, Instance):
         type_name = mypy_type.type.name
         if type_name in {"int", "str", "bool", "float"}:
-            return sds_types.NamedType(name=type_name)
+            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
 
         # Iterable builtins
         elif type_name in {"tuple", "list", "set"}:

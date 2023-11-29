@@ -58,6 +58,12 @@ class NamedType(AbstractType):
     def to_dict(self) -> dict[str, str]:
         return {"kind": self.__class__.__name__, "name": self.name, "qname": self.qname}
 
+    def __eq__(self, other: NamedType) -> bool:
+        return self.name == other.name and self.qname == other.qname
+
+    def __hash__(self) -> int:
+        return hash((self.name, self.qname))
+
 
 @dataclass(frozen=True)
 class EnumType(AbstractType):

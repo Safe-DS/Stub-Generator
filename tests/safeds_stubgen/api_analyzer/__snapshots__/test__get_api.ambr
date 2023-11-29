@@ -15,7 +15,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -35,7 +35,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -54,7 +54,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -71,7 +71,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -88,7 +88,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -144,13 +144,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
     }),
@@ -172,12 +172,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'str',
-              'qname': '',
+              'qname': 'builtins.str',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
           ]),
         }),
@@ -188,7 +188,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'None',
-              'qname': '',
+              'qname': 'builtins.None',
             }),
             dict({
               'kind': 'NamedType',
@@ -293,7 +293,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
     dict({
@@ -310,7 +310,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -330,12 +330,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -483,7 +483,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -503,7 +503,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -522,7 +522,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -539,7 +539,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -556,7 +556,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -573,7 +573,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -590,7 +590,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -607,7 +607,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
-        'qname': '',
+        'qname': 'builtins.None',
       }),
     }),
     dict({
@@ -644,12 +644,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -690,7 +690,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -735,12 +735,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'str',
-                'qname': '',
+                'qname': 'builtins.str',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'int',
-                'qname': '',
+                'qname': 'builtins.int',
               }),
             ]),
           }),
@@ -764,12 +764,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -788,7 +788,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -809,7 +809,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
-        'qname': '',
+        'qname': 'builtins.None',
       }),
     }),
     dict({
@@ -826,7 +826,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
-        'qname': '',
+        'qname': 'builtins.None',
       }),
     }),
   ])
@@ -847,7 +847,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
   ])
@@ -868,7 +868,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
   ])
@@ -889,7 +889,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
   ])
@@ -910,7 +910,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
     dict({
@@ -927,7 +927,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -2116,7 +2116,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
         'variance_type': 'COVARIANT',
       }),
@@ -2137,7 +2137,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
             dict({
               'kind': 'UnionType',
@@ -2188,7 +2188,7 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
             dict({
               'kind': 'UnionType',
@@ -2422,7 +2422,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -2458,7 +2458,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -2494,7 +2494,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -2530,7 +2530,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -2566,7 +2566,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -2638,7 +2638,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
   ])
@@ -2674,7 +2674,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -2692,7 +2692,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -2778,7 +2778,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -2800,7 +2800,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -2822,7 +2822,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -2911,7 +2911,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -2932,13 +2932,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
     }),
@@ -2964,7 +2964,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
         'return_type': dict({
@@ -2973,12 +2973,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'str',
-              'qname': '',
+              'qname': 'builtins.str',
             }),
           ]),
         }),
@@ -3003,7 +3003,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3085,22 +3085,22 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -3174,7 +3174,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -3228,7 +3228,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3264,7 +3264,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -3297,7 +3297,7 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
         'kind': 'DictType',
         'value_type': dict({
@@ -3306,12 +3306,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'float',
-              'qname': '',
+              'qname': 'builtins.float',
             }),
           ]),
         }),
@@ -3332,7 +3332,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
     dict({
@@ -3350,7 +3350,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3371,7 +3371,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -3408,7 +3408,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
-        'qname': '',
+        'qname': 'builtins.None',
       }),
     }),
     dict({
@@ -3447,12 +3447,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3475,7 +3475,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -3495,7 +3495,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -3516,17 +3516,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -3549,12 +3549,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -3621,12 +3621,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3646,7 +3646,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'None',
-        'qname': '',
+        'qname': 'builtins.None',
       }),
     }),
     dict({
@@ -3667,17 +3667,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -3700,17 +3700,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3733,12 +3733,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -3761,7 +3761,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'ListType',
@@ -3772,12 +3772,12 @@
                   dict({
                     'kind': 'NamedType',
                     'name': 'None',
-                    'qname': '',
+                    'qname': 'builtins.None',
                   }),
                   dict({
                     'kind': 'NamedType',
                     'name': 'None',
-                    'qname': '',
+                    'qname': 'builtins.None',
                   }),
                 ]),
               }),
@@ -3786,7 +3786,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3809,22 +3809,22 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3847,12 +3847,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'None',
-            'qname': '',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -3890,7 +3890,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3908,7 +3908,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -3944,7 +3944,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3962,7 +3962,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -3998,7 +3998,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -4016,7 +4016,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -4037,7 +4037,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -4057,7 +4057,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
     dict({
@@ -4071,7 +4071,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
   ])
@@ -4089,7 +4089,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4110,18 +4110,18 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
         'return_type': dict({
           'kind': 'NamedType',
           'name': 'int',
-          'qname': '',
+          'qname': 'builtins.int',
         }),
       }),
     }),
@@ -4140,7 +4140,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4158,7 +4158,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4198,7 +4198,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
   ])
@@ -4219,7 +4219,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4356,7 +4356,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
     dict({
@@ -4370,7 +4370,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -4384,7 +4384,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -4416,7 +4416,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4434,7 +4434,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -4452,7 +4452,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
