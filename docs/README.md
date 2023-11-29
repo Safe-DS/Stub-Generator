@@ -24,6 +24,7 @@ You can find the full documentation [here](https://stubgen.safeds.com).
 We welcome contributions from everyone. As a starting point, check the following resources:
 
 * [Setting up a development environment](https://stubgen.safeds.com/en/latest/development/environment/)
+* [Project guidelines](https://stubgen.safeds.com/en/latest/development/project_guidelines/)
 * [Contributing page](https://github.com/Safe-DS/Stub-Generator/contribute)
 
 If you need further help, please [use our discussion forum][forum].
