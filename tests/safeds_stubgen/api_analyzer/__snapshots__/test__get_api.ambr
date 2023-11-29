@@ -3261,7 +3261,11 @@
       'is_optional': False,
       'is_type_inferred': False,
       'name': 'any_',
-      'type': None,
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'Any',
+        'qname': '',
+      }),
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
@@ -4654,7 +4658,6 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'test_package/function_module/callexr_result/result_1',
       ]),
     }),
     dict({
@@ -4753,6 +4756,25 @@
       'reexported_by': list([
       ]),
       'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/illgeal_set_results',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'illgeal_set_results',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'test_package/function_module/illgeal_set_results/result_1',
       ]),
     }),
     dict({

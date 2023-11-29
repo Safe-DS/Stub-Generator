@@ -660,7 +660,10 @@ class StubsStringGenerator:
                 return f"Map<{key_data}>"
             return "Map"
         elif kind == "LiteralType":
-            return f"literal<{type_data['literal']}>"
+            literal_type = type_data["literal"]
+            if isinstance(literal_type, str):
+                literal_type = f'"{literal_type}"'
+            return f"literal<{literal_type}>"
 
         raise ValueError(f"Unexpected type: {kind}")
 

@@ -29,6 +29,7 @@ from ._mypy_helpers import (
     get_classdef_definitions,
     get_funcdef_definitions,
     get_mypyfile_definitions,
+    has_correct_type_of_any,
     mypy_type_to_abstract_type,
     mypy_variance_parser,
 )
@@ -155,7 +156,7 @@ class MyPyAstVisitor:
                 variances.append(Variance(
                     name=generic_type.name,
                     type=variance_values,
-                    variance_type=variance_type
+                    variance_type=variance_type,
                 ))
 
         # superclasses
@@ -184,7 +185,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
-            variances=variances
+            variances=variances,
         )
         self.__declaration_stack.append(class_)
 
@@ -379,8 +380,9 @@ class MyPyAstVisitor:
             raise TypeError("Unexpected expression type for return type.")
 
     def _infer_type_from_return_stmts(
-        self, func_node: mp_nodes.FuncDef
+        self, func_node: mp_nodes.FuncDef,
     ) -> sds_types.NamedType | sds_types.TupleType | None:
+        # To infer the type, we iterate through all return statements we find in the function
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
         if return_stmts:
@@ -396,7 +398,7 @@ class MyPyAstVisitor:
                     x.name
                     if isinstance(x, sds_types.NamedType)
                     else str(len(x.types))
-                )
+                ),
             )
 
             if len(return_stmt_types) >= 2:
@@ -417,18 +419,14 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    # In Mypy AnyType can be set as type because of different reasons (see TypeOfAny
-                    # class-documentation)
                     if (isinstance(node_ret_type, mp_types.AnyType) and
-                            node_ret_type.type_of_any == mp_types.TypeOfAny.unannotated):
-                        # In this case, the "Any" type was given, because there was no annotation, therefore we have to
-                        # either infer the type or set no type at all. To infer the type, we iterate through all return
-                        # statements
+                            not has_correct_type_of_any(node_ret_type.type_of_any)):
+                        # In this case, the "Any" type was given because it was not explicitly annotated.
+                        # Therefor we have to either infer the type or set no type at all.
                         ret_type = self._infer_type_from_return_stmts(node)
                         is_type_inferred = ret_type is not None
-
                     else:
-                        ret_type = mypy_type_to_abstract_type(node_ret_type)
+                        ret_type = mypy_type_to_abstract_type(node_ret_type, node.unanalyzed_type.ret_type)
             else:
                 # Infer type
                 ret_type = self._infer_type_from_return_stmts(node)
@@ -477,7 +475,7 @@ class MyPyAstVisitor:
                         is_type_inferred=is_type_inferred,
                         name=name,
                         docstring=docstring,
-                    )
+                    ),
                 )
 
             return results
@@ -591,7 +589,7 @@ class MyPyAstVisitor:
         # MemberExpr are constructor (__init__) attributes
         if isinstance(attribute, mp_nodes.MemberExpr):
             attribute_type = node.type
-            if isinstance(attribute_type, mp_types.AnyType) and mp_types.TypeOfAny.unannotated:
+            if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
                 attribute_type = None
 
             # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus we HAVE to check
@@ -623,9 +621,8 @@ class MyPyAstVisitor:
 
         type_ = None
         # Ignore types that are special mypy any types
-        if (attribute_type is not None and
-            not (isinstance(attribute_type, mp_types.AnyType) and attribute_type.type_of_any in
-                 {mp_types.TypeOfAny.unannotated, mp_types.TypeOfAny.from_error})):
+        if (attribute_type is not None and not (isinstance(attribute_type, mp_types.AnyType) and
+                                                not has_correct_type_of_any(attribute_type.type_of_any))):
             type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
         # Get docstring
@@ -651,7 +648,7 @@ class MyPyAstVisitor:
     # #### Parameter utilities
 
     def _get_default_parameter_value_and_type(
-        self, initializer: mp_nodes.Expression, infer_arg_type: bool = False
+        self, initializer: mp_nodes.Expression, infer_arg_type: bool = False,
     ) -> tuple[None | str | float | int | bool | NoneType, None | sds_types.NamedType]:
         # Get default value information
         default_value = None
@@ -718,7 +715,7 @@ class MyPyAstVisitor:
 
             type_annotation = argument.type_annotation
             arg_type = None
-            if isinstance(mypy_type, mp_types.AnyType) and mp_types.TypeOfAny.unannotated:
+            if isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
                 pass
             elif (isinstance(type_annotation, mp_types.UnboundType) and
@@ -738,7 +735,7 @@ class MyPyAstVisitor:
                 infer_arg_type = arg_type is None
                 default_value, inferred_arg_type = self._get_default_parameter_value_and_type(
                     initializer=initializer,
-                    infer_arg_type=infer_arg_type
+                    infer_arg_type=infer_arg_type,
                 )
                 if infer_arg_type:
                     arg_type = inferred_arg_type

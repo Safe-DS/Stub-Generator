@@ -33,21 +33,38 @@ def get_mypyfile_definitions(node: MypyFile) -> list:
 
 def mypy_type_to_abstract_type(
     mypy_type: Instance | ProperType | MypyType,
-    unanalyzed_type: mp_types.Type | None = None
+    unanalyzed_type: mp_types.Type | None = None,
 ) -> AbstractType:
 
-    # Final type
-    if unanalyzed_type is not None and hasattr(unanalyzed_type, "name") and unanalyzed_type.name == "Final":
-        types = [
-            mypy_type_to_abstract_type(arg)
-            for arg in unanalyzed_type.args
-        ]
-        if len(types) == 1:
-            return sds_types.FinalType(type_=types[0])
-        return sds_types.FinalType(type_=sds_types.UnionType(types=types))
+    # Special cases where we need the unanalyzed_type to get the type information we need
+    if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
+        unanalyzed_type_name = unanalyzed_type.name
+        if unanalyzed_type_name == "Final":
+            # Final type
+            types = [
+                mypy_type_to_abstract_type(arg)
+                for arg in unanalyzed_type.args
+            ]
+            if len(types) == 1:
+                return sds_types.FinalType(type_=types[0])
+            return sds_types.FinalType(type_=sds_types.UnionType(types=types))
+        elif (unanalyzed_type_name in {"list", "set"} and
+              len(mypy_type.args) == 1 and
+              isinstance(mypy_type.args[0], mp_types.AnyType) and
+              not has_correct_type_of_any(mypy_type.args[0].type_of_any)):
+            # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
+            # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
+            # of the list arguments, which we cant get through the "unanalyzed_type" attribute
+            return {
+                "list": sds_types.ListType,
+                "set": sds_types.SetType
+            }[unanalyzed_type_name](types=[
+                mypy_type_to_abstract_type(arg)
+                for arg in unanalyzed_type.args
+            ])
 
     # Iterable mypy types
-    elif isinstance(mypy_type, mp_types.TupleType):
+    if isinstance(mypy_type, mp_types.TupleType):
         return sds_types.TupleType(types=[
             mypy_type_to_abstract_type(item)
             for item in mypy_type.items
@@ -65,7 +82,7 @@ def mypy_type_to_abstract_type(
                 mypy_type_to_abstract_type(arg_type)
                 for arg_type in mypy_type.arg_types
             ],
-            return_type=mypy_type_to_abstract_type(mypy_type.ret_type)
+            return_type=mypy_type_to_abstract_type(mypy_type.ret_type),
         )
     elif isinstance(mypy_type, mp_types.AnyType):
         return sds_types.NamedType(name="Any")
@@ -164,3 +181,12 @@ def mypy_variance_parser(mypy_variance_type: Literal[0, 1, 2]) -> VarianceType:
             return VarianceType.CONTRAVARIANT
         case _:  # pragma: no cover
             raise ValueError("Mypy variance parser received an illegal parameter value.")
+
+
+def has_correct_type_of_any(type_of_any: int) -> bool:
+    # In Mypy AnyType can be set as type because of different reasons (see TypeOfAny class-documentation)
+    return type_of_any in {
+        mp_types.TypeOfAny.explicit,
+        mp_types.TypeOfAny.from_omitted_generics,
+        mp_types.TypeOfAny.from_another_any,
+    }

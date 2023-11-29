@@ -99,7 +99,7 @@
   	static attr finals: union<Int, String>
   	@PythonName("final_union")
   	static attr finalUnion: union<Int, String>
-  	static attr `literal`: literal<Some String>
+  	static attr `literal`: literal<"Some String">
   	@PythonName("multi_attr_1")
   	static attr multiAttr1: Int
   	@PythonName("multi_attr_3")
@@ -229,8 +229,8 @@
   	@PythonName("set_") set: Set<String>,
   	optional: Int?,
   	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
-  	`literal`: literal<Some String>,
-  	@PythonName("any_") any
+  	`literal`: literal<"Some String">,
+  	@PythonName("any_") any: Any
   )
   
   // TODO List type has to many type arguments.
@@ -371,6 +371,11 @@
   @Pure
   @PythonName("set_results")
   fun setResults() -> result1: Set<String>
+  
+  // TODO Set type has to many type arguments.
+  @Pure
+  @PythonName("illgeal_set_results")
+  fun illgealSetResults() -> result1: Set<String, Boolean>
   
   @Pure
   @PythonName("optional_results")
