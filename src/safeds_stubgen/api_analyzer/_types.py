@@ -339,6 +339,7 @@ class SetType(AbstractType):
         return hash(frozenset(self.types))
 
 
+# Todo Frage: Wird aktuell nicht benutzt, weil Mypy "Optional[int]" als "Union[int, None]" interpretiert. Remove?
 @dataclass(frozen=True)
 class OptionalType(AbstractType):
     type: AbstractType
