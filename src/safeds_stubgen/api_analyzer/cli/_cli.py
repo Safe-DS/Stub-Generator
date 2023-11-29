@@ -17,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun)
+    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun, args.convert_identifiers)
 
 
 def _get_args() -> argparse.Namespace:
@@ -60,6 +60,14 @@ def _get_args() -> argparse.Namespace:
         required=False,
         action="store_true",
     )
+    parser.add_argument(
+        "-ci",
+        "--convert_identifiers",
+        help="Set this flag if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and "
+             "camelCase for everything else).",
+        required=False,
+        action="store_true",
+    )
 
     return parser.parse_args()
 
@@ -70,6 +78,7 @@ def _run_api_command(
     out_dir_path: Path,
     docstring_style: DocstringStyle,
     is_test_run: bool,
+    convert_identifiers: bool,
 ) -> None:
     """
     List the API of a package.
@@ -89,4 +98,4 @@ def _run_api_command(
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
 
-    generate_stubs(api, out_dir_path)
+    generate_stubs(api, out_dir_path, convert_identifiers)

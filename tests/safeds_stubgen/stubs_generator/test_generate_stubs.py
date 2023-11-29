@@ -8,7 +8,7 @@ from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
-from safeds_stubgen.stubs_generator._generate_stubs import _convert_snake_to_camel_case
+from safeds_stubgen.stubs_generator._generate_stubs import StubsStringGenerator
 
 if TYPE_CHECKING:
     from syrupy import SnapshotAssertion
@@ -21,7 +21,7 @@ _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-generate_stubs(api, _out_dir)
+generate_stubs(api, _out_dir, convert_identifiers=True)
 
 
 # Utilites
@@ -109,64 +109,90 @@ def test_docstring_creation() -> None: ...
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result", "is_class_name"),
+    ("name", "expected_result", "is_class_name", "convert_identifiers"),
     [
         (
             "",
             "",
-            False
+            False,
+            True
         ),
         (
             "_",
             "_",
-            False
+            False,
+            True
         ),
         (
             "__get_function_name__",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "__get_function_name",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "get_function_name__",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "__getFunction_name__",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "__get__function___name__",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "__get_funCtion_NamE__",
             "getFunCtionNamE",
-            False
+            False,
+            True
         ),
         (
             "getFunctionName",
             "getFunctionName",
-            False
+            False,
+            True
         ),
         (
             "a_a_A_aAAaA_1_1_2_aAa",
             "aAAAAAaA112AAa",
-            False
+            False,
+            True
         ),
         (
             "some_class_name",
             "SomeClassName",
+            True,
             True
+        ),
+        (
+            "some_function_name",
+            "some_function_name",
+            False,
+            False
+        ),
+        (
+            "some_class_name",
+            "some_class_name",
+            True,
+            False
         ),
     ],
 )
-def test_convert_snake_to_camel_case(name: str, expected_result: str, is_class_name: bool) -> None:
-    assert _convert_snake_to_camel_case(name, is_class_name) == expected_result
+def test_convert_snake_to_camel_case(
+    name: str, expected_result: str, is_class_name: bool, convert_identifiers: bool
+) -> None:
+    stubs_string_generator = StubsStringGenerator(convert_identifiers=convert_identifiers)
+    assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result
