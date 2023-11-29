@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/Safe-DS/Stub-Generator/branch/main/graph/badge.svg?token=UyCUY59HKM)](https://codecov.io/gh/Safe-DS/Stub-Generator)
 [![Documentation Status](https://readthedocs.org/projects/safe-ds-stub-generator/badge/?version=stable)](https://stubgen.safeds.com)
 
-Generation of Safe-DS stubs for Python libraries.
+Automated generation of [Safe-DS stubs](https://dsl.safeds.com/en/stable/language/stub-language/) for Python libraries.
 
 ## Installation
 
