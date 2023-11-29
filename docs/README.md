@@ -7,6 +7,14 @@
 
 Generation of Safe-DS stubs for Python libraries.
 
+## Installation
+
+Get the latest version from [PyPI](https://pypi.org/project/safe-ds-stubgen):
+
+```shell
+pip install safe-ds-stubgen
+```
+
 ## Documentation
 
 You can find the full documentation [here](https://stubgen.safeds.com).
