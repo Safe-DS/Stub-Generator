@@ -361,15 +361,15 @@ class MyPyAstVisitor:
     def _mypy_expression_to_sds_type(self, expr: mp_nodes.Expression) -> sds_types.NamedType | sds_types.TupleType:
         if isinstance(expr, mp_nodes.NameExpr):
             if expr.name in {"False", "True"}:
-                return sds_types.NamedType(name="bool")
+                return sds_types.NamedType(name="bool", qname="builtins.bool")
             else:
                 return sds_types.NamedType(name=expr.name, qname=expr.fullname)
         elif isinstance(expr, mp_nodes.IntExpr):
-            return sds_types.NamedType(name="int")
+            return sds_types.NamedType(name="int", qname="builtins.int")
         elif isinstance(expr, mp_nodes.FloatExpr):
-            return sds_types.NamedType(name="float")
+            return sds_types.NamedType(name="float", qname="builtins.float")
         elif isinstance(expr, mp_nodes.StrExpr):
-            return sds_types.NamedType(name="str")
+            return sds_types.NamedType(name="str", qname="builtins.str")
         elif isinstance(expr, mp_nodes.TupleExpr):
             return sds_types.TupleType(types=[
                 self._mypy_expression_to_sds_type(item)
@@ -671,7 +671,7 @@ class MyPyAstVisitor:
                 if self._check_if_qname_in_package(initializer.fullname):
                     default_value = initializer.name
                     if infer_arg_type:
-                        arg_type = sds_types.NamedType(initializer.name, initializer.fullname)
+                        arg_type = sds_types.NamedType(name=initializer.name, qname=initializer.fullname)
 
                 return default_value, arg_type
 
@@ -681,7 +681,7 @@ class MyPyAstVisitor:
             if self._check_if_qname_in_package(initializer.callee.fullname):
                 default_value = f"{initializer.callee.name}()"
                 if infer_arg_type:
-                    arg_type = sds_types.NamedType(initializer.callee.name, initializer.callee.fullname)
+                    arg_type = sds_types.NamedType(name=initializer.callee.name, qname=initializer.callee.fullname)
 
             return default_value, arg_type
 
@@ -700,7 +700,7 @@ class MyPyAstVisitor:
                     float: "float",
                     NoneType: "None",
                 }[type(value)]
-                arg_type = sds_types.NamedType(name=value_type_name)
+                arg_type = sds_types.NamedType(name=value_type_name, qname=f"builtins.{value_type_name}")
 
         return default_value, arg_type
 

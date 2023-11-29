@@ -204,6 +204,7 @@
   from typing import Callable
   from typing import Optional
   from typing import Literal
+  from typing import Any
   
   // TODO Result type information missing.
   @Pure
@@ -228,7 +229,8 @@
   	@PythonName("set_") set: Set<String>,
   	optional: Int?,
   	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
-  	`literal`: literal<Some String>
+  	`literal`: literal<Some String>,
+  	@PythonName("any_") any
   )
   
   // TODO List type has to many type arguments.

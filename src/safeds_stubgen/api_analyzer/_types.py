@@ -49,7 +49,7 @@ class NamedType(AbstractType):
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> NamedType:
-        return NamedType(d["name"])
+        return NamedType(d["name"], d["qname"])
 
     @classmethod
     def from_string(cls, name: str, qname: str = "") -> NamedType:
@@ -459,7 +459,7 @@ class TupleType(AbstractType):
 # # Todo Return mypy\types -> Type class
 # def create_type(type_string: str, description: str) -> AbstractType:
 #     if not type_string:
-#         return NamedType("None")
+#         return NamedType("None", "builtins.None")
 #
 #     type_string = type_string.replace(" ", "")
 #
@@ -518,7 +518,7 @@ class TupleType(AbstractType):
 #     type_ = _create_enum_boundry_type(type_string, description)
 #     if type_ is not None:
 #         return type_
-#     return NamedType(type_string)
+#     return NamedType(name=type_string, qname=)
 #
 #
 # # todo übernehmen in create_type -> Tests schlagen nun fehl

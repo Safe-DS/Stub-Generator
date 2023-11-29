@@ -2584,7 +2584,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',
-        'qname': '',
+        'qname': 'builtins.bool',
       }),
     }),
     dict({
@@ -3124,7 +3124,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -3249,6 +3249,20 @@
 # ---
 # name: test_function_parameters_function_module_params
   list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/function_module/params/any_',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'any_',
+      'type': None,
+    }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
       'default_value': None,
@@ -3582,7 +3596,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
-        'qname': '',
+        'qname': 'builtins.int',
       }),
     }),
     dict({
@@ -4180,7 +4194,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'str',
-        'qname': '',
+        'qname': 'builtins.str',
       }),
     }),
   ])
@@ -4240,12 +4254,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'float',
-            'qname': '',
+            'qname': 'builtins.float',
           }),
           dict({
             'kind': 'NamedType',
@@ -4274,13 +4288,8 @@
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'int',
-            'qname': '',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -4299,12 +4308,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'float',
-            'qname': '',
+            'qname': 'builtins.float',
           }),
         ]),
       }),
@@ -4320,7 +4329,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'float',
-        'qname': '',
+        'qname': 'builtins.float',
       }),
     }),
   ])
@@ -4784,6 +4793,7 @@
         'test_package/function_module/params/optional',
         'test_package/function_module/params/tuple_',
         'test_package/function_module/params/literal',
+        'test_package/function_module/params/any_',
       ]),
       'reexported_by': list([
       ]),
