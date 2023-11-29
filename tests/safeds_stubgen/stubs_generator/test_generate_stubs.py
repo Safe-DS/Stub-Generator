@@ -109,49 +109,64 @@ def test_docstring_creation() -> None: ...
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result"),
+    ("name", "expected_result", "is_class_name"),
     [
         (
             "",
             "",
+            False
         ),
         (
             "_",
             "_",
+            False
         ),
         (
             "__get_function_name__",
             "getFunctionName",
+            False
         ),
         (
             "__get_function_name",
             "getFunctionName",
+            False
         ),
         (
             "get_function_name__",
             "getFunctionName",
+            False
         ),
         (
             "__getFunction_name__",
             "getFunctionName",
+            False
         ),
         (
             "__get__function___name__",
             "getFunctionName",
+            False
         ),
         (
             "__get_funCtion_NamE__",
             "getFunCtionNamE",
+            False
         ),
         (
             "getFunctionName",
             "getFunctionName",
+            False
         ),
         (
             "a_a_A_aAAaA_1_1_2_aAa",
             "aAAAAAaA112AAa",
+            False
+        ),
+        (
+            "some_class_name",
+            "SomeClassName",
+            True
         ),
     ],
 )
-def test_convert_snake_to_camel_case(name: str, expected_result: str) -> None:
-    assert _convert_snake_to_camel_case(name) == expected_result
+def test_convert_snake_to_camel_case(name: str, expected_result: str, is_class_name: bool) -> None:
+    assert _convert_snake_to_camel_case(name, is_class_name) == expected_result
