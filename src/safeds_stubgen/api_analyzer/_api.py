@@ -315,7 +315,7 @@ class Variance:
     type: AbstractType
     variance_type: VarianceType
 
-    def to_dict(self):
+    def to_dict(self) -> dict[str, Any]:
         return {
             "name": self.name,
             "type": self.type.to_dict(),
