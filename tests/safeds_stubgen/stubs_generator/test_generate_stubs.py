@@ -64,7 +64,7 @@ def assert_stubs_snapshot(filename: str, snapshot: SnapshotAssertion) -> None:
 def test_file_creation() -> None:
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
-        stub_path=Path(_out_dir_stubs / "file_creation")
+        stub_path=Path(_out_dir_stubs / "file_creation"),
     )
 
 
@@ -115,88 +115,26 @@ def test_docstring_creation() -> None: ...
 @pytest.mark.parametrize(
     ("name", "expected_result", "is_class_name", "convert_identifiers"),
     [
-        (
-            "",
-            "",
-            False,
-            True
-        ),
-        (
-            "_",
-            "_",
-            False,
-            True
-        ),
-        (
-            "__get_function_name__",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "__get_function_name",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "get_function_name__",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "__getFunction_name__",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "__get__function___name__",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "__get_funCtion_NamE__",
-            "getFunCtionNamE",
-            False,
-            True
-        ),
-        (
-            "getFunctionName",
-            "getFunctionName",
-            False,
-            True
-        ),
-        (
-            "a_a_A_aAAaA_1_1_2_aAa",
-            "aAAAAAaA112AAa",
-            False,
-            True
-        ),
-        (
-            "some_class_name",
-            "SomeClassName",
-            True,
-            True
-        ),
-        (
-            "some_function_name",
-            "some_function_name",
-            False,
-            False
-        ),
-        (
-            "some_class_name",
-            "some_class_name",
-            True,
-            False
-        ),
+        ("", "", False, True),
+        ("_", "_", False, True),
+        ("__get_function_name__", "getFunctionName", False, True),
+        ("__get_function_name", "getFunctionName", False, True),
+        ("get_function_name__", "getFunctionName", False, True),
+        ("__getFunction_name__", "getFunctionName", False, True),
+        ("__get__function___name__", "getFunctionName", False, True),
+        ("__get_funCtion_NamE__", "getFunCtionNamE", False, True),
+        ("getFunctionName", "getFunctionName", False, True),
+        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", False, True),
+        ("some_class_name", "SomeClassName", True, True),
+        ("some_function_name", "some_function_name", False, False),
+        ("some_class_name", "some_class_name", True, False),
     ],
 )
 def test_convert_snake_to_camel_case(
-    name: str, expected_result: str, is_class_name: bool, convert_identifiers: bool
+    name: str,
+    expected_result: str,
+    is_class_name: bool,
+    convert_identifiers: bool,
 ) -> None:
     stubs_string_generator = StubsStringGenerator(convert_identifiers=convert_identifiers)
     assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result

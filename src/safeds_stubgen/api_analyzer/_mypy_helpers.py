@@ -41,10 +41,7 @@ def mypy_type_to_abstract_type(
         unanalyzed_type_name = unanalyzed_type.name
         if unanalyzed_type_name == "Final":
             # Final type
-            types = [
-                mypy_type_to_abstract_type(arg)
-                for arg in getattr(unanalyzed_type, "args", [])
-            ]
+            types = [mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
             if len(types) == 1:
                 return sds_types.FinalType(type_=types[0])
             elif len(types) == 0:  # pragma: no cover
@@ -52,9 +49,11 @@ def mypy_type_to_abstract_type(
             return sds_types.FinalType(type_=sds_types.UnionType(types=types))
         elif unanalyzed_type_name in {"list", "set"}:
             type_args = getattr(mypy_type, "args", [])
-            if (len(type_args) == 1 and
-                    isinstance(type_args[0], mp_types.AnyType) and
-                    not has_correct_type_of_any(type_args[0].type_of_any)):
+            if (
+                len(type_args) == 1
+                and isinstance(type_args[0], mp_types.AnyType)
+                and not has_correct_type_of_any(type_args[0].type_of_any)
+            ):
                 # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
                 # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
                 # of the list arguments, which we cant get through the "unanalyzed_type" attribute
@@ -62,23 +61,14 @@ def mypy_type_to_abstract_type(
 
     # Iterable mypy types
     if isinstance(mypy_type, mp_types.TupleType):
-        return sds_types.TupleType(types=[
-            mypy_type_to_abstract_type(item)
-            for item in mypy_type.items
-        ])
+        return sds_types.TupleType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
     elif isinstance(mypy_type, mp_types.UnionType):
-        return sds_types.UnionType(types=[
-            mypy_type_to_abstract_type(item)
-            for item in mypy_type.items
-        ])
+        return sds_types.UnionType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
     # Special Cases
     elif isinstance(mypy_type, mp_types.CallableType):
         return sds_types.CallableType(
-            parameter_types=[
-                mypy_type_to_abstract_type(arg_type)
-                for arg_type in mypy_type.arg_types
-            ],
+            parameter_types=[mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],
             return_type=mypy_type_to_abstract_type(mypy_type.ret_type),
         )
     elif isinstance(mypy_type, mp_types.AnyType):
@@ -92,10 +82,9 @@ def mypy_type_to_abstract_type(
             return {
                 "list": sds_types.ListType,
                 "set": sds_types.SetType,
-            }[mypy_type.name](types=[
-                mypy_type_to_abstract_type(arg)
-                for arg in mypy_type.args
-            ])
+            }[
+                mypy_type.name
+            ](types=[mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
         # Todo Aliasing: Import auflösen, wir können hier keinen fullname (qname) bekommen
         return sds_types.NamedType(name=mypy_type.name)
 
@@ -107,10 +96,7 @@ def mypy_type_to_abstract_type(
 
         # Iterable builtins
         elif type_name in {"tuple", "list", "set"}:
-            types = [
-                mypy_type_to_abstract_type(arg)
-                for arg in mypy_type.args
-            ]
+            types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
             match type_name:
                 case "tuple":
                     return sds_types.TupleType(types=types)
@@ -211,9 +197,6 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.NamedTyp
     elif isinstance(expr, mp_nodes.StrExpr):
         return sds_types.NamedType(name="str", qname="builtins.str")
     elif isinstance(expr, mp_nodes.TupleExpr):
-        return sds_types.TupleType(types=[
-            mypy_expression_to_sds_type(item)
-            for item in expr.items
-        ])
+        return sds_types.TupleType(types=[mypy_expression_to_sds_type(item) for item in expr.items])
     else:  # pragma: no cover
         raise TypeError("Unexpected expression type for return type.")
