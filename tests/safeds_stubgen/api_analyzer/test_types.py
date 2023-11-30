@@ -12,7 +12,6 @@ from safeds_stubgen.api_analyzer import (
     ListType,
     LiteralType,
     NamedType,
-    OptionalType,
     Parameter,
     ParameterAssignment,
     SetType,
@@ -228,23 +227,6 @@ def test_set_type() -> None:
     assert hash(SetType([NamedType("a")])) == hash(SetType([NamedType("a")]))
     assert SetType([NamedType("a")]) != SetType([NamedType("b")])
     assert hash(SetType([NamedType("a")])) != hash(SetType([NamedType("b")]))
-
-
-def test_optional_type() -> None:
-    type_ = OptionalType(NamedType("some_type"))
-    type_dict = {
-        "kind": "OptionalType",
-        "type": {"kind": "NamedType", "name": "some_type", "qname": ""},
-    }
-
-    assert AbstractType.from_dict(type_dict) == type_
-    assert OptionalType.from_dict(type_dict) == type_
-    assert type_.to_dict() == type_dict
-
-    assert OptionalType(NamedType("a")) == OptionalType(NamedType("a"))
-    assert hash(OptionalType(NamedType("a"))) == hash(OptionalType(NamedType("a")))
-    assert OptionalType(NamedType("a")) != OptionalType(NamedType("b"))
-    assert hash(OptionalType(NamedType("a"))) != hash(OptionalType(NamedType("b")))
 
 
 def test_literal_type() -> None:

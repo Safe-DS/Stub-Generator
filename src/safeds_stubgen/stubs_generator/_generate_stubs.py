@@ -570,8 +570,6 @@ class StubsStringGenerator:
                 return_type_string = f"{next(name_generator)}: {self._create_type_string(return_type)}"
 
             return f"({', '.join(params)}) -> {return_type_string}"
-        elif kind == "OptionalType":
-            return f"{self._create_type_string(type_data)}?"
         elif kind in {"SetType", "ListType"}:
             types = [
                 self._create_type_string(type_)
@@ -635,7 +633,7 @@ class StubsStringGenerator:
                 literal_type = f'"{literal_type}"'
             return f"literal<{literal_type}>"
 
-        raise ValueError(f"Unexpected type: {kind}")
+        raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
     # ############################### Utilities ############################### #
 

@@ -22,8 +22,6 @@ class AbstractType(metaclass=ABCMeta):
                 return DictType.from_dict(d)
             case SetType.__name__:
                 return SetType.from_dict(d)
-            case OptionalType.__name__:
-                return OptionalType.from_dict(d)
             case LiteralType.__name__:
                 return LiteralType.from_dict(d)
             case FinalType.__name__:
@@ -58,7 +56,9 @@ class NamedType(AbstractType):
     def to_dict(self) -> dict[str, str]:
         return {"kind": self.__class__.__name__, "name": self.name, "qname": self.qname}
 
-    def __eq__(self, other: NamedType) -> bool:
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, NamedType):
+            return NotImplemented
         return self.name == other.name and self.qname == other.qname
 
     def __hash__(self) -> int:
@@ -337,22 +337,6 @@ class SetType(AbstractType):
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
-
-
-# Todo Frage: Wird aktuell nicht benutzt, weil Mypy "Optional[int]" als "Union[int, None]" interpretiert. Remove?
-@dataclass(frozen=True)
-class OptionalType(AbstractType):
-    type: AbstractType
-
-    @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> OptionalType:
-        return OptionalType(AbstractType.from_dict(d["type"]))
-
-    def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "type": self.type.to_dict()}
-
-    def __hash__(self) -> int:
-        return hash(frozenset([self.type]))
 
 
 @dataclass(frozen=True)
