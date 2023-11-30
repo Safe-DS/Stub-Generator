@@ -347,8 +347,14 @@ class StubsStringGenerator:
         camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
 
         # Create type information
-        types = UnionType(types=[result.type for result in function.results]).to_dict()
-        property_type = self._create_type_string(types)
+        result_types = [
+            result.type
+            for result in function.results
+            if result.type is not None
+        ]
+        result_union = UnionType(types=result_types)
+        types_data = result_union.to_dict()
+        property_type = self._create_type_string(types_data)
         type_string = f": {property_type}" if property_type else ""
 
         return (
@@ -360,6 +366,9 @@ class StubsStringGenerator:
     def _create_result_string(self, function_results: list[Result]) -> str:
         results: list[str] = []
         for result in function_results:
+            if result.type is None:  # pragma: no cover
+                continue
+
             result_type = result.type.to_dict()
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
@@ -413,7 +422,7 @@ class StubsStringGenerator:
                         # Bool values have to be written in lower case
                         default_value = "true" if param_default_value else "false"
                     else:
-                        default_value = param_default_value
+                        default_value = f"{param_default_value}"
                     param_value = f" = {default_value}"
                 elif parameter.default_is_none:
                     param_value = " = null"

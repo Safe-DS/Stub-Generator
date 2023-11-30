@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from types import NoneType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import mypy.types as mp_types
 from mypy import nodes as mp_nodes
@@ -127,18 +127,24 @@ class MyPyAstVisitor:
 
         # Variance
         # Special base classes like Generic[...] get moved to "removed_base_type_expr" during semantic analysis of mypy
-        generic_exprs = [
-            removed_base_type_expr
-            for removed_base_type_expr in node.removed_base_type_exprs
-            if removed_base_type_expr.base.name == "Generic"
-        ]
+        generic_exprs = []
+        for removed_base_type_expr in node.removed_base_type_exprs:
+            base = getattr(removed_base_type_expr, "base", None)
+            base_name = getattr(base, "name", None)
+            if base_name == "Generic":
+                generic_exprs.append(removed_base_type_expr)
+
         variances = []
         if generic_exprs:
             # Can only be one, since a class can inherit "Generic" only one time
-            generic_expr = generic_exprs[0].index
+            generic_expr = getattr(generic_exprs[0], "index", None)
 
             if isinstance(generic_expr, mp_nodes.TupleExpr):
-                generic_types = [item.node for item in generic_expr.items]
+                generic_types = [
+                    item.node
+                    for item in generic_expr.items
+                    if hasattr(item, "node")
+                ]
             elif isinstance(generic_expr, mp_nodes.NameExpr):
                 generic_types = [generic_expr.node]
             else:  # pragma: no cover
@@ -146,6 +152,7 @@ class MyPyAstVisitor:
 
             for generic_type in generic_types:
                 variance_type = mypy_variance_parser(generic_type.variance)
+                variance_values: sds_types.AbstractType
                 if variance_type == VarianceType.INVARIANT:
                     variance_values = sds_types.UnionType([
                         mypy_type_to_abstract_type(value)
@@ -366,7 +373,7 @@ class MyPyAstVisitor:
             return []
 
         # Get type
-        ret_type = None
+        ret_type: sds_types.AbstractType | None = None
         is_type_inferred = False
         if hasattr(node, "type"):
             node_type = node.type
@@ -382,7 +389,8 @@ class MyPyAstVisitor:
                         is_type_inferred = ret_type is not None
                     else:
                         # Otherwise, we can parse the type normally
-                        ret_type = mypy_type_to_abstract_type(node_ret_type, node.unanalyzed_type.ret_type)
+                        unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
+                        ret_type = mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
             else:
                 # Infer type
                 ret_type = self._infer_type_from_return_stmts(node)
@@ -418,6 +426,7 @@ class MyPyAstVisitor:
             types = {
                 mypy_expression_to_sds_type(return_stmt.expr)
                 for return_stmt in return_stmts
+                if return_stmt.expr is not None
             }
 
             # We have to sort the list for the snapshot tests
@@ -461,19 +470,20 @@ class MyPyAstVisitor:
             A list of Results objects representing the possible results of a funtion.
         """
         result_array: list[list] = []
-        type_: sds_types.NamedType | sds_types.TupleType
         for type_ in results.types:
             if isinstance(type_, sds_types.NamedType):
                 if result_array:
                     result_array[0].append(type_)
                 else:
                     result_array.append([type_])
-            else:
+            elif isinstance(type_, sds_types.TupleType):
                 for i, type__ in enumerate(type_.types):
                     if len(result_array) > i:
                         result_array[i].append(type__)
                     else:
                         result_array.append([type__])
+            else:  # pragma: no cover
+                raise TypeError(f"Expected NamedType or TupleType, received {type(type_)}")
 
         inferred_results = []
         for i, result_list in enumerate(result_array):
@@ -502,7 +512,7 @@ class MyPyAstVisitor:
 
     def _parse_attributes(
         self,
-        lvalue: mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr,
+        lvalue: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
     ) -> list[Attribute]:
@@ -648,11 +658,12 @@ class MyPyAstVisitor:
 
     def _get_default_parameter_value_and_type(
         self, initializer: mp_nodes.Expression, infer_arg_type: bool = False,
-    ) -> tuple[None | str | float | int | bool | NoneType, None | sds_types.NamedType]:
+    ) -> tuple[None | str | float | int | bool | type, None | sds_types.NamedType]:
         # Get default value information
-        default_value = None
+        default_value: None | str | float | int | bool | type = None
         arg_type = None
 
+        value: Any
         if hasattr(initializer, "value"):
             value = initializer.value
         elif isinstance(initializer, mp_nodes.NameExpr):
@@ -747,6 +758,9 @@ class MyPyAstVisitor:
                 parameter_assigned_by=arg_kind,
                 parent_class=parent if isinstance(parent, Class) else None,
             )
+
+            if isinstance(default_value, type):  # pragma: no cover
+                raise TypeError("default_value has the unexpected type 'type'.")
 
             # Create parameter object
             arguments.append(

@@ -3,7 +3,7 @@ from __future__ import annotations
 import re
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, ClassVar
+from typing import Any, ClassVar, Sequence
 
 
 class AbstractType(metaclass=ABCMeta):
@@ -223,7 +223,7 @@ class BoundaryType(AbstractType):
 
 @dataclass(frozen=True)
 class UnionType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> UnionType:
@@ -247,7 +247,7 @@ class UnionType(AbstractType):
 
 @dataclass(frozen=True)
 class ListType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> ListType:
@@ -289,7 +289,7 @@ class DictType(AbstractType):
 
 @dataclass(frozen=True)
 class CallableType(AbstractType):
-    parameter_types: list[AbstractType]
+    parameter_types: Sequence[AbstractType]
     return_type: AbstractType
 
     @classmethod
@@ -318,7 +318,7 @@ class CallableType(AbstractType):
 
 @dataclass(frozen=True)
 class SetType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> SetType:
@@ -371,7 +371,7 @@ class FinalType(AbstractType):
 
 @dataclass(frozen=True)
 class TupleType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> TupleType:
