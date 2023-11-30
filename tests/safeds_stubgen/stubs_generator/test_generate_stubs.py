@@ -36,7 +36,7 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     # We reexport public content from _module_3 and _module_6, not from empty_module, _module_2 and _module_4.
     actual_python_files = []
     for item in python_files:
-        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "module_5"}):
+        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4"}):
             actual_python_files.append(item)
 
     assert len(actual_python_files) == len(stub_files)
