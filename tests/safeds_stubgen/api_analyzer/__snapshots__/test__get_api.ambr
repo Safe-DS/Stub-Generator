@@ -7,6 +7,23 @@
         'description': '',
         'type': '',
       }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/_ignore_me',
+      'is_public': False,
+      'is_static': True,
+      'is_type_inferred': True,
+      'name': '_ignore_me',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+        'qname': 'builtins.int',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'various_modules_package/attribute_module/AttributesClassB/_multi_attr_2_private',
       'is_public': False,
       'is_static': True,
@@ -116,6 +133,23 @@
       'is_type_inferred': False,
       'name': 'callexpr_attr_function',
       'type': None,
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/defined_three_times',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'defined_three_times',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+        'qname': 'builtins.int',
+      }),
     }),
     dict({
       'docstring': dict({

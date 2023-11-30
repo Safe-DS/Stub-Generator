@@ -70,6 +70,8 @@
   	// TODO Safe-DS does not support tuple types.
   	@PythonName("tuple_attr_3")
   	static attr tupleAttr3: Tuple<String, Int>
+  	@PythonName("defined_three_times")
+  	static attr definedThreeTimes: Int
   	@PythonName("list_attr_1")
   	static attr listAttr1: List<Any>
   	@PythonName("list_attr_2")

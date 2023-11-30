@@ -25,6 +25,10 @@ class AttributesClassB:
     tuple_attr_2: tuple[str | int]
     tuple_attr_3: tuple[str, int]
 
+    defined_three_times: int
+    defined_three_times: str
+    defined_three_times, _ignore_me = (0, 0)
+
     list_attr_1: list
     list_attr_2: list[str | AttributesClassA]
     list_attr_3: list[str, AttributesClassA]

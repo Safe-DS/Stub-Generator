@@ -484,9 +484,7 @@ class MyPyAstVisitor:
         inferred_results = []
         for i, result_list in enumerate(result_array):
             result_count = len(result_list)
-            if result_count == 0:
-                break
-            elif result_count == 1:
+            if result_count == 1:
                 result_type = result_list[0]
             else:
                 result_type = sds_types.UnionType(result_list)
@@ -516,7 +514,7 @@ class MyPyAstVisitor:
         attributes: list[Attribute] = []
 
         if hasattr(lvalue, "name"):
-            if self._is_attribute_already_defined(lvalue, lvalue.name):
+            if self._is_attribute_already_defined(lvalue.name):
                 return attributes
 
             attributes.append(
@@ -529,7 +527,7 @@ class MyPyAstVisitor:
                 if not hasattr(lvalue_, "name"):  # pragma: no cover
                     raise AttributeError("Expected value to have attribute 'name'.")
 
-                if self._is_attribute_already_defined(lvalue_, lvalue_.name):
+                if self._is_attribute_already_defined(lvalue_.name):
                     continue
 
                 attributes.append(
@@ -538,28 +536,16 @@ class MyPyAstVisitor:
 
         return attributes
 
-    def _is_attribute_already_defined(self, lvalue: mp_nodes.Expression, value_name: str) -> bool:
-        assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
-        if hasattr(lvalue, "node"):
-            node = lvalue.node
-        else:  # pragma: no cover
-            raise AttributeError("Expected value to have attribute 'node'.")
-
+    def _is_attribute_already_defined(self, value_name: str) -> bool:
         # If node is None, it's possible that the attribute was already defined once
-        if node is None:
-            parent = self.__declaration_stack[-1]
-            if isinstance(parent, Function):
-                parent = self.__declaration_stack[-2]
+        parent = self.__declaration_stack[-1]
+        if isinstance(parent, Function):
+            parent = self.__declaration_stack[-2]
 
-            if not isinstance(parent, Class):  # pragma: no cover
-                raise TypeError("Parent has the wrong class, cannot get attribute values.")
+        if not isinstance(parent, Class):  # pragma: no cover
+            raise TypeError("Parent has the wrong class, cannot get attribute values.")
 
-            for attribute in parent.attributes:
-                if value_name == attribute.name:
-                    return True
-
-            raise ValueError(f"The attribute {value_name} has no value.")  # pragma: no cover
-        return False
+        return any(value_name == attribute.name for attribute in parent.attributes)
 
     def _create_attribute(
         self,
