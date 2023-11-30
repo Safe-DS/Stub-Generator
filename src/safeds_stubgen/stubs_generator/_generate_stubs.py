@@ -141,7 +141,9 @@ class StubsStringGenerator:
             parameter_info = ""
             if constructor:
                 parameter_info = self._create_parameter_string(
-                    constructor.parameters, class_indentation, is_instance_method=True,
+                    constructor.parameters,
+                    class_indentation,
+                    is_instance_method=True,
                 )
 
             constructor_info = f"({parameter_info})"
@@ -299,7 +301,9 @@ class StubsStringGenerator:
 
         # Parameters
         func_params = self._create_parameter_string(
-            parameters=function.parameters, indentations=indentations, is_instance_method=not is_static and is_method,
+            parameters=function.parameters,
+            indentations=indentations,
+            is_instance_method=not is_static and is_method,
         )
 
         # Convert function name to camelCase
@@ -373,7 +377,10 @@ class StubsStringGenerator:
         return ""
 
     def _create_parameter_string(
-        self, parameters: list[Parameter], indentations: str, is_instance_method: bool = False,
+        self,
+        parameters: list[Parameter],
+        indentations: str,
+        is_instance_method: bool = False,
     ) -> str:
         parameters_data: list[str] = []
         first_loop_skipped = False

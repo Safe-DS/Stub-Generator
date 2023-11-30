@@ -60,7 +60,10 @@ def _get_specific_module_data(module_name: str, docstring_style: str = "plaintex
 
 
 def _get_specific_class_data(
-    module_name: str, class_name: str, docstring_style: str = "plaintext", is_enum: bool = False,
+    module_name: str,
+    class_name: str,
+    docstring_style: str = "plaintext",
+    is_enum: bool = False,
 ) -> dict:
     data_type = "enums" if is_enum else "classes"
     api_data = get_api_data(docstring_style)
@@ -429,7 +432,11 @@ def test_class_methods(module_name: str, class_name: str, docstring_style: str, 
     ],
 )
 def test_function_parameters(
-    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion,
+    function_name: str,
+    module_name: str,
+    parent_class_name: str,
+    docstring_style: str,
+    snapshot: SnapshotAssertion,
 ) -> None:
     function_data: dict = _get_specific_function_data(module_name, function_name, parent_class_name, docstring_style)
     function_parameter_ids: list[str] = function_data["parameters"]
@@ -522,7 +529,11 @@ def test_function_parameters(
     ],
 )
 def test_function_results(
-    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion,
+    function_name: str,
+    module_name: str,
+    parent_class_name: str,
+    docstring_style: str,
+    snapshot: SnapshotAssertion,
 ) -> None:
     function_data: dict = _get_specific_function_data(module_name, function_name, parent_class_name, docstring_style)
     function_result_ids: list[str] = function_data["results"]
