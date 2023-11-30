@@ -23,10 +23,10 @@ from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
 _test_dir = Path(__file__).parent.parent.parent
-_test_package_name = "test_docstring_parser_package"
+_test_package_name = "docstring_parser_package"
 mypy_file = _get_mypy_ast(
     files=[
-        str(Path(_test_dir / "data" / _test_package_name / "test_numpydoc.py")),
+        str(Path(_test_dir / "data" / _test_package_name / "numpydoc.py")),
     ],
     package_paths=[],
     root=Path(_test_dir / "data" / _test_package_name),

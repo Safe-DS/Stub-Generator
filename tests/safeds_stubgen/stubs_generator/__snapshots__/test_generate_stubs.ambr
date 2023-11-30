@@ -1,8 +1,8 @@
 # serializer version: 1
 # name: test_abstract_creation
   '''
-  @PythonModule("test_package.abstract_module")
-  package testPackage.abstractModule
+  @PythonModule("various_tests_package.abstract_module")
+  package variousTestsPackage.abstractModule
   
   from abc import ABC
   from abc import abstractmethod
@@ -39,8 +39,8 @@
 # ---
 # name: test_class_attribute_creation
   '''
-  @PythonModule("test_package.attribute_module")
-  package testPackage.attributeModule
+  @PythonModule("various_tests_package.attribute_module")
+  package variousTestsPackage.attributeModule
   
   from typing import Optional
   from typing import Final
@@ -136,8 +136,8 @@
 # ---
 # name: test_class_creation
   '''
-  @PythonModule("test_package.class_module")
-  package testPackage.classModule
+  @PythonModule("various_tests_package.class_module")
+  package variousTestsPackage.classModule
   
   class ClassModuleEmptyClassA()
   
@@ -181,8 +181,8 @@
 # ---
 # name: test_enum_creation
   '''
-  @PythonModule("test_package.enum_module")
-  package testPackage.enumModule
+  @PythonModule("various_tests_package.enum_module")
+  package variousTestsPackage.enumModule
   
   from another_path.another_module import AnotherClass as _AcImportAlias
   
@@ -214,8 +214,8 @@
 # ---
 # name: test_function_creation
   '''
-  @PythonModule("test_package.function_module")
-  package testPackage.functionModule
+  @PythonModule("various_tests_package.function_module")
+  package variousTestsPackage.functionModule
   
   from typing import Callable
   from typing import Optional
@@ -476,8 +476,8 @@
 # ---
 # name: test_import_creation
   '''
-  @PythonModule("test_package.import_module")
-  package testPackage.importModule
+  @PythonModule("various_tests_package.import_module")
+  package variousTestsPackage.importModule
   
   import mypy as `static`
   
@@ -487,8 +487,8 @@
 # ---
 # name: test_type_inference
   '''
-  @PythonModule("test_package.infer_types_module")
-  package testPackage.inferTypesModule
+  @PythonModule("various_tests_package.infer_types_module")
+  package variousTestsPackage.inferTypesModule
   
   class InferMe()
   
@@ -527,8 +527,8 @@
 # ---
 # name: test_variance_creation
   '''
-  @PythonModule("test_package.variance_module")
-  package testPackage.varianceModule
+  @PythonModule("various_tests_package.variance_module")
+  package variousTestsPackage.varianceModule
   
   from typing import Generic
   from typing import TypeVar

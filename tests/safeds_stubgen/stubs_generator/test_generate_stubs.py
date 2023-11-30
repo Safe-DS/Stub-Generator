@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 # Setup - Run API to create stub files
 _lib_dir = Path(__file__).parent.parent.parent
-_test_package_name = "test_package"
+_test_package_name = "various_tests_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
