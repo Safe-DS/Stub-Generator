@@ -34,15 +34,12 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
 
     # Remove __init__ files and private files without public reexported content.
     # We reexport public content from _module_3 and _module_6, not from empty_module, _module_2 and _module_4.
-    for i, item in enumerate(python_files):
-        if item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "module_5"}:
-            python_files.pop(i)
+    actual_python_files = []
+    for item in python_files:
+        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "module_5"}):
+            actual_python_files.append(item)
 
-    try:
-        assert len(python_files) == len(stub_files)
-    except AssertionError as e:
-        item_names = [item.stem for item in python_files]
-        raise AssertionError(f"Got those items: {item_names}") from e
+    assert len(python_files) == len(stub_files)
 
     for py_item, stub_item in zip(python_files, stub_files, strict=True):
         if py_item.is_file():
