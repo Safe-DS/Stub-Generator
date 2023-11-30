@@ -2,6 +2,14 @@ class InferMe:
     ...
 
 
+class InferMe2:
+    ...
+
+
+class InferMe3:
+    ...
+
+
 class InferMyTypes:
     infer_int = 1
     infer_float = 1.2
@@ -43,5 +51,12 @@ class InferMyTypes:
         for _ in (1, 2):
             if infer_param_2:
                 return InferMe
+
+        try:
+            if infer_param_2:
+                return InferMe2
+        except RuntimeError:
+            if infer_param_2:
+                return InferMe3
 
         return int

@@ -4494,6 +4494,16 @@
           }),
           dict({
             'kind': 'NamedType',
+            'name': 'InferMe2',
+            'qname': 'tests.data.test_package.infer_types_module.InferMe2',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'InferMe3',
+            'qname': 'tests.data.test_package.infer_types_module.InferMe3',
+          }),
+          dict({
+            'kind': 'NamedType',
             'name': 'InferMyTypes',
             'qname': 'tests.data.test_package.infer_types_module.InferMyTypes',
           }),

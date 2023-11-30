@@ -50,14 +50,15 @@ def mypy_type_to_abstract_type(
             elif len(types) == 0:  # pragma: no cover
                 raise ValueError("Final type has no type arguments.")
             return sds_types.FinalType(type_=sds_types.UnionType(types=types))
-        elif (unanalyzed_type_name in {"list", "set"} and
-              len(mypy_type.args) == 1 and
-              isinstance(mypy_type.args[0], mp_types.AnyType) and
-              not has_correct_type_of_any(mypy_type.args[0].type_of_any)):
-            # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
-            # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
-            # of the list arguments, which we cant get through the "unanalyzed_type" attribute
-            return mypy_type_to_abstract_type(unanalyzed_type)
+        elif unanalyzed_type_name in {"list", "set"}:
+            type_args = getattr(mypy_type, "args", [])
+            if (len(type_args) == 1 and
+                    isinstance(type_args[0], mp_types.AnyType) and
+                    not has_correct_type_of_any(type_args[0].type_of_any)):
+                # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
+                # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
+                # of the list arguments, which we cant get through the "unanalyzed_type" attribute
+                return mypy_type_to_abstract_type(unanalyzed_type)
 
     # Iterable mypy types
     if isinstance(mypy_type, mp_types.TupleType):
@@ -110,11 +111,14 @@ def mypy_type_to_abstract_type(
                 mypy_type_to_abstract_type(arg)
                 for arg in mypy_type.args
             ]
-            return {
-                "tuple": sds_types.TupleType,
-                "list": sds_types.ListType,
-                "set": sds_types.SetType,
-            }[type_name](types=types)
+            match type_name:
+                case "tuple":
+                    return sds_types.TupleType(types=types)
+                case "list":
+                    return sds_types.ListType(types=types)
+                case "set":
+                    return sds_types.SetType(types=types)
+            raise ValueError("Unexpected outcome.")  # pragma: no cover
 
         elif type_name == "dict":
             key_type = mypy_type_to_abstract_type(mypy_type.args[0])
@@ -151,15 +155,18 @@ def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
         raise ValueError("Could not find an appropriate parameter assignment.")
 
 
-def find_return_stmts_recursive(stmts: list[mp_nodes.Statement]) -> list[mp_nodes.ReturnStmt]:
+def find_return_stmts_recursive(stmts: list[mp_nodes.Statement] | list[mp_nodes.Block]) -> list[mp_nodes.ReturnStmt]:
     return_stmts = []
     for stmt in stmts:
         if isinstance(stmt, mp_nodes.IfStmt):
             return_stmts += find_return_stmts_recursive(stmt.body)
             if stmt.else_body:
                 return_stmts += find_return_stmts_recursive(stmt.else_body.body)
-        elif isinstance(stmt, mp_nodes.Block | mp_nodes.TryStmt):
+        elif isinstance(stmt, mp_nodes.Block):
             return_stmts += find_return_stmts_recursive(stmt.body)
+        elif isinstance(stmt, mp_nodes.TryStmt):
+            return_stmts += find_return_stmts_recursive([stmt.body])
+            return_stmts += find_return_stmts_recursive(stmt.handlers)
         elif isinstance(stmt, mp_nodes.MatchStmt):
             return_stmts += find_return_stmts_recursive(stmt.bodies)
         elif isinstance(stmt, mp_nodes.WhileStmt | mp_nodes.WithStmt | mp_nodes.ForStmt):
