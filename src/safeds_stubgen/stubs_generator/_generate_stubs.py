@@ -40,8 +40,6 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         camelCase for everything else).
     """
     modules = api.modules.values()
-    if not modules:
-        return
 
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
     generator = StubsStringGenerator(convert_identifiers)
@@ -104,22 +102,9 @@ class StubsStringGenerator:
             module_text += f"\n{wildcard_imports}\n"
 
         # Create global functions and properties
-        module_properties = []
-        module_functions = []
         for function in module.global_functions:
             if function.is_public:
-                if function.is_property:
-                    module_properties.append(
-                        f"\n{self._create_property_function_string(function)}\n"
-                    )
-                else:
-                    module_functions.append(
-                        f"\n{self._create_function_string(function, is_method=False)}\n"
-                    )
-
-        # We want the properties first, then the functions
-        for item in module_properties + module_functions:
-            module_text += item
+                module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
 
         # Create classes, class attr. & class methods
         for class_ in module.classes:
@@ -410,12 +395,7 @@ class StubsStringGenerator:
                 if param_default_value is not None:
                     if isinstance(param_default_value, str):
                         if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
-                            if param_default_value == "False":
-                                default_value = "false"
-                            elif param_default_value == "True":
-                                default_value = "true"
-                            else:
-                                default_value = f"{param_default_value}"
+                            default_value = f"{param_default_value}"
                         else:
                             default_value = f'"{param_default_value}"'
                     elif isinstance(param_default_value, bool):
@@ -527,12 +507,12 @@ class StubsStringGenerator:
                 camel_case_name = self._convert_snake_to_camel_case(name)
                 annotation = ""
                 if camel_case_name != name:
-                    annotation = f"\t{self._create_name_annotation(name)}\n"
+                    annotation = f"{self._create_name_annotation(name)} "
 
                 # Check if the name is a Safe-DS keyword and escape it
                 camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
 
-                enum_text += f"{annotation}\t{camel_case_name}\n"
+                enum_text += f"\t{annotation}{camel_case_name}\n"
             return f"{enum_signature} {{{enum_text}}}"
 
         return enum_signature
@@ -547,9 +527,6 @@ class StubsStringGenerator:
         if kind == "NamedType":
             name = type_data["name"]
             match name:
-                case "tuple":
-                    self._current_todo_msgs.add("Tuple")
-                    return "Tuple"
                 case "int":
                     return "Int"
                 case "str":
@@ -629,9 +606,7 @@ class StubsStringGenerator:
                 for type_ in type_data["types"]
             ]
 
-            if types:
-                return f"Tuple<{', '.join(types)}>"
-            return "Tuple"
+            return f"Tuple<{', '.join(types)}>"
         elif kind == "DictType":
             key_data = self._create_type_string(type_data["key_type"])
             value_data = self._create_type_string(type_data["value_type"])

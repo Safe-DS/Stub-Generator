@@ -2398,8 +2398,8 @@
 # name: test_enum_instances[EnumTest3]
   list([
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest3/ELEVEN',
-      'name': 'ELEVEN',
+      'id': 'various_modules_package/enum_module/EnumTest3/ele_ven',
+      'name': 'ele_ven',
     }),
   ])
 # ---
@@ -2468,7 +2468,7 @@
     }),
     'id': 'various_modules_package/enum_module/EnumTest3',
     'instances': list([
-      'various_modules_package/enum_module/EnumTest3/ELEVEN',
+      'various_modules_package/enum_module/EnumTest3/ele_ven',
     ]),
     'name': 'EnumTest3',
   })
@@ -4325,6 +4325,32 @@
     }),
   ])
 # ---
+# name: test_function_results[dictionary_results_no_key_no_value]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
+      'is_type_inferred': False,
+      'name': 'result_1',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results[epydoc_docstring_func]
   list([
     dict({
@@ -5222,6 +5248,25 @@
       ]),
       'results': list([
         'various_modules_package/function_module/dictionary_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/dictionary_results_no_key_no_value',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'dictionary_results_no_key_no_value',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
       ]),
     }),
     dict({
