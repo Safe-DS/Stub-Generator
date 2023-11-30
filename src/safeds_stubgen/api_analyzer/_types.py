@@ -60,7 +60,7 @@ class NamedType(AbstractType):
         return {"kind": self.__class__.__name__, "name": self.name, "qname": self.qname}
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, NamedType):
+        if not isinstance(other, NamedType):  # pragma: no cover
             return NotImplemented
         return self.name == other.name and self.qname == other.qname
 

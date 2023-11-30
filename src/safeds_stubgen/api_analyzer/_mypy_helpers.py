@@ -121,7 +121,7 @@ def mypy_type_to_abstract_type(
             return sds_types.DictType(key_type=key_type, value_type=value_type)
         else:
             return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-    raise ValueError("Unexpected type.")
+    raise ValueError("Unexpected type.")  # pragma: no cover
 
 
 def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
@@ -137,7 +137,7 @@ def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
         return ParameterAssignment.NAME_ONLY
     elif arg.kind == ArgKind.ARG_STAR2:
         return ParameterAssignment.NAMED_VARARG
-    else:
+    else:  # pragma: no cover
         raise ValueError("Could not find an appropriate parameter assignment.")
 
 

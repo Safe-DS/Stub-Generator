@@ -1111,6 +1111,7 @@
         'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
         'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
         'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
+        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
       ]),
       'reexported_by': list([
       ]),
@@ -2630,6 +2631,24 @@
       'is_optional': True,
       'is_type_inferred': True,
       'name': 'param_2',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'bool',
+        'qname': 'builtins.bool',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': True,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
+      'is_optional': True,
+      'is_type_inferred': True,
+      'name': 'param_3',
       'type': dict({
         'kind': 'NamedType',
         'name': 'bool',

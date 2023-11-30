@@ -20,7 +20,8 @@
   	@PythonName("abstract_method_params")
   	fun abstractMethodParams(
   		@PythonName("param_1") param1: Int,
-  		@PythonName("param_2") param2: Boolean = false
+  		@PythonName("param_2") param2: Boolean = false,
+  		@PythonName("param_3") param3: Boolean = true
   	) -> result1: List<String, Int>
   
   	// TODO Result type information missing.
