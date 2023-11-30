@@ -1,10 +1,19 @@
 # Stub Generator
 
+[![PyPI](https://img.shields.io/pypi/v/safe-ds-stubgen)](https://pypi.org/project/safe-ds-stubgen)
 [![Main](https://github.com/Safe-DS/Stub-Generator/actions/workflows/main.yml/badge.svg)](https://github.com/Safe-DS/Stub-Generator/actions/workflows/main.yml)
 [![codecov](https://codecov.io/gh/Safe-DS/Stub-Generator/branch/main/graph/badge.svg?token=UyCUY59HKM)](https://codecov.io/gh/Safe-DS/Stub-Generator)
 [![Documentation Status](https://readthedocs.org/projects/safe-ds-stub-generator/badge/?version=stable)](https://stubgen.safeds.com)
 
-Generation of Safe-DS stubs for Python libraries.
+Automated generation of [Safe-DS stubs](https://dsl.safeds.com/en/stable/language/stub-language/) for Python libraries.
+
+## Installation
+
+Get the latest version from [PyPI](https://pypi.org/project/safe-ds-stubgen):
+
+```shell
+pip install safe-ds-stubgen
+```
 
 ## Documentation
 
@@ -15,6 +24,7 @@ You can find the full documentation [here](https://stubgen.safeds.com).
 We welcome contributions from everyone. As a starting point, check the following resources:
 
 * [Setting up a development environment](https://stubgen.safeds.com/en/latest/development/environment/)
+* [Project guidelines](https://stubgen.safeds.com/en/latest/development/project_guidelines/)
 * [Contributing page](https://github.com/Safe-DS/Stub-Generator/contribute)
 
 If you need further help, please [use our discussion forum][forum].
