@@ -45,6 +45,8 @@ def params(
     obj: FunctionModuleClassA,
     callexpr: FunctionModuleClassA(),
     union: int | bool,
+    union_with_none_1: int | None,
+    union_with_none_2: None | int,
     list_: list[int],
     dictionary: dict[str, int | float],
     set_: set[str],

@@ -240,6 +240,8 @@
   	obj: FunctionModuleClassA,
   	callexpr,
   	`union`: union<Boolean, Int>,
+  	@PythonName("union_with_none_1") unionWithNone1: Int?,
+  	@PythonName("union_with_none_2") unionWithNone2: Int?,
   	@PythonName("list_") list: List<Int>,
   	dictionary: Map<String, union<Float, Int>>,
   	@PythonName("set_") set: Set<String>,

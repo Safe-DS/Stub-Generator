@@ -596,11 +596,7 @@ class StubsStringGenerator:
         elif kind == "DictType":
             key_data = self._create_type_string(type_data["key_type"])
             value_data = self._create_type_string(type_data["value_type"])
-            if key_data:
-                if value_data:
-                    return f"Map<{key_data}, {value_data}>"
-                return f"Map<{key_data}>"
-            return "Map"
+            return f"Map<{key_data}, {value_data}>"
         elif kind == "LiteralType":
             literal_type = type_data["literal"]
             if isinstance(literal_type, str):
@@ -617,7 +613,7 @@ class StubsStringGenerator:
         while True:
             for x in range(1, 27):
                 yield string.ascii_lowercase[x - 1]
-            for x in range(1, 27):
+            for x in range(1, 27):  # pragma: no cover
                 for y in range(1, 27):
                     yield string.ascii_lowercase[x - 1] + string.ascii_lowercase[y - 1]
 

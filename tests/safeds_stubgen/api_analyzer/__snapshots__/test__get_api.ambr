@@ -3732,6 +3732,62 @@
         ]),
       }),
     }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/params/union_with_none_1',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'union_with_none_1',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/params/union_with_none_2',
+      'is_optional': False,
+      'is_type_inferred': False,
+      'name': 'union_with_none_2',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+        ]),
+      }),
+    }),
   ])
 # ---
 # name: test_function_parameters[public_no_params_no_result]
@@ -5544,6 +5600,8 @@
         'various_modules_package/function_module/params/obj',
         'various_modules_package/function_module/params/callexpr',
         'various_modules_package/function_module/params/union',
+        'various_modules_package/function_module/params/union_with_none_1',
+        'various_modules_package/function_module/params/union_with_none_2',
         'various_modules_package/function_module/params/list_',
         'various_modules_package/function_module/params/dictionary',
         'various_modules_package/function_module/params/set_',
