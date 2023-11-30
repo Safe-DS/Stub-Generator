@@ -316,11 +316,7 @@ class Variance:
     variance_type: VarianceType
 
     def to_dict(self) -> dict[str, Any]:
-        return {
-            "name": self.name,
-            "type": self.type.to_dict(),
-            "variance_type": self.variance_type.name
-        }
+        return {"name": self.name, "type": self.type.to_dict(), "variance_type": self.variance_type.name}
 
 
 class VarianceType(PythonEnum):

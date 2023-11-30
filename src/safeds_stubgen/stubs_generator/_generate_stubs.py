@@ -109,13 +109,9 @@ class StubsStringGenerator:
         for function in module.global_functions:
             if function.is_public:
                 if function.is_property:
-                    module_properties.append(
-                        f"\n{self._create_property_function_string(function)}\n"
-                    )
+                    module_properties.append(f"\n{self._create_property_function_string(function)}\n")
                 else:
-                    module_functions.append(
-                        f"\n{self._create_function_string(function, is_method=False)}\n"
-                    )
+                    module_functions.append(f"\n{self._create_function_string(function, is_method=False)}\n")
 
         # We want the properties first, then the functions
         for item in module_properties + module_functions:
@@ -145,7 +141,7 @@ class StubsStringGenerator:
             parameter_info = ""
             if constructor:
                 parameter_info = self._create_parameter_string(
-                    constructor.parameters, class_indentation, is_instance_method=True
+                    constructor.parameters, class_indentation, is_instance_method=True,
                 )
 
             constructor_info = f"({parameter_info})"
@@ -154,10 +150,7 @@ class StubsStringGenerator:
         superclasses = class_.superclasses
         superclass_info = ""
         if superclasses and not class_.is_abstract:
-            superclass_names = [
-                self._split_import_id(superclass)[1]
-                for superclass in superclasses
-            ]
+            superclass_names = [self._split_import_id(superclass)[1] for superclass in superclasses]
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         if len(superclasses) > 1:
@@ -190,9 +183,9 @@ class StubsStringGenerator:
                 variances.append(f"{variance_direction}{variance_name_camel_case}")
                 if variance_inheritance:
                     constraints.append(
-                            f"{variance_name_camel_case} {variance_inheritance} "
-                            f"{self._create_type_string(variance.type.to_dict())}"
-                        )
+                        f"{variance_name_camel_case} {variance_inheritance} "
+                        f"{self._create_type_string(variance.type.to_dict())}",
+                    )
 
             if variances:
                 variance_info = f"<{', '.join(variances)}>"
@@ -306,9 +299,7 @@ class StubsStringGenerator:
 
         # Parameters
         func_params = self._create_parameter_string(
-            parameters=function.parameters,
-            indentations=indentations,
-            is_instance_method=not is_static and is_method
+            parameters=function.parameters, indentations=indentations, is_instance_method=not is_static and is_method,
         )
 
         # Convert function name to camelCase
@@ -347,11 +338,7 @@ class StubsStringGenerator:
         camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
 
         # Create type information
-        result_types = [
-            result.type
-            for result in function.results
-            if result.type is not None
-        ]
+        result_types = [result.type for result in function.results if result.type is not None]
         result_union = UnionType(types=result_types)
         types_data = result_union.to_dict()
         property_type = self._create_type_string(types_data)
@@ -375,8 +362,7 @@ class StubsStringGenerator:
             result_name = self._convert_snake_to_camel_case(result.name)
             result_name = self._replace_if_safeds_keyword(result_name)
             results.append(
-                f"{result_name}"
-                f"{type_string}",
+                f"{result_name}{type_string}",
             )
 
         if results:
@@ -387,7 +373,7 @@ class StubsStringGenerator:
         return ""
 
     def _create_parameter_string(
-        self, parameters: list[Parameter], indentations: str, is_instance_method: bool = False
+        self, parameters: list[Parameter], indentations: str, is_instance_method: bool = False,
     ) -> str:
         parameters_data: list[str] = []
         first_loop_skipped = False
@@ -466,8 +452,7 @@ class StubsStringGenerator:
 
             # Create string and append to the list
             parameters_data.append(
-                f"{name_annotation}{camel_case_name}"
-                f"{type_string}{param_value}",
+                f"{name_annotation}{camel_case_name}{type_string}{param_value}",
             )
 
         inner_indentations = indentations + "\t"
@@ -575,8 +560,7 @@ class StubsStringGenerator:
             return_type = type_data["return_type"]
             if return_type["kind"] == "TupleType":
                 return_types = [
-                    f"{next(name_generator)}: {self._create_type_string(type_)}"
-                    for type_ in return_type["types"]
+                    f"{next(name_generator)}: {self._create_type_string(type_)}" for type_ in return_type["types"]
                 ]
                 return_type_string = f"({', '.join(return_types)})"
             else:
@@ -584,10 +568,7 @@ class StubsStringGenerator:
 
             return f"({', '.join(params)}) -> {return_type_string}"
         elif kind in {"SetType", "ListType"}:
-            types = [
-                self._create_type_string(type_)
-                for type_ in type_data["types"]
-            ]
+            types = [self._create_type_string(type_) for type_ in type_data["types"]]
 
             # Cut out the "Type" in the kind name
             name = kind[0:-4]
@@ -600,10 +581,7 @@ class StubsStringGenerator:
         elif kind == "UnionType":
             # Union items have to be unique. 'types' has to be a sorted list, since otherwise the snapshot tests would
             # fail b/c element order in sets is non-deterministic.
-            types = list({
-                self._create_type_string(type_)
-                for type_ in type_data["types"]
-            })
+            types = list({self._create_type_string(type_) for type_ in type_data["types"]})
             types.sort()
 
             if types:
@@ -624,10 +602,7 @@ class StubsStringGenerator:
             return ""
         elif kind == "TupleType":
             self._current_todo_msgs.add("Tuple")
-            types = [
-                self._create_type_string(type_)
-                for type_ in type_data["types"]
-            ]
+            types = [self._create_type_string(type_) for type_ in type_data["types"]]
 
             if types:
                 return f"Tuple<{', '.join(types)}>"
@@ -665,7 +640,8 @@ class StubsStringGenerator:
             return ""
 
         todo_msgs = [
-            "// TODO " + {
+            "// TODO "
+            + {
                 "Tuple": "Safe-DS does not support tuple types.",
                 "List": "List type has to many type arguments.",
                 "Set": "Set type has to many type arguments.",
@@ -704,9 +680,38 @@ class StubsStringGenerator:
     @staticmethod
     def _replace_if_safeds_keyword(keyword: str) -> str:
         if keyword in {
-            "as", "from", "import", "literal", "union", "where", "yield", "false", "null", "true", "annotation", "attr",
-            "class", "enum", "fun", "package", "pipeline", "schema", "segment", "val", "const", "in", "internal", "out",
-            "private", "static", "and", "not", "or", "sub", "super", "_"
+            "as",
+            "from",
+            "import",
+            "literal",
+            "union",
+            "where",
+            "yield",
+            "false",
+            "null",
+            "true",
+            "annotation",
+            "attr",
+            "class",
+            "enum",
+            "fun",
+            "package",
+            "pipeline",
+            "schema",
+            "segment",
+            "val",
+            "const",
+            "in",
+            "internal",
+            "out",
+            "private",
+            "static",
+            "and",
+            "not",
+            "or",
+            "sub",
+            "super",
+            "_",
         }:
             return f"`{keyword}`"
         return keyword
@@ -732,15 +737,7 @@ class StubsStringGenerator:
 
         # UpperCamelCase for class names
         if is_class_name:
-            return "".join(
-                part[0].upper() + part[1:]
-                for part in name_parts
-                if part
-            )
+            return "".join(part[0].upper() + part[1:] for part in name_parts if part)
 
         # Normal camelCase for everything else
-        return name_parts[0] + "".join(
-            part[0].upper() + part[1:]
-            for part in name_parts[1:]
-            if part
-        )
+        return name_parts[0] + "".join(part[0].upper() + part[1:] for part in name_parts[1:] if part)

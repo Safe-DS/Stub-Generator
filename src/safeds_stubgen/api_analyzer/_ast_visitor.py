@@ -140,11 +140,7 @@ class MyPyAstVisitor:
             generic_expr = getattr(generic_exprs[0], "index", None)
 
             if isinstance(generic_expr, mp_nodes.TupleExpr):
-                generic_types = [
-                    item.node
-                    for item in generic_expr.items
-                    if hasattr(item, "node")
-                ]
+                generic_types = [item.node for item in generic_expr.items if hasattr(item, "node")]
             elif isinstance(generic_expr, mp_nodes.NameExpr):
                 generic_types = [generic_expr.node]
             else:  # pragma: no cover
@@ -155,17 +151,18 @@ class MyPyAstVisitor:
                 variance_values: sds_types.AbstractType
                 if variance_type == VarianceType.INVARIANT:
                     variance_values = sds_types.UnionType([
-                        mypy_type_to_abstract_type(value)
-                        for value in generic_type.values
+                        mypy_type_to_abstract_type(value) for value in generic_type.values
                     ])
                 else:
                     variance_values = mypy_type_to_abstract_type(generic_type.upper_bound)
 
-                variances.append(Variance(
-                    name=generic_type.name,
-                    type=variance_values,
-                    variance_type=variance_type,
-                ))
+                variances.append(
+                    Variance(
+                        name=generic_type.name,
+                        type=variance_values,
+                        variance_type=variance_type,
+                    ),
+                )
 
         # superclasses
         # Todo Aliasing: Werden noch nicht aufgelöst
@@ -381,8 +378,9 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if (isinstance(node_ret_type, mp_types.AnyType) and
-                            not has_correct_type_of_any(node_ret_type.type_of_any)):
+                    if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
+                        node_ret_type.type_of_any,
+                    ):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
                         ret_type = self._infer_type_from_return_stmts(node)
@@ -432,11 +430,7 @@ class MyPyAstVisitor:
             # We have to sort the list for the snapshot tests
             return_stmt_types = list(types)
             return_stmt_types.sort(
-                key=lambda x: (
-                    x.name
-                    if isinstance(x, sds_types.NamedType)
-                    else str(len(x.types))
-                ),
+                key=lambda x: (x.name if isinstance(x, sds_types.NamedType) else str(len(x.types))),
             )
 
             if len(return_stmt_types) >= 2:
@@ -446,7 +440,9 @@ class MyPyAstVisitor:
 
     @staticmethod
     def _create_infered_results(
-        results: sds_types.TupleType, result_docstring: ResultDocstring, function_id: str,
+        results: sds_types.TupleType,
+        result_docstring: ResultDocstring,
+        function_id: str,
     ) -> list[Result]:
         """Create Result objects with inferred results.
 
@@ -629,8 +625,9 @@ class MyPyAstVisitor:
 
         type_ = None
         # Ignore types that are special mypy any types
-        if (attribute_type is not None and not (isinstance(attribute_type, mp_types.AnyType) and
-                                                not has_correct_type_of_any(attribute_type.type_of_any))):
+        if attribute_type is not None and not (
+            isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
+        ):
             # noinspection PyTypeChecker
             type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
@@ -657,7 +654,9 @@ class MyPyAstVisitor:
     # #### Parameter utilities
 
     def _get_default_parameter_value_and_type(
-        self, initializer: mp_nodes.Expression, infer_arg_type: bool = False,
+        self,
+        initializer: mp_nodes.Expression,
+        infer_arg_type: bool = False,
     ) -> tuple[None | str | float | int | bool | type, None | sds_types.NamedType]:
         # Get default value information
         default_value: None | str | float | int | bool | type = None
@@ -721,9 +720,11 @@ class MyPyAstVisitor:
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
                 pass
-            elif (isinstance(type_annotation, mp_types.UnboundType) and
-                  type_annotation.name in {"list", "set"} and
-                  len(type_annotation.args) >= 2):
+            elif (
+                isinstance(type_annotation, mp_types.UnboundType)
+                and type_annotation.name in {"list", "set"}
+                and len(type_annotation.args) >= 2
+            ):
                 # A special case where the argument is a list with multiple types. We have to handle this case like this
                 # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
                 # way in Mypy.

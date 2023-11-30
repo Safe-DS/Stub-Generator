@@ -60,10 +60,7 @@ def _get_specific_module_data(module_name: str, docstring_style: str = "plaintex
 
 
 def _get_specific_class_data(
-    module_name: str,
-    class_name: str,
-    docstring_style: str = "plaintext",
-    is_enum: bool = False
+    module_name: str, class_name: str, docstring_style: str = "plaintext", is_enum: bool = False,
 ) -> dict:
     data_type = "enums" if is_enum else "classes"
     api_data = get_api_data(docstring_style)
@@ -237,11 +234,7 @@ def test_class_attributes(module_name: str, class_name: str, docstring_style: st
     api_data = get_api_data(docstring_style)
 
     # Sort out the class attribute data we need and return
-    class_attribute_data = [
-        attr
-        for attr in api_data["attributes"]
-        if attr["id"] in class_attr_ids
-    ]
+    class_attribute_data = [attr for attr in api_data["attributes"] if attr["id"] in class_attr_ids]
 
     assert class_attribute_data == snapshot
 
@@ -271,7 +264,7 @@ def test_enums(module_name: str, class_name: str, snapshot: SnapshotAssertion) -
     argvalues=[
         ("EnumTest", _enum_module_name),
         ("_ReexportedEmptyEnum", _enum_module_name),
-        ("EnumTest3", _enum_module_name)
+        ("EnumTest3", _enum_module_name),
     ],
     ids=[
         "EnumTest",
@@ -319,11 +312,7 @@ def test_global_functions(module_name: str, snapshot: SnapshotAssertion) -> None
     all_functions: list[dict] = api_data_paintext["functions"]
 
     # Sort out the functions we need and return
-    global_function_data = [
-        function
-        for function in all_functions
-        if function["id"] in global_function_ids
-    ]
+    global_function_data = [function for function in all_functions if function["id"] in global_function_ids]
 
     assert global_function_data == snapshot
 
@@ -373,11 +362,7 @@ def test_class_methods(module_name: str, class_name: str, docstring_style: str, 
     all_functions: list[dict] = api_data["functions"]
 
     # Sort out the functions we need and return
-    class_methods_data = [
-        method
-        for method in all_functions
-        if method["id"] in class_method_ids
-    ]
+    class_methods_data = [method for method in all_functions if method["id"] in class_method_ids]
 
     assert class_methods_data == snapshot
 
@@ -444,7 +429,7 @@ def test_class_methods(module_name: str, class_name: str, docstring_style: str, 
     ],
 )
 def test_function_parameters(
-    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion
+    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion,
 ) -> None:
     function_data: dict = _get_specific_function_data(module_name, function_name, parent_class_name, docstring_style)
     function_parameter_ids: list[str] = function_data["parameters"]
@@ -453,9 +438,7 @@ def test_function_parameters(
 
     # Sort out the parameters we need and return
     function_parameter_data = [
-        parameter
-        for parameter in api_data["parameters"]
-        if parameter["id"] in function_parameter_ids
+        parameter for parameter in api_data["parameters"] if parameter["id"] in function_parameter_ids
     ]
 
     assert function_parameter_data == snapshot
@@ -499,7 +482,6 @@ def test_function_parameters(
         ("rest_docstring_func", _docstring_module_name, "RestDocstringClass", "rest"),
         ("numpy_docstring_func", _docstring_module_name, "NumpyDocstringClass", "numpydoc"),
         ("google_docstring_func", _docstring_module_name, "GoogleDocstringClass", "google"),
-
     ],
     ids=[
         "int_result",
@@ -540,17 +522,13 @@ def test_function_parameters(
     ],
 )
 def test_function_results(
-    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion
+    function_name: str, module_name: str, parent_class_name: str, docstring_style: str, snapshot: SnapshotAssertion,
 ) -> None:
     function_data: dict = _get_specific_function_data(module_name, function_name, parent_class_name, docstring_style)
     function_result_ids: list[str] = function_data["results"]
     api_data = get_api_data(docstring_style)
 
     # Sort out the results we need and return
-    function_result_data = [
-        result
-        for result in api_data["results"]
-        if result["id"] in function_result_ids
-    ]
+    function_result_data = [result for result in api_data["results"] if result["id"] in function_result_ids]
 
     assert function_result_data == snapshot

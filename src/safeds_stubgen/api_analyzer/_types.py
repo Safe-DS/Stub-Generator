@@ -303,10 +303,7 @@ class CallableType(AbstractType):
             if type_ is not None:
                 params.append(type_)
 
-        return CallableType(
-            params,
-            AbstractType.from_dict(d["return_type"])
-        )
+        return CallableType(params, AbstractType.from_dict(d["return_type"]))
 
     def to_dict(self) -> dict[str, Any]:
         return {
