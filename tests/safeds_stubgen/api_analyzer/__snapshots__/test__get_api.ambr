@@ -97,11 +97,24 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/attribute_module/AttributesClassB/callexpr_attr',
+      'id': 'test_package/attribute_module/AttributesClassB/callexpr_attr_class',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
-      'name': 'callexpr_attr',
+      'name': 'callexpr_attr_class',
+      'type': None,
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/callexpr_attr_function',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'callexpr_attr_function',
       'type': None,
     }),
     dict({
@@ -660,11 +673,11 @@
         'description': '',
         'type': '',
       }),
-      'id': 'test_package/attribute_module/AttributesClassB/set_',
+      'id': 'test_package/attribute_module/AttributesClassB/set_attr_1',
       'is_public': True,
       'is_static': True,
       'is_type_inferred': False,
-      'name': 'set_',
+      'name': 'set_attr_1',
       'type': dict({
         'kind': 'SetType',
         'types': list([
@@ -672,6 +685,102 @@
             'kind': 'NamedType',
             'name': 'Any',
             'qname': '',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/set_attr_2',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'set_attr_2',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'AttributesClassA',
+                'qname': 'tests.data.test_package.attribute_module.AttributesClassA',
+              }),
+            ]),
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/set_attr_3',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'set_attr_3',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'AttributesClassA',
+            'qname': '',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'test_package/attribute_module/AttributesClassB/set_attr_4',
+      'is_public': True,
+      'is_static': True,
+      'is_type_inferred': False,
+      'name': 'set_attr_4',
+      'type': dict({
+        'kind': 'SetType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'AttributesClassA',
+                'qname': '',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': '',
+              }),
+            ]),
           }),
         ]),
       }),
@@ -3247,21 +3356,17 @@
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
-      'default_value': 'FunctionModuleClassA()',
+      'default_value': None,
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
       'id': 'test_package/function_module/param_position/d',
-      'is_optional': True,
+      'is_optional': False,
       'is_type_inferred': True,
       'name': 'd',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'FunctionModuleClassA',
-        'qname': 'tests.data.test_package.function_module.FunctionModuleClassA',
-      }),
+      'type': None,
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
@@ -4055,7 +4160,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': 'builtins.str',
+            'qname': '',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': '',
           }),
         ]),
       }),
@@ -4163,7 +4273,11 @@
     }),
   ])
 # ---
-# name: test_function_results[callexr_result]
+# name: test_function_results[callexr_result_class]
+  list([
+  ])
+# ---
+# name: test_function_results[callexr_result_function]
   list([
   ])
 # ---
@@ -5050,12 +5164,30 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'test_package/function_module/callexr_result',
+      'id': 'test_package/function_module/callexr_result_class',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'callexr_result',
+      'name': 'callexr_result_class',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'test_package/function_module/callexr_result_function',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'callexr_result_function',
       'parameters': list([
       ]),
       'reexported_by': list([
