@@ -28,6 +28,31 @@ def test_main(snapshot: SnapshotAssertion) -> None:
         "-tr",
         "--docstyle",
         "plaintext",
+        "-ci",
+    ]
+
+    main()
+
+    with Path.open(_out_file_dir) as f:
+        json_data = json.load(f)
+
+    assert json_data == snapshot
+
+
+def test_main_dont_conver_identifiers(snapshot: SnapshotAssertion) -> None:
+    # Overwrite system arguments
+    sys.argv = [
+        str(_main_dir),
+        "-v",
+        "-p",
+        str(_test_package_name),
+        "-s",
+        str(_test_package_dir),
+        "-o",
+        str(_out_dir),
+        "-tr",
+        "--docstyle",
+        "plaintext",
     ]
 
     main()

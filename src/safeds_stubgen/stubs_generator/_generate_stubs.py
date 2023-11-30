@@ -392,10 +392,12 @@ class StubsStringGenerator:
             type_string = ""
             param_value = ""
 
-            # Default value
+            # Parameter type
             if parameter.type is not None:
                 param_default_value = parameter.default_value
                 parameter_type_data = parameter.type.to_dict()
+
+                # Default value
                 if param_default_value is not None:
                     if isinstance(param_default_value, str):
                         if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
@@ -413,6 +415,8 @@ class StubsStringGenerator:
                     else:
                         default_value = param_default_value
                     param_value = f" = {default_value}"
+                elif parameter.default_is_none:
+                    param_value = " = null"
 
                 # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we
                 # overwrite it and set the type to a list.

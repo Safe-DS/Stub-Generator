@@ -27,6 +27,7 @@ def test_correct_hash() -> None:
         name="test_parameter_for_hashing",
         is_optional=True,
         default_value="test_str",
+        default_is_none=False,
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
         docstring=ParameterDocstring("'hashvalue'", "r", "r"),
         type=NamedType("str"),

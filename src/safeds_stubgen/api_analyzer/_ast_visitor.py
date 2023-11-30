@@ -679,7 +679,7 @@ class MyPyAstVisitor:
             raise ValueError("No value found for parameter")
 
         if type(value) in {str, bool, int, float, NoneType}:
-            default_value = value
+            default_value = NoneType if value is None else value
 
             # Infer the type, if no type hint was found
             if infer_arg_type:
@@ -723,12 +723,18 @@ class MyPyAstVisitor:
             # Get default value and infer type information
             initializer = argument.initializer
             default_value = None
+            default_is_none = False
             if initializer is not None:
                 infer_arg_type = arg_type is None
                 default_value, inferred_arg_type = self._get_default_parameter_value_and_type(
                     initializer=initializer,
                     infer_arg_type=infer_arg_type,
                 )
+
+                if default_value == NoneType:
+                    default_is_none = True
+                    default_value = None
+
                 if infer_arg_type:
                     arg_type = inferred_arg_type
                     is_type_inferred = True
@@ -747,8 +753,9 @@ class MyPyAstVisitor:
                 Parameter(
                     id=f"{function_id}/{arg_name}",
                     name=arg_name,
-                    is_optional=default_value is not None,
+                    is_optional=default_value is not None or default_is_none,
                     default_value=default_value,
+                    default_is_none=default_is_none,
                     assigned_by=arg_kind,
                     docstring=docstring,
                     type=arg_type,

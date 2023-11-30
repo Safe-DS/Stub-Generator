@@ -15,9 +15,8 @@ AcDoubleAlias = _AcImportAlias
 ac_alias = AnotherClass
 
 
-# Todo Frage: Ist bei den Stubs param_2 optional? Wird None als default value unterstützt?
 # noinspection PyUnusedLocal
-def global_func(param_1: str = "first param", param_2: ac_alias | None = None) -> ac_alias:
+def global_func(main_test_param_1: str = "first param", main_test_param_2: ac_alias | None = None) -> ac_alias:
     """Docstring 1.
 
     Docstring 2.
