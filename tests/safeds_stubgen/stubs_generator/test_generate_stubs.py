@@ -39,9 +39,9 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
         if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "module_5"}):
             actual_python_files.append(item)
 
-    assert len(python_files) == len(stub_files)
+    assert len(actual_python_files) == len(stub_files)
 
-    for py_item, stub_item in zip(python_files, stub_files, strict=True):
+    for py_item, stub_item in zip(actual_python_files, stub_files, strict=True):
         if py_item.is_file():
             assert stub_item.is_dir()
             stub_files = list(stub_item.iterdir())
