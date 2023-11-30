@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 
 # Setup - Run API to create stub files
 _lib_dir = Path(__file__).parent.parent.parent
-_test_package_name = "various_tests_package"
+_test_package_name = "various_modules_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
@@ -59,8 +59,8 @@ def assert_stubs_snapshot(filename: str, snapshot: SnapshotAssertion) -> None:
 # ############################## Tests ############################## #
 def test_file_creation() -> None:
     _assert_file_creation_recursive(
-        python_path=Path(_test_package_dir / "test_file_creation"),
-        stub_path=Path(_out_dir_stubs / "test_file_creation")
+        python_path=Path(_test_package_dir / "file_creation"),
+        stub_path=Path(_out_dir_stubs / "file_creation")
     )
 
 

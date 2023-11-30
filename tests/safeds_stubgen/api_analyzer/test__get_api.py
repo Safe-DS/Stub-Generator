@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 
 # Setup: API data
 _test_dir = Path(__file__).parent.parent.parent
-_test_package_name = "various_tests_package"
+_test_package_name = "various_modules_package"
 
 api_data_paintext = get_api(
     package_name=_test_package_name,
