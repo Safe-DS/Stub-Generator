@@ -41,6 +41,9 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
 
     assert len(actual_python_files) == len(stub_files)
 
+    actual_python_files.sort(key=lambda x: x.stem)
+    stub_files.sort(key=lambda x: x.stem)
+
     for py_item, stub_item in zip(actual_python_files, stub_files, strict=True):
         if py_item.is_file():
             assert stub_item.is_dir()
