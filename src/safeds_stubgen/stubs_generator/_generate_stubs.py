@@ -574,12 +574,8 @@ class StubsStringGenerator:
 
             if types:
                 if len(types) == 2 and none_type_name in types:
-                    # if None is one of the two possible types, we can remove the None and just return the other
-                    # type with a question mark
-                    if types[0] == types[1] == none_type_name:
-                        return none_type_name
-                    elif types[0] == none_type_name:
-                        return f"{types[1]}?"
+                    # if None is at least one of the two possible types, we can remove the None and just return the
+                    # other type with a question mark
                     return f"{types[0]}?"
 
                 # If the union contains only one type, return the type instead of creating a union
