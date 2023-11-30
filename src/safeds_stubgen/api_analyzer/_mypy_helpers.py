@@ -43,10 +43,12 @@ def mypy_type_to_abstract_type(
             # Final type
             types = [
                 mypy_type_to_abstract_type(arg)
-                for arg in unanalyzed_type.args
+                for arg in getattr(unanalyzed_type, "args", [])
             ]
             if len(types) == 1:
                 return sds_types.FinalType(type_=types[0])
+            elif len(types) == 0:  # pragma: no cover
+                raise ValueError("Final type has no type arguments.")
             return sds_types.FinalType(type_=sds_types.UnionType(types=types))
         elif (unanalyzed_type_name in {"list", "set"} and
               len(mypy_type.args) == 1 and
@@ -55,13 +57,7 @@ def mypy_type_to_abstract_type(
             # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
             # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
             # of the list arguments, which we cant get through the "unanalyzed_type" attribute
-            return {
-                "list": sds_types.ListType,
-                "set": sds_types.SetType
-            }[unanalyzed_type_name](types=[
-                mypy_type_to_abstract_type(arg)
-                for arg in unanalyzed_type.args
-            ])
+            return mypy_type_to_abstract_type(unanalyzed_type)
 
     # Iterable mypy types
     if isinstance(mypy_type, mp_types.TupleType):
@@ -91,12 +87,15 @@ def mypy_type_to_abstract_type(
     elif isinstance(mypy_type, mp_types.LiteralType):
         return sds_types.LiteralType(literal=mypy_type.value)
     elif isinstance(mypy_type, mp_types.UnboundType):
-        if mypy_type.name == "list":
-            return sds_types.ListType(types=[
+        if mypy_type.name in {"list", "set"}:
+            return {
+                "list": sds_types.ListType,
+                "set": sds_types.SetType,
+            }[mypy_type.name](types=[
                 mypy_type_to_abstract_type(arg)
                 for arg in mypy_type.args
             ])
-        # Todo Aliasing: Import auflösen, wir können wir keinen fullname (qname) bekommen
+        # Todo Aliasing: Import auflösen, wir können hier keinen fullname (qname) bekommen
         return sds_types.NamedType(name=mypy_type.name)
 
     # Builtins
@@ -190,3 +189,24 @@ def has_correct_type_of_any(type_of_any: int) -> bool:
         mp_types.TypeOfAny.from_omitted_generics,
         mp_types.TypeOfAny.from_another_any,
     }
+
+
+def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.NamedType | sds_types.TupleType:
+    if isinstance(expr, mp_nodes.NameExpr):
+        if expr.name in {"False", "True"}:
+            return sds_types.NamedType(name="bool", qname="builtins.bool")
+        else:
+            return sds_types.NamedType(name=expr.name, qname=expr.fullname)
+    elif isinstance(expr, mp_nodes.IntExpr):
+        return sds_types.NamedType(name="int", qname="builtins.int")
+    elif isinstance(expr, mp_nodes.FloatExpr):
+        return sds_types.NamedType(name="float", qname="builtins.float")
+    elif isinstance(expr, mp_nodes.StrExpr):
+        return sds_types.NamedType(name="str", qname="builtins.str")
+    elif isinstance(expr, mp_nodes.TupleExpr):
+        return sds_types.TupleType(types=[
+            mypy_expression_to_sds_type(item)
+            for item in expr.items
+        ])
+    else:  # pragma: no cover
+        raise TypeError("Unexpected expression type for return type.")

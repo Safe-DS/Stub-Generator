@@ -8,7 +8,7 @@ class InferMyTypes:
     infer_bool = False
     infer_str = "String"
     infer_none = None
-    infer_obj = InferMe  # Todo Frage: Ist "static attr inferObj: () -> a: InferMe" richtig?
+    infer_obj = InferMe
 
     def __init__(self, init_param=1):
         self.init_infer = 3

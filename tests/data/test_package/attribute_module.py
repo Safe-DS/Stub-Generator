@@ -13,7 +13,13 @@ class AttributesClassB:
     _no_type_hint_private = 1
 
     object_attr: AttributesClassA
-    callexpr_attr: AttributesClassA()
+    callexpr_attr_class: AttributesClassA()
+
+    @staticmethod
+    def some_func() -> bool:
+        return True
+
+    callexpr_attr_function: some_func()
 
     tuple_attr_1: tuple
     tuple_attr_2: tuple[str | int]
@@ -24,6 +30,11 @@ class AttributesClassB:
     list_attr_3: list[str, AttributesClassA]
     list_attr_4: list[str, AttributesClassA | int]
 
+    set_attr_1: set
+    set_attr_2: set[str | AttributesClassA]
+    set_attr_3: set[str, AttributesClassA]
+    set_attr_4: set[str, AttributesClassA | int]
+
     dict_attr_1: dict
     dict_attr_2: dict[str, int]
     dict_attr_3: dict[str | int, None | AttributesClassA]
@@ -33,7 +44,6 @@ class AttributesClassB:
     flaot_attr: float
     int_or_bool_attr: int | bool
     str_attr_with_none_value: str = None
-    set_: set
 
     optional: Optional[int]
     final: Final[str] = "Value"

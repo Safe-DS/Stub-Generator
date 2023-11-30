@@ -422,14 +422,13 @@ class StubsStringGenerator:
                 # Parameter type
                 param_type = self._create_type_string(parameter_type_data)
                 type_string = f": {param_type}" if param_type else ""
-            elif assigned_by == ParameterAssignment.POSITIONAL_VARARG:
-                # Todo Frage: Wenn *args und **kwargs keinen Typ haben und auf Any gesetzt werden trotzdem
-                #  "param without type" msg erstellen?
-                type_string = ": List<Any>"
-            elif assigned_by == ParameterAssignment.NAMED_VARARG:
-                type_string = ": Map<String, Any>"
             else:
                 self._current_todo_msgs.add("param without type")
+
+                if assigned_by == ParameterAssignment.POSITIONAL_VARARG:
+                    type_string = ": List<Any>"
+                elif assigned_by == ParameterAssignment.NAMED_VARARG:
+                    type_string = ": Map<String, Any>"
 
             # Check if assigned_by is not illegal
             if assigned_by == ParameterAssignment.POSITION_ONLY and parameter.default_value is not None:
@@ -551,7 +550,6 @@ class StubsStringGenerator:
                 case _:
                     return name
         elif kind == "FinalType":
-            # Todo Frage: How are final types to be depicted?
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
             name_generator = self._callable_type_name_generator()
