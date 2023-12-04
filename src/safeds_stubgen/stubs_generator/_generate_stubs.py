@@ -401,7 +401,7 @@ class StubsStringGenerator:
                     else:
                         default_value = f"{param_default_value}"
                     param_value = f" = {default_value}"
-                elif parameter.default_is_none:
+                elif parameter.is_optional and parameter.default_value is None:
                     param_value = " = null"
 
                 # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we

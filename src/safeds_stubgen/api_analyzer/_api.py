@@ -264,7 +264,6 @@ class Parameter:
     name: str
     is_optional: bool
     default_value: str | bool | int | float | None
-    default_is_none: bool
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring
     type: AbstractType | None

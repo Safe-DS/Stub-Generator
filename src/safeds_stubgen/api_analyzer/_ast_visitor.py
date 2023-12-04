@@ -754,7 +754,6 @@ class MyPyAstVisitor:
                     name=arg_name,
                     is_optional=default_value is not None or default_is_none,
                     default_value=default_value,
-                    default_is_none=default_is_none,
                     assigned_by=arg_kind,
                     docstring=docstring,
                     type=arg_type,
