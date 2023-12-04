@@ -168,7 +168,6 @@ class Class:
     superclasses: list[str]
     is_public: bool
     docstring: ClassDocstring
-    is_abstract: bool = False
     constructor: Function | None = None
     constructor_fulldocstring: str = ""
     reexported_by: list[Module] = field(default_factory=list)
@@ -191,6 +190,10 @@ class Class:
             "classes": [class_.id for class_ in self.classes],
             "type_parameters": [type_parameter.to_dict() for type_parameter in self.type_parameters],
         }
+
+    @property
+    def is_abstract(self) -> bool:
+        return "abc.ABC" in self.superclasses
 
     def add_method(self, method: Function) -> None:
         self.methods.append(method)

@@ -167,7 +167,6 @@ class MyPyAstVisitor:
         # superclasses
         # Todo Aliasing: Werden noch nicht aufgelöst
         superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
-        is_abstract_class = "abc.ABC" in superclasses
 
         # Get reexported data
         reexported_by = self._get_reexported_by(name)
@@ -186,7 +185,6 @@ class MyPyAstVisitor:
             name=name,
             superclasses=superclasses,
             is_public=self._is_public(node.name, name),
-            is_abstract=is_abstract_class,
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,

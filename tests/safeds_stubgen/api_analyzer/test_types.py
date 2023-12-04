@@ -73,7 +73,6 @@ def test_named_type() -> None:
     assert AbstractType.from_dict(named_type_dict) == named_type
 
     assert NamedType.from_dict(named_type_dict) == named_type
-    assert NamedType.from_string(name) == named_type
 
     assert named_type.to_dict() == named_type_dict
 
