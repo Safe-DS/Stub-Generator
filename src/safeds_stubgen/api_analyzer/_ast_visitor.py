@@ -398,7 +398,7 @@ class MyPyAstVisitor:
         result_docstring = self.docstring_parser.get_result_documentation(node)
 
         if is_type_inferred and isinstance(ret_type, sds_types.TupleType):
-            return self._create_infered_results(ret_type, result_docstring, function_id)
+            return self._create_inferred_results(ret_type, result_docstring, function_id)
 
         # If we got a TupleType, we can iterate it for the results, but if we got a NamedType, we have just one result
         return_results = ret_type.types if isinstance(ret_type, sds_types.TupleType) else [ret_type]
@@ -437,7 +437,7 @@ class MyPyAstVisitor:
         return None
 
     @staticmethod
-    def _create_infered_results(
+    def _create_inferred_results(
         results: sds_types.TupleType,
         result_docstring: ResultDocstring,
         function_id: str,
