@@ -1726,7 +1726,7 @@
     'superclasses': list([
       'abc.ABC',
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1750,7 +1750,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1796,7 +1796,7 @@
     'superclasses': list([
       'tests.data.various_modules_package.class_module.ClassModuleEmptyClassA',
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1825,7 +1825,7 @@
       'tests.data.various_modules_package.class_module.ClassModuleEmptyClassA',
       'tests.data.various_modules_package.class_module.ClassModuleClassB',
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1850,7 +1850,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1874,7 +1874,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1902,7 +1902,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1954,7 +1954,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -1979,7 +1979,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2038,7 +2038,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2089,7 +2089,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2152,7 +2152,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2178,7 +2178,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2230,7 +2230,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2254,7 +2254,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
       dict({
         'name': '_T_co',
         'type': dict({
@@ -2323,7 +2323,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
       dict({
         'name': '_T_in',
         'type': dict({
@@ -2376,7 +2376,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2401,7 +2401,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---
@@ -2426,7 +2426,7 @@
     ]),
     'superclasses': list([
     ]),
-    'variances': list([
+    'type_parameters': list([
     ]),
   })
 # ---

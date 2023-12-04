@@ -9,7 +9,7 @@ from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
-from ._api import ParameterAssignment, VarianceType
+from ._api import ParameterAssignment, VarianceKind
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
@@ -163,14 +163,14 @@ def find_return_stmts_recursive(stmts: list[mp_nodes.Statement] | list[mp_nodes.
     return return_stmts
 
 
-def mypy_variance_parser(mypy_variance_type: Literal[0, 1, 2]) -> VarianceType:
+def mypy_variance_parser(mypy_variance_type: Literal[0, 1, 2]) -> VarianceKind:
     match mypy_variance_type:
         case 0:
-            return VarianceType.INVARIANT
+            return VarianceKind.INVARIANT
         case 1:
-            return VarianceType.COVARIANT
+            return VarianceKind.COVARIANT
         case 2:
-            return VarianceType.CONTRAVARIANT
+            return VarianceKind.CONTRAVARIANT
         case _:  # pragma: no cover
             raise ValueError("Mypy variance parser received an illegal parameter value.")
 

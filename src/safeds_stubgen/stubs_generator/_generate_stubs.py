@@ -15,7 +15,7 @@ from safeds_stubgen.api_analyzer import (
     QualifiedImport,
     Result,
     UnionType,
-    VarianceType,
+    VarianceKind,
     WildcardImport,
 )
 
@@ -150,22 +150,22 @@ class StubsStringGenerator:
         # Variance & Constrains
         constraints_info = ""
         variance_info = ""
-        if class_.variances:
+        if class_.type_parameters:
             constraints = []
             variances = []
-            for variance in class_.variances:
-                match variance.variance_type.name:
-                    case VarianceType.INVARIANT.name:
+            for variance in class_.type_parameters:
+                match variance.variance.name:
+                    case VarianceKind.INVARIANT.name:
                         variance_inheritance = ""
                         variance_direction = ""
-                    case VarianceType.COVARIANT.name:
+                    case VarianceKind.COVARIANT.name:
                         variance_inheritance = "sub"
                         variance_direction = "out "
-                    case VarianceType.CONTRAVARIANT.name:
+                    case VarianceKind.CONTRAVARIANT.name:
                         variance_inheritance = "super"
                         variance_direction = "in "
                     case _:  # pragma: no cover
-                        raise ValueError(f"Expected variance kind, got {variance.variance_type.name}.")
+                        raise ValueError(f"Expected variance kind, got {variance.variance.name}.")
 
                 # Convert name to camelCase and check for keywords
                 variance_name_camel_case = self._convert_snake_to_camel_case(variance.name)

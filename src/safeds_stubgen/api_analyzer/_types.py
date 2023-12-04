@@ -52,10 +52,6 @@ class NamedType(AbstractType):
     def from_dict(cls, d: dict[str, Any]) -> NamedType:
         return NamedType(d["name"], d["qname"])
 
-    @classmethod
-    def from_string(cls, name: str, qname: str = "") -> NamedType:
-        return NamedType(name, qname)
-
     def to_dict(self) -> dict[str, str]:
         return {"kind": self.__class__.__name__, "name": self.name, "qname": self.qname}
 

@@ -125,7 +125,7 @@
         ]),
         'superclasses': list([
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
       dict({
@@ -188,7 +188,7 @@
         'superclasses': list([
           'tests.data.main_package.main_module.AcDoubleAlias',
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
       dict({
@@ -212,7 +212,7 @@
         'superclasses': list([
           'tests.data.main_package.another_path.another_module.AnotherClass',
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
       dict({
@@ -256,7 +256,7 @@
         ]),
         'superclasses': list([
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
       dict({
@@ -281,7 +281,7 @@
         ]),
         'superclasses': list([
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
       dict({
@@ -303,7 +303,7 @@
         ]),
         'superclasses': list([
         ]),
-        'variances': list([
+        'type_parameters': list([
         ]),
       }),
     ]),

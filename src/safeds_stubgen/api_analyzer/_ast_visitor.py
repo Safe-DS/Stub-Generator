@@ -19,8 +19,8 @@ from ._api import (
     Parameter,
     QualifiedImport,
     Result,
-    Variance,
-    VarianceType,
+    TypeParameter,
+    VarianceKind,
     WildcardImport,
 )
 from ._mypy_helpers import (
@@ -134,7 +134,7 @@ class MyPyAstVisitor:
             if base_name == "Generic":
                 generic_exprs.append(removed_base_type_expr)
 
-        variances = []
+        type_parameters = []
         if generic_exprs:
             # Can only be one, since a class can inherit "Generic" only one time
             generic_expr = getattr(generic_exprs[0], "index", None)
@@ -149,18 +149,18 @@ class MyPyAstVisitor:
             for generic_type in generic_types:
                 variance_type = mypy_variance_parser(generic_type.variance)
                 variance_values: sds_types.AbstractType
-                if variance_type == VarianceType.INVARIANT:
+                if variance_type == VarianceKind.INVARIANT:
                     variance_values = sds_types.UnionType([
                         mypy_type_to_abstract_type(value) for value in generic_type.values
                     ])
                 else:
                     variance_values = mypy_type_to_abstract_type(generic_type.upper_bound)
 
-                variances.append(
-                    Variance(
+                type_parameters.append(
+                    TypeParameter(
                         name=generic_type.name,
                         type=variance_values,
-                        variance_type=variance_type,
+                        variance=variance_type,
                     ),
                 )
 
@@ -190,7 +190,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
-            variances=variances,
+            type_parameters=type_parameters,
         )
         self.__declaration_stack.append(class_)
 
