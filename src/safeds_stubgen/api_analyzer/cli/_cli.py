@@ -17,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun, args.convert_identifiers)
+    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
 
 
 def _get_args() -> argparse.Namespace:
