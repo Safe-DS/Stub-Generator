@@ -61,11 +61,11 @@ def _get_args() -> argparse.Namespace:
         action="store_true",
     )
     parser.add_argument(
-        "-ci",
-        "--convert_identifiers",
+        "-nc",
+        "--naming_convert",
         help=(
-            "Set this flag if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and "
-            "camelCase for everything else)."
+            "Set this flag if the name identifiers should be converted to Safe-DS standard (UpperCamelCase for classes "
+            "and camelCase for everything else)."
         ),
         required=False,
         action="store_true",

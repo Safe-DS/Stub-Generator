@@ -28,7 +28,7 @@ def test_main(snapshot: SnapshotAssertion) -> None:
         "-tr",
         "--docstyle",
         "plaintext",
-        "-ci",
+        "-nc",
     ]
 
     main()
