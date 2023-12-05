@@ -1590,6 +1590,26 @@
         'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
       ]),
     }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'infer_function_2',
+      'parameters': list([
+        'various_modules_package/infer_types_module/InferMyTypes/infer_function_2/i',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/infer_types_module/InferMyTypes/infer_function_2/result_1',
+      ]),
+    }),
   ])
 # ---
 # name: test_class_methods[NumpyDocstringClass]
@@ -2126,6 +2146,7 @@
     'is_public': True,
     'methods': list([
       'various_modules_package/infer_types_module/InferMyTypes/infer_function',
+      'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
     ]),
     'name': 'InferMyTypes',
     'reexported_by': list([

@@ -60,3 +60,11 @@ class InferMyTypes:
                 return InferMe3
 
         return int
+
+    @staticmethod
+    def infer_function_2(i=2):
+        """Test for results withour """
+        if i:
+            return "a"
+        else:
+            return False
