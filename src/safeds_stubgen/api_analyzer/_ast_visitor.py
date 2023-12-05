@@ -369,7 +369,7 @@ class MyPyAstVisitor:
 
         # Get type
         ret_type: sds_types.AbstractType | None = None
-        is_type_inferred = False
+        type_is_inferred = False
         if hasattr(node, "type"):
             node_type = node.type
             if node_type is not None and hasattr(node_type, "ret_type"):
@@ -382,7 +382,7 @@ class MyPyAstVisitor:
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
                         ret_type = self._infer_type_from_return_stmts(node)
-                        is_type_inferred = ret_type is not None
+                        type_is_inferred = ret_type is not None
                     else:
                         # Otherwise, we can parse the type normally
                         unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
@@ -390,14 +390,14 @@ class MyPyAstVisitor:
             else:
                 # Infer type
                 ret_type = self._infer_type_from_return_stmts(node)
-                is_type_inferred = ret_type is not None
+                type_is_inferred = ret_type is not None
 
         if ret_type is None:
             return []
 
         result_docstring = self.docstring_parser.get_result_documentation(node)
 
-        if is_type_inferred and isinstance(ret_type, sds_types.TupleType):
+        if type_is_inferred and isinstance(ret_type, sds_types.TupleType):
             return self._create_inferred_results(ret_type, result_docstring, function_id)
 
         # If we got a TupleType, we can iterate it for the results, but if we got a NamedType, we have just one result
@@ -406,7 +406,6 @@ class MyPyAstVisitor:
             Result(
                 id=f"{function_id}/result_{i + 1}",
                 type=type_,
-                is_type_inferred=is_type_inferred,
                 name=f"result_{i + 1}",
                 docstring=result_docstring,
             )
@@ -492,7 +491,6 @@ class MyPyAstVisitor:
                 Result(
                     id=f"{function_id}/{name}",
                     type=result_type,
-                    is_type_inferred=True,
                     name=name,
                     docstring=result_docstring,
                 ),
@@ -572,7 +570,6 @@ class MyPyAstVisitor:
             qname = node.fullname
 
         attribute_type = None
-        is_type_inferred = False
 
         # MemberExpr are constructor (__init__) attributes
         if isinstance(attribute, mp_nodes.MemberExpr):
@@ -580,15 +577,10 @@ class MyPyAstVisitor:
             if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
                 attribute_type = None
 
-            # Sometimes the is_inferred value is True even thoght has_explicit_value is False, thus we HAVE to check
-            # has_explicit_value, too.
-            is_type_inferred = node.is_inferred and node.has_explicit_value
-
         # NameExpr are class attributes
         elif isinstance(attribute, mp_nodes.NameExpr):
             if not node.explicit_self_type:
                 attribute_type = node.type
-                is_type_inferred = node.is_inferred
 
                 # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
                 # regarding list item types
@@ -597,7 +589,7 @@ class MyPyAstVisitor:
                     and hasattr(attribute_type, "type")
                     and hasattr(attribute_type, "args")
                     and attribute_type.type.fullname == "builtins.list"
-                    and not is_type_inferred
+                    and not node.is_inferred
                 ):
                     if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
                         attribute_type.args = unanalyzed_type.args
@@ -629,7 +621,6 @@ class MyPyAstVisitor:
             id=id_,
             name=name,
             type=type_,
-            is_type_inferred=is_type_inferred,
             is_public=self._is_public(name, qname),
             is_static=is_static,
             docstring=docstring,
@@ -694,7 +685,6 @@ class MyPyAstVisitor:
         for argument in node.arguments:
             arg_name = argument.variable.name
             mypy_type = argument.variable.type
-            is_type_inferred = False
             arg_kind = get_argument_kind(argument)
             type_annotation = argument.type_annotation
             arg_type = None
@@ -733,7 +723,6 @@ class MyPyAstVisitor:
 
                 if infer_arg_type:
                     arg_type = inferred_arg_type
-                    is_type_inferred = True
 
             # Create parameter docstring
             parent = self.__declaration_stack[-1]
@@ -757,7 +746,6 @@ class MyPyAstVisitor:
                     assigned_by=arg_kind,
                     docstring=docstring,
                     type=arg_type,
-                    is_type_inferred=is_type_inferred,
                 ),
             )
 

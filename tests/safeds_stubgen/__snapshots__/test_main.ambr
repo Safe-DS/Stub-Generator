@@ -11,7 +11,6 @@
         'id': 'main_package/main_module/ModuleClass/_init_attr_private',
         'is_public': False,
         'is_static': False,
-        'is_type_inferred': False,
         'name': '_init_attr_private',
         'type': dict({
           'kind': 'NamedType',
@@ -28,7 +27,6 @@
         'id': 'main_package/main_module/ModuleClass/attr_1',
         'is_public': True,
         'is_static': True,
-        'is_type_inferred': False,
         'name': 'attr_1',
         'type': dict({
           'kind': 'NamedType',
@@ -45,7 +43,6 @@
         'id': 'main_package/main_module/ModuleClass/init_attr',
         'is_public': True,
         'is_static': False,
-        'is_type_inferred': False,
         'name': 'init_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -62,7 +59,6 @@
         'id': 'main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
         'is_public': False,
         'is_static': True,
-        'is_type_inferred': True,
         'name': 'nested_class_attr',
         'type': dict({
           'kind': 'NamedType',
@@ -79,7 +75,6 @@
         'id': 'main_package/main_module/_PrivateClass/public_attr_in_private_class',
         'is_public': False,
         'is_static': True,
-        'is_type_inferred': True,
         'name': 'public_attr_in_private_class',
         'type': dict({
           'kind': 'NamedType',
@@ -96,7 +91,6 @@
         'id': 'main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
         'is_public': False,
         'is_static': False,
-        'is_type_inferred': False,
         'name': 'public_init_attr_in_private_class',
         'type': dict({
           'kind': 'NamedType',
@@ -570,7 +564,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -588,7 +581,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'self',
         'type': None,
       }),
@@ -602,7 +594,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/__init__/init_param_1',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'init_param_1',
         'type': None,
       }),
@@ -616,7 +607,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/__init__/self',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'self',
         'type': None,
       }),
@@ -630,7 +620,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/_some_function/param_1',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -648,7 +637,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/_some_function/param_2',
         'is_optional': True,
-        'is_type_inferred': False,
         'name': 'param_2',
         'type': dict({
           'kind': 'NamedType',
@@ -666,7 +654,6 @@
         }),
         'id': 'main_package/main_module/ModuleClass/_some_function/self',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'self',
         'type': None,
       }),
@@ -680,7 +667,6 @@
         }),
         'id': 'main_package/main_module/_PrivateClass/__init__/self',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'self',
         'type': None,
       }),
@@ -694,7 +680,6 @@
         }),
         'id': 'main_package/main_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
-        'is_type_inferred': False,
         'name': 'self',
         'type': None,
       }),
@@ -708,7 +693,6 @@
         }),
         'id': 'main_package/main_module/global_func/main_test_param_1',
         'is_optional': True,
-        'is_type_inferred': False,
         'name': 'main_test_param_1',
         'type': dict({
           'kind': 'NamedType',
@@ -726,7 +710,6 @@
         }),
         'id': 'main_package/main_module/global_func/main_test_param_2',
         'is_optional': True,
-        'is_type_inferred': False,
         'name': 'main_test_param_2',
         'type': dict({
           'kind': 'UnionType',
@@ -752,7 +735,6 @@
           'type': '',
         }),
         'id': 'main_package/main_module/ModuleClass/NestedClass/nested_class_function/result_1',
-        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'SetType',
@@ -781,7 +763,6 @@
           'type': '',
         }),
         'id': 'main_package/main_module/ModuleClass/_some_function/result_1',
-        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',
@@ -795,7 +776,6 @@
           'type': '',
         }),
         'id': 'main_package/main_module/_private_global_func/result_1',
-        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'UnionType',
@@ -824,7 +804,6 @@
           'type': '',
         }),
         'id': 'main_package/main_module/global_func/result_1',
-        'is_type_inferred': False,
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',

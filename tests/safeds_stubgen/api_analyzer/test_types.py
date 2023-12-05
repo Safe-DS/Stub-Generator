@@ -29,8 +29,7 @@ def test_correct_hash() -> None:
         default_value="test_str",
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
         docstring=ParameterDocstring("'hashvalue'", "r", "r"),
-        type=NamedType("str"),
-        is_type_inferred=False,
+        type=NamedType(name="str"),
     )
     assert hash(parameter) == hash(deepcopy(parameter))
     enum_values = frozenset({"a", "b", "c"})
@@ -55,7 +54,6 @@ def test_correct_hash() -> None:
             min_inclusive=True,
             max_inclusive=True,
         ),
-        is_type_inferred=False,
         is_public=True,
         is_static=True,
         docstring=AttributeDocstring(),

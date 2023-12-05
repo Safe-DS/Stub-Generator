@@ -216,7 +216,6 @@ class Attribute:
     is_static: bool
     type: AbstractType | None
     docstring: AttributeDocstring
-    is_type_inferred: bool
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -226,7 +225,6 @@ class Attribute:
             "is_public": self.is_public,
             "is_static": self.is_static,
             "type": self.type.to_dict() if self.type is not None else None,
-            "is_type_inferred": self.is_type_inferred,
         }
 
 
@@ -267,7 +265,6 @@ class Parameter:
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring
     type: AbstractType | None
-    is_type_inferred: bool
 
     @property
     def is_required(self) -> bool:
@@ -289,7 +286,6 @@ class Parameter:
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
             "type": self.type.to_dict() if self.type is not None else None,
-            "is_type_inferred": self.is_type_inferred,
         }
 
 
@@ -332,7 +328,6 @@ class Result:
     id: str
     name: str
     type: AbstractType | None
-    is_type_inferred: bool
     docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
@@ -341,7 +336,6 @@ class Result:
             "name": self.name,
             "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict() if self.type is not None else None,
-            "is_type_inferred": self.is_type_inferred,
         }
 
 
