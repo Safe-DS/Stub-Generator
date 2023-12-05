@@ -1592,8 +1592,8 @@
     }),
     dict({
       'docstring': dict({
-        'description': '',
-        'full_docstring': '',
+        'description': 'Test for inferring results with just one possible result, and not a tuple of results.',
+        'full_docstring': 'Test for inferring results with just one possible result, and not a tuple of results.',
       }),
       'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
       'is_class_method': False,

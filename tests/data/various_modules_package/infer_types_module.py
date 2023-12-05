@@ -63,7 +63,7 @@ class InferMyTypes:
 
     @staticmethod
     def infer_function_2(i=2):
-        """Test for results withour """
+        """Test for inferring results with just one possible result, and not a tuple of results."""
         if i:
             return "a"
         else:
