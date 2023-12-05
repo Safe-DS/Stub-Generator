@@ -344,7 +344,7 @@ class LiteralType(AbstractType):
         return LiteralType(d["literals"])
 
     def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "literals": [literal for literal in self.literals]}
+        return {"kind": self.__class__.__name__, "literals": self.literals}
 
     def __hash__(self) -> int:
         return hash(frozenset(self.literals))
