@@ -221,20 +221,20 @@ def test_set_type() -> None:
 
 
 def test_literal_type() -> None:
-    type_ = LiteralType("Literal_1")
+    type_ = LiteralType(["Literal_1", 2])
     type_dict = {
         "kind": "LiteralType",
-        "literal": "Literal_1",
+        "literals": ["Literal_1", 2],
     }
 
     assert AbstractType.from_dict(type_dict) == type_
     assert LiteralType.from_dict(type_dict) == type_
     assert type_.to_dict() == type_dict
 
-    assert LiteralType("a") == LiteralType("a")
-    assert hash(LiteralType("a")) == hash(LiteralType("a"))
-    assert LiteralType("a") != LiteralType("b")
-    assert hash(LiteralType("a")) != hash(LiteralType("b"))
+    assert LiteralType(["a"]) == LiteralType(["a"])
+    assert hash(LiteralType(["a"])) == hash(LiteralType(["a"]))
+    assert LiteralType(["a"]) != LiteralType(["b"])
+    assert hash(LiteralType(["a"])) != hash(LiteralType(["b"]))
 
 
 def test_final_type() -> None:

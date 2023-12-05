@@ -76,7 +76,7 @@ def mypy_type_to_abstract_type(
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None", qname="builtins.None")
     elif isinstance(mypy_type, mp_types.LiteralType):
-        return sds_types.LiteralType(literal=mypy_type.value)
+        return sds_types.LiteralType(literals=[mypy_type.value])
     elif isinstance(mypy_type, mp_types.UnboundType):
         if mypy_type.name in {"list", "set"}:
             return {

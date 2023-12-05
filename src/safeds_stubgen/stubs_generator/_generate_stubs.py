@@ -569,8 +569,32 @@ class StubsStringGenerator:
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
         elif kind == "UnionType":
-            # Union items have to be unique. 'types' has to be a sorted list, since otherwise the snapshot tests would
-            # fail b/c element order in sets is non-deterministic.
+            # In Mypy LiteralTypes are getting seperated into unions of LiteralTypes,
+            # and we have to join them for the stubs.
+            literal_data = []
+            other_type_data = []
+            for type_information in type_data["types"]:
+                if type_information["kind"] == "LiteralType":
+                    literal_data.append(type_information)
+                else:
+                    other_type_data.append(type_information)
+
+            if len(literal_data) >= 2:
+                all_literals = [
+                    literal_type
+                    for literal in literal_data
+                    for literal_type in literal["literals"]
+                ]
+
+                # We overwrite the old types of the union with the joined literal types
+                type_data["types"] = other_type_data
+                type_data["types"].append({
+                    "kind": "LiteralType",
+                    "literals": all_literals,
+                })
+
+            # Union items have to be unique, therefore we use sets. But the types set has to be a sorted list, since
+            # otherwise the snapshot tests would fail b/c element order in sets is non-deterministic.
             types = list({self._create_type_string(type_) for type_ in type_data["types"]})
             types.sort()
 
@@ -596,10 +620,13 @@ class StubsStringGenerator:
             value_data = self._create_type_string(type_data["value_type"])
             return f"Map<{key_data}, {value_data}>"
         elif kind == "LiteralType":
-            literal_type = type_data["literal"]
-            if isinstance(literal_type, str):
-                literal_type = f'"{literal_type}"'
-            return f"literal<{literal_type}>"
+            types = []
+            for literal_type in type_data["literals"]:
+                if isinstance(literal_type, str):
+                    types.append(f'"{literal_type}"')
+                else:
+                    types.append(f'{literal_type}')
+            return f"literal<{', '.join(types)}>"
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 

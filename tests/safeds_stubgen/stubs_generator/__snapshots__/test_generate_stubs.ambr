@@ -115,6 +115,10 @@
   	@PythonName("final_union")
   	static attr finalUnion: union<Int, String>
   	static attr `literal`: literal<"Some String">
+  	@PythonName("multiple_literals")
+  	static attr multipleLiterals: literal<"Literal_1", "Literal_2", 3, True>
+  	@PythonName("mixed_literal_union")
+  	static attr mixedLiteralUnion: union<Int, String, literal<"L1", 2, 4, False>>
   	@PythonName("multi_attr_1")
   	static attr multiAttr1: Int
   	@PythonName("multi_attr_3")

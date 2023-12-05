@@ -337,17 +337,17 @@ class SetType(AbstractType):
 
 @dataclass(frozen=True)
 class LiteralType(AbstractType):
-    literal: str | int | float | bool
+    literals: list[str | int | float | bool]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LiteralType:
-        return LiteralType(d["literal"])
+        return LiteralType(d["literals"])
 
     def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "literal": self.literal}
+        return {"kind": self.__class__.__name__, "literals": [literal for literal in self.literals]}
 
     def __hash__(self) -> int:
-        return hash(frozenset([self.literal]))
+        return hash(frozenset(self.literals))
 
 
 @dataclass(frozen=True)

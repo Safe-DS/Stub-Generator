@@ -490,7 +490,59 @@
       'name': 'literal',
       'type': dict({
         'kind': 'LiteralType',
-        'literal': 'Some String',
+        'literals': list([
+          'Some String',
+        ]),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/mixed_literal_union',
+      'is_public': True,
+      'is_static': True,
+      'name': 'mixed_literal_union',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              'L1',
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              2,
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              4,
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              False,
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+        ]),
       }),
     }),
     dict({
@@ -592,6 +644,46 @@
         'kind': 'NamedType',
         'name': 'str',
         'qname': 'builtins.str',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/multiple_literals',
+      'is_public': True,
+      'is_static': True,
+      'name': 'multiple_literals',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              'Literal_1',
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              'Literal_2',
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              3,
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              True,
+            ]),
+          }),
+        ]),
       }),
     }),
     dict({
@@ -2239,11 +2331,15 @@
               'types': list([
                 dict({
                   'kind': 'LiteralType',
-                  'literal': 1,
+                  'literals': list([
+                    1,
+                  ]),
                 }),
                 dict({
                   'kind': 'LiteralType',
-                  'literal': 2,
+                  'literals': list([
+                    2,
+                  ]),
                 }),
               ]),
             }),
@@ -2290,11 +2386,15 @@
               'types': list([
                 dict({
                   'kind': 'LiteralType',
-                  'literal': 1,
+                  'literals': list([
+                    1,
+                  ]),
                 }),
                 dict({
                   'kind': 'LiteralType',
-                  'literal': 2,
+                  'literals': list([
+                    2,
+                  ]),
                 }),
               ]),
             }),
@@ -3513,7 +3613,9 @@
       'name': 'literal',
       'type': dict({
         'kind': 'LiteralType',
-        'literal': 'Some String',
+        'literals': list([
+          'Some String',
+        ]),
       }),
     }),
     dict({
@@ -4626,7 +4728,9 @@
       'name': 'result_1',
       'type': dict({
         'kind': 'LiteralType',
-        'literal': 'Some String',
+        'literals': list([
+          'Some String',
+        ]),
       }),
     }),
   ])

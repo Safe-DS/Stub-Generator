@@ -54,6 +54,8 @@ class AttributesClassB:
     finals: Final[str, int] = "Value"
     final_union: Final[str | int] = "Value"
     literal: Literal["Some String"]
+    multiple_literals: Literal["Literal_1", "Literal_2", 3, True]
+    mixed_literal_union: Literal["L1", 2] | int | Literal[4, False] | str
 
     multi_attr_1, _multi_attr_2_private = (123456, "I am a String")
     multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]
