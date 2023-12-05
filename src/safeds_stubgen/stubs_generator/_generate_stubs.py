@@ -580,11 +580,7 @@ class StubsStringGenerator:
                     other_type_data.append(type_information)
 
             if len(literal_data) >= 2:
-                all_literals = [
-                    literal_type
-                    for literal in literal_data
-                    for literal_type in literal["literals"]
-                ]
+                all_literals = [literal_type for literal in literal_data for literal_type in literal["literals"]]
 
                 # We overwrite the old types of the union with the joined literal types
                 type_data["types"] = other_type_data
@@ -625,7 +621,7 @@ class StubsStringGenerator:
                 if isinstance(literal_type, str):
                     types.append(f'"{literal_type}"')
                 else:
-                    types.append(f'{literal_type}')
+                    types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
