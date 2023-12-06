@@ -1610,6 +1610,34 @@
         'various_modules_package/infer_types_module/InferMyTypes/infer_function_2/result_1',
       ]),
     }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': True,
+      'name': 'infer_param_types',
+      'parameters': list([
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/integer',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/boolean',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/float_',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/none',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/callexpr',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/int_list',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/dictionary',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string_set',
+        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/tuple_',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
   ])
 # ---
 # name: test_class_methods[NumpyDocstringClass]
@@ -2145,6 +2173,7 @@
     'id': 'various_modules_package/infer_types_module/InferMyTypes',
     'is_public': True,
     'methods': list([
+      'various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
       'various_modules_package/infer_types_module/InferMyTypes/infer_function',
       'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
     ]),
@@ -5624,6 +5653,41 @@
         'various_modules_package/function_module/params/tuple_',
         'various_modules_package/function_module/params/literal',
         'various_modules_package/function_module/params/any_',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/params_with_default_value',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'params_with_default_value',
+      'parameters': list([
+        'various_modules_package/function_module/params_with_default_value/integer',
+        'various_modules_package/function_module/params_with_default_value/boolean',
+        'various_modules_package/function_module/params_with_default_value/float_',
+        'various_modules_package/function_module/params_with_default_value/none',
+        'various_modules_package/function_module/params_with_default_value/string',
+        'various_modules_package/function_module/params_with_default_value/obj',
+        'various_modules_package/function_module/params_with_default_value/callexpr',
+        'various_modules_package/function_module/params_with_default_value/union',
+        'various_modules_package/function_module/params_with_default_value/union_with_none_1',
+        'various_modules_package/function_module/params_with_default_value/union_with_none_2',
+        'various_modules_package/function_module/params_with_default_value/list_',
+        'various_modules_package/function_module/params_with_default_value/dictionary',
+        'various_modules_package/function_module/params_with_default_value/set_',
+        'various_modules_package/function_module/params_with_default_value/optional',
+        'various_modules_package/function_module/params_with_default_value/tuple_',
+        'various_modules_package/function_module/params_with_default_value/literal',
+        'various_modules_package/function_module/params_with_default_value/any_',
       ]),
       'reexported_by': list([
       ]),

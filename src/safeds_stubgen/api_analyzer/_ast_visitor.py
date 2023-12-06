@@ -31,6 +31,7 @@ from ._mypy_helpers import (
     get_mypyfile_definitions,
     has_correct_type_of_any,
     mypy_expression_to_sds_type,
+    mypy_expression_to_python_value,
     mypy_type_to_abstract_type,
     mypy_variance_parser,
 )
@@ -418,6 +419,7 @@ class MyPyAstVisitor:
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
         if return_stmts:
+            # In this case the items of the types set can only be of the class "NamedType" or "TupleType"
             types = {
                 mypy_expression_to_sds_type(return_stmt.expr)
                 for return_stmt in return_stmts
@@ -628,57 +630,6 @@ class MyPyAstVisitor:
 
     # #### Parameter utilities
 
-    def _get_default_parameter_value_and_type(
-        self,
-        initializer: mp_nodes.Expression,
-        infer_arg_type: bool = False,
-    ) -> tuple[None | str | float | int | bool | type, None | sds_types.NamedType]:
-        # Get default value information
-        default_value: None | str | float | int | bool | type = None
-        arg_type = None
-
-        value: Any
-        if hasattr(initializer, "value"):
-            value = initializer.value
-        elif isinstance(initializer, mp_nodes.NameExpr):
-            if initializer.name == "None":
-                value = None
-            elif initializer.name == "True":
-                value = True
-            elif initializer.name == "False":
-                value = False
-            else:
-                # Check if callee path is in our package and create type information
-                if self._check_if_qname_in_package(initializer.fullname):
-                    default_value = initializer.name
-                    if infer_arg_type:
-                        arg_type = sds_types.NamedType(name=initializer.name, qname=initializer.fullname)
-
-                return default_value, arg_type
-
-        elif isinstance(initializer, mp_nodes.CallExpr):
-            # We do not support call expressions as types
-            return default_value, arg_type
-
-        else:  # pragma: no cover
-            raise ValueError("No value found for parameter")
-
-        if type(value) in {str, bool, int, float, NoneType}:
-            default_value = NoneType if value is None else value
-
-            # Infer the type, if no type hint was found
-            if infer_arg_type:
-                value_type_name = {
-                    str: "str",
-                    bool: "bool",
-                    int: "int",
-                    float: "float",
-                    NoneType: "None",
-                }[type(value)]
-                arg_type = sds_types.NamedType(name=value_type_name, qname=f"builtins.{value_type_name}")
-
-        return default_value, arg_type
-
     def _parse_parameter_data(self, node: mp_nodes.FuncDef, function_id: str) -> list[Parameter]:
         arguments: list[Parameter] = []
 
@@ -712,17 +663,26 @@ class MyPyAstVisitor:
             default_is_none = False
             if initializer is not None:
                 infer_arg_type = arg_type is None
-                default_value, inferred_arg_type = self._get_default_parameter_value_and_type(
-                    initializer=initializer,
-                    infer_arg_type=infer_arg_type,
-                )
 
-                if default_value == NoneType:
-                    default_is_none = True
-                    default_value = None
+                if (isinstance(initializer, mp_nodes.NameExpr) and
+                        initializer.name not in {"None", "True", "False"} and
+                        not self._check_if_qname_in_package(initializer.fullname)):
+                    # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
+                    # in the package we analyze with Safe-DS.
+                    pass
+                elif isinstance(initializer, mp_nodes.CallExpr):
+                    # Safe-DS does not support call expressions as types
+                    pass
+                elif not isinstance(
+                    initializer,
+                    (mp_nodes.DictExpr, mp_nodes.TupleExpr, mp_nodes.SetExpr, mp_nodes.ListExpr)
+                ):
+                    # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
+                    default_value = mypy_expression_to_python_value(initializer)
+                    default_is_none = default_value is None
 
-                if infer_arg_type:
-                    arg_type = inferred_arg_type
+                    if infer_arg_type:
+                        arg_type = mypy_expression_to_sds_type(initializer)
 
             # Create parameter docstring
             parent = self.__declaration_stack[-1]

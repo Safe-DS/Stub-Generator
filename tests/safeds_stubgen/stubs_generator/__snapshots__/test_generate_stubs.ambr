@@ -258,6 +258,31 @@
   	@PythonName("any_") any: Any
   )
   
+  // TODO Result type information missing.
+  // TODO Safe-DS does not support tuple types.
+  // TODO Some parameter have no type information.
+  @Pure
+  @PythonName("params_with_default_value")
+  fun paramsWithDefaultValue(
+  	integer: Int = 3,
+  	boolean: Boolean = true,
+  	@PythonName("float_") float: Float = 1.2,
+  	none: Nothing? = null,
+  	string: String = "Some String",
+  	obj: FunctionModuleClassA,
+  	callexpr,
+  	`union`: union<Boolean, Int> = 2,
+  	@PythonName("union_with_none_1") unionWithNone1: Int? = 2,
+  	@PythonName("union_with_none_2") unionWithNone2: Int? = 3,
+  	@PythonName("list_") list: List<Int>,
+  	dictionary: Map<String, union<Float, Int>>,
+  	@PythonName("set_") set: Set<String>,
+  	optional: Int? = null,
+  	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+  	`literal`: literal<"Some String"> = "Some String",
+  	@PythonName("any_") any: Any = false
+  )
+  
   // TODO List type has to many type arguments.
   // TODO Result type information missing.
   // TODO Safe-DS does not support tuple types.
@@ -527,6 +552,23 @@
   	// TODO Attribute has no type information.
   	@PythonName("init_infer")
   	attr initInfer
+  
+  	// TODO Result type information missing.
+  	// TODO Some parameter have no type information.
+  	@Pure
+  	@PythonName("infer_param_types")
+  	static fun inferParamTypes(
+  		integer: Int = 3,
+  		boolean: Boolean = true,
+  		@PythonName("float_") float: Float = 1.2,
+  		none: Nothing? = null,
+  		string: String = "Some String",
+  		callexpr,
+  		@PythonName("int_list") intList,
+  		dictionary,
+  		@PythonName("string_set") stringSet,
+  		@PythonName("tuple_") tuple
+  	)
   
   	@Pure
   	@PythonName("infer_function")

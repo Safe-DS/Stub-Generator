@@ -57,6 +57,27 @@ def params(
 ): ...
 
 
+def params_with_default_value(
+    integer: int = 3,
+    boolean: bool = True,
+    float_: float = 1.2,
+    none: None = None,
+    string: str = "Some String",
+    obj: FunctionModuleClassA = FunctionModuleClassA(),
+    callexpr: FunctionModuleClassA() = FunctionModuleClassA(),
+    union: int | bool = 2,
+    union_with_none_1: int | None = 2,
+    union_with_none_2: None | int = 3,
+    list_: list[int] = [1, 2, 3],
+    dictionary: dict[str, int | float] = {"key": 1, "key2": 1.2},
+    set_: set[str] = {"a", "b"},
+    optional: Optional[int] = None,
+    tuple_: tuple[int, str, bool] = (1, "2", True),
+    literal: Literal["Some String"] = "Some String",
+    any_: Any = False
+): ...
+
+
 def illegal_params(
     lst: list[int, str],
     lst_2: list[int, str, int],

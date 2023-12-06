@@ -22,6 +22,20 @@ class InferMyTypes:
         self.init_infer = 3
 
     @staticmethod
+    def infer_param_types(
+        integer=3,
+        boolean=True,
+        float_=1.2,
+        none=None,
+        string="Some String",
+        callexpr=InferMe(),
+        int_list=[1, 2, 3],
+        dictionary={"key": 1, "key2": 1.2},
+        string_set={"a", "b"},
+        tuple_=(1, "2", True)
+    ): ...
+
+    @staticmethod
     def infer_function(infer_param=1, infer_param_2: int = "Something"):
         if infer_param_2:
             return False, 12
