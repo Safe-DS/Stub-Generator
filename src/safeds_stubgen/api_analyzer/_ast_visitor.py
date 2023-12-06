@@ -419,12 +419,14 @@ class MyPyAstVisitor:
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
         if return_stmts:
-            # In this case the items of the types set can only be of the class "NamedType" or "TupleType"
-            types = {
-                mypy_expression_to_sds_type(return_stmt.expr)
-                for return_stmt in return_stmts
-                if return_stmt.expr is not None
-            }
+            # In this case the items of the types set can only be of the class "NamedType" or "TupleType" but we have to
+            # make a typecheck anyway for the mypy linter.
+            types = set()
+            for return_stmt in return_stmts:
+                if return_stmt.expr is not None:
+                    type_ = mypy_expression_to_sds_type(return_stmt.expr)
+                    if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
+                        types.add(type_)
 
             # We have to sort the list for the snapshot tests
             return_stmt_types = list(types)
@@ -673,12 +675,16 @@ class MyPyAstVisitor:
                 elif isinstance(initializer, mp_nodes.CallExpr):
                     # Safe-DS does not support call expressions as types
                     pass
-                elif not isinstance(
-                    initializer,
-                    (mp_nodes.DictExpr, mp_nodes.TupleExpr, mp_nodes.SetExpr, mp_nodes.ListExpr)
+                elif isinstance(
+                    initializer, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr
                 ):
                     # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
-                    default_value = mypy_expression_to_python_value(initializer)
+                    inferred_default_value = mypy_expression_to_python_value(initializer)
+                    if isinstance(inferred_default_value, str | bool | int | float | NoneType):
+                        default_value = inferred_default_value
+                    else:  # pragma: no cover
+                        raise TypeError("Default value got an unsupported value.")
+
                     default_is_none = default_value is None
 
                     if infer_arg_type:

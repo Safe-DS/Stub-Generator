@@ -184,10 +184,7 @@ def has_correct_type_of_any(type_of_any: int) -> bool:
     }
 
 
-def mypy_expression_to_sds_type(
-    expr: mp_nodes.NameExpr | mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.ListExpr |
-        mp_nodes.SetExpr | mp_nodes.TupleExpr | mp_nodes.DictExpr
-) -> sds_types.AbstractType:
+def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.AbstractType:
     if isinstance(expr, mp_nodes.NameExpr):
         if expr.name in {"False", "True"}:
             return sds_types.NamedType(name="bool", qname="builtins.bool")
@@ -199,7 +196,7 @@ def mypy_expression_to_sds_type(
         return sds_types.NamedType(name="float", qname="builtins.float")
     elif isinstance(expr, mp_nodes.StrExpr):
         return sds_types.NamedType(name="str", qname="builtins.str")
-    elif isinstance(expr, (mp_nodes.ListExpr, mp_nodes.SetExpr)):
+    elif isinstance(expr, mp_nodes.ListExpr | mp_nodes.SetExpr):
         unsorted_types = {mypy_expression_to_sds_type(item) for item in expr.items}
         types = list(unsorted_types)
         types.sort()
@@ -213,8 +210,9 @@ def mypy_expression_to_sds_type(
         key_items = expr.items[0]
         value_items = expr.items[1]
 
-        key_types = [mypy_expression_to_sds_type(key_item) for key_item in key_items]
-        value_types = [mypy_expression_to_sds_type(value_item) for value_item in value_items]
+        key_types = [
+            mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
+        value_types = [mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None]
 
         key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]
         value_type = sds_types.UnionType(types=value_types) if len(value_types) >= 2 else value_types[0]
@@ -223,10 +221,7 @@ def mypy_expression_to_sds_type(
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 
 
-def mypy_expression_to_python_value(
-    expr: mp_nodes.NameExpr | mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.ListExpr |
-        mp_nodes.SetExpr | mp_nodes.TupleExpr | mp_nodes.DictExpr
-) -> str | None | int | float | list | set | dict | tuple:
+def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | int | float | list | set | dict | tuple:
     if isinstance(expr, mp_nodes.NameExpr):
         match expr.name:
             case "None":
@@ -237,27 +232,29 @@ def mypy_expression_to_python_value(
                 return False
             case _:
                 return expr.name
-    elif isinstance(expr, (mp_nodes.IntExpr, mp_nodes.FloatExpr, mp_nodes.StrExpr)):
+    elif isinstance(expr, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr):
         return expr.value
-    elif isinstance(expr, mp_nodes.ListExpr):
-        return [
-            mypy_expression_to_python_value(item)
-            for item in expr.items
-        ]
-    elif isinstance(expr, mp_nodes.SetExpr):
-        return {
-            mypy_expression_to_python_value(item)
-            for item in expr.items
-        }
-    elif isinstance(expr, mp_nodes.TupleExpr):
-        return tuple(
-            mypy_expression_to_python_value(item)
-            for item in expr.items
-        )
-    elif isinstance(expr, mp_nodes.DictExpr):
-        return {
-            mypy_expression_to_python_value(item[0]): mypy_expression_to_python_value(item[1])
-            for item in expr.items
-        }
+    # # This is currently not used since Safe-DS does not support these default value types
+    # elif isinstance(expr, mp_nodes.ListExpr):
+    #     return [
+    #         mypy_expression_to_python_value(item)
+    #         for item in expr.items
+    #     ]
+    # elif isinstance(expr, mp_nodes.SetExpr):
+    #     return {
+    #         mypy_expression_to_python_value(item)
+    #         for item in expr.items
+    #     }
+    # elif isinstance(expr, mp_nodes.TupleExpr):
+    #     return tuple(
+    #         mypy_expression_to_python_value(item)
+    #         for item in expr.items
+    #     )
+    # elif isinstance(expr, mp_nodes.DictExpr):
+    #     return {
+    #         mypy_expression_to_python_value(item[0]): mypy_expression_to_python_value(item[1])
+    #         for item in expr.items
+    #         if item[0] is not None and item[1] is not None
+    #     }
 
     raise TypeError("Unexpected expression type.")  # pragma: no cover
