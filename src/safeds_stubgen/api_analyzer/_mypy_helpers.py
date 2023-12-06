@@ -196,28 +196,31 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         return sds_types.NamedType(name="float", qname="builtins.float")
     elif isinstance(expr, mp_nodes.StrExpr):
         return sds_types.NamedType(name="str", qname="builtins.str")
-    elif isinstance(expr, mp_nodes.ListExpr | mp_nodes.SetExpr):
-        unsorted_types = {mypy_expression_to_sds_type(item) for item in expr.items}
-        types = list(unsorted_types)
-        types.sort()
-        if isinstance(expr, mp_nodes.ListExpr):
-            return sds_types.ListType(types=types)
-        elif isinstance(expr, mp_nodes.SetExpr):
-            return sds_types.SetType(types=types)
     elif isinstance(expr, mp_nodes.TupleExpr):
         return sds_types.TupleType(types=[mypy_expression_to_sds_type(item) for item in expr.items])
-    elif isinstance(expr, mp_nodes.DictExpr):
-        key_items = expr.items[0]
-        value_items = expr.items[1]
-
-        key_types = [
-            mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
-        value_types = [mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None]
-
-        key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]
-        value_type = sds_types.UnionType(types=value_types) if len(value_types) >= 2 else value_types[0]
-
-        return sds_types.DictType(key_type=key_type, value_type=value_type)
+    # # This is currently not used since Safe-DS does not support these default value types
+    # elif isinstance(expr, mp_nodes.ListExpr | mp_nodes.SetExpr):
+    #     unsorted_types = {mypy_expression_to_sds_type(item) for item in expr.items}
+    #     types = list(unsorted_types)
+    #     types.sort()
+    #     if isinstance(expr, mp_nodes.ListExpr):
+    #         return sds_types.ListType(types=types)
+    #     elif isinstance(expr, mp_nodes.SetExpr):
+    #         return sds_types.SetType(types=types)
+    # elif isinstance(expr, mp_nodes.DictExpr):
+    #     key_items = expr.items[0]
+    #     value_items = expr.items[1]
+    #
+    #     key_types = [
+    #         mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
+    #     value_types = [
+    #         mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None
+    #     ]
+    #
+    #     key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]
+    #     value_type = sds_types.UnionType(types=value_types) if len(value_types) >= 2 else value_types[0]
+    #
+    #     return sds_types.DictType(key_type=key_type, value_type=value_type)
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 
 
