@@ -210,8 +210,7 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         key_items = expr.items[0]
         value_items = expr.items[1]
 
-        key_types = [
-            mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
+        key_types = [mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
         value_types = [mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None]
 
         key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]

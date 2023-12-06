@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from types import NoneType
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
 from mypy import nodes as mp_nodes
@@ -30,8 +30,8 @@ from ._mypy_helpers import (
     get_funcdef_definitions,
     get_mypyfile_definitions,
     has_correct_type_of_any,
-    mypy_expression_to_sds_type,
     mypy_expression_to_python_value,
+    mypy_expression_to_sds_type,
     mypy_type_to_abstract_type,
     mypy_variance_parser,
 )
@@ -666,9 +666,11 @@ class MyPyAstVisitor:
             if initializer is not None:
                 infer_arg_type = arg_type is None
 
-                if (isinstance(initializer, mp_nodes.NameExpr) and
-                        initializer.name not in {"None", "True", "False"} and
-                        not self._check_if_qname_in_package(initializer.fullname)):
+                if (
+                    isinstance(initializer, mp_nodes.NameExpr)
+                    and initializer.name not in {"None", "True", "False"}
+                    and not self._check_if_qname_in_package(initializer.fullname)
+                ):
                     # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
                     # in the package we analyze with Safe-DS.
                     pass
@@ -676,7 +678,7 @@ class MyPyAstVisitor:
                     # Safe-DS does not support call expressions as types
                     pass
                 elif isinstance(
-                    initializer, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr
+                    initializer, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
                 ):
                     # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
                     inferred_default_value = mypy_expression_to_python_value(initializer)
