@@ -678,7 +678,8 @@ class MyPyAstVisitor:
                     # Safe-DS does not support call expressions as types
                     pass
                 elif isinstance(
-                    initializer, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
+                    initializer,
+                    mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
                 ):
                     # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
                     inferred_default_value = mypy_expression_to_python_value(initializer)
