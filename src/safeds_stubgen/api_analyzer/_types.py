@@ -3,7 +3,10 @@ from __future__ import annotations
 import re
 from abc import ABCMeta, abstractmethod
 from dataclasses import dataclass, field
-from typing import Any, ClassVar
+from typing import TYPE_CHECKING, Any, ClassVar
+
+if TYPE_CHECKING:
+    from collections.abc import Sequence
 
 
 class AbstractType(metaclass=ABCMeta):
@@ -22,8 +25,6 @@ class AbstractType(metaclass=ABCMeta):
                 return DictType.from_dict(d)
             case SetType.__name__:
                 return SetType.from_dict(d)
-            case OptionalType.__name__:
-                return OptionalType.from_dict(d)
             case LiteralType.__name__:
                 return LiteralType.from_dict(d)
             case FinalType.__name__:
@@ -32,6 +33,8 @@ class AbstractType(metaclass=ABCMeta):
                 return TupleType.from_dict(d)
             case UnionType.__name__:
                 return UnionType.from_dict(d)
+            case CallableType.__name__:
+                return CallableType.from_dict(d)
             case _:
                 raise ValueError(f"Cannot parse {d['kind']} value.")
 
@@ -43,17 +46,22 @@ class AbstractType(metaclass=ABCMeta):
 @dataclass(frozen=True)
 class NamedType(AbstractType):
     name: str
+    qname: str = ""
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> NamedType:
-        return NamedType(d["name"])
-
-    @classmethod
-    def from_string(cls, string: str) -> NamedType:
-        return NamedType(string)
+        return NamedType(d["name"], d["qname"])
 
     def to_dict(self) -> dict[str, str]:
-        return {"kind": self.__class__.__name__, "name": self.name}
+        return {"kind": self.__class__.__name__, "name": self.name, "qname": self.qname}
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, NamedType):  # pragma: no cover
+            return NotImplemented
+        return self.name == other.name and self.qname == other.qname
+
+    def __hash__(self) -> int:
+        return hash((self.name, self.qname))
 
 
 @dataclass(frozen=True)
@@ -214,7 +222,7 @@ class BoundaryType(AbstractType):
 
 @dataclass(frozen=True)
 class UnionType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> UnionType:
@@ -238,7 +246,7 @@ class UnionType(AbstractType):
 
 @dataclass(frozen=True)
 class ListType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> ListType:
@@ -279,8 +287,34 @@ class DictType(AbstractType):
 
 
 @dataclass(frozen=True)
+class CallableType(AbstractType):
+    parameter_types: Sequence[AbstractType]
+    return_type: AbstractType
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> CallableType:
+        params = []
+        for param in d["parameter_types"]:
+            type_ = AbstractType.from_dict(param)
+            if type_ is not None:
+                params.append(type_)
+
+        return CallableType(params, AbstractType.from_dict(d["return_type"]))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.__class__.__name__,
+            "parameter_types": [t.to_dict() for t in self.parameter_types],
+            "return_type": self.return_type.to_dict(),
+        }
+
+    def __hash__(self) -> int:
+        return hash(frozenset([*self.parameter_types, self.return_type]))
+
+
+@dataclass(frozen=True)
 class SetType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> SetType:
@@ -292,27 +326,13 @@ class SetType(AbstractType):
         return SetType(types)
 
     def to_dict(self) -> dict[str, Any]:
-        type_list = [t.to_dict() for t in self.types]
-
-        return {"kind": self.__class__.__name__, "types": type_list}
+        return {
+            "kind": self.__class__.__name__,
+            "types": [t.to_dict() for t in self.types],
+        }
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
-
-
-@dataclass(frozen=True)
-class OptionalType(AbstractType):
-    type: AbstractType
-
-    @classmethod
-    def from_dict(cls, d: dict[str, Any]) -> OptionalType:
-        return OptionalType(AbstractType.from_dict(d["type"]))
-
-    def to_dict(self) -> dict[str, Any]:
-        return {"kind": self.__class__.__name__, "type": self.type.to_dict()}
-
-    def __hash__(self) -> int:
-        return hash(frozenset([self.type]))
 
 
 @dataclass(frozen=True)
@@ -321,8 +341,7 @@ class LiteralType(AbstractType):
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> LiteralType:
-        literals = list(d["literals"])
-        return LiteralType(literals)
+        return LiteralType(d["literals"])
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "literals": self.literals}
@@ -348,7 +367,7 @@ class FinalType(AbstractType):
 
 @dataclass(frozen=True)
 class TupleType(AbstractType):
-    types: list[AbstractType]
+    types: Sequence[AbstractType]
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> TupleType:
@@ -421,7 +440,7 @@ class TupleType(AbstractType):
 # # Todo Return mypy\types -> Type class
 # def create_type(type_string: str, description: str) -> AbstractType:
 #     if not type_string:
-#         return NamedType("None")
+#         return NamedType("None", "builtins.None")
 #
 #     type_string = type_string.replace(" ", "")
 #
@@ -480,7 +499,7 @@ class TupleType(AbstractType):
 #     type_ = _create_enum_boundry_type(type_string, description)
 #     if type_ is not None:
 #         return type_
-#     return NamedType(type_string)
+#     return NamedType(name=type_string, qname=)
 #
 #
 # # todo übernehmen in create_type -> Tests schlagen nun fehl

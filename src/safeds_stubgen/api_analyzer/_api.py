@@ -165,7 +165,7 @@ class WildcardImport:
 class Class:
     id: str
     name: str
-    superclasses: list[Class]
+    superclasses: list[str]
     is_public: bool
     docstring: ClassDocstring
     constructor: Function | None = None
@@ -174,6 +174,7 @@ class Class:
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
     classes: list[Class] = field(default_factory=list)
+    type_parameters: list[TypeParameter] = field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -187,7 +188,12 @@ class Class:
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],
             "classes": [class_.id for class_ in self.classes],
+            "type_parameters": [type_parameter.to_dict() for type_parameter in self.type_parameters],
         }
+
+    @property
+    def is_abstract(self) -> bool:
+        return "abc.ABC" in self.superclasses
 
     def add_method(self, method: Function) -> None:
         self.methods.append(method)
@@ -229,6 +235,8 @@ class Function:
     docstring: FunctionDocstring
     is_public: bool
     is_static: bool
+    is_class_method: bool
+    is_property: bool
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
@@ -240,6 +248,8 @@ class Function:
             "docstring": self.docstring.to_dict(),
             "is_public": self.is_public,
             "is_static": self.is_static,
+            "is_class_method": self.is_class_method,
+            "is_property": self.is_property,
             "results": [result.id for result in self.results],
             "reexported_by": [module.id for module in self.reexported_by],
             "parameters": [parameter.id for parameter in self.parameters],
@@ -254,7 +264,7 @@ class Parameter:
     default_value: str | bool | int | float | None
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring
-    type: AbstractType
+    type: AbstractType | None
 
     @property
     def is_required(self) -> bool:
@@ -275,7 +285,7 @@ class Parameter:
             "is_optional": self.is_optional,
             "default_value": self.default_value,
             "assigned_by": self.assigned_by.name,
-            "type": self.type.to_dict(),
+            "type": self.type.to_dict() if self.type is not None else None,
         }
 
 
@@ -295,6 +305,22 @@ class ParameterAssignment(PythonEnum):
     POSITIONAL_VARARG = "POSITIONAL_VARARG"
     NAME_ONLY = "NAME_ONLY"
     NAMED_VARARG = "NAMED_VARARG"
+
+
+@dataclass(frozen=True)
+class TypeParameter:
+    name: str
+    type: AbstractType
+    variance: VarianceKind
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"name": self.name, "type": self.type.to_dict(), "variance_type": self.variance.name}
+
+
+class VarianceKind(PythonEnum):
+    CONTRAVARIANT = "CONTRAVARIANT"
+    COVARIANT = "COVARIANT"
+    INVARIANT = "INVARIANT"
 
 
 @dataclass(frozen=True)

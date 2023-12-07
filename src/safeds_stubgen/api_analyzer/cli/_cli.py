@@ -6,6 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.stubs_generator import generate_stubs
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import DocstringStyle
@@ -16,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun)
+    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
 
 
 def _get_args() -> argparse.Namespace:
@@ -59,6 +60,16 @@ def _get_args() -> argparse.Namespace:
         required=False,
         action="store_true",
     )
+    parser.add_argument(
+        "-nc",
+        "--naming_convert",
+        help=(
+            "Set this flag if the name identifiers should be converted to Safe-DS standard (UpperCamelCase for classes "
+            "and camelCase for everything else)."
+        ),
+        required=False,
+        action="store_true",
+    )
 
     return parser.parse_args()
 
@@ -69,6 +80,7 @@ def _run_api_command(
     out_dir_path: Path,
     docstring_style: DocstringStyle,
     is_test_run: bool,
+    convert_identifiers: bool,
 ) -> None:
     """
     List the API of a package.
@@ -87,3 +99,5 @@ def _run_api_command(
     api = get_api(package, src_dir_path, docstring_style, is_test_run)
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
+
+    generate_stubs(api, out_dir_path, convert_identifiers)

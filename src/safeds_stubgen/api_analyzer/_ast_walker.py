@@ -30,7 +30,8 @@ class ASTWalker:
         self.__walk(tree, set())
 
     def __walk(self, node: MypyFile | ClassDef | Decorator | FuncDef | AssignmentStmt, visited_nodes: set) -> None:
-        # It's possible to get decorator data but for now we'll ignore them and just get the func
+        # We ignore decorators and just take their inner functions, since we can get decorator information from the
+        # function node too
         if isinstance(node, Decorator):
             node = node.func
 

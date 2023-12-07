@@ -83,7 +83,8 @@ class NumpyDocParser(AbstractDocstringParser):
         ]
 
         if len(matching_parameters_numpydoc) == 0:
-            # If we have a constructor we have to check both, the class and then the constructor (see issue #10)
+            # If we have a constructor we have to check both, the class and then the constructor (see issue
+            # https://github.com/Safe-DS/Library-Analyzer/issues/10)
             if function_node.name == "__init__":
                 docstring_constructor = get_full_docstring(function_node)
                 # Find matching parameter docstrings
@@ -122,7 +123,8 @@ class NumpyDocParser(AbstractDocstringParser):
             if it.args[0] == "attribute" and _is_matching_attribute_numpydoc(it, attribute_name)
         ]
 
-        # If the class has a constructor we have to check both the class and then the constructor (see issue #10)
+        # If the class has a constructor we have to check both the class and then the constructor
+        # (see issue https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if len(matching_attributes_numpydoc) == 0:
             # Find matching attribute docstrings
             function_numpydoc = parse_docstring(

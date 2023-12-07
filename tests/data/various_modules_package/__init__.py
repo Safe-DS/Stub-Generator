@@ -4,7 +4,7 @@ from ._reexport_module_2 import reexported_function_2
 from ._reexport_module_3 import *
 from ._reexport_module_4 import FourthReexportClass
 from ._reexport_module_4 import _reexported_function_4
-from .test_enums import _ReexportedEmptyEnum
+from .enum_module import _ReexportedEmptyEnum
 
 __all__ = [
     "reex_1",
