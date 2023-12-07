@@ -16,7 +16,14 @@ pip install safe-ds-stubgen
 ```
 
 ## Usage
-```shell
+
+To run this program:
+
+```txt
+usage: safe-ds-stubgen [-h] [-v] -p PACKAGE [-s SRC] -o OUT [--docstyle {PLAINTEXT,EPYDOC,GOOGLE,NUMPYDOC,REST}] [-tr] [-nc]
+
+Analyze Python code.
+
 options:
   -h, --help            show this help message and exit
   -v, --verbose         show info messages
