@@ -15,6 +15,22 @@ Get the latest version from [PyPI](https://pypi.org/project/safe-ds-stubgen):
 pip install safe-ds-stubgen
 ```
 
+## Usage
+```shell
+options:
+  -h, --help            show this help message and exit
+  -v, --verbose         show info messages
+  -p PACKAGE, --package PACKAGE
+                        The name of the package.
+  -s SRC, --src SRC     Directory containing the Python code of the package. If this is omitted, we try to locate the package with the given name in the current Python interpreter.
+  -o OUT, --out OUT     Output directory.
+  --docstyle {PLAINTEXT,EPYDOC,GOOGLE,NUMPYDOC,REST}
+                        The docstring style.
+  -tr, --testrun        Set this flag if files in /test or /tests directories should be included.
+  -nc, --naming_convert
+                        Set this flag if the name identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and camelCase for everything else).
+```
+
 ## Documentation
 
 You can find the full documentation [here](https://stubgen.safeds.com).
