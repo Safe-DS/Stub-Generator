@@ -228,6 +228,7 @@
   from typing import Optional
   from typing import Literal
   from typing import Any
+  from tests.data.main_package.another_path.another_module import AnotherClass
   
   // TODO Result type information missing.
   @Pure
@@ -455,6 +456,15 @@
   fun callableType(
   	param: (a: String) -> (b: Int, c: String)
   ) -> result1: (a: Int, b: Int) -> c: Int
+  
+  // TODO Result type information missing.
+  // TODO Some parameter have no type information.
+  @Pure
+  @PythonName("param_from_outside_the_package")
+  fun paramFromOutsideThePackage(
+  	@PythonName("param_type") paramType,
+  	@PythonName("param_value") paramValue
+  )
   
   class FunctionModuleClassA()
   

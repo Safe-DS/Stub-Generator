@@ -1,4 +1,5 @@
 from typing import Callable, Optional, Literal, Any
+from tests.data.main_package.another_path.another_module import AnotherClass
 
 
 class FunctionModuleClassA:
@@ -177,6 +178,9 @@ def any_results() -> Any: ...
 
 
 def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
+
+
+def param_from_outside_the_package(param_type: AnotherClass, param_value=AnotherClass): ...
 
 
 class FunctionModulePropertiesClass:

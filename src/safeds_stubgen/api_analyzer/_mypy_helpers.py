@@ -224,7 +224,7 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 
 
-def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | int | float | list | set | dict | tuple:
+def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | int | float:
     if isinstance(expr, mp_nodes.NameExpr):
         match expr.name:
             case "None":

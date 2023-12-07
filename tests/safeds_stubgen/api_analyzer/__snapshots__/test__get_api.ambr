@@ -3416,6 +3416,36 @@
     }),
   ])
 # ---
+# name: test_function_parameters[param_from_outside_the_package]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_type',
+      'is_optional': False,
+      'name': 'param_type',
+      'type': None,
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_value',
+      'is_optional': False,
+      'name': 'param_value',
+      'type': None,
+    }),
+  ])
+# ---
 # name: test_function_parameters[param_position]
   list([
     dict({
@@ -5598,6 +5628,26 @@
       ]),
       'results': list([
         'various_modules_package/function_module/optional_results/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'param_from_outside_the_package',
+      'parameters': list([
+        'various_modules_package/function_module/param_from_outside_the_package/param_type',
+        'various_modules_package/function_module/param_from_outside_the_package/param_value',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
       ]),
     }),
     dict({

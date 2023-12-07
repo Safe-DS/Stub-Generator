@@ -636,16 +636,28 @@ class MyPyAstVisitor:
         arguments: list[Parameter] = []
 
         for argument in node.arguments:
-            arg_name = argument.variable.name
             mypy_type = argument.variable.type
-            arg_kind = get_argument_kind(argument)
             type_annotation = argument.type_annotation
             arg_type = None
+            default_value = None
+            default_is_none = False
 
+            # Get qname
+            arg_type_data = getattr(argument.variable.type, "type", None)
+            arg_type_qname = ""
+            if arg_type_data is not None:
+                arg_type_qname = arg_type_data.fullname
+
+            # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
+                pass
+            elif (isinstance(type_annotation, mp_types.UnboundType) and
+                  arg_type_qname and not self._check_if_qname_in_package(arg_type_qname)):
+                # Types can only be either core classes of any type or types which are defined in the same package.
+                # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
                 pass
             elif (
                 isinstance(type_annotation, mp_types.UnboundType)
@@ -661,37 +673,13 @@ class MyPyAstVisitor:
 
             # Get default value and infer type information
             initializer = argument.initializer
-            default_value = None
-            default_is_none = False
             if initializer is not None:
-                infer_arg_type = arg_type is None
+                default_value, default_is_none = self._get_parameter_type_and_default_value(initializer)
+                if arg_type is None and (default_is_none or default_value is not None):
+                    arg_type = mypy_expression_to_sds_type(initializer)
 
-                if (
-                    isinstance(initializer, mp_nodes.NameExpr)
-                    and initializer.name not in {"None", "True", "False"}
-                    and not self._check_if_qname_in_package(initializer.fullname)
-                ):
-                    # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
-                    # in the package we analyze with Safe-DS.
-                    pass
-                elif isinstance(initializer, mp_nodes.CallExpr):
-                    # Safe-DS does not support call expressions as types
-                    pass
-                elif isinstance(
-                    initializer,
-                    mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
-                ):
-                    # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
-                    inferred_default_value = mypy_expression_to_python_value(initializer)
-                    if isinstance(inferred_default_value, str | bool | int | float | NoneType):
-                        default_value = inferred_default_value
-                    else:  # pragma: no cover
-                        raise TypeError("Default value got an unsupported value.")
-
-                    default_is_none = default_value is None
-
-                    if infer_arg_type:
-                        arg_type = mypy_expression_to_sds_type(initializer)
+            arg_name = argument.variable.name
+            arg_kind = get_argument_kind(argument)
 
             # Create parameter docstring
             parent = self.__declaration_stack[-1]
@@ -719,6 +707,37 @@ class MyPyAstVisitor:
             )
 
         return arguments
+
+    def _get_parameter_type_and_default_value(
+        self, initializer: mp_nodes.Expression,
+    ) -> tuple[str | None | int | float, bool]:
+        default_value = None
+        default_is_none = False
+        if initializer is not None:
+            if (
+                isinstance(initializer, mp_nodes.NameExpr)
+                and initializer.name not in {"None", "True", "False"}
+                and not self._check_if_qname_in_package(initializer.fullname)
+            ):
+                # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
+                # in the package we analyze with Safe-DS.
+                return default_value, default_is_none
+            elif isinstance(initializer, mp_nodes.CallExpr):
+                # Safe-DS does not support call expressions as types
+                return default_value, default_is_none
+            elif isinstance(
+                initializer,
+                mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
+            ):
+                # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
+                inferred_default_value = mypy_expression_to_python_value(initializer)
+                if isinstance(inferred_default_value, str | bool | int | float | NoneType):
+                    default_value = inferred_default_value
+                else:  # pragma: no cover
+                    raise TypeError("Default value got an unsupported value.")
+
+                default_is_none = default_value is None
+        return default_value, default_is_none
 
     # #### Reexport utilities
 
@@ -768,6 +787,8 @@ class MyPyAstVisitor:
     #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
     #  from the package.
     def _check_if_qname_in_package(self, qname: str) -> bool:
+        if "builtins." in qname:
+            return True
         return self.api.package in qname
 
     def _create_module_id(self, qname: str) -> str:
