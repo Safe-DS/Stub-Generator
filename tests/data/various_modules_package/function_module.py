@@ -183,6 +183,9 @@ def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int
 def param_from_outside_the_package(param_type: AnotherClass, param_value=AnotherClass): ...
 
 
+def result_from_outside_the_package() -> AnotherClass: ...
+
+
 class FunctionModulePropertiesClass:
     @property
     def property_function(self): ...

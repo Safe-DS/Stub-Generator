@@ -92,6 +92,30 @@
         'description': '',
         'type': '',
       }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_default_value_from_outside_package',
+      'is_public': True,
+      'is_static': True,
+      'name': 'attr_default_value_from_outside_package',
+      'type': None,
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_type_from_outside_package',
+      'is_public': True,
+      'is_static': True,
+      'name': 'attr_type_from_outside_package',
+      'type': None,
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'various_modules_package/attribute_module/AttributesClassB/bool_attr',
       'is_public': True,
       'is_static': True,
@@ -4952,6 +4976,19 @@
     }),
   ])
 # ---
+# name: test_function_results[result_from_outside_the_package]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/result_from_outside_the_package/result_1',
+      'name': 'result_1',
+      'type': None,
+    }),
+  ])
+# ---
 # name: test_function_results[set_results]
   list([
     dict({
@@ -5780,6 +5817,25 @@
       'reexported_by': list([
       ]),
       'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/result_from_outside_the_package',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'result_from_outside_the_package',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/function_module/result_from_outside_the_package/result_1',
       ]),
     }),
     dict({

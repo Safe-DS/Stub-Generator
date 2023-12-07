@@ -46,6 +46,7 @@
   from typing import Optional
   from typing import Final
   from typing import Literal
+  from tests.data.main_package.another_path.another_module import AnotherClass
   
   class AttributesClassA()
   
@@ -131,6 +132,12 @@
   	static attr multiAttr7: String
   	@PythonName("multi_attr_8")
   	static attr multiAttr8: String
+  	// TODO Attribute has no type information.
+  	@PythonName("attr_type_from_outside_package")
+  	static attr attrTypeFromOutsidePackage
+  	// TODO Attribute has no type information.
+  	@PythonName("attr_default_value_from_outside_package")
+  	static attr attrDefaultValueFromOutsidePackage
   	@PythonName("init_attr")
   	attr initAttr: Boolean
   
@@ -465,6 +472,11 @@
   	@PythonName("param_type") paramType,
   	@PythonName("param_value") paramValue
   )
+  
+  // TODO Result type information missing.
+  @Pure
+  @PythonName("result_from_outside_the_package")
+  fun resultFromOutsideThePackage()
   
   class FunctionModuleClassA()
   
