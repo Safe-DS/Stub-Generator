@@ -4978,15 +4978,6 @@
 # ---
 # name: test_function_results[result_from_outside_the_package]
   list([
-    dict({
-      'docstring': dict({
-        'description': '',
-        'type': '',
-      }),
-      'id': 'various_modules_package/function_module/result_from_outside_the_package/result_1',
-      'name': 'result_1',
-      'type': None,
-    }),
   ])
 # ---
 # name: test_function_results[set_results]
@@ -5835,7 +5826,6 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/result_from_outside_the_package/result_1',
       ]),
     }),
     dict({
