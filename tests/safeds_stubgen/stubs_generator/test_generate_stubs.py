@@ -138,6 +138,6 @@ def test_convert_snake_to_camel_case(
 ) -> None:
     stubs_string_generator = StubsStringGenerator(
         package_name=_test_package_name,
-        convert_identifiers=convert_identifiers
+        convert_identifiers=convert_identifiers,
     )
     assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result

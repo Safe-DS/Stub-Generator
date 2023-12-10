@@ -603,8 +603,7 @@ class MyPyAstVisitor:
         type_ = None
         # Ignore types that are special mypy any types
         if attribute_type is not None and not (
-            isinstance(attribute_type, mp_types.AnyType) and
-            not has_correct_type_of_any(attribute_type.type_of_any)
+            isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
         ):
             # noinspection PyTypeChecker
             type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
