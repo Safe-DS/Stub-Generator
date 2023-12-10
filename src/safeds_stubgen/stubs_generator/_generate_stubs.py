@@ -650,9 +650,6 @@ class StubsStringGenerator:
          """
         if qname == "":
             return True
-
-        if "builtins." in qname:
-            return True
         return self.package_name in qname
 
     @staticmethod
