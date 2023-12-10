@@ -6,6 +6,7 @@ from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import (
     API,
+    Attribute,
     Class,
     Enum,
     Function,
@@ -16,7 +17,7 @@ from safeds_stubgen.api_analyzer import (
     Result,
     UnionType,
     VarianceKind,
-    WildcardImport, Attribute,
+    WildcardImport,
 )
 
 if TYPE_CHECKING:
@@ -646,8 +647,7 @@ class StubsStringGenerator:
     #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
     #  from the package.
     def _is_part_of_package(self, qname: str) -> bool:
-        """Check if the qname of an attribute, parameter or a smiliar object is part of the current package we analyze.
-         """
+        """Check if the qname of an attribute, parameter or a smiliar object is part of the current package we analyze."""
         if qname == "":
             return True
 
