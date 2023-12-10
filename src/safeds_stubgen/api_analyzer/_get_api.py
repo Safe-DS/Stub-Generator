@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import logging
-from pathlib import Path
 from typing import TYPE_CHECKING
 
 import mypy.build as mypy_build
@@ -15,6 +14,7 @@ from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version, package_root
 
 if TYPE_CHECKING:
+    from pathlib import Path
     from mypy.nodes import MypyFile
 
 
@@ -39,7 +39,6 @@ def get_api(
     walker = ASTWalker(callable_visitor)
 
     walkable_files = []
-    package_paths = []
     for file_path in root.glob(pattern="./**/*.py"):
         logging.info(
             "Working on file {posix_path}",
@@ -51,24 +50,16 @@ def get_api(
             logging.info("Skipping test file")
             continue
 
-        # Check if the current file is an init file
-        if file_path.parts[-1] == "__init__.py":
-            # if a directory contains an __init__.py file it's a package
-            package_paths.append(
-                file_path.parent,
-            )
-            continue
-
         walkable_files.append(str(file_path))
 
-    mypy_trees = _get_mypy_ast(walkable_files, package_paths, root)
+    mypy_trees = _get_mypy_ast(walkable_files, root)
     for tree in mypy_trees:
         walker.walk(tree)
 
     return callable_visitor.api
 
 
-def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> list[MypyFile]:
+def _get_mypy_ast(files: list[str], root: Path) -> list[MypyFile]:
     if not files:
         raise ValueError("No files found to analyse.")
 
