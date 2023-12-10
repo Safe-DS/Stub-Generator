@@ -568,7 +568,7 @@ class MyPyAstVisitor:
                 # In this case we have a TypeVar attribute
                 attr_name = getattr(attribute, "name", "")
 
-                if not attr_name:  # pragma: no Cover
+                if not attr_name:  # pragma: no cover
                     raise AttributeError("Expected TypeVar to have attribute 'name'.")
 
                 type_ = sds_types.TypeVarType(attr_name)

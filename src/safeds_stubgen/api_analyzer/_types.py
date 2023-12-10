@@ -35,12 +35,13 @@ class AbstractType(metaclass=ABCMeta):
                 return UnionType.from_dict(d)
             case CallableType.__name__:
                 return CallableType.from_dict(d)
+            case TypeVarType.__name__:
+                return TypeVarType.from_dict(d)
             case _:
                 raise ValueError(f"Cannot parse {d['kind']} value.")
 
     @abstractmethod
-    def to_dict(self) -> dict[str, Any]:
-        pass
+    def to_dict(self) -> dict[str, Any]: ...
 
 
 @dataclass(frozen=True)

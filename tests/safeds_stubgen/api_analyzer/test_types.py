@@ -16,6 +16,7 @@ from safeds_stubgen.api_analyzer import (
     ParameterAssignment,
     SetType,
     TupleType,
+    TypeVarType,
     UnionType,
 )
 from safeds_stubgen.docstring_parsing import AttributeDocstring, ParameterDocstring
@@ -235,6 +236,23 @@ def test_literal_type() -> None:
     assert hash(LiteralType(["a"])) == hash(LiteralType(["a"]))
     assert LiteralType(["a"]) != LiteralType(["b"])
     assert hash(LiteralType(["a"])) != hash(LiteralType(["b"]))
+
+
+def test_type_var_type() -> None:
+    type_ = TypeVarType("_T")
+    type_dict = {
+        "kind": "TypeVarType",
+        "name": "_T",
+    }
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert TypeVarType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
+
+    assert TypeVarType("a") == TypeVarType("a")
+    assert hash(TypeVarType("a")) == hash(TypeVarType("a"))
+    assert TypeVarType("a") != TypeVarType("b")
+    assert hash(TypeVarType("a")) != hash(TypeVarType("b"))
 
 
 def test_final_type() -> None:
