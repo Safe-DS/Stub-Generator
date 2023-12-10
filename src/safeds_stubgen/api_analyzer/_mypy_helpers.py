@@ -108,7 +108,7 @@ def mypy_type_to_abstract_type(
         elif type_name == "dict":
             return sds_types.DictType(
                 key_type=mypy_type_to_abstract_type(mypy_type.args[0]),
-                value_type=mypy_type_to_abstract_type(mypy_type.args[1])
+                value_type=mypy_type_to_abstract_type(mypy_type.args[1]),
             )
         else:
             return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
