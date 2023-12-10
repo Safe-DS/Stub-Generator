@@ -984,6 +984,21 @@
         'qname': 'builtins.int',
       }),
     }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/type_var',
+      'is_public': True,
+      'is_static': True,
+      'name': 'type_var',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': 'type_var',
+      }),
+    }),
   ])
 # ---
 # name: test_class_attributes[ClassModuleNestedClassE]
@@ -1567,6 +1582,64 @@
 # ---
 # name: test_class_methods[InferMyTypes]
   list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/infer_types_module/InferMyTypes/_',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': False,
+      'is_static': False,
+      'name': '_',
+      'parameters': list([
+        'various_modules_package/infer_types_module/InferMyTypes/_/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/infer_types_module/InferMyTypes/_/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'infer_call_result_1',
+      'parameters': list([
+        'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'infer_call_result_2',
+      'parameters': list([
+        'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
     dict({
       'docstring': dict({
         'description': '',
@@ -2176,6 +2249,9 @@
       'various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
       'various_modules_package/infer_types_module/InferMyTypes/infer_function',
       'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
+      'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
+      'various_modules_package/infer_types_module/InferMyTypes/_',
+      'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
     ]),
     'name': 'InferMyTypes',
     'reexported_by': list([
@@ -4277,6 +4353,31 @@
     }),
   ])
 # ---
+# name: test_function_parameters[type_var_func]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/type_var_func/type_var_list',
+      'is_optional': False,
+      'name': 'type_var_list',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'TypeVarType',
+            'name': '_type_var',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results[abstract_method_params]
   list([
     dict({
@@ -4991,6 +5092,27 @@
         'kind': 'NamedType',
         'name': 'FunctionModuleClassA',
         'qname': 'tests.data.various_modules_package.function_module.FunctionModuleClassA',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results[type_var_func]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/type_var_func/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'TypeVarType',
+            'name': '_type_var',
+          }),
+        ]),
       }),
     }),
   ])
@@ -5814,6 +5936,26 @@
       'results': list([
         'various_modules_package/function_module/tuple_results/result_1',
         'various_modules_package/function_module/tuple_results/result_2',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/type_var_func',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_func',
+      'parameters': list([
+        'various_modules_package/function_module/type_var_func/type_var_list',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/function_module/type_var_func/result_1',
       ]),
     }),
     dict({

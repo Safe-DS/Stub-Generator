@@ -387,6 +387,21 @@ class TupleType(AbstractType):
         return hash(frozenset(self.types))
 
 
+# Todo Frage: Wie stellen wir TypeVar dar?
+@dataclass(frozen=True)
+class TypeVarType(AbstractType):
+    name: str
+
+    @classmethod
+    def from_dict(cls, d: dict[str, str]) -> TypeVarType:
+        return TypeVarType(d["name"])
+
+    def to_dict(self) -> dict[str, str]:
+        return {"kind": self.__class__.__name__, "name": self.name}
+
+    def __hash__(self) -> int:
+        return hash(frozenset([self.name]))
+
 # ############################## Utilities ############################## #
 # def _dismantel_type_string_structure(type_structure: str) -> list:
 #     current_type = ""

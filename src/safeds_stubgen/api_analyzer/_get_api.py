@@ -79,37 +79,24 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     result = mypy_build.build(mypyfiles, options=opt)
 
     # Check mypy data key root start
-    parts = root.parts
-    graph_keys = list(result.graph.keys())
-    root_start_after = -1
-    for i in range(len(parts)):
-        if ".".join(parts[i:]) in graph_keys:
-            root_start_after = i
-            break
+    graphs = result.graph
+    graph_keys = list(graphs.keys())
+    root_path = str(root)
 
-    # Create the keys for getting the corresponding data
-    packages = [
-        ".".join(
-            package_path.parts[root_start_after:],
-        ).replace(".py", "")
-        for package_path in package_paths
-    ]
-
-    modules = [
-        ".".join(
-            Path(file).parts[root_start_after:],
-        ).replace(".py", "")
-        for file in files
-    ]
-
-    # Get the needed data from mypy. The packages need to be checked first, since we have
-    # to get the reexported data first
-    all_paths = packages + modules
-
+    # Get the needed data from mypy. The __init__ files need to be checked first, since we have to get the
+    # reexported data for the packages first
     results = []
-    for path_key in all_paths:
-        tree = result.graph[path_key].tree
-        if tree is not None:
-            results.append(tree)
+    init_results = []
+    for graph_key in graph_keys:
+        graph = graphs[graph_key]
+        abs_path = graph.abspath
 
-    return results
+        if root_path not in abs_path or not abs_path.endswith(".py"):
+            continue
+
+        if abs_path.endswith("__init__.py"):
+            init_results.append(graph.tree)
+        else:
+            results.append(graph.tree)
+
+    return init_results + results

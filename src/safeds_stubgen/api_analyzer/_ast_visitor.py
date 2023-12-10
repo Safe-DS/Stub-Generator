@@ -88,13 +88,12 @@ class MyPyAstVisitor:
                 docstring = definition.expr.value
 
         # Create module id to get the full path
-        id_ = self._create_module_id(node.fullname)
+        id_ = self._create_module_id(node.path)
 
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
         if is_package:
             name = "__init__"
-            id_ += f"/{name}"
         else:
             name = node.name
 
@@ -423,7 +422,7 @@ class MyPyAstVisitor:
             # make a typecheck anyway for the mypy linter.
             types = set()
             for return_stmt in return_stmts:
-                if return_stmt.expr is not None:
+                if return_stmt.expr is not None and not isinstance(return_stmt.expr, mp_nodes.CallExpr):
                     type_ = mypy_expression_to_sds_type(return_stmt.expr)
                     if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
                         types.add(type_)
@@ -434,9 +433,10 @@ class MyPyAstVisitor:
                 key=lambda x: (x.name if isinstance(x, sds_types.NamedType) else str(len(x.types))),
             )
 
-            if len(return_stmt_types) >= 2:
+            if len(return_stmt_types) == 1:
+                return return_stmt_types[0]
+            elif len(return_stmt_types) >= 2:
                 return sds_types.TupleType(types=return_stmt_types)
-            return return_stmt_types[0]
         return None
 
     @staticmethod
@@ -561,11 +561,19 @@ class MyPyAstVisitor:
         qname = getattr(attribute, "fullname", "")
 
         # Get node information
+        type_ = None
+        node = None
         if hasattr(attribute, "node"):
-            if not isinstance(attribute.node, mp_nodes.Var):  # pragma: no cover
-                raise TypeError("node has wrong type")
+            if not isinstance(attribute.node, mp_nodes.Var):
+                # In this case we have a TypeVar attribute
+                attr_name = getattr(attribute, "name", "")
 
-            node: mp_nodes.Var = attribute.node
+                if not attr_name:  # pragma: no Cover
+                    raise AttributeError("Expected TypeVar to have attribute 'name'.")
+
+                type_ = sds_types.TypeVarType(attr_name)
+            else:
+                node = attribute.node
         else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'node'.")
 
@@ -576,13 +584,13 @@ class MyPyAstVisitor:
         attribute_type = None
 
         # MemberExpr are constructor (__init__) attributes
-        if isinstance(attribute, mp_nodes.MemberExpr):
+        if node is not None and isinstance(attribute, mp_nodes.MemberExpr):
             attribute_type = node.type
             if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
                 attribute_type = None
 
         # NameExpr are class attributes
-        elif isinstance(attribute, mp_nodes.NameExpr):
+        elif node is not None and isinstance(attribute, mp_nodes.NameExpr):
             if not node.explicit_self_type:
                 attribute_type = node.type
 
@@ -600,10 +608,6 @@ class MyPyAstVisitor:
                     else:  # pragma: no cover
                         raise AttributeError("Could not get argument information for attribute.")
 
-        else:  # pragma: no cover
-            raise TypeError("Attribute has an unexpected type.")
-
-        type_ = None
         # Ignore types that are special mypy any types
         if attribute_type is not None and not (
             isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
@@ -770,7 +774,7 @@ class MyPyAstVisitor:
     def _check_if_qname_in_package(self, qname: str) -> bool:
         return self.api.package in qname
 
-    def _create_module_id(self, qname: str) -> str:
+    def _create_module_id(self, module_path: str) -> str:
         """Create an ID for the module object.
 
         Creates the module ID while discarding possible unnecessary information from the module qname.
@@ -787,19 +791,23 @@ class MyPyAstVisitor:
         """
         package_name = self.api.package
 
-        if package_name not in qname:
-            raise ValueError("Package name could not be found in the qualified name of the module.")
+        if package_name not in module_path:
+            raise ValueError("Package name could not be found in the module path.")
 
         # We have to split the qname of the module at the first occurence of the package name and reconnect it while
         # discarding everything in front of it. This is necessary since the qname could contain unwanted information.
-        module_id = qname.split(f"{package_name}", 1)[-1]
+        module_id = module_path.split(package_name, 1)[-1]
+        module_id = module_id.replace("\\", '/')
 
-        if module_id.startswith("."):
+        if module_id.startswith("/"):
             module_id = module_id[1:]
 
-        # Replaces dots with slashes and add the package name at the start of the id, since we removed it
-        module_id = f"/{module_id.replace('.', '/')}" if module_id else ""
-        return f"{package_name}{module_id}"
+        if module_id.endswith('.py'):
+            module_id = module_id[:-3]
+
+        if module_id:
+            return f"{package_name}/{module_id}"
+        return package_name
 
     def _is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):
