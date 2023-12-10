@@ -561,7 +561,7 @@ class MyPyAstVisitor:
         qname = getattr(attribute, "fullname", "")
 
         # Get node information
-        type_ = None
+        type_: sds_types.AbstractType | None = None
         node = None
         if hasattr(attribute, "node"):
             if not isinstance(attribute.node, mp_nodes.Var):

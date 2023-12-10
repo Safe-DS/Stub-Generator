@@ -89,14 +89,18 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     init_results = []
     for graph_key in graph_keys:
         graph = graphs[graph_key]
-        abs_path = graph.abspath
+        graph_path = graph.abspath
 
-        if root_path not in abs_path or not abs_path.endswith(".py"):
+        if graph_path is None:  # pragma: no cover
+            raise ValueError("Could not parse path of a module.")
+
+        tree = graph.tree
+        if tree is None or root_path not in graph_path or not graph_path.endswith(".py"):
             continue
 
-        if abs_path.endswith("__init__.py"):
-            init_results.append(graph.tree)
+        if graph_path.endswith("__init__.py"):
+            init_results.append(tree)
         else:
-            results.append(graph.tree)
+            results.append(tree)
 
     return init_results + results
