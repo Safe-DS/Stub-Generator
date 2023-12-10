@@ -96,7 +96,16 @@
       'is_public': True,
       'is_static': True,
       'name': 'attr_default_value_from_outside_package',
-      'type': None,
+      'type': dict({
+        'kind': 'CallableType',
+        'parameter_types': list([
+        ]),
+        'return_type': dict({
+          'kind': 'NamedType',
+          'name': 'AnotherClass',
+          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
     }),
     dict({
       'docstring': dict({
@@ -108,7 +117,11 @@
       'is_public': True,
       'is_static': True,
       'name': 'attr_type_from_outside_package',
-      'type': None,
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
     }),
     dict({
       'docstring': dict({
@@ -3453,7 +3466,11 @@
       'id': 'various_modules_package/function_module/param_from_outside_the_package/param_type',
       'is_optional': False,
       'name': 'param_type',
-      'type': None,
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
@@ -3504,20 +3521,16 @@
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 'FunctionModuleClassA',
+      'default_value': None,
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
       'id': 'various_modules_package/function_module/param_position/c',
-      'is_optional': True,
+      'is_optional': False,
       'name': 'c',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'FunctionModuleClassA',
-        'qname': 'tests.data.various_modules_package.function_module.FunctionModuleClassA',
-      }),
+      'type': None,
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
@@ -4978,6 +4991,19 @@
 # ---
 # name: test_function_results[result_from_outside_the_package]
   list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/result_from_outside_the_package/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
+    }),
   ])
 # ---
 # name: test_function_results[set_results]
@@ -5826,6 +5852,7 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'various_modules_package/function_module/result_from_outside_the_package/result_1',
       ]),
     }),
     dict({

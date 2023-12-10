@@ -16,7 +16,7 @@ from safeds_stubgen.api_analyzer import (
     Result,
     UnionType,
     VarianceKind,
-    WildcardImport,
+    WildcardImport, Attribute,
 )
 
 if TYPE_CHECKING:
@@ -42,7 +42,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     modules = api.modules.values()
 
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-    generator = StubsStringGenerator(convert_identifiers)
+    generator = StubsStringGenerator(api.package, convert_identifiers)
 
     for module in modules:
         module_name = module.name
@@ -79,7 +79,8 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, convert_identifiers: bool) -> None:
+    def __init__(self, package_name: str, convert_identifiers: bool) -> None:
+        self.package_name = package_name
         self._current_todo_msgs: set[str] = set()
         self.convert_identifiers = convert_identifiers
 
@@ -200,16 +201,59 @@ class StubsStringGenerator:
         )
 
         # Attributes
+        class_text += self._create_class_attribute_string(class_.attributes, inner_indentations)
+
+        # Inner classes
+        for inner_class in class_.classes:
+            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
+
+        # Methods
+        class_text += self._create_class_method_string(class_.methods, inner_indentations)
+
+        # If the does not have a body, we just return the signature line
+        if not class_text:
+            return class_signature
+
+        # Close class
+        class_text += f"{class_indentation}}}"
+
+        return f"{class_signature} {{{class_text}"
+
+    def _create_class_method_string(self, methods: list[Function], inner_indentations: str) -> str:
+        class_methods: list[str] = []
+        class_property_methods: list[str] = []
+        for method in methods:
+            if not method.is_public:
+                continue
+            elif method.is_property:
+                class_property_methods.append(
+                    self._create_property_function_string(method, inner_indentations),
+                )
+            else:
+                class_methods.append(
+                    self._create_function_string(method, inner_indentations, is_method=True),
+                )
+
+        method_text = ""
+        if class_property_methods:
+            properties = "\n".join(class_property_methods)
+            method_text += f"\n{properties}\n"
+
+        if class_methods:
+            method_infos = "\n\n".join(class_methods)
+            method_text += f"\n{method_infos}\n"
+
+        return method_text
+
+    def _create_class_attribute_string(self, attributes: list[Attribute], inner_indentations: str) -> str:
         class_attributes: list[str] = []
-        for attribute in class_.attributes:
+        for attribute in attributes:
             if not attribute.is_public:
                 continue
 
             attribute_type = None
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
-            else:
-                self._current_todo_msgs.add("attr without type")
 
             static_string = "static " if attribute.is_static else ""
 
@@ -226,6 +270,8 @@ class StubsStringGenerator:
             # Create type information
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
+            if not type_string:
+                self._current_todo_msgs.add("attr without type")
 
             # Create attribute string
             class_attributes.append(
@@ -235,45 +281,11 @@ class StubsStringGenerator:
                 f"{type_string}",
             )
 
+        attribute_text = ""
         if class_attributes:
-            attributes = "\n".join(class_attributes)
-            class_text += f"\n{attributes}\n"
-
-        # Inner classes
-        for inner_class in class_.classes:
-            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
-
-        # Methods
-        class_methods: list[str] = []
-        class_property_methods: list[str] = []
-        for method in class_.methods:
-            if not method.is_public:
-                continue
-            elif method.is_property:
-                class_property_methods.append(
-                    self._create_property_function_string(method, inner_indentations),
-                )
-            else:
-                class_methods.append(
-                    self._create_function_string(method, inner_indentations, is_method=True),
-                )
-
-        if class_property_methods:
-            properties = "\n".join(class_property_methods)
-            class_text += f"\n{properties}\n"
-
-        if class_methods:
-            methods = "\n\n".join(class_methods)
-            class_text += f"\n{methods}\n"
-
-        # If the does not have a body, we just return the signature line
-        if not class_text:
-            return class_signature
-
-        # Close class
-        class_text += f"{class_indentation}}}"
-
-        return f"{class_signature} {{{class_text}"
+            attribute_infos = "\n".join(class_attributes)
+            attribute_text += f"\n{attribute_infos}\n"
+        return attribute_text
 
     def _create_function_string(self, function: Function, indentations: str = "", is_method: bool = False) -> str:
         """Create a function string for Safe-DS stubs."""
@@ -354,9 +366,10 @@ class StubsStringGenerator:
             type_string = f": {ret_type}" if ret_type else ""
             result_name = self._convert_snake_to_camel_case(result.name)
             result_name = self._replace_if_safeds_keyword(result_name)
-            results.append(
-                f"{result_name}{type_string}",
-            )
+            if type_string:
+                results.append(
+                    f"{result_name}{type_string}",
+                )
 
         if results:
             if len(results) == 1:
@@ -534,6 +547,9 @@ class StubsStringGenerator:
                 case "None":
                     return none_type_name
                 case _:
+                    qname = type_data["qname"]
+                    if not self._is_part_of_package(qname):
+                        return ""
                     return name
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
@@ -625,6 +641,19 @@ class StubsStringGenerator:
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
     # ############################### Utilities ############################### #
+
+    # Todo This check is currently too weak, we should try to get the path to the package from the api object, not
+    #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
+    #  from the package.
+    def _is_part_of_package(self, qname: str) -> bool:
+        """Check if the qname of an attribute, parameter or a smiliar object is part of the current package we analyze.
+         """
+        if qname == "":
+            return True
+
+        if "builtins." in qname:
+            return True
+        return self.package_name in qname
 
     @staticmethod
     def _callable_type_name_generator() -> Generator:

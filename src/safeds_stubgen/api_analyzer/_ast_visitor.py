@@ -376,12 +376,7 @@ class MyPyAstVisitor:
             if node_type is not None and hasattr(node_type, "ret_type"):
                 node_ret_type = node_type.ret_type
 
-                node_ret_type_type = getattr(node_ret_type, "type", None)
-                is_part_of_package = True
-                if node_ret_type_type is not None:
-                    is_part_of_package = self._is_part_of_package(node_ret_type_type.fullname)
-
-                if not isinstance(node_ret_type, mp_types.NoneType) and is_part_of_package:
+                if not isinstance(node_ret_type, mp_types.NoneType):
                     if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
                         node_ret_type.type_of_any,
                     ):
@@ -558,13 +553,6 @@ class MyPyAstVisitor:
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
     ) -> Attribute:
-        # Get name and qname
-        if hasattr(attribute, "name"):
-            name = attribute.name
-        else:  # pragma: no cover
-            raise AttributeError("Expected attribute to have attribute 'name'.")
-        qname = getattr(attribute, "fullname", "")
-
         # Get node information
         if hasattr(attribute, "node"):
             if not isinstance(attribute.node, mp_nodes.Var):  # pragma: no cover
@@ -573,6 +561,10 @@ class MyPyAstVisitor:
             node: mp_nodes.Var = attribute.node
         else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'node'.")
+
+        # Get name and qname
+        name = getattr(attribute, "name", "")
+        qname = getattr(attribute, "fullname", "")
 
         # Sometimes the qname is not in the attribute.fullname field, in that case we have to get it from the node
         if qname in (name, "") and node is not None:
@@ -608,20 +600,12 @@ class MyPyAstVisitor:
         else:  # pragma: no cover
             raise TypeError("Attribute has an unexpected type.")
 
-        # Check if the attribute type is part of the package we analyze
-        if isinstance(attribute_type, mp_types.CallableType):
-            attr_fullname = attribute_type.ret_type.type.fullname
-        else:
-            attribute_type_information = getattr(attribute_type, "type", None)
-            attr_fullname = getattr(attribute_type_information, "fullname", "")
-        is_part_of_package = attr_fullname and not self._is_part_of_package(attr_fullname)
-
         type_ = None
-        if is_part_of_package and attribute_type is not None and not (
+        # Ignore types that are special mypy any types
+        if attribute_type is not None and not (
             isinstance(attribute_type, mp_types.AnyType) and
             not has_correct_type_of_any(attribute_type.type_of_any)
         ):
-            # Ignore types that are special mypy any types & ignore types from outside the package we analyze
             # noinspection PyTypeChecker
             type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
@@ -656,22 +640,11 @@ class MyPyAstVisitor:
             default_value = None
             default_is_none = False
 
-            # Get qname
-            arg_type_data = getattr(argument.variable.type, "type", None)
-            arg_type_qname = ""
-            if arg_type_data is not None:
-                arg_type_qname = arg_type_data.fullname
-
             # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
-                pass
-            elif (isinstance(type_annotation, mp_types.UnboundType) and
-                  arg_type_qname and not self._is_part_of_package(arg_type_qname)):
-                # Types can only be either core classes of any type or types which are defined in the same package.
-                # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
                 pass
             elif (
                 isinstance(type_annotation, mp_types.UnboundType)
@@ -722,17 +695,14 @@ class MyPyAstVisitor:
 
         return arguments
 
+    @staticmethod
     def _get_parameter_type_and_default_value(
-        self, initializer: mp_nodes.Expression,
+        initializer: mp_nodes.Expression,
     ) -> tuple[str | None | int | float, bool]:
         default_value = None
         default_is_none = False
         if initializer is not None:
-            if (
-                isinstance(initializer, mp_nodes.NameExpr)
-                and initializer.name not in {"None", "True", "False"}
-                and not self._is_part_of_package(initializer.fullname)
-            ):
+            if isinstance(initializer, mp_nodes.NameExpr) and initializer.name not in {"None", "True", "False"}:
                 # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
                 # in the package we analyze with Safe-DS.
                 return default_value, default_is_none
@@ -796,16 +766,6 @@ class MyPyAstVisitor:
                 self.reexported[name] = [module]
 
     # #### Misc. utilities
-
-    # Todo This check is currently too weak, we should try to get the path to the package from the api object, not
-    #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
-    #  from the package.
-    def _is_part_of_package(self, qname: str) -> bool:
-        """Check if the qname of an attribute, parameter or a smiliar object is part of the current package we analyze.
-         """
-        if "builtins." in qname:
-            return True
-        return self.api.package in qname
 
     def _create_module_id(self, qname: str) -> str:
         """Create an ID for the module object.
