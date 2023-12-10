@@ -72,7 +72,7 @@ def mypy_type_to_abstract_type(
             return_type=mypy_type_to_abstract_type(mypy_type.ret_type),
         )
     elif isinstance(mypy_type, mp_types.AnyType):
-        return sds_types.NamedType(name="Any")
+        return sds_types.NamedType(name="Any", qname="builtins.Any")
     elif isinstance(mypy_type, mp_types.NoneType):
         return sds_types.NamedType(name="None", qname="builtins.None")
     elif isinstance(mypy_type, mp_types.LiteralType):

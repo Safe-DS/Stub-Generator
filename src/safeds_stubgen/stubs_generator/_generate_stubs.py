@@ -43,7 +43,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     modules = api.modules.values()
 
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-    generator = StubsStringGenerator(api.package, convert_identifiers)
+    stubs_generator = StubsStringGenerator(api.package, convert_identifiers)
 
     for module in modules:
         module_name = module.name
@@ -51,7 +51,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         if module_name == "__init__":
             continue
 
-        module_text = generator.create_module_string(module)
+        module_text = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, is there is only the package information
         # the file would look like this: "package path.to.myPackage\n" or this:
@@ -81,27 +81,26 @@ class StubsStringGenerator:
     """
 
     def __init__(self, package_name: str, convert_identifiers: bool) -> None:
+        self.module_imports: set[str] = set()
         self.package_name = package_name
-        self._current_todo_msgs: set[str] = set()
         self.convert_identifiers = convert_identifiers
 
-    def create_module_string(self, module: Module) -> str:
+    def __call__(self, module: Module) -> str:
+        # Reset the module_imports list
+        self.module_imports = set()
+        self._current_todo_msgs: set[str] = set()
+        self.module = module
+        return self._create_module_string(module)
+
+    def _create_module_string(self, module: Module) -> str:
         # Create package info
         package_info = module.id.replace("/", ".")
         package_info_camel_case = self._convert_snake_to_camel_case(package_info)
         module_name_info = ""
+        module_text = ""
         if package_info != package_info_camel_case:
             module_name_info = f'@PythonModule("{package_info}")\n'
-        module_text = f"{module_name_info}package {package_info_camel_case}\n"
-
-        # Create imports
-        qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
-        if qualified_imports:
-            module_text += f"\n{qualified_imports}\n"
-
-        wildcard_imports = self._create_wildcard_imports_string(module.wildcard_imports)
-        if wildcard_imports:
-            module_text += f"\n{wildcard_imports}\n"
+        module_header = f"{module_name_info}package {package_info_camel_case}\n"
 
         # Create global functions and properties
         for function in module.global_functions:
@@ -117,7 +116,25 @@ class StubsStringGenerator:
         for enum in module.enums:
             module_text += f"\n{self._create_enum_string(enum)}\n"
 
-        return module_text
+        # Create imports - We have to create them last, since we have to check all used types in this module first
+        module_header += self._create_imports_string()
+
+        return module_header + module_text
+
+    def _create_imports_string(self) -> str:
+        if not self.module_imports:
+            return ""
+
+        import_strings = []
+
+        for import_ in self.module_imports:
+            import_parts = import_.split(".")
+            from_ = ".".join(import_parts[0:-1])
+            name = import_parts[-1]
+            import_strings.append(f"from {from_} import {name}")
+
+        import_string = "\n".join(import_strings)
+        return f"\n{import_string}\n"
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
@@ -466,40 +483,6 @@ class StubsStringGenerator:
             return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
         return ""
 
-    def _create_qualified_imports_string(self, qualified_imports: list[QualifiedImport]) -> str:
-        if not qualified_imports:
-            return ""
-
-        imports: list[str] = []
-        for qualified_import in qualified_imports:
-            qualified_name = qualified_import.qualified_name
-            import_path, name = self._split_import_id(qualified_name)
-
-            # Ignore enum imports, since those are build in types in Safe-DS stubs
-            if import_path == "enum" and name in {"Enum", "IntEnum"}:
-                continue
-
-            # Create string and check if Safe-DS keywords are used and escape them if necessary
-            from_path = f"from {self._replace_if_safeds_keyword(import_path)} " if import_path else ""
-            alias = f" as {self._replace_if_safeds_keyword(qualified_import.alias)}" if qualified_import.alias else ""
-
-            imports.append(
-                f"{from_path}import {self._replace_if_safeds_keyword(name)}{alias}",
-            )
-
-        return "\n".join(imports)
-
-    def _create_wildcard_imports_string(self, wildcard_imports: list[WildcardImport]) -> str:
-        if not wildcard_imports:
-            return ""
-
-        imports = [
-            f"from {self._replace_if_safeds_keyword(wildcard_import.module_name)} import *"
-            for wildcard_import in wildcard_imports
-        ]
-
-        return "\n".join(imports)
-
     def _create_enum_string(self, enum_data: Enum) -> str:
         # Signature
         enum_signature = f"enum {enum_data.name}"
@@ -548,9 +531,7 @@ class StubsStringGenerator:
                 case "None":
                     return none_type_name
                 case _:
-                    qname = type_data["qname"]
-                    if not self._is_part_of_package(qname):
-                        return ""
+                    self._add_to_imports(type_data["qname"])
                     return name
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
@@ -643,14 +624,18 @@ class StubsStringGenerator:
 
     # ############################### Utilities ############################### #
 
-    # Todo This check is currently too weak, we should try to get the path to the package from the api object, not
-    #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
-    #  from the package.
-    def _is_part_of_package(self, qname: str) -> bool:
-        """Check if the qname of an attribute, parameter or a smiliar object is part of the current package we analyze."""
+    def _add_to_imports(self, qname: str) -> None:
+        """Check if the qname of a type is defined in the current module. If not, we create an import for it."""
         if qname == "":
-            return True
-        return self.package_name in qname
+            raise ValueError("Type has no import source.")
+
+        qname_parts = qname.split(".")
+        if qname_parts[0] == "builtins" and len(qname_parts) == 2:
+            return
+
+        module_id = self.module.id.replace("/", ".")
+        if module_id not in qname:
+            self.module_imports.add(qname)
 
     @staticmethod
     def _callable_type_name_generator() -> Generator:
