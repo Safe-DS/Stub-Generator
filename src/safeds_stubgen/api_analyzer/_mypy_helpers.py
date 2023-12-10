@@ -66,6 +66,8 @@ def mypy_type_to_abstract_type(
         return sds_types.UnionType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
     # Special Cases
+    elif isinstance(mypy_type, mp_types.TypeVarType):
+        return sds_types.TypeVarType(mypy_type.name)
     elif isinstance(mypy_type, mp_types.CallableType):
         return sds_types.CallableType(
             parameter_types=[mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],

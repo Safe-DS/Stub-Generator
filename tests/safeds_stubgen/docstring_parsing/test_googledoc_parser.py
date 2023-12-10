@@ -27,7 +27,6 @@ mypy_file = _get_mypy_ast(
     files=[
         str(Path(_test_dir / "data" / "docstring_parser_package" / "googledoc.py")),
     ],
-    package_paths=[],
     root=Path(_test_dir / "data" / "docstring_parser_package"),
 )[0]
 

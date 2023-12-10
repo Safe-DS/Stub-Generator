@@ -82,3 +82,11 @@ class InferMyTypes:
             return "a"
         else:
             return False
+
+    def infer_call_result_1(self):
+        return self.infer_function_2()
+
+    def _(self) -> str: ...
+
+    def infer_call_result_2(self):
+        return self._()

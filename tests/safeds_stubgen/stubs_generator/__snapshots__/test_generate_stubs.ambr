@@ -46,6 +46,7 @@
   from typing import Optional
   from typing import Final
   from typing import Literal
+  from typing import TypeVar
   
   class AttributesClassA()
   
@@ -131,6 +132,8 @@
   	static attr multiAttr7: String
   	@PythonName("multi_attr_8")
   	static attr multiAttr8: String
+  	@PythonName("type_var")
+  	static attr typeVar: type_var
   	@PythonName("init_attr")
   	attr initAttr: Boolean
   
@@ -228,6 +231,7 @@
   from typing import Optional
   from typing import Literal
   from typing import Any
+  from typing import TypeVar
   
   // TODO Result type information missing.
   @Pure
@@ -456,6 +460,12 @@
   	param: (a: String) -> (b: Int, c: String)
   ) -> result1: (a: Int, b: Int) -> c: Int
   
+  @Pure
+  @PythonName("type_var_func")
+  fun typeVarFunc(
+  	@PythonName("type_var_list") typeVarList: List<_type_var>
+  ) -> result1: List<_type_var>
+  
   class FunctionModuleClassA()
   
   // TODO Some parameter have no type information.
@@ -582,6 +592,16 @@
   	static fun inferFunction2(
   		i: Int = 2
   	) -> result1: union<Boolean, String>
+  
+  	// TODO Result type information missing.
+  	@Pure
+  	@PythonName("infer_call_result_1")
+  	fun inferCallResult1()
+  
+  	// TODO Result type information missing.
+  	@Pure
+  	@PythonName("infer_call_result_2")
+  	fun inferCallResult2()
   }
   
   '''

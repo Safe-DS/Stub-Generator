@@ -11,20 +11,20 @@ from safeds_stubgen.docstring_parsing import PlaintextDocstringParser
 
 
 @pytest.mark.parametrize(
-    ("qname", "expected_id", "package_name"),
+    ("module_path", "expected_id", "package_name"),
     [
         (
-            "some.path.package_name.src.data",
+            "path\\to\\some\\path\\package_name\\src\\data",
             "package_name/src/data",
             "package_name",
         ),
         (
-            "some.path.package_name",
+            "path\\to\\some\\path\\package_name",
             "package_name",
             "package_name",
         ),
         (
-            "some.path.no_package",
+            "path\\to\\some\\path\\no_package",
             "",
             "package_name",
         ),
@@ -34,17 +34,17 @@ from safeds_stubgen.docstring_parsing import PlaintextDocstringParser
             "package_name",
         ),
         (
-            "some.package_name.package_name.src.data",
+            "path\\to\\some\\package_name\\package_name\\src\\data",
             "package_name/package_name/src/data",
             "package_name",
         ),
         (
-            "some.path.package_name.src.package_name",
+            "path\\to\\some\\path\\package_name\\src\\package_name",
             "package_name/src/package_name",
             "package_name",
         ),
         (
-            "some.package_name.package_name.src.package_name",
+            "path\\to\\some\\package_name\\package_name\\src\\package_name",
             "package_name/package_name/src/package_name",
             "package_name",
         ),
@@ -59,7 +59,7 @@ from safeds_stubgen.docstring_parsing import PlaintextDocstringParser
         "Package name twice in qname 3",
     ],
 )
-def test__create_module_id(qname: str, expected_id: str, package_name: str) -> None:
+def test__create_module_id(module_path: str, expected_id: str, package_name: str) -> None:
     api = API(
         distribution="dist_name",
         package=package_name,
@@ -68,8 +68,8 @@ def test__create_module_id(qname: str, expected_id: str, package_name: str) -> N
 
     visitor = MyPyAstVisitor(PlaintextDocstringParser(), api)
     if not expected_id:
-        with pytest.raises(ValueError, match="Package name could not be found in the qualified name of the module."):
-            visitor._create_module_id(qname)
+        with pytest.raises(ValueError, match="Package name could not be found in the module path."):
+            visitor._create_module_id(module_path)
     else:
-        module_id = visitor._create_module_id(qname)
+        module_id = visitor._create_module_id(module_path)
         assert module_id == expected_id

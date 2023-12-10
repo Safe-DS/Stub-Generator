@@ -31,6 +31,7 @@ from ._types import (
     NamedType,
     SetType,
     TupleType,
+    TypeVarType,
     UnionType,
 )
 
@@ -63,6 +64,7 @@ __all__ = [
     "Result",
     "SetType",
     "TupleType",
+    "TypeVarType",
     "UnionType",
     "VarianceKind",
     "WildcardImport",
