@@ -15,6 +15,7 @@ from ._package_metadata import distribution, distribution_version, package_root
 
 if TYPE_CHECKING:
     from pathlib import Path
+
     from mypy.nodes import MypyFile
 
 

@@ -403,6 +403,7 @@ class TypeVarType(AbstractType):
     def __hash__(self) -> int:
         return hash(frozenset([self.name]))
 
+
 # ############################## Utilities ############################## #
 # def _dismantel_type_string_structure(type_structure: str) -> list:
 #     current_type = ""

@@ -797,12 +797,12 @@ class MyPyAstVisitor:
         # We have to split the qname of the module at the first occurence of the package name and reconnect it while
         # discarding everything in front of it. This is necessary since the qname could contain unwanted information.
         module_id = module_path.split(package_name, 1)[-1]
-        module_id = module_id.replace("\\", '/')
+        module_id = module_id.replace("\\", "/")
 
         if module_id.startswith("/"):
             module_id = module_id[1:]
 
-        if module_id.endswith('.py'):
+        if module_id.endswith(".py"):
             module_id = module_id[:-3]
 
         if module_id:
