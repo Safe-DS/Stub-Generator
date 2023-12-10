@@ -104,21 +104,12 @@ def mypy_type_to_abstract_type(
                     return sds_types.ListType(types=types)
                 case "set":
                     return sds_types.SetType(types=types)
-            raise ValueError("Unexpected outcome.")  # pragma: no cover
 
         elif type_name == "dict":
-            key_type = mypy_type_to_abstract_type(mypy_type.args[0])
-            value_types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args[1:]]
-
-            value_type: AbstractType
-            if len(value_types) == 0:
-                value_type = sds_types.NamedType(name="Any")
-            elif len(value_types) == 1:
-                value_type = value_types[0]
-            else:
-                value_type = sds_types.UnionType(types=value_types)
-
-            return sds_types.DictType(key_type=key_type, value_type=value_type)
+            return sds_types.DictType(
+                key_type=mypy_type_to_abstract_type(mypy_type.args[0]),
+                value_type=mypy_type_to_abstract_type(mypy_type.args[1])
+            )
         else:
             return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
     raise ValueError("Unexpected type.")  # pragma: no cover
@@ -198,29 +189,7 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         return sds_types.NamedType(name="str", qname="builtins.str")
     elif isinstance(expr, mp_nodes.TupleExpr):
         return sds_types.TupleType(types=[mypy_expression_to_sds_type(item) for item in expr.items])
-    # # This is currently not used since Safe-DS does not support these default value types
-    # elif isinstance(expr, mp_nodes.ListExpr | mp_nodes.SetExpr):
-    #     unsorted_types = {mypy_expression_to_sds_type(item) for item in expr.items}
-    #     types = list(unsorted_types)
-    #     types.sort()
-    #     if isinstance(expr, mp_nodes.ListExpr):
-    #         return sds_types.ListType(types=types)
-    #     elif isinstance(expr, mp_nodes.SetExpr):
-    #         return sds_types.SetType(types=types)
-    # elif isinstance(expr, mp_nodes.DictExpr):
-    #     key_items = expr.items[0]
-    #     value_items = expr.items[1]
-    #
-    #     key_types = [
-    #         mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
-    #     value_types = [
-    #         mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None
-    #     ]
-    #
-    #     key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]
-    #     value_type = sds_types.UnionType(types=value_types) if len(value_types) >= 2 else value_types[0]
-    #
-    #     return sds_types.DictType(key_type=key_type, value_type=value_type)
+
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 
 
@@ -237,27 +206,5 @@ def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | i
                 return expr.name
     elif isinstance(expr, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr):
         return expr.value
-    # # This is currently not used since Safe-DS does not support these default value types
-    # elif isinstance(expr, mp_nodes.ListExpr):
-    #     return [
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     ]
-    # elif isinstance(expr, mp_nodes.SetExpr):
-    #     return {
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     }
-    # elif isinstance(expr, mp_nodes.TupleExpr):
-    #     return tuple(
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     )
-    # elif isinstance(expr, mp_nodes.DictExpr):
-    #     return {
-    #         mypy_expression_to_python_value(item[0]): mypy_expression_to_python_value(item[1])
-    #         for item in expr.items
-    #         if item[0] is not None and item[1] is not None
-    #     }
 
     raise TypeError("Unexpected expression type.")  # pragma: no cover

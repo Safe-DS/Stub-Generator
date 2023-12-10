@@ -299,6 +299,7 @@
   	lst: List<Int, String>,
   	@PythonName("lst_2") lst2: List<Int, String, Int>,
   	tpl: Tuple<Int, String, Boolean, Int>,
+  	dct: Map<Any, Any>,
   	`_`: Int = String
   )
   

@@ -83,6 +83,7 @@ def illegal_params(
     lst: list[int, str],
     lst_2: list[int, str, int],
     tpl: tuple[int, str, bool, int],
+    dct: dict[str, int, None, bool],
     _: int = "String",
 ): ...
 

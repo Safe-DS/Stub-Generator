@@ -3210,6 +3210,31 @@
         'description': '',
         'type': '',
       }),
+      'id': 'various_modules_package/function_module/illegal_params/dct',
+      'is_optional': False,
+      'name': 'dct',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': '',
+        }),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'various_modules_package/function_module/illegal_params/lst',
       'is_optional': False,
       'name': 'lst',
@@ -5525,6 +5550,7 @@
         'various_modules_package/function_module/illegal_params/lst',
         'various_modules_package/function_module/illegal_params/lst_2',
         'various_modules_package/function_module/illegal_params/tpl',
+        'various_modules_package/function_module/illegal_params/dct',
         'various_modules_package/function_module/illegal_params/_',
       ]),
       'reexported_by': list([
