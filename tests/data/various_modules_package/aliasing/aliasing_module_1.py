@@ -1,6 +1,7 @@
 from aliasing_module_2 import AliasingModule2ClassA as AliasModule2
 
 
+# Todo Frage Die Klasse _AliasingModuleClassA wird als Typ genutzt aber nicht generiert
 class _AliasingModuleClassA:
     ...
 

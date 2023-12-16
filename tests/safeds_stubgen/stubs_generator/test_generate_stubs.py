@@ -96,12 +96,15 @@ def test_abstract_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot)
 
 
-def test_alias_creation(snapshot: SnapshotAssertion) -> None:
+@pytest.mark.parametrize(
+    "file_name",
+    ["aliasing_module_1", "aliasing_module_2"]
+)
+def test_alias_creation(file_name: str, snapshot: SnapshotAssertion) -> None:
     file_data = ""
-    for file_name in {"aliasing_module_1", "aliasing_module_2"}:
-        stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
-        with stubs_file.open("r") as f:
-            file_data += f.read()
+    stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
+    with stubs_file.open("r") as f:
+        file_data += f.read()
 
     assert file_data == snapshot
 

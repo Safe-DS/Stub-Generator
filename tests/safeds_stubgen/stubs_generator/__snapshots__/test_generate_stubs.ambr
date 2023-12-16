@@ -4,9 +4,6 @@
   @PythonModule("various_modules_package.abstract_module")
   package variousModulesPackage.abstractModule
   
-  from abc import ABC
-  from abc import abstractmethod
-  
   class AbstractModuleClass {
   	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
   
@@ -38,14 +35,54 @@
   
   '''
 # ---
+# name: test_alias_creation[aliasing_module_1]
+  '''
+  @PythonModule("various_modules_package.aliasing.aliasing_module_1")
+  package variousModulesPackage.aliasing.aliasingModule1
+  
+  from aliasing_module_2 import AliasingModule2ClassA
+  
+  class AliasingModuleClassB()
+  
+  class AliasingModuleClassC() sub _AliasingModuleClassA {
+  	@PythonName("typed_alias_attr")
+  	static attr typedAliasAttr: AliasingModuleClassB
+  	@PythonName("infer_alias_attr")
+  	static attr inferAliasAttr: () -> a: _AliasingModuleClassA
+  	@PythonName("typed_alias_attr2")
+  	static attr typedAliasAttr2: AliasingModule2ClassA
+  	@PythonName("infer_alias_attr2")
+  	static attr inferAliasAttr2: AliasingModule2ClassA
+  	// TODO List type has to many type arguments.
+  	@PythonName("alias_list")
+  	static attr aliasList: List<union<AliasingModuleClassB, _AliasingModuleClassA>, AliasingModule2ClassA>
+  }
+  
+  '''
+# ---
+# name: test_alias_creation[aliasing_module_2]
+  '''
+  @PythonModule("various_modules_package.aliasing.aliasing_module_2")
+  package variousModulesPackage.aliasing.aliasingModule2
+  
+  class AliasingModule2ClassA()
+  
+  class AliasingModuleClassB()
+  
+  class AliasingModuleClassC() {
+  	@PythonName("typed_alias_attr")
+  	static attr typedAliasAttr: AliasingModuleClassB
+  	@PythonName("alias_list")
+  	static attr aliasList: List<union<AliasingModuleClassB, String>>
+  }
+  
+  '''
+# ---
 # name: test_class_attribute_creation
   '''
   @PythonModule("various_modules_package.attribute_module")
   package variousModulesPackage.attributeModule
   
-  from typing import Optional
-  from typing import Final
-  from typing import Literal
   from tests.data.main_package.another_path.another_module import AnotherClass
   
   class AttributesClassA()
@@ -132,11 +169,10 @@
   	static attr multiAttr7: String
   	@PythonName("multi_attr_8")
   	static attr multiAttr8: String
-  	// TODO Attribute has no type information.
   	@PythonName("attr_type_from_outside_package")
-  	static attr attrTypeFromOutsidePackage
+  	static attr attrTypeFromOutsidePackage: AnotherClass
   	@PythonName("attr_default_value_from_outside_package")
-  	static attr attrDefaultValueFromOutsidePackage: () -> a: 
+  	static attr attrDefaultValueFromOutsidePackage: () -> a: AnotherClass
   	@PythonName("init_attr")
   	attr initAttr: Boolean
   
@@ -197,8 +233,6 @@
   @PythonModule("various_modules_package.enum_module")
   package variousModulesPackage.enumModule
   
-  from another_path.another_module import AnotherClass as _AcImportAlias
-  
   enum _ReexportedEmptyEnum
   
   enum EnumTest {
@@ -230,10 +264,6 @@
   @PythonModule("various_modules_package.function_module")
   package variousModulesPackage.functionModule
   
-  from typing import Callable
-  from typing import Optional
-  from typing import Literal
-  from typing import Any
   from tests.data.main_package.another_path.another_module import AnotherClass
   
   // TODO Result type information missing.
@@ -469,14 +499,13 @@
   @Pure
   @PythonName("param_from_outside_the_package")
   fun paramFromOutsideThePackage(
-  	@PythonName("param_type") paramType,
+  	@PythonName("param_type") paramType: AnotherClass,
   	@PythonName("param_value") paramValue
   )
   
-  // TODO Result type information missing.
   @Pure
   @PythonName("result_from_outside_the_package")
-  fun resultFromOutsideThePackage()
+  fun resultFromOutsideThePackage() -> result1: AnotherClass
   
   class FunctionModuleClassA()
   
@@ -531,17 +560,6 @@
   	@PythonName("property_function_params") attr propertyFunctionParams: String
   	@PythonName("property_function_infer") attr propertyFunctionInfer: String
   }
-  
-  '''
-# ---
-# name: test_import_creation
-  '''
-  @PythonModule("various_modules_package.import_module")
-  package variousModulesPackage.importModule
-  
-  import mypy as `static`
-  
-  from math import *
   
   '''
 # ---
@@ -612,10 +630,6 @@
   '''
   @PythonModule("various_modules_package.variance_module")
   package variousModulesPackage.varianceModule
-  
-  from typing import Generic
-  from typing import TypeVar
-  from typing import Literal
   
   class A()
   
