@@ -1,10 +1,11 @@
 from __future__ import annotations
+from copy import deepcopy
 
 from types import NoneType
 from typing import TYPE_CHECKING
 
 import mypy.types as mp_types
-from mypy import nodes as mp_nodes
+import mypy.nodes as mp_nodes
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -32,22 +33,26 @@ from ._mypy_helpers import (
     has_correct_type_of_any,
     mypy_expression_to_python_value,
     mypy_expression_to_sds_type,
-    mypy_type_to_abstract_type,
     mypy_variance_parser,
 )
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ResultDocstring
 
+    from safeds_stubgen.api_analyzer._types import AbstractType
+
 
 class MyPyAstVisitor:
-    def __init__(self, docstring_parser: AbstractDocstringParser, api: API) -> None:
+    def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.reexported: dict[str, list[Module]] = {}
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
+        self.aliases = aliases
+        self.mypy_file = None
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
+        self.mypy_file = node
         is_package = node.path.endswith("__init__.py")
 
         qualified_imports: list[QualifiedImport] = []
@@ -152,10 +157,10 @@ class MyPyAstVisitor:
                 variance_values: sds_types.AbstractType
                 if variance_type == VarianceKind.INVARIANT:
                     variance_values = sds_types.UnionType([
-                        mypy_type_to_abstract_type(value) for value in generic_type.values
+                        self.mypy_type_to_abstract_type(value) for value in generic_type.values
                     ])
                 else:
-                    variance_values = mypy_type_to_abstract_type(generic_type.upper_bound)
+                    variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
 
                 type_parameters.append(
                     TypeParameter(
@@ -387,7 +392,7 @@ class MyPyAstVisitor:
                     else:
                         # Otherwise, we can parse the type normally
                         unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
-                        ret_type = mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
+                        ret_type = self.mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
             else:
                 # Infer type
                 ret_type = self._infer_type_from_return_stmts(node)
@@ -601,12 +606,14 @@ class MyPyAstVisitor:
             raise TypeError("Attribute has an unexpected type.")
 
         type_ = None
-        # Ignore types that are special mypy any types
+        # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (
-            isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
+            isinstance(attribute_type, mp_types.AnyType) and
+            not has_correct_type_of_any(attribute_type.type_of_any) and
+            attribute_type.type_of_any != mp_types.TypeOfAny.from_unimported_type
         ):
             # noinspection PyTypeChecker
-            type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
+            type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
         # Get docstring
         parent = self.__declaration_stack[-1]
@@ -653,9 +660,9 @@ class MyPyAstVisitor:
                 # A special case where the argument is a list with multiple types. We have to handle this case like this
                 # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
                 # way in Mypy.
-                arg_type = mypy_type_to_abstract_type(type_annotation)
+                arg_type = self.mypy_type_to_abstract_type(type_annotation)
             elif type_annotation is not None:
-                arg_type = mypy_type_to_abstract_type(mypy_type)
+                arg_type = self.mypy_type_to_abstract_type(mypy_type)
 
             # Get default value and infer type information
             initializer = argument.initializer
@@ -765,6 +772,154 @@ class MyPyAstVisitor:
                 self.reexported[name] = [module]
 
     # #### Misc. utilities
+    def mypy_type_to_abstract_type(
+        self,
+        mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.MypyType,
+        unanalyzed_type: mp_types.Type | None = None,
+    ) -> AbstractType:
+
+        # Special cases where we need the unanalyzed_type to get the type information we need
+        if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
+            unanalyzed_type_name = unanalyzed_type.name
+            if unanalyzed_type_name == "Final":
+                # Final type
+                types = [self.mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
+                if len(types) == 1:
+                    return sds_types.FinalType(type_=types[0])
+                elif len(types) == 0:  # pragma: no cover
+                    raise ValueError("Final type has no type arguments.")
+                return sds_types.FinalType(type_=sds_types.UnionType(types=types))
+            elif unanalyzed_type_name in {"list", "set"}:
+                type_args = getattr(mypy_type, "args", [])
+                if (
+                    len(type_args) == 1
+                    and isinstance(type_args[0], mp_types.AnyType)
+                    and not has_correct_type_of_any(type_args[0].type_of_any)
+                ):
+                    # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
+                    # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
+                    # of the list arguments, which we cant get through the "unanalyzed_type" attribute
+                    return self.mypy_type_to_abstract_type(unanalyzed_type)
+
+        # Iterable mypy types
+        if isinstance(mypy_type, mp_types.TupleType):
+            return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
+        elif isinstance(mypy_type, mp_types.UnionType):
+            return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
+
+        # Special Cases
+        elif isinstance(mypy_type, mp_types.CallableType):
+            return sds_types.CallableType(
+                parameter_types=[self.mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],
+                return_type=self.mypy_type_to_abstract_type(mypy_type.ret_type),
+            )
+        elif isinstance(mypy_type, mp_types.AnyType):
+            if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
+                missing_import_name = mypy_type.missing_import_name.split(".")[-1]
+                name, qname = self._find_alias(missing_import_name)
+                return sds_types.NamedType(name=name, qname=qname)
+            else:
+                return sds_types.NamedType(name="Any", qname="builtins.Any")
+        elif isinstance(mypy_type, mp_types.NoneType):
+            return sds_types.NamedType(name="None", qname="builtins.None")
+        elif isinstance(mypy_type, mp_types.LiteralType):
+            return sds_types.LiteralType(literals=[mypy_type.value])
+        elif isinstance(mypy_type, mp_types.UnboundType):
+            if mypy_type.name in {"list", "set"}:
+                return {
+                    "list": sds_types.ListType,
+                    "set": sds_types.SetType,
+                }[
+                    mypy_type.name
+                ](types=[self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
+
+            # Get qname
+            if mypy_type.name in {"Any", "str", "int", "bool", "float", "None"}:
+                name = mypy_type.name
+                qname = f"builtins.{mypy_type.name}"
+            else:
+                name, qname = self._find_alias(mypy_type.name)
+
+            return sds_types.NamedType(name=name, qname=qname)
+
+        # Builtins
+        elif isinstance(mypy_type, mp_types.Instance):
+            type_name = mypy_type.type.name
+            if type_name in {"int", "str", "bool", "float"}:
+                return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
+
+            # Iterable builtins
+            elif type_name in {"tuple", "list", "set"}:
+                types = [self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
+                match type_name:
+                    case "tuple":
+                        return sds_types.TupleType(types=types)
+                    case "list":
+                        return sds_types.ListType(types=types)
+                    case "set":
+                        return sds_types.SetType(types=types)
+
+            elif type_name == "dict":
+                return sds_types.DictType(
+                    key_type=self.mypy_type_to_abstract_type(mypy_type.args[0]),
+                    value_type=self.mypy_type_to_abstract_type(mypy_type.args[1]),
+                )
+            else:
+                return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
+        raise ValueError("Unexpected type.")  # pragma: no cover
+
+    def _find_alias(self, type_name: str):
+        module = self.__declaration_stack[0]
+
+        name = ""
+        qname = ""
+        if type_name in self.aliases.keys():
+            qnames: set = self.aliases[type_name]
+            if len(qnames) == 1:
+                qname = deepcopy(qnames).pop()
+                name = qname.split(".")[-1]
+
+                # We have to check if this is an alias from an import
+                found_alias = False
+                for qualified_import in module.qualified_imports:
+                    if qualified_import.alias == name:
+                        qname = qualified_import.qualified_name
+                        found_alias = True
+                        break
+
+                if found_alias:
+                    # Overwrite the name, since it was only an alias
+                    name = qname.split(".")[-1]
+
+            else:
+                # In this case some type was defined in multiple modules with the same name.
+                for alias_qname in qnames:
+                    # First we check if the type was defined in the same module
+                    type_path = ".".join(alias_qname.split(".")[0:-1])
+                    name = alias_qname.split(".")[-1]
+                    if type_path == self.mypy_file.fullname:
+                        qname = alias_qname
+                        break
+
+                    # Then we check if the type was perhapse imported
+                    for qualified_import in module.qualified_imports:
+                        if qualified_import.alias == name:
+                            qname = qualified_import.qualified_name
+                            name = qname.split(".")[-1]
+                            break
+                        elif qualified_import.qualified_name in alias_qname:
+                            qname = alias_qname
+                            break
+
+                    for wildcard_import in module.wildcard_imports:
+                        if wildcard_import.module_name in alias_qname:
+                            qname = alias_qname
+                            break
+
+        if not qname:  # pragma: no cover
+            raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
+
+        return name, qname
 
     def _create_module_id(self, qname: str) -> str:
         """Create an ID for the module object.

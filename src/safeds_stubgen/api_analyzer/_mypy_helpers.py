@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Literal
 import mypy.types as mp_types
 from mypy import nodes as mp_nodes
 from mypy.nodes import ArgKind
-from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -13,10 +12,6 @@ from ._api import ParameterAssignment, VarianceKind
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
-    from mypy.types import ProperType
-    from mypy.types import Type as MypyType
-
-    from safeds_stubgen.api_analyzer._types import AbstractType
 
 
 def get_classdef_definitions(node: ClassDef) -> list:
@@ -29,90 +24,6 @@ def get_funcdef_definitions(node: FuncDef) -> list:
 
 def get_mypyfile_definitions(node: MypyFile) -> list:
     return node.defs
-
-
-def mypy_type_to_abstract_type(
-    mypy_type: Instance | ProperType | MypyType,
-    unanalyzed_type: mp_types.Type | None = None,
-) -> AbstractType:
-
-    # Special cases where we need the unanalyzed_type to get the type information we need
-    if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
-        unanalyzed_type_name = unanalyzed_type.name
-        if unanalyzed_type_name == "Final":
-            # Final type
-            types = [mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
-            if len(types) == 1:
-                return sds_types.FinalType(type_=types[0])
-            elif len(types) == 0:  # pragma: no cover
-                raise ValueError("Final type has no type arguments.")
-            return sds_types.FinalType(type_=sds_types.UnionType(types=types))
-        elif unanalyzed_type_name in {"list", "set"}:
-            type_args = getattr(mypy_type, "args", [])
-            if (
-                len(type_args) == 1
-                and isinstance(type_args[0], mp_types.AnyType)
-                and not has_correct_type_of_any(type_args[0].type_of_any)
-            ):
-                # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
-                # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
-                # of the list arguments, which we cant get through the "unanalyzed_type" attribute
-                return mypy_type_to_abstract_type(unanalyzed_type)
-
-    # Iterable mypy types
-    if isinstance(mypy_type, mp_types.TupleType):
-        return sds_types.TupleType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
-    elif isinstance(mypy_type, mp_types.UnionType):
-        return sds_types.UnionType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
-
-    # Special Cases
-    elif isinstance(mypy_type, mp_types.CallableType):
-        return sds_types.CallableType(
-            parameter_types=[mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],
-            return_type=mypy_type_to_abstract_type(mypy_type.ret_type),
-        )
-    elif isinstance(mypy_type, mp_types.AnyType):
-        return sds_types.NamedType(name="Any", qname="builtins.Any")
-    elif isinstance(mypy_type, mp_types.NoneType):
-        return sds_types.NamedType(name="None", qname="builtins.None")
-    elif isinstance(mypy_type, mp_types.LiteralType):
-        return sds_types.LiteralType(literals=[mypy_type.value])
-    elif isinstance(mypy_type, mp_types.UnboundType):
-        if mypy_type.name in {"list", "set"}:
-            return {
-                "list": sds_types.ListType,
-                "set": sds_types.SetType,
-            }[
-                mypy_type.name
-            ](types=[mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
-        # Todo Aliasing: Import auflösen, wir können hier keinen fullname (qname) bekommen
-        return sds_types.NamedType(name=mypy_type.name)
-
-    # Builtins
-    elif isinstance(mypy_type, Instance):
-        type_name = mypy_type.type.name
-        if type_name in {"int", "str", "bool", "float"}:
-            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-
-        # Iterable builtins
-        elif type_name in {"tuple", "list", "set"}:
-            types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
-            match type_name:
-                case "tuple":
-                    return sds_types.TupleType(types=types)
-                case "list":
-                    return sds_types.ListType(types=types)
-                case "set":
-                    return sds_types.SetType(types=types)
-
-        elif type_name == "dict":
-            return sds_types.DictType(
-                key_type=mypy_type_to_abstract_type(mypy_type.args[0]),
-                value_type=mypy_type_to_abstract_type(mypy_type.args[1]),
-            )
-        else:
-            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-    raise ValueError("Unexpected type.")  # pragma: no cover
 
 
 def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:

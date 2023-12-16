@@ -68,48 +68,42 @@ def test_file_creation() -> None:
     )
 
 
-# Todo Check snapshot
 def test_class_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("class_module", snapshot)
 
 
-# Todo Check snapshot
 def test_class_attribute_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("attribute_module", snapshot)
 
 
-# Todo Check snapshot
 def test_function_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("function_module", snapshot)
 
 
-# Todo Check snapshot
 def test_enum_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("enum_module", snapshot)
 
 
-# Todo Check snapshot
-def test_import_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("import_module", snapshot)
-
-
-# Todo Check snapshot
 def test_type_inference(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("infer_types_module", snapshot)
 
 
-# Todo Check snapshot
 def test_variance_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("variance_module", snapshot)
 
 
-# Todo Check snapshot
 def test_abstract_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot)
 
 
-# Todo
-def test_docstring_creation() -> None: ...
+def test_alias_creation(snapshot: SnapshotAssertion) -> None:
+    file_data = ""
+    for file_name in {"aliasing_module_1", "aliasing_module_2"}:
+        stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
+        with stubs_file.open("r") as f:
+            file_data += f.read()
+
+    assert file_data == snapshot
 
 
 @pytest.mark.parametrize(

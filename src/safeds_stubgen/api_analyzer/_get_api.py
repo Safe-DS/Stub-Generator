@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import logging
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main
@@ -13,9 +12,8 @@ from ._api import API
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version, package_root
-
-if TYPE_CHECKING:
-    from mypy.nodes import MypyFile
+from mypy import nodes as mypy_nodes
+from mypy import types as mypy_types
 
 
 def get_api(
@@ -27,16 +25,6 @@ def get_api(
     # Check root
     if root is None:
         root = package_root(package_name)
-
-    # Get distribution data
-    dist = distribution(package_name) or ""
-    dist_version = distribution_version(dist) or ""
-
-    # Setup api walker
-    api = API(dist, package_name, dist_version)
-    docstring_parser = create_docstring_parser(docstring_style)
-    callable_visitor = MyPyAstVisitor(docstring_parser, api)
-    walker = ASTWalker(callable_visitor)
 
     walkable_files = []
     package_paths = []
@@ -61,26 +49,53 @@ def get_api(
 
         walkable_files.append(str(file_path))
 
-    mypy_trees = _get_mypy_ast(walkable_files, package_paths, root)
-    for tree in mypy_trees:
+    if not walkable_files:
+        raise ValueError("No files found to analyse.")
+
+    # Get distribution data
+    dist = distribution(package_name) or ""
+    dist_version = distribution_version(dist) or ""
+
+    # Get mypy ast and aliases
+    build_result = _get_mypy_build(walkable_files)
+    mypy_asts = _get_mypy_asts(build_result, walkable_files, package_paths, root)
+    aliases = _get_aliases(build_result.types, package_name)
+
+    # Setup api walker
+    api = API(dist, package_name, dist_version)
+    docstring_parser = create_docstring_parser(docstring_style)
+    callable_visitor = MyPyAstVisitor(docstring_parser, api, aliases)
+    walker = ASTWalker(callable_visitor)
+
+    for tree in mypy_asts:
         walker.walk(tree)
 
     return callable_visitor.api
 
 
-def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> list[MypyFile]:
-    if not files:
-        raise ValueError("No files found to analyse.")
-
-    # Build mypy checker
+def _get_mypy_build(files: list[str]) -> mypy_build.BuildResult:
+    """Build a mypy checker and return the build result."""
     mypyfiles, opt = mypy_main.process_options(files)
-    opt.preserve_asts = True  # Disable the memory optimization of freeing ASTs when possible
-    opt.fine_grained_incremental = True  # Only check parts of the code that have changed since the last check
-    result = mypy_build.build(mypyfiles, options=opt)
 
+    # Disable the memory optimization of freeing ASTs when possible
+    opt.preserve_asts = True
+    # Only check parts of the code that have changed since the last check
+    opt.fine_grained_incremental = True
+    # Export inferred types for all expressions
+    opt.export_types = True
+
+    return mypy_build.build(mypyfiles, options=opt)
+
+
+def _get_mypy_asts(
+    build_result: mypy_build.BuildResult,
+    files: list[str],
+    package_paths: list[Path],
+    root: Path,
+) -> list[mypy_nodes.MypyFile]:
     # Check mypy data key root start
     parts = root.parts
-    graph_keys = list(result.graph.keys())
+    graph_keys = list(build_result.graph.keys())
     root_start_after = -1
     for i in range(len(parts)):
         if ".".join(parts[i:]) in graph_keys:
@@ -106,10 +121,69 @@ def _get_mypy_ast(files: list[str], package_paths: list[Path], root: Path) -> li
     # to get the reexported data first
     all_paths = packages + modules
 
-    results = []
+    asts = []
     for path_key in all_paths:
-        tree = result.graph[path_key].tree
+        tree = build_result.graph[path_key].tree
         if tree is not None:
-            results.append(tree)
+            asts.append(tree)
 
-    return results
+    return asts
+
+
+def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
+    if not result_types:
+        return {}
+
+    aliases = {}
+    for key in result_types.keys():
+        if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
+            if isinstance(key, mypy_nodes.NameExpr):
+                type_value = result_types[key]
+
+                if hasattr(type_value, "type") and getattr(type_value, "type", None) is not None:
+                    name = type_value.type.name
+                    in_package = package_name in type_value.type.fullname
+                elif hasattr(key, "name"):
+                    name = key.name
+                    fullname = ""
+
+                    if (hasattr(key, "node") and
+                            isinstance(key.node, mypy_nodes.TypeAlias) and
+                            isinstance(key.node.target, mypy_types.Instance)):
+                        fullname = key.node.target.type.fullname
+                    elif isinstance(type_value, mypy_types.CallableType):
+                        bound_args = type_value.bound_args
+                        if bound_args and not isinstance(bound_args[0], mypy_types.TupleType):
+                            fullname = bound_args[0].type.fullname
+                    elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
+                        fullname = key.node.fullname
+
+                    if not fullname:
+                        continue
+
+                    in_package = package_name in fullname
+                else:
+                    continue
+            else:
+                in_package = package_name in key.fullname
+                if in_package:
+                    type_value = result_types[key]
+                    name = key.name
+                else:
+                    continue
+
+            if in_package:
+                if isinstance(type_value, mypy_types.CallableType):
+                    fullname = type_value.bound_args[0].type.fullname
+                elif isinstance(type_value, mypy_types.Instance):
+                    fullname = type_value.type.fullname
+                elif isinstance(key, mypy_nodes.TypeVarExpr):
+                    fullname = key.fullname
+                elif isinstance(key, mypy_nodes.NameExpr) and isinstance(key.node, mypy_nodes.Var):
+                    fullname = key.node.fullname
+                else:  # pragma: no cover
+                    raise TypeError("Received unexpected type while searching for aliases.")
+
+                aliases.setdefault(name, set()).add(fullname)
+
+    return aliases

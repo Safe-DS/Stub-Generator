@@ -46,7 +46,7 @@ class AbstractType(metaclass=ABCMeta):
 @dataclass(frozen=True)
 class NamedType(AbstractType):
     name: str
-    qname: str = ""
+    qname: str
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> NamedType:

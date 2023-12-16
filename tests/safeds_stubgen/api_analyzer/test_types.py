@@ -29,7 +29,7 @@ def test_correct_hash() -> None:
         default_value="test_str",
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
         docstring=ParameterDocstring("'hashvalue'", "r", "r"),
-        type=NamedType(name="str"),
+        type=NamedType(name="str", qname=""),
     )
     assert hash(parameter) == hash(deepcopy(parameter))
     enum_values = frozenset({"a", "b", "c"})
@@ -40,10 +40,10 @@ def test_correct_hash() -> None:
     assert hash(enum_type) == hash(EnumType(deepcopy(enum_values), "full_match"))
     assert enum_type != EnumType(frozenset({"a", "b"}), "full_match")
     assert hash(enum_type) != hash(EnumType(frozenset({"a", "b"}), "full_match"))
-    assert NamedType("a") == NamedType("a")
-    assert hash(NamedType("a")) == hash(NamedType("a"))
-    assert NamedType("a") != NamedType("b")
-    assert hash(NamedType("a")) != hash(NamedType("b"))
+    assert NamedType("a", "") == NamedType("a", "")
+    assert hash(NamedType("a", "")) == hash(NamedType("a", ""))
+    assert NamedType("a", "") != NamedType("b", "")
+    assert hash(NamedType("a", "")) != hash(NamedType("b", ""))
     attribute = Attribute(
         id="boundary",
         name="boundary",
@@ -64,7 +64,7 @@ def test_correct_hash() -> None:
 
 def test_named_type() -> None:
     name = "str"
-    named_type = NamedType(name)
+    named_type = NamedType(name, "")
     named_type_dict = {"kind": "NamedType", "name": name, "qname": ""}
 
     assert AbstractType.from_dict(named_type_dict) == named_type
@@ -107,7 +107,7 @@ def test_boundary_type() -> None:
 
 
 def test_union_type() -> None:
-    union_type = UnionType([NamedType("str"), NamedType("int")])
+    union_type = UnionType([NamedType("str", ""), NamedType("int", "")])
     union_type_dict = {
         "kind": "UnionType",
         "types": [{"kind": "NamedType", "name": "str", "qname": ""}, {"kind": "NamedType", "name": "int", "qname": ""}],
@@ -117,16 +117,16 @@ def test_union_type() -> None:
     assert UnionType.from_dict(union_type_dict) == union_type
     assert union_type.to_dict() == union_type_dict
 
-    assert UnionType([NamedType("a")]) == UnionType([NamedType("a")])
-    assert hash(UnionType([NamedType("a")])) == hash(UnionType([NamedType("a")]))
-    assert UnionType([NamedType("a")]) != UnionType([NamedType("b")])
-    assert hash(UnionType([NamedType("a")])) != hash(UnionType([NamedType("b")]))
+    assert UnionType([NamedType("a", "")]) == UnionType([NamedType("a", "")])
+    assert hash(UnionType([NamedType("a", "")])) == hash(UnionType([NamedType("a", "")]))
+    assert UnionType([NamedType("a", "")]) != UnionType([NamedType("b", "")])
+    assert hash(UnionType([NamedType("a", "")])) != hash(UnionType([NamedType("b", "")]))
 
 
 def test_callable_type() -> None:
     callable_type = CallableType(
-        parameter_types=[NamedType("str"), NamedType("int")],
-        return_type=TupleType(types=[NamedType("bool"), NamedType("None")]),
+        parameter_types=[NamedType("str", ""), NamedType("int", "")],
+        return_type=TupleType(types=[NamedType("bool", ""), NamedType("None", "")]),
     )
     callable_type_dict = {
         "kind": "CallableType",
@@ -147,48 +147,55 @@ def test_callable_type() -> None:
     assert CallableType.from_dict(callable_type_dict) == callable_type
     assert callable_type.to_dict() == callable_type_dict
 
-    assert CallableType([NamedType("a")], NamedType("a")) == CallableType([NamedType("a")], NamedType("a"))
-    assert hash(CallableType([NamedType("a")], NamedType("a"))) == hash(CallableType([NamedType("a")], NamedType("a")))
-    assert CallableType([NamedType("a")], NamedType("a")) != CallableType([NamedType("b")], NamedType("a"))
-    assert hash(CallableType([NamedType("a")], NamedType("a"))) != hash(CallableType([NamedType("b")], NamedType("a")))
+    assert (CallableType([NamedType("a", "")], NamedType("a", "")) ==
+            CallableType([NamedType("a", "")], NamedType("a", "")))
+    assert (hash(CallableType([NamedType("a", "")], NamedType("a", ""))) ==
+            hash(CallableType([NamedType("a", "")], NamedType("a", ""))))
+    assert (CallableType([NamedType("a", "")], NamedType("a", "")) !=
+            CallableType([NamedType("b", "")], NamedType("a", "")))
+    assert (hash(CallableType([NamedType("a", "")], NamedType("a", ""))) !=
+            hash(CallableType([NamedType("b", "")], NamedType("a", ""))))
 
 
 def test_list_type() -> None:
-    list_type = ListType([NamedType("str"), NamedType("int")])
+    list_type = ListType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")])
     list_type_dict = {
         "kind": "ListType",
-        "types": [{"kind": "NamedType", "name": "str", "qname": ""}, {"kind": "NamedType", "name": "int", "qname": ""}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+        ],
     }
 
     assert AbstractType.from_dict(list_type_dict) == list_type
     assert ListType.from_dict(list_type_dict) == list_type
     assert list_type.to_dict() == list_type_dict
 
-    assert ListType([NamedType("a")]) == ListType([NamedType("a")])
-    assert hash(ListType([NamedType("a")])) == hash(ListType([NamedType("a")]))
-    assert ListType([NamedType("a")]) != ListType([NamedType("b")])
-    assert hash(ListType([NamedType("a")])) != hash(ListType([NamedType("b")]))
+    assert ListType([NamedType("a", "")]) == ListType([NamedType("a", "")])
+    assert hash(ListType([NamedType("a", "")])) == hash(ListType([NamedType("a", "")]))
+    assert ListType([NamedType("a", "")]) != ListType([NamedType("b", "")])
+    assert hash(ListType([NamedType("a", "")])) != hash(ListType([NamedType("b", "")]))
 
 
 def test_dict_type() -> None:
     dict_type = DictType(
-        key_type=UnionType([NamedType("str"), NamedType("int")]),
-        value_type=UnionType([NamedType("str"), NamedType("int")]),
+        key_type=UnionType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")]),
+        value_type=UnionType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")]),
     )
     dict_type_dict = {
         "kind": "DictType",
         "key_type": {
             "kind": "UnionType",
             "types": [
-                {"kind": "NamedType", "name": "str", "qname": ""},
-                {"kind": "NamedType", "name": "int", "qname": ""},
+                {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+                {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
             ],
         },
         "value_type": {
             "kind": "UnionType",
             "types": [
-                {"kind": "NamedType", "name": "str", "qname": ""},
-                {"kind": "NamedType", "name": "int", "qname": ""},
+                {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+                {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
             ],
         },
     }
@@ -197,27 +204,30 @@ def test_dict_type() -> None:
     assert DictType.from_dict(dict_type_dict) == dict_type
     assert dict_type.to_dict() == dict_type_dict
 
-    assert DictType(NamedType("a"), NamedType("a")) == DictType(NamedType("a"), NamedType("a"))
-    assert hash(DictType(NamedType("a"), NamedType("a"))) == hash(DictType(NamedType("a"), NamedType("a")))
-    assert DictType(NamedType("a"), NamedType("a")) != DictType(NamedType("b"), NamedType("a"))
-    assert hash(DictType(NamedType("a"), NamedType("a"))) != hash(DictType(NamedType("b"), NamedType("a")))
+    assert DictType(NamedType("a", ""), NamedType("a", "")) == DictType(NamedType("a", ""), NamedType("a", ""))
+    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) == hash(DictType(NamedType("a", ""), NamedType("a", "")))
+    assert DictType(NamedType("a", ""), NamedType("a", "")) != DictType(NamedType("b", ""), NamedType("a", ""))
+    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) != hash(DictType(NamedType("b", ""), NamedType("a", "")))
 
 
 def test_set_type() -> None:
-    set_type = SetType([NamedType("str"), NamedType("int")])
+    set_type = SetType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")])
     set_type_dict = {
         "kind": "SetType",
-        "types": [{"kind": "NamedType", "name": "str", "qname": ""}, {"kind": "NamedType", "name": "int", "qname": ""}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+        ],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
     assert SetType.from_dict(set_type_dict) == set_type
     assert set_type.to_dict() == set_type_dict
 
-    assert SetType([NamedType("a")]) == SetType([NamedType("a")])
-    assert hash(SetType([NamedType("a")])) == hash(SetType([NamedType("a")]))
-    assert SetType([NamedType("a")]) != SetType([NamedType("b")])
-    assert hash(SetType([NamedType("a")])) != hash(SetType([NamedType("b")]))
+    assert SetType([NamedType("a", "")]) == SetType([NamedType("a", "")])
+    assert hash(SetType([NamedType("a", "")])) == hash(SetType([NamedType("a", "")]))
+    assert SetType([NamedType("a", "")]) != SetType([NamedType("b", "")])
+    assert hash(SetType([NamedType("a", "")])) != hash(SetType([NamedType("b", "")]))
 
 
 def test_literal_type() -> None:
@@ -238,7 +248,7 @@ def test_literal_type() -> None:
 
 
 def test_final_type() -> None:
-    type_ = FinalType(NamedType("some_type"))
+    type_ = FinalType(NamedType("some_type", ""))
     type_dict = {
         "kind": "FinalType",
         "type": {"kind": "NamedType", "name": "some_type", "qname": ""},
@@ -248,27 +258,30 @@ def test_final_type() -> None:
     assert FinalType.from_dict(type_dict) == type_
     assert type_.to_dict() == type_dict
 
-    assert FinalType(NamedType("a")) == FinalType(NamedType("a"))
-    assert hash(FinalType(NamedType("a"))) == hash(FinalType(NamedType("a")))
-    assert FinalType(NamedType("a")) != FinalType(NamedType("b"))
-    assert hash(FinalType(NamedType("a"))) != hash(FinalType(NamedType("b")))
+    assert FinalType(NamedType("a", "")) == FinalType(NamedType("a", ""))
+    assert hash(FinalType(NamedType("a", ""))) == hash(FinalType(NamedType("a", "")))
+    assert FinalType(NamedType("a", "")) != FinalType(NamedType("b", ""))
+    assert hash(FinalType(NamedType("a", ""))) != hash(FinalType(NamedType("b", "")))
 
 
 def test_tuple_type() -> None:
-    set_type = TupleType([NamedType("str"), NamedType("int")])
+    set_type = TupleType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")])
     set_type_dict = {
         "kind": "TupleType",
-        "types": [{"kind": "NamedType", "name": "str", "qname": ""}, {"kind": "NamedType", "name": "int", "qname": ""}],
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+        ],
     }
 
     assert AbstractType.from_dict(set_type_dict) == set_type
     assert TupleType.from_dict(set_type_dict) == set_type
     assert set_type.to_dict() == set_type_dict
 
-    assert TupleType([NamedType("a")]) == TupleType([NamedType("a")])
-    assert hash(TupleType([NamedType("a")])) == hash(TupleType([NamedType("a")]))
-    assert TupleType([NamedType("a")]) != TupleType([NamedType("b")])
-    assert hash(TupleType([NamedType("a")])) != hash(TupleType([NamedType("b")]))
+    assert TupleType([NamedType("a", "")]) == TupleType([NamedType("a", "")])
+    assert hash(TupleType([NamedType("a", "")])) == hash(TupleType([NamedType("a", "")]))
+    assert TupleType([NamedType("a", "")]) != TupleType([NamedType("b", "")])
+    assert hash(TupleType([NamedType("a", "")])) != hash(TupleType([NamedType("b", "")]))
 
 
 def test_abstract_type_from_dict_exception() -> None:

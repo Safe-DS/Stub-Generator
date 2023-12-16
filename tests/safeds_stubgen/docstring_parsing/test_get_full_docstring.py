@@ -6,7 +6,7 @@ import pytest
 from mypy import nodes
 
 # noinspection PyProtectedMember
-from safeds_stubgen.api_analyzer._get_api import _get_mypy_ast
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_build, _get_mypy_asts
 
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._helpers import get_full_docstring
@@ -15,10 +15,11 @@ from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
 _test_dir = Path(__file__).parent.parent.parent
-mypy_file = _get_mypy_ast(
-    files=[
-        str(Path(_test_dir / "data" / "docstring_parser_package" / "full_docstring.py")),
-    ],
+files = [str(Path(_test_dir / "data" / "docstring_parser_package" / "full_docstring.py"))]
+mypy_build = _get_mypy_build(files)
+mypy_file = _get_mypy_asts(
+    build_result=mypy_build,
+    files=files,
     package_paths=[],
     root=Path(_test_dir / "data" / "docstring_parser_package"),
 )[0]
