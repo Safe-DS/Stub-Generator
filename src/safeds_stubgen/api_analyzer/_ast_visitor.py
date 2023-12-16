@@ -392,9 +392,9 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
-                        node_ret_type.type_of_any,
-                    ):
+                    if (isinstance(node_ret_type, mp_types.AnyType) and
+                            not has_correct_type_of_any(node_ret_type.type_of_any) and
+                            not node_ret_type.type_of_any == mp_types.TypeOfAny.from_unimported_type):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
                         ret_type = self._infer_type_from_return_stmts(node)
@@ -659,7 +659,9 @@ class MyPyAstVisitor:
             # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
-            elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
+            elif (isinstance(mypy_type, mp_types.AnyType) and
+                  not has_correct_type_of_any(mypy_type.type_of_any) and
+                  not mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type):
                 # We try to infer the type through the default value later, if possible
                 pass
             elif (
@@ -932,7 +934,7 @@ class MyPyAstVisitor:
     def _search_alias_in_qualified_imports(self, alias_name: str, alias_qname: str = "") -> tuple[str, str]:
         module = self.__declaration_stack[0]
         for qualified_import in module.qualified_imports:
-            if qualified_import.alias == alias_name:
+            if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
                 qname = qualified_import.qualified_name
                 name = qname.split(".")[-1]
                 return name, qname

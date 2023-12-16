@@ -568,9 +568,9 @@
   @PythonModule("various_modules_package.import_module")
   package variousModulesPackage.importModule
   
-  from class_module import ClassModuleClassB
   from class_module import ClassModuleClassD
   from class_module import ClassModuleEmptyClassA
+  from class_module import ClassModuleClassB
   from class_module import ClassModuleClassC
   
   class ImportClass() sub AnotherClass {
@@ -579,13 +579,11 @@
   	@PythonName("default_import_attr")
   	static attr defaultImportAttr: ClassModuleEmptyClassA
   
-  	// TODO Result type information missing.
-  	// TODO Some parameter have no type information.
   	@Pure
   	@PythonName("import_function")
   	fun importFunction(
   		@PythonName("import_param") importParam: ClassModuleClassB
-  	) -> ClassModuleClassC
+  	) -> result1: ClassModuleClassC
   }
   
   '''
