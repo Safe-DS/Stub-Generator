@@ -134,7 +134,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
     if not result_types:
         return {}
 
-    aliases = {}
+    aliases: dict[str, set[str]] = {}
     for key in result_types.keys():
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
             if isinstance(key, mypy_nodes.NameExpr):
@@ -153,8 +153,8 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                         fullname = key.node.target.type.fullname
                     elif isinstance(type_value, mypy_types.CallableType):
                         bound_args = type_value.bound_args
-                        if bound_args and not isinstance(bound_args[0], mypy_types.TupleType):
-                            fullname = bound_args[0].type.fullname
+                        if bound_args and hasattr(bound_args[0], "type"):
+                            fullname = bound_args[0].type.fullname  # type: ignore
                     elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
                         fullname = key.node.fullname
 
@@ -173,8 +173,8 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                     continue
 
             if in_package:
-                if isinstance(type_value, mypy_types.CallableType):
-                    fullname = type_value.bound_args[0].type.fullname
+                if isinstance(type_value, mypy_types.CallableType) and hasattr(type_value.bound_args[0], "type"):
+                    fullname = type_value.bound_args[0].type.fullname  # type: ignore
                 elif isinstance(type_value, mypy_types.Instance):
                     fullname = type_value.type.fullname
                 elif isinstance(key, mypy_nodes.TypeVarExpr):

@@ -49,7 +49,7 @@ class MyPyAstVisitor:
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
-        self.mypy_file = None
+        self.mypy_file: mp_nodes.MypyFile | None = None
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -783,7 +783,7 @@ class MyPyAstVisitor:
     # #### Misc. utilities
     def mypy_type_to_abstract_type(
         self,
-        mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.MypyType,
+        mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.Type,
         unanalyzed_type: mp_types.Type | None = None,
     ) -> AbstractType:
 
@@ -824,7 +824,9 @@ class MyPyAstVisitor:
             )
         elif isinstance(mypy_type, mp_types.AnyType):
             if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
-                missing_import_name = mypy_type.missing_import_name.split(".")[-1]
+                # If the Any type is generated b/c of from_unimported_type, then we can parse the type
+                # from the import information
+                missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore
                 name, qname = self._find_alias(missing_import_name)
                 return sds_types.NamedType(name=name, qname=qname)
             else:
@@ -880,6 +882,10 @@ class MyPyAstVisitor:
     def _find_alias(self, type_name: str):
         module = self.__declaration_stack[0]
 
+        # At this point, the first item of the stack can only ever be a module
+        if not isinstance(module, Module):  # pragma: no cover
+            raise TypeError(f"Expected module, got {type(module)}.")
+
         name = ""
         qname = ""
         if type_name in self.aliases.keys():
@@ -889,7 +895,7 @@ class MyPyAstVisitor:
                 name = qname.split(".")[-1]
 
                 # We have to check if this is an alias from an import
-                import_name, import_qname = self._search_alias_in_qualified_imports(type_name)
+                import_name, import_qname = self._search_alias_in_qualified_imports(module, type_name)
 
                 name = import_name if import_name else name
                 qname = import_qname if import_qname else qname
@@ -900,12 +906,16 @@ class MyPyAstVisitor:
                     # First we check if the type was defined in the same module
                     type_path = ".".join(alias_qname.split(".")[0:-1])
                     name = alias_qname.split(".")[-1]
+
+                    if self.mypy_file is None:  # pragma: no cover
+                        raise TypeError("Expected mypy_file (module information), got None.")
+
                     if type_path == self.mypy_file.fullname:
                         qname = alias_qname
                         break
 
                     # Then we check if the type was perhapse imported
-                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(name, alias_qname)
+                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(module, name, alias_qname)
                     if qimport_qname:
                         qname = qimport_qname
                         name = qimport_name if qimport_name else name
@@ -921,15 +931,15 @@ class MyPyAstVisitor:
                         break
 
         else:
-            name, qname = self._search_alias_in_qualified_imports(type_name)
+            name, qname = self._search_alias_in_qualified_imports(module, type_name)
 
         if not qname:  # pragma: no cover
             raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
 
         return name, qname
 
-    def _search_alias_in_qualified_imports(self, alias_name: str, alias_qname: str = "") -> tuple[str, str]:
-        module = self.__declaration_stack[0]
+    @staticmethod
+    def _search_alias_in_qualified_imports(module: Module, alias_name: str, alias_qname: str = "") -> tuple[str, str]:
         for qualified_import in module.qualified_imports:
             if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
                 qname = qualified_import.qualified_name
