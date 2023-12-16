@@ -180,7 +180,7 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
-          'tests.data.main_package.main_module.AcDoubleAlias',
+          'tests.data.main_package.another_path.another_module.AnotherClass',
         ]),
         'type_parameters': list([
         ]),

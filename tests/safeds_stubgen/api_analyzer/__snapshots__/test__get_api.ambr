@@ -6068,23 +6068,28 @@
   list([
     dict({
       'alias': None,
-      'qualified_name': 'enum.IntEnum',
+      'qualified_name': 'another_path.another_module.AnotherClass',
     }),
     dict({
-      'alias': '_Enum',
-      'qualified_name': 'enum.Enum',
+      'alias': None,
+      'qualified_name': 'class_module.ClassModuleClassB',
     }),
     dict({
-      'alias': 'static',
-      'qualified_name': 'mypy',
+      'alias': 'ClMCC',
+      'qualified_name': 'class_module.ClassModuleClassC',
+    }),
+    dict({
+      'alias': 'ClMCD',
+      'qualified_name': 'class_module.ClassModuleClassD',
+    }),
+    dict({
+      'alias': 'ClMECA',
+      'qualified_name': 'class_module.ClassModuleEmptyClassA',
     }),
   ])
 # ---
 # name: test_imports[import_module (wildcard_imports)]
   list([
-    dict({
-      'module_name': 'math',
-    }),
   ])
 # ---
 # name: test_modules[__init__]

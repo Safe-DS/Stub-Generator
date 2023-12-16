@@ -96,6 +96,10 @@ def test_abstract_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot)
 
 
+def test_import_creation(snapshot: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("import_module", snapshot)
+
+
 @pytest.mark.parametrize(
     "file_name",
     ["aliasing_module_1", "aliasing_module_2"]

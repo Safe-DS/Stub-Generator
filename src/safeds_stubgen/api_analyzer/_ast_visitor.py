@@ -171,8 +171,18 @@ class MyPyAstVisitor:
                 )
 
         # superclasses
-        # Todo Aliasing: Werden noch nicht aufgelöst
-        superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
+        superclasses = []
+        for superclass in node.base_type_exprs:
+            if hasattr(superclass, "fullname"):
+                superclass_qname = superclass.fullname
+                superclass_name = superclass_qname.split(".")[-1]
+
+                # Check if the superclass name is an alias and find the real name
+                if superclass_name in self.aliases.keys():
+                    _, superclass_alias_qname = self._find_alias(superclass_name)
+                    superclass_qname = superclass_alias_qname if superclass_alias_qname else superclass_qname
+
+                superclasses.append(superclass_qname)
 
         # Get reexported data
         reexported_by = self._get_reexported_by(name)
@@ -880,16 +890,10 @@ class MyPyAstVisitor:
                 name = qname.split(".")[-1]
 
                 # We have to check if this is an alias from an import
-                found_alias = False
-                for qualified_import in module.qualified_imports:
-                    if qualified_import.alias == name:
-                        qname = qualified_import.qualified_name
-                        found_alias = True
-                        break
+                import_name, import_qname = self._search_alias_in_qualified_imports(type_name)
 
-                if found_alias:
-                    # Overwrite the name, since it was only an alias
-                    name = qname.split(".")[-1]
+                name = import_name if import_name else name
+                qname = import_qname if import_qname else qname
 
             else:
                 # In this case some type was defined in multiple modules with the same name.
@@ -902,24 +906,39 @@ class MyPyAstVisitor:
                         break
 
                     # Then we check if the type was perhapse imported
-                    for qualified_import in module.qualified_imports:
-                        if qualified_import.alias == name:
-                            qname = qualified_import.qualified_name
-                            name = qname.split(".")[-1]
-                            break
-                        elif qualified_import.qualified_name in alias_qname:
-                            qname = alias_qname
-                            break
+                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(name, alias_qname)
+                    if qimport_qname:
+                        qname = qimport_qname
+                        name = qimport_name if qimport_name else name
+                        break
 
+                    found_qname = False
                     for wildcard_import in module.wildcard_imports:
                         if wildcard_import.module_name in alias_qname:
                             qname = alias_qname
+                            found_qname = True
                             break
+                    if found_qname:
+                        break
+
+        else:
+            name, qname = self._search_alias_in_qualified_imports(type_name)
 
         if not qname:  # pragma: no cover
             raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
 
         return name, qname
+
+    def _search_alias_in_qualified_imports(self, alias_name: str, alias_qname: str = "") -> tuple[str, str]:
+        module = self.__declaration_stack[0]
+        for qualified_import in module.qualified_imports:
+            if qualified_import.alias == alias_name:
+                qname = qualified_import.qualified_name
+                name = qname.split(".")[-1]
+                return name, qname
+            elif alias_qname and qualified_import.qualified_name in alias_qname:
+                return "", alias_qname
+        return "", ""
 
     def _create_module_id(self, qname: str) -> str:
         """Create an ID for the module object.
