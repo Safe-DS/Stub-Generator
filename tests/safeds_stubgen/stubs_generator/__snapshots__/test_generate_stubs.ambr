@@ -568,10 +568,11 @@
   @PythonModule("various_modules_package.import_module")
   package variousModulesPackage.importModule
   
-  from class_module import ClassModuleClassD
-  from class_module import ClassModuleEmptyClassA
+  from another_path.another_module import AnotherClass
   from class_module import ClassModuleClassB
   from class_module import ClassModuleClassC
+  from class_module import ClassModuleClassD
+  from class_module import ClassModuleEmptyClassA
   
   class ImportClass() sub AnotherClass {
   	@PythonName("typed_import_attr")

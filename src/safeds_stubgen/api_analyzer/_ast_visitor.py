@@ -55,6 +55,7 @@ class MyPyAstVisitor:
         self.mypy_file = node
         is_package = node.path.endswith("__init__.py")
 
+        # Todo Frage: Alte Importfunktionalität behalten? Wird nicht benutzt
         qualified_imports: list[QualifiedImport] = []
         wildcard_imports: list[WildcardImport] = []
         docstring = ""
@@ -393,8 +394,7 @@ class MyPyAstVisitor:
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
                     if (isinstance(node_ret_type, mp_types.AnyType) and
-                            not has_correct_type_of_any(node_ret_type.type_of_any) and
-                            not node_ret_type.type_of_any == mp_types.TypeOfAny.from_unimported_type):
+                            not has_correct_type_of_any(node_ret_type.type_of_any)):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
                         ret_type = self._infer_type_from_return_stmts(node)
@@ -619,8 +619,7 @@ class MyPyAstVisitor:
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (
             isinstance(attribute_type, mp_types.AnyType) and
-            not has_correct_type_of_any(attribute_type.type_of_any) and
-            attribute_type.type_of_any != mp_types.TypeOfAny.from_unimported_type
+            not has_correct_type_of_any(attribute_type.type_of_any)
         ):
             # noinspection PyTypeChecker
             type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
@@ -659,9 +658,7 @@ class MyPyAstVisitor:
             # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
-            elif (isinstance(mypy_type, mp_types.AnyType) and
-                  not has_correct_type_of_any(mypy_type.type_of_any) and
-                  not mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type):
+            elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
                 pass
             elif (

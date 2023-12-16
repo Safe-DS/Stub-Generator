@@ -131,6 +131,9 @@ class StubsStringGenerator:
             name = import_parts[-1]
             import_strings.append(f"from {from_} import {name}")
 
+        # We have to sort for the snapshot tests
+        import_strings.sort()
+
         import_string = "\n".join(import_strings)
         return f"\n{import_string}\n"
 
@@ -158,7 +161,11 @@ class StubsStringGenerator:
         superclasses = class_.superclasses
         superclass_info = ""
         if superclasses and not class_.is_abstract:
-            superclass_names = [self._split_import_id(superclass)[1] for superclass in superclasses]
+            superclass_names = []
+            for superclass in superclasses:
+                superclass_names.append(self._split_import_id(superclass)[1])
+                self._add_to_imports(superclass)
+
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         if len(superclasses) > 1:

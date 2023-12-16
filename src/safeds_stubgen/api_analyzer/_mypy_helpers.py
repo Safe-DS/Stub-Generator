@@ -83,6 +83,7 @@ def has_correct_type_of_any(type_of_any: int) -> bool:
         mp_types.TypeOfAny.explicit,
         mp_types.TypeOfAny.from_omitted_generics,
         mp_types.TypeOfAny.from_another_any,
+        mp_types.TypeOfAny.from_unimported_type,
     }
 
 
