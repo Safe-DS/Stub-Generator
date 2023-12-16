@@ -13,11 +13,9 @@ from safeds_stubgen.api_analyzer import (
     Module,
     Parameter,
     ParameterAssignment,
-    QualifiedImport,
     Result,
     UnionType,
     VarianceKind,
-    WildcardImport,
 )
 
 if TYPE_CHECKING:
