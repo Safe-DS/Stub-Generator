@@ -148,13 +148,15 @@ def test_callable_type() -> None:
     assert callable_type.to_dict() == callable_type_dict
 
     assert CallableType([NamedType("a", "")], NamedType("a", "")) == CallableType(
-        [NamedType("a", "")], NamedType("a", ""),
+        [NamedType("a", "")],
+        NamedType("a", ""),
     )
     assert hash(CallableType([NamedType("a", "")], NamedType("a", ""))) == hash(
         CallableType([NamedType("a", "")], NamedType("a", "")),
     )
     assert CallableType([NamedType("a", "")], NamedType("a", "")) != CallableType(
-        [NamedType("b", "")], NamedType("a", ""),
+        [NamedType("b", "")],
+        NamedType("a", ""),
     )
     assert hash(CallableType([NamedType("a", "")], NamedType("a", ""))) != hash(
         CallableType([NamedType("b", "")], NamedType("a", "")),
