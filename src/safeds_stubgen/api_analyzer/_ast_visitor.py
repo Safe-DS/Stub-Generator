@@ -1,11 +1,11 @@
 from __future__ import annotations
-from copy import deepcopy
 
+from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
 
-import mypy.types as mp_types
 import mypy.nodes as mp_nodes
+import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -37,9 +37,8 @@ from ._mypy_helpers import (
 )
 
 if TYPE_CHECKING:
-    from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ResultDocstring
-
     from safeds_stubgen.api_analyzer._types import AbstractType
+    from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ResultDocstring
 
 
 class MyPyAstVisitor:
@@ -393,8 +392,9 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if (isinstance(node_ret_type, mp_types.AnyType) and
-                            not has_correct_type_of_any(node_ret_type.type_of_any)):
+                    if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
+                        node_ret_type.type_of_any,
+                    ):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
                         ret_type = self._infer_type_from_return_stmts(node)
@@ -618,8 +618,7 @@ class MyPyAstVisitor:
         type_ = None
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (
-            isinstance(attribute_type, mp_types.AnyType) and
-            not has_correct_type_of_any(attribute_type.type_of_any)
+            isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
         ):
             # noinspection PyTypeChecker
             type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)

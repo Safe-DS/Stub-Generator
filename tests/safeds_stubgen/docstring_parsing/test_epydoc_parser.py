@@ -7,7 +7,7 @@ from mypy import nodes
 from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
 
 # noinspection PyProtectedMember
-from safeds_stubgen.api_analyzer._get_api import _get_mypy_build, _get_mypy_asts
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
     EpydocParser,

@@ -6,7 +6,7 @@ import pytest
 from mypy import nodes
 
 # noinspection PyProtectedMember
-from safeds_stubgen.api_analyzer._get_api import _get_mypy_build, _get_mypy_asts
+from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._helpers import get_full_docstring

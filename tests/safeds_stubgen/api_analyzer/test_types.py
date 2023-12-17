@@ -147,14 +147,18 @@ def test_callable_type() -> None:
     assert CallableType.from_dict(callable_type_dict) == callable_type
     assert callable_type.to_dict() == callable_type_dict
 
-    assert (CallableType([NamedType("a", "")], NamedType("a", "")) ==
-            CallableType([NamedType("a", "")], NamedType("a", "")))
-    assert (hash(CallableType([NamedType("a", "")], NamedType("a", ""))) ==
-            hash(CallableType([NamedType("a", "")], NamedType("a", ""))))
-    assert (CallableType([NamedType("a", "")], NamedType("a", "")) !=
-            CallableType([NamedType("b", "")], NamedType("a", "")))
-    assert (hash(CallableType([NamedType("a", "")], NamedType("a", ""))) !=
-            hash(CallableType([NamedType("b", "")], NamedType("a", ""))))
+    assert CallableType([NamedType("a", "")], NamedType("a", "")) == CallableType(
+        [NamedType("a", "")], NamedType("a", ""),
+    )
+    assert hash(CallableType([NamedType("a", "")], NamedType("a", ""))) == hash(
+        CallableType([NamedType("a", "")], NamedType("a", "")),
+    )
+    assert CallableType([NamedType("a", "")], NamedType("a", "")) != CallableType(
+        [NamedType("b", "")], NamedType("a", ""),
+    )
+    assert hash(CallableType([NamedType("a", "")], NamedType("a", ""))) != hash(
+        CallableType([NamedType("b", "")], NamedType("a", "")),
+    )
 
 
 def test_list_type() -> None:
@@ -163,7 +167,7 @@ def test_list_type() -> None:
         "kind": "ListType",
         "types": [
             {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
-            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
         ],
     }
 
@@ -205,9 +209,13 @@ def test_dict_type() -> None:
     assert dict_type.to_dict() == dict_type_dict
 
     assert DictType(NamedType("a", ""), NamedType("a", "")) == DictType(NamedType("a", ""), NamedType("a", ""))
-    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) == hash(DictType(NamedType("a", ""), NamedType("a", "")))
+    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) == hash(
+        DictType(NamedType("a", ""), NamedType("a", "")),
+    )
     assert DictType(NamedType("a", ""), NamedType("a", "")) != DictType(NamedType("b", ""), NamedType("a", ""))
-    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) != hash(DictType(NamedType("b", ""), NamedType("a", "")))
+    assert hash(DictType(NamedType("a", ""), NamedType("a", ""))) != hash(
+        DictType(NamedType("b", ""), NamedType("a", "")),
+    )
 
 
 def test_set_type() -> None:
@@ -216,7 +224,7 @@ def test_set_type() -> None:
         "kind": "SetType",
         "types": [
             {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
-            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
         ],
     }
 
@@ -270,7 +278,7 @@ def test_tuple_type() -> None:
         "kind": "TupleType",
         "types": [
             {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
-            {"kind": "NamedType", "name": "int", "qname": "builtins.int"}
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
         ],
     }
 

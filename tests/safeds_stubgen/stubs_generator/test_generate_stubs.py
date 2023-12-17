@@ -100,10 +100,7 @@ def test_import_creation(snapshot: SnapshotAssertion) -> None:
     assert_stubs_snapshot("import_module", snapshot)
 
 
-@pytest.mark.parametrize(
-    "file_name",
-    ["aliasing_module_1", "aliasing_module_2"]
-)
+@pytest.mark.parametrize("file_name", ["aliasing_module_1", "aliasing_module_2"])
 def test_alias_creation(file_name: str, snapshot: SnapshotAssertion) -> None:
     file_data = ""
     stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")

@@ -147,9 +147,11 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                     name = key.name
                     fullname = ""
 
-                    if (hasattr(key, "node") and
-                            isinstance(key.node, mypy_nodes.TypeAlias) and
-                            isinstance(key.node.target, mypy_types.Instance)):
+                    if (
+                        hasattr(key, "node")
+                        and isinstance(key.node, mypy_nodes.TypeAlias)
+                        and isinstance(key.node.target, mypy_types.Instance)
+                    ):
                         fullname = key.node.target.type.fullname
                     elif isinstance(type_value, mypy_types.CallableType):
                         bound_args = type_value.bound_args
