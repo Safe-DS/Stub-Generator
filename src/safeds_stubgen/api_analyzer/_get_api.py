@@ -5,6 +5,8 @@ from pathlib import Path
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main
+from mypy import nodes as mypy_nodes
+from mypy import types as mypy_types
 
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
@@ -12,8 +14,6 @@ from ._api import API
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version, package_root
-from mypy import nodes as mypy_nodes
-from mypy import types as mypy_types
 
 
 def get_api(
@@ -135,7 +135,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
         return {}
 
     aliases: dict[str, set[str]] = {}
-    for key in result_types.keys():
+    for key in result_types:
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
             if isinstance(key, mypy_nodes.NameExpr):
                 type_value = result_types[key]
@@ -154,7 +154,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                     elif isinstance(type_value, mypy_types.CallableType):
                         bound_args = type_value.bound_args
                         if bound_args and hasattr(bound_args[0], "type"):
-                            fullname = bound_args[0].type.fullname  # type: ignore
+                            fullname = bound_args[0].type.fullname
                     elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
                         fullname = key.node.fullname
 
@@ -174,7 +174,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
 
             if in_package:
                 if isinstance(type_value, mypy_types.CallableType) and hasattr(type_value.bound_args[0], "type"):
-                    fullname = type_value.bound_args[0].type.fullname  # type: ignore
+                    fullname = type_value.bound_args[0].type.fullname
                 elif isinstance(type_value, mypy_types.Instance):
                     fullname = type_value.type.fullname
                 elif isinstance(key, mypy_nodes.TypeVarExpr):

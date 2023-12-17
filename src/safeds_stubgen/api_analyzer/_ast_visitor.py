@@ -179,7 +179,7 @@ class MyPyAstVisitor:
                 superclass_name = superclass_qname.split(".")[-1]
 
                 # Check if the superclass name is an alias and find the real name
-                if superclass_name in self.aliases.keys():
+                if superclass_name in self.aliases:
                     _, superclass_alias_qname = self._find_alias(superclass_name)
                     superclass_qname = superclass_alias_qname if superclass_alias_qname else superclass_qname
 
@@ -826,7 +826,7 @@ class MyPyAstVisitor:
             if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
                 # If the Any type is generated b/c of from_unimported_type, then we can parse the type
                 # from the import information
-                missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore
+                missing_import_name = mypy_type.missing_import_name.split(".")[-1]
                 name, qname = self._find_alias(missing_import_name)
                 return sds_types.NamedType(name=name, qname=qname)
             else:
@@ -888,7 +888,7 @@ class MyPyAstVisitor:
 
         name = ""
         qname = ""
-        if type_name in self.aliases.keys():
+        if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
                 qname = deepcopy(qnames).pop()

@@ -631,7 +631,7 @@ class StubsStringGenerator:
 
     def _add_to_imports(self, qname: str) -> None:
         """Check if the qname of a type is defined in the current module. If not, we create an import for it."""
-        if qname == "":
+        if qname == "":  # pragma: no cover
             raise ValueError("Type has no import source.")
 
         qname_parts = qname.split(".")
