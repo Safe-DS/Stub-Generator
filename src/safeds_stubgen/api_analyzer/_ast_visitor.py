@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
@@ -44,7 +45,7 @@ if TYPE_CHECKING:
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
-        self.reexported: dict[str, list[Module]] = {}
+        self.reexported: dict[str, set[Module]] = defaultdict(set)
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -765,19 +766,11 @@ class MyPyAstVisitor:
     def _add_reexports(self, module: Module) -> None:
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
-            if name in self.reexported:
-                if module not in self.reexported[name]:
-                    self.reexported[name].append(module)
-            else:
-                self.reexported[name] = [module]
+            self.reexported[name].add(module)
 
         for wildcard_import in module.wildcard_imports:
             name = wildcard_import.module_name
-            if name in self.reexported:
-                if module not in self.reexported[name]:
-                    self.reexported[name].append(module)
-            else:
-                self.reexported[name] = [module]
+            self.reexported[name].add(module)
 
     # #### Misc. utilities
     def mypy_type_to_abstract_type(

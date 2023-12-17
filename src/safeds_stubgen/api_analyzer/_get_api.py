@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
 from pathlib import Path
 
 import mypy.build as mypy_build
@@ -134,7 +135,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
     if not result_types:
         return {}
 
-    aliases: dict[str, set[str]] = {}
+    aliases: dict[str, set[str]] = defaultdict(set)
     for key in result_types:
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
             if isinstance(key, mypy_nodes.NameExpr):
@@ -186,6 +187,6 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                 else:  # pragma: no cover
                     raise TypeError("Received unexpected type while searching for aliases.")
 
-                aliases.setdefault(name, set()).add(fullname)
+                aliases[name].add(fullname)
 
     return aliases
