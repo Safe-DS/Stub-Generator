@@ -154,7 +154,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                     elif isinstance(type_value, mypy_types.CallableType):
                         bound_args = type_value.bound_args
                         if bound_args and hasattr(bound_args[0], "type"):
-                            fullname = bound_args[0].type.fullname
+                            fullname = bound_args[0].type.fullname  # type: ignore[union-attr]
                     elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
                         fullname = key.node.fullname
 
@@ -174,7 +174,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
 
             if in_package:
                 if isinstance(type_value, mypy_types.CallableType) and hasattr(type_value.bound_args[0], "type"):
-                    fullname = type_value.bound_args[0].type.fullname
+                    fullname = type_value.bound_args[0].type.fullname  # type: ignore[union-attr]
                 elif isinstance(type_value, mypy_types.Instance):
                     fullname = type_value.type.fullname
                 elif isinstance(key, mypy_nodes.TypeVarExpr):

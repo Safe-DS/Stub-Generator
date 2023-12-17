@@ -826,7 +826,7 @@ class MyPyAstVisitor:
             if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
                 # If the Any type is generated b/c of from_unimported_type, then we can parse the type
                 # from the import information
-                missing_import_name = mypy_type.missing_import_name.split(".")[-1]
+                missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
                 name, qname = self._find_alias(missing_import_name)
                 return sds_types.NamedType(name=name, qname=qname)
             else:
