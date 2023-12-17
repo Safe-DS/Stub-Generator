@@ -879,7 +879,7 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
         raise ValueError("Unexpected type.")  # pragma: no cover
 
-    def _find_alias(self, type_name: str):
+    def _find_alias(self, type_name: str) -> tuple[str, str]:
         module = self.__declaration_stack[0]
 
         # At this point, the first item of the stack can only ever be a module
