@@ -893,7 +893,7 @@ class MyPyAstVisitor:
                 qname = import_qname if import_qname else qname
 
             else:
-                # In this case some type was defined in multiple modules with the same name.
+                # In this case some types where defined in multiple modules with the same names.
                 for alias_qname in qnames:
                     # First we check if the type was defined in the same module
                     type_path = ".".join(alias_qname.split(".")[0:-1])
