@@ -6,17 +6,16 @@ from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import (
     API,
+    Attribute,
     Class,
     Enum,
     Function,
     Module,
     Parameter,
     ParameterAssignment,
-    QualifiedImport,
     Result,
     UnionType,
     VarianceKind,
-    WildcardImport,
 )
 
 if TYPE_CHECKING:
@@ -42,7 +41,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     modules = api.modules.values()
 
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-    generator = StubsStringGenerator(convert_identifiers)
+    stubs_generator = StubsStringGenerator(api.package, convert_identifiers)
 
     for module in modules:
         module_name = module.name
@@ -50,7 +49,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         if module_name == "__init__":
             continue
 
-        module_text = generator.create_module_string(module)
+        module_text = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, is there is only the package information
         # the file would look like this: "package path.to.myPackage\n" or this:
@@ -79,27 +78,27 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, convert_identifiers: bool) -> None:
-        self._current_todo_msgs: set[str] = set()
+    def __init__(self, package_name: str, convert_identifiers: bool) -> None:
+        self.module_imports: set[str] = set()
+        self.package_name = package_name
         self.convert_identifiers = convert_identifiers
 
-    def create_module_string(self, module: Module) -> str:
+    def __call__(self, module: Module) -> str:
+        # Reset the module_imports list
+        self.module_imports = set()
+        self._current_todo_msgs: set[str] = set()
+        self.module = module
+        return self._create_module_string(module)
+
+    def _create_module_string(self, module: Module) -> str:
         # Create package info
         package_info = module.id.replace("/", ".")
         package_info_camel_case = self._convert_snake_to_camel_case(package_info)
         module_name_info = ""
+        module_text = ""
         if package_info != package_info_camel_case:
             module_name_info = f'@PythonModule("{package_info}")\n'
-        module_text = f"{module_name_info}package {package_info_camel_case}\n"
-
-        # Create imports
-        qualified_imports = self._create_qualified_imports_string(module.qualified_imports)
-        if qualified_imports:
-            module_text += f"\n{qualified_imports}\n"
-
-        wildcard_imports = self._create_wildcard_imports_string(module.wildcard_imports)
-        if wildcard_imports:
-            module_text += f"\n{wildcard_imports}\n"
+        module_header = f"{module_name_info}package {package_info_camel_case}\n"
 
         # Create global functions and properties
         for function in module.global_functions:
@@ -115,7 +114,28 @@ class StubsStringGenerator:
         for enum in module.enums:
             module_text += f"\n{self._create_enum_string(enum)}\n"
 
-        return module_text
+        # Create imports - We have to create them last, since we have to check all used types in this module first
+        module_header += self._create_imports_string()
+
+        return module_header + module_text
+
+    def _create_imports_string(self) -> str:
+        if not self.module_imports:
+            return ""
+
+        import_strings = []
+
+        for import_ in self.module_imports:
+            import_parts = import_.split(".")
+            from_ = ".".join(import_parts[0:-1])
+            name = import_parts[-1]
+            import_strings.append(f"from {from_} import {name}")
+
+        # We have to sort for the snapshot tests
+        import_strings.sort()
+
+        import_string = "\n".join(import_strings)
+        return f"\n{import_string}\n"
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
@@ -141,7 +161,11 @@ class StubsStringGenerator:
         superclasses = class_.superclasses
         superclass_info = ""
         if superclasses and not class_.is_abstract:
-            superclass_names = [self._split_import_id(superclass)[1] for superclass in superclasses]
+            superclass_names = []
+            for superclass in superclasses:
+                superclass_names.append(self._split_import_id(superclass)[1])
+                self._add_to_imports(superclass)
+
             superclass_info = f" sub {', '.join(superclass_names)}"
 
         if len(superclasses) > 1:
@@ -200,16 +224,59 @@ class StubsStringGenerator:
         )
 
         # Attributes
+        class_text += self._create_class_attribute_string(class_.attributes, inner_indentations)
+
+        # Inner classes
+        for inner_class in class_.classes:
+            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
+
+        # Methods
+        class_text += self._create_class_method_string(class_.methods, inner_indentations)
+
+        # If the does not have a body, we just return the signature line
+        if not class_text:
+            return class_signature
+
+        # Close class
+        class_text += f"{class_indentation}}}"
+
+        return f"{class_signature} {{{class_text}"
+
+    def _create_class_method_string(self, methods: list[Function], inner_indentations: str) -> str:
+        class_methods: list[str] = []
+        class_property_methods: list[str] = []
+        for method in methods:
+            if not method.is_public:
+                continue
+            elif method.is_property:
+                class_property_methods.append(
+                    self._create_property_function_string(method, inner_indentations),
+                )
+            else:
+                class_methods.append(
+                    self._create_function_string(method, inner_indentations, is_method=True),
+                )
+
+        method_text = ""
+        if class_property_methods:
+            properties = "\n".join(class_property_methods)
+            method_text += f"\n{properties}\n"
+
+        if class_methods:
+            method_infos = "\n\n".join(class_methods)
+            method_text += f"\n{method_infos}\n"
+
+        return method_text
+
+    def _create_class_attribute_string(self, attributes: list[Attribute], inner_indentations: str) -> str:
         class_attributes: list[str] = []
-        for attribute in class_.attributes:
+        for attribute in attributes:
             if not attribute.is_public:
                 continue
 
             attribute_type = None
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
-            else:
-                self._current_todo_msgs.add("attr without type")
 
             static_string = "static " if attribute.is_static else ""
 
@@ -226,6 +293,8 @@ class StubsStringGenerator:
             # Create type information
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
+            if not type_string:
+                self._current_todo_msgs.add("attr without type")
 
             # Create attribute string
             class_attributes.append(
@@ -235,45 +304,11 @@ class StubsStringGenerator:
                 f"{type_string}",
             )
 
+        attribute_text = ""
         if class_attributes:
-            attributes = "\n".join(class_attributes)
-            class_text += f"\n{attributes}\n"
-
-        # Inner classes
-        for inner_class in class_.classes:
-            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
-
-        # Methods
-        class_methods: list[str] = []
-        class_property_methods: list[str] = []
-        for method in class_.methods:
-            if not method.is_public:
-                continue
-            elif method.is_property:
-                class_property_methods.append(
-                    self._create_property_function_string(method, inner_indentations),
-                )
-            else:
-                class_methods.append(
-                    self._create_function_string(method, inner_indentations, is_method=True),
-                )
-
-        if class_property_methods:
-            properties = "\n".join(class_property_methods)
-            class_text += f"\n{properties}\n"
-
-        if class_methods:
-            methods = "\n\n".join(class_methods)
-            class_text += f"\n{methods}\n"
-
-        # If the does not have a body, we just return the signature line
-        if not class_text:
-            return class_signature
-
-        # Close class
-        class_text += f"{class_indentation}}}"
-
-        return f"{class_signature} {{{class_text}"
+            attribute_infos = "\n".join(class_attributes)
+            attribute_text += f"\n{attribute_infos}\n"
+        return attribute_text
 
     def _create_function_string(self, function: Function, indentations: str = "", is_method: bool = False) -> str:
         """Create a function string for Safe-DS stubs."""
@@ -354,9 +389,10 @@ class StubsStringGenerator:
             type_string = f": {ret_type}" if ret_type else ""
             result_name = self._convert_snake_to_camel_case(result.name)
             result_name = self._replace_if_safeds_keyword(result_name)
-            results.append(
-                f"{result_name}{type_string}",
-            )
+            if type_string:
+                results.append(
+                    f"{result_name}{type_string}",
+                )
 
         if results:
             if len(results) == 1:
@@ -452,40 +488,6 @@ class StubsStringGenerator:
             return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
         return ""
 
-    def _create_qualified_imports_string(self, qualified_imports: list[QualifiedImport]) -> str:
-        if not qualified_imports:
-            return ""
-
-        imports: list[str] = []
-        for qualified_import in qualified_imports:
-            qualified_name = qualified_import.qualified_name
-            import_path, name = self._split_import_id(qualified_name)
-
-            # Ignore enum imports, since those are build in types in Safe-DS stubs
-            if import_path == "enum" and name in {"Enum", "IntEnum"}:
-                continue
-
-            # Create string and check if Safe-DS keywords are used and escape them if necessary
-            from_path = f"from {self._replace_if_safeds_keyword(import_path)} " if import_path else ""
-            alias = f" as {self._replace_if_safeds_keyword(qualified_import.alias)}" if qualified_import.alias else ""
-
-            imports.append(
-                f"{from_path}import {self._replace_if_safeds_keyword(name)}{alias}",
-            )
-
-        return "\n".join(imports)
-
-    def _create_wildcard_imports_string(self, wildcard_imports: list[WildcardImport]) -> str:
-        if not wildcard_imports:
-            return ""
-
-        imports = [
-            f"from {self._replace_if_safeds_keyword(wildcard_import.module_name)} import *"
-            for wildcard_import in wildcard_imports
-        ]
-
-        return "\n".join(imports)
-
     def _create_enum_string(self, enum_data: Enum) -> str:
         # Signature
         enum_signature = f"enum {enum_data.name}"
@@ -534,6 +536,7 @@ class StubsStringGenerator:
                 case "None":
                     return none_type_name
                 case _:
+                    self._add_to_imports(type_data["qname"])
                     return name
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
@@ -625,6 +628,19 @@ class StubsStringGenerator:
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
     # ############################### Utilities ############################### #
+
+    def _add_to_imports(self, qname: str) -> None:
+        """Check if the qname of a type is defined in the current module. If not, we create an import for it."""
+        if qname == "":  # pragma: no cover
+            raise ValueError("Type has no import source.")
+
+        qname_parts = qname.split(".")
+        if qname_parts[0] == "builtins" and len(qname_parts) == 2:
+            return
+
+        module_id = self.module.id.replace("/", ".")
+        if module_id not in qname:
+            self.module_imports.add(qname)
 
     @staticmethod
     def _callable_type_name_generator() -> Generator:
