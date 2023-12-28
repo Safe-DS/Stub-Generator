@@ -55,7 +55,6 @@ class MyPyAstVisitor:
         self.mypy_file = node
         is_package = node.path.endswith("__init__.py")
 
-        # Todo Frage: Alte Importfunktionalität behalten? Wird nicht benutzt
         qualified_imports: list[QualifiedImport] = []
         wildcard_imports: list[WildcardImport] = []
         docstring = ""
