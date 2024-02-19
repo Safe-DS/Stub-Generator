@@ -388,7 +388,6 @@ class TupleType(AbstractType):
         return hash(frozenset(self.types))
 
 
-# Todo Frage: Wie stellen wir TypeVar dar?
 @dataclass(frozen=True)
 class TypeVarType(AbstractType):
     name: str
