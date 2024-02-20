@@ -919,7 +919,7 @@ class MyPyAstVisitor:
 
                     # Then we check if the type was perhapse imported
                     qimport_name, qimport_qname = self._search_alias_in_qualified_imports(
-                        qualified_imports, name, alias_qname
+                        qualified_imports, name, alias_qname,
                     )
                     if qimport_qname:
                         qname = qimport_qname
@@ -945,7 +945,7 @@ class MyPyAstVisitor:
 
     @staticmethod
     def _search_alias_in_qualified_imports(
-        qualified_imports: list[QualifiedImport], alias_name: str, alias_qname: str = ""
+        qualified_imports: list[QualifiedImport], alias_name: str, alias_qname: str = "",
     ) -> tuple[str, str]:
         for qualified_import in qualified_imports:
             if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
