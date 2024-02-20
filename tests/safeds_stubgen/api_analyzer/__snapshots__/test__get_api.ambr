@@ -446,7 +446,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
             ]),
           }),
@@ -474,7 +474,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
+            'qname': 'various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -503,7 +503,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
@@ -870,7 +870,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
+            'qname': 'various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -899,7 +899,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
