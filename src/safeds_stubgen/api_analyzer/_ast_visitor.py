@@ -156,9 +156,9 @@ class MyPyAstVisitor:
                 variance_type = mypy_variance_parser(generic_type.variance)
                 variance_values: sds_types.AbstractType
                 if variance_type == VarianceKind.INVARIANT:
-                    variance_values = sds_types.UnionType([
-                        self.mypy_type_to_abstract_type(value) for value in generic_type.values
-                    ])
+                    variance_values = sds_types.UnionType(
+                        [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
+                    )
                 else:
                     variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
 
