@@ -193,3 +193,7 @@ class FunctionModulePropertiesClass:
     @property
     def property_function_infer(self):
         return "some string"
+
+
+def ret_conditional_statement():
+    return 1 if True else False

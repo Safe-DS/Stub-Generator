@@ -418,14 +418,27 @@ class MyPyAstVisitor:
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
         if return_stmts:
-            # In this case the items of the types set can only be of the class "NamedType" or "TupleType" but we have to
-            # make a typecheck anyway for the mypy linter.
             types = set()
             for return_stmt in return_stmts:
-                if return_stmt.expr is not None and not isinstance(return_stmt.expr, mp_nodes.CallExpr):
-                    type_ = mypy_expression_to_sds_type(return_stmt.expr)
-                    if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
-                        types.add(type_)
+                if return_stmt.expr is None:
+                    continue
+
+                if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
+                    # Todo Frage: Parse conditional branches recursively?
+                    # If the return statement is a conditional expression we parse the "if" and "else" branches
+                    if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
+                        for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
+                            if conditional_branch is None:
+                                continue
+
+                            if not isinstance(conditional_branch, mp_nodes.CallExpr | mp_nodes.MemberExpr):
+                                type_ = mypy_expression_to_sds_type(conditional_branch)
+                                if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
+                                    types.add(type_)
+                    else:
+                        type_ = mypy_expression_to_sds_type(return_stmt.expr)
+                        if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
+                            types.add(type_)
 
             # We have to sort the list for the snapshot tests
             return_stmt_types = list(types)

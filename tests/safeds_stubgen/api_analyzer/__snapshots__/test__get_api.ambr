@@ -5859,6 +5859,25 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'various_modules_package/function_module/ret_conditional_statement',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ret_conditional_statement',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/function_module/ret_conditional_statement/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'various_modules_package/function_module/set_results',
       'is_class_method': False,
       'is_property': False,

@@ -466,6 +466,10 @@
   	@PythonName("type_var_list") typeVarList: List<_type_var>
   ) -> result1: List<_type_var>
   
+  @Pure
+  @PythonName("ret_conditional_statement")
+  fun retConditionalStatement() -> result1: union<Boolean, Int>
+  
   class FunctionModuleClassA()
   
   // TODO Some parameter have no type information.
