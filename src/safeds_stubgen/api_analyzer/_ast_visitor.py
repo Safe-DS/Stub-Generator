@@ -420,7 +420,7 @@ class MyPyAstVisitor:
         if return_stmts:
             types = set()
             for return_stmt in return_stmts:
-                if return_stmt.expr is None:
+                if return_stmt.expr is None:  # pragma: no cover
                     continue
 
                 if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
@@ -428,7 +428,7 @@ class MyPyAstVisitor:
                     # If the return statement is a conditional expression we parse the "if" and "else" branches
                     if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
                         for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
-                            if conditional_branch is None:
+                            if conditional_branch is None:  # pragma: no cover
                                 continue
 
                             if not isinstance(conditional_branch, mp_nodes.CallExpr | mp_nodes.MemberExpr):
