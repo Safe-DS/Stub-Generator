@@ -907,7 +907,7 @@ class MyPyAstVisitor:
 
                 if qimport_qname:
                     qname = qimport_qname
-                    name = qimport_name if qimport_name else name
+                    name = qimport_name
             else:
                 # In this case some types where defined in multiple modules with the same names.
                 for alias_qname in qnames:
