@@ -537,6 +537,11 @@ class StubsStringGenerator:
                     return none_type_name
                 case _:
                     self._add_to_imports(type_data["qname"])
+
+                    # inner classes that are private should not be used as types, therefore we add a todo
+                    if name[0] == "_" and type_data["qname"] not in self.module_imports:
+                        self._current_todo_msgs.add("internal class as type")
+
                     return name
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
@@ -670,6 +675,7 @@ class StubsStringGenerator:
                 "param without type": "Some parameter have no type information.",
                 "attr without type": "Attribute has no type information.",
                 "result without type": "Result type information missing.",
+                "internal class as type": "An internal class must not be used as a type in a public class.",
             }[msg]
             for msg in self._current_todo_msgs
         ]

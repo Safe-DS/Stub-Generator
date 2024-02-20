@@ -2,9 +2,6 @@ from aliasing_module_2 import AliasingModule2ClassA as AliasModule2
 from aliasing_module_3 import ImportMeAliasingModuleClass as ImportMeAlias
 
 
-# Todo Erstelle ein Todo für Klassen die privat sind jedoch intern als Typen benutzt werden. Das Todo kommt über die
-#  Stellen an denen diese Klasse als Typen genutzt wird.
-#  "// TODO An internal class must not be used as a type in a public class."
 class _AliasingModuleClassA:
     ...
 
