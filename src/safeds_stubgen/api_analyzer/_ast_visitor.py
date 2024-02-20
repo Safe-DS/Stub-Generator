@@ -890,23 +890,28 @@ class MyPyAstVisitor:
         name = ""
         qname = ""
         qualified_imports = module.qualified_imports
+        import_aliases = [qimport.alias for qimport in qualified_imports]
+
         if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
-                # We need a deepcopy since qnames is a pointer to the set in the alias dict
-                qname = deepcopy(qnames).pop()
-                name = qname.split(".")[-1]
-
                 # We have to check if this is an alias from an import
                 import_name, import_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
 
-                name = import_name if import_name else name
-                qname = import_qname if import_qname else qname
+                # We need a deepcopy since qnames is a pointer to the set in the alias dict
+                qname = import_qname if import_qname else deepcopy(qnames).pop()
+                name = import_name if import_name else qname.split(".")[-1]
+            elif type_name in import_aliases:
+                # We check if the type was imported
+                qimport_name, qimport_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
 
+                if qimport_qname:
+                    qname = qimport_qname
+                    name = qimport_name if qimport_name else name
             else:
                 # In this case some types where defined in multiple modules with the same names.
                 for alias_qname in qnames:
-                    # First we check if the type was defined in the same module
+                    # We check if the type was defined in the same module
                     type_path = ".".join(alias_qname.split(".")[0:-1])
                     name = alias_qname.split(".")[-1]
 
@@ -916,27 +921,6 @@ class MyPyAstVisitor:
                     if type_path == self.mypy_file.fullname:
                         qname = alias_qname
                         break
-
-                    # Then we check if the type was perhapse imported
-                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(
-                        qualified_imports,
-                        name,
-                        alias_qname,
-                    )
-                    if qimport_qname:
-                        qname = qimport_qname
-                        name = qimport_name if qimport_name else name
-                        break
-
-                    found_qname = False
-                    for wildcard_import in module.wildcard_imports:
-                        if wildcard_import.module_name in alias_qname:
-                            qname = alias_qname
-                            found_qname = True
-                            break
-                    if found_qname:
-                        break
-
         else:
             name, qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
 
@@ -949,15 +933,12 @@ class MyPyAstVisitor:
     def _search_alias_in_qualified_imports(
         qualified_imports: list[QualifiedImport],
         alias_name: str,
-        alias_qname: str = "",
     ) -> tuple[str, str]:
         for qualified_import in qualified_imports:
             if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
                 qname = qualified_import.qualified_name
                 name = qname.split(".")[-1]
                 return name, qname
-            elif alias_qname and qualified_import.qualified_name in alias_qname:
-                return "", alias_qname
         return "", ""
 
     def _create_module_id(self, qname: str) -> str:
