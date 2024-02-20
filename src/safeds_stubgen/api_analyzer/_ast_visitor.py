@@ -837,12 +837,21 @@ class MyPyAstVisitor:
 
             # Get qname
             if mypy_type.name in {"Any", "str", "int", "bool", "float", "None"}:
-                name = mypy_type.name
-                qname = f"builtins.{mypy_type.name}"
+                return sds_types.NamedType(
+                    name=mypy_type.name,
+                    qname=f"builtins.{mypy_type.name}"
+                )
             else:
-                name, qname = self._find_alias(mypy_type.name)
+                # first we check if it's a class from the same module
+                module = self.__declaration_stack[0]
+                for module_class in module.classes:
+                    if module_class.name == mypy_type.name:
+                        qname = module_class.id.replace("/", ".")
+                        return sds_types.NamedType(name=module_class.name, qname=qname)
 
-            return sds_types.NamedType(name=name, qname=qname)
+                # if not, we check if it's an alias
+                name, qname = self._find_alias(mypy_type.name)
+                return sds_types.NamedType(name=name, qname=qname)
 
         # Builtins
         elif isinstance(mypy_type, mp_types.Instance):
