@@ -889,6 +889,7 @@ class MyPyAstVisitor:
 
         name = ""
         qname = ""
+        qualified_imports = module.qualified_imports
         if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
@@ -897,7 +898,7 @@ class MyPyAstVisitor:
                 name = qname.split(".")[-1]
 
                 # We have to check if this is an alias from an import
-                import_name, import_qname = self._search_alias_in_qualified_imports(module, type_name)
+                import_name, import_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
 
                 name = import_name if import_name else name
                 qname = import_qname if import_qname else qname
@@ -917,7 +918,9 @@ class MyPyAstVisitor:
                         break
 
                     # Then we check if the type was perhapse imported
-                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(module, name, alias_qname)
+                    qimport_name, qimport_qname = self._search_alias_in_qualified_imports(
+                        qualified_imports, name, alias_qname
+                    )
                     if qimport_qname:
                         qname = qimport_qname
                         name = qimport_name if qimport_name else name
@@ -933,7 +936,7 @@ class MyPyAstVisitor:
                         break
 
         else:
-            name, qname = self._search_alias_in_qualified_imports(module, type_name)
+            name, qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
 
         if not qname:  # pragma: no cover
             raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
@@ -941,8 +944,10 @@ class MyPyAstVisitor:
         return name, qname
 
     @staticmethod
-    def _search_alias_in_qualified_imports(module: Module, alias_name: str, alias_qname: str = "") -> tuple[str, str]:
-        for qualified_import in module.qualified_imports:
+    def _search_alias_in_qualified_imports(
+        qualified_imports: list[QualifiedImport], alias_name: str, alias_qname: str = ""
+    ) -> tuple[str, str]:
+        for qualified_import in qualified_imports:
             if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
                 qname = qualified_import.qualified_name
                 name = qname.split(".")[-1]

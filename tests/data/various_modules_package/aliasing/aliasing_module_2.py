@@ -1,3 +1,6 @@
+from aliasing_module_1 import AliasingModuleClassC
+
+
 class AliasingModule2ClassA:
     ...
 
@@ -11,6 +14,7 @@ class ImportMeAliasingModuleClass:
 
 
 some_alias_b = AliasingModuleClassB
+ImportMeAlias = AliasingModuleClassC
 
 
 class AliasingModuleClassC:
