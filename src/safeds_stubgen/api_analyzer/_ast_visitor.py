@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from collections import defaultdict
+from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
 
@@ -891,7 +892,8 @@ class MyPyAstVisitor:
         if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
-                qname = qnames.pop()
+                # We need a deepcopy since qnames is a pointer to the set in the alias dict
+                qname = deepcopy(qnames).pop()
                 name = qname.split(".")[-1]
 
                 # We have to check if this is an alias from an import
