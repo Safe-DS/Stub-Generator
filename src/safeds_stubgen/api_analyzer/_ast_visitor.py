@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 from collections import defaultdict
-from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
 
@@ -844,6 +843,10 @@ class MyPyAstVisitor:
             else:
                 # first we check if it's a class from the same module
                 module = self.__declaration_stack[0]
+
+                if not isinstance(module, Module):  # pragma: no cover
+                    raise TypeError(f"Expected module, got {type(module)}.")
+
                 for module_class in module.classes:
                     if module_class.name == mypy_type.name:
                         qname = module_class.id.replace("/", ".")
@@ -891,7 +894,7 @@ class MyPyAstVisitor:
         if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
-                qname = deepcopy(qnames).pop()
+                qname = qnames.pop()
                 name = qname.split(".")[-1]
 
                 # We have to check if this is an alias from an import
@@ -989,13 +992,8 @@ class MyPyAstVisitor:
                 return True
 
         parent = self.__declaration_stack[-1]
-        if isinstance(parent, Class):
-            # Containing class is re-exported (always false if the current API element is not a method)
-            if parent.reexported_by:
-                return True
-
-            if name == "__init__":
-                return parent.is_public
+        if isinstance(parent, Class) and name == "__init__":
+            return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])

@@ -688,9 +688,6 @@ class StubsStringGenerator:
 
     @staticmethod
     def _split_import_id(id_: str) -> tuple[str, str]:
-        if "." not in id_:
-            return "", id_
-
         split_qname = id_.split(".")
         name = split_qname.pop(-1)
         import_path = ".".join(split_qname)

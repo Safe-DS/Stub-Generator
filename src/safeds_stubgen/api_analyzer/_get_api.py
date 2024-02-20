@@ -132,12 +132,12 @@ def _get_mypy_asts(
 
 
 def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
-    if not result_types:
-        return {}
-
     aliases: dict[str, set[str]] = defaultdict(set)
     for key in result_types:
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
+            in_package = False
+            name = ""
+
             if isinstance(key, mypy_nodes.NameExpr):
                 type_value = result_types[key]
 
@@ -165,8 +165,6 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                         continue
 
                     in_package = package_name in fullname
-                else:
-                    continue
             else:
                 in_package = package_name in key.fullname
                 if in_package:
