@@ -836,10 +836,7 @@ class MyPyAstVisitor:
 
             # Get qname
             if mypy_type.name in {"Any", "str", "int", "bool", "float", "None"}:
-                return sds_types.NamedType(
-                    name=mypy_type.name,
-                    qname=f"builtins.{mypy_type.name}"
-                )
+                return sds_types.NamedType(name=mypy_type.name, qname=f"builtins.{mypy_type.name}")
             else:
                 # first we check if it's a class from the same module
                 module = self.__declaration_stack[0]

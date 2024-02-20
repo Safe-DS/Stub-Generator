@@ -106,7 +106,7 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
 
 
 def mypy_expression_to_python_value(
-    expr: mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr
+    expr: mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
 ) -> str | None | int | float:
     if isinstance(expr, mp_nodes.NameExpr):
         match expr.name:
