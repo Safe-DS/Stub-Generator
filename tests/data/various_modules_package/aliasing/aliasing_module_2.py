@@ -19,5 +19,6 @@ ImportMeAlias = AliasingModuleClassC
 
 class AliasingModuleClassC:
     typed_alias_attr: some_alias_b
+    typed_alias_infer = ImportMeAlias
 
     alias_list: list[str | some_alias_b, ImportMeAliasingModuleClass]
