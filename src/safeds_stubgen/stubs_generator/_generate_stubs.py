@@ -629,6 +629,9 @@ class StubsStringGenerator:
                 else:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
+        # Todo See issue #63
+        elif kind == "TypeVarType":
+            return ""
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 

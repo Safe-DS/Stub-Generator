@@ -1,4 +1,4 @@
-from typing import Optional, Final, Literal
+from typing import Optional, Final, Literal, TypeVar
 from tests.data.main_package.another_path.another_module import AnotherClass
 
 
@@ -65,6 +65,8 @@ class AttributesClassB:
 
     attr_type_from_outside_package: AnotherClass
     attr_default_value_from_outside_package = AnotherClass
+
+    type_var = TypeVar("type_var")
 
     def __init__(self):
         self.init_attr: bool = False

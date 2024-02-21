@@ -200,6 +200,8 @@
   	static attr attrTypeFromOutsidePackage: AnotherClass
   	@PythonName("attr_default_value_from_outside_package")
   	static attr attrDefaultValueFromOutsidePackage: () -> a: AnotherClass
+  	@PythonName("type_var")
+  	static attr typeVar
   	@PythonName("init_attr")
   	attr initAttr: Boolean
   
@@ -534,6 +536,16 @@
   @PythonName("result_from_outside_the_package")
   fun resultFromOutsideThePackage() -> result1: AnotherClass
   
+  @Pure
+  @PythonName("type_var_func")
+  fun typeVarFunc(
+  	@PythonName("type_var_list") typeVarList: List<>
+  ) -> result1: List<>
+  
+  @Pure
+  @PythonName("ret_conditional_statement")
+  fun retConditionalStatement() -> result1: union<Boolean, Int>
+  
   class FunctionModuleClassA()
   
   // TODO Some parameter have no type information.
@@ -675,6 +687,16 @@
   	static fun inferFunction2(
   		i: Int = 2
   	) -> result1: union<Boolean, String>
+  
+  	// TODO Result type information missing.
+  	@Pure
+  	@PythonName("infer_call_result_1")
+  	fun inferCallResult1()
+  
+  	// TODO Result type information missing.
+  	@Pure
+  	@PythonName("infer_call_result_2")
+  	fun inferCallResult2()
   }
   
   '''

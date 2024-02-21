@@ -35,12 +35,13 @@ class AbstractType(metaclass=ABCMeta):
                 return UnionType.from_dict(d)
             case CallableType.__name__:
                 return CallableType.from_dict(d)
+            case TypeVarType.__name__:
+                return TypeVarType.from_dict(d)
             case _:
                 raise ValueError(f"Cannot parse {d['kind']} value.")
 
     @abstractmethod
-    def to_dict(self) -> dict[str, Any]:
-        pass
+    def to_dict(self) -> dict[str, Any]: ...
 
 
 @dataclass(frozen=True)
@@ -385,6 +386,21 @@ class TupleType(AbstractType):
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
+
+
+@dataclass(frozen=True)
+class TypeVarType(AbstractType):
+    name: str
+
+    @classmethod
+    def from_dict(cls, d: dict[str, str]) -> TypeVarType:
+        return TypeVarType(d["name"])
+
+    def to_dict(self) -> dict[str, str]:
+        return {"kind": self.__class__.__name__, "name": self.name}
+
+    def __hash__(self) -> int:
+        return hash(frozenset([self.name]))
 
 
 # ############################## Utilities ############################## #
