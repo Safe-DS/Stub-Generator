@@ -1,4 +1,4 @@
-from typing import Optional, Final, Literal
+from typing import Optional, Final, Literal, TypeVar
 
 
 class AttributesClassA:
@@ -61,6 +61,8 @@ class AttributesClassB:
     multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]
     multi_attr_5, multi_attr_6 = ("A", "B")
     multi_attr_7 = multi_attr_8 = "A"
+
+    type_var = TypeVar("type_var")
 
     def __init__(self):
         self.init_attr: bool = False

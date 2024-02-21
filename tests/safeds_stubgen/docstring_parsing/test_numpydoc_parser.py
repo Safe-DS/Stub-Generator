@@ -28,7 +28,6 @@ mypy_file = _get_mypy_ast(
     files=[
         str(Path(_test_dir / "data" / _test_package_name / "numpydoc.py")),
     ],
-    package_paths=[],
     root=Path(_test_dir / "data" / _test_package_name),
 )[0]
 

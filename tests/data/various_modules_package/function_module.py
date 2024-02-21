@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Literal, Any
+from typing import Callable, Optional, Literal, Any, TypeVar
 
 
 class FunctionModuleClassA:
@@ -179,6 +179,10 @@ def any_results() -> Any: ...
 def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
 
 
+_type_var = TypeVar("_type_var")
+def type_var_func(type_var_list: list[_type_var]) -> list[_type_var]: ...
+
+
 class FunctionModulePropertiesClass:
     @property
     def property_function(self): ...
@@ -189,3 +193,7 @@ class FunctionModulePropertiesClass:
     @property
     def property_function_infer(self):
         return "some string"
+
+
+def ret_conditional_statement():
+    return 1 if True else False
