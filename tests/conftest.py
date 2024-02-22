@@ -3,7 +3,7 @@ from typing import Any
 import pytest
 from syrupy import SnapshotAssertion
 from syrupy.extensions.single_file import SingleFileSnapshotExtension
-from syrupy.types import SerializableData, SerializedData
+from syrupy.types import SerializedData
 
 
 class SDSStubExtension(SingleFileSnapshotExtension):
