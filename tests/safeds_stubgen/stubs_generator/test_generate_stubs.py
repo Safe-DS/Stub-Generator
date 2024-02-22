@@ -54,10 +54,10 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
             _assert_file_creation_recursive(py_item, stub_item)
 
 
-def assert_stubs_snapshot(filename: str, snapshot: SnapshotAssertion) -> None:
+def assert_stubs_snapshot(filename: str, snapshot_sdsstub: SnapshotAssertion) -> None:
     stubs_file = Path(_out_dir_stubs / filename / f"{filename}.sdsstub")
     with stubs_file.open("r") as f:
-        assert f.read() == snapshot
+        assert f.read() == snapshot_sdsstub
 
 
 # ############################## Tests ############################## #
@@ -68,46 +68,46 @@ def test_file_creation() -> None:
     )
 
 
-def test_class_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("class_module", snapshot)
+def test_class_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("class_module", snapshot_sdsstub)
 
 
-def test_class_attribute_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("attribute_module", snapshot)
+def test_class_attribute_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("attribute_module", snapshot_sdsstub)
 
 
-def test_function_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("function_module", snapshot)
+def test_function_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("function_module", snapshot_sdsstub)
 
 
-def test_enum_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("enum_module", snapshot)
+def test_enum_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("enum_module", snapshot_sdsstub)
 
 
-def test_type_inference(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("infer_types_module", snapshot)
+def test_type_inference(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("infer_types_module", snapshot_sdsstub)
 
 
-def test_variance_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("variance_module", snapshot)
+def test_variance_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("variance_module", snapshot_sdsstub)
 
 
-def test_abstract_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("abstract_module", snapshot)
+def test_abstract_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("abstract_module", snapshot_sdsstub)
 
 
-def test_import_creation(snapshot: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("import_module", snapshot)
+def test_import_creation(snapshot_sdsstub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("import_module", snapshot_sdsstub)
 
 
 @pytest.mark.parametrize("file_name", ["aliasing_module_1", "aliasing_module_2", "aliasing_module_3"])
-def test_alias_creation(file_name: str, snapshot: SnapshotAssertion) -> None:
+def test_alias_creation(file_name: str, snapshot_sdsstub: SnapshotAssertion) -> None:
     file_data = ""
     stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
     with stubs_file.open("r") as f:
         file_data += f.read()
 
-    assert file_data == snapshot
+    assert file_data == snapshot_sdsstub
 
 
 @pytest.mark.parametrize(
