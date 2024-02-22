@@ -13,9 +13,7 @@ JSON_PRETTIER_FILE_EXTENSIONS:
   - .scss
   - .htm
   - .html
-#  - .md
 
 # Commands
 PRE_COMMANDS:
   - command: npm install @lars-reimann/prettier-config
-    cwd: workspace

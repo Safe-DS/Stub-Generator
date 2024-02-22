@@ -1,0 +1,6 @@
+@PythonModule("various_modules_package.import_module")
+package variousModulesPackage.importModule
+
+import mypy as `static`
+
+from math import *

@@ -1,0 +1,101 @@
+@PythonModule("various_modules_package.attribute_module")
+package variousModulesPackage.attributeModule
+
+from typing import Optional
+from typing import Final
+from typing import Literal
+from typing import TypeVar
+
+class AttributesClassA()
+
+class AttributesClassB() {
+	@PythonName("type_hint_public")
+	static attr typeHintPublic: Int
+	@PythonName("no_type_hint_public")
+	static attr noTypeHintPublic: Int
+	@PythonName("object_attr")
+	static attr objectAttr: AttributesClassA
+	// TODO Attribute has no type information.
+	@PythonName("callexpr_attr_class")
+	static attr callexprAttrClass
+	// TODO Attribute has no type information.
+	@PythonName("callexpr_attr_function")
+	static attr callexprAttrFunction
+	// TODO Safe-DS does not support tuple types.
+	@PythonName("tuple_attr_1")
+	static attr tupleAttr1: Tuple<Any>
+	// TODO Safe-DS does not support tuple types.
+	@PythonName("tuple_attr_2")
+	static attr tupleAttr2: Tuple<union<Int, String>>
+	// TODO Safe-DS does not support tuple types.
+	@PythonName("tuple_attr_3")
+	static attr tupleAttr3: Tuple<String, Int>
+	@PythonName("defined_three_times")
+	static attr definedThreeTimes: Int
+	@PythonName("list_attr_1")
+	static attr listAttr1: List<Any>
+	@PythonName("list_attr_2")
+	static attr listAttr2: List<union<AttributesClassA, String>>
+	// TODO List type has to many type arguments.
+	@PythonName("list_attr_3")
+	static attr listAttr3: List<String, AttributesClassA>
+	// TODO List type has to many type arguments.
+	@PythonName("list_attr_4")
+	static attr listAttr4: List<String, union<AttributesClassA, Int>>
+	@PythonName("set_attr_1")
+	static attr setAttr1: Set<Any>
+	@PythonName("set_attr_2")
+	static attr setAttr2: Set<union<AttributesClassA, String>>
+	// TODO Set type has to many type arguments.
+	@PythonName("set_attr_3")
+	static attr setAttr3: Set<String, AttributesClassA>
+	// TODO Set type has to many type arguments.
+	@PythonName("set_attr_4")
+	static attr setAttr4: Set<String, union<AttributesClassA, Int>>
+	@PythonName("dict_attr_1")
+	static attr dictAttr1: Map<Any, Any>
+	@PythonName("dict_attr_2")
+	static attr dictAttr2: Map<String, Int>
+	@PythonName("dict_attr_3")
+	static attr dictAttr3: Map<union<Int, String>, AttributesClassA?>
+	@PythonName("bool_attr")
+	static attr boolAttr: Boolean
+	@PythonName("none_attr")
+	static attr noneAttr: Nothing?
+	@PythonName("flaot_attr")
+	static attr flaotAttr: Float
+	@PythonName("int_or_bool_attr")
+	static attr intOrBoolAttr: union<Boolean, Int>
+	@PythonName("str_attr_with_none_value")
+	static attr strAttrWithNoneValue: String
+	static attr optional: Int?
+	static attr final: String
+	static attr finals: union<Int, String>
+	@PythonName("final_union")
+	static attr finalUnion: union<Int, String>
+	static attr `literal`: literal<"Some String">
+	@PythonName("multiple_literals")
+	static attr multipleLiterals: literal<"Literal_1", "Literal_2", 3, True>
+	@PythonName("mixed_literal_union")
+	static attr mixedLiteralUnion: union<Int, String, literal<"L1", 2, 4, False>>
+	@PythonName("multi_attr_1")
+	static attr multiAttr1: Int
+	@PythonName("multi_attr_3")
+	static attr multiAttr3: List<String>
+	@PythonName("multi_attr_5")
+	static attr multiAttr5: String
+	@PythonName("multi_attr_6")
+	static attr multiAttr6: String
+	@PythonName("multi_attr_7")
+	static attr multiAttr7: String
+	@PythonName("multi_attr_8")
+	static attr multiAttr8: String
+	@PythonName("type_var")
+	static attr typeVar
+	@PythonName("init_attr")
+	attr initAttr: Boolean
+
+	@Pure
+	@PythonName("some_func")
+	static fun someFunc() -> result1: Boolean
+}
