@@ -1,0 +1,299 @@
+@PythonModule("various_modules_package.function_module")
+package variousModulesPackage.functionModule
+
+from typing import Callable
+from typing import Optional
+from typing import Literal
+from typing import Any
+from typing import TypeVar
+
+// TODO Result type information missing.
+@Pure
+@PythonName("public_no_params_no_result")
+fun publicNoParamsNoResult()
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support tuple types.
+// TODO Some parameter have no type information.
+@Pure
+fun params(
+	integer: Int,
+	boolean: Boolean,
+	@PythonName("float_") float: Float,
+	none: Nothing?,
+	string: String,
+	obj: FunctionModuleClassA,
+	callexpr,
+	`union`: union<Boolean, Int>,
+	@PythonName("union_with_none_1") unionWithNone1: Int?,
+	@PythonName("union_with_none_2") unionWithNone2: Int?,
+	@PythonName("list_") list: List<Int>,
+	dictionary: Map<String, union<Float, Int>>,
+	@PythonName("set_") set: Set<String>,
+	optional: Int?,
+	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+	`literal`: literal<"Some String">,
+	@PythonName("any_") any: Any
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support tuple types.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("params_with_default_value")
+fun paramsWithDefaultValue(
+	integer: Int = 3,
+	boolean: Boolean = true,
+	@PythonName("float_") float: Float = 1.2,
+	none: Nothing? = null,
+	string: String = "Some String",
+	obj: FunctionModuleClassA,
+	callexpr,
+	`union`: union<Boolean, Int> = 2,
+	@PythonName("union_with_none_1") unionWithNone1: Int? = 2,
+	@PythonName("union_with_none_2") unionWithNone2: Int? = 3,
+	@PythonName("list_") list: List<Int>,
+	dictionary: Map<String, union<Float, Int>>,
+	@PythonName("set_") set: Set<String>,
+	optional: Int? = null,
+	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+	`literal`: literal<"Some String"> = "Some String",
+	@PythonName("any_") any: Any = false
+)
+
+// TODO List type has to many type arguments.
+// TODO Result type information missing.
+// TODO Safe-DS does not support tuple types.
+@Pure
+@PythonName("illegal_params")
+fun illegalParams(
+	lst: List<Int, String>,
+	@PythonName("lst_2") lst2: List<Int, String, Int>,
+	tpl: Tuple<Int, String, Boolean, Int>,
+	`_`: Int = String
+)
+
+// TODO Result type information missing.
+@Pure
+@PythonName("special_params")
+fun specialParams(
+	@PythonName("none_union") noneUnion: Nothing?,
+	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
+	@PythonName("bool_none_union") boolNoneUnion: Boolean?,
+	@PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
+	@PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
+	@PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
+	@PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
+	none: Nothing?
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support required but name only parameter assignments.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("param_position")
+fun paramPosition(
+	self,
+	a,
+	b: Boolean,
+	c: FunctionModuleClassA = FunctionModuleClassA,
+	d,
+	e: Int = 1
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support optional but position only parameter assignments.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("opt_pos_only")
+fun optPosOnly(
+	required,
+	optional: Int = 1
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support required but name only parameter assignments.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("req_name_only")
+fun reqNameOnly(
+	required,
+	optional: Int = 1
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support variadic parameters.
+// TODO Some parameter have no type information.
+@Pure
+fun arg(
+	args: List<Any>,
+	kwargs: Map<String, Any>
+)
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support variadic parameters.
+@Pure
+@PythonName("args_type")
+fun argsType(
+	args: List<Int>,
+	kwargs: Map<String, Int>
+)
+
+@Pure
+@PythonName("int_result")
+fun intResult() -> result1: Int
+
+@Pure
+@PythonName("str_result")
+fun strResult() -> result1: String
+
+@Pure
+@PythonName("bool_result")
+fun boolResult() -> result1: Boolean
+
+@Pure
+@PythonName("float_result")
+fun floatResult() -> result1: Float
+
+// TODO Result type information missing.
+@Pure
+@PythonName("none_result")
+fun noneResult()
+
+@Pure
+@PythonName("obj_result")
+fun objResult() -> result1: FunctionModuleClassA
+
+// TODO Result type information missing.
+@Pure
+@PythonName("callexr_result_class")
+fun callexrResultClass()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("callexr_result_function")
+fun callexrResultFunction()
+
+@Pure
+@PythonName("tuple_results")
+fun tupleResults() -> (result1: String, result2: FunctionModuleClassA)
+
+@Pure
+@PythonName("union_results")
+fun unionResults() -> result1: union<Int, String>
+
+@Pure
+@PythonName("list_results")
+fun listResults() -> result1: List<Int>
+
+// TODO List type has to many type arguments.
+@Pure
+@PythonName("illegal_list_results")
+fun illegalListResults() -> result1: List<Int, String>
+
+@Pure
+@PythonName("dictionary_results")
+fun dictionaryResults() -> result1: Map<String, FunctionModuleClassA>
+
+@Pure
+@PythonName("dictionary_results_no_key_no_value")
+fun dictionaryResultsNoKeyNoValue() -> result1: Map<Any, Any>
+
+@Pure
+@PythonName("illegal_dictionary_results")
+fun illegalDictionaryResults() -> result1: Map<Any, Any>
+
+@Pure
+@PythonName("union_dictionary_results")
+fun unionDictionaryResults() -> result1: Map<union<Int, String>, union<Boolean, Float>>
+
+@Pure
+@PythonName("set_results")
+fun setResults() -> result1: Set<String>
+
+// TODO Set type has to many type arguments.
+@Pure
+@PythonName("illegal_set_results")
+fun illegalSetResults() -> result1: Set<String, Boolean>
+
+@Pure
+@PythonName("optional_results")
+fun optionalResults() -> result1: Int?
+
+@Pure
+@PythonName("literal_results")
+fun literalResults() -> result1: literal<"Some String">
+
+@Pure
+@PythonName("any_results")
+fun anyResults() -> result1: Any
+
+@Pure
+@PythonName("callable_type")
+fun callableType(
+	param: (a: String) -> (b: Int, c: String)
+) -> result1: (a: Int, b: Int) -> c: Int
+
+@Pure
+@PythonName("type_var_func")
+fun typeVarFunc(
+	@PythonName("type_var_list") typeVarList: List<>
+) -> result1: List<>
+
+@Pure
+@PythonName("ret_conditional_statement")
+fun retConditionalStatement() -> result1: union<Boolean, Int>
+
+class FunctionModuleClassA()
+
+// TODO Some parameter have no type information.
+class FunctionModuleClassB(
+	@PythonName("init_param") initParam
+) {
+	class FunctionModuleClassC() {
+		class FunctionModuleClassD()
+
+		@Pure
+		@PythonName("nested_class_function")
+		fun nestedClassFunction(
+			param1: Int
+		) -> result1: Boolean
+	}
+
+	@Pure
+	@PythonName("instance_method")
+	fun instanceMethod(
+		a: FunctionModuleClassA
+	) -> result1: FunctionModuleClassA
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("static_method")
+	static fun staticMethod()
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("static_method_params")
+	static fun staticMethodParams(
+		@PythonName("param_1") param1: Int
+	)
+
+	// TODO Result type information missing.
+	// TODO Safe-DS does not support class methods.
+	@Pure
+	@PythonName("class_method")
+	static fun classMethod()
+
+	// TODO Safe-DS does not support class methods.
+	@Pure
+	@PythonName("class_method_params")
+	static fun classMethodParams(
+		@PythonName("param_1") param1: Int
+	) -> result1: Boolean
+}
+
+class FunctionModulePropertiesClass() {
+	@PythonName("property_function") attr propertyFunction
+	@PythonName("property_function_params") attr propertyFunctionParams: String
+	@PythonName("property_function_infer") attr propertyFunctionInfer: String
+}
