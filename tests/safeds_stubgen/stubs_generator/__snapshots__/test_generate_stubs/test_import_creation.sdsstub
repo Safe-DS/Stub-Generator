@@ -1,7 +1,7 @@
 @PythonModule("various_modules_package.import_module")
 package variousModulesPackage.importModule
 
-from mainPackage.anotherPath.anotherModule import AnotherClass
+from variousModulesPackage.anotherPath.anotherModule import AnotherClass
 from variousModulesPackage.classModule import ClassModuleClassB
 from variousModulesPackage.classModule import ClassModuleClassC
 from variousModulesPackage.classModule import ClassModuleClassD

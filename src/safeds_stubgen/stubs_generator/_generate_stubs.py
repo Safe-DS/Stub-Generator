@@ -41,7 +41,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     modules = api.modules.values()
 
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-    stubs_generator = StubsStringGenerator(api.package, convert_identifiers)
+    stubs_generator = StubsStringGenerator(api, convert_identifiers)
 
     for module in modules:
         module_name = module.name
@@ -78,9 +78,9 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, package_name: str, convert_identifiers: bool) -> None:
+    def __init__(self, api: API, convert_identifiers: bool) -> None:
         self.module_imports: set[str] = set()
-        self.package_name = package_name
+        self.api = api
         self.convert_identifiers = convert_identifiers
 
     def __call__(self, module: Module) -> str:
@@ -569,6 +569,9 @@ class StubsStringGenerator:
             # Cut out the "Type" in the kind name
             name = kind[0:-4]
 
+            if name == "Set":
+                self._current_todo_msgs.add("no set support")
+
             if types:
                 if len(types) >= 2:
                     self._current_todo_msgs.add(name)
@@ -613,7 +616,7 @@ class StubsStringGenerator:
                 return f"union<{', '.join(types)}>"
             return ""
         elif kind == "TupleType":
-            self._current_todo_msgs.add("Tuple")
+            self._current_todo_msgs.add("no tuple support")
             types = [self._create_type_string(type_) for type_ in type_data["types"]]
 
             return f"Tuple<{', '.join(types)}>"
@@ -626,6 +629,11 @@ class StubsStringGenerator:
             for literal_type in type_data["literals"]:
                 if isinstance(literal_type, str):
                     types.append(f'"{literal_type}"')
+                elif isinstance(literal_type, bool):
+                    if literal_type:
+                        types.append("true")
+                    else:
+                        types.append("false")
                 else:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
@@ -638,7 +646,17 @@ class StubsStringGenerator:
     # ############################### Utilities ############################### #
 
     def _add_to_imports(self, qname: str) -> None:
-        """Check if the qname of a type is defined in the current module. If not, we create an import for it."""
+        """Check if the qname of a type is defined in the current module, if not, create an import for it.
+
+        Paramters
+        ---------
+        qname : str
+            The qualified name of a module/class/etc.
+
+        Returns
+        -------
+        None
+        """
         if qname == "":  # pragma: no cover
             raise ValueError("Type has no import source.")
 
@@ -648,6 +666,14 @@ class StubsStringGenerator:
 
         module_id = self.module.id.replace("/", ".")
         if module_id not in qname:
+            # We need the full path for an import from the same package, but we sometimes don't get enough information,
+            # therefore we have to search for the class and get its id
+            qname_path = qname.replace(".", "/")
+            for class_ in self.api.classes:
+                if class_.endswith(qname_path):
+                    qname = class_.replace("/", ".")
+                    qname = self._convert_snake_to_camel_case(qname)
+
             self.module_imports.add(qname)
 
     @staticmethod
@@ -667,7 +693,8 @@ class StubsStringGenerator:
         todo_msgs = [
             "// TODO "
             + {
-                "Tuple": "Safe-DS does not support tuple types.",
+                "no tuple support": "Safe-DS does not support tuple types.",
+                "no set support": "Safe-DS does not support set types.",
                 "List": "List type has to many type arguments.",
                 "Set": "Set type has to many type arguments.",
                 "OPT_POS_ONLY": "Safe-DS does not support optional but position only parameter assignments.",

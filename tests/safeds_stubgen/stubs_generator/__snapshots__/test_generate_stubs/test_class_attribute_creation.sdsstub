@@ -1,7 +1,7 @@
 @PythonModule("various_modules_package.attribute_module")
 package variousModulesPackage.attributeModule
 
-from mainPackage.anotherPath.anotherModule import AnotherClass
+from tests.data.main_package.another_path.another_module import AnotherClass
 
 class AttributesClassA()
 
@@ -39,13 +39,17 @@ class AttributesClassB() {
 	// TODO List type has to many type arguments.
 	@PythonName("list_attr_4")
 	static attr listAttr4: List<String, union<AttributesClassA, Int>>
+	// TODO Safe-DS does not support set types.
 	@PythonName("set_attr_1")
 	static attr setAttr1: Set<Any>
+	// TODO Safe-DS does not support set types.
 	@PythonName("set_attr_2")
 	static attr setAttr2: Set<union<AttributesClassA, String>>
+	// TODO Safe-DS does not support set types.
 	// TODO Set type has to many type arguments.
 	@PythonName("set_attr_3")
 	static attr setAttr3: Set<String, AttributesClassA>
+	// TODO Safe-DS does not support set types.
 	// TODO Set type has to many type arguments.
 	@PythonName("set_attr_4")
 	static attr setAttr4: Set<String, union<AttributesClassA, Int>>

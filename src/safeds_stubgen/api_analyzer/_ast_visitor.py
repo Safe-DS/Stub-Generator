@@ -615,23 +615,22 @@ class MyPyAstVisitor:
                 attribute_type = None
 
         # NameExpr are class attributes
-        elif node is not None and isinstance(attribute, mp_nodes.NameExpr):
-            if not node.explicit_self_type:
-                attribute_type = node.type
+        elif node is not None and isinstance(attribute, mp_nodes.NameExpr) and not node.explicit_self_type:
+            attribute_type = node.type
 
-                # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
-                # regarding list item types
-                if (
-                    attribute_type is not None
-                    and hasattr(attribute_type, "type")
-                    and hasattr(attribute_type, "args")
-                    and attribute_type.type.fullname == "builtins.list"
-                    and not node.is_inferred
-                ):
-                    if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
-                        attribute_type.args = unanalyzed_type.args
-                    else:  # pragma: no cover
-                        raise AttributeError("Could not get argument information for attribute.")
+            # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
+            # regarding list item types
+            if (
+                attribute_type is not None
+                and hasattr(attribute_type, "type")
+                and hasattr(attribute_type, "args")
+                and attribute_type.type.fullname == "builtins.list"
+                and not node.is_inferred
+            ):
+                if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
+                    attribute_type.args = unanalyzed_type.args
+                else:  # pragma: no cover
+                    raise AttributeError("Could not get argument information for attribute.")
 
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (

@@ -1,7 +1,7 @@
 @PythonModule("various_modules_package.function_module")
 package variousModulesPackage.functionModule
 
-from mainPackage.anotherPath.anotherModule import AnotherClass
+from tests.data.main_package.another_path.another_module import AnotherClass
 
 // TODO Result type information missing.
 @Pure
@@ -9,6 +9,7 @@ from mainPackage.anotherPath.anotherModule import AnotherClass
 fun publicNoParamsNoResult()
 
 // TODO Result type information missing.
+// TODO Safe-DS does not support set types.
 // TODO Safe-DS does not support tuple types.
 // TODO Some parameter have no type information.
 @Pure
@@ -33,6 +34,7 @@ fun params(
 )
 
 // TODO Result type information missing.
+// TODO Safe-DS does not support set types.
 // TODO Safe-DS does not support tuple types.
 // TODO Some parameter have no type information.
 @Pure
@@ -204,10 +206,12 @@ fun illegalDictionaryResults() -> result1: Map<Any, Any>
 @PythonName("union_dictionary_results")
 fun unionDictionaryResults() -> result1: Map<union<Int, String>, union<Boolean, Float>>
 
+// TODO Safe-DS does not support set types.
 @Pure
 @PythonName("set_results")
 fun setResults() -> result1: Set<String>
 
+// TODO Safe-DS does not support set types.
 // TODO Set type has to many type arguments.
 @Pure
 @PythonName("illegal_set_results")
