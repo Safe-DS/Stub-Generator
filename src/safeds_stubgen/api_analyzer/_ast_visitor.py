@@ -729,7 +729,7 @@ class MyPyAstVisitor:
     def _get_parameter_type_and_default_value(
         initializer: mp_nodes.Expression,
     ) -> tuple[str | None | int | float, bool]:
-        default_value = None
+        default_value: str | None | int | float = None
         default_is_none = False
         if initializer is not None:
             if isinstance(initializer, mp_nodes.NameExpr) and initializer.name not in {"None", "True", "False"}:
