@@ -1,0 +1,40 @@
+@PythonModule("various_modules_package.class_module")
+package variousModulesPackage.classModule
+
+class ClassModuleEmptyClassA()
+
+class ClassModuleClassB(
+	a: Int,
+	b: ClassModuleEmptyClassA?
+) sub ClassModuleEmptyClassA {
+	// TODO Result type information missing.
+	@Pure
+	fun f()
+}
+
+// TODO Safe-DS does not support multiple inheritance.
+class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB {
+	@PythonName("attr_1")
+	static attr attr1: Int
+	@PythonName("attr_2")
+	static attr attr2: Int
+
+	// TODO Result type information missing.
+	@Pure
+	fun f1()
+}
+
+class ClassModuleClassD() {
+	class ClassModuleNestedClassE() {
+		@PythonName("nested_attr_1")
+		static attr nestedAttr1: Nothing?
+
+		@PythonName("_ClassModulePrivateDoubleNestedClassF")
+		class ClassModulePrivateDoubleNestedClassF()
+
+		// TODO Result type information missing.
+		@Pure
+		@PythonName("class_e_func")
+		fun classEFunc()
+	}
+}

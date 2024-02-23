@@ -6,7 +6,7 @@ from syrupy.extensions.single_file import SingleFileSnapshotExtension
 from syrupy.types import SerializedData
 
 
-class SDSStubExtension(SingleFileSnapshotExtension):
+class SdsStubExtension(SingleFileSnapshotExtension):
     _file_extension = "sdsstub"
 
     def serialize(self, data: str, **_kwargs: Any) -> SerializedData:
@@ -14,5 +14,5 @@ class SDSStubExtension(SingleFileSnapshotExtension):
 
 
 @pytest.fixture()
-def snapshot_sdsstub(snapshot: SnapshotAssertion) -> SnapshotAssertion:
-    return snapshot.use_extension(SDSStubExtension)
+def snapshot_sds_stub(snapshot: SnapshotAssertion) -> SnapshotAssertion:
+    return snapshot.use_extension(SdsStubExtension)
