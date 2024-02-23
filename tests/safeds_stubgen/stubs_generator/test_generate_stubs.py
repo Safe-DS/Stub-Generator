@@ -68,42 +68,34 @@ def test_file_creation() -> None:
     )
 
 
-# Todo Check snapshot
 def test_class_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("class_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_class_attribute_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("attribute_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_function_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("function_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_enum_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("enum_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_import_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("import_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_type_inference(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("infer_types_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_variance_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("variance_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_abstract_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot_sds_stub)
 

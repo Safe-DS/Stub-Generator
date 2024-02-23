@@ -1,10 +1,7 @@
 @PythonModule("various_modules_package.attribute_module")
 package variousModulesPackage.attributeModule
 
-from typing import Optional
-from typing import Final
-from typing import Literal
-from typing import TypeVar
+from mainPackage.anotherPath.anotherModule import AnotherClass
 
 class AttributesClassA()
 
@@ -75,9 +72,9 @@ class AttributesClassB() {
 	static attr finalUnion: union<Int, String>
 	static attr `literal`: literal<"Some String">
 	@PythonName("multiple_literals")
-	static attr multipleLiterals: literal<"Literal_1", "Literal_2", 3, True>
+	static attr multipleLiterals: literal<"Literal_1", "Literal_2", 3, true>
 	@PythonName("mixed_literal_union")
-	static attr mixedLiteralUnion: union<Int, String, literal<"L1", 2, 4, False>>
+	static attr mixedLiteralUnion: union<Int, String, literal<"L1", 2, 4, false>>
 	@PythonName("multi_attr_1")
 	static attr multiAttr1: Int
 	@PythonName("multi_attr_3")
@@ -90,6 +87,11 @@ class AttributesClassB() {
 	static attr multiAttr7: String
 	@PythonName("multi_attr_8")
 	static attr multiAttr8: String
+	@PythonName("attr_type_from_outside_package")
+	static attr attrTypeFromOutsidePackage: AnotherClass
+	@PythonName("attr_default_value_from_outside_package")
+	static attr attrDefaultValueFromOutsidePackage: () -> a: AnotherClass
+	// TODO Attribute has no type information.
 	@PythonName("type_var")
 	static attr typeVar
 	@PythonName("init_attr")

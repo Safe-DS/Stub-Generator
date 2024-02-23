@@ -1,0 +1,20 @@
+@PythonModule("various_modules_package.aliasing.aliasing_module_2")
+package variousModulesPackage.aliasing.aliasingModule2
+
+from variousModulesPackage.aliasing.aliasingModule1 import AliasingModuleClassC
+
+class AliasingModule2ClassA()
+
+class AliasingModuleClassB()
+
+class ImportMeAliasingModuleClass()
+
+class AliasingModuleClassC() {
+	@PythonName("typed_alias_attr")
+	static attr typedAliasAttr: AliasingModuleClassB
+	@PythonName("typed_alias_infer")
+	static attr typedAliasInfer: AliasingModuleClassC
+	// TODO List type has to many type arguments.
+	@PythonName("alias_list")
+	static attr aliasList: List<union<AliasingModuleClassB, String>, ImportMeAliasingModuleClass>
+}

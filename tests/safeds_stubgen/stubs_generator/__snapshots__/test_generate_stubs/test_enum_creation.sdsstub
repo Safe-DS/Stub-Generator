@@ -1,8 +1,6 @@
 @PythonModule("various_modules_package.enum_module")
 package variousModulesPackage.enumModule
 
-from another_path.another_module import AnotherClass as _AcImportAlias
-
 enum _ReexportedEmptyEnum
 
 enum EnumTest {

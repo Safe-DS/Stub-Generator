@@ -1,11 +1,7 @@
 @PythonModule("various_modules_package.function_module")
 package variousModulesPackage.functionModule
 
-from typing import Callable
-from typing import Optional
-from typing import Literal
-from typing import Any
-from typing import TypeVar
+from mainPackage.anotherPath.anotherModule import AnotherClass
 
 // TODO Result type information missing.
 @Pure
@@ -70,6 +66,7 @@ fun illegalParams(
 	lst: List<Int, String>,
 	@PythonName("lst_2") lst2: List<Int, String, Int>,
 	tpl: Tuple<Int, String, Boolean, Int>,
+	dct: Map<Any, Any>,
 	`_`: Int = String
 )
 
@@ -96,7 +93,7 @@ fun paramPosition(
 	self,
 	a,
 	b: Boolean,
-	c: FunctionModuleClassA = FunctionModuleClassA,
+	c,
 	d,
 	e: Int = 1
 )
@@ -233,6 +230,19 @@ fun anyResults() -> result1: Any
 fun callableType(
 	param: (a: String) -> (b: Int, c: String)
 ) -> result1: (a: Int, b: Int) -> c: Int
+
+// TODO Result type information missing.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("param_from_outside_the_package")
+fun paramFromOutsideThePackage(
+	@PythonName("param_type") paramType: AnotherClass,
+	@PythonName("param_value") paramValue
+)
+
+@Pure
+@PythonName("result_from_outside_the_package")
+fun resultFromOutsideThePackage() -> result1: AnotherClass
 
 @Pure
 @PythonName("type_var_func")

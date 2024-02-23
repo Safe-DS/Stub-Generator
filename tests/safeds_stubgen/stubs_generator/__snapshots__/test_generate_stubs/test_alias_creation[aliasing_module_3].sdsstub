@@ -1,0 +1,12 @@
+@PythonModule("various_modules_package.aliasing.aliasing_module_3")
+package variousModulesPackage.aliasing.aliasingModule3
+
+from variousModulesPackage.aliasing.aliasingModule2 import ImportMeAliasingModuleClass
+
+class ImportMeAliasingModuleClass() {
+	@PythonName("import_alias_attr")
+	static attr importAliasAttr: ImportMeAliasingModuleClass
+	// TODO List type has to many type arguments.
+	@PythonName("alias_list")
+	static attr aliasList: List<ImportMeAliasingModuleClass, String>
+}
