@@ -745,8 +745,10 @@ class MyPyAstVisitor:
             ):
                 # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
                 inferred_default_value = mypy_expression_to_python_value(initializer)
-                if isinstance(inferred_default_value, str | bool | int | float | NoneType):
+                if isinstance(inferred_default_value, bool | int | float | NoneType):
                     default_value = inferred_default_value
+                elif isinstance(inferred_default_value, str):
+                    default_value = f'"{inferred_default_value}"'
                 else:  # pragma: no cover
                     raise TypeError("Default value got an unsupported value.")
 

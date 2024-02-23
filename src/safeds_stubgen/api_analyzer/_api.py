@@ -261,6 +261,7 @@ class Parameter:
     id: str
     name: str
     is_optional: bool
+    # We do not support default values that aren't core classes or classes definied in the package we analyze.
     default_value: str | bool | int | float | None
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring

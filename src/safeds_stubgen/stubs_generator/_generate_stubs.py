@@ -175,39 +175,26 @@ class StubsStringGenerator:
         constraints_info = ""
         variance_info = ""
         if class_.type_parameters:
-            constraints = []
             variances = []
+            out = "out "
             for variance in class_.type_parameters:
-                match variance.variance.name:
-                    case VarianceKind.INVARIANT.name:
-                        variance_inheritance = ""
-                        variance_direction = ""
-                    case VarianceKind.COVARIANT.name:
-                        variance_inheritance = "sub"
-                        variance_direction = "out "
-                    case VarianceKind.CONTRAVARIANT.name:
-                        variance_inheritance = "super"
-                        variance_direction = "in "
-                    case _:  # pragma: no cover
-                        raise ValueError(f"Expected variance kind, got {variance.variance.name}.")
+                variance_direction = {
+                    VarianceKind.INVARIANT.name: "",
+                    VarianceKind.COVARIANT.name: out,
+                    VarianceKind.CONTRAVARIANT.name: "in "
+                }[variance.variance.name]
 
                 # Convert name to camelCase and check for keywords
                 variance_name_camel_case = self._convert_snake_to_camel_case(variance.name)
                 variance_name_camel_case = self._replace_if_safeds_keyword(variance_name_camel_case)
 
-                variances.append(f"{variance_direction}{variance_name_camel_case}")
-                if variance_inheritance:
-                    constraints.append(
-                        f"{variance_name_camel_case} {variance_inheritance} "
-                        f"{self._create_type_string(variance.type.to_dict())}",
-                    )
+                variance_item = f"{variance_direction}{variance_name_camel_case}"
+                if variance_direction == out:
+                    variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
+                variances.append(variance_item)
 
             if variances:
                 variance_info = f"<{', '.join(variances)}>"
-
-            if constraints:
-                constraints_info_inner = f",\n{inner_indentations}".join(constraints)
-                constraints_info = f" where {{\n{inner_indentations}{constraints_info_inner}\n}}"
 
         # Class name - Convert to camelCase and check for keywords
         class_name = class_.name
@@ -427,10 +414,7 @@ class StubsStringGenerator:
                 # Default value
                 if parameter.is_optional:
                     if isinstance(param_default_value, str):
-                        if parameter_type_data["kind"] == "NamedType" and parameter_type_data["name"] != "str":
-                            default_value = f"{param_default_value}"
-                        else:
-                            default_value = f'"{param_default_value}"'
+                        default_value = f"{param_default_value}"
                     elif isinstance(param_default_value, bool):
                         # Bool values have to be written in lower case
                         default_value = "true" if param_default_value else "false"

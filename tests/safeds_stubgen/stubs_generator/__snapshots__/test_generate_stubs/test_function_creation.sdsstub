@@ -69,7 +69,7 @@ fun illegalParams(
 	@PythonName("lst_2") lst2: List<Int, String, Int>,
 	tpl: Tuple<Int, String, Boolean, Int>,
 	dct: Map<Any, Any>,
-	`_`: Int = String
+	`_`: Int = "String"
 )
 
 // TODO Result type information missing.
