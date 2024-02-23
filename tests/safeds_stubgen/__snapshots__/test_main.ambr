@@ -685,7 +685,7 @@
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': 'first param',
+        'default_value': '"first param"',
         'docstring': dict({
           'default_value': '',
           'description': '',

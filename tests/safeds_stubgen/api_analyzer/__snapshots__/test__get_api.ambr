@@ -3263,7 +3263,7 @@
   list([
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 'String',
+      'default_value': '"String"',
       'docstring': dict({
         'default_value': '',
         'description': '',
