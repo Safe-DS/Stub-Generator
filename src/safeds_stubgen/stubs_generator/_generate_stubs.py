@@ -181,7 +181,7 @@ class StubsStringGenerator:
                 variance_direction = {
                     VarianceKind.INVARIANT.name: "",
                     VarianceKind.COVARIANT.name: out,
-                    VarianceKind.CONTRAVARIANT.name: "in "
+                    VarianceKind.CONTRAVARIANT.name: "in ",
                 }[variance.variance.name]
 
                 # Convert name to camelCase and check for keywords
