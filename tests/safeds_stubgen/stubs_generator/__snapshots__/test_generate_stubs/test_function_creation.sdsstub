@@ -1,8 +1,6 @@
 @PythonModule("various_modules_package.function_module")
 package variousModulesPackage.functionModule
 
-from tests.data.main_package.another_path.another_module import AnotherClass
-
 // TODO Result type information missing.
 @Pure
 @PythonName("public_no_params_no_result")

@@ -657,8 +657,12 @@ class StubsStringGenerator:
                 if class_.endswith(qname_path):
                     qname = class_.replace("/", ".")
                     qname = self._convert_snake_to_camel_case(qname)
+                    self.module_imports.add(qname)
+                    break
 
-            self.module_imports.add(qname)
+            # Todo Currently deactivated, since imports from other packages don't have stubs - see issue #66
+            #  If the issue is resolved, remove the "self.module_imports.add(qname)" above
+            # self.module_imports.add(qname)
 
     @staticmethod
     def _callable_type_name_generator() -> Generator:
