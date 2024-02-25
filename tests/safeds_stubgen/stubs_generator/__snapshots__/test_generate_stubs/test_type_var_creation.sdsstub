@@ -8,23 +8,10 @@ fun typeVarFunc<_type_var>(
 ) -> result1: List<_type_var>
 
 @Pure
-@PythonName("type_var_func2")
-fun typeVarFunc2<T>(
-	a: T
-) -> result1: T
-
-@Pure
 @PythonName("multiple_type_var")
 fun multipleTypeVar<_type_var1, _type_var2>(
 	a: _type_var1,
 	b: _type_var2
 ) -> result1: List<union<_type_var1, _type_var2>>
-
-@Pure
-@PythonName("multiple_type_var2")
-fun multipleTypeVar2<T, U>(
-	a: T,
-	b: U
-) -> result1: union<T, U>
 
 class TypeVarClass()
