@@ -265,6 +265,10 @@ class StubsStringGenerator:
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
 
+                # Don't create TypeVar attributes
+                if attribute_type["kind"] == "TypeVarType":
+                    continue
+
             static_string = "static " if attribute.is_static else ""
 
             # Convert name to camelCase and add PythonName annotation
@@ -317,6 +321,13 @@ class StubsStringGenerator:
             is_instance_method=not is_static and is_method,
         )
 
+        # TypeVar
+        type_var_info = ""
+        if function.type_var_types:
+            type_var_names = [type_var.name for type_var in function.type_var_types]
+            type_var_string = ", ".join(type_var_names)
+            type_var_info = f"<{type_var_string}>"
+
         # Convert function name to camelCase
         name = function.name
         camel_case_name = self._convert_snake_to_camel_case(name)
@@ -334,8 +345,8 @@ class StubsStringGenerator:
             f"{self._create_todo_msg(indentations)}"
             f"{indentations}@Pure\n"
             f"{function_name_annotation}"
-            f"{indentations}{static}fun {camel_case_name}({func_params})"
-            f"{result_string}"
+            f"{indentations}{static}fun {camel_case_name}{type_var_info}"
+            f"({func_params}){result_string}"
         )
 
     def _create_property_function_string(self, function: Function, indentations: str = "") -> str:
@@ -621,9 +632,8 @@ class StubsStringGenerator:
                 else:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
-        # Todo See issue #63
         elif kind == "TypeVarType":
-            return ""
+            return type_data["name"]
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 

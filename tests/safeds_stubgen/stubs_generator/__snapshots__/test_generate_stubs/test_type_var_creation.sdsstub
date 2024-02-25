@@ -1,12 +1,10 @@
-@PythonModule("various_modules_package.attribute_module")
+@PythonModule("various_modules_package.type_var_module")
 package variousModulesPackage.typeVarModule
-
-class TypeVarClass()
 
 @Pure
 @PythonName("type_var_func")
 fun typeVarFunc<_type_var>(
-	@PythonName("type_var_list") typeVarList: List<_type_var>
+	a: List<_type_var>
 ) -> result1: List<_type_var>
 
 @Pure
@@ -14,3 +12,19 @@ fun typeVarFunc<_type_var>(
 fun typeVarFunc2<T>(
 	a: T
 ) -> result1: T
+
+@Pure
+@PythonName("multiple_type_var")
+fun multipleTypeVar<_type_var2, _type_var1>(
+	a: _type_var1,
+	b: _type_var2
+) -> result1: List<union<_type_var1, _type_var2>>
+
+@Pure
+@PythonName("multiple_type_var2")
+fun multipleTypeVar2<T, U>(
+	a,
+	b
+) -> result1: List<union<T, U>>
+
+class TypeVarClass()

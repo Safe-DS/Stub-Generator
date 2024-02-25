@@ -50,6 +50,8 @@ class MyPyAstVisitor:
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
         self.mypy_file: mp_nodes.MypyFile | None = None
+        # We gather type var types used as a parameter type in a function
+        self.type_var_types: set[sds_types.TypeVarType] = set()
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -231,8 +233,14 @@ class MyPyAstVisitor:
 
         # Function args
         arguments: list[Parameter] = []
+        type_var_types: set[sds_types.TypeVarType] = set()
         if getattr(node, "arguments", None) is not None:
+            # Empty the type_var_types list, b/c assignmentstmts can also fill this list
+            self.type_var_types = set()
             arguments = self._parse_parameter_data(node, function_id)
+
+            if self.type_var_types:
+                type_var_types = deepcopy(self.type_var_types)
 
         # Create results
         results = self._parse_results(node, function_id)
@@ -252,6 +260,7 @@ class MyPyAstVisitor:
             results=results,
             reexported_by=reexported_by,
             parameters=arguments,
+            type_var_types=type_var_types
         )
         self.__declaration_stack.append(function)
 
@@ -827,7 +836,9 @@ class MyPyAstVisitor:
 
         # Special Cases
         elif isinstance(mypy_type, mp_types.TypeVarType):
-            return sds_types.TypeVarType(mypy_type.name)
+            type_var = sds_types.TypeVarType(mypy_type.name)
+            self.type_var_types.add(type_var)
+            return type_var
         elif isinstance(mypy_type, mp_types.CallableType):
             return sds_types.CallableType(
                 parameter_types=[self.mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],

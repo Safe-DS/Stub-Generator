@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         ResultDocstring,
     )
 
-    from ._types import AbstractType
+    from ._types import AbstractType, TypeVarType
 
 API_SCHEMA_VERSION = 1
 
@@ -237,6 +237,7 @@ class Function:
     is_static: bool
     is_class_method: bool
     is_property: bool
+    type_var_types: set[TypeVarType] = field(default_factory=set)
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
