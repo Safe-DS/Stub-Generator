@@ -248,9 +248,9 @@ fun resultFromOutsideThePackage() -> result1: AnotherClass
 
 @Pure
 @PythonName("type_var_func")
-fun typeVarFunc(
-	@PythonName("type_var_list") typeVarList: List<>
-) -> result1: List<>
+fun typeVarFunc<type_var_func>(
+	@PythonName("type_var_list") typeVarList: List<type_var_func>
+) -> result1: List<type_var_func>
 
 @Pure
 @PythonName("ret_conditional_statement")
