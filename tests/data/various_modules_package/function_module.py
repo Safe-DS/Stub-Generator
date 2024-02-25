@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Literal, Any, TypeVar
+from typing import Callable, Optional, Literal, Any
 from tests.data.main_package.another_path.another_module import AnotherClass
 
 
@@ -185,13 +185,6 @@ def param_from_outside_the_package(param_type: AnotherClass, param_value=Another
 
 
 def result_from_outside_the_package() -> AnotherClass: ...
-
-
-_type_var = TypeVar("_type_var")
-def type_var_func(type_var_list: list[_type_var]) -> list[_type_var]: ...
-
-
-def type_var_func2[T](a: T) -> T: ...
 
 
 class FunctionModulePropertiesClass:
