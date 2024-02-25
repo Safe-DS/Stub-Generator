@@ -324,7 +324,11 @@ class StubsStringGenerator:
         # TypeVar
         type_var_info = ""
         if function.type_var_types:
-            type_var_names = [type_var.name for type_var in function.type_var_types]
+            type_var_names = []
+            for type_var in function.type_var_types:
+                type_var_name = self._convert_snake_to_camel_case(type_var.name)
+                type_var_name = self._replace_if_safeds_keyword(type_var_name)
+                type_var_names.append(type_var_name)
             type_var_string = ", ".join(type_var_names)
             type_var_info = f"<{type_var_string}>"
 
