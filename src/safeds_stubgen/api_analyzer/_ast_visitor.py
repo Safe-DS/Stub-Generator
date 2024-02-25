@@ -402,9 +402,11 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if (isinstance(node_ret_type, mp_types.AnyType) and
-                            node_ret_type.type_of_any != mp_types.TypeOfAny.special_form and
-                            not has_correct_type_of_any(node_ret_type.type_of_any)):
+                    if (
+                        isinstance(node_ret_type, mp_types.AnyType)
+                        and node_ret_type.type_of_any != mp_types.TypeOfAny.special_form
+                        and not has_correct_type_of_any(node_ret_type.type_of_any)
+                    ):
                         # In this case, the "Any" type was given because it was not explicitly annotated, therefore we
                         # have to try to infer the type. For "special_form" we assume it's a TypeVar.
                         ret_type = self._infer_type_from_return_stmts(node)
@@ -846,7 +848,11 @@ class MyPyAstVisitor:
         if isinstance(mypy_type, mp_types.TupleType):
             return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
         elif isinstance(mypy_type, mp_types.UnionType):
-            if unanalyzed_type is not None and hasattr(unanalyzed_type, "items") and len(unanalyzed_type.items) == len(mypy_type.items):
+            if (
+                unanalyzed_type is not None
+                and hasattr(unanalyzed_type, "items")
+                and len(unanalyzed_type.items) == len(mypy_type.items)
+            ):
                 union_items = zip(mypy_type.items, unanalyzed_type.items, strict=True)
                 return sds_types.UnionType(
                     types=[
