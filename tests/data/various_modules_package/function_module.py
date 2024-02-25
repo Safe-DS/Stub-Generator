@@ -191,6 +191,9 @@ _type_var = TypeVar("_type_var")
 def type_var_func(type_var_list: list[_type_var]) -> list[_type_var]: ...
 
 
+def type_var_func2[T](a: T) -> T: ...
+
+
 class FunctionModulePropertiesClass:
     @property
     def property_function(self): ...
