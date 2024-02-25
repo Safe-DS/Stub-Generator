@@ -677,7 +677,7 @@ class MyPyAstVisitor:
         for argument in node.arguments:
             mypy_type = argument.variable.type
             type_annotation = argument.type_annotation
-            arg_type = None
+            arg_type: AbstractType | None = None
             default_value = None
             default_is_none = False
 
@@ -686,7 +686,10 @@ class MyPyAstVisitor:
                 raise ValueError("Argument has no type.")
             elif isinstance(mypy_type, mp_types.AnyType) and mypy_type.type_of_any == mp_types.TypeOfAny.special_form:
                 # In this case we assume that it's a TypeVar type
-                arg_type = sds_types.TypeVarType(type_annotation.name)
+                name = getattr(type_annotation, "name", "")
+                if not name:  # pragma: no cover
+                    raise ValueError("Expected a name for the TypeVar.")
+                arg_type = sds_types.TypeVarType(name)
                 self.type_var_types.add(arg_type)
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
