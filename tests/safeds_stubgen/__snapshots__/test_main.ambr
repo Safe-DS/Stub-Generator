@@ -180,7 +180,7 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
-          'tests.data.main_package.main_module.AcDoubleAlias',
+          'tests.data.main_package.another_path.another_module.AnotherClass',
         ]),
         'type_parameters': list([
         ]),
@@ -204,7 +204,7 @@
         'reexported_by': list([
         ]),
         'superclasses': list([
-          'tests.data.main_package.another_path.another_module.AnotherClass',
+          'another_path.another_module.AnotherClass',
         ]),
         'type_parameters': list([
         ]),
@@ -685,7 +685,7 @@
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': 'first param',
+        'default_value': '"first param"',
         'docstring': dict({
           'default_value': '',
           'description': '',

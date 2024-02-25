@@ -47,7 +47,7 @@ class AbstractType(metaclass=ABCMeta):
 @dataclass(frozen=True)
 class NamedType(AbstractType):
     name: str
-    qname: str = ""
+    qname: str
 
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> NamedType:
@@ -453,14 +453,14 @@ class TypeVarType(AbstractType):
 #     raise TypeParsingError("")
 #
 #
-# # Todo Return mypy\types -> Type class
+# # T0do Return mypy\types -> Type class
 # def create_type(type_string: str, description: str) -> AbstractType:
 #     if not type_string:
 #         return NamedType("None", "builtins.None")
 #
 #     type_string = type_string.replace(" ", "")
 #
-#     # todo Replace pipes with Union
+#     # t0do Replace pipes with Union
 #     # if "|" in type_string:
 #     #     type_string = _replace_pipes_with_union(type_string)
 #
@@ -518,7 +518,7 @@ class TypeVarType(AbstractType):
 #     return NamedType(name=type_string, qname=)
 #
 #
-# # todo übernehmen in create_type -> Tests schlagen nun fehl
+# # t0do übernehmen in create_type -> Tests schlagen nun fehl
 # def _create_enum_boundry_type(type_string: str, description: str) -> AbstractType | None:
 #     types: list[AbstractType] = []
 #

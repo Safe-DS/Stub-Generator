@@ -92,6 +92,43 @@
         'description': '',
         'type': '',
       }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_default_value_from_outside_package',
+      'is_public': True,
+      'is_static': True,
+      'name': 'attr_default_value_from_outside_package',
+      'type': dict({
+        'kind': 'CallableType',
+        'parameter_types': list([
+        ]),
+        'return_type': dict({
+          'kind': 'NamedType',
+          'name': 'AnotherClass',
+          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_type_from_outside_package',
+      'is_public': True,
+      'is_static': True,
+      'name': 'attr_type_from_outside_package',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'various_modules_package/attribute_module/AttributesClassB/bool_attr',
       'is_public': True,
       'is_static': True,
@@ -156,13 +193,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
       }),
     }),
@@ -249,7 +286,7 @@
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
-          'qname': '',
+          'qname': 'builtins.str',
         }),
       }),
     }),
@@ -271,12 +308,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'str',
-              'qname': '',
+              'qname': 'builtins.str',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
           ]),
         }),
@@ -300,12 +337,12 @@
             dict({
               'kind': 'NamedType',
               'name': 'str',
-              'qname': '',
+              'qname': 'builtins.str',
             }),
             dict({
               'kind': 'NamedType',
               'name': 'int',
-              'qname': '',
+              'qname': 'builtins.int',
             }),
           ]),
         }),
@@ -404,12 +441,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'str',
-                'qname': '',
+                'qname': 'builtins.str',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': '',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
             ]),
           }),
@@ -432,12 +469,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': '',
+            'qname': 'various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -458,7 +495,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'UnionType',
@@ -466,12 +503,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': '',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'int',
-                'qname': '',
+                'qname': 'builtins.int',
               }),
             ]),
           }),
@@ -776,7 +813,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'Any',
-            'qname': '',
+            'qname': 'builtins.Any',
           }),
         ]),
       }),
@@ -828,12 +865,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': '',
+            'qname': 'various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -854,7 +891,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'UnionType',
@@ -862,12 +899,12 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': '',
+                'qname': 'various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
                 'name': 'int',
-                'qname': '',
+                'qname': 'builtins.int',
               }),
             ]),
           }),
@@ -906,7 +943,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'Any',
-            'qname': '',
+            'qname': 'builtins.Any',
           }),
         ]),
       }),
@@ -3226,7 +3263,7 @@
   list([
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 'String',
+      'default_value': '"String"',
       'docstring': dict({
         'default_value': '',
         'description': '',
@@ -3249,6 +3286,31 @@
         'description': '',
         'type': '',
       }),
+      'id': 'various_modules_package/function_module/illegal_params/dct',
+      'is_optional': False,
+      'name': 'dct',
+      'type': dict({
+        'key_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': 'builtins.Any',
+        }),
+        'kind': 'DictType',
+        'value_type': dict({
+          'kind': 'NamedType',
+          'name': 'Any',
+          'qname': 'builtins.Any',
+        }),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'various_modules_package/function_module/illegal_params/lst',
       'is_optional': False,
       'name': 'lst',
@@ -3258,12 +3320,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -3285,17 +3347,17 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -3492,6 +3554,40 @@
     }),
   ])
 # ---
+# name: test_function_parameters[param_from_outside_the_package]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_type',
+      'is_optional': False,
+      'name': 'param_type',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_value',
+      'is_optional': False,
+      'name': 'param_value',
+      'type': None,
+    }),
+  ])
+# ---
 # name: test_function_parameters[param_position]
   list([
     dict({
@@ -3526,20 +3622,16 @@
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': 'FunctionModuleClassA',
+      'default_value': None,
       'docstring': dict({
         'default_value': '',
         'description': '',
         'type': '',
       }),
       'id': 'various_modules_package/function_module/param_position/c',
-      'is_optional': True,
+      'is_optional': False,
       'name': 'c',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'FunctionModuleClassA',
-        'qname': 'tests.data.various_modules_package.function_module.FunctionModuleClassA',
-      }),
+      'type': None,
     }),
     dict({
       'assigned_by': 'NAME_ONLY',
@@ -3602,7 +3694,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'Any',
-        'qname': '',
+        'qname': 'builtins.Any',
       }),
     }),
     dict({
@@ -4393,12 +4485,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
         ]),
       }),
@@ -4464,7 +4556,7 @@
       'type': dict({
         'kind': 'NamedType',
         'name': 'Any',
-        'qname': '',
+        'qname': 'builtins.Any',
       }),
     }),
   ])
@@ -4564,13 +4656,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
       }),
     }),
@@ -4643,13 +4735,13 @@
         'key_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
         'kind': 'DictType',
         'value_type': dict({
           'kind': 'NamedType',
           'name': 'Any',
-          'qname': '',
+          'qname': 'builtins.Any',
         }),
       }),
     }),
@@ -4670,12 +4762,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'int',
-            'qname': '',
+            'qname': 'builtins.int',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -4697,12 +4789,12 @@
           dict({
             'kind': 'NamedType',
             'name': 'str',
-            'qname': '',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
             'name': 'bool',
-            'qname': '',
+            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -5019,6 +5111,23 @@
         'kind': 'NamedType',
         'name': 'bool',
         'qname': 'builtins.bool',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results[result_from_outside_the_package]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/function_module/result_from_outside_the_package/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
       }),
     }),
   ])
@@ -5563,6 +5672,7 @@
         'various_modules_package/function_module/illegal_params/lst',
         'various_modules_package/function_module/illegal_params/lst_2',
         'various_modules_package/function_module/illegal_params/tpl',
+        'various_modules_package/function_module/illegal_params/dct',
         'various_modules_package/function_module/illegal_params/_',
       ]),
       'reexported_by': list([
@@ -5727,6 +5837,26 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'various_modules_package/function_module/param_from_outside_the_package',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'param_from_outside_the_package',
+      'parameters': list([
+        'various_modules_package/function_module/param_from_outside_the_package/param_type',
+        'various_modules_package/function_module/param_from_outside_the_package/param_value',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'various_modules_package/function_module/param_position',
       'is_class_method': False,
       'is_property': False,
@@ -5852,6 +5982,25 @@
       'reexported_by': list([
       ]),
       'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/function_module/result_from_outside_the_package',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'result_from_outside_the_package',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/function_module/result_from_outside_the_package/result_1',
       ]),
     }),
     dict({
@@ -6080,23 +6229,28 @@
   list([
     dict({
       'alias': None,
-      'qualified_name': 'enum.IntEnum',
+      'qualified_name': 'another_path.another_module.AnotherClass',
     }),
     dict({
-      'alias': '_Enum',
-      'qualified_name': 'enum.Enum',
+      'alias': None,
+      'qualified_name': 'class_module.ClassModuleClassB',
     }),
     dict({
-      'alias': 'static',
-      'qualified_name': 'mypy',
+      'alias': 'ClMCC',
+      'qualified_name': 'class_module.ClassModuleClassC',
+    }),
+    dict({
+      'alias': 'ClMCD',
+      'qualified_name': 'class_module.ClassModuleClassD',
+    }),
+    dict({
+      'alias': 'ClMECA',
+      'qualified_name': 'class_module.ClassModuleEmptyClassA',
     }),
   ])
 # ---
 # name: test_imports[import_module (wildcard_imports)]
   list([
-    dict({
-      'module_name': 'math',
-    }),
   ])
 # ---
 # name: test_modules[__init__]

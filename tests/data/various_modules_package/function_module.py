@@ -1,4 +1,5 @@
 from typing import Callable, Optional, Literal, Any, TypeVar
+from tests.data.main_package.another_path.another_module import AnotherClass
 
 
 class FunctionModuleClassA:
@@ -82,6 +83,7 @@ def illegal_params(
     lst: list[int, str],
     lst_2: list[int, str, int],
     tpl: tuple[int, str, bool, int],
+    dct: dict[str, int, None, bool],
     _: int = "String",
 ): ...
 
@@ -177,6 +179,12 @@ def any_results() -> Any: ...
 
 
 def callable_type(param: Callable[[str], tuple[int, str]]) -> Callable[[int, int], int]: ...
+
+
+def param_from_outside_the_package(param_type: AnotherClass, param_value=AnotherClass): ...
+
+
+def result_from_outside_the_package() -> AnotherClass: ...
 
 
 _type_var = TypeVar("_type_var")

@@ -1,11 +1,12 @@
-# Keyword
-from enum import IntEnum
+from another_path.another_module import AnotherClass
+from class_module import ClassModuleClassB
+from class_module import ClassModuleClassC as ClMCC
+from class_module import ClassModuleClassD as ClMCD
+from class_module import ClassModuleEmptyClassA as ClMECA
 
-# Alias
-from enum import Enum as _Enum
 
-# Keyword as alias
-import mypy as static
+class ImportClass(AnotherClass):
+    typed_import_attr: ClMCD
+    default_import_attr = ClMECA
 
-# Wildcard
-from math import *
+    def import_function(self, import_param: ClassModuleClassB) -> ClMCC: ...

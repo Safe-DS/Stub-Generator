@@ -5,7 +5,6 @@ from typing import TYPE_CHECKING, Literal
 import mypy.types as mp_types
 from mypy import nodes as mp_nodes
 from mypy.nodes import ArgKind
-from mypy.types import Instance
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -13,10 +12,6 @@ from ._api import ParameterAssignment, VarianceKind
 
 if TYPE_CHECKING:
     from mypy.nodes import ClassDef, FuncDef, MypyFile
-    from mypy.types import ProperType
-    from mypy.types import Type as MypyType
-
-    from safeds_stubgen.api_analyzer._types import AbstractType
 
 
 def get_classdef_definitions(node: ClassDef) -> list:
@@ -29,101 +24,6 @@ def get_funcdef_definitions(node: FuncDef) -> list:
 
 def get_mypyfile_definitions(node: MypyFile) -> list:
     return node.defs
-
-
-def mypy_type_to_abstract_type(
-    mypy_type: Instance | ProperType | MypyType,
-    unanalyzed_type: mp_types.Type | None = None,
-) -> AbstractType:
-
-    # Special cases where we need the unanalyzed_type to get the type information we need
-    if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
-        unanalyzed_type_name = unanalyzed_type.name
-        if unanalyzed_type_name == "Final":
-            # Final type
-            types = [mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
-            if len(types) == 1:
-                return sds_types.FinalType(type_=types[0])
-            elif len(types) == 0:  # pragma: no cover
-                raise ValueError("Final type has no type arguments.")
-            return sds_types.FinalType(type_=sds_types.UnionType(types=types))
-        elif unanalyzed_type_name in {"list", "set"}:
-            type_args = getattr(mypy_type, "args", [])
-            if (
-                len(type_args) == 1
-                and isinstance(type_args[0], mp_types.AnyType)
-                and not has_correct_type_of_any(type_args[0].type_of_any)
-            ):
-                # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
-                # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
-                # of the list arguments, which we cant get through the "unanalyzed_type" attribute
-                return mypy_type_to_abstract_type(unanalyzed_type)
-
-    # Iterable mypy types
-    if isinstance(mypy_type, mp_types.TupleType):
-        return sds_types.TupleType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
-    elif isinstance(mypy_type, mp_types.UnionType):
-        return sds_types.UnionType(types=[mypy_type_to_abstract_type(item) for item in mypy_type.items])
-
-    # Special Cases
-    elif isinstance(mypy_type, mp_types.TypeVarType):
-        return sds_types.TypeVarType(mypy_type.name)
-    elif isinstance(mypy_type, mp_types.CallableType):
-        return sds_types.CallableType(
-            parameter_types=[mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],
-            return_type=mypy_type_to_abstract_type(mypy_type.ret_type),
-        )
-    elif isinstance(mypy_type, mp_types.AnyType):
-        return sds_types.NamedType(name="Any")
-    elif isinstance(mypy_type, mp_types.NoneType):
-        return sds_types.NamedType(name="None", qname="builtins.None")
-    elif isinstance(mypy_type, mp_types.LiteralType):
-        return sds_types.LiteralType(literals=[mypy_type.value])
-    elif isinstance(mypy_type, mp_types.UnboundType):
-        if mypy_type.name in {"list", "set"}:
-            return {
-                "list": sds_types.ListType,
-                "set": sds_types.SetType,
-            }[
-                mypy_type.name
-            ](types=[mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
-        # Todo Aliasing: Import auflösen, wir können hier keinen fullname (qname) bekommen
-        return sds_types.NamedType(name=mypy_type.name)
-
-    # Builtins
-    elif isinstance(mypy_type, Instance):
-        type_name = mypy_type.type.name
-        if type_name in {"int", "str", "bool", "float"}:
-            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-
-        # Iterable builtins
-        elif type_name in {"tuple", "list", "set"}:
-            types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
-            match type_name:
-                case "tuple":
-                    return sds_types.TupleType(types=types)
-                case "list":
-                    return sds_types.ListType(types=types)
-                case "set":
-                    return sds_types.SetType(types=types)
-            raise ValueError("Unexpected outcome.")  # pragma: no cover
-
-        elif type_name == "dict":
-            key_type = mypy_type_to_abstract_type(mypy_type.args[0])
-            value_types = [mypy_type_to_abstract_type(arg) for arg in mypy_type.args[1:]]
-
-            value_type: AbstractType
-            if len(value_types) == 0:
-                value_type = sds_types.NamedType(name="Any")
-            elif len(value_types) == 1:
-                value_type = value_types[0]
-            else:
-                value_type = sds_types.UnionType(types=value_types)
-
-            return sds_types.DictType(key_type=key_type, value_type=value_type)
-        else:
-            return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-    raise ValueError("Unexpected type.")  # pragma: no cover
 
 
 def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
@@ -183,6 +83,7 @@ def has_correct_type_of_any(type_of_any: int) -> bool:
         mp_types.TypeOfAny.explicit,
         mp_types.TypeOfAny.from_omitted_generics,
         mp_types.TypeOfAny.from_another_any,
+        mp_types.TypeOfAny.from_unimported_type,
     }
 
 
@@ -200,33 +101,13 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         return sds_types.NamedType(name="str", qname="builtins.str")
     elif isinstance(expr, mp_nodes.TupleExpr):
         return sds_types.TupleType(types=[mypy_expression_to_sds_type(item) for item in expr.items])
-    # # This is currently not used since Safe-DS does not support these default value types
-    # elif isinstance(expr, mp_nodes.ListExpr | mp_nodes.SetExpr):
-    #     unsorted_types = {mypy_expression_to_sds_type(item) for item in expr.items}
-    #     types = list(unsorted_types)
-    #     types.sort()
-    #     if isinstance(expr, mp_nodes.ListExpr):
-    #         return sds_types.ListType(types=types)
-    #     elif isinstance(expr, mp_nodes.SetExpr):
-    #         return sds_types.SetType(types=types)
-    # elif isinstance(expr, mp_nodes.DictExpr):
-    #     key_items = expr.items[0]
-    #     value_items = expr.items[1]
-    #
-    #     key_types = [
-    #         mypy_expression_to_sds_type(key_item) for key_item in key_items if key_item is not None]
-    #     value_types = [
-    #         mypy_expression_to_sds_type(value_item) for value_item in value_items if value_item is not None
-    #     ]
-    #
-    #     key_type = sds_types.UnionType(types=key_types) if len(key_types) >= 2 else key_types[0]
-    #     value_type = sds_types.UnionType(types=value_types) if len(value_types) >= 2 else value_types[0]
-    #
-    #     return sds_types.DictType(key_type=key_type, value_type=value_type)
+
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 
 
-def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | int | float | list | set | dict | tuple:
+def mypy_expression_to_python_value(
+    expr: mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
+) -> str | None | int | float:
     if isinstance(expr, mp_nodes.NameExpr):
         match expr.name:
             case "None":
@@ -235,31 +116,7 @@ def mypy_expression_to_python_value(expr: mp_nodes.Expression) -> str | None | i
                 return True
             case "False":
                 return False
-            case _:
-                return expr.name
     elif isinstance(expr, mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr):
         return expr.value
-    # # This is currently not used since Safe-DS does not support these default value types
-    # elif isinstance(expr, mp_nodes.ListExpr):
-    #     return [
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     ]
-    # elif isinstance(expr, mp_nodes.SetExpr):
-    #     return {
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     }
-    # elif isinstance(expr, mp_nodes.TupleExpr):
-    #     return tuple(
-    #         mypy_expression_to_python_value(item)
-    #         for item in expr.items
-    #     )
-    # elif isinstance(expr, mp_nodes.DictExpr):
-    #     return {
-    #         mypy_expression_to_python_value(item[0]): mypy_expression_to_python_value(item[1])
-    #         for item in expr.items
-    #         if item[0] is not None and item[1] is not None
-    #     }
 
     raise TypeError("Unexpected expression type.")  # pragma: no cover

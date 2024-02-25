@@ -1,15 +1,8 @@
 @PythonModule("various_modules_package.variance_module")
 package variousModulesPackage.varianceModule
 
-from typing import Generic
-from typing import TypeVar
-from typing import Literal
-
 class A()
 
-class VarianceClassAll<out TCo, in TCon, TIn>() where {
-	TCo sub String,
-	TCon super A
-}
+class VarianceClassAll<out TCo sub String, in TCon, TIn>()
 
 class VarianceClassOnlyInvariance<TIn>()

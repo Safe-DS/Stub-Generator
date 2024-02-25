@@ -66,7 +66,7 @@ def test__create_module_id(module_path: str, expected_id: str, package_name: str
         version="1.3",
     )
 
-    visitor = MyPyAstVisitor(PlaintextDocstringParser(), api)
+    visitor = MyPyAstVisitor(PlaintextDocstringParser(), api, {})
     if not expected_id:
         with pytest.raises(ValueError, match="Package name could not be found in the module path."):
             visitor._create_module_id(module_path)

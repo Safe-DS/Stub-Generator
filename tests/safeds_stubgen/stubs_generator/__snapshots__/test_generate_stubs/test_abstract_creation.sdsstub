@@ -1,9 +1,6 @@
 @PythonModule("various_modules_package.abstract_module")
 package variousModulesPackage.abstractModule
 
-from abc import ABC
-from abc import abstractmethod
-
 class AbstractModuleClass {
 	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>
 

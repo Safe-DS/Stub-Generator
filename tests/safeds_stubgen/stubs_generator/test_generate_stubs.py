@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.api_analyzer import API, get_api
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
@@ -68,48 +68,46 @@ def test_file_creation() -> None:
     )
 
 
-# Todo Check snapshot
 def test_class_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("class_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_class_attribute_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("attribute_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_function_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("function_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_enum_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("enum_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_import_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("import_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_type_inference(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("infer_types_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_variance_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("variance_module", snapshot_sds_stub)
 
 
-# Todo Check snapshot
 def test_abstract_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot_sds_stub)
 
 
-# Todo
-def test_docstring_creation() -> None: ...
+@pytest.mark.parametrize("file_name", ["aliasing_module_1", "aliasing_module_2", "aliasing_module_3"])
+def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) -> None:
+    file_data = ""
+    stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
+    with stubs_file.open("r") as f:
+        file_data += f.read()
+
+    assert file_data == snapshot_sds_stub
 
 
 @pytest.mark.parametrize(
@@ -136,5 +134,8 @@ def test_convert_snake_to_camel_case(
     is_class_name: bool,
     convert_identifiers: bool,
 ) -> None:
-    stubs_string_generator = StubsStringGenerator(convert_identifiers=convert_identifiers)
+    stubs_string_generator = StubsStringGenerator(
+        api=API(distribution="", package=_test_package_name, version=""),
+        convert_identifiers=convert_identifiers,
+    )
     assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result

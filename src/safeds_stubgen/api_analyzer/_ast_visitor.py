@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from collections import defaultdict
+from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
 
+import mypy.nodes as mp_nodes
 import mypy.types as mp_types
-from mypy import nodes as mp_nodes
 
 import safeds_stubgen.api_analyzer._types as sds_types
 
@@ -32,22 +34,25 @@ from ._mypy_helpers import (
     has_correct_type_of_any,
     mypy_expression_to_python_value,
     mypy_expression_to_sds_type,
-    mypy_type_to_abstract_type,
     mypy_variance_parser,
 )
 
 if TYPE_CHECKING:
+    from safeds_stubgen.api_analyzer._types import AbstractType
     from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ResultDocstring
 
 
 class MyPyAstVisitor:
-    def __init__(self, docstring_parser: AbstractDocstringParser, api: API) -> None:
+    def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
-        self.reexported: dict[str, list[Module]] = {}
+        self.reexported: dict[str, set[Module]] = defaultdict(set)
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
+        self.aliases = aliases
+        self.mypy_file: mp_nodes.MypyFile | None = None
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
+        self.mypy_file = node
         is_package = node.path.endswith("__init__.py")
 
         qualified_imports: list[QualifiedImport] = []
@@ -151,10 +156,10 @@ class MyPyAstVisitor:
                 variance_values: sds_types.AbstractType
                 if variance_type == VarianceKind.INVARIANT:
                     variance_values = sds_types.UnionType(
-                        [mypy_type_to_abstract_type(value) for value in generic_type.values],
+                        [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
                     )
                 else:
-                    variance_values = mypy_type_to_abstract_type(generic_type.upper_bound)
+                    variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
 
                 type_parameters.append(
                     TypeParameter(
@@ -165,8 +170,18 @@ class MyPyAstVisitor:
                 )
 
         # superclasses
-        # Todo Aliasing: Werden noch nicht aufgelöst
-        superclasses = [superclass.fullname for superclass in node.base_type_exprs if hasattr(superclass, "fullname")]
+        superclasses = []
+        for superclass in node.base_type_exprs:
+            if hasattr(superclass, "fullname"):
+                superclass_qname = superclass.fullname
+                superclass_name = superclass_qname.split(".")[-1]
+
+                # Check if the superclass name is an alias and find the real name
+                if superclass_name in self.aliases:
+                    _, superclass_alias_qname = self._find_alias(superclass_name)
+                    superclass_qname = superclass_alias_qname if superclass_alias_qname else superclass_qname
+
+                superclasses.append(superclass_qname)
 
         # Get reexported data
         reexported_by = self._get_reexported_by(name)
@@ -386,7 +401,7 @@ class MyPyAstVisitor:
                     else:
                         # Otherwise, we can parse the type normally
                         unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
-                        ret_type = mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
+                        ret_type = self.mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
             else:
                 # Infer type
                 ret_type = self._infer_type_from_return_stmts(node)
@@ -566,13 +581,6 @@ class MyPyAstVisitor:
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
     ) -> Attribute:
-        # Get name and qname
-        if hasattr(attribute, "name"):
-            name = attribute.name
-        else:  # pragma: no cover
-            raise AttributeError("Expected attribute to have attribute 'name'.")
-        qname = getattr(attribute, "fullname", "")
-
         # Get node information
         type_: sds_types.AbstractType | None = None
         node = None
@@ -590,6 +598,10 @@ class MyPyAstVisitor:
         else:  # pragma: no cover
             raise AttributeError("Expected attribute to have attribute 'node'.")
 
+        # Get name and qname
+        name = getattr(attribute, "name", "")
+        qname = getattr(attribute, "fullname", "")
+
         # Sometimes the qname is not in the attribute.fullname field, in that case we have to get it from the node
         if qname in (name, "") and node is not None:
             qname = node.fullname
@@ -603,30 +615,29 @@ class MyPyAstVisitor:
                 attribute_type = None
 
         # NameExpr are class attributes
-        elif node is not None and isinstance(attribute, mp_nodes.NameExpr):
-            if not node.explicit_self_type:
-                attribute_type = node.type
+        elif node is not None and isinstance(attribute, mp_nodes.NameExpr) and not node.explicit_self_type:
+            attribute_type = node.type
 
-                # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
-                # regarding list item types
-                if (
-                    attribute_type is not None
-                    and hasattr(attribute_type, "type")
-                    and hasattr(attribute_type, "args")
-                    and attribute_type.type.fullname == "builtins.list"
-                    and not node.is_inferred
-                ):
-                    if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
-                        attribute_type.args = unanalyzed_type.args
-                    else:  # pragma: no cover
-                        raise AttributeError("Could not get argument information for attribute.")
+            # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
+            # regarding list item types
+            if (
+                attribute_type is not None
+                and hasattr(attribute_type, "type")
+                and hasattr(attribute_type, "args")
+                and attribute_type.type.fullname == "builtins.list"
+                and not node.is_inferred
+            ):
+                if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
+                    attribute_type.args = unanalyzed_type.args
+                else:  # pragma: no cover
+                    raise AttributeError("Could not get argument information for attribute.")
 
-        # Ignore types that are special mypy any types
+        # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (
             isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
         ):
             # noinspection PyTypeChecker
-            type_ = mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
+            type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 
         # Get docstring
         parent = self.__declaration_stack[-1]
@@ -653,12 +664,13 @@ class MyPyAstVisitor:
         arguments: list[Parameter] = []
 
         for argument in node.arguments:
-            arg_name = argument.variable.name
             mypy_type = argument.variable.type
-            arg_kind = get_argument_kind(argument)
             type_annotation = argument.type_annotation
             arg_type = None
+            default_value = None
+            default_is_none = False
 
+            # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
@@ -672,43 +684,19 @@ class MyPyAstVisitor:
                 # A special case where the argument is a list with multiple types. We have to handle this case like this
                 # b/c something like list[int, str] is not allowed according to PEP and therefore not handled the normal
                 # way in Mypy.
-                arg_type = mypy_type_to_abstract_type(type_annotation)
+                arg_type = self.mypy_type_to_abstract_type(type_annotation)
             elif type_annotation is not None:
-                arg_type = mypy_type_to_abstract_type(mypy_type)
+                arg_type = self.mypy_type_to_abstract_type(mypy_type)
 
             # Get default value and infer type information
             initializer = argument.initializer
-            default_value = None
-            default_is_none = False
             if initializer is not None:
-                infer_arg_type = arg_type is None
+                default_value, default_is_none = self._get_parameter_type_and_default_value(initializer)
+                if arg_type is None and (default_is_none or default_value is not None):
+                    arg_type = mypy_expression_to_sds_type(initializer)
 
-                if (
-                    isinstance(initializer, mp_nodes.NameExpr)
-                    and initializer.name not in {"None", "True", "False"}
-                    and not self._check_if_qname_in_package(initializer.fullname)
-                ):
-                    # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
-                    # in the package we analyze with Safe-DS.
-                    pass
-                elif isinstance(initializer, mp_nodes.CallExpr):
-                    # Safe-DS does not support call expressions as types
-                    pass
-                elif isinstance(
-                    initializer,
-                    mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
-                ):
-                    # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
-                    inferred_default_value = mypy_expression_to_python_value(initializer)
-                    if isinstance(inferred_default_value, str | bool | int | float | NoneType):
-                        default_value = inferred_default_value
-                    else:  # pragma: no cover
-                        raise TypeError("Default value got an unsupported value.")
-
-                    default_is_none = default_value is None
-
-                    if infer_arg_type:
-                        arg_type = mypy_expression_to_sds_type(initializer)
+            arg_name = argument.variable.name
+            arg_kind = get_argument_kind(argument)
 
             # Create parameter docstring
             parent = self.__declaration_stack[-1]
@@ -736,6 +724,36 @@ class MyPyAstVisitor:
             )
 
         return arguments
+
+    @staticmethod
+    def _get_parameter_type_and_default_value(
+        initializer: mp_nodes.Expression,
+    ) -> tuple[str | None | int | float, bool]:
+        default_value: str | None | int | float = None
+        default_is_none = False
+        if initializer is not None:
+            if isinstance(initializer, mp_nodes.NameExpr) and initializer.name not in {"None", "True", "False"}:
+                # Ignore this case, b/c Safe-DS does not support types that aren't core classes or classes definied
+                # in the package we analyze with Safe-DS.
+                return default_value, default_is_none
+            elif isinstance(initializer, mp_nodes.CallExpr):
+                # Safe-DS does not support call expressions as types
+                return default_value, default_is_none
+            elif isinstance(
+                initializer,
+                mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
+            ):
+                # See https://github.com/Safe-DS/Stub-Generator/issues/34#issuecomment-1819643719
+                inferred_default_value = mypy_expression_to_python_value(initializer)
+                if isinstance(inferred_default_value, bool | int | float | NoneType):
+                    default_value = inferred_default_value
+                elif isinstance(inferred_default_value, str):
+                    default_value = f'"{inferred_default_value}"'
+                else:  # pragma: no cover
+                    raise TypeError("Default value got an unsupported value.")
+
+                default_is_none = default_value is None
+        return default_value, default_is_none
 
     # #### Reexport utilities
 
@@ -765,27 +783,183 @@ class MyPyAstVisitor:
     def _add_reexports(self, module: Module) -> None:
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
-            if name in self.reexported:
-                if module not in self.reexported[name]:
-                    self.reexported[name].append(module)
-            else:
-                self.reexported[name] = [module]
+            self.reexported[name].add(module)
 
         for wildcard_import in module.wildcard_imports:
             name = wildcard_import.module_name
-            if name in self.reexported:
-                if module not in self.reexported[name]:
-                    self.reexported[name].append(module)
-            else:
-                self.reexported[name] = [module]
+            self.reexported[name].add(module)
 
     # #### Misc. utilities
+    def mypy_type_to_abstract_type(
+        self,
+        mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.Type,
+        unanalyzed_type: mp_types.Type | None = None,
+    ) -> AbstractType:
 
-    # Todo This check is currently too weak, we should try to get the path to the package from the api object, not
-    #  just the package name. We will resolve this with or after issue #24 and #38, since more information are needed
-    #  from the package.
-    def _check_if_qname_in_package(self, qname: str) -> bool:
-        return self.api.package in qname
+        # Special cases where we need the unanalyzed_type to get the type information we need
+        if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
+            unanalyzed_type_name = unanalyzed_type.name
+            if unanalyzed_type_name == "Final":
+                # Final type
+                types = [self.mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
+                if len(types) == 1:
+                    return sds_types.FinalType(type_=types[0])
+                elif len(types) == 0:  # pragma: no cover
+                    raise ValueError("Final type has no type arguments.")
+                return sds_types.FinalType(type_=sds_types.UnionType(types=types))
+            elif unanalyzed_type_name in {"list", "set"}:
+                type_args = getattr(mypy_type, "args", [])
+                if (
+                    len(type_args) == 1
+                    and isinstance(type_args[0], mp_types.AnyType)
+                    and not has_correct_type_of_any(type_args[0].type_of_any)
+                ):
+                    # This case happens if we have a list or set with multiple arguments like "list[str, int]" which is
+                    # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
+                    # of the list arguments, which we cant get through the "unanalyzed_type" attribute
+                    return self.mypy_type_to_abstract_type(unanalyzed_type)
+
+        # Iterable mypy types
+        if isinstance(mypy_type, mp_types.TupleType):
+            return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
+        elif isinstance(mypy_type, mp_types.UnionType):
+            return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
+
+        # Special Cases
+        elif isinstance(mypy_type, mp_types.TypeVarType):
+            return sds_types.TypeVarType(mypy_type.name)
+        elif isinstance(mypy_type, mp_types.CallableType):
+            return sds_types.CallableType(
+                parameter_types=[self.mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],
+                return_type=self.mypy_type_to_abstract_type(mypy_type.ret_type),
+            )
+        elif isinstance(mypy_type, mp_types.AnyType):
+            if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
+                # If the Any type is generated b/c of from_unimported_type, then we can parse the type
+                # from the import information
+                missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
+                name, qname = self._find_alias(missing_import_name)
+                return sds_types.NamedType(name=name, qname=qname)
+            else:
+                return sds_types.NamedType(name="Any", qname="builtins.Any")
+        elif isinstance(mypy_type, mp_types.NoneType):
+            return sds_types.NamedType(name="None", qname="builtins.None")
+        elif isinstance(mypy_type, mp_types.LiteralType):
+            return sds_types.LiteralType(literals=[mypy_type.value])
+        elif isinstance(mypy_type, mp_types.UnboundType):
+            if mypy_type.name in {"list", "set"}:
+                return {
+                    "list": sds_types.ListType,
+                    "set": sds_types.SetType,
+                }[
+                    mypy_type.name
+                ](types=[self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
+
+            # Get qname
+            if mypy_type.name in {"Any", "str", "int", "bool", "float", "None"}:
+                return sds_types.NamedType(name=mypy_type.name, qname=f"builtins.{mypy_type.name}")
+            else:
+                # first we check if it's a class from the same module
+                module = self.__declaration_stack[0]
+
+                if not isinstance(module, Module):  # pragma: no cover
+                    raise TypeError(f"Expected module, got {type(module)}.")
+
+                for module_class in module.classes:
+                    if module_class.name == mypy_type.name:
+                        qname = module_class.id.replace("/", ".")
+                        return sds_types.NamedType(name=module_class.name, qname=qname)
+
+                # if not, we check if it's an alias
+                name, qname = self._find_alias(mypy_type.name)
+                return sds_types.NamedType(name=name, qname=qname)
+
+        # Builtins
+        elif isinstance(mypy_type, mp_types.Instance):
+            type_name = mypy_type.type.name
+            if type_name in {"int", "str", "bool", "float"}:
+                return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
+
+            # Iterable builtins
+            elif type_name in {"tuple", "list", "set"}:
+                types = [self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
+                match type_name:
+                    case "tuple":
+                        return sds_types.TupleType(types=types)
+                    case "list":
+                        return sds_types.ListType(types=types)
+                    case "set":
+                        return sds_types.SetType(types=types)
+
+            elif type_name == "dict":
+                return sds_types.DictType(
+                    key_type=self.mypy_type_to_abstract_type(mypy_type.args[0]),
+                    value_type=self.mypy_type_to_abstract_type(mypy_type.args[1]),
+                )
+            else:
+                return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
+        raise ValueError("Unexpected type.")  # pragma: no cover
+
+    def _find_alias(self, type_name: str) -> tuple[str, str]:
+        module = self.__declaration_stack[0]
+
+        # At this point, the first item of the stack can only ever be a module
+        if not isinstance(module, Module):  # pragma: no cover
+            raise TypeError(f"Expected module, got {type(module)}.")
+
+        name = ""
+        qname = ""
+        qualified_imports = module.qualified_imports
+        import_aliases = [qimport.alias for qimport in qualified_imports]
+
+        if type_name in self.aliases:
+            qnames: set = self.aliases[type_name]
+            if len(qnames) == 1:
+                # We have to check if this is an alias from an import
+                import_name, import_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
+
+                # We need a deepcopy since qnames is a pointer to the set in the alias dict
+                qname = import_qname if import_qname else deepcopy(qnames).pop()
+                name = import_name if import_name else qname.split(".")[-1]
+            elif type_name in import_aliases:
+                # We check if the type was imported
+                qimport_name, qimport_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
+
+                if qimport_qname:
+                    qname = qimport_qname
+                    name = qimport_name
+            else:
+                # In this case some types where defined in multiple modules with the same names.
+                for alias_qname in qnames:
+                    # We check if the type was defined in the same module
+                    type_path = ".".join(alias_qname.split(".")[0:-1])
+                    name = alias_qname.split(".")[-1]
+
+                    if self.mypy_file is None:  # pragma: no cover
+                        raise TypeError("Expected mypy_file (module information), got None.")
+
+                    if type_path == self.mypy_file.fullname:
+                        qname = alias_qname
+                        break
+        else:
+            name, qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
+
+        if not qname:  # pragma: no cover
+            raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
+
+        return name, qname
+
+    @staticmethod
+    def _search_alias_in_qualified_imports(
+        qualified_imports: list[QualifiedImport],
+        alias_name: str,
+    ) -> tuple[str, str]:
+        for qualified_import in qualified_imports:
+            if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
+                qname = qualified_import.qualified_name
+                name = qname.split(".")[-1]
+                return name, qname
+        return "", ""
 
     def _create_module_id(self, module_path: str) -> str:
         """Create an ID for the module object.
@@ -831,13 +1005,8 @@ class MyPyAstVisitor:
                 return True
 
         parent = self.__declaration_stack[-1]
-        if isinstance(parent, Class):
-            # Containing class is re-exported (always false if the current API element is not a method)
-            if parent.reexported_by:
-                return True
-
-            if name == "__init__":
-                return parent.is_public
+        if isinstance(parent, Class) and name == "__init__":
+            return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
         return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])

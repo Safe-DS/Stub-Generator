@@ -1,4 +1,5 @@
 from typing import Optional, Final, Literal, TypeVar
+from tests.data.main_package.another_path.another_module import AnotherClass
 
 
 class AttributesClassA:
@@ -61,6 +62,9 @@ class AttributesClassB:
     multi_attr_3 = _multi_attr_4_private = ["I am some", "kind of list"]
     multi_attr_5, multi_attr_6 = ("A", "B")
     multi_attr_7 = multi_attr_8 = "A"
+
+    attr_type_from_outside_package: AnotherClass
+    attr_default_value_from_outside_package = AnotherClass
 
     type_var = TypeVar("type_var")
 
