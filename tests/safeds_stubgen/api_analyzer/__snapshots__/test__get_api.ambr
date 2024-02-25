@@ -1021,21 +1021,6 @@
         'qname': 'builtins.int',
       }),
     }),
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/type_var',
-      'is_public': True,
-      'is_static': True,
-      'name': 'type_var',
-      'type': dict({
-        'kind': 'TypeVarType',
-        'name': 'type_var',
-      }),
-    }),
   ])
 # ---
 # name: test_class_attributes[ClassModuleNestedClassE]
@@ -1857,6 +1842,10 @@
         'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       ]),
     }),
+  ])
+# ---
+# name: test_class_methods[TypeVarClass]
+  list([
   ])
 # ---
 # name: test_class_methods[_ClassModulePrivateDoubleNestedClassF]
@@ -3401,6 +3390,78 @@
     }),
   ])
 # ---
+# name: test_function_parameters[multiple_type_var2]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/a',
+      'is_optional': False,
+      'name': 'a',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var1',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/b',
+      'is_optional': False,
+      'name': 'b',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var2',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters[multiple_type_var]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/a',
+      'is_optional': False,
+      'name': 'a',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var1',
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/b',
+      'is_optional': False,
+      'name': 'b',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var2',
+      }),
+    }),
+  ])
+# ---
 # name: test_function_parameters[nested_class_function]
   list([
     dict({
@@ -4445,6 +4506,26 @@
     }),
   ])
 # ---
+# name: test_function_parameters[type_var_func2]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/type_var_func2/a',
+      'is_optional': False,
+      'name': 'a',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': 'T',
+      }),
+    }),
+  ])
+# ---
 # name: test_function_parameters[type_var_func]
   list([
     dict({
@@ -4455,9 +4536,9 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/type_var_func/type_var_list',
+      'id': 'various_modules_package/type_var_module/type_var_func/a',
       'is_optional': False,
-      'name': 'type_var_list',
+      'name': 'a',
       'type': dict({
         'kind': 'ListType',
         'types': list([
@@ -4978,6 +5059,61 @@
     }),
   ])
 # ---
+# name: test_function_results[multiple_type_var2]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var2/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'TypeVarType',
+            'name': 'T',
+          }),
+          dict({
+            'kind': 'TypeVarType',
+            'name': 'U',
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results[multiple_type_var]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'TypeVarType',
+                'name': '_type_var1',
+              }),
+              dict({
+                'kind': 'TypeVarType',
+                'name': '_type_var2',
+              }),
+            ]),
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results[nested_class_function]
   list([
     dict({
@@ -5205,6 +5341,22 @@
     }),
   ])
 # ---
+# name: test_function_results[type_var_func2]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/type_var_func2/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': 'T',
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results[type_var_func]
   list([
     dict({
@@ -5212,7 +5364,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/type_var_func/result_1',
+      'id': 'various_modules_package/type_var_module/type_var_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -6104,26 +6256,6 @@
       'results': list([
         'various_modules_package/function_module/tuple_results/result_1',
         'various_modules_package/function_module/tuple_results/result_2',
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'various_modules_package/function_module/type_var_func',
-      'is_class_method': False,
-      'is_property': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'type_var_func',
-      'parameters': list([
-        'various_modules_package/function_module/type_var_func/type_var_list',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'various_modules_package/function_module/type_var_func/result_1',
       ]),
     }),
     dict({

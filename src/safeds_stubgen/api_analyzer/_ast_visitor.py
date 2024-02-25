@@ -231,16 +231,18 @@ class MyPyAstVisitor:
         # Get docstring
         docstring = self.docstring_parser.get_function_documentation(node)
 
-        # Function args
+        # Function args & TypeVar
         arguments: list[Parameter] = []
-        type_var_types: set[sds_types.TypeVarType] = set()
+        type_var_types: list[sds_types.TypeVarType] = []
+        # Reset the type_var_types list
+        self.type_var_types = set()
         if getattr(node, "arguments", None) is not None:
-            # Empty the type_var_types list, b/c assignmentstmts can also fill this list
-            self.type_var_types = set()
             arguments = self._parse_parameter_data(node, function_id)
 
             if self.type_var_types:
-                type_var_types = deepcopy(self.type_var_types)
+                type_var_types = list(self.type_var_types)
+                # Sort for the snapshot tests
+                type_var_types.sort(key=lambda x: x.name)
 
         # Create results
         results = self._parse_results(node, function_id)
@@ -260,7 +262,7 @@ class MyPyAstVisitor:
             results=results,
             reexported_by=reexported_by,
             parameters=arguments,
-            type_var_types=type_var_types
+            type_var_types=type_var_types,
         )
         self.__declaration_stack.append(function)
 
@@ -400,11 +402,11 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
-                        node_ret_type.type_of_any,
-                    ):
-                        # In this case, the "Any" type was given because it was not explicitly annotated.
-                        # Therefor we have to try to infer the type.
+                    if (isinstance(node_ret_type, mp_types.AnyType) and
+                            node_ret_type.type_of_any != mp_types.TypeOfAny.special_form and
+                            not has_correct_type_of_any(node_ret_type.type_of_any)):
+                        # In this case, the "Any" type was given because it was not explicitly annotated, therefore we
+                        # have to try to infer the type. For "special_form" we assume it's a TypeVar.
                         ret_type = self._infer_type_from_return_stmts(node)
                         type_is_inferred = ret_type is not None
                     else:
@@ -682,6 +684,10 @@ class MyPyAstVisitor:
             # Get type information for parameter
             if mypy_type is None:  # pragma: no cover
                 raise ValueError("Argument has no type.")
+            elif isinstance(mypy_type, mp_types.AnyType) and mypy_type.type_of_any == mp_types.TypeOfAny.special_form:
+                # In this case we assume that it's a TypeVar type
+                arg_type = sds_types.TypeVarType(type_annotation.name)
+                self.type_var_types.add(arg_type)
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
                 pass
@@ -827,11 +833,24 @@ class MyPyAstVisitor:
                     # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
                     # of the list arguments, which we cant get through the "unanalyzed_type" attribute
                     return self.mypy_type_to_abstract_type(unanalyzed_type)
+            elif isinstance(mypy_type, mp_types.AnyType) and mypy_type.type_of_any == mp_types.TypeOfAny.special_form:
+                # We assume that "special_form" is a TypeVar
+                type_var = sds_types.TypeVarType(unanalyzed_type.name)
+                self.type_var_types.add(type_var)
+                return type_var
 
         # Iterable mypy types
         if isinstance(mypy_type, mp_types.TupleType):
             return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
         elif isinstance(mypy_type, mp_types.UnionType):
+            if unanalyzed_type is not None and hasattr(unanalyzed_type, "items") and len(unanalyzed_type.items) == len(mypy_type.items):
+                union_items = zip(mypy_type.items, unanalyzed_type.items, strict=True)
+                return sds_types.UnionType(
+                    types=[
+                        self.mypy_type_to_abstract_type(mypy_type=item[0], unanalyzed_type=item[1])
+                        for item in union_items
+                    ],
+                )
             return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
         # Special Cases

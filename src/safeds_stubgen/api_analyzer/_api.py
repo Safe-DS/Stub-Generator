@@ -237,7 +237,7 @@ class Function:
     is_static: bool
     is_class_method: bool
     is_property: bool
-    type_var_types: set[TypeVarType] = field(default_factory=set)
+    type_var_types: list[TypeVarType] = field(default_factory=list)
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
