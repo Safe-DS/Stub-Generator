@@ -14,4 +14,12 @@ fun multipleTypeVar<typeVar1, typeVar2>(
 	b: _type_var2
 ) -> result1: List<union<_type_var1, _type_var2>>
 
-class TypeVarClass()
+class TypeVarClass<T>(
+	items: List<T>
+) {
+	@Pure
+	@PythonName("type_var_class_method")
+	fun typeVarClassMethod(
+		a: T
+	) -> result1: T
+}

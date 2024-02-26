@@ -1,8 +1,15 @@
 from typing import TypeVar
 
 
+T = TypeVar('T')
+
+
 class TypeVarClass:
     type_var = TypeVar("type_var")
+
+    def __init__(self, items: list[T]): ...
+
+    def type_var_class_method(self, a: T) -> T: ...
 
 
 _type_var = TypeVar("_type_var")
