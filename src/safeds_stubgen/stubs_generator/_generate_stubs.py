@@ -160,11 +160,24 @@ class StubsStringGenerator:
         # Superclasses
         superclasses = class_.superclasses
         superclass_info = ""
+        superclass_methods_text = ""
         if superclasses and not class_.is_abstract:
             superclass_names = []
             for superclass in superclasses:
-                superclass_names.append(self._split_import_id(superclass)[1])
+                superclass_name = self._split_import_id(superclass)[1]
+                superclass_names.append(superclass_name)
                 self._add_to_imports(superclass)
+
+                # if the superclass was not added to the module_imports through the _add_to_imports method, it means
+                # that the superclass is a class from the same module. We have to check if it's a private class and
+                # add the public classes, if it's an intern class.
+                if superclass not in self.module_imports:
+                    for module_class in self.module.classes:
+                        if module_class.name == superclass_name and superclass_name.startswith("_"):
+                            superclass_methods_text += self._create_class_method_string(
+                                module_class.methods, inner_indentations, is_intern_class=True
+                            )
+                            break
 
             superclass_info = f" sub {', '.join(superclass_names)}"
 
@@ -217,6 +230,9 @@ class StubsStringGenerator:
         for inner_class in class_.classes:
             class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
 
+        # Superclass methods, if the superclass is an intern class
+        class_text += superclass_methods_text
+
         # Methods
         class_text += self._create_class_method_string(class_.methods, inner_indentations)
 
@@ -229,11 +245,14 @@ class StubsStringGenerator:
 
         return f"{class_signature} {{{class_text}"
 
-    def _create_class_method_string(self, methods: list[Function], inner_indentations: str) -> str:
+    def _create_class_method_string(
+        self, methods: list[Function], inner_indentations: str, is_intern_class: bool = False
+    ) -> str:
         class_methods: list[str] = []
         class_property_methods: list[str] = []
         for method in methods:
-            if not method.is_public:
+            # Add methods of intern classes that are inherited if the methods themselfe are public
+            if not method.is_public and (not is_intern_class or (is_intern_class and method.name.startswith("_"))):
                 continue
             elif method.is_property:
                 class_property_methods.append(

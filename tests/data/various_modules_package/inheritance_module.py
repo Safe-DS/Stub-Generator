@@ -1,9 +1,16 @@
+class PublicSuperClass:
+    def public_superclass_method(self) -> str: ...
+
+
+class PublicSubClass(PublicSuperClass):
+    ...
+
+
 class _PrivateInternClass:
     def public_inter_class_method(self, a: int) -> str: ...
 
     def _private_inter_class_method(self, b: list) -> None: ...
 
 
-class PublicSubClass(_PrivateInternClass):
-    def public_subclass_method(self): ...
-
+class PublicSubClass2(_PrivateInternClass):
+    def public_subclass_method(self) -> str: ...
