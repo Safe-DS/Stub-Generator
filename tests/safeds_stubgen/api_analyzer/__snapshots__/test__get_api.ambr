@@ -1851,20 +1851,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/type_var_module/TypeVarClass/get_first_item',
+      'id': 'various_modules_package/type_var_module/TypeVarClass/type_var_class_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'get_first_item',
+      'name': 'type_var_class_method',
       'parameters': list([
-        'various_modules_package/type_var_module/TypeVarClass/get_first_item/self',
-        'various_modules_package/type_var_module/TypeVarClass/get_first_item/a',
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/self',
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/a',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/type_var_module/TypeVarClass/get_first_item/result_1',
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/result_1',
       ]),
     }),
   ])

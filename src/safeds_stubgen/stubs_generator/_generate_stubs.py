@@ -88,6 +88,7 @@ class StubsStringGenerator:
         self.module_imports = set()
         self._current_todo_msgs: set[str] = set()
         self.module = module
+        self.class_generics: list = []
         return self._create_module_string(module)
 
     def _create_module_string(self, module: Module) -> str:
@@ -175,7 +176,8 @@ class StubsStringGenerator:
         constraints_info = ""
         variance_info = ""
         if class_.type_parameters:
-            variances = []
+            # We collect the class generics for the methods later
+            self.class_generics = []
             out = "out "
             for variance in class_.type_parameters:
                 variance_direction = {
@@ -191,10 +193,10 @@ class StubsStringGenerator:
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
                 if variance_direction == out:
                     variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
-                variances.append(variance_item)
+                self.class_generics.append(variance_item)
 
-            if variances:
-                variance_info = f"<{', '.join(variances)}>"
+            if self.class_generics:
+                variance_info = f"<{', '.join(self.class_generics)}>"
 
         # Class name - Convert to camelCase and check for keywords
         class_name = class_.name
@@ -328,9 +330,14 @@ class StubsStringGenerator:
             for type_var in function.type_var_types:
                 type_var_name = self._convert_snake_to_camel_case(type_var.name)
                 type_var_name = self._replace_if_safeds_keyword(type_var_name)
-                type_var_names.append(type_var_name)
-            type_var_string = ", ".join(type_var_names)
-            type_var_info = f"<{type_var_string}>"
+
+                # We don't have to display generic types in methods if they were already displayed in the class
+                if not is_method or (is_method and type_var_name not in self.class_generics):
+                    type_var_names.append(type_var_name)
+
+            if type_var_names:
+                type_var_string = ", ".join(type_var_names)
+                type_var_info = f"<{type_var_string}>"
 
         # Convert function name to camelCase
         name = function.name

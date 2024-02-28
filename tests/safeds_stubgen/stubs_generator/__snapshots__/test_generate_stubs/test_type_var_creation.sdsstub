@@ -23,3 +23,11 @@ class TypeVarClass<T>(
 		a: T
 	) -> result1: T
 }
+
+class TypeVarClass2<T>() {
+	@Pure
+	@PythonName("type_var_class_method2")
+	fun typeVarClassMethod2(
+		a: T
+	) -> result1: T
+}
