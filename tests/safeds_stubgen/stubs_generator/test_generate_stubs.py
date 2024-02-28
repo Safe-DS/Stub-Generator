@@ -100,6 +100,10 @@ def test_abstract_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("abstract_module", snapshot_sds_stub)
 
 
+def test_inheritance_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
+    assert_stubs_snapshot("inheritance_module", snapshot_sds_stub)
+
+
 @pytest.mark.parametrize("file_name", ["aliasing_module_1", "aliasing_module_2", "aliasing_module_3"])
 def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) -> None:
     file_data = ""
