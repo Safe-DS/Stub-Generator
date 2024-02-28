@@ -51,7 +51,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
 
         module_text = stubs_generator(module)
 
-        # Each text block we create ends with "\n", therefore, is there is only the package information
+        # Each text block we create ends with "\n", therefore, if there is only the package information
         # the file would look like this: "package path.to.myPackage\n" or this:
         # '@PythonModule("path.to.my_package")\npackage path.to.myPackage\n'. With the split we check if the module
         # has enough information, if not, we won't create it.
@@ -70,6 +70,58 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         with file_path.open("w") as f:
             f.write(module_text)
 
+    for class_ in stubs_generator.classes_outside_package:
+        _create_outside_package_class(class_, out_path, convert_identifiers)
+
+
+def _create_outside_package_class(class_path: str, out_path: Path, convert_identifiers: bool) -> None:
+    path_parts = class_path.split(".")
+    class_name = path_parts.pop(-1)
+    module_name = path_parts[-1]
+    module_path = "/".join(path_parts)
+
+    module_dir = Path(out_path / module_path)
+    module_dir.mkdir(parents=True, exist_ok=True)
+
+    file_path = Path(module_dir / f"{module_name}.sdsstub")
+    if Path.exists(file_path):
+        with file_path.open("a") as f:
+            f.write(_create_outside_package_class_text(class_name, convert_identifiers))
+    else:
+        with file_path.open("w") as f:
+            module_text = ""
+
+            # package name & annotation
+            python_module_path = ".".join(path_parts)
+            module_path_camel_case = python_module_path
+            if convert_identifiers:
+                module_path_camel_case = _convert_snake_to_camel_case(python_module_path)
+            module_name_info = ""
+            if python_module_path != module_path_camel_case:
+                module_text += f'@PythonModule("{python_module_path}")\n'
+            module_text += f"{module_name_info}package {module_path_camel_case}\n"
+
+            module_text += _create_outside_package_class_text(class_name, convert_identifiers)
+
+            f.write(module_text)
+
+
+def _create_outside_package_class_text(class_name, convert_identifiers):
+    # to camel case
+    camel_case_name = class_name
+    if convert_identifiers:
+        camel_case_name = _convert_snake_to_camel_case(class_name)
+
+    # add name annotation
+    class_annotation = ""
+    if class_name != camel_case_name:
+        class_annotation = f"\n{_create_name_annotation(class_name)}"
+
+    # check for identifiers
+    safe_class_name = _replace_if_safeds_keyword(camel_case_name)
+
+    return f"{class_annotation}\nclass {safe_class_name}()\n"
+
 
 class StubsStringGenerator:
     """Generate Safe-DS stub strings.
@@ -79,13 +131,12 @@ class StubsStringGenerator:
     """
 
     def __init__(self, api: API, convert_identifiers: bool) -> None:
-        self.module_imports: set[str] = set()
         self.api = api
         self.convert_identifiers = convert_identifiers
+        self.classes_outside_package: set[str] = set()
 
     def __call__(self, module: Module) -> str:
-        # Reset the module_imports list
-        self.module_imports = set()
+        self.module_imports: set[str] = set()
         self._current_todo_msgs: set[str] = set()
         self.module = module
         return self._create_module_string(module)
@@ -93,7 +144,9 @@ class StubsStringGenerator:
     def _create_module_string(self, module: Module) -> str:
         # Create package info
         package_info = module.id.replace("/", ".")
-        package_info_camel_case = self._convert_snake_to_camel_case(package_info)
+        package_info_camel_case = package_info
+        if self.convert_identifiers:
+            package_info_camel_case = _convert_snake_to_camel_case(package_info)
         module_name_info = ""
         module_text = ""
         if package_info != package_info_camel_case:
@@ -163,7 +216,7 @@ class StubsStringGenerator:
         if superclasses and not class_.is_abstract:
             superclass_names = []
             for superclass in superclasses:
-                superclass_names.append(self._split_import_id(superclass)[1])
+                superclass_names.append(superclass.split(".")[-1])
                 self._add_to_imports(superclass)
 
             superclass_info = f" sub {', '.join(superclass_names)}"
@@ -185,8 +238,10 @@ class StubsStringGenerator:
                 }[variance.variance.name]
 
                 # Convert name to camelCase and check for keywords
-                variance_name_camel_case = self._convert_snake_to_camel_case(variance.name)
-                variance_name_camel_case = self._replace_if_safeds_keyword(variance_name_camel_case)
+                variance_name_camel_case = variance.name
+                if self.convert_identifiers:
+                    variance_name_camel_case = _convert_snake_to_camel_case(variance.name)
+                variance_name_camel_case = _replace_if_safeds_keyword(variance_name_camel_case)
 
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
                 if variance_direction == out:
@@ -199,10 +254,12 @@ class StubsStringGenerator:
         # Class name - Convert to camelCase and check for keywords
         class_name = class_.name
         python_name_info = ""
-        class_name_camel_case = self._convert_snake_to_camel_case(class_name, is_class_name=True)
+        class_name_camel_case = class_name
+        if self.convert_identifiers:
+            class_name_camel_case = _convert_snake_to_camel_case(class_name, is_class_name=True)
         if class_name_camel_case != class_name:
-            python_name_info = f"{class_indentation}{self._create_name_annotation(class_name)}\n"
-        class_name_camel_case = self._replace_if_safeds_keyword(class_name_camel_case)
+            python_name_info = f"{class_indentation}{_create_name_annotation(class_name)}\n"
+        class_name_camel_case = _replace_if_safeds_keyword(class_name_camel_case)
 
         # Class signature line
         class_signature = (
@@ -269,13 +326,15 @@ class StubsStringGenerator:
 
             # Convert name to camelCase and add PythonName annotation
             attr_name = attribute.name
-            attr_name_camel_case = self._convert_snake_to_camel_case(attr_name)
+            attr_name_camel_case = attr_name
+            if self.convert_identifiers:
+                attr_name_camel_case = _convert_snake_to_camel_case(attr_name)
             attr_name_annotation = ""
             if attr_name_camel_case != attr_name:
-                attr_name_annotation = f"{self._create_name_annotation(attr_name)}\n{inner_indentations}"
+                attr_name_annotation = f"{_create_name_annotation(attr_name)}\n{inner_indentations}"
 
             # Check if name is a Safe-DS keyword and escape it if necessary
-            attr_name_camel_case = self._replace_if_safeds_keyword(attr_name_camel_case)
+            attr_name_camel_case = _replace_if_safeds_keyword(attr_name_camel_case)
 
             # Create type information
             attr_type = self._create_type_string(attribute_type)
@@ -319,13 +378,15 @@ class StubsStringGenerator:
 
         # Convert function name to camelCase
         name = function.name
-        camel_case_name = self._convert_snake_to_camel_case(name)
+        camel_case_name = name
+        if self.convert_identifiers:
+            camel_case_name = _convert_snake_to_camel_case(name)
         function_name_annotation = ""
         if camel_case_name != name:
-            function_name_annotation = f"{indentations}{self._create_name_annotation(name)}\n"
+            function_name_annotation = f"{indentations}{_create_name_annotation(name)}\n"
 
         # Escape keywords
-        camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+        camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
         result_string = self._create_result_string(function.results)
 
@@ -344,13 +405,15 @@ class StubsStringGenerator:
         Functions or methods with the @property decorator are handled the same way as class attributes.
         """
         name = function.name
-        camel_case_name = self._convert_snake_to_camel_case(name)
+        camel_case_name = name
+        if self.convert_identifiers:
+            camel_case_name = _convert_snake_to_camel_case(name)
         function_name_annotation = ""
         if camel_case_name != name:
-            function_name_annotation = f"{self._create_name_annotation(name)} "
+            function_name_annotation = f"{_create_name_annotation(name)} "
 
         # Escape keywords
-        camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+        camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
         # Create type information
         result_types = [result.type for result in function.results if result.type is not None]
@@ -374,8 +437,10 @@ class StubsStringGenerator:
             result_type = result.type.to_dict()
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
-            result_name = self._convert_snake_to_camel_case(result.name)
-            result_name = self._replace_if_safeds_keyword(result_name)
+            result_name = result.name
+            if self.convert_identifiers:
+                result_name = _convert_snake_to_camel_case(result.name)
+            result_name = _replace_if_safeds_keyword(result_name)
             if type_string:
                 results.append(
                     f"{result_name}{type_string}",
@@ -452,14 +517,16 @@ class StubsStringGenerator:
 
             # Convert to camelCase if necessary
             name = parameter.name
-            camel_case_name = self._convert_snake_to_camel_case(name)
+            camel_case_name = name
+            if self.convert_identifiers:
+                camel_case_name = _convert_snake_to_camel_case(name)
             name_annotation = ""
             if camel_case_name != name:
                 # Memorize the changed name for the @PythonName() annotation
-                name_annotation = f"{self._create_name_annotation(name)} "
+                name_annotation = f"{_create_name_annotation(name)} "
 
             # Check if it's a Safe-DS keyword and escape it
-            camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+            camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
             # Create string and append to the list
             parameters_data.append(
@@ -486,13 +553,15 @@ class StubsStringGenerator:
                 name = enum_instance.name
 
                 # Convert snake_case names to camelCase
-                camel_case_name = self._convert_snake_to_camel_case(name)
+                camel_case_name = name
+                if self.convert_identifiers:
+                    camel_case_name = _convert_snake_to_camel_case(name)
                 annotation = ""
                 if camel_case_name != name:
-                    annotation = f"{self._create_name_annotation(name)} "
+                    annotation = f"{_create_name_annotation(name)} "
 
                 # Check if the name is a Safe-DS keyword and escape it
-                camel_case_name = self._replace_if_safeds_keyword(camel_case_name)
+                camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
                 enum_text += f"\t{annotation}{camel_case_name}\n"
             return f"{enum_signature} {{{enum_text}}}"
@@ -530,7 +599,7 @@ class StubsStringGenerator:
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
-            name_generator = self._callable_type_name_generator()
+            name_generator = _callable_type_name_generator()
 
             params = [
                 f"{next(name_generator)}: {self._create_type_string(parameter_type)}"
@@ -653,26 +722,19 @@ class StubsStringGenerator:
             # We need the full path for an import from the same package, but we sometimes don't get enough information,
             # therefore we have to search for the class and get its id
             qname_path = qname.replace(".", "/")
+            in_package = False
             for class_ in self.api.classes:
                 if class_.endswith(qname_path):
                     qname = class_.replace("/", ".")
-                    qname = self._convert_snake_to_camel_case(qname)
-                    self.module_imports.add(qname)
+                    if self.convert_identifiers:
+                        qname = _convert_snake_to_camel_case(qname)
+                    in_package = True
                     break
 
-            # Todo Currently deactivated, since imports from other packages don't have stubs - see issue #66
-            #  If the issue is resolved, remove the "self.module_imports.add(qname)" above
-            # self.module_imports.add(qname)
+            if not in_package:
+                self.classes_outside_package.add(qname)
 
-    @staticmethod
-    def _callable_type_name_generator() -> Generator:
-        """Generate a name for callable type parameters starting from 'a' until 'zz'."""
-        while True:
-            for x in range(1, 27):
-                yield string.ascii_lowercase[x - 1]
-            for x in range(1, 27):  # pragma: no cover
-                for y in range(1, 27):
-                    yield string.ascii_lowercase[x - 1] + string.ascii_lowercase[y - 1]
+            self.module_imports.add(qname)
 
     def _create_todo_msg(self, indentations: str) -> str:
         if not self._current_todo_msgs:
@@ -704,78 +766,79 @@ class StubsStringGenerator:
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
-    @staticmethod
-    def _split_import_id(id_: str) -> tuple[str, str]:
-        split_qname = id_.split(".")
-        name = split_qname.pop(-1)
-        import_path = ".".join(split_qname)
-        return import_path, name
 
-    @staticmethod
-    def _create_name_annotation(name: str) -> str:
-        return f'@PythonName("{name}")'
+def _callable_type_name_generator() -> Generator:
+    """Generate a name for callable type parameters starting from 'a' until 'zz'."""
+    while True:
+        for x in range(1, 27):
+            yield string.ascii_lowercase[x - 1]
+        for x in range(1, 27):  # pragma: no cover
+            for y in range(1, 27):
+                yield string.ascii_lowercase[x - 1] + string.ascii_lowercase[y - 1]
 
-    @staticmethod
-    def _replace_if_safeds_keyword(keyword: str) -> str:
-        if keyword in {
-            "as",
-            "from",
-            "import",
-            "literal",
-            "union",
-            "where",
-            "yield",
-            "false",
-            "null",
-            "true",
-            "annotation",
-            "attr",
-            "class",
-            "enum",
-            "fun",
-            "package",
-            "pipeline",
-            "schema",
-            "segment",
-            "val",
-            "const",
-            "in",
-            "internal",
-            "out",
-            "private",
-            "static",
-            "and",
-            "not",
-            "or",
-            "sub",
-            "super",
-            "_",
-        }:
-            return f"`{keyword}`"
-        return keyword
 
-    def _convert_snake_to_camel_case(self, name: str, is_class_name: bool = False) -> str:
-        if not self.convert_identifiers:
-            return name
+def _create_name_annotation(name: str) -> str:
+    return f'@PythonName("{name}")'
 
-        if name == "_":
-            return name
 
-        # Count underscores in front and behind the name
-        underscore_count_start = len(name) - len(name.lstrip("_"))
-        underscore_count_end = len(name) - len(name.rstrip("_"))
+def _replace_if_safeds_keyword(keyword: str) -> str:
+    if keyword in {
+        "as",
+        "from",
+        "import",
+        "literal",
+        "union",
+        "where",
+        "yield",
+        "false",
+        "null",
+        "true",
+        "annotation",
+        "attr",
+        "class",
+        "enum",
+        "fun",
+        "package",
+        "pipeline",
+        "schema",
+        "segment",
+        "val",
+        "const",
+        "in",
+        "internal",
+        "out",
+        "private",
+        "static",
+        "and",
+        "not",
+        "or",
+        "sub",
+        "super",
+        "_",
+    }:
+        return f"`{keyword}`"
+    return keyword
 
-        if underscore_count_end == 0:
-            cleaned_name = name[underscore_count_start:]
-        else:
-            cleaned_name = name[underscore_count_start:-underscore_count_end]
 
-        # Remove underscores and join in camelCase
-        name_parts = cleaned_name.split("_")
+def _convert_snake_to_camel_case(name: str, is_class_name: bool = False) -> str:
+    if name == "_":
+        return name
 
-        # UpperCamelCase for class names
-        if is_class_name:
-            return "".join(part[0].upper() + part[1:] for part in name_parts if part)
+    # Count underscores in front and behind the name
+    underscore_count_start = len(name) - len(name.lstrip("_"))
+    underscore_count_end = len(name) - len(name.rstrip("_"))
 
-        # Normal camelCase for everything else
-        return name_parts[0] + "".join(part[0].upper() + part[1:] for part in name_parts[1:] if part)
+    if underscore_count_end == 0:
+        cleaned_name = name[underscore_count_start:]
+    else:
+        cleaned_name = name[underscore_count_start:-underscore_count_end]
+
+    # Remove underscores and join in camelCase
+    name_parts = cleaned_name.split("_")
+
+    # UpperCamelCase for class names
+    if is_class_name:
+        return "".join(part[0].upper() + part[1:] for part in name_parts if part)
+
+    # Normal camelCase for everything else
+    return name_parts[0] + "".join(part[0].upper() + part[1:] for part in name_parts[1:] if part)

@@ -4,11 +4,11 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from safeds_stubgen.api_analyzer import API, get_api
+from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
-from safeds_stubgen.stubs_generator._generate_stubs import StubsStringGenerator
+from safeds_stubgen.stubs_generator._generate_stubs import _convert_snake_to_camel_case
 
 if TYPE_CHECKING:
     from syrupy import SnapshotAssertion
@@ -111,31 +111,20 @@ def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) ->
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result", "is_class_name", "convert_identifiers"),
+    ("name", "expected_result", "is_class_name"),
     [
-        ("", "", False, True),
-        ("_", "_", False, True),
-        ("__get_function_name__", "getFunctionName", False, True),
-        ("__get_function_name", "getFunctionName", False, True),
-        ("get_function_name__", "getFunctionName", False, True),
-        ("__getFunction_name__", "getFunctionName", False, True),
-        ("__get__function___name__", "getFunctionName", False, True),
-        ("__get_funCtion_NamE__", "getFunCtionNamE", False, True),
-        ("getFunctionName", "getFunctionName", False, True),
-        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", False, True),
-        ("some_class_name", "SomeClassName", True, True),
-        ("some_function_name", "some_function_name", False, False),
-        ("some_class_name", "some_class_name", True, False),
+        ("", "", False),
+        ("_", "_", False),
+        ("__get_function_name__", "getFunctionName", False),
+        ("__get_function_name", "getFunctionName", False),
+        ("get_function_name__", "getFunctionName", False),
+        ("__getFunction_name__", "getFunctionName", False),
+        ("__get__function___name__", "getFunctionName", False),
+        ("__get_funCtion_NamE__", "getFunCtionNamE", False),
+        ("getFunctionName", "getFunctionName", False),
+        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", False),
+        ("some_class_name", "SomeClassName", True),
     ],
 )
-def test_convert_snake_to_camel_case(
-    name: str,
-    expected_result: str,
-    is_class_name: bool,
-    convert_identifiers: bool,
-) -> None:
-    stubs_string_generator = StubsStringGenerator(
-        api=API(distribution="", package=_test_package_name, version=""),
-        convert_identifiers=convert_identifiers,
-    )
-    assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result
+def test_convert_snake_to_camel_case(name: str, expected_result: str, is_class_name: bool) -> None:
+    assert _convert_snake_to_camel_case(name, is_class_name=is_class_name) == expected_result
