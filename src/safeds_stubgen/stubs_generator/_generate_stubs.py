@@ -175,7 +175,9 @@ class StubsStringGenerator:
                     for module_class in self.module.classes:
                         if module_class.name == superclass_name and superclass_name.startswith("_"):
                             superclass_methods_text += self._create_class_method_string(
-                                module_class.methods, inner_indentations, is_intern_class=True,
+                                module_class.methods,
+                                inner_indentations,
+                                is_intern_class=True,
                             )
                             break
 
@@ -246,7 +248,10 @@ class StubsStringGenerator:
         return f"{class_signature} {{{class_text}"
 
     def _create_class_method_string(
-        self, methods: list[Function], inner_indentations: str, is_intern_class: bool = False,
+        self,
+        methods: list[Function],
+        inner_indentations: str,
+        is_intern_class: bool = False,
     ) -> str:
         class_methods: list[str] = []
         class_property_methods: list[str] = []
