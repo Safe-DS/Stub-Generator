@@ -260,11 +260,7 @@ def test_literal_type() -> None:
 
 def test_type_var_type() -> None:
     type_ = TypeVarType("_T")
-    type_dict = {
-        "kind": "TypeVarType",
-        "name": "_T",
-        "upper_bound": None
-    }
+    type_dict = {"kind": "TypeVarType", "name": "_T", "upper_bound": None}
 
     assert AbstractType.from_dict(type_dict) == type_
     assert TypeVarType.from_dict(type_dict) == type_

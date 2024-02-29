@@ -401,7 +401,7 @@ class TypeVarType(AbstractType):
         return {
             "kind": self.__class__.__name__,
             "name": self.name,
-            "upper_bound": self.upper_bound.to_dict() if self.upper_bound is not None else None
+            "upper_bound": self.upper_bound.to_dict() if self.upper_bound is not None else None,
         }
 
     def __hash__(self) -> int:
