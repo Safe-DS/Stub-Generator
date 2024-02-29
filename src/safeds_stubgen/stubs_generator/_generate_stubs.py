@@ -70,7 +70,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         with file_path.open("w") as f:
             f.write(module_text)
 
-    created_module_paths = set()
+    created_module_paths: set[str] = set()
     classes_outside_package = list(stubs_generator.classes_outside_package)
     classes_outside_package.sort()
     for class_ in classes_outside_package:
