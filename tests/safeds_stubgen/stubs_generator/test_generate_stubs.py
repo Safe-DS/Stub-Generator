@@ -68,6 +68,14 @@ def test_file_creation() -> None:
     )
 
 
+def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: SnapshotAssertion) -> None:
+    path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
+    assert path.is_file()
+
+    with path.open("r") as f:
+        assert f.read() == snapshot_sds_stub
+
+
 def test_class_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
     assert_stubs_snapshot("class_module", snapshot_sds_stub)
 

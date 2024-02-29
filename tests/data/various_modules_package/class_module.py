@@ -1,3 +1,6 @@
+from tests.data.main_package.another_path.another_module import YetAnotherClass
+
+
 class ClassModuleEmptyClassA:
     ...
 
@@ -8,7 +11,7 @@ class ClassModuleClassB(ClassModuleEmptyClassA):
     def f(self): ...
 
 
-class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB):
+class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB, YetAnotherClass):
     attr_1: int
     attr_2: int
 

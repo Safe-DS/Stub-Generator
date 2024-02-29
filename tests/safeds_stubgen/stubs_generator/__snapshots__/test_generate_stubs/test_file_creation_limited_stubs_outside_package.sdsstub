@@ -1,0 +1,4 @@
+@PythonModule("tests.data.main_package.another_path.another_module")
+package tests.data.mainPackage.anotherPath.anotherModule
+
+class AnotherClass

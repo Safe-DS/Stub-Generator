@@ -1,6 +1,8 @@
 @PythonModule("various_modules_package.class_module")
 package variousModulesPackage.classModule
 
+from tests.data.main_package.another_path.another_module import YetAnotherClass
+
 class ClassModuleEmptyClassA()
 
 class ClassModuleClassB(
@@ -13,7 +15,7 @@ class ClassModuleClassB(
 }
 
 // TODO Safe-DS does not support multiple inheritance.
-class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB {
+class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB, YetAnotherClass {
 	@PythonName("attr_1")
 	static attr attr1: Int
 	@PythonName("attr_2")

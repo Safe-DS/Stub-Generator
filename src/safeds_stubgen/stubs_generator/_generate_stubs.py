@@ -70,21 +70,33 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         with file_path.open("w") as f:
             f.write(module_text)
 
-    for class_ in stubs_generator.classes_outside_package:
-        _create_outside_package_class(class_, out_path, convert_identifiers)
+    created_module_paths = set()
+    classes_outside_package = list(stubs_generator.classes_outside_package)
+    classes_outside_package.sort()
+    for class_ in classes_outside_package:
+        created_module_paths = _create_outside_package_class(
+            class_, out_path, convert_identifiers, created_module_paths
+        )
 
 
-def _create_outside_package_class(class_path: str, out_path: Path, convert_identifiers: bool) -> None:
+def _create_outside_package_class(
+    class_path: str, out_path: Path, convert_identifiers: bool, created_module_paths: set[str]
+) -> set[str]:
     path_parts = class_path.split(".")
     class_name = path_parts.pop(-1)
     module_name = path_parts[-1]
     module_path = "/".join(path_parts)
 
+    first_creation = False
+    if module_path not in created_module_paths:
+        created_module_paths.add(module_path)
+        first_creation = True
+
     module_dir = Path(out_path / module_path)
     module_dir.mkdir(parents=True, exist_ok=True)
 
     file_path = Path(module_dir / f"{module_name}.sdsstub")
-    if Path.exists(file_path):
+    if Path.exists(file_path) and not first_creation:
         with file_path.open("a") as f:
             f.write(_create_outside_package_class_text(class_name, convert_identifiers))
     else:
@@ -104,6 +116,8 @@ def _create_outside_package_class(class_path: str, out_path: Path, convert_ident
             module_text += _create_outside_package_class_text(class_name, convert_identifiers)
 
             f.write(module_text)
+
+    return created_module_paths
 
 
 def _create_outside_package_class_text(class_name, convert_identifiers):
