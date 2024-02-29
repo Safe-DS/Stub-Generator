@@ -319,7 +319,7 @@ class TypeParameter:
         return {
             "name": self.name,
             "type": self.type.to_dict() if self.type is not None else None,
-            "variance_type": self.variance.name
+            "variance_type": self.variance.name,
         }
 
 
