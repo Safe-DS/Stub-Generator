@@ -50,6 +50,8 @@ class MyPyAstVisitor:
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
         self.mypy_file: mp_nodes.MypyFile | None = None
+        # We gather type var types used as a parameter type in a function
+        self.type_var_types: set[sds_types.TypeVarType] = set()
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -153,13 +155,17 @@ class MyPyAstVisitor:
 
             for generic_type in generic_types:
                 variance_type = mypy_variance_parser(generic_type.variance)
-                variance_values: sds_types.AbstractType
+                variance_values: sds_types.AbstractType | None = None
                 if variance_type == VarianceKind.INVARIANT:
-                    variance_values = sds_types.UnionType(
-                        [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
-                    )
+                    values = [self.mypy_type_to_abstract_type(value) for value in generic_type.values]
+                    if values:
+                        variance_values = sds_types.UnionType(
+                            [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
+                        )
                 else:
-                    variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
+                    upper_bound = generic_type.upper_bound
+                    if upper_bound.__str__() != "builtins.object":
+                        variance_values = self.mypy_type_to_abstract_type(upper_bound)
 
                 type_parameters.append(
                     TypeParameter(
@@ -229,10 +235,18 @@ class MyPyAstVisitor:
         # Get docstring
         docstring = self.docstring_parser.get_function_documentation(node)
 
-        # Function args
+        # Function args & TypeVar
         arguments: list[Parameter] = []
+        type_var_types: list[sds_types.TypeVarType] = []
+        # Reset the type_var_types list
+        self.type_var_types = set()
         if getattr(node, "arguments", None) is not None:
             arguments = self._parse_parameter_data(node, function_id)
+
+            if self.type_var_types:
+                type_var_types = list(self.type_var_types)
+                # Sort for the snapshot tests
+                type_var_types.sort(key=lambda x: x.name)
 
         # Create results
         results = self._parse_results(node, function_id)
@@ -252,6 +266,7 @@ class MyPyAstVisitor:
             results=results,
             reexported_by=reexported_by,
             parameters=arguments,
+            type_var_types=type_var_types,
         )
         self.__declaration_stack.append(function)
 
@@ -666,7 +681,7 @@ class MyPyAstVisitor:
         for argument in node.arguments:
             mypy_type = argument.variable.type
             type_annotation = argument.type_annotation
-            arg_type = None
+            arg_type: AbstractType | None = None
             default_value = None
             default_is_none = False
 
@@ -827,7 +842,14 @@ class MyPyAstVisitor:
 
         # Special Cases
         elif isinstance(mypy_type, mp_types.TypeVarType):
-            return sds_types.TypeVarType(mypy_type.name)
+            upper_bound = mypy_type.upper_bound
+            type_ = None
+            if upper_bound.__str__() != "builtins.object":
+                type_ = self.mypy_type_to_abstract_type(upper_bound)
+
+            type_var = sds_types.TypeVarType(name=mypy_type.name, upper_bound=type_)
+            self.type_var_types.add(type_var)
+            return type_var
         elif isinstance(mypy_type, mp_types.CallableType):
             return sds_types.CallableType(
                 parameter_types=[self.mypy_type_to_abstract_type(arg_type) for arg_type in mypy_type.arg_types],

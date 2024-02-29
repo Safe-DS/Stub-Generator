@@ -93,9 +93,6 @@ class AttributesClassB() {
 	static attr attrTypeFromOutsidePackage: AnotherClass
 	@PythonName("attr_default_value_from_outside_package")
 	static attr attrDefaultValueFromOutsidePackage: () -> a: AnotherClass
-	// TODO Attribute has no type information.
-	@PythonName("type_var")
-	static attr typeVar
 	@PythonName("init_attr")
 	attr initAttr: Boolean
 
