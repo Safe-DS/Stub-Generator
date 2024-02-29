@@ -165,7 +165,7 @@ class MyPyAstVisitor:
                 else:
                     upper_bound = generic_type.upper_bound
                     if upper_bound.__str__() != "builtins.object":
-                        variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
+                        variance_values = self.mypy_type_to_abstract_type(upper_bound)
 
                 type_parameters.append(
                     TypeParameter(
@@ -842,7 +842,12 @@ class MyPyAstVisitor:
 
         # Special Cases
         elif isinstance(mypy_type, mp_types.TypeVarType):
-            type_var = sds_types.TypeVarType(mypy_type.name)
+            upper_bound = mypy_type.upper_bound
+            type_ = None
+            if upper_bound.__str__() != "builtins.object":
+                type_ = self.mypy_type_to_abstract_type(upper_bound)
+
+            type_var = sds_types.TypeVarType(name=mypy_type.name, upper_bound=type_)
             self.type_var_types.add(type_var)
             return type_var
         elif isinstance(mypy_type, mp_types.CallableType):

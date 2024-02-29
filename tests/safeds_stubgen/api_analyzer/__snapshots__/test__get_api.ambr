@@ -3459,6 +3459,7 @@
       'type': dict({
         'kind': 'TypeVarType',
         'name': '_type_var1',
+        'upper_bound': None,
       }),
     }),
     dict({
@@ -3475,6 +3476,7 @@
       'type': dict({
         'kind': 'TypeVarType',
         'name': '_type_var2',
+        'upper_bound': None,
       }),
     }),
   ])
@@ -4542,6 +4544,7 @@
           dict({
             'kind': 'TypeVarType',
             'name': '_type_var',
+            'upper_bound': None,
           }),
         ]),
       }),
@@ -5074,10 +5077,12 @@
               dict({
                 'kind': 'TypeVarType',
                 'name': '_type_var1',
+                'upper_bound': None,
               }),
               dict({
                 'kind': 'TypeVarType',
                 'name': '_type_var2',
+                'upper_bound': None,
               }),
             ]),
           }),
@@ -5328,6 +5333,7 @@
           dict({
             'kind': 'TypeVarType',
             'name': '_type_var',
+            'upper_bound': None,
           }),
         ]),
       }),

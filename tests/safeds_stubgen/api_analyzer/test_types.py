@@ -263,16 +263,17 @@ def test_type_var_type() -> None:
     type_dict = {
         "kind": "TypeVarType",
         "name": "_T",
+        "upper_bound": None
     }
 
     assert AbstractType.from_dict(type_dict) == type_
     assert TypeVarType.from_dict(type_dict) == type_
     assert type_.to_dict() == type_dict
 
-    assert TypeVarType("a") == TypeVarType("a")
-    assert hash(TypeVarType("a")) == hash(TypeVarType("a"))
-    assert TypeVarType("a") != TypeVarType("b")
-    assert hash(TypeVarType("a")) != hash(TypeVarType("b"))
+    assert TypeVarType("a", None) == TypeVarType("a", None)
+    assert hash(TypeVarType("a", None)) == hash(TypeVarType("a", None))
+    assert TypeVarType("a", None) != TypeVarType("b", None)
+    assert hash(TypeVarType("a", None)) != hash(TypeVarType("b", None))
 
 
 def test_final_type() -> None:

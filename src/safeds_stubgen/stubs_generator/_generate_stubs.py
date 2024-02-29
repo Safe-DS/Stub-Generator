@@ -333,6 +333,8 @@ class StubsStringGenerator:
 
                 # We don't have to display generic types in methods if they were already displayed in the class
                 if not is_method or (is_method and type_var_name not in self.class_generics):
+                    if type_var.upper_bound is not None:
+                        type_var_name += f" sub {self._create_type_string(type_var.upper_bound.to_dict())}"
                     type_var_names.append(type_var_name)
 
             if type_var_names:
@@ -644,7 +646,8 @@ class StubsStringGenerator:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
         elif kind == "TypeVarType":
-            return type_data["name"]
+            name = self._convert_snake_to_camel_case(type_data["name"])
+            return self._replace_if_safeds_keyword(name)
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
