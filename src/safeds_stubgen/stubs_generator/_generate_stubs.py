@@ -120,7 +120,7 @@ def _create_outside_package_class(
     return created_module_paths
 
 
-def _create_outside_package_class_text(class_name, convert_identifiers):
+def _create_outside_package_class_text(class_name: str, convert_identifiers: bool) -> str:
     # to camel case
     camel_case_name = class_name
     if convert_identifiers:
