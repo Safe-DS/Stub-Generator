@@ -397,7 +397,7 @@ class TypeVarType(AbstractType):
     def from_dict(cls, d: dict[str, Any]) -> TypeVarType:
         return TypeVarType(d["name"], d["upper_bound"])
 
-    def to_dict(self) -> dict[str, str]:
+    def to_dict(self) -> dict[str, Any]:
         return {
             "kind": self.__class__.__name__,
             "name": self.name,
