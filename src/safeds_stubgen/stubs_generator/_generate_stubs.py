@@ -75,12 +75,18 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     classes_outside_package.sort()
     for class_ in classes_outside_package:
         created_module_paths = _create_outside_package_class(
-            class_, out_path, convert_identifiers, created_module_paths
+            class_,
+            out_path,
+            convert_identifiers,
+            created_module_paths,
         )
 
 
 def _create_outside_package_class(
-    class_path: str, out_path: Path, convert_identifiers: bool, created_module_paths: set[str]
+    class_path: str,
+    out_path: Path,
+    convert_identifiers: bool,
+    created_module_paths: set[str],
 ) -> set[str]:
     path_parts = class_path.split(".")
     class_name = path_parts.pop(-1)
