@@ -2472,7 +2472,7 @@
     ]),
     'type_parameters': list([
       dict({
-        'name': '_T_co',
+        'name': '_T_co2',
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
@@ -2481,7 +2481,7 @@
         'variance_type': 'COVARIANT',
       }),
       dict({
-        'name': '_T_con',
+        'name': '_T_con2',
         'type': dict({
           'kind': 'NamedType',
           'name': 'A',
@@ -2490,62 +2490,7 @@
         'variance_type': 'CONTRAVARIANT',
       }),
       dict({
-        'name': '_T_in',
-        'type': dict({
-          'kind': 'UnionType',
-          'types': list([
-            dict({
-              'kind': 'NamedType',
-              'name': 'int',
-              'qname': 'builtins.int',
-            }),
-            dict({
-              'kind': 'UnionType',
-              'types': list([
-                dict({
-                  'kind': 'LiteralType',
-                  'literals': list([
-                    1,
-                  ]),
-                }),
-                dict({
-                  'kind': 'LiteralType',
-                  'literals': list([
-                    2,
-                  ]),
-                }),
-              ]),
-            }),
-          ]),
-        }),
-        'variance_type': 'INVARIANT',
-      }),
-    ]),
-  })
-# ---
-# name: test_classes[VarianceClassOnlyInvariance]
-  dict({
-    'attributes': list([
-    ]),
-    'classes': list([
-    ]),
-    'constructor': None,
-    'docstring': dict({
-      'description': '',
-      'full_docstring': '',
-    }),
-    'id': 'various_modules_package/variance_module/VarianceClassOnlyInvariance',
-    'is_public': True,
-    'methods': list([
-    ]),
-    'name': 'VarianceClassOnlyInvariance',
-    'reexported_by': list([
-    ]),
-    'superclasses': list([
-    ]),
-    'type_parameters': list([
-      dict({
-        'name': '_T_in',
+        'name': '_T_in2',
         'type': dict({
           'kind': 'UnionType',
           'types': list([
