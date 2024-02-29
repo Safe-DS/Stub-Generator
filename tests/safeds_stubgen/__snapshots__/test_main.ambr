@@ -132,12 +132,12 @@
           'description': '',
           'full_docstring': '',
         }),
-        'id': 'main_package/another_path/another_module/YetAnotherClass',
+        'id': 'main_package/another_path/another_module/yetAnotherClass',
         'is_public': True,
         'methods': list([
-          'main_package/another_path/another_module/YetAnotherClass/another_function',
+          'main_package/another_path/another_module/yetAnotherClass/another_function',
         ]),
-        'name': 'YetAnotherClass',
+        'name': 'yetAnotherClass',
         'reexported_by': list([
         ]),
         'superclasses': list([
@@ -335,19 +335,19 @@
           'description': '',
           'full_docstring': '',
         }),
-        'id': 'main_package/another_path/another_module/YetAnotherClass/another_function',
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function',
         'is_class_method': False,
         'is_property': False,
         'is_public': True,
         'is_static': False,
         'name': 'another_function',
         'parameters': list([
-          'main_package/another_path/another_module/YetAnotherClass/another_function/self',
+          'main_package/another_path/another_module/yetAnotherClass/another_function/self',
         ]),
         'reexported_by': list([
         ]),
         'results': list([
-          'main_package/another_path/another_module/YetAnotherClass/another_function/result_1',
+          'main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
         ]),
       }),
       dict({
@@ -538,7 +538,7 @@
       dict({
         'classes': list([
           'main_package/another_path/another_module/AnotherClass',
-          'main_package/another_path/another_module/YetAnotherClass',
+          'main_package/another_path/another_module/yetAnotherClass',
         ]),
         'docstring': '''
           Another Module Docstring.
@@ -606,7 +606,7 @@
           'description': '',
           'type': '',
         }),
-        'id': 'main_package/another_path/another_module/YetAnotherClass/another_function/self',
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function/self',
         'is_optional': False,
         'name': 'self',
         'type': None,
@@ -791,7 +791,7 @@
           'description': '',
           'type': '',
         }),
-        'id': 'main_package/another_path/another_module/YetAnotherClass/another_function/result_1',
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
         'name': 'result_1',
         'type': dict({
           'kind': 'NamedType',

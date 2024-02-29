@@ -8,5 +8,5 @@ class AnotherClass:
     pass
 
 
-class YetAnotherClass:
+class yetAnotherClass:
     def another_function(self) -> str: ...

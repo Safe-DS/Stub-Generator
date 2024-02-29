@@ -1,4 +1,4 @@
-from tests.data.main_package.another_path.another_module import YetAnotherClass
+from tests.data.main_package.another_path.another_module import yetAnotherClass
 
 
 class ClassModuleEmptyClassA:
@@ -11,7 +11,7 @@ class ClassModuleClassB(ClassModuleEmptyClassA):
     def f(self): ...
 
 
-class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB, YetAnotherClass):
+class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB, yetAnotherClass):
     attr_1: int
     attr_2: int
 

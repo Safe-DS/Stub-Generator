@@ -2025,7 +2025,7 @@
     'superclasses': list([
       'tests.data.various_modules_package.class_module.ClassModuleEmptyClassA',
       'tests.data.various_modules_package.class_module.ClassModuleClassB',
-      'tests.data.main_package.another_path.another_module.YetAnotherClass',
+      'tests.data.main_package.another_path.another_module.yetAnotherClass',
     ]),
     'type_parameters': list([
     ]),
@@ -6340,7 +6340,7 @@
     'qualified_imports': list([
       dict({
         'alias': None,
-        'qualified_name': 'tests.data.main_package.another_path.another_module.YetAnotherClass',
+        'qualified_name': 'tests.data.main_package.another_path.another_module.yetAnotherClass',
       }),
     ]),
     'wildcard_imports': list([

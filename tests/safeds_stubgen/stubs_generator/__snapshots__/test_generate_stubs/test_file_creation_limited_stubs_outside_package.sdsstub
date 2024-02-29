@@ -2,3 +2,5 @@
 package tests.data.mainPackage.anotherPath.anotherModule
 
 class AnotherClass
+
+class yetAnotherClass
