@@ -1,7 +1,7 @@
 @PythonModule("various_modules_package.class_module")
 package variousModulesPackage.classModule
 
-from tests.data.main_package.another_path.another_module import YetAnotherClass
+from tests.data.mainPackage.anotherPath.anotherModule import YetAnotherClass
 
 class ClassModuleEmptyClassA()
 

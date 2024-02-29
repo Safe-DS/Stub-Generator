@@ -194,8 +194,15 @@ class StubsStringGenerator:
 
         for import_ in self.module_imports:
             import_parts = import_.split(".")
+
             from_ = ".".join(import_parts[0:-1])
+            from_ = _convert_snake_to_camel_case(from_)
+            from_ = _replace_if_safeds_keyword(from_)
+
             name = import_parts[-1]
+            name = _convert_snake_to_camel_case(name)
+            name = _replace_if_safeds_keyword(name)
+
             import_strings.append(f"from {from_} import {name}")
 
         # We have to sort for the snapshot tests

@@ -1,7 +1,7 @@
 @PythonModule("various_modules_package.attribute_module")
 package variousModulesPackage.attributeModule
 
-from tests.data.main_package.another_path.another_module import AnotherClass
+from tests.data.mainPackage.anotherPath.anotherModule import AnotherClass
 
 class AttributesClassA()
 
