@@ -130,7 +130,7 @@ def _create_outside_package_class_text(class_name: str, convert_identifiers: boo
     # to camel case
     camel_case_name = class_name
     if convert_identifiers:
-        camel_case_name = _convert_snake_to_camel_case(class_name)
+        camel_case_name = _convert_snake_to_camel_case(class_name, is_class_name=True)
 
     # add name annotation
     class_annotation = ""
