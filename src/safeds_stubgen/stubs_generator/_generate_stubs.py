@@ -29,12 +29,12 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
 
     Parameters
     ----------
-    api : API
+    api
         The API object from which the stubs
-    out_path : Path
+    out_path
         The path in which the stub files should be created. If no such path exists this function creates the directory
         files.
-    convert_identifiers : bool
+    convert_identifiers
         Set this True if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and
         camelCase for everything else).
     """
@@ -120,7 +120,7 @@ def _create_outside_package_class_text(class_name, convert_identifiers):
     # check for identifiers
     safe_class_name = _replace_if_safeds_keyword(camel_case_name)
 
-    return f"{class_annotation}\nclass {safe_class_name}()\n"
+    return f"{class_annotation}\nclass {safe_class_name}\n"
 
 
 class StubsStringGenerator:
@@ -703,12 +703,8 @@ class StubsStringGenerator:
 
         Paramters
         ---------
-        qname : str
+        qname
             The qualified name of a module/class/etc.
-
-        Returns
-        -------
-        None
         """
         if qname == "":  # pragma: no cover
             raise ValueError("Type has no import source.")
