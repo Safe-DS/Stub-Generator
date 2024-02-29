@@ -2523,6 +2523,93 @@
     ]),
   })
 # ---
+# name: test_classes[VarianceClassOnlyContravarianceNoBound]
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyContravarianceNoBound',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'type_parameters': list([
+      dict({
+        'name': '_T_con',
+        'type': None,
+        'variance_type': 'CONTRAVARIANT',
+      }),
+    ]),
+  })
+# ---
+# name: test_classes[VarianceClassOnlyCovarianceNoBound]
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyCovarianceNoBound',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'type_parameters': list([
+      dict({
+        'name': '_T_co',
+        'type': None,
+        'variance_type': 'COVARIANT',
+      }),
+    ]),
+  })
+# ---
+# name: test_classes[VarianceClassOnlyVarianceNoBound]
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyVarianceNoBound',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'type_parameters': list([
+      dict({
+        'name': '_T_in',
+        'type': None,
+        'variance_type': 'INVARIANT',
+      }),
+    ]),
+  })
+# ---
 # name: test_classes[_ClassModulePrivateClassG]
   dict({
     'attributes': list([

@@ -191,7 +191,7 @@ class StubsStringGenerator:
                 variance_name_camel_case = self._replace_if_safeds_keyword(variance_name_camel_case)
 
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
-                if variance_direction == out:
+                if variance.type is not None:
                     variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
                 self.class_generics.append(variance_item)
 

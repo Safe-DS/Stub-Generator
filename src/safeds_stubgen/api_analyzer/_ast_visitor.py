@@ -155,13 +155,17 @@ class MyPyAstVisitor:
 
             for generic_type in generic_types:
                 variance_type = mypy_variance_parser(generic_type.variance)
-                variance_values: sds_types.AbstractType
+                variance_values: sds_types.AbstractType | None = None
                 if variance_type == VarianceKind.INVARIANT:
-                    variance_values = sds_types.UnionType(
-                        [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
-                    )
+                    values = [self.mypy_type_to_abstract_type(value) for value in generic_type.values]
+                    if values:
+                        variance_values = sds_types.UnionType(
+                            [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
+                        )
                 else:
-                    variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
+                    upper_bound = generic_type.upper_bound
+                    if upper_bound.__str__() != "builtins.object":
+                        variance_values = self.mypy_type_to_abstract_type(generic_type.upper_bound)
 
                 type_parameters.append(
                     TypeParameter(

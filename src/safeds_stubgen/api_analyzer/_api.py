@@ -312,11 +312,15 @@ class ParameterAssignment(PythonEnum):
 @dataclass(frozen=True)
 class TypeParameter:
     name: str
-    type: AbstractType
+    type: AbstractType | None
     variance: VarianceKind
 
     def to_dict(self) -> dict[str, Any]:
-        return {"name": self.name, "type": self.type.to_dict(), "variance_type": self.variance.name}
+        return {
+            "name": self.name,
+            "type": self.type.to_dict() if self.type is not None else None,
+            "variance_type": self.variance.name
+        }
 
 
 class VarianceKind(PythonEnum):
