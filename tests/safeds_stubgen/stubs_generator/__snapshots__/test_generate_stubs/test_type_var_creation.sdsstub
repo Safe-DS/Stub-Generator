@@ -31,3 +31,9 @@ class TypeVarClass2<T>() {
 		a: T
 	) -> result1: T
 }
+
+@Pure
+@PythonName("type_var_fun_invariance_with_bound")
+fun typeVarFunInvarianceWithBound<TIn sub Int>(
+	a: TIn,
+) -> result1: TIn
