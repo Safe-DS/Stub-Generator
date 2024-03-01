@@ -1021,21 +1021,6 @@
         'qname': 'builtins.int',
       }),
     }),
-    dict({
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/type_var',
-      'is_public': True,
-      'is_static': True,
-      'name': 'type_var',
-      'type': dict({
-        'kind': 'TypeVarType',
-        'name': 'type_var',
-      }),
-    }),
   ])
 # ---
 # name: test_class_attributes[ClassModuleNestedClassE]
@@ -1859,6 +1844,31 @@
     }),
   ])
 # ---
+# name: test_class_methods[TypeVarClass]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'various_modules_package/type_var_module/TypeVarClass/type_var_class_method',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method',
+      'parameters': list([
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/self',
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/result_1',
+      ]),
+    }),
+  ])
+# ---
 # name: test_class_methods[_ClassModulePrivateDoubleNestedClassF]
   list([
     dict({
@@ -2463,7 +2473,7 @@
     ]),
     'type_parameters': list([
       dict({
-        'name': '_T_co',
+        'name': '_T_co2',
         'type': dict({
           'kind': 'NamedType',
           'name': 'str',
@@ -2472,7 +2482,7 @@
         'variance_type': 'COVARIANT',
       }),
       dict({
-        'name': '_T_con',
+        'name': '_T_con2',
         'type': dict({
           'kind': 'NamedType',
           'name': 'A',
@@ -2481,7 +2491,7 @@
         'variance_type': 'CONTRAVARIANT',
       }),
       dict({
-        'name': '_T_in',
+        'name': '_T_in2',
         'type': dict({
           'kind': 'UnionType',
           'types': list([
@@ -2514,7 +2524,7 @@
     ]),
   })
 # ---
-# name: test_classes[VarianceClassOnlyInvariance]
+# name: test_classes[VarianceClassOnlyContravarianceNoBound]
   dict({
     'attributes': list([
     ]),
@@ -2525,11 +2535,69 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/variance_module/VarianceClassOnlyInvariance',
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
     'is_public': True,
     'methods': list([
     ]),
-    'name': 'VarianceClassOnlyInvariance',
+    'name': 'VarianceClassOnlyContravarianceNoBound',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'type_parameters': list([
+      dict({
+        'name': '_T_con',
+        'type': None,
+        'variance_type': 'CONTRAVARIANT',
+      }),
+    ]),
+  })
+# ---
+# name: test_classes[VarianceClassOnlyCovarianceNoBound]
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyCovarianceNoBound',
+    'reexported_by': list([
+    ]),
+    'superclasses': list([
+    ]),
+    'type_parameters': list([
+      dict({
+        'name': '_T_co',
+        'type': None,
+        'variance_type': 'COVARIANT',
+      }),
+    ]),
+  })
+# ---
+# name: test_classes[VarianceClassOnlyVarianceNoBound]
+  dict({
+    'attributes': list([
+    ]),
+    'classes': list([
+    ]),
+    'constructor': None,
+    'docstring': dict({
+      'description': '',
+      'full_docstring': '',
+    }),
+    'id': 'various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
+    'is_public': True,
+    'methods': list([
+    ]),
+    'name': 'VarianceClassOnlyVarianceNoBound',
     'reexported_by': list([
     ]),
     'superclasses': list([
@@ -2537,33 +2605,7 @@
     'type_parameters': list([
       dict({
         'name': '_T_in',
-        'type': dict({
-          'kind': 'UnionType',
-          'types': list([
-            dict({
-              'kind': 'NamedType',
-              'name': 'int',
-              'qname': 'builtins.int',
-            }),
-            dict({
-              'kind': 'UnionType',
-              'types': list([
-                dict({
-                  'kind': 'LiteralType',
-                  'literals': list([
-                    1,
-                  ]),
-                }),
-                dict({
-                  'kind': 'LiteralType',
-                  'literals': list([
-                    2,
-                  ]),
-                }),
-              ]),
-            }),
-          ]),
-        }),
+        'type': None,
         'variance_type': 'INVARIANT',
       }),
     ]),
@@ -3398,6 +3440,44 @@
             'qname': 'builtins.int',
           }),
         ]),
+      }),
+    }),
+  ])
+# ---
+# name: test_function_parameters[multiple_type_var]
+  list([
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/a',
+      'is_optional': False,
+      'name': 'a',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var1',
+        'upper_bound': None,
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/b',
+      'is_optional': False,
+      'name': 'b',
+      'type': dict({
+        'kind': 'TypeVarType',
+        'name': '_type_var2',
+        'upper_bound': None,
       }),
     }),
   ])
@@ -4456,15 +4536,16 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/type_var_func/type_var_list',
+      'id': 'various_modules_package/type_var_module/type_var_func/a',
       'is_optional': False,
-      'name': 'type_var_list',
+      'name': 'a',
       'type': dict({
         'kind': 'ListType',
         'types': list([
           dict({
             'kind': 'TypeVarType',
             'name': '_type_var',
+            'upper_bound': None,
           }),
         ]),
       }),
@@ -4979,6 +5060,38 @@
     }),
   ])
 # ---
+# name: test_function_results[multiple_type_var]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': '',
+      }),
+      'id': 'various_modules_package/type_var_module/multiple_type_var/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'ListType',
+        'types': list([
+          dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'TypeVarType',
+                'name': '_type_var1',
+                'upper_bound': None,
+              }),
+              dict({
+                'kind': 'TypeVarType',
+                'name': '_type_var2',
+                'upper_bound': None,
+              }),
+            ]),
+          }),
+        ]),
+      }),
+    }),
+  ])
+# ---
 # name: test_function_results[nested_class_function]
   list([
     dict({
@@ -5213,7 +5326,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/type_var_func/result_1',
+      'id': 'various_modules_package/type_var_module/type_var_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -5221,6 +5334,7 @@
           dict({
             'kind': 'TypeVarType',
             'name': '_type_var',
+            'upper_bound': None,
           }),
         ]),
       }),
@@ -6105,26 +6219,6 @@
       'results': list([
         'various_modules_package/function_module/tuple_results/result_1',
         'various_modules_package/function_module/tuple_results/result_2',
-      ]),
-    }),
-    dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'various_modules_package/function_module/type_var_func',
-      'is_class_method': False,
-      'is_property': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'type_var_func',
-      'parameters': list([
-        'various_modules_package/function_module/type_var_func/type_var_list',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'various_modules_package/function_module/type_var_func/result_1',
       ]),
     }),
     dict({

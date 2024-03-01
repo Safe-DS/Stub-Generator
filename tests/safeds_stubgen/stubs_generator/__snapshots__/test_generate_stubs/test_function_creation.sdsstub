@@ -249,12 +249,6 @@ fun paramFromOutsideThePackage(
 fun resultFromOutsideThePackage() -> result1: AnotherClass
 
 @Pure
-@PythonName("type_var_func")
-fun typeVarFunc(
-	@PythonName("type_var_list") typeVarList: List<>
-) -> result1: List<>
-
-@Pure
 @PythonName("ret_conditional_statement")
 fun retConditionalStatement() -> result1: union<Boolean, Int>
 

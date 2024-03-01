@@ -16,7 +16,7 @@ if TYPE_CHECKING:
         ResultDocstring,
     )
 
-    from ._types import AbstractType
+    from ._types import AbstractType, TypeVarType
 
 API_SCHEMA_VERSION = 1
 
@@ -237,6 +237,7 @@ class Function:
     is_static: bool
     is_class_method: bool
     is_property: bool
+    type_var_types: list[TypeVarType] = field(default_factory=list)
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
@@ -311,11 +312,15 @@ class ParameterAssignment(PythonEnum):
 @dataclass(frozen=True)
 class TypeParameter:
     name: str
-    type: AbstractType
+    type: AbstractType | None
     variance: VarianceKind
 
     def to_dict(self) -> dict[str, Any]:
-        return {"name": self.name, "type": self.type.to_dict(), "variance_type": self.variance.name}
+        return {
+            "name": self.name,
+            "type": self.type.to_dict() if self.type is not None else None,
+            "variance_type": self.variance.name,
+        }
 
 
 class VarianceKind(PythonEnum):

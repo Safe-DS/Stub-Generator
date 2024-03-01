@@ -391,16 +391,21 @@ class TupleType(AbstractType):
 @dataclass(frozen=True)
 class TypeVarType(AbstractType):
     name: str
+    upper_bound: AbstractType | None = None
 
     @classmethod
-    def from_dict(cls, d: dict[str, str]) -> TypeVarType:
-        return TypeVarType(d["name"])
+    def from_dict(cls, d: dict[str, Any]) -> TypeVarType:
+        return TypeVarType(d["name"], d["upper_bound"])
 
-    def to_dict(self) -> dict[str, str]:
-        return {"kind": self.__class__.__name__, "name": self.name}
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.__class__.__name__,
+            "name": self.name,
+            "upper_bound": self.upper_bound.to_dict() if self.upper_bound is not None else None,
+        }
 
     def __hash__(self) -> int:
-        return hash(frozenset([self.name]))
+        return hash(frozenset([self.name, self.upper_bound]))
 
 
 # ############################## Utilities ############################## #

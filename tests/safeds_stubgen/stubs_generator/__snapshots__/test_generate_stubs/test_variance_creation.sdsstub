@@ -3,6 +3,10 @@ package variousModulesPackage.varianceModule
 
 class A()
 
-class VarianceClassAll<out TCo sub String, in TCon, TIn>()
+class VarianceClassOnlyCovarianceNoBound<out TCo>()
 
-class VarianceClassOnlyInvariance<TIn>()
+class VarianceClassOnlyVarianceNoBound<TIn>()
+
+class VarianceClassOnlyContravarianceNoBound<in TCon>()
+
+class VarianceClassAll<out TCo2 sub String, in TCon2 sub A, TIn2 sub union<Int, literal<1, 2>>>()

@@ -1,0 +1,39 @@
+@PythonModule("various_modules_package.type_var_module")
+package variousModulesPackage.typeVarModule
+
+@Pure
+@PythonName("type_var_func")
+fun typeVarFunc<typeVar>(
+	a: List<typeVar>
+) -> result1: List<typeVar>
+
+@Pure
+@PythonName("multiple_type_var")
+fun multipleTypeVar<typeVar1, typeVar2>(
+	a: typeVar1,
+	b: typeVar2
+) -> result1: List<union<typeVar1, typeVar2>>
+
+@Pure
+@PythonName("type_var_fun_invariance_with_bound")
+fun typeVarFunInvarianceWithBound<TIn sub Int>(
+	a: List<TIn>
+) -> result1: TIn
+
+class TypeVarClass<T>(
+	items: List<T>
+) {
+	@Pure
+	@PythonName("type_var_class_method")
+	fun typeVarClassMethod(
+		a: T
+	) -> result1: T
+}
+
+class TypeVarClass2<T>() {
+	@Pure
+	@PythonName("type_var_class_method2")
+	fun typeVarClassMethod2(
+		a: T
+	) -> result1: T
+}
