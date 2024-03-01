@@ -88,6 +88,7 @@ class StubsStringGenerator:
         self.module_imports = set()
         self._current_todo_msgs: set[str] = set()
         self.module = module
+        self.class_generics: list = []
         return self._create_module_string(module)
 
     def _create_module_string(self, module: Module) -> str:
@@ -190,7 +191,8 @@ class StubsStringGenerator:
         constraints_info = ""
         variance_info = ""
         if class_.type_parameters:
-            variances = []
+            # We collect the class generics for the methods later
+            self.class_generics = []
             out = "out "
             for variance in class_.type_parameters:
                 variance_direction = {
@@ -204,12 +206,12 @@ class StubsStringGenerator:
                 variance_name_camel_case = self._replace_if_safeds_keyword(variance_name_camel_case)
 
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
-                if variance_direction == out:
+                if variance.type is not None:
                     variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
-                variances.append(variance_item)
+                self.class_generics.append(variance_item)
 
-            if variances:
-                variance_info = f"<{', '.join(variances)}>"
+            if self.class_generics:
+                variance_info = f"<{', '.join(self.class_generics)}>"
 
         # Class name - Convert to camelCase and check for keywords
         class_name = class_.name
@@ -289,6 +291,10 @@ class StubsStringGenerator:
             if attribute.type:
                 attribute_type = attribute.type.to_dict()
 
+                # Don't create TypeVar attributes
+                if attribute_type["kind"] == "TypeVarType":
+                    continue
+
             static_string = "static " if attribute.is_static else ""
 
             # Convert name to camelCase and add PythonName annotation
@@ -341,6 +347,24 @@ class StubsStringGenerator:
             is_instance_method=not is_static and is_method,
         )
 
+        # TypeVar
+        type_var_info = ""
+        if function.type_var_types:
+            type_var_names = []
+            for type_var in function.type_var_types:
+                type_var_name = self._convert_snake_to_camel_case(type_var.name)
+                type_var_name = self._replace_if_safeds_keyword(type_var_name)
+
+                # We don't have to display generic types in methods if they were already displayed in the class
+                if not is_method or (is_method and type_var_name not in self.class_generics):
+                    if type_var.upper_bound is not None:
+                        type_var_name += f" sub {self._create_type_string(type_var.upper_bound.to_dict())}"
+                    type_var_names.append(type_var_name)
+
+            if type_var_names:
+                type_var_string = ", ".join(type_var_names)
+                type_var_info = f"<{type_var_string}>"
+
         # Convert function name to camelCase
         name = function.name
         camel_case_name = self._convert_snake_to_camel_case(name)
@@ -358,8 +382,8 @@ class StubsStringGenerator:
             f"{self._create_todo_msg(indentations)}"
             f"{indentations}@Pure\n"
             f"{function_name_annotation}"
-            f"{indentations}{static}fun {camel_case_name}({func_params})"
-            f"{result_string}"
+            f"{indentations}{static}fun {camel_case_name}{type_var_info}"
+            f"({func_params}){result_string}"
         )
 
     def _create_property_function_string(self, function: Function, indentations: str = "") -> str:
@@ -645,9 +669,9 @@ class StubsStringGenerator:
                 else:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
-        # Todo See issue #63
         elif kind == "TypeVarType":
-            return ""
+            name = self._convert_snake_to_camel_case(type_data["name"])
+            return self._replace_if_safeds_keyword(name)
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
