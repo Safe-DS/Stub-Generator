@@ -414,8 +414,8 @@ class StubsStringGenerator:
         if function.type_var_types:
             type_var_names = []
             for type_var in function.type_var_types:
-                type_var_name = self._convert_snake_to_camel_case(type_var.name)
-                type_var_name = self._replace_if_safeds_keyword(type_var_name)
+                type_var_name = _convert_snake_to_camel_case(type_var.name)
+                type_var_name = _replace_if_safeds_keyword(type_var_name)
 
                 # We don't have to display generic types in methods if they were already displayed in the class
                 if not is_method or (is_method and type_var_name not in self.class_generics):
@@ -742,8 +742,8 @@ class StubsStringGenerator:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
         elif kind == "TypeVarType":
-            name = self._convert_snake_to_camel_case(type_data["name"])
-            return self._replace_if_safeds_keyword(name)
+            name = _convert_snake_to_camel_case(type_data["name"])
+            return _replace_if_safeds_keyword(name)
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
