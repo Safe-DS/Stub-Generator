@@ -8,7 +8,7 @@ from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
-from safeds_stubgen.stubs_generator._generate_stubs import _convert_snake_to_camel_case
+from safeds_stubgen.stubs_generator._generate_stubs import _convert_name_to_convention
 
 if TYPE_CHECKING:
     from syrupy import SnapshotAssertion
@@ -125,20 +125,22 @@ def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) ->
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result", "is_class_name"),
+    ("name", "expected_result", "convention", "is_class_name"),
     [
-        ("", "", False),
-        ("_", "_", False),
-        ("__get_function_name__", "getFunctionName", False),
-        ("__get_function_name", "getFunctionName", False),
-        ("get_function_name__", "getFunctionName", False),
-        ("__getFunction_name__", "getFunctionName", False),
-        ("__get__function___name__", "getFunctionName", False),
-        ("__get_funCtion_NamE__", "getFunCtionNamE", False),
-        ("getFunctionName", "getFunctionName", False),
-        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", False),
-        ("some_class_name", "SomeClassName", True),
+        ("", "", "Safe-DS", False),
+        ("_", "_", "Safe-DS", False),
+        ("__get_function_name__", "getFunctionName", "Safe-DS", False),
+        ("__get_function_name", "getFunctionName", "Safe-DS", False),
+        ("get_function_name__", "getFunctionName", "Safe-DS", False),
+        ("__getFunction_name__", "getFunctionName", "Safe-DS", False),
+        ("__get__function___name__", "getFunctionName", "Safe-DS", False),
+        ("__get_funCtion_NamE__", "getFunCtionNamE", "Safe-DS", False),
+        ("getFunctionName", "getFunctionName", "Safe-DS", False),
+        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", "Safe-DS", False),
+        ("some_class_name", "SomeClassName", "Safe-DS", True),
+        ("some_class_name", "some_class_name", "Python", True),
+        ("__get_function_name__", "__get_function_name__", "Python", False),
     ],
 )
-def test_convert_snake_to_camel_case(name: str, expected_result: str, is_class_name: bool) -> None:
-    assert _convert_snake_to_camel_case(name, is_class_name=is_class_name) == expected_result
+def test_convert_name_to_convention(name: str, expected_result: str, convention, is_class_name: bool) -> None:
+    assert _convert_name_to_convention(name=name, convention=convention, is_class_name=is_class_name) == expected_result
