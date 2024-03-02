@@ -37,15 +37,17 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         Set this True if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and
         camelCase for everything else).
     """
-    modules = api.modules.values()
-
-    Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
     stubs_generator = StubsStringGenerator(api, convert_identifiers)
+    stubs_data = _generate_stubs_data(api, out_path, stubs_generator)
+    _generate_stubs_files(stubs_data, api, out_path, stubs_generator, convert_identifiers)
 
-    for module in modules:
-        module_name = module.name
 
-        if module_name == "__init__":
+def _generate_stubs_data(
+    api: API, out_path: Path, stubs_generator: StubsStringGenerator
+) -> list[tuple[Path, str, str]]:
+    stubs_data: list[tuple[Path, str, str]] = []
+    for module in api.modules.values():
+        if module.name == "__init__":
             continue
 
         module_text = stubs_generator(module)
@@ -58,8 +60,22 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        # Create module dir
         module_dir = Path(out_path / module.id)
+        stubs_data.append((module_dir, module.name, module_text))
+    return stubs_data
+
+
+def _generate_stubs_files(
+    stubs_data: list[tuple[Path, str, str]],
+    api: API,
+    out_path: Path,
+    stubs_generator: StubsStringGenerator,
+    convert_identifiers: bool
+) -> None:
+    Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
+
+    for module_dir, module_name, module_text in stubs_data:
+        # Create module dir
         module_dir.mkdir(parents=True, exist_ok=True)
 
         # Create and open module file
