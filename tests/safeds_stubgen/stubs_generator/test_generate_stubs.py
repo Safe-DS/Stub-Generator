@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Literal, Generator
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
@@ -77,29 +77,31 @@ def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: Snapshot
         assert f.read() == snapshot_sds_stub
 
 
-@pytest.mark.parametrize(
-    "file_name",
-    [
-        "aliasing_module_1",
-        "aliasing_module_2",
-        "aliasing_module_3",
-        "type_var_module",
-        "abstract_module",
-        "variance_module",
-        "infer_types_module",
-        "import_module",
-        "enum_module",
-        "function_module",
-        "attribute_module",
-        "class_module",
-    ],
-)
-def test_stub_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) -> None:
-    for stub_data in stubs_data:
-        if stub_data[1] == file_name:
-            assert stub_data[2] == snapshot_sds_stub
+def _python_files() -> Generator:
+    return Path(_test_package_dir).rglob(pattern="*.py")
+
+
+def _python_file_ids() -> Generator:
+    files = Path(_test_package_dir).rglob(pattern="*.py")
+    for file in files:
+        yield file.parts[-1].split(".py")[0]
+
+
+@pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
+class TestStubFileGeneration:
+    def test_stub_creation(self, python_file: Path, snapshot_sds_stub: SnapshotAssertion) -> None:
+        file_name = python_file.parts[-1].split(".py")[0]
+
+        for stub_data in stubs_data:
+            if stub_data[1] == file_name:
+                assert stub_data[2] == snapshot_sds_stub
+                return
+
+        # For these files stubs won't get created, because they are either empty of private.
+        if file_name in {"__init__", "_reexport_module_3", "_module_2", "_module_4"}:
             return
-    raise AssertionError(f"Stub file not found for '{file_name}'.")
+
+        raise AssertionError(f"Stub file not found for '{file_name}'.")
 
 
 @pytest.mark.parametrize(

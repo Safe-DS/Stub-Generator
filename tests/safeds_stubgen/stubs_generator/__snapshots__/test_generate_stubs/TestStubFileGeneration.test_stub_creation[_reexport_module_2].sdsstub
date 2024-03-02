@@ -1,0 +1,9 @@
+@PythonModule("various_modules_package._reexport_module_2")
+package variousModulesPackage.ReexportModule2
+
+// TODO Result type information missing.
+@Pure
+@PythonName("reexported_function_2")
+fun reexportedFunction2()
+
+class AnotherReexportClass()
