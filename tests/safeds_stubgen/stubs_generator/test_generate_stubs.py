@@ -143,6 +143,6 @@ def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) ->
     ],
 )
 def test_convert_name_to_convention(
-    name: str, expected_result: str, convention: Literal["Safe-DS", "Python"], is_class_name: bool
+    name: str, expected_result: str, convention: Literal["Safe-DS", "Python"], is_class_name: bool,
 ) -> None:
     assert _convert_name_to_convention(name=name, convention=convention, is_class_name=is_class_name) == expected_result
