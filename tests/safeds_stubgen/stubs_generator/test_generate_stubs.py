@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal, Generator
+from typing import TYPE_CHECKING, Literal
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
@@ -16,6 +16,7 @@ from safeds_stubgen.stubs_generator._generate_stubs import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
     from syrupy import SnapshotAssertion
 
 # Setup - Run API to create stub files
