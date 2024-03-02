@@ -12,6 +12,7 @@ from safeds_stubgen.stubs_generator._generate_stubs import (
     StubsStringGenerator,
     _convert_name_to_convention,
     _generate_stubs_data,
+    _generate_stubs_files,
 )
 
 if TYPE_CHECKING:
@@ -25,10 +26,12 @@ _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-stubs_data = _generate_stubs_data(api, _out_dir, StubsStringGenerator(api, convert_identifiers=True))
+stubs_generator = StubsStringGenerator(api, convert_identifiers=True)
+stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
 def test_file_creation() -> None:
+    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, convert_identifiers=True)
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
         stub_path=Path(_out_dir_stubs / "file_creation"),
