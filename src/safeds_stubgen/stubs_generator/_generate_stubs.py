@@ -43,7 +43,9 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
 
 
 def _generate_stubs_data(
-    api: API, out_path: Path, stubs_generator: StubsStringGenerator
+    api: API,
+    out_path: Path,
+    stubs_generator: StubsStringGenerator,
 ) -> list[tuple[Path, str, str]]:
     stubs_data: list[tuple[Path, str, str]] = []
     for module in api.modules.values():
@@ -70,7 +72,7 @@ def _generate_stubs_files(
     api: API,
     out_path: Path,
     stubs_generator: StubsStringGenerator,
-    convert_identifiers: bool
+    convert_identifiers: bool,
 ) -> None:
     Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
 

@@ -92,7 +92,7 @@ def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: Snapshot
         "function_module",
         "attribute_module",
         "class_module",
-    ]
+    ],
 )
 def test_stub_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) -> None:
     for stub_data in stubs_data:
