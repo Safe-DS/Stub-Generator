@@ -9,10 +9,10 @@ class PublicSuperClass() {
 
 class PublicSubClass() sub PublicSuperClass
 
-class PublicSubClass2() sub _PrivateInternClass {
+class PublicSubClass2() sub _PrivateInternalClass {
 	@Pure
-	@PythonName("public_inter_class_method")
-	fun publicInterClassMethod(
+	@PythonName("public_internal_class_method")
+	fun publicInternalClassMethod(
 		a: Int
 	) -> result1: String
 

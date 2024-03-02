@@ -170,15 +170,15 @@ class StubsStringGenerator:
                 self._add_to_imports(superclass)
 
                 # if the superclass was not added to the module_imports through the _add_to_imports method, it means
-                # that the superclass is a class from the same module. We have to check if it's a private class and
-                # add the public classes, if it's an intern class.
+                # that the superclass is a class from the same module.
+                # For internal superclasses, we have to add their public members to subclasses.
                 if superclass not in self.module_imports:
                     for module_class in self.module.classes:
                         if module_class.name == superclass_name and superclass_name.startswith("_"):
                             superclass_methods_text += self._create_class_method_string(
                                 module_class.methods,
                                 inner_indentations,
-                                is_intern_class=True,
+                                is_internal_class=True,
                             )
                             break
 
@@ -234,7 +234,7 @@ class StubsStringGenerator:
         for inner_class in class_.classes:
             class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
 
-        # Superclass methods, if the superclass is an intern class
+        # Superclass methods, if the superclass is an internal class
         class_text += superclass_methods_text
 
         # Methods
@@ -253,13 +253,13 @@ class StubsStringGenerator:
         self,
         methods: list[Function],
         inner_indentations: str,
-        is_intern_class: bool = False,
+        is_internal_class: bool = False,
     ) -> str:
         class_methods: list[str] = []
         class_property_methods: list[str] = []
         for method in methods:
-            # Add methods of intern classes that are inherited if the methods themselfe are public
-            if not method.is_public and (not is_intern_class or (is_intern_class and method.name.startswith("_"))):
+            # Add methods of internal classes that are inherited if the methods themselfe are public
+            if not method.is_public and (not is_internal_class or (is_internal_class and method.name.startswith("_"))):
                 continue
             elif method.is_property:
                 class_property_methods.append(
