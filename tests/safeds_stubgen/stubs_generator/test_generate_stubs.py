@@ -17,6 +17,7 @@ from safeds_stubgen.stubs_generator._generate_stubs import (
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
     from syrupy import SnapshotAssertion
 
 # Setup - Run API to create stub files
