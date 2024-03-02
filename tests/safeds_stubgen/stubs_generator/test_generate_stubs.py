@@ -131,6 +131,7 @@ def test_convert_name_to_convention(
     naming_convention: NamingConvention,
     is_class_name: bool,
 ) -> None:
-    assert _convert_name_to_convention(
-        name=name, naming_convention=naming_convention, is_class_name=is_class_name
-    ) == expected_result
+    assert (
+        _convert_name_to_convention(name=name, naming_convention=naming_convention, is_class_name=is_class_name)
+        == expected_result
+    )
