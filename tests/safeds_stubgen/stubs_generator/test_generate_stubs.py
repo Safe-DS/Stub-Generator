@@ -97,7 +97,7 @@ class TestStubFileGeneration:
                 assert stub_data[2] == snapshot_sds_stub
                 return
 
-        # For these files stubs won't get created, because they are either empty of private.
+        # For these files stubs won't get created, because they are either empty or private.
         if file_name in {"__init__", "_reexport_module_3", "_module_2", "_module_4"}:
             return
 
