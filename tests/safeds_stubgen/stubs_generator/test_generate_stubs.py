@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
@@ -9,6 +9,7 @@ from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
 from safeds_stubgen.stubs_generator._generate_stubs import (
+    NamingConvention,
     StubsStringGenerator,
     _convert_name_to_convention,
     _generate_stubs_data,
@@ -28,12 +29,12 @@ _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-stubs_generator = StubsStringGenerator(api, convert_identifiers=True)
+stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
 stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
 def test_file_creation() -> None:
-    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, convert_identifiers=True)
+    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
         stub_path=Path(_out_dir_stubs / "file_creation"),
@@ -107,27 +108,29 @@ class TestStubFileGeneration:
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result", "convention", "is_class_name"),
+    ("name", "expected_result", "naming_convention", "is_class_name"),
     [
         ("", "", "Safe-DS", False),
         ("_", "_", "Safe-DS", False),
-        ("__get_function_name__", "getFunctionName", "Safe-DS", False),
-        ("__get_function_name", "getFunctionName", "Safe-DS", False),
-        ("get_function_name__", "getFunctionName", "Safe-DS", False),
-        ("__getFunction_name__", "getFunctionName", "Safe-DS", False),
-        ("__get__function___name__", "getFunctionName", "Safe-DS", False),
-        ("__get_funCtion_NamE__", "getFunCtionNamE", "Safe-DS", False),
-        ("getFunctionName", "getFunctionName", "Safe-DS", False),
-        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", "Safe-DS", False),
-        ("some_class_name", "SomeClassName", "Safe-DS", True),
-        ("some_class_name", "some_class_name", "Python", True),
-        ("__get_function_name__", "__get_function_name__", "Python", False),
+        ("__get_function_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get_function_name", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("get_function_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__getFunction_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get__function___name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get_funCtion_NamE__", "getFunCtionNamE", NamingConvention.SAFE_DS, False),
+        ("getFunctionName", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", NamingConvention.SAFE_DS, False),
+        ("some_class_name", "SomeClassName", NamingConvention.SAFE_DS, True),
+        ("some_class_name", "some_class_name", NamingConvention.PYTHON, True),
+        ("__get_function_name__", "__get_function_name__", NamingConvention.PYTHON, False),
     ],
 )
 def test_convert_name_to_convention(
     name: str,
     expected_result: str,
-    convention: Literal["Safe-DS", "Python"],
+    naming_convention: NamingConvention,
     is_class_name: bool,
 ) -> None:
-    assert _convert_name_to_convention(name=name, convention=convention, is_class_name=is_class_name) == expected_result
+    assert _convert_name_to_convention(
+        name=name, naming_convention=naming_convention, is_class_name=is_class_name
+    ) == expected_result
