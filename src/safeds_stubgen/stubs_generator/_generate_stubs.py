@@ -879,7 +879,11 @@ def _replace_if_safeds_keyword(keyword: str) -> str:
     return keyword
 
 
-def _convert_name_to_convention(name: str, convention: Literal["Safe-DS", "Python"], is_class_name: bool = False) -> str:
+def _convert_name_to_convention(
+    name: str,
+    convention: Literal["Safe-DS", "Python"],
+    is_class_name: bool = False,
+) -> str:
     if name == "_" or convention == "Python":
         return name
 
