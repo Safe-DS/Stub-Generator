@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Literal
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
@@ -142,5 +142,7 @@ def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) ->
         ("__get_function_name__", "__get_function_name__", "Python", False),
     ],
 )
-def test_convert_name_to_convention(name: str, expected_result: str, convention, is_class_name: bool) -> None:
+def test_convert_name_to_convention(
+    name: str, expected_result: str, convention: Literal["Safe-DS", "Python"], is_class_name: bool
+) -> None:
     assert _convert_name_to_convention(name=name, convention=convention, is_class_name=is_class_name) == expected_result
