@@ -1,0 +1,7 @@
+@PythonModule("various_modules_package.file_creation._module_6")
+package variousModulesPackage.fileCreation.Module6
+
+// TODO Result type information missing.
+@Pure
+@PythonName("public_reexported")
+fun publicReexported()

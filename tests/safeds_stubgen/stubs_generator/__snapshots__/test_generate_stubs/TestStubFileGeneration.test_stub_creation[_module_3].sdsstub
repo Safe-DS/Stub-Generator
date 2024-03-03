@@ -1,0 +1,4 @@
+@PythonModule("various_modules_package.file_creation._module_3")
+package variousModulesPackage.fileCreation.Module3
+
+class Reexported()

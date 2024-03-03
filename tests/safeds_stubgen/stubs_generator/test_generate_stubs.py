@@ -4,13 +4,21 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from safeds_stubgen.api_analyzer import API, get_api
+from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
-from safeds_stubgen.stubs_generator._generate_stubs import StubsStringGenerator
+from safeds_stubgen.stubs_generator._generate_stubs import (
+    NamingConvention,
+    StubsStringGenerator,
+    _convert_name_to_convention,
+    _generate_stubs_data,
+    _generate_stubs_files,
+)
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from syrupy import SnapshotAssertion
 
 # Setup - Run API to create stub files
@@ -21,10 +29,18 @@ _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-generate_stubs(api, _out_dir, convert_identifiers=True)
+stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
+stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
-# Utilites
+def test_file_creation() -> None:
+    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
+    _assert_file_creation_recursive(
+        python_path=Path(_test_package_dir / "file_creation"),
+        stub_path=Path(_out_dir_stubs / "file_creation"),
+    )
+
+
 def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     assert python_path.is_dir()
     assert stub_path.is_dir()
@@ -54,92 +70,68 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
             _assert_file_creation_recursive(py_item, stub_item)
 
 
-def assert_stubs_snapshot(filename: str, snapshot_sds_stub: SnapshotAssertion) -> None:
-    stubs_file = Path(_out_dir_stubs / filename / f"{filename}.sdsstub")
-    with stubs_file.open("r") as f:
+def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: SnapshotAssertion) -> None:
+    # Somehow the stubs get overwritten by other tests, therefore we have to call the function before asserting
+    generate_stubs(api, _out_dir, convert_identifiers=True)
+    path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
+    assert path.is_file()
+
+    with path.open("r") as f:
         assert f.read() == snapshot_sds_stub
 
 
-# ############################## Tests ############################## #
-def test_file_creation() -> None:
-    _assert_file_creation_recursive(
-        python_path=Path(_test_package_dir / "file_creation"),
-        stub_path=Path(_out_dir_stubs / "file_creation"),
-    )
+def _python_files() -> Generator:
+    return Path(_test_package_dir).rglob(pattern="*.py")
 
 
-def test_class_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("class_module", snapshot_sds_stub)
+def _python_file_ids() -> Generator:
+    files = Path(_test_package_dir).rglob(pattern="*.py")
+    for file in files:
+        yield file.parts[-1].split(".py")[0]
 
 
-def test_class_attribute_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("attribute_module", snapshot_sds_stub)
+@pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
+class TestStubFileGeneration:
+    def test_stub_creation(self, python_file: Path, snapshot_sds_stub: SnapshotAssertion) -> None:
+        file_name = python_file.parts[-1].split(".py")[0]
 
+        for stub_data in stubs_data:
+            if stub_data[1] == file_name:
+                assert stub_data[2] == snapshot_sds_stub
+                return
 
-def test_function_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("function_module", snapshot_sds_stub)
+        # For these files stubs won't get created, because they are either empty or private.
+        if file_name in {"__init__", "_reexport_module_3", "_module_2", "_module_4"}:
+            return
 
-
-def test_enum_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("enum_module", snapshot_sds_stub)
-
-
-def test_import_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("import_module", snapshot_sds_stub)
-
-
-def test_type_inference(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("infer_types_module", snapshot_sds_stub)
-
-
-def test_variance_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("variance_module", snapshot_sds_stub)
-
-
-def test_abstract_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("abstract_module", snapshot_sds_stub)
-
-
-def test_type_var_creation(snapshot_sds_stub: SnapshotAssertion) -> None:
-    assert_stubs_snapshot("type_var_module", snapshot_sds_stub)
-
-
-@pytest.mark.parametrize("file_name", ["aliasing_module_1", "aliasing_module_2", "aliasing_module_3"])
-def test_alias_creation(file_name: str, snapshot_sds_stub: SnapshotAssertion) -> None:
-    file_data = ""
-    stubs_file = Path(_out_dir_stubs / "aliasing" / f"{file_name}" / f"{file_name}.sdsstub")
-    with stubs_file.open("r") as f:
-        file_data += f.read()
-
-    assert file_data == snapshot_sds_stub
+        raise AssertionError(f"Stub file not found for '{file_name}'.")
 
 
 @pytest.mark.parametrize(
-    ("name", "expected_result", "is_class_name", "convert_identifiers"),
+    ("name", "expected_result", "naming_convention", "is_class_name"),
     [
-        ("", "", False, True),
-        ("_", "_", False, True),
-        ("__get_function_name__", "getFunctionName", False, True),
-        ("__get_function_name", "getFunctionName", False, True),
-        ("get_function_name__", "getFunctionName", False, True),
-        ("__getFunction_name__", "getFunctionName", False, True),
-        ("__get__function___name__", "getFunctionName", False, True),
-        ("__get_funCtion_NamE__", "getFunCtionNamE", False, True),
-        ("getFunctionName", "getFunctionName", False, True),
-        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", False, True),
-        ("some_class_name", "SomeClassName", True, True),
-        ("some_function_name", "some_function_name", False, False),
-        ("some_class_name", "some_class_name", True, False),
+        ("", "", "Safe-DS", False),
+        ("_", "_", "Safe-DS", False),
+        ("__get_function_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get_function_name", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("get_function_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__getFunction_name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get__function___name__", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("__get_funCtion_NamE__", "getFunCtionNamE", NamingConvention.SAFE_DS, False),
+        ("getFunctionName", "getFunctionName", NamingConvention.SAFE_DS, False),
+        ("a_a_A_aAAaA_1_1_2_aAa", "aAAAAAaA112AAa", NamingConvention.SAFE_DS, False),
+        ("some_class_name", "SomeClassName", NamingConvention.SAFE_DS, True),
+        ("some_class_name", "some_class_name", NamingConvention.PYTHON, True),
+        ("__get_function_name__", "__get_function_name__", NamingConvention.PYTHON, False),
     ],
 )
-def test_convert_snake_to_camel_case(
+def test_convert_name_to_convention(
     name: str,
     expected_result: str,
+    naming_convention: NamingConvention,
     is_class_name: bool,
-    convert_identifiers: bool,
 ) -> None:
-    stubs_string_generator = StubsStringGenerator(
-        api=API(distribution="", package=_test_package_name, version=""),
-        convert_identifiers=convert_identifiers,
+    assert (
+        _convert_name_to_convention(name=name, naming_convention=naming_convention, is_class_name=is_class_name)
+        == expected_result
     )
-    assert stubs_string_generator._convert_snake_to_camel_case(name, is_class_name) == expected_result

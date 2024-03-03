@@ -21,7 +21,7 @@ class InferMyTypes(
 	@PythonName("infer_none")
 	static attr inferNone: Nothing?
 	@PythonName("infer_obj")
-	static attr inferObj: () -> a: InferMe
+	static attr inferObj: () -> param1: InferMe
 	// TODO Attribute has no type information.
 	@PythonName("init_infer")
 	attr initInfer

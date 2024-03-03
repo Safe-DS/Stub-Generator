@@ -124,6 +124,29 @@
       }),
       dict({
         'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
+        'id': 'main_package/another_path/another_module/yetAnotherClass',
+        'is_public': True,
+        'methods': list([
+          'main_package/another_path/another_module/yetAnotherClass/another_function',
+        ]),
+        'name': 'yetAnotherClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
           'main_package/main_module/ModuleClass/attr_1',
           'main_package/main_module/ModuleClass/init_attr',
           'main_package/main_module/ModuleClass/_init_attr_private',
@@ -312,6 +335,26 @@
           'description': '',
           'full_docstring': '',
         }),
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'another_function',
+        'parameters': list([
+          'main_package/another_path/another_module/yetAnotherClass/another_function/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'full_docstring': '',
+        }),
         'id': 'main_package/main_module/ModuleClass/NestedClass/nested_class_function',
         'is_class_method': False,
         'is_property': False,
@@ -495,6 +538,7 @@
       dict({
         'classes': list([
           'main_package/another_path/another_module/AnotherClass',
+          'main_package/another_path/another_module/yetAnotherClass',
         ]),
         'docstring': '''
           Another Module Docstring.
@@ -554,6 +598,19 @@
     ]),
     'package': 'main_package',
     'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': '',
+        }),
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
@@ -729,6 +786,19 @@
       }),
     ]),
     'results': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': '',
+        }),
+        'id': 'main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
       dict({
         'docstring': dict({
           'description': '',
