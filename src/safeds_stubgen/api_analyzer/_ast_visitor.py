@@ -68,31 +68,33 @@ class MyPyAstVisitor:
             if _definition.__class__.__name__ not in ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
-        for definition in child_definitions:
-            # Imports
-            if isinstance(definition, mp_nodes.Import):
-                for import_name, import_alias in definition.ids:
+        # Imports
+        for import_ in node.imports:
+            if isinstance(import_, mp_nodes.Import):
+                for import_name, import_alias in import_.ids:
                     qualified_imports.append(
                         QualifiedImport(import_name, import_alias),
                     )
 
-            elif isinstance(definition, mp_nodes.ImportFrom):
-                for import_name, import_alias in definition.names:
+            elif isinstance(import_, mp_nodes.ImportFrom):
+                for import_name, import_alias in import_.names:
                     qualified_imports.append(
                         QualifiedImport(
-                            f"{definition.id}.{import_name}",
+                            f"{import_.id}.{import_name}",
                             import_alias,
                         ),
                     )
 
-            elif isinstance(definition, mp_nodes.ImportAll):
+            elif isinstance(import_, mp_nodes.ImportAll):
                 wildcard_imports.append(
-                    WildcardImport(definition.id),
+                    WildcardImport(import_.id),
                 )
 
-            # Docstring
-            elif isinstance(definition, mp_nodes.ExpressionStmt) and isinstance(definition.expr, mp_nodes.StrExpr):
+        # Search for a Docstring
+        for definition in child_definitions:
+            if isinstance(definition, mp_nodes.ExpressionStmt) and isinstance(definition.expr, mp_nodes.StrExpr):
                 docstring = definition.expr.value
+                break
 
         # Create module id to get the full path
         id_ = self._create_module_id(node.path)
