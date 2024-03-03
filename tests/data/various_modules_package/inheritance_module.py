@@ -21,3 +21,15 @@ class PublicSubClass2(_PrivateInternalClass):
 
 class PublicSubClassFromNested(_PrivateInternalClass._PrivateInternalNestedClass):
     ...
+
+
+class _TransitiveInternalClassA:
+    def transitive_class_fun(self, c: list) -> list: ...
+
+
+class _TransitiveInternalClassB(_TransitiveInternalClassA):
+    pass
+
+
+class InheritTransitively(_TransitiveInternalClassB):
+    pass

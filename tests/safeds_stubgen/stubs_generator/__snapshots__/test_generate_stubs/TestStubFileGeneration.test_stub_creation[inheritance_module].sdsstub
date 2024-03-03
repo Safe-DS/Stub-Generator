@@ -28,3 +28,11 @@ class PublicSubClassFromNested() sub _PrivateInternalNestedClass {
 		a: Nothing?
 	) -> result1: Boolean
 }
+
+class InheritTransitively() sub _TransitiveInternalClassB {
+	@Pure
+	@PythonName("transitive_class_fun")
+	fun transitiveClassFun(
+		c: List<Any>
+	) -> result1: List<Any>
+}

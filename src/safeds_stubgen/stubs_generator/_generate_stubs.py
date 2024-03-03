@@ -265,13 +265,7 @@ class StubsStringGenerator:
                 # If the superclass was not added to the module_imports through the _add_to_imports method, it means
                 # that the superclass is a class from the same module.
                 # For internal superclasses, we have to add their public members to subclasses.
-                if superclass not in self.module_imports and is_internal(superclass_name):
-                    superclass_class = self._get_class_in_module(superclass_name)
-                    superclass_methods_text += self._create_class_method_string(
-                        superclass_class.methods,
-                        inner_indentations,
-                        is_internal_class=True,
-                    )
+                superclass_methods_text += self._create_internal_class_methods_string(superclass, inner_indentations)
 
             superclass_info = f" sub {', '.join(superclass_names)}"
 
@@ -766,6 +760,29 @@ class StubsStringGenerator:
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
+    def _create_internal_class_methods_string(self, superclass: str, inner_indentations: str) -> str:
+        superclass_methods_text = ""
+        superclass_name = superclass.split(".")[-1]
+        superclass_class = None
+        if superclass not in self.module_imports and is_internal(superclass_name):
+            superclass_class = self._get_class_in_module(superclass_name)
+            superclass_methods_text = self._create_class_method_string(
+                superclass_class.methods,
+                inner_indentations,
+                is_internal_class=True,
+            )
+
+        if superclass_class is not None:
+            for superclass_superclass in superclass_class.superclasses:
+                name = superclass_superclass.split(".")[-1]
+                if is_internal(name):
+                    superclass_methods_text += self._create_internal_class_methods_string(
+                        superclass_superclass,
+                        inner_indentations,
+                    )
+
+        return superclass_methods_text
+
     # ############################### Utilities ############################### #
 
     def _add_to_imports(self, qname: str) -> None:
@@ -840,7 +857,7 @@ class StubsStringGenerator:
             if class_.startswith(self.module.id) and class_.endswith(class_name):
                 return self.api.classes[class_]
 
-        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")
+        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
 
 
 def _callable_type_name_generator() -> Generator:
