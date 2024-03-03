@@ -1,0 +1,6 @@
+@PythonModule("Library.src.safeds.ml.classical.regression._linear_regression")
+package Library.src.safeds.ml.classical.regression.LinearRegression
+
+from Library.src.safeds.ml.classical.regression.Regressor import Regressor
+
+class LinearRegression() sub Regressor

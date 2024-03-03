@@ -1,0 +1,8 @@
+@PythonModule("Library.src.safeds.data.tabular.containers._table")
+package Library.src.safeds.data.tabular.containers.Table
+
+from typing import Mapping
+
+class Table(
+	data: Mapping? = null
+)

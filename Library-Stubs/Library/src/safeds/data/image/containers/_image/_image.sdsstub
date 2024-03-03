@@ -1,0 +1,10 @@
+@PythonModule("Library.src.safeds.data.image.containers._image")
+package Library.src.safeds.data.image.containers.Image
+
+from torch import Tensor
+from torch.types import Device
+
+class Image(
+	@PythonName("image_tensor") imageTensor: Tensor,
+	device: Device
+)

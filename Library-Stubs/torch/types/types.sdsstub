@@ -1,0 +1,3 @@
+package torch.types
+
+class Device

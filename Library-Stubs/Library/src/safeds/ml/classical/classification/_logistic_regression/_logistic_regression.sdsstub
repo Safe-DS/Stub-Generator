@@ -1,0 +1,6 @@
+@PythonModule("Library.src.safeds.ml.classical.classification._logistic_regression")
+package Library.src.safeds.ml.classical.classification.LogisticRegression
+
+from Library.src.safeds.ml.classical.classification.Classifier import Classifier
+
+class LogisticRegression() sub Classifier

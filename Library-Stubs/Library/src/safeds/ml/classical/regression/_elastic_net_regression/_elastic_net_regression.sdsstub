@@ -1,0 +1,9 @@
+@PythonModule("Library.src.safeds.ml.classical.regression._elastic_net_regression")
+package Library.src.safeds.ml.classical.regression.ElasticNetRegression
+
+from Library.src.safeds.ml.classical.regression.Regressor import Regressor
+
+class ElasticNetRegression(
+	alpha: Float = 1.0,
+	@PythonName("lasso_ratio") lassoRatio: Float = 0.5
+) sub Regressor

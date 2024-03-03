@@ -1,0 +1,8 @@
+@PythonModule("Library.src.safeds.data.tabular.typing._schema")
+package Library.src.safeds.data.tabular.typing.Schema
+
+from Library.src.safeds.data.tabular.typing.ColumnType import ColumnType
+
+class Schema(
+	`schema`: Map<String, ColumnType>
+)

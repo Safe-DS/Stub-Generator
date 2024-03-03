@@ -1,0 +1,4 @@
+@PythonModule("Library.src.safeds.ml.classical.classification._classifier")
+package Library.src.safeds.ml.classical.classification.Classifier
+
+class Classifier

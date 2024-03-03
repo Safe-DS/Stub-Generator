@@ -1,0 +1,24 @@
+@PythonModule("Library.src.safeds.exceptions._ml")
+package Library.src.safeds.exceptions.Ml
+
+class DatasetContainsTargetError(
+	@PythonName("target_name") targetName: String
+) sub ValueError
+
+class DatasetMissesFeaturesError(
+	@PythonName("missing_feature_names") missingFeatureNames: List<String>
+) sub ValueError
+
+class DatasetMissesDataError() sub ValueError
+
+class LearningError(
+	reason: String
+) sub Exception
+
+class ModelNotFittedError() sub Exception
+
+class PredictionError(
+	reason: String
+) sub Exception
+
+class UntaggedTableError() sub Exception

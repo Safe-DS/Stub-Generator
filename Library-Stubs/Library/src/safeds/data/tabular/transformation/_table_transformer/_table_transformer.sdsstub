@@ -1,0 +1,8 @@
+@PythonModule("Library.src.safeds.data.tabular.transformation._table_transformer")
+package Library.src.safeds.data.tabular.transformation.TableTransformer
+
+from Library.src.safeds.data.tabular.transformation.TableTransformer import TableTransformer
+
+class TableTransformer
+
+class InvertibleTableTransformer() sub TableTransformer

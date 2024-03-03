@@ -1,0 +1,24 @@
+@PythonModule("Library.src.safeds.ml.classical.regression._support_vector_machine")
+package Library.src.safeds.ml.classical.regression.SupportVectorMachine
+
+from Library.src.safeds.ml.classical.regression.Regressor import Regressor
+from Library.src.safeds.ml.classical.regression.SupportVectorMachine import SupportVectorMachineKernel
+
+class SupportVectorMachineKernel
+
+class SupportVectorMachine(
+	c: Float = 1.0,
+	kernel: Nothing?? = null
+) sub Regressor {
+	class Kernel() {
+		class Linear() sub SupportVectorMachineKernel
+
+		class Polynomial(
+			degree: Int
+		) sub SupportVectorMachineKernel
+
+		class Sigmoid() sub SupportVectorMachineKernel
+
+		class RadialBasisFunction() sub SupportVectorMachineKernel
+	}
+}

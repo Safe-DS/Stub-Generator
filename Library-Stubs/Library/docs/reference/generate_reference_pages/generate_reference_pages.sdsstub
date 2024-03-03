@@ -1,0 +1,8 @@
+@PythonModule("Library.docs.reference.generate_reference_pages")
+package Library.docs.reference.generateReferencePages
+
+@Pure
+@PythonName("list_class_and_function_names_in_module")
+fun listClassAndFunctionNamesInModule(
+	@PythonName("module_name") moduleName: String
+) -> result1: List<String>

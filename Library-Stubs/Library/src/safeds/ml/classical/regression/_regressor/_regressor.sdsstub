@@ -1,0 +1,4 @@
+@PythonModule("Library.src.safeds.ml.classical.regression._regressor")
+package Library.src.safeds.ml.classical.regression.Regressor
+
+class Regressor

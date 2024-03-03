@@ -1,0 +1,6 @@
+@PythonModule("Library.src.safeds.ml.classical.classification._decision_tree")
+package Library.src.safeds.ml.classical.classification.DecisionTree
+
+from Library.src.safeds.ml.classical.classification.Classifier import Classifier
+
+class DecisionTree() sub Classifier

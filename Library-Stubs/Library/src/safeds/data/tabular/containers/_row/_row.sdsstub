@@ -1,0 +1,8 @@
+@PythonModule("Library.src.safeds.data.tabular.containers._row")
+package Library.src.safeds.data.tabular.containers.Row
+
+from typing import Mapping
+
+class Row(
+	data: Mapping? = null
+)

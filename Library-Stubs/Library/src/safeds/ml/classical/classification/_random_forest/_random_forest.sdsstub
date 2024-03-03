@@ -1,0 +1,8 @@
+@PythonModule("Library.src.safeds.ml.classical.classification._random_forest")
+package Library.src.safeds.ml.classical.classification.RandomForest
+
+from Library.src.safeds.ml.classical.classification.Classifier import Classifier
+
+class RandomForest(
+	@PythonName("number_of_trees") numberOfTrees: Int = 100
+) sub Classifier

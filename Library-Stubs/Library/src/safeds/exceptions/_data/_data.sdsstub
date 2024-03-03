@@ -1,0 +1,65 @@
+@PythonModule("Library.src.safeds.exceptions._data")
+package Library.src.safeds.exceptions.Data
+
+from Library.src.safeds.exceptions.Data import IllegalSchemaModificationError
+from pathlib import Path
+
+class UnknownColumnNameError(
+	@PythonName("column_names") columnNames: List<String>,
+	@PythonName("similar_columns") similarColumns: List<String>? = null
+) sub KeyError
+
+class NonNumericColumnError(
+	@PythonName("column_info") columnInfo: String,
+	@PythonName("help_msg") helpMsg: Nothing?? = null
+) sub Exception
+
+class MissingValuesColumnError(
+	@PythonName("column_info") columnInfo: String,
+	@PythonName("help_msg") helpMsg: Nothing?? = null
+) sub Exception
+
+class DuplicateColumnNameError(
+	@PythonName("column_name") columnName: String
+) sub Exception
+
+class IndexOutOfBoundsError(
+	index: union<Int, slice>
+) sub IndexError
+
+class ColumnSizeError(
+	@PythonName("expected_size") expectedSize: String,
+	@PythonName("actual_size") actualSize: String
+) sub Exception
+
+class ColumnLengthMismatchError(
+	@PythonName("column_info") columnInfo: String
+) sub Exception
+
+class TransformerNotFittedError() sub Exception
+
+// TODO Safe-DS does not support tuple types.
+class ValueNotPresentWhenFittedError(
+	values: List<Tuple<String, String>>
+) sub Exception
+
+class WrongFileExtensionError(
+	file: union<Path, String>,
+	@PythonName("file_extension") fileExtension: union<List<String>, String>
+) sub Exception
+
+class IllegalSchemaModificationError(
+	msg: String
+) sub Exception
+
+class ColumnIsTargetError(
+	@PythonName("column_name") columnName: String
+) sub IllegalSchemaModificationError
+
+class ColumnIsTimeError(
+	@PythonName("column_name") columnName: String
+) sub IllegalSchemaModificationError
+
+class IllegalFormatError(
+	formats: union<List<String>, String>
+) sub Exception
