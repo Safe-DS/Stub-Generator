@@ -7,6 +7,9 @@ class PublicSubClass(PublicSuperClass):
 
 
 class _PrivateInternalClass:
+    class _PrivateInternalNestedClass:
+        def public_internal_nested_class_method(self, a: None) -> bool: ...
+
     def public_internal_class_method(self, a: int) -> str: ...
 
     def _private_internal_class_method(self, b: list) -> None: ...
@@ -14,3 +17,7 @@ class _PrivateInternalClass:
 
 class PublicSubClass2(_PrivateInternalClass):
     def public_subclass_method(self) -> str: ...
+
+
+class PublicSubClassFromNested(_PrivateInternalClass._PrivateInternalNestedClass):
+    ...

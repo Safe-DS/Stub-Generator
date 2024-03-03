@@ -20,3 +20,11 @@ class PublicSubClass2() sub _PrivateInternalClass {
 	@PythonName("public_subclass_method")
 	fun publicSubclassMethod() -> result1: String
 }
+
+class PublicSubClassFromNested() sub _PrivateInternalNestedClass {
+	@Pure
+	@PythonName("public_internal_nested_class_method")
+	fun publicInternalNestedClassMethod(
+		a: Nothing?
+	) -> result1: Boolean
+}
