@@ -16,5 +16,5 @@ def main() -> None:
     print(f"Program ran in {time.time() - start_time}s")  # noqa: T201
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     main()

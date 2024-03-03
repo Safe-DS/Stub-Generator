@@ -35,7 +35,7 @@ class ASTWalker:
         if isinstance(node, Decorator):
             node = node.func
 
-        if node in visited_nodes:
+        if node in visited_nodes:  # pragma: no cover
             raise AssertionError("Node visited twice")
         visited_nodes.add(node)
 
