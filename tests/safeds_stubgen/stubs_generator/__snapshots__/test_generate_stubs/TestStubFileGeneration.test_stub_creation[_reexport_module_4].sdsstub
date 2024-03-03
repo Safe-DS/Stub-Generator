@@ -1,0 +1,4 @@
+@PythonModule("various_modules_package._reexport_module_4")
+package variousModulesPackage.ReexportModule4
+
+class FourthReexportClass()

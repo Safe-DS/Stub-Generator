@@ -1,0 +1,4 @@
+@PythonModule("various_modules_package.file_creation.module_1")
+package variousModulesPackage.fileCreation.module1
+
+class C()
