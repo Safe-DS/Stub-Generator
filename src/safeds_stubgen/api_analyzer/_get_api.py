@@ -44,7 +44,7 @@ def get_api(
         if file_path.parts[-1] == "__init__.py":
             # if a directory contains an __init__.py file it's a package
             package_paths.append(
-                file_path.parent,
+                str(file_path.parent),
             )
             continue
 
@@ -59,7 +59,7 @@ def get_api(
 
     # Get mypy ast and aliases
     build_result = _get_mypy_build(walkable_files)
-    mypy_asts = _get_mypy_asts(build_result, walkable_files, package_paths, root)
+    mypy_asts = _get_mypy_asts(build_result, walkable_files, package_paths)
     aliases = _get_aliases(build_result.types, package_name)
 
     # Setup api walker
@@ -91,44 +91,23 @@ def _get_mypy_build(files: list[str]) -> mypy_build.BuildResult:
 def _get_mypy_asts(
     build_result: mypy_build.BuildResult,
     files: list[str],
-    package_paths: list[Path],
-    root: Path,
+    package_paths: list[str],
 ) -> list[mypy_nodes.MypyFile]:
-    # Check mypy data key root start
-    parts = root.parts
-    graph_keys = list(build_result.graph.keys())
-    root_start_after = -1
-    for i in range(len(parts)):
-        if ".".join(parts[i:]) in graph_keys:
-            root_start_after = i
-            break
+    package_ast = []
+    module_ast = []
+    for graph_key in build_result.graph:
+        ast = build_result.graph[graph_key].tree
+        ast_path = ast.path
 
-    # Create the keys for getting the corresponding data
-    packages = [
-        ".".join(
-            package_path.parts[root_start_after:],
-        ).replace(".py", "")
-        for package_path in package_paths
-    ]
+        if ast_path.endswith("__init__.py"):
+            ast_package_path = ast_path.split("\\__init__.py")[0]
+            if ast_package_path in package_paths:
+                package_ast.append(ast)
+        elif ast_path in files:
+            module_ast.append(ast)
 
-    modules = [
-        ".".join(
-            Path(file).parts[root_start_after:],
-        ).replace(".py", "")
-        for file in files
-    ]
-
-    # Get the needed data from mypy. The packages need to be checked first, since we have
-    # to get the reexported data first
-    all_paths = packages + modules
-
-    asts = []
-    for path_key in all_paths:
-        tree = build_result.graph[path_key].tree
-        if tree is not None:
-            asts.append(tree)
-
-    return asts
+    # The packages need to be checked first, since we have to get the reexported data first
+    return package_ast + module_ast
 
 
 def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
