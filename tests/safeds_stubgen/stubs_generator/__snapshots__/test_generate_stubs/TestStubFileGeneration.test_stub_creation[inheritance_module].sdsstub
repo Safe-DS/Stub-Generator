@@ -9,7 +9,7 @@ class PublicSuperClass() {
 
 class PublicSubClass() sub PublicSuperClass
 
-class PublicSubClass2() sub _PrivateInternalClass {
+class PublicSubClass2() {
 	@Pure
 	@PythonName("public_internal_class_method")
 	fun publicInternalClassMethod(
@@ -21,7 +21,7 @@ class PublicSubClass2() sub _PrivateInternalClass {
 	fun publicSubclassMethod() -> result1: String
 }
 
-class PublicSubClassFromNested() sub _PrivateInternalNestedClass {
+class PublicSubClassFromNested() {
 	@Pure
 	@PythonName("public_internal_nested_class_method")
 	fun publicInternalNestedClassMethod(
@@ -29,7 +29,7 @@ class PublicSubClassFromNested() sub _PrivateInternalNestedClass {
 	) -> result1: Boolean
 }
 
-class InheritTransitively() sub _TransitiveInternalClassB {
+class InheritTransitively() {
 	@Pure
 	@PythonName("transitive_class_fun")
 	fun transitiveClassFun(

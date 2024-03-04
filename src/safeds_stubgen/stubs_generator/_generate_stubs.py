@@ -256,15 +256,20 @@ class StubsStringGenerator:
             superclass_names = []
             for superclass in superclasses:
                 superclass_name = superclass.split(".")[-1]
-                superclass_names.append(superclass_name)
                 self._add_to_imports(superclass)
 
-                # If the superclass was not added to the module_imports through the _add_to_imports method, it means
-                # that the superclass is a class from the same module.
-                # For internal superclasses, we have to add their public members to subclasses.
-                superclass_methods_text += self._create_internal_class_methods_string(superclass, inner_indentations)
+                if superclass not in self.module_imports and is_internal(superclass_name):
+                    # If the superclass was not added to the module_imports through the _add_to_imports method, it means
+                    # that the superclass is a class from the same module.
+                    # For internal superclasses, we have to add their public members to subclasses.
+                    superclass_methods_text += self._create_internal_class_methods_string(
+                        superclass=superclass,
+                        inner_indentations=inner_indentations,
+                    )
+                else:
+                    superclass_names.append(superclass_name)
 
-            superclass_info = f" sub {', '.join(superclass_names)}"
+            superclass_info = f" sub {', '.join(superclass_names)}" if superclass_names else ""
 
         if len(superclasses) > 1:
             self._current_todo_msgs.add("multiple_inheritance")
@@ -760,25 +765,22 @@ class StubsStringGenerator:
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
     def _create_internal_class_methods_string(self, superclass: str, inner_indentations: str) -> str:
-        superclass_methods_text = ""
         superclass_name = superclass.split(".")[-1]
-        superclass_class = None
-        if superclass not in self.module_imports and is_internal(superclass_name):
-            superclass_class = self._get_class_in_module(superclass_name)
-            superclass_methods_text = self._create_class_method_string(
-                superclass_class.methods,
-                inner_indentations,
-                is_internal_class=True,
-            )
 
-        if superclass_class is not None:
-            for superclass_superclass in superclass_class.superclasses:
-                name = superclass_superclass.split(".")[-1]
-                if is_internal(name):
-                    superclass_methods_text += self._create_internal_class_methods_string(
-                        superclass_superclass,
-                        inner_indentations,
-                    )
+        superclass_class = self._get_class_in_module(superclass_name)
+        superclass_methods_text = self._create_class_method_string(
+            superclass_class.methods,
+            inner_indentations,
+            is_internal_class=True,
+        )
+
+        for superclass_superclass in superclass_class.superclasses:
+            name = superclass_superclass.split(".")[-1]
+            if is_internal(name):
+                superclass_methods_text += self._create_internal_class_methods_string(
+                    superclass_superclass,
+                    inner_indentations,
+                )
 
         return superclass_methods_text
 

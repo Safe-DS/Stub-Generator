@@ -6,7 +6,7 @@ from tests.data.variousModulesPackage.aliasing.aliasingModule3 import ImportMeAl
 
 class AliasingModuleClassB()
 
-class AliasingModuleClassC() sub _AliasingModuleClassA {
+class AliasingModuleClassC() {
 	@PythonName("typed_alias_attr")
 	static attr typedAliasAttr: AliasingModuleClassB
 	// TODO An internal class must not be used as a type in a public class.
