@@ -19,7 +19,10 @@ from safeds_stubgen.docstring_parsing import ParameterDocstring
     ],
 )
 def test_parameter(
-    default_value: str | None, is_required: bool, assigned_by: ParameterAssignment, is_variadic: bool,
+    default_value: str | None,
+    is_required: bool,
+    assigned_by: ParameterAssignment,
+    is_variadic: bool,
 ) -> None:
     parameter = Parameter(
         id="test/test.Test/test/test_parameter",
