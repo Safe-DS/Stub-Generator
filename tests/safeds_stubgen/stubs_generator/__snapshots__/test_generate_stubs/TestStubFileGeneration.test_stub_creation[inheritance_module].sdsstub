@@ -1,0 +1,38 @@
+@PythonModule("various_modules_package.inheritance_module")
+package variousModulesPackage.inheritanceModule
+
+class PublicSuperClass() {
+	@Pure
+	@PythonName("public_superclass_method")
+	fun publicSuperclassMethod() -> result1: String
+}
+
+class PublicSubClass() sub PublicSuperClass
+
+class PublicSubClass2() {
+	@Pure
+	@PythonName("public_internal_class_method")
+	fun publicInternalClassMethod(
+		a: Int
+	) -> result1: String
+
+	@Pure
+	@PythonName("public_subclass_method")
+	fun publicSubclassMethod() -> result1: String
+}
+
+class PublicSubClassFromNested() {
+	@Pure
+	@PythonName("public_internal_nested_class_method")
+	fun publicInternalNestedClassMethod(
+		a: Nothing?
+	) -> result1: Boolean
+}
+
+class InheritTransitively() {
+	@Pure
+	@PythonName("transitive_class_fun")
+	fun transitiveClassFun(
+		c: List<Any>
+	) -> result1: List<Any>
+}

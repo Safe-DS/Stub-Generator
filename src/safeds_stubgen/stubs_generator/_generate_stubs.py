@@ -254,13 +254,25 @@ class StubsStringGenerator:
         # Superclasses
         superclasses = class_.superclasses
         superclass_info = ""
+        superclass_methods_text = ""
         if superclasses and not class_.is_abstract:
             superclass_names = []
             for superclass in superclasses:
-                superclass_names.append(superclass.split(".")[-1])
+                superclass_name = superclass.split(".")[-1]
                 self._add_to_imports(superclass)
 
-            superclass_info = f" sub {', '.join(superclass_names)}"
+                if superclass not in self.module_imports and is_internal(superclass_name):
+                    # If the superclass was not added to the module_imports through the _add_to_imports method, it means
+                    # that the superclass is a class from the same module.
+                    # For internal superclasses, we have to add their public members to subclasses.
+                    superclass_methods_text += self._create_internal_class_methods_string(
+                        superclass=superclass,
+                        inner_indentations=inner_indentations,
+                    )
+                else:
+                    superclass_names.append(superclass_name)
+
+            superclass_info = f" sub {', '.join(superclass_names)}" if superclass_names else ""
 
         if len(superclasses) > 1:
             self._current_todo_msgs.add("multiple_inheritance")
@@ -312,6 +324,9 @@ class StubsStringGenerator:
         for inner_class in class_.classes:
             class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
 
+        # Superclass methods, if the superclass is an internal class
+        class_text += superclass_methods_text
+
         # Methods
         class_text += self._create_class_method_string(class_.methods, inner_indentations)
 
@@ -324,11 +339,17 @@ class StubsStringGenerator:
 
         return f"{class_signature} {{{class_text}"
 
-    def _create_class_method_string(self, methods: list[Function], inner_indentations: str) -> str:
+    def _create_class_method_string(
+        self,
+        methods: list[Function],
+        inner_indentations: str,
+        is_internal_class: bool = False,
+    ) -> str:
         class_methods: list[str] = []
         class_property_methods: list[str] = []
         for method in methods:
-            if not method.is_public:
+            # Add methods of internal classes that are inherited if the methods themselfe are public
+            if not method.is_public and (not is_internal_class or (is_internal_class and is_internal(method.name))):
                 continue
             elif method.is_property:
                 class_property_methods.append(
@@ -744,6 +765,26 @@ class StubsStringGenerator:
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
+    def _create_internal_class_methods_string(self, superclass: str, inner_indentations: str) -> str:
+        superclass_name = superclass.split(".")[-1]
+
+        superclass_class = self._get_class_in_module(superclass_name)
+        superclass_methods_text = self._create_class_method_string(
+            superclass_class.methods,
+            inner_indentations,
+            is_internal_class=True,
+        )
+
+        for superclass_superclass in superclass_class.superclasses:
+            name = superclass_superclass.split(".")[-1]
+            if is_internal(name):
+                superclass_methods_text += self._create_internal_class_methods_string(
+                    superclass_superclass,
+                    inner_indentations,
+                )
+
+        return superclass_methods_text
+
     # ############################### Utilities ############################### #
 
     def _add_to_imports(self, qname: str) -> None:
@@ -809,6 +850,17 @@ class StubsStringGenerator:
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
+    def _get_class_in_module(self, class_name: str) -> Class:
+        if f"{self.module.id}/{class_name}" in self.api.classes:
+            return self.api.classes[f"{self.module.id}/{class_name}"]
+
+        # If the class is a nested class
+        for class_ in self.api.classes:
+            if class_.startswith(self.module.id) and class_.endswith(class_name):
+                return self.api.classes[class_]
+
+        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
+
 
 def _callable_type_name_generator() -> Generator:
     """Generate a name for callable type parameters starting from 'a' until 'zz'."""
@@ -858,6 +910,10 @@ def _replace_if_safeds_keyword(keyword: str) -> str:
     }:
         return f"`{keyword}`"
     return keyword
+
+
+def is_internal(name: str) -> bool:
+    return name.startswith("_")
 
 
 def _convert_name_to_convention(
