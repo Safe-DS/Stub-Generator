@@ -104,13 +104,11 @@ def _get_mypy_asts(
         if ast is None:  # pragma: no cover
             raise ValueError
 
-        ast_path = ast.path
-
-        if ast_path.endswith("__init__.py"):
-            ast_package_path = ast_path.split("__init__.py")[0][:-1]
+        if ast.path.endswith("__init__.py"):
+            ast_package_path = ast.path.split("__init__.py")[0][:-1]
             if ast_package_path in package_paths:
                 package_ast.append(ast)
-        elif ast_path in files:
+        elif ast.path in files:
             module_ast.append(ast)
 
     # The packages need to be checked first, since we have to get the reexported data first
