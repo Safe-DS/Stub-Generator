@@ -52,8 +52,8 @@ All classes should have
 
 * A one-line description ([short summary][short-summary-section]).
 * A longer description if needed ([extended summary][extended-summary-section]).
-* A description of the parameters of their `__init__` method ([`Parameters` section][parameters-section]). Omit types
-  and default values.
+* A description of the parameters of their `__init__` method ([`Parameters` section][parameters-section]). Specify a
+  name and a description, with a colon to separate them. Omit types and default values.
 * Examples that show how to use them correctly ([`Examples` section][examples-section]).
 
 Example:
@@ -64,7 +64,7 @@ A row is a collection of named values.
 
 Parameters
 ----------
-data
+data:
     The data. If None, an empty row is created.
 
 Examples
@@ -80,10 +80,10 @@ All functions should have
 
 * A one-line description ([short summary][short-summary-section]).
 * A longer description if needed ([extended summary][extended-summary-section]).
-* A description of their parameters ([`Parameters` section][parameters-section]). Omit types
-  and default values.
-* A description of their results ([`Returns` section][returns-section]). Specify a name for the return value but omit
-  its type. Note that the colon after the name is required here, otherwise it will be interpreted as a type.
+* A description of their parameters ([`Parameters` section][parameters-section]). Specify a name and a description, with
+  a colon to separate them. Omit types and default values.
+* A description of their results ([`Returns` section][returns-section]). Specify a name and a description, with a colon
+  to separate them. Omit types.
 * A description of any exceptions that may be raised and under which conditions that may
   happen ([`Raises` section][raises-section]).
 * A description of any warnings that may be issued and under which conditions that may
@@ -98,12 +98,12 @@ Return the value of a specified column.
 
 Parameters
 ----------
-column_name
+column_name:
     The column name.
 
 Returns
 -------
-value :
+value:
     The column value.
 
 Raises
