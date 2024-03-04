@@ -100,7 +100,7 @@ def _get_mypy_asts(
         ast_path = ast.path
 
         if ast_path.endswith("__init__.py"):
-            ast_package_path = ast_path.split("\\__init__.py")[0]
+            ast_package_path = ast_path.split("__init__.py")[0][:-1]
             if ast_package_path in package_paths:
                 package_ast.append(ast)
         elif ast_path in files:
