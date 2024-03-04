@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from pathlib import Path
+from typing import TYPE_CHECKING
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main
@@ -15,6 +15,9 @@ from ._api import API
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version, package_root
+
+if TYPE_CHECKING:
+    from pathlib import Path
 
 
 def get_api(
