@@ -1,4 +1,5 @@
 """The entrypoint to the program."""
+
 from __future__ import annotations
 
 import time

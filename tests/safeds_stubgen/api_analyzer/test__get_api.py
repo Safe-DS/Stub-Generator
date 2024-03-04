@@ -9,6 +9,7 @@ from safeds_stubgen.docstring_parsing import DocstringStyle
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
     from syrupy import SnapshotAssertion
 
 # Setup: API data
