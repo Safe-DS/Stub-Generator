@@ -34,7 +34,7 @@ stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
 def test_file_creation() -> None:
-    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
+    _generate_stubs_files(stubs_data, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
         stub_path=Path(_out_dir_stubs / "file_creation"),

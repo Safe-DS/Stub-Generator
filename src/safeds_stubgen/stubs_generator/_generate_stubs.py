@@ -46,7 +46,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
     stubs_generator = StubsStringGenerator(api, naming_convention)
     stubs_data = _generate_stubs_data(api, out_path, stubs_generator)
-    _generate_stubs_files(stubs_data, api, out_path, stubs_generator, naming_convention)
+    _generate_stubs_files(stubs_data, out_path, stubs_generator, naming_convention)
 
 
 def _generate_stubs_data(
@@ -76,13 +76,10 @@ def _generate_stubs_data(
 
 def _generate_stubs_files(
     stubs_data: list[tuple[Path, str, str]],
-    api: API,
     out_path: Path,
     stubs_generator: StubsStringGenerator,
     naming_convention: NamingConvention,
 ) -> None:
-    Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-
     for module_dir, module_name, module_text in stubs_data:
         # Create module dir
         module_dir.mkdir(parents=True, exist_ok=True)
