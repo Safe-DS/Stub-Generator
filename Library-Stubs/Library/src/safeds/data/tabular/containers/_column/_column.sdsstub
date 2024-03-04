@@ -1,9 +1,0 @@
-@PythonModule("Library.src.safeds.data.tabular.containers._column")
-package Library.src.safeds.data.tabular.containers.Column
-
-from typing import Sequence
-
-class Column(
-	name: String,
-	data: Nothing?? = null
-)

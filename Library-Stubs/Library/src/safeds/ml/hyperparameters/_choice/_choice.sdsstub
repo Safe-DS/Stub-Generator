@@ -1,7 +1,0 @@
-@PythonModule("Library.src.safeds.ml.hyperparameters._choice")
-package Library.src.safeds.ml.hyperparameters.Choice
-
-// TODO Safe-DS does not support variadic parameters.
-class Choice(
-	args: List<T>
-)

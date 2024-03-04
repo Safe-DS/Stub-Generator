@@ -1,8 +1,0 @@
-@PythonModule("Library.src.safeds.ml.classical.regression._lasso_regression")
-package Library.src.safeds.ml.classical.regression.LassoRegression
-
-from Library.src.safeds.ml.classical.regression.Regressor import Regressor
-
-class LassoRegression(
-	alpha: Float = 1.0
-) sub Regressor

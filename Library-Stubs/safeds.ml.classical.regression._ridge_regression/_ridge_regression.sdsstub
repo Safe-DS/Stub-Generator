@@ -1,8 +1,0 @@
-@PythonModule("safeds.ml.classical.regression._ridge_regression")
-package safeds.ml.classical.regression.RidgeRegression
-
-from safeds.ml.classical.regression.Regressor import Regressor
-
-class RidgeRegression(
-	alpha: Float = 1.0
-) sub Regressor

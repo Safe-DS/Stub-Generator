@@ -1,6 +1,0 @@
-@PythonModule("safeds.ml.classical.classification._logistic_regression")
-package safeds.ml.classical.classification.LogisticRegression
-
-from safeds.ml.classical.classification.Classifier import Classifier
-
-class LogisticRegression() sub Classifier

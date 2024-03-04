@@ -1,8 +1,0 @@
-@PythonModule("safeds.data.tabular.containers._table")
-package safeds.data.tabular.containers.Table
-
-from typing import Mapping
-
-class Table(
-	data: Mapping? = null
-)

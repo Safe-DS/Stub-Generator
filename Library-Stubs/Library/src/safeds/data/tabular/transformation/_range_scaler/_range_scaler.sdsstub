@@ -1,9 +1,0 @@
-@PythonModule("Library.src.safeds.data.tabular.transformation._range_scaler")
-package Library.src.safeds.data.tabular.transformation.RangeScaler
-
-from Library.src.safeds.data.tabular.transformation.TableTransformer import InvertibleTableTransformer
-
-class RangeScaler(
-	minimum: Float = 0.0,
-	maximum: Float = 1.0
-) sub InvertibleTableTransformer

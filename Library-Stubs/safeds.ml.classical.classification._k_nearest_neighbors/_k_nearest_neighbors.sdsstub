@@ -1,8 +1,0 @@
-@PythonModule("safeds.ml.classical.classification._k_nearest_neighbors")
-package safeds.ml.classical.classification.KNearestNeighbors
-
-from safeds.ml.classical.classification.Classifier import Classifier
-
-class KNearestNeighbors(
-	@PythonName("number_of_neighbors") numberOfNeighbors: Int
-) sub Classifier

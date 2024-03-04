@@ -1,9 +1,0 @@
-@PythonModule("safeds.ml.classical.classification._gradient_boosting")
-package safeds.ml.classical.classification.GradientBoosting
-
-from safeds.ml.classical.classification.Classifier import Classifier
-
-class GradientBoosting(
-	@PythonName("number_of_trees") numberOfTrees: Int = 100,
-	@PythonName("learning_rate") learningRate: Float = 0.1
-) sub Classifier

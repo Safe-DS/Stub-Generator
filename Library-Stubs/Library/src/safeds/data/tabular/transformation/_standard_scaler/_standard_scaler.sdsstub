@@ -1,6 +1,0 @@
-@PythonModule("Library.src.safeds.data.tabular.transformation._standard_scaler")
-package Library.src.safeds.data.tabular.transformation.StandardScaler
-
-from Library.src.safeds.data.tabular.transformation.TableTransformer import InvertibleTableTransformer
-
-class StandardScaler() sub InvertibleTableTransformer

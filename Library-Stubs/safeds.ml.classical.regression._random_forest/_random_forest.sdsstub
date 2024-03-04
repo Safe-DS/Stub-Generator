@@ -1,8 +1,0 @@
-@PythonModule("safeds.ml.classical.regression._random_forest")
-package safeds.ml.classical.regression.RandomForest
-
-from safeds.ml.classical.regression.Regressor import Regressor
-
-class RandomForest(
-	@PythonName("number_of_trees") numberOfTrees: Int = 100
-) sub Regressor

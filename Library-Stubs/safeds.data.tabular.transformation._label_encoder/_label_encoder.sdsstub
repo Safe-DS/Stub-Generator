@@ -1,6 +1,0 @@
-@PythonModule("safeds.data.tabular.transformation._label_encoder")
-package safeds.data.tabular.transformation.LabelEncoder
-
-from safeds.data.tabular.transformation.TableTransformer import InvertibleTableTransformer
-
-class LabelEncoder() sub InvertibleTableTransformer

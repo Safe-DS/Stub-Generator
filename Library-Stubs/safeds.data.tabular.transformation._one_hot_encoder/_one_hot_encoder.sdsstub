@@ -1,6 +1,0 @@
-@PythonModule("safeds.data.tabular.transformation._one_hot_encoder")
-package safeds.data.tabular.transformation.OneHotEncoder
-
-from safeds.data.tabular.transformation.TableTransformer import InvertibleTableTransformer
-
-class OneHotEncoder() sub InvertibleTableTransformer
