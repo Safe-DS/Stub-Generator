@@ -97,14 +97,11 @@ class MyPyAstVisitor:
                 break
 
         # Create module id to get the full path
-        id_ = self._create_module_id(node.path)
+        id_ = node.fullname.replace(".", "/")
 
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
-        if is_package:
-            name = "__init__"
-        else:
-            name = node.name
+        name = "__init__" if is_package else node.name
 
         # Remember module, so we can later add classes and global functions
         module = Module(
@@ -984,41 +981,6 @@ class MyPyAstVisitor:
                 name = qname.split(".")[-1]
                 return name, qname
         return "", ""
-
-    def _create_module_id(self, module_path: str) -> str:
-        """Create an ID for the module object.
-
-        Creates the module ID while discarding possible unnecessary information from the module qname.
-
-        Paramters
-        ---------
-        qname : str
-            The qualified name of the module
-
-        Returns
-        -------
-        str
-            ID of the module
-        """
-        package_name = self.api.package
-
-        if package_name not in module_path:
-            raise ValueError("Package name could not be found in the module path.")
-
-        # We have to split the qname of the module at the first occurence of the package name and reconnect it while
-        # discarding everything in front of it. This is necessary since the qname could contain unwanted information.
-        module_id = module_path.split(package_name, 1)[-1]
-        module_id = module_id.replace("\\", "/")
-
-        if module_id.startswith("/"):
-            module_id = module_id[1:]
-
-        if module_id.endswith(".py"):
-            module_id = module_id[:-3]
-
-        if module_id:
-            return f"{package_name}/{module_id}"
-        return package_name
 
     def _is_public(self, name: str, qualified_name: str) -> bool:
         if name.startswith("_") and not name.endswith("__"):

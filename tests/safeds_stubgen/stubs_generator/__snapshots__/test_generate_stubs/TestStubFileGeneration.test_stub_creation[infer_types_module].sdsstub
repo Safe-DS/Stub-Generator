@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.infer_types_module")
-package variousModulesPackage.inferTypesModule
+@PythonModule("tests.data.various_modules_package.infer_types_module")
+package tests.data.variousModulesPackage.inferTypesModule
 
 class InferMe()
 

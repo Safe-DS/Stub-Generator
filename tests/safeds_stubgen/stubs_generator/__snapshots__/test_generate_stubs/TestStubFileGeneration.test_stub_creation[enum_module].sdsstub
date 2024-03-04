@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.enum_module")
-package variousModulesPackage.enumModule
+@PythonModule("tests.data.various_modules_package.enum_module")
+package tests.data.variousModulesPackage.enumModule
 
 enum _ReexportedEmptyEnum
 

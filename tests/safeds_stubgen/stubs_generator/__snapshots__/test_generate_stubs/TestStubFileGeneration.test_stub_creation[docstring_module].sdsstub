@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.docstring_module")
-package variousModulesPackage.docstringModule
+@PythonModule("tests.data.various_modules_package.docstring_module")
+package tests.data.variousModulesPackage.docstringModule
 
 class EpydocDocstringClass(
 	@PythonName("param_1") param1: String

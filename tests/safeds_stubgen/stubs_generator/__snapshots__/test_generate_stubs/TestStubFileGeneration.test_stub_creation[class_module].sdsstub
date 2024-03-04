@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.class_module")
-package variousModulesPackage.classModule
+@PythonModule("tests.data.various_modules_package.class_module")
+package tests.data.variousModulesPackage.classModule
 
 from tests.data.mainPackage.anotherPath.anotherModule import yetAnotherClass
 

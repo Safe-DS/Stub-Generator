@@ -7,7 +7,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/_ignore_me',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_ignore_me',
       'is_public': False,
       'is_static': True,
       'name': '_ignore_me',
@@ -23,7 +23,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/_multi_attr_2_private',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_multi_attr_2_private',
       'is_public': False,
       'is_static': True,
       'name': '_multi_attr_2_private',
@@ -39,7 +39,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/_multi_attr_4_private',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_multi_attr_4_private',
       'is_public': False,
       'is_static': True,
       'name': '_multi_attr_4_private',
@@ -60,7 +60,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/_no_type_hint_private',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_no_type_hint_private',
       'is_public': False,
       'is_static': True,
       'name': '_no_type_hint_private',
@@ -76,7 +76,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/_type_hint_private',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_type_hint_private',
       'is_public': False,
       'is_static': True,
       'name': '_type_hint_private',
@@ -92,7 +92,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_default_value_from_outside_package',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/attr_default_value_from_outside_package',
       'is_public': True,
       'is_static': True,
       'name': 'attr_default_value_from_outside_package',
@@ -113,7 +113,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/attr_type_from_outside_package',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/attr_type_from_outside_package',
       'is_public': True,
       'is_static': True,
       'name': 'attr_type_from_outside_package',
@@ -129,7 +129,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/bool_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/bool_attr',
       'is_public': True,
       'is_static': True,
       'name': 'bool_attr',
@@ -145,7 +145,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/callexpr_attr_class',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/callexpr_attr_class',
       'is_public': True,
       'is_static': True,
       'name': 'callexpr_attr_class',
@@ -157,7 +157,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/callexpr_attr_function',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/callexpr_attr_function',
       'is_public': True,
       'is_static': True,
       'name': 'callexpr_attr_function',
@@ -169,7 +169,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/defined_three_times',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/defined_three_times',
       'is_public': True,
       'is_static': True,
       'name': 'defined_three_times',
@@ -185,7 +185,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/dict_attr_1',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'dict_attr_1',
@@ -209,7 +209,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/dict_attr_2',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_2',
       'is_public': True,
       'is_static': True,
       'name': 'dict_attr_2',
@@ -233,7 +233,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/dict_attr_3',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_3',
       'is_public': True,
       'is_static': True,
       'name': 'dict_attr_3',
@@ -277,7 +277,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/final',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final',
       'is_public': True,
       'is_static': True,
       'name': 'final',
@@ -296,7 +296,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/final_union',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_union',
       'is_public': True,
       'is_static': True,
       'name': 'final_union',
@@ -325,7 +325,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/finals',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/finals',
       'is_public': True,
       'is_static': True,
       'name': 'finals',
@@ -354,7 +354,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/flaot_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/flaot_attr',
       'is_public': True,
       'is_static': True,
       'name': 'flaot_attr',
@@ -370,7 +370,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/init_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/init_attr',
       'is_public': True,
       'is_static': False,
       'name': 'init_attr',
@@ -386,7 +386,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/int_or_bool_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/int_or_bool_attr',
       'is_public': True,
       'is_static': True,
       'name': 'int_or_bool_attr',
@@ -412,7 +412,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/list_attr_1',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'list_attr_1',
@@ -428,7 +428,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/list_attr_2',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_2',
       'is_public': True,
       'is_static': True,
       'name': 'list_attr_2',
@@ -446,7 +446,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
               }),
             ]),
           }),
@@ -459,7 +459,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/list_attr_3',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_3',
       'is_public': True,
       'is_static': True,
       'name': 'list_attr_3',
@@ -474,7 +474,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': 'various_modules_package.attribute_module.AttributesClassA',
+            'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -485,7 +485,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/list_attr_4',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_4',
       'is_public': True,
       'is_static': True,
       'name': 'list_attr_4',
@@ -503,7 +503,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
@@ -521,7 +521,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/literal',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/literal',
       'is_public': True,
       'is_static': True,
       'name': 'literal',
@@ -538,7 +538,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/mixed_literal_union',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/mixed_literal_union',
       'is_public': True,
       'is_static': True,
       'name': 'mixed_literal_union',
@@ -588,7 +588,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_1',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_1',
@@ -604,7 +604,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_3',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_3',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_3',
@@ -625,7 +625,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_5',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_5',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_5',
@@ -641,7 +641,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_6',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_6',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_6',
@@ -657,7 +657,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_7',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_7',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_7',
@@ -673,7 +673,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multi_attr_8',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_8',
       'is_public': True,
       'is_static': True,
       'name': 'multi_attr_8',
@@ -689,7 +689,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/multiple_literals',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multiple_literals',
       'is_public': True,
       'is_static': True,
       'name': 'multiple_literals',
@@ -729,7 +729,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/no_type_hint_public',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/no_type_hint_public',
       'is_public': True,
       'is_static': True,
       'name': 'no_type_hint_public',
@@ -745,7 +745,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/none_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/none_attr',
       'is_public': True,
       'is_static': True,
       'name': 'none_attr',
@@ -761,7 +761,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/object_attr',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/object_attr',
       'is_public': True,
       'is_static': True,
       'name': 'object_attr',
@@ -777,7 +777,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/optional',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/optional',
       'is_public': True,
       'is_static': True,
       'name': 'optional',
@@ -803,7 +803,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/set_attr_1',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'set_attr_1',
@@ -824,7 +824,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/set_attr_2',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_2',
       'is_public': True,
       'is_static': True,
       'name': 'set_attr_2',
@@ -855,7 +855,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/set_attr_3',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_3',
       'is_public': True,
       'is_static': True,
       'name': 'set_attr_3',
@@ -870,7 +870,7 @@
           dict({
             'kind': 'NamedType',
             'name': 'AttributesClassA',
-            'qname': 'various_modules_package.attribute_module.AttributesClassA',
+            'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
           }),
         ]),
       }),
@@ -881,7 +881,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/set_attr_4',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_4',
       'is_public': True,
       'is_static': True,
       'name': 'set_attr_4',
@@ -899,7 +899,7 @@
               dict({
                 'kind': 'NamedType',
                 'name': 'AttributesClassA',
-                'qname': 'various_modules_package.attribute_module.AttributesClassA',
+                'qname': 'tests.data.various_modules_package.attribute_module.AttributesClassA',
               }),
               dict({
                 'kind': 'NamedType',
@@ -917,7 +917,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/str_attr_with_none_value',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/str_attr_with_none_value',
       'is_public': True,
       'is_static': True,
       'name': 'str_attr_with_none_value',
@@ -933,7 +933,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/tuple_attr_1',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'tuple_attr_1',
@@ -954,7 +954,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/tuple_attr_2',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_2',
       'is_public': True,
       'is_static': True,
       'name': 'tuple_attr_2',
@@ -985,7 +985,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/tuple_attr_3',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_3',
       'is_public': True,
       'is_static': True,
       'name': 'tuple_attr_3',
@@ -1011,7 +1011,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/attribute_module/AttributesClassB/type_hint_public',
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/type_hint_public',
       'is_public': True,
       'is_static': True,
       'name': 'type_hint_public',
@@ -1031,7 +1031,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
       'is_public': False,
       'is_static': True,
       'name': '_nested_attr_2',
@@ -1047,7 +1047,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'nested_attr_1',
@@ -1067,7 +1067,7 @@
         'description': 'Attribute of the calculator. (Google Style)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/attr_1',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'attr_1',
@@ -1087,7 +1087,7 @@
         'description': 'Attribute of the calculator. (Numpy)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/attr_1',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'attr_1',
@@ -1107,7 +1107,7 @@
         'description': 'Attribute of the calculator. (ReST)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/attr_1',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/attr_1',
       'is_public': True,
       'is_static': True,
       'name': 'attr_1',
@@ -1127,7 +1127,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/class_module/_ClassModulePrivateClassG/_attr_1',
+      'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_1',
       'is_public': False,
       'is_static': True,
       'name': '_attr_1',
@@ -1143,7 +1143,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/class_module/_ClassModulePrivateClassG/_attr_2',
+      'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_2',
       'is_public': False,
       'is_static': True,
       'name': '_attr_2',
@@ -1162,14 +1162,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'abstract_method',
       'parameters': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method/self',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1181,22 +1181,22 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'abstract_method_params',
       'parameters': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
       ]),
     }),
     dict({
@@ -1204,20 +1204,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method',
       'is_class_method': False,
       'is_property': True,
       'is_public': True,
       'is_static': False,
       'name': 'abstract_property_method',
       'parameters': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
       ]),
     }),
     dict({
@@ -1225,7 +1225,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -1243,19 +1243,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'abstract_static_method_params',
       'parameters': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
       ]),
     }),
   ])
@@ -1267,14 +1267,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassB/f',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'f',
       'parameters': list([
-        'various_modules_package/class_module/ClassModuleClassB/f/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/f/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1290,14 +1290,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassC/f1',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassC/f1',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'f1',
       'parameters': list([
-        'various_modules_package/class_module/ClassModuleClassC/f1/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassC/f1/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1317,14 +1317,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_e_func',
       'parameters': list([
-        'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1349,21 +1349,21 @@
           @rtype: bool
         ''',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'epydoc_docstring_func',
       'parameters': list([
-        'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
-        'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
-        'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
       ]),
     }),
   ])
@@ -1375,14 +1375,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method',
       'is_class_method': True,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_method',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModuleClassB/class_method/cls',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method/cls',
       ]),
       'reexported_by': list([
       ]),
@@ -1394,20 +1394,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method_params',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params',
       'is_class_method': True,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'class_method_params',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModuleClassB/class_method_params/cls',
-        'various_modules_package/function_module/FunctionModuleClassB/class_method_params/param_1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/cls',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/param_1',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
       ]),
     }),
     dict({
@@ -1415,20 +1415,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/instance_method',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'instance_method',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModuleClassB/instance_method/self',
-        'various_modules_package/function_module/FunctionModuleClassB/instance_method/a',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/self',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/a',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
       ]),
     }),
     dict({
@@ -1436,7 +1436,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/static_method',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -1454,14 +1454,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/static_method_params',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'static_method_params',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModuleClassB/static_method_params/param_1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -1477,20 +1477,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'nested_class_function',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
-        'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
       ]),
     }),
   ])
@@ -1502,14 +1502,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModulePropertiesClass/property_function',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function',
       'is_class_method': False,
       'is_property': True,
       'is_public': True,
       'is_static': False,
       'name': 'property_function',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModulePropertiesClass/property_function/self',
+        'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1521,19 +1521,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer',
       'is_class_method': False,
       'is_property': True,
       'is_public': True,
       'is_static': False,
       'name': 'property_function_infer',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/self',
+        'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/self',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
+        'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
       ]),
     }),
     dict({
@@ -1541,19 +1541,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params',
       'is_class_method': False,
       'is_property': True,
       'is_public': True,
       'is_static': False,
       'name': 'property_function_params',
       'parameters': list([
-        'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/self',
+        'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/self',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
+        'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
       ]),
     }),
   ])
@@ -1583,21 +1583,21 @@
                     a boolean value. (Google Style)
         ''',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'google_docstring_func',
       'parameters': list([
-        'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
-        'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
-        'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
       ]),
     }),
   ])
@@ -1609,19 +1609,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/_',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/_',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/_/self',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/_/self',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/infer_types_module/InferMyTypes/_/result_1',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/_/result_1',
       ]),
     }),
     dict({
@@ -1629,14 +1629,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'infer_call_result_1',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1/self',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1648,14 +1648,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'infer_call_result_2',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2/self',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1667,22 +1667,22 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'infer_function',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function/infer_param',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function/infer_param_2',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/infer_param',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/infer_param_2',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
       ]),
     }),
     dict({
@@ -1690,19 +1690,19 @@
         'description': 'Test for inferring results with just one possible result, and not a tuple of results.',
         'full_docstring': 'Test for inferring results with just one possible result, and not a tuple of results.',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'infer_function_2',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function_2/i',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function_2/i',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_function_2/result_1',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function_2/result_1',
       ]),
     }),
     dict({
@@ -1710,23 +1710,23 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': True,
       'name': 'infer_param_types',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/integer',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/boolean',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/float_',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/none',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/callexpr',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/int_list',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/dictionary',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string_set',
-        'various_modules_package/infer_types_module/InferMyTypes/infer_param_types/tuple_',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/integer',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/boolean',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/float_',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/none',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/callexpr',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/int_list',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/dictionary',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/string_set',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types/tuple_',
       ]),
       'reexported_by': list([
       ]),
@@ -1762,21 +1762,21 @@
               Checks if the sum of `x` and `y` is greater than 10. (Numpy)
         ''',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'numpy_docstring_func',
       'parameters': list([
-        'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
-        'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
-        'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
       ]),
     }),
   ])
@@ -1788,7 +1788,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
+      'id': 'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
@@ -1797,7 +1797,7 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'various_modules_package/__init__',
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -1825,21 +1825,21 @@
           :rtype: bool
         ''',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'rest_docstring_func',
       'parameters': list([
-        'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
-        'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
-        'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       ]),
     }),
   ])
@@ -1851,20 +1851,20 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/type_var_module/TypeVarClass/type_var_class_method',
+      'id': 'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'type_var_class_method',
       'parameters': list([
-        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/self',
-        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/a',
+        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/self',
+        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/a',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/type_var_module/TypeVarClass/type_var_class_method/result_1',
+        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/result_1',
       ]),
     }),
   ])
@@ -1876,14 +1876,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_class_f_func',
       'parameters': list([
-        'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func/self',
       ]),
       'reexported_by': list([
       ]),
@@ -1903,15 +1903,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/__init__',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/abstract_module/AbstractModuleClass/__init__/self',
-        'various_modules_package/abstract_module/AbstractModuleClass/__init__/param',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/__init__/self',
+        'tests/data/various_modules_package/abstract_module/AbstractModuleClass/__init__/param',
       ]),
       'reexported_by': list([
       ]),
@@ -1922,14 +1922,14 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/abstract_module/AbstractModuleClass',
+    'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
-      'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params',
-      'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method',
-      'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
-      'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method',
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params',
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method',
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method',
     ]),
     'name': 'AbstractModuleClass',
     'reexported_by': list([
@@ -1952,7 +1952,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/_reexport_module_2/AnotherReexportClass',
+    'id': 'tests/data/various_modules_package/_reexport_module_2/AnotherReexportClass',
     'is_public': True,
     'methods': list([
     ]),
@@ -1976,16 +1976,16 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/class_module/ClassModuleClassB/__init__',
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/class_module/ClassModuleClassB/__init__/self',
-        'various_modules_package/class_module/ClassModuleClassB/__init__/a',
-        'various_modules_package/class_module/ClassModuleClassB/__init__/b',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__init__/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__init__/a',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__init__/b',
       ]),
       'reexported_by': list([
       ]),
@@ -1996,10 +1996,10 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleClassB',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB',
     'is_public': True,
     'methods': list([
-      'various_modules_package/class_module/ClassModuleClassB/f',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
     ]),
     'name': 'ClassModuleClassB',
     'reexported_by': list([
@@ -2014,8 +2014,8 @@
 # name: test_classes[ClassModuleClassC]
   dict({
     'attributes': list([
-      'various_modules_package/class_module/ClassModuleClassC/attr_1',
-      'various_modules_package/class_module/ClassModuleClassC/attr_2',
+      'tests/data/various_modules_package/class_module/ClassModuleClassC/attr_1',
+      'tests/data/various_modules_package/class_module/ClassModuleClassC/attr_2',
     ]),
     'classes': list([
     ]),
@@ -2024,10 +2024,10 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleClassC',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleClassC',
     'is_public': True,
     'methods': list([
-      'various_modules_package/class_module/ClassModuleClassC/f1',
+      'tests/data/various_modules_package/class_module/ClassModuleClassC/f1',
     ]),
     'name': 'ClassModuleClassC',
     'reexported_by': list([
@@ -2046,14 +2046,14 @@
     'attributes': list([
     ]),
     'classes': list([
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
     ]),
     'constructor': None,
     'docstring': dict({
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleClassD',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD',
     'is_public': True,
     'methods': list([
     ]),
@@ -2077,7 +2077,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleEmptyClassA',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleEmptyClassA',
     'is_public': True,
     'methods': list([
     ]),
@@ -2093,21 +2093,21 @@
 # name: test_classes[ClassModuleNestedClassE]
   dict({
     'attributes': list([
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
     ]),
     'classes': list([
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
     ]),
     'constructor': None,
     'docstring': dict({
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
     'is_public': True,
     'methods': list([
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
     ]),
     'name': 'ClassModuleNestedClassE',
     'reexported_by': list([
@@ -2121,7 +2121,7 @@
 # name: test_classes[EpydocDocstringClass]
   dict({
     'attributes': list([
-      'various_modules_package/docstring_module/EpydocDocstringClass/attr_1',
+      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -2130,15 +2130,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/__init__',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
-        'various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
+        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -2156,10 +2156,10 @@
         @type param_1: str
       ''',
     }),
-    'id': 'various_modules_package/docstring_module/EpydocDocstringClass',
+    'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
+      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
     ]),
     'name': 'EpydocDocstringClass',
     'reexported_by': list([
@@ -2181,13 +2181,13 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/_reexport_module_4/FourthReexportClass',
+    'id': 'tests/data/various_modules_package/_reexport_module_4/FourthReexportClass',
     'is_public': True,
     'methods': list([
     ]),
     'name': 'FourthReexportClass',
     'reexported_by': list([
-      'various_modules_package/__init__',
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2198,7 +2198,7 @@
 # name: test_classes[GoogleDocstringClass]
   dict({
     'attributes': list([
-      'various_modules_package/docstring_module/GoogleDocstringClass/attr_1',
+      'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -2207,15 +2207,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/__init__',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/docstring_module/GoogleDocstringClass/__init__/self',
-        'various_modules_package/docstring_module/GoogleDocstringClass/__init__/param_1',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__/self',
+        'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -2240,10 +2240,10 @@
             param_1 (str): Parameter of the calculator. (Google Style)
       ''',
     }),
-    'id': 'various_modules_package/docstring_module/GoogleDocstringClass',
+    'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func',
+      'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func',
     ]),
     'name': 'GoogleDocstringClass',
     'reexported_by': list([
@@ -2257,13 +2257,13 @@
 # name: test_classes[InferMyTypes]
   dict({
     'attributes': list([
-      'various_modules_package/infer_types_module/InferMyTypes/infer_int',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_float',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_bool',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_str',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_none',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_obj',
-      'various_modules_package/infer_types_module/InferMyTypes/init_infer',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_int',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_float',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_bool',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_str',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_none',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_obj',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/init_infer',
     ]),
     'classes': list([
     ]),
@@ -2272,15 +2272,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/__init__',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/infer_types_module/InferMyTypes/__init__/self',
-        'various_modules_package/infer_types_module/InferMyTypes/__init__/init_param',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/__init__/self',
+        'tests/data/various_modules_package/infer_types_module/InferMyTypes/__init__/init_param',
       ]),
       'reexported_by': list([
       ]),
@@ -2291,15 +2291,15 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/infer_types_module/InferMyTypes',
+    'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes',
     'is_public': True,
     'methods': list([
-      'various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_function',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
-      'various_modules_package/infer_types_module/InferMyTypes/_',
-      'various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/_',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
     ]),
     'name': 'InferMyTypes',
     'reexported_by': list([
@@ -2313,7 +2313,7 @@
 # name: test_classes[NumpyDocstringClass]
   dict({
     'attributes': list([
-      'various_modules_package/docstring_module/NumpyDocstringClass/attr_1',
+      'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -2322,15 +2322,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/__init__',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/docstring_module/NumpyDocstringClass/__init__/self',
-        'various_modules_package/docstring_module/NumpyDocstringClass/__init__/param_1',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__/self',
+        'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -2359,10 +2359,10 @@
             Parameter of the calculator. (Numpy)
       ''',
     }),
-    'id': 'various_modules_package/docstring_module/NumpyDocstringClass',
+    'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
+      'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
     ]),
     'name': 'NumpyDocstringClass',
     'reexported_by': list([
@@ -2384,14 +2384,14 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/_reexport_module_1/ReexportClass',
+    'id': 'tests/data/various_modules_package/_reexport_module_1/ReexportClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
+      'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
     ]),
     'name': 'ReexportClass',
     'reexported_by': list([
-      'various_modules_package/__init__',
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2402,7 +2402,7 @@
 # name: test_classes[RestDocstringClass]
   dict({
     'attributes': list([
-      'various_modules_package/docstring_module/RestDocstringClass/attr_1',
+      'tests/data/various_modules_package/docstring_module/RestDocstringClass/attr_1',
     ]),
     'classes': list([
     ]),
@@ -2411,15 +2411,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/__init__',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': '__init__',
       'parameters': list([
-        'various_modules_package/docstring_module/RestDocstringClass/__init__/self',
-        'various_modules_package/docstring_module/RestDocstringClass/__init__/param_1',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__/self',
+        'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__/param_1',
       ]),
       'reexported_by': list([
       ]),
@@ -2437,10 +2437,10 @@
         :type param_1: str
       ''',
     }),
-    'id': 'various_modules_package/docstring_module/RestDocstringClass',
+    'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass',
     'is_public': True,
     'methods': list([
-      'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func',
+      'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func',
     ]),
     'name': 'RestDocstringClass',
     'reexported_by': list([
@@ -2462,7 +2462,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/variance_module/VarianceClassAll',
+    'id': 'tests/data/various_modules_package/variance_module/VarianceClassAll',
     'is_public': True,
     'methods': list([
     ]),
@@ -2535,7 +2535,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
+    'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
     'is_public': True,
     'methods': list([
     ]),
@@ -2564,7 +2564,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
+    'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
     'is_public': True,
     'methods': list([
     ]),
@@ -2593,7 +2593,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
+    'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
     'is_public': True,
     'methods': list([
     ]),
@@ -2614,8 +2614,8 @@
 # name: test_classes[_ClassModulePrivateClassG]
   dict({
     'attributes': list([
-      'various_modules_package/class_module/_ClassModulePrivateClassG/_attr_1',
-      'various_modules_package/class_module/_ClassModulePrivateClassG/_attr_2',
+      'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_1',
+      'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_2',
     ]),
     'classes': list([
     ]),
@@ -2624,7 +2624,7 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/_ClassModulePrivateClassG',
+    'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
     'is_public': False,
     'methods': list([
     ]),
@@ -2648,10 +2648,10 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
+    'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
     'is_public': False,
     'methods': list([
-      'various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
     ]),
     'name': '_ClassModulePrivateDoubleNestedClassF',
     'reexported_by': list([
@@ -2673,13 +2673,13 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/_reexport_module_3/_ThirdReexportClass',
+    'id': 'tests/data/various_modules_package/_reexport_module_3/_ThirdReexportClass',
     'is_public': False,
     'methods': list([
     ]),
     'name': '_ThirdReexportClass',
     'reexported_by': list([
-      'various_modules_package/__init__',
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2690,7 +2690,7 @@
 # name: test_enum_instances[EnumTest3]
   list([
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest3/ele_ven',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest3/ele_ven',
       'name': 'ele_ven',
     }),
   ])
@@ -2698,39 +2698,39 @@
 # name: test_enum_instances[EnumTest]
   list([
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/EIGHT',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/EIGHT',
       'name': 'EIGHT',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/FIVE',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/FIVE',
       'name': 'FIVE',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/FOUR',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/FOUR',
       'name': 'FOUR',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/NINE',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/NINE',
       'name': 'NINE',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/ONE',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/ONE',
       'name': 'ONE',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/SEVEN',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/SEVEN',
       'name': 'SEVEN',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/SIX',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/SIX',
       'name': 'SIX',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/THREE',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/THREE',
       'name': 'THREE',
     }),
     dict({
-      'id': 'various_modules_package/enum_module/EnumTest/TWO',
+      'id': 'tests/data/various_modules_package/enum_module/EnumTest/TWO',
       'name': 'TWO',
     }),
   ])
@@ -2745,9 +2745,9 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/enum_module/EnumTest2',
+    'id': 'tests/data/various_modules_package/enum_module/EnumTest2',
     'instances': list([
-      'various_modules_package/enum_module/EnumTest2/TEN',
+      'tests/data/various_modules_package/enum_module/EnumTest2/TEN',
     ]),
     'name': 'EnumTest2',
   })
@@ -2758,9 +2758,9 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'various_modules_package/enum_module/EnumTest3',
+    'id': 'tests/data/various_modules_package/enum_module/EnumTest3',
     'instances': list([
-      'various_modules_package/enum_module/EnumTest3/ele_ven',
+      'tests/data/various_modules_package/enum_module/EnumTest3/ele_ven',
     ]),
     'name': 'EnumTest3',
   })
@@ -2779,17 +2779,17 @@
         Full Docstring Description
       ''',
     }),
-    'id': 'various_modules_package/enum_module/EnumTest',
+    'id': 'tests/data/various_modules_package/enum_module/EnumTest',
     'instances': list([
-      'various_modules_package/enum_module/EnumTest/ONE',
-      'various_modules_package/enum_module/EnumTest/TWO',
-      'various_modules_package/enum_module/EnumTest/THREE',
-      'various_modules_package/enum_module/EnumTest/FOUR',
-      'various_modules_package/enum_module/EnumTest/FIVE',
-      'various_modules_package/enum_module/EnumTest/SIX',
-      'various_modules_package/enum_module/EnumTest/SEVEN',
-      'various_modules_package/enum_module/EnumTest/EIGHT',
-      'various_modules_package/enum_module/EnumTest/NINE',
+      'tests/data/various_modules_package/enum_module/EnumTest/ONE',
+      'tests/data/various_modules_package/enum_module/EnumTest/TWO',
+      'tests/data/various_modules_package/enum_module/EnumTest/THREE',
+      'tests/data/various_modules_package/enum_module/EnumTest/FOUR',
+      'tests/data/various_modules_package/enum_module/EnumTest/FIVE',
+      'tests/data/various_modules_package/enum_module/EnumTest/SIX',
+      'tests/data/various_modules_package/enum_module/EnumTest/SEVEN',
+      'tests/data/various_modules_package/enum_module/EnumTest/EIGHT',
+      'tests/data/various_modules_package/enum_module/EnumTest/NINE',
     ]),
     'name': 'EnumTest',
   })
@@ -2800,7 +2800,7 @@
       'description': "Nothing's here.",
       'full_docstring': "Nothing's here.",
     }),
-    'id': 'various_modules_package/enum_module/_ReexportedEmptyEnum',
+    'id': 'tests/data/various_modules_package/enum_module/_ReexportedEmptyEnum',
     'instances': list([
     ]),
     'name': '_ReexportedEmptyEnum',
@@ -2816,7 +2816,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/__init__/init_param',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/__init__/init_param',
       'is_optional': False,
       'name': 'init_param',
       'type': None,
@@ -2829,7 +2829,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/__init__/self',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/__init__/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -2846,7 +2846,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/_private/a',
+      'id': 'tests/data/various_modules_package/function_module/_private/a',
       'is_optional': False,
       'name': 'a',
       'type': None,
@@ -2863,7 +2863,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -2880,7 +2880,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_2',
       'is_optional': True,
       'name': 'param_2',
       'type': dict({
@@ -2897,7 +2897,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/param_3',
       'is_optional': True,
       'name': 'param_3',
       'type': dict({
@@ -2914,7 +2914,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -2931,7 +2931,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -2948,7 +2948,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/param',
       'is_optional': False,
       'name': 'param',
       'type': dict({
@@ -2969,7 +2969,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/arg/args',
+      'id': 'tests/data/various_modules_package/function_module/arg/args',
       'is_optional': False,
       'name': 'args',
       'type': None,
@@ -2982,7 +2982,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/arg/kwargs',
+      'id': 'tests/data/various_modules_package/function_module/arg/kwargs',
       'is_optional': False,
       'name': 'kwargs',
       'type': None,
@@ -2999,7 +2999,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/args_type/args',
+      'id': 'tests/data/various_modules_package/function_module/args_type/args',
       'is_optional': False,
       'name': 'args',
       'type': dict({
@@ -3021,7 +3021,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/args_type/kwargs',
+      'id': 'tests/data/various_modules_package/function_module/args_type/kwargs',
       'is_optional': False,
       'name': 'kwargs',
       'type': dict({
@@ -3050,7 +3050,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/callable_type/param',
+      'id': 'tests/data/various_modules_package/function_module/callable_type/param',
       'is_optional': False,
       'name': 'param',
       'type': dict({
@@ -3091,7 +3091,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method/cls',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method/cls',
       'is_optional': False,
       'name': 'cls',
       'type': None,
@@ -3108,7 +3108,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method_params/cls',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/cls',
       'is_optional': False,
       'name': 'cls',
       'type': None,
@@ -3121,7 +3121,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method_params/param_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -3142,7 +3142,7 @@
         'description': 'Parameter of the calculator. (Epydoc)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -3159,7 +3159,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3176,7 +3176,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3189,7 +3189,7 @@
         'description': 'First integer value for the calculation. (Epydoc)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
       'is_optional': False,
       'name': 'x',
       'type': dict({
@@ -3206,7 +3206,7 @@
         'description': 'Second integer value for the calculation. (Epydoc)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
       'is_optional': False,
       'name': 'y',
       'type': dict({
@@ -3227,7 +3227,7 @@
         'description': 'Parameter of the calculator. (Google Style)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/__init__/param_1',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -3244,7 +3244,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/__init__/self',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3261,7 +3261,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3274,7 +3274,7 @@
         'description': 'First integer value for the calculation. (Google Style)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/x',
       'is_optional': False,
       'name': 'x',
       'type': dict({
@@ -3291,7 +3291,7 @@
         'description': 'Second integer value for the calculation. (Google Style)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/y',
       'is_optional': False,
       'name': 'y',
       'type': dict({
@@ -3312,7 +3312,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params/_',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params/_',
       'is_optional': True,
       'name': '_',
       'type': dict({
@@ -3329,7 +3329,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params/dct',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params/dct',
       'is_optional': False,
       'name': 'dct',
       'type': dict({
@@ -3354,7 +3354,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params/lst',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params/lst',
       'is_optional': False,
       'name': 'lst',
       'type': dict({
@@ -3381,7 +3381,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params/lst_2',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params/lst_2',
       'is_optional': False,
       'name': 'lst_2',
       'type': dict({
@@ -3413,7 +3413,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params/tpl',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params/tpl',
       'is_optional': False,
       'name': 'tpl',
       'type': dict({
@@ -3454,7 +3454,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/type_var_module/multiple_type_var/a',
+      'id': 'tests/data/various_modules_package/type_var_module/multiple_type_var/a',
       'is_optional': False,
       'name': 'a',
       'type': dict({
@@ -3471,7 +3471,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/type_var_module/multiple_type_var/b',
+      'id': 'tests/data/various_modules_package/type_var_module/multiple_type_var/b',
       'is_optional': False,
       'name': 'b',
       'type': dict({
@@ -3492,7 +3492,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/param1',
       'is_optional': False,
       'name': 'param1',
       'type': dict({
@@ -3509,7 +3509,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3526,7 +3526,7 @@
         'description': 'Parameter of the calculator. (Numpy)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/__init__/param_1',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -3543,7 +3543,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/__init__/self',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3560,7 +3560,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3573,7 +3573,7 @@
         'description': 'First integer value for the calculation. (Numpy)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/x',
       'is_optional': False,
       'name': 'x',
       'type': dict({
@@ -3590,7 +3590,7 @@
         'description': 'Second integer value for the calculation. (Numpy)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/y',
       'is_optional': False,
       'name': 'y',
       'type': dict({
@@ -3611,7 +3611,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/opt_pos_only/optional',
+      'id': 'tests/data/various_modules_package/function_module/opt_pos_only/optional',
       'is_optional': True,
       'name': 'optional',
       'type': dict({
@@ -3628,7 +3628,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/opt_pos_only/required',
+      'id': 'tests/data/various_modules_package/function_module/opt_pos_only/required',
       'is_optional': False,
       'name': 'required',
       'type': None,
@@ -3645,7 +3645,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_type',
+      'id': 'tests/data/various_modules_package/function_module/param_from_outside_the_package/param_type',
       'is_optional': False,
       'name': 'param_type',
       'type': dict({
@@ -3662,7 +3662,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_from_outside_the_package/param_value',
+      'id': 'tests/data/various_modules_package/function_module/param_from_outside_the_package/param_value',
       'is_optional': False,
       'name': 'param_value',
       'type': None,
@@ -3679,7 +3679,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/a',
+      'id': 'tests/data/various_modules_package/function_module/param_position/a',
       'is_optional': False,
       'name': 'a',
       'type': None,
@@ -3692,7 +3692,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/b',
+      'id': 'tests/data/various_modules_package/function_module/param_position/b',
       'is_optional': False,
       'name': 'b',
       'type': dict({
@@ -3709,7 +3709,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/c',
+      'id': 'tests/data/various_modules_package/function_module/param_position/c',
       'is_optional': False,
       'name': 'c',
       'type': None,
@@ -3722,7 +3722,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/d',
+      'id': 'tests/data/various_modules_package/function_module/param_position/d',
       'is_optional': False,
       'name': 'd',
       'type': None,
@@ -3735,7 +3735,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/e',
+      'id': 'tests/data/various_modules_package/function_module/param_position/e',
       'is_optional': True,
       'name': 'e',
       'type': dict({
@@ -3752,7 +3752,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/param_position/self',
+      'id': 'tests/data/various_modules_package/function_module/param_position/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -3769,7 +3769,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/any_',
+      'id': 'tests/data/various_modules_package/function_module/params/any_',
       'is_optional': False,
       'name': 'any_',
       'type': dict({
@@ -3786,7 +3786,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/boolean',
+      'id': 'tests/data/various_modules_package/function_module/params/boolean',
       'is_optional': False,
       'name': 'boolean',
       'type': dict({
@@ -3803,7 +3803,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/callexpr',
+      'id': 'tests/data/various_modules_package/function_module/params/callexpr',
       'is_optional': False,
       'name': 'callexpr',
       'type': None,
@@ -3816,7 +3816,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/dictionary',
+      'id': 'tests/data/various_modules_package/function_module/params/dictionary',
       'is_optional': False,
       'name': 'dictionary',
       'type': dict({
@@ -3851,7 +3851,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/float_',
+      'id': 'tests/data/various_modules_package/function_module/params/float_',
       'is_optional': False,
       'name': 'float_',
       'type': dict({
@@ -3868,7 +3868,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/integer',
+      'id': 'tests/data/various_modules_package/function_module/params/integer',
       'is_optional': False,
       'name': 'integer',
       'type': dict({
@@ -3885,7 +3885,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/list_',
+      'id': 'tests/data/various_modules_package/function_module/params/list_',
       'is_optional': False,
       'name': 'list_',
       'type': dict({
@@ -3907,7 +3907,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/literal',
+      'id': 'tests/data/various_modules_package/function_module/params/literal',
       'is_optional': False,
       'name': 'literal',
       'type': dict({
@@ -3925,7 +3925,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/none',
+      'id': 'tests/data/various_modules_package/function_module/params/none',
       'is_optional': False,
       'name': 'none',
       'type': dict({
@@ -3942,7 +3942,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/obj',
+      'id': 'tests/data/various_modules_package/function_module/params/obj',
       'is_optional': False,
       'name': 'obj',
       'type': dict({
@@ -3959,7 +3959,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/optional',
+      'id': 'tests/data/various_modules_package/function_module/params/optional',
       'is_optional': False,
       'name': 'optional',
       'type': dict({
@@ -3986,7 +3986,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/set_',
+      'id': 'tests/data/various_modules_package/function_module/params/set_',
       'is_optional': False,
       'name': 'set_',
       'type': dict({
@@ -4008,7 +4008,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/string',
+      'id': 'tests/data/various_modules_package/function_module/params/string',
       'is_optional': False,
       'name': 'string',
       'type': dict({
@@ -4025,7 +4025,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/tuple_',
+      'id': 'tests/data/various_modules_package/function_module/params/tuple_',
       'is_optional': False,
       'name': 'tuple_',
       'type': dict({
@@ -4057,7 +4057,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/union',
+      'id': 'tests/data/various_modules_package/function_module/params/union',
       'is_optional': False,
       'name': 'union',
       'type': dict({
@@ -4084,7 +4084,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/union_with_none_1',
+      'id': 'tests/data/various_modules_package/function_module/params/union_with_none_1',
       'is_optional': False,
       'name': 'union_with_none_1',
       'type': dict({
@@ -4111,7 +4111,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/params/union_with_none_2',
+      'id': 'tests/data/various_modules_package/function_module/params/union_with_none_2',
       'is_optional': False,
       'name': 'union_with_none_2',
       'type': dict({
@@ -4146,7 +4146,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/req_name_only/optional',
+      'id': 'tests/data/various_modules_package/function_module/req_name_only/optional',
       'is_optional': True,
       'name': 'optional',
       'type': dict({
@@ -4163,7 +4163,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/req_name_only/required',
+      'id': 'tests/data/various_modules_package/function_module/req_name_only/required',
       'is_optional': False,
       'name': 'required',
       'type': None,
@@ -4180,7 +4180,7 @@
         'description': 'Parameter of the calculator. (ReST)',
         'type': 'str',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/__init__/param_1',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -4197,7 +4197,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/__init__/self',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -4214,7 +4214,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/self',
       'is_optional': False,
       'name': 'self',
       'type': None,
@@ -4227,7 +4227,7 @@
         'description': 'First integer value for the calculation. (ReST)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/x',
       'is_optional': False,
       'name': 'x',
       'type': dict({
@@ -4244,7 +4244,7 @@
         'description': 'Second integer value for the calculation. (ReST)',
         'type': 'int',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/y',
       'is_optional': False,
       'name': 'y',
       'type': dict({
@@ -4265,7 +4265,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/bool_none_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/bool_none_union',
       'is_optional': False,
       'name': 'bool_none_union',
       'type': dict({
@@ -4292,7 +4292,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none',
       'is_optional': False,
       'name': 'none',
       'type': dict({
@@ -4309,7 +4309,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_bool_int_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_bool_int_union',
       'is_optional': False,
       'name': 'none_bool_int_union',
       'type': dict({
@@ -4341,7 +4341,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_bool_none_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_bool_none_union',
       'is_optional': False,
       'name': 'none_bool_none_union',
       'type': dict({
@@ -4373,7 +4373,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_bool_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_bool_union',
       'is_optional': False,
       'name': 'none_bool_union',
       'type': dict({
@@ -4400,7 +4400,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_list_union_none_none',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_list_union_none_none',
       'is_optional': False,
       'name': 'none_list_union_none_none',
       'type': dict({
@@ -4447,7 +4447,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_none_bool_none_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_none_bool_none_union',
       'is_optional': False,
       'name': 'none_none_bool_none_union',
       'type': dict({
@@ -4484,7 +4484,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/special_params/none_union',
+      'id': 'tests/data/various_modules_package/function_module/special_params/none_union',
       'is_optional': False,
       'name': 'none_union',
       'type': dict({
@@ -4515,7 +4515,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/static_method_params/param_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params/param_1',
       'is_optional': False,
       'name': 'param_1',
       'type': dict({
@@ -4536,7 +4536,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/type_var_module/type_var_func/a',
+      'id': 'tests/data/various_modules_package/type_var_module/type_var_func/a',
       'is_optional': False,
       'name': 'a',
       'type': dict({
@@ -4559,7 +4559,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -4586,7 +4586,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4599,7 +4599,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
       'name': 'result_2',
       'type': dict({
         'kind': 'NamedType',
@@ -4616,7 +4616,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
+      'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4633,7 +4633,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/any_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/any_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4650,7 +4650,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/callable_type/result_1',
+      'id': 'tests/data/various_modules_package/function_module/callable_type/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'CallableType',
@@ -4690,7 +4690,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4707,7 +4707,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/dictionary_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
         'key_type': dict({
@@ -4732,7 +4732,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
+      'id': 'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
       'name': 'result_1',
       'type': dict({
         'key_type': dict({
@@ -4757,7 +4757,7 @@
         'description': 'Checks if the sum of x and y is greater than 10. (Epydoc)',
         'type': 'bool',
       }),
-      'id': 'various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
+      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4774,7 +4774,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/float_result/result_1',
+      'id': 'tests/data/various_modules_package/function_module/float_result/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4794,7 +4794,7 @@
         ''',
         'type': 'bool',
       }),
-      'id': 'various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
+      'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -4811,7 +4811,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_dictionary_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
         'key_type': dict({
@@ -4836,7 +4836,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_list_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/illegal_list_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -4863,7 +4863,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_set_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/illegal_set_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'SetType',
@@ -4890,7 +4890,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'UnionType',
@@ -4953,7 +4953,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
       'name': 'result_2',
       'type': dict({
         'kind': 'UnionType',
@@ -4976,7 +4976,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
+      'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
       'name': 'result_3',
       'type': dict({
         'kind': 'NamedType',
@@ -4993,7 +4993,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5010,7 +5010,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/int_result/result_1',
+      'id': 'tests/data/various_modules_package/function_module/int_result/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5027,7 +5027,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/list_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/list_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -5049,7 +5049,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/literal_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/literal_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'LiteralType',
@@ -5067,7 +5067,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/type_var_module/multiple_type_var/result_1',
+      'id': 'tests/data/various_modules_package/type_var_module/multiple_type_var/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -5099,7 +5099,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5120,7 +5120,7 @@
         'description': 'Checks if the sum of `x` and `y` is greater than 10. (Numpy)',
         'type': 'bool',
       }),
-      'id': 'various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
+      'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5137,7 +5137,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/obj_result/result_1',
+      'id': 'tests/data/various_modules_package/function_module/obj_result/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5154,7 +5154,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/optional_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/optional_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'UnionType',
@@ -5185,7 +5185,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5202,7 +5202,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
+      'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5219,7 +5219,7 @@
         'description': 'Checks if the sum of x and y is greater than 10. (ReST)',
         'type': 'bool',
       }),
-      'id': 'various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
+      'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5236,7 +5236,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/result_from_outside_the_package/result_1',
+      'id': 'tests/data/various_modules_package/function_module/result_from_outside_the_package/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5253,7 +5253,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/set_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/set_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'SetType',
@@ -5279,7 +5279,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/str_result/result_1',
+      'id': 'tests/data/various_modules_package/function_module/str_result/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5296,7 +5296,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/tuple_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/tuple_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5309,7 +5309,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/tuple_results/result_2',
+      'id': 'tests/data/various_modules_package/function_module/tuple_results/result_2',
       'name': 'result_2',
       'type': dict({
         'kind': 'NamedType',
@@ -5326,7 +5326,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/type_var_module/type_var_func/result_1',
+      'id': 'tests/data/various_modules_package/type_var_module/type_var_func/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'ListType',
@@ -5348,7 +5348,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/union_dictionary_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/union_dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
         'key_type': dict({
@@ -5393,7 +5393,7 @@
         'description': '',
         'type': '',
       }),
-      'id': 'various_modules_package/function_module/union_results/result_1',
+      'id': 'tests/data/various_modules_package/function_module/union_results/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'UnionType',
@@ -5420,7 +5420,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_1/reexported_function',
+      'id': 'tests/data/various_modules_package/_reexport_module_1/reexported_function',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
@@ -5442,7 +5442,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_2/reexported_function_2',
+      'id': 'tests/data/various_modules_package/_reexport_module_2/reexported_function_2',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5451,7 +5451,7 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'various_modules_package/__init__',
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -5465,7 +5465,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_3/reexported_function_3',
+      'id': 'tests/data/various_modules_package/_reexport_module_3/reexported_function_3',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
@@ -5474,7 +5474,7 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'various_modules_package/__init__',
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -5488,7 +5488,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_4/_reexported_function_4',
+      'id': 'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
@@ -5497,7 +5497,7 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'various_modules_package/__init__',
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -5507,7 +5507,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/_reexport_module_4/_unreexported_function',
+      'id': 'tests/data/various_modules_package/_reexport_module_4/_unreexported_function',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
@@ -5529,14 +5529,14 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/_private',
+      'id': 'tests/data/various_modules_package/function_module/_private',
       'is_class_method': False,
       'is_property': False,
       'is_public': False,
       'is_static': False,
       'name': '_private',
       'parameters': list([
-        'various_modules_package/function_module/_private/a',
+        'tests/data/various_modules_package/function_module/_private/a',
       ]),
       'reexported_by': list([
       ]),
@@ -5548,7 +5548,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/any_results',
+      'id': 'tests/data/various_modules_package/function_module/any_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5559,7 +5559,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/any_results/result_1',
+        'tests/data/various_modules_package/function_module/any_results/result_1',
       ]),
     }),
     dict({
@@ -5567,15 +5567,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/arg',
+      'id': 'tests/data/various_modules_package/function_module/arg',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'arg',
       'parameters': list([
-        'various_modules_package/function_module/arg/args',
-        'various_modules_package/function_module/arg/kwargs',
+        'tests/data/various_modules_package/function_module/arg/args',
+        'tests/data/various_modules_package/function_module/arg/kwargs',
       ]),
       'reexported_by': list([
       ]),
@@ -5587,15 +5587,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/args_type',
+      'id': 'tests/data/various_modules_package/function_module/args_type',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'args_type',
       'parameters': list([
-        'various_modules_package/function_module/args_type/args',
-        'various_modules_package/function_module/args_type/kwargs',
+        'tests/data/various_modules_package/function_module/args_type/args',
+        'tests/data/various_modules_package/function_module/args_type/kwargs',
       ]),
       'reexported_by': list([
       ]),
@@ -5607,7 +5607,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/bool_result',
+      'id': 'tests/data/various_modules_package/function_module/bool_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5618,7 +5618,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/bool_result/result_1',
+        'tests/data/various_modules_package/function_module/bool_result/result_1',
       ]),
     }),
     dict({
@@ -5626,19 +5626,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/callable_type',
+      'id': 'tests/data/various_modules_package/function_module/callable_type',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'callable_type',
       'parameters': list([
-        'various_modules_package/function_module/callable_type/param',
+        'tests/data/various_modules_package/function_module/callable_type/param',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/callable_type/result_1',
+        'tests/data/various_modules_package/function_module/callable_type/result_1',
       ]),
     }),
     dict({
@@ -5646,7 +5646,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/callexr_result_class',
+      'id': 'tests/data/various_modules_package/function_module/callexr_result_class',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5664,7 +5664,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/callexr_result_function',
+      'id': 'tests/data/various_modules_package/function_module/callexr_result_function',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5682,7 +5682,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/dictionary_results',
+      'id': 'tests/data/various_modules_package/function_module/dictionary_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5693,7 +5693,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/dictionary_results/result_1',
+        'tests/data/various_modules_package/function_module/dictionary_results/result_1',
       ]),
     }),
     dict({
@@ -5701,7 +5701,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/dictionary_results_no_key_no_value',
+      'id': 'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5712,7 +5712,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
+        'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
       ]),
     }),
     dict({
@@ -5720,7 +5720,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/float_result',
+      'id': 'tests/data/various_modules_package/function_module/float_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5731,7 +5731,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/float_result/result_1',
+        'tests/data/various_modules_package/function_module/float_result/result_1',
       ]),
     }),
     dict({
@@ -5739,7 +5739,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_dictionary_results',
+      'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5750,7 +5750,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/illegal_dictionary_results/result_1',
+        'tests/data/various_modules_package/function_module/illegal_dictionary_results/result_1',
       ]),
     }),
     dict({
@@ -5758,7 +5758,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_list_results',
+      'id': 'tests/data/various_modules_package/function_module/illegal_list_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5769,7 +5769,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/illegal_list_results/result_1',
+        'tests/data/various_modules_package/function_module/illegal_list_results/result_1',
       ]),
     }),
     dict({
@@ -5777,18 +5777,18 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_params',
+      'id': 'tests/data/various_modules_package/function_module/illegal_params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'illegal_params',
       'parameters': list([
-        'various_modules_package/function_module/illegal_params/lst',
-        'various_modules_package/function_module/illegal_params/lst_2',
-        'various_modules_package/function_module/illegal_params/tpl',
-        'various_modules_package/function_module/illegal_params/dct',
-        'various_modules_package/function_module/illegal_params/_',
+        'tests/data/various_modules_package/function_module/illegal_params/lst',
+        'tests/data/various_modules_package/function_module/illegal_params/lst_2',
+        'tests/data/various_modules_package/function_module/illegal_params/tpl',
+        'tests/data/various_modules_package/function_module/illegal_params/dct',
+        'tests/data/various_modules_package/function_module/illegal_params/_',
       ]),
       'reexported_by': list([
       ]),
@@ -5800,7 +5800,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/illegal_set_results',
+      'id': 'tests/data/various_modules_package/function_module/illegal_set_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5811,7 +5811,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/illegal_set_results/result_1',
+        'tests/data/various_modules_package/function_module/illegal_set_results/result_1',
       ]),
     }),
     dict({
@@ -5819,7 +5819,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/int_result',
+      'id': 'tests/data/various_modules_package/function_module/int_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5830,7 +5830,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/int_result/result_1',
+        'tests/data/various_modules_package/function_module/int_result/result_1',
       ]),
     }),
     dict({
@@ -5838,7 +5838,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/list_results',
+      'id': 'tests/data/various_modules_package/function_module/list_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5849,7 +5849,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/list_results/result_1',
+        'tests/data/various_modules_package/function_module/list_results/result_1',
       ]),
     }),
     dict({
@@ -5857,7 +5857,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/literal_results',
+      'id': 'tests/data/various_modules_package/function_module/literal_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5868,7 +5868,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/literal_results/result_1',
+        'tests/data/various_modules_package/function_module/literal_results/result_1',
       ]),
     }),
     dict({
@@ -5876,7 +5876,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/none_result',
+      'id': 'tests/data/various_modules_package/function_module/none_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5894,7 +5894,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/obj_result',
+      'id': 'tests/data/various_modules_package/function_module/obj_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5905,7 +5905,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/obj_result/result_1',
+        'tests/data/various_modules_package/function_module/obj_result/result_1',
       ]),
     }),
     dict({
@@ -5913,15 +5913,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/opt_pos_only',
+      'id': 'tests/data/various_modules_package/function_module/opt_pos_only',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'opt_pos_only',
       'parameters': list([
-        'various_modules_package/function_module/opt_pos_only/required',
-        'various_modules_package/function_module/opt_pos_only/optional',
+        'tests/data/various_modules_package/function_module/opt_pos_only/required',
+        'tests/data/various_modules_package/function_module/opt_pos_only/optional',
       ]),
       'reexported_by': list([
       ]),
@@ -5933,7 +5933,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/optional_results',
+      'id': 'tests/data/various_modules_package/function_module/optional_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -5944,7 +5944,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/optional_results/result_1',
+        'tests/data/various_modules_package/function_module/optional_results/result_1',
       ]),
     }),
     dict({
@@ -5952,15 +5952,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/param_from_outside_the_package',
+      'id': 'tests/data/various_modules_package/function_module/param_from_outside_the_package',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'param_from_outside_the_package',
       'parameters': list([
-        'various_modules_package/function_module/param_from_outside_the_package/param_type',
-        'various_modules_package/function_module/param_from_outside_the_package/param_value',
+        'tests/data/various_modules_package/function_module/param_from_outside_the_package/param_type',
+        'tests/data/various_modules_package/function_module/param_from_outside_the_package/param_value',
       ]),
       'reexported_by': list([
       ]),
@@ -5972,19 +5972,19 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/param_position',
+      'id': 'tests/data/various_modules_package/function_module/param_position',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'param_position',
       'parameters': list([
-        'various_modules_package/function_module/param_position/self',
-        'various_modules_package/function_module/param_position/a',
-        'various_modules_package/function_module/param_position/b',
-        'various_modules_package/function_module/param_position/c',
-        'various_modules_package/function_module/param_position/d',
-        'various_modules_package/function_module/param_position/e',
+        'tests/data/various_modules_package/function_module/param_position/self',
+        'tests/data/various_modules_package/function_module/param_position/a',
+        'tests/data/various_modules_package/function_module/param_position/b',
+        'tests/data/various_modules_package/function_module/param_position/c',
+        'tests/data/various_modules_package/function_module/param_position/d',
+        'tests/data/various_modules_package/function_module/param_position/e',
       ]),
       'reexported_by': list([
       ]),
@@ -5996,30 +5996,30 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/params',
+      'id': 'tests/data/various_modules_package/function_module/params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'params',
       'parameters': list([
-        'various_modules_package/function_module/params/integer',
-        'various_modules_package/function_module/params/boolean',
-        'various_modules_package/function_module/params/float_',
-        'various_modules_package/function_module/params/none',
-        'various_modules_package/function_module/params/string',
-        'various_modules_package/function_module/params/obj',
-        'various_modules_package/function_module/params/callexpr',
-        'various_modules_package/function_module/params/union',
-        'various_modules_package/function_module/params/union_with_none_1',
-        'various_modules_package/function_module/params/union_with_none_2',
-        'various_modules_package/function_module/params/list_',
-        'various_modules_package/function_module/params/dictionary',
-        'various_modules_package/function_module/params/set_',
-        'various_modules_package/function_module/params/optional',
-        'various_modules_package/function_module/params/tuple_',
-        'various_modules_package/function_module/params/literal',
-        'various_modules_package/function_module/params/any_',
+        'tests/data/various_modules_package/function_module/params/integer',
+        'tests/data/various_modules_package/function_module/params/boolean',
+        'tests/data/various_modules_package/function_module/params/float_',
+        'tests/data/various_modules_package/function_module/params/none',
+        'tests/data/various_modules_package/function_module/params/string',
+        'tests/data/various_modules_package/function_module/params/obj',
+        'tests/data/various_modules_package/function_module/params/callexpr',
+        'tests/data/various_modules_package/function_module/params/union',
+        'tests/data/various_modules_package/function_module/params/union_with_none_1',
+        'tests/data/various_modules_package/function_module/params/union_with_none_2',
+        'tests/data/various_modules_package/function_module/params/list_',
+        'tests/data/various_modules_package/function_module/params/dictionary',
+        'tests/data/various_modules_package/function_module/params/set_',
+        'tests/data/various_modules_package/function_module/params/optional',
+        'tests/data/various_modules_package/function_module/params/tuple_',
+        'tests/data/various_modules_package/function_module/params/literal',
+        'tests/data/various_modules_package/function_module/params/any_',
       ]),
       'reexported_by': list([
       ]),
@@ -6031,30 +6031,30 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/params_with_default_value',
+      'id': 'tests/data/various_modules_package/function_module/params_with_default_value',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'params_with_default_value',
       'parameters': list([
-        'various_modules_package/function_module/params_with_default_value/integer',
-        'various_modules_package/function_module/params_with_default_value/boolean',
-        'various_modules_package/function_module/params_with_default_value/float_',
-        'various_modules_package/function_module/params_with_default_value/none',
-        'various_modules_package/function_module/params_with_default_value/string',
-        'various_modules_package/function_module/params_with_default_value/obj',
-        'various_modules_package/function_module/params_with_default_value/callexpr',
-        'various_modules_package/function_module/params_with_default_value/union',
-        'various_modules_package/function_module/params_with_default_value/union_with_none_1',
-        'various_modules_package/function_module/params_with_default_value/union_with_none_2',
-        'various_modules_package/function_module/params_with_default_value/list_',
-        'various_modules_package/function_module/params_with_default_value/dictionary',
-        'various_modules_package/function_module/params_with_default_value/set_',
-        'various_modules_package/function_module/params_with_default_value/optional',
-        'various_modules_package/function_module/params_with_default_value/tuple_',
-        'various_modules_package/function_module/params_with_default_value/literal',
-        'various_modules_package/function_module/params_with_default_value/any_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/integer',
+        'tests/data/various_modules_package/function_module/params_with_default_value/boolean',
+        'tests/data/various_modules_package/function_module/params_with_default_value/float_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/none',
+        'tests/data/various_modules_package/function_module/params_with_default_value/string',
+        'tests/data/various_modules_package/function_module/params_with_default_value/obj',
+        'tests/data/various_modules_package/function_module/params_with_default_value/callexpr',
+        'tests/data/various_modules_package/function_module/params_with_default_value/union',
+        'tests/data/various_modules_package/function_module/params_with_default_value/union_with_none_1',
+        'tests/data/various_modules_package/function_module/params_with_default_value/union_with_none_2',
+        'tests/data/various_modules_package/function_module/params_with_default_value/list_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/dictionary',
+        'tests/data/various_modules_package/function_module/params_with_default_value/set_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/optional',
+        'tests/data/various_modules_package/function_module/params_with_default_value/tuple_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/literal',
+        'tests/data/various_modules_package/function_module/params_with_default_value/any_',
       ]),
       'reexported_by': list([
       ]),
@@ -6066,7 +6066,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/public_no_params_no_result',
+      'id': 'tests/data/various_modules_package/function_module/public_no_params_no_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6084,15 +6084,15 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/req_name_only',
+      'id': 'tests/data/various_modules_package/function_module/req_name_only',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'req_name_only',
       'parameters': list([
-        'various_modules_package/function_module/req_name_only/required',
-        'various_modules_package/function_module/req_name_only/optional',
+        'tests/data/various_modules_package/function_module/req_name_only/required',
+        'tests/data/various_modules_package/function_module/req_name_only/optional',
       ]),
       'reexported_by': list([
       ]),
@@ -6104,7 +6104,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/result_from_outside_the_package',
+      'id': 'tests/data/various_modules_package/function_module/result_from_outside_the_package',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6115,7 +6115,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/result_from_outside_the_package/result_1',
+        'tests/data/various_modules_package/function_module/result_from_outside_the_package/result_1',
       ]),
     }),
     dict({
@@ -6123,7 +6123,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/ret_conditional_statement',
+      'id': 'tests/data/various_modules_package/function_module/ret_conditional_statement',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6134,7 +6134,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/ret_conditional_statement/result_1',
+        'tests/data/various_modules_package/function_module/ret_conditional_statement/result_1',
       ]),
     }),
     dict({
@@ -6142,7 +6142,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/set_results',
+      'id': 'tests/data/various_modules_package/function_module/set_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6153,7 +6153,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/set_results/result_1',
+        'tests/data/various_modules_package/function_module/set_results/result_1',
       ]),
     }),
     dict({
@@ -6161,21 +6161,21 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/special_params',
+      'id': 'tests/data/various_modules_package/function_module/special_params',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'special_params',
       'parameters': list([
-        'various_modules_package/function_module/special_params/none_union',
-        'various_modules_package/function_module/special_params/none_bool_union',
-        'various_modules_package/function_module/special_params/bool_none_union',
-        'various_modules_package/function_module/special_params/none_bool_none_union',
-        'various_modules_package/function_module/special_params/none_bool_int_union',
-        'various_modules_package/function_module/special_params/none_none_bool_none_union',
-        'various_modules_package/function_module/special_params/none_list_union_none_none',
-        'various_modules_package/function_module/special_params/none',
+        'tests/data/various_modules_package/function_module/special_params/none_union',
+        'tests/data/various_modules_package/function_module/special_params/none_bool_union',
+        'tests/data/various_modules_package/function_module/special_params/bool_none_union',
+        'tests/data/various_modules_package/function_module/special_params/none_bool_none_union',
+        'tests/data/various_modules_package/function_module/special_params/none_bool_int_union',
+        'tests/data/various_modules_package/function_module/special_params/none_none_bool_none_union',
+        'tests/data/various_modules_package/function_module/special_params/none_list_union_none_none',
+        'tests/data/various_modules_package/function_module/special_params/none',
       ]),
       'reexported_by': list([
       ]),
@@ -6187,7 +6187,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/str_result',
+      'id': 'tests/data/various_modules_package/function_module/str_result',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6198,7 +6198,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/str_result/result_1',
+        'tests/data/various_modules_package/function_module/str_result/result_1',
       ]),
     }),
     dict({
@@ -6206,7 +6206,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/tuple_results',
+      'id': 'tests/data/various_modules_package/function_module/tuple_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6217,8 +6217,8 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/tuple_results/result_1',
-        'various_modules_package/function_module/tuple_results/result_2',
+        'tests/data/various_modules_package/function_module/tuple_results/result_1',
+        'tests/data/various_modules_package/function_module/tuple_results/result_2',
       ]),
     }),
     dict({
@@ -6226,7 +6226,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/union_dictionary_results',
+      'id': 'tests/data/various_modules_package/function_module/union_dictionary_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6237,7 +6237,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/union_dictionary_results/result_1',
+        'tests/data/various_modules_package/function_module/union_dictionary_results/result_1',
       ]),
     }),
     dict({
@@ -6245,7 +6245,7 @@
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'various_modules_package/function_module/union_results',
+      'id': 'tests/data/various_modules_package/function_module/union_results',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
@@ -6256,7 +6256,7 @@
       'reexported_by': list([
       ]),
       'results': list([
-        'various_modules_package/function_module/union_results/result_1',
+        'tests/data/various_modules_package/function_module/union_results/result_1',
       ]),
     }),
   ])
@@ -6357,7 +6357,7 @@
     ]),
     'functions': list([
     ]),
-    'id': 'various_modules_package/__init__',
+    'id': 'tests/data/various_modules_package',
     'name': '__init__',
     'qualified_imports': list([
       dict({
@@ -6395,7 +6395,7 @@
 # name: test_modules[another_module]
   dict({
     'classes': list([
-      'various_modules_package/another_path/another_module/AnotherClass',
+      'tests/data/various_modules_package/another_path/another_module/AnotherClass',
     ]),
     'docstring': '''
       Another Module Docstring.
@@ -6407,7 +6407,7 @@
     ]),
     'functions': list([
     ]),
-    'id': 'various_modules_package/another_path/another_module',
+    'id': 'tests/data/various_modules_package/another_path/another_module',
     'name': 'another_module',
     'qualified_imports': list([
     ]),
@@ -6418,18 +6418,18 @@
 # name: test_modules[class_module]
   dict({
     'classes': list([
-      'various_modules_package/class_module/ClassModuleEmptyClassA',
-      'various_modules_package/class_module/ClassModuleClassB',
-      'various_modules_package/class_module/ClassModuleClassC',
-      'various_modules_package/class_module/ClassModuleClassD',
-      'various_modules_package/class_module/_ClassModulePrivateClassG',
+      'tests/data/various_modules_package/class_module/ClassModuleEmptyClassA',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB',
+      'tests/data/various_modules_package/class_module/ClassModuleClassC',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD',
+      'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
     ]),
     'docstring': '',
     'enums': list([
     ]),
     'functions': list([
     ]),
-    'id': 'various_modules_package/class_module',
+    'id': 'tests/data/various_modules_package/class_module',
     'name': 'class_module',
     'qualified_imports': list([
       dict({
@@ -6444,10 +6444,10 @@
 # name: test_modules[docstring_module]
   dict({
     'classes': list([
-      'various_modules_package/docstring_module/EpydocDocstringClass',
-      'various_modules_package/docstring_module/RestDocstringClass',
-      'various_modules_package/docstring_module/NumpyDocstringClass',
-      'various_modules_package/docstring_module/GoogleDocstringClass',
+      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass',
+      'tests/data/various_modules_package/docstring_module/RestDocstringClass',
+      'tests/data/various_modules_package/docstring_module/NumpyDocstringClass',
+      'tests/data/various_modules_package/docstring_module/GoogleDocstringClass',
     ]),
     'docstring': '''
       Test module for docstring tests.
@@ -6459,7 +6459,7 @@
     ]),
     'functions': list([
     ]),
-    'id': 'various_modules_package/docstring_module',
+    'id': 'tests/data/various_modules_package/docstring_module',
     'name': 'docstring_module',
     'qualified_imports': list([
     ]),
@@ -6473,15 +6473,15 @@
     ]),
     'docstring': '',
     'enums': list([
-      'various_modules_package/enum_module/_ReexportedEmptyEnum',
-      'various_modules_package/enum_module/EnumTest',
-      'various_modules_package/enum_module/EnumTest2',
-      'various_modules_package/enum_module/EnumTest3',
-      'various_modules_package/enum_module/EmptyEnum',
+      'tests/data/various_modules_package/enum_module/_ReexportedEmptyEnum',
+      'tests/data/various_modules_package/enum_module/EnumTest',
+      'tests/data/various_modules_package/enum_module/EnumTest2',
+      'tests/data/various_modules_package/enum_module/EnumTest3',
+      'tests/data/various_modules_package/enum_module/EmptyEnum',
     ]),
     'functions': list([
     ]),
-    'id': 'various_modules_package/enum_module',
+    'id': 'tests/data/various_modules_package/enum_module',
     'name': 'enum_module',
     'qualified_imports': list([
       dict({

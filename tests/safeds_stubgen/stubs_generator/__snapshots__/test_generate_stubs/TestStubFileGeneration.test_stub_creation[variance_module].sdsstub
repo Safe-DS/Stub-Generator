@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.variance_module")
-package variousModulesPackage.varianceModule
+@PythonModule("tests.data.various_modules_package.variance_module")
+package tests.data.variousModulesPackage.varianceModule
 
 class A()
 

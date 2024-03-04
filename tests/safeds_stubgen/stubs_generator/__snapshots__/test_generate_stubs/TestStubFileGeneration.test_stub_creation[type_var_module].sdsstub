@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.type_var_module")
-package variousModulesPackage.typeVarModule
+@PythonModule("tests.data.various_modules_package.type_var_module")
+package tests.data.variousModulesPackage.typeVarModule
 
 @Pure
 @PythonName("type_var_func")

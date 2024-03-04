@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.abstract_module")
-package variousModulesPackage.abstractModule
+@PythonModule("tests.data.various_modules_package.abstract_module")
+package tests.data.variousModulesPackage.abstractModule
 
 class AbstractModuleClass {
 	@PythonName("abstract_property_method") attr abstractPropertyMethod: union<Float, Int>

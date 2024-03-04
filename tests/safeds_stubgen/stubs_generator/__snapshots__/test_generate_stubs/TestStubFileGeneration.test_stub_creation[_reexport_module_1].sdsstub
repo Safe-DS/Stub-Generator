@@ -1,4 +1,4 @@
-@PythonModule("various_modules_package._reexport_module_1")
-package variousModulesPackage.ReexportModule1
+@PythonModule("tests.data.various_modules_package._reexport_module_1")
+package tests.data.variousModulesPackage.ReexportModule1
 
 class ReexportClass()

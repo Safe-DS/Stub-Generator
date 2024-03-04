@@ -1,4 +1,4 @@
-@PythonModule("various_modules_package.another_path.another_module")
-package variousModulesPackage.anotherPath.anotherModule
+@PythonModule("tests.data.various_modules_package.another_path.another_module")
+package tests.data.variousModulesPackage.anotherPath.anotherModule
 
 class AnotherClass()
