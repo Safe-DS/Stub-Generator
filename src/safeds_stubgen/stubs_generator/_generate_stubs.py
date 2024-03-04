@@ -266,8 +266,7 @@ class StubsStringGenerator:
                     # that the superclass is a class from the same module.
                     # For internal superclasses, we have to add their public members to subclasses.
                     superclass_methods_text += self._create_internal_class_methods_string(
-                        superclass=superclass,
-                        inner_indentations=inner_indentations
+                        superclass=superclass, inner_indentations=inner_indentations,
                     )
                 else:
                     superclass_names.append(superclass_name)
