@@ -79,7 +79,7 @@ fun specialParams(
 	@PythonName("none_union") noneUnion: Nothing?,
 	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
 	@PythonName("bool_none_union") boolNoneUnion: Boolean?,
-	@PythonName("bool_none_union2") boolNoneUnion2: Boolean?,
+	@PythonName("bool_none_str") boolNoneStr: String?,
 	@PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
 	@PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
 	@PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,

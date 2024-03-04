@@ -4265,6 +4265,33 @@
         'description': '',
         'type': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/special_params/bool_none_str',
+      'is_optional': False,
+      'name': 'bool_none_str',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/special_params/bool_none_union',
       'is_optional': False,
       'name': 'bool_none_union',
@@ -4280,33 +4307,6 @@
             'kind': 'NamedType',
             'name': 'None',
             'qname': 'builtins.None',
-          }),
-        ]),
-      }),
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'tests/data/various_modules_package/function_module/special_params/bool_none_union2',
-      'is_optional': False,
-      'name': 'bool_none_union2',
-      'type': dict({
-        'kind': 'UnionType',
-        'types': list([
-          dict({
-            'kind': 'NamedType',
-            'name': 'None',
-            'qname': 'builtins.None',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'bool',
-            'qname': 'builtins.bool',
           }),
         ]),
       }),
@@ -6198,7 +6198,7 @@
         'tests/data/various_modules_package/function_module/special_params/none_union',
         'tests/data/various_modules_package/function_module/special_params/none_bool_union',
         'tests/data/various_modules_package/function_module/special_params/bool_none_union',
-        'tests/data/various_modules_package/function_module/special_params/bool_none_union2',
+        'tests/data/various_modules_package/function_module/special_params/bool_none_str',
         'tests/data/various_modules_package/function_module/special_params/none_bool_none_union',
         'tests/data/various_modules_package/function_module/special_params/none_bool_int_union',
         'tests/data/various_modules_package/function_module/special_params/none_none_bool_none_union',
