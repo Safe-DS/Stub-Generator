@@ -92,6 +92,7 @@ def special_params(
     none_union: None | None,
     none_bool_union: None | bool,
     bool_none_union: bool | None,
+    bool_none_union2: None | bool,
     none_bool_none_union: None | bool | None,
     none_bool_int_union: None | bool | int,
     none_none_bool_none_union: None | None | bool | None,
