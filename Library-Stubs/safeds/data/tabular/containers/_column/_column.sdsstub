@@ -5,5 +5,5 @@ from typing import Sequence
 
 class Column(
 	name: String,
-	data: Nothing?? = null
+	data: Sequence? = null
 )

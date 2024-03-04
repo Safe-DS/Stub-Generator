@@ -7,7 +7,7 @@ class Anything(
 	@PythonName("is_nullable") isNullable: Boolean = false
 ) sub ColumnType
 
-class Boolean(
+class `Boolean`(
 	@PythonName("is_nullable") isNullable: Boolean = false
 ) sub ColumnType
 
@@ -19,8 +19,8 @@ class Integer(
 	@PythonName("is_nullable") isNullable: Boolean = false
 ) sub ColumnType
 
-class String(
+class `String`(
 	@PythonName("is_nullable") isNullable: Boolean = false
 ) sub ColumnType
 
-class Nothing() sub ColumnType
+class `Nothing`() sub ColumnType

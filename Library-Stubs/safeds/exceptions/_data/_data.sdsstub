@@ -10,12 +10,12 @@ class UnknownColumnNameError(
 
 class NonNumericColumnError(
 	@PythonName("column_info") columnInfo: String,
-	@PythonName("help_msg") helpMsg: Nothing?? = null
+	@PythonName("help_msg") helpMsg: String? = null
 ) sub Exception
 
 class MissingValuesColumnError(
 	@PythonName("column_info") columnInfo: String,
-	@PythonName("help_msg") helpMsg: Nothing?? = null
+	@PythonName("help_msg") helpMsg: String? = null
 ) sub Exception
 
 class DuplicateColumnNameError(

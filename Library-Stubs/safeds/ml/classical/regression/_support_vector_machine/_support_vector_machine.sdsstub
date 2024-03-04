@@ -7,7 +7,7 @@ class SupportVectorMachineKernel
 
 class SupportVectorMachine(
 	c: Float = 1.0,
-	kernel: Nothing?? = null
+	kernel: SupportVectorMachineKernel? = null
 ) sub Regressor {
 	class Kernel() {
 		class Linear() sub SupportVectorMachineKernel
