@@ -6348,7 +6348,7 @@
   list([
   ])
 # ---
-# name: test_modules[__init__]
+# name: test_modules[__init__0]
   dict({
     'classes': list([
     ]),
@@ -6392,6 +6392,285 @@
     ]),
   })
 # ---
+# name: test_modules[__init__1]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation',
+    'name': '__init__',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': '_module_2._private_reexported',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': '_module_3.Reexported',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': '_module_6.public_reexported',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_module_2]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/file_creation/_module_2/_private_reexported',
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_2',
+    'name': '_module_2',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_module_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/_module_3/Reexported',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_3',
+    'name': '_module_3',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_module_4]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/_module_4/_Private',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_4',
+    'name': '_module_4',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_module_6]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/file_creation/_module_6/public_reexported',
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_6',
+    'name': '_module_6',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexport_module_1]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/_reexport_module_1/ReexportClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/_reexport_module_1/reexported_function',
+    ]),
+    'id': 'tests/data/various_modules_package/_reexport_module_1',
+    'name': '_reexport_module_1',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexport_module_2]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/_reexport_module_2/AnotherReexportClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/_reexport_module_2/reexported_function_2',
+    ]),
+    'id': 'tests/data/various_modules_package/_reexport_module_2',
+    'name': '_reexport_module_2',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexport_module_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/_reexport_module_3/_ThirdReexportClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/_reexport_module_3/reexported_function_3',
+    ]),
+    'id': 'tests/data/various_modules_package/_reexport_module_3',
+    'name': '_reexport_module_3',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexport_module_4]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/_reexport_module_4/FourthReexportClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/_reexport_module_4/_unreexported_function',
+      'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4',
+    ]),
+    'id': 'tests/data/various_modules_package/_reexport_module_4',
+    'name': '_reexport_module_4',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[abstract_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/abstract_module/AbstractModuleClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/abstract_module',
+    'name': 'abstract_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'abc.ABC',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'abc.abstractmethod',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[aliasing_module_1]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/aliasing/aliasing_module_1/_AliasingModuleClassA',
+      'tests/data/various_modules_package/aliasing/aliasing_module_1/AliasingModuleClassB',
+      'tests/data/various_modules_package/aliasing/aliasing_module_1/AliasingModuleClassC',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/aliasing/aliasing_module_1',
+    'name': 'aliasing_module_1',
+    'qualified_imports': list([
+      dict({
+        'alias': 'AliasModule2',
+        'qualified_name': 'aliasing_module_2.AliasingModule2ClassA',
+      }),
+      dict({
+        'alias': 'ImportMeAlias',
+        'qualified_name': 'aliasing_module_3.ImportMeAliasingModuleClass',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[aliasing_module_2]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/aliasing/aliasing_module_2/AliasingModule2ClassA',
+      'tests/data/various_modules_package/aliasing/aliasing_module_2/AliasingModuleClassB',
+      'tests/data/various_modules_package/aliasing/aliasing_module_2/ImportMeAliasingModuleClass',
+      'tests/data/various_modules_package/aliasing/aliasing_module_2/AliasingModuleClassC',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/aliasing/aliasing_module_2',
+    'name': 'aliasing_module_2',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'aliasing_module_1.AliasingModuleClassC',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[aliasing_module_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/aliasing/aliasing_module_3/ImportMeAliasingModuleClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/aliasing/aliasing_module_3',
+    'name': 'aliasing_module_3',
+    'qualified_imports': list([
+      dict({
+        'alias': 'ImportMeAlias',
+        'qualified_name': 'aliasing_module_2.ImportMeAliasingModuleClass',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
 # name: test_modules[another_module]
   dict({
     'classes': list([
@@ -6410,6 +6689,41 @@
     'id': 'tests/data/various_modules_package/another_path/another_module',
     'name': 'another_module',
     'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[attribute_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/attribute_module/AttributesClassA',
+      'tests/data/various_modules_package/attribute_module/AttributesClassB',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/attribute_module',
+    'name': 'attribute_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Optional',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Final',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Literal',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
     ]),
     'wildcard_imports': list([
     ]),
@@ -6499,6 +6813,266 @@
       dict({
         'alias': '_AcImportAlias',
         'qualified_name': 'another_path.another_module.AnotherClass',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[function_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/function_module/FunctionModuleClassA',
+      'tests/data/various_modules_package/function_module/FunctionModuleClassB',
+      'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/function_module/_private',
+      'tests/data/various_modules_package/function_module/public_no_params_no_result',
+      'tests/data/various_modules_package/function_module/params',
+      'tests/data/various_modules_package/function_module/params_with_default_value',
+      'tests/data/various_modules_package/function_module/illegal_params',
+      'tests/data/various_modules_package/function_module/special_params',
+      'tests/data/various_modules_package/function_module/param_position',
+      'tests/data/various_modules_package/function_module/opt_pos_only',
+      'tests/data/various_modules_package/function_module/req_name_only',
+      'tests/data/various_modules_package/function_module/arg',
+      'tests/data/various_modules_package/function_module/args_type',
+      'tests/data/various_modules_package/function_module/int_result',
+      'tests/data/various_modules_package/function_module/str_result',
+      'tests/data/various_modules_package/function_module/bool_result',
+      'tests/data/various_modules_package/function_module/float_result',
+      'tests/data/various_modules_package/function_module/none_result',
+      'tests/data/various_modules_package/function_module/obj_result',
+      'tests/data/various_modules_package/function_module/callexr_result_class',
+      'tests/data/various_modules_package/function_module/callexr_result_function',
+      'tests/data/various_modules_package/function_module/tuple_results',
+      'tests/data/various_modules_package/function_module/union_results',
+      'tests/data/various_modules_package/function_module/list_results',
+      'tests/data/various_modules_package/function_module/illegal_list_results',
+      'tests/data/various_modules_package/function_module/dictionary_results',
+      'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value',
+      'tests/data/various_modules_package/function_module/illegal_dictionary_results',
+      'tests/data/various_modules_package/function_module/union_dictionary_results',
+      'tests/data/various_modules_package/function_module/set_results',
+      'tests/data/various_modules_package/function_module/illegal_set_results',
+      'tests/data/various_modules_package/function_module/optional_results',
+      'tests/data/various_modules_package/function_module/literal_results',
+      'tests/data/various_modules_package/function_module/any_results',
+      'tests/data/various_modules_package/function_module/callable_type',
+      'tests/data/various_modules_package/function_module/param_from_outside_the_package',
+      'tests/data/various_modules_package/function_module/result_from_outside_the_package',
+      'tests/data/various_modules_package/function_module/ret_conditional_statement',
+    ]),
+    'id': 'tests/data/various_modules_package/function_module',
+    'name': 'function_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Callable',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Optional',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Literal',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Any',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[import_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/import_module/ImportClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/import_module',
+    'name': 'import_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'another_path.another_module.AnotherClass',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'class_module.ClassModuleClassB',
+      }),
+      dict({
+        'alias': 'ClMCC',
+        'qualified_name': 'class_module.ClassModuleClassC',
+      }),
+      dict({
+        'alias': 'ClMCD',
+        'qualified_name': 'class_module.ClassModuleClassD',
+      }),
+      dict({
+        'alias': 'ClMECA',
+        'qualified_name': 'class_module.ClassModuleEmptyClassA',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[infer_types_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/infer_types_module/InferMe',
+      'tests/data/various_modules_package/infer_types_module/InferMe2',
+      'tests/data/various_modules_package/infer_types_module/InferMe3',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/infer_types_module',
+    'name': 'infer_types_module',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[inheritance_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/inheritance_module/PublicSuperClass',
+      'tests/data/various_modules_package/inheritance_module/PublicSubClass',
+      'tests/data/various_modules_package/inheritance_module/_PrivateInternalClass',
+      'tests/data/various_modules_package/inheritance_module/PublicSubClass2',
+      'tests/data/various_modules_package/inheritance_module/PublicSubClassFromNested',
+      'tests/data/various_modules_package/inheritance_module/_TransitiveInternalClassA',
+      'tests/data/various_modules_package/inheritance_module/_TransitiveInternalClassB',
+      'tests/data/various_modules_package/inheritance_module/InheritTransitively',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/inheritance_module',
+    'name': 'inheritance_module',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[module_1]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/module_1/C',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/module_1',
+    'name': 'module_1',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[module_5]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/package_1/module_5/C',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/package_1/module_5',
+    'name': 'module_5',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[type_var_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/type_var_module/TypeVarClass',
+      'tests/data/various_modules_package/type_var_module/TypeVarClass2',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/type_var_module/type_var_func',
+      'tests/data/various_modules_package/type_var_module/multiple_type_var',
+      'tests/data/various_modules_package/type_var_module/type_var_fun_invariance_with_bound',
+    ]),
+    'id': 'tests/data/various_modules_package/type_var_module',
+    'name': 'type_var_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.TypeVar',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Generic',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[variance_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/variance_module/A',
+      'tests/data/various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
+      'tests/data/various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
+      'tests/data/various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
+      'tests/data/various_modules_package/variance_module/VarianceClassAll',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/variance_module',
+    'name': 'variance_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Generic',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.TypeVar',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Literal',
       }),
     ]),
     'wildcard_imports': list([

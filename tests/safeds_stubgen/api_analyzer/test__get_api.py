@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Generator
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
@@ -13,37 +13,38 @@ if TYPE_CHECKING:
 # Setup: API data
 _test_dir = Path(__file__).parent.parent.parent
 _test_package_name = "various_modules_package"
+package_root = Path(_test_dir / "data" / _test_package_name)
 
 api_data_paintext = get_api(
     package_name=_test_package_name,
-    root=Path(_test_dir / "data" / _test_package_name),
+    root=package_root,
     is_test_run=True,
 ).to_dict()
 
 api_data_epydoc = get_api(
     package_name=_test_package_name,
-    root=Path(_test_dir / "data" / _test_package_name),
+    root=package_root,
     docstring_style=DocstringStyle.EPYDOC,
     is_test_run=True,
 ).to_dict()
 
 api_data_numpy = get_api(
     package_name=_test_package_name,
-    root=Path(_test_dir / "data" / _test_package_name),
+    root=package_root,
     docstring_style=DocstringStyle.NUMPYDOC,
     is_test_run=True,
 ).to_dict()
 
 api_data_rest = get_api(
     package_name=_test_package_name,
-    root=Path(_test_dir / "data" / _test_package_name),
+    root=package_root,
     docstring_style=DocstringStyle.REST,
     is_test_run=True,
 ).to_dict()
 
 api_data_google = get_api(
     package_name=_test_package_name,
-    root=Path(_test_dir / "data" / _test_package_name),
+    root=package_root,
     docstring_style=DocstringStyle.GOOGLE,
     is_test_run=True,
 ).to_dict()
@@ -111,26 +112,34 @@ _type_var_module_name = "type_var_module"
 
 
 # ############################## Tests ############################## #
-@pytest.mark.parametrize(
-    argnames="module_name",
-    argvalues=[
-        _class_module_name,
-        "another_module",
-        _enum_module_name,
-        "__init__",
-        _docstring_module_name,
-    ],
-    ids=[
-        _class_module_name,
-        "another_module",
-        _enum_module_name,
-        "__init__",
-        _docstring_module_name,
-    ],
-)
-def test_modules(module_name: str, snapshot: SnapshotAssertion) -> None:
-    module_data = _get_specific_module_data(module_name)
-    assert module_data == snapshot
+def _python_files() -> Generator:
+    return package_root.rglob(pattern="*.py")
+
+
+def _python_file_ids() -> Generator:
+    files = package_root.rglob(pattern="*.py")
+    for file in files:
+        yield file.parts[-1].split(".py")[0]
+
+
+@pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
+def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
+    file_name = python_file.parts[-1]
+    is_package = file_name == "__init__.py"
+
+    module_id = ""
+    if is_package:
+        module_id = "/".join(python_file.parts[:-1])
+
+    api_data = get_api_data("plaintext")
+
+    for module in api_data["modules"]:
+        is_init_file = is_package and module_id.endswith(module["id"])
+        is_module_file = str(python_file).replace("\\", "/").endswith(f"{module["id"]}.py")
+        if is_init_file or is_module_file:
+            assert module == snapshot
+            return
+    raise AssertionError
 
 
 # Todo new tests after issue #38
