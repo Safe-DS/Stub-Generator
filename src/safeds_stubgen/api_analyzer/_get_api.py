@@ -97,6 +97,10 @@ def _get_mypy_asts(
     module_ast = []
     for graph_key in build_result.graph:
         ast = build_result.graph[graph_key].tree
+
+        if ast is None:  # pragma: no cover
+            raise ValueError
+
         ast_path = ast.path
 
         if ast_path.endswith("__init__.py"):
