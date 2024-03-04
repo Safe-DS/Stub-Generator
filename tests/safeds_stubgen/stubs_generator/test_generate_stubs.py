@@ -26,7 +26,7 @@ _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "various_modules_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
-_out_dir_stubs = Path(_out_dir / _test_package_name)
+_out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
 stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
