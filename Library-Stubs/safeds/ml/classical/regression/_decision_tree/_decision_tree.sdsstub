@@ -1,0 +1,6 @@
+@PythonModule("safeds.ml.classical.regression._decision_tree")
+package safeds.ml.classical.regression.DecisionTree
+
+from safeds.ml.classical.regression.Regressor import Regressor
+
+class DecisionTree() sub Regressor

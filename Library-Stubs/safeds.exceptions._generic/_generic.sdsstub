@@ -1,0 +1,19 @@
+@PythonModule("safeds.exceptions._generic")
+package safeds.exceptions.Generic
+
+class OutOfBoundsError(
+	actual: Float,
+	name: Nothing?? = null,
+	@PythonName("lower_bound") lowerBound: Bound? = null,
+	@PythonName("upper_bound") upperBound: Bound? = null
+) sub ValueError
+
+class Bound
+
+class ClosedBound(
+	value: Float
+) sub Bound
+
+class OpenBound(
+	value: Float
+) sub Bound

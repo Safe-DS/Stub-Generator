@@ -1,0 +1,21 @@
+@PythonModule("safeds.data.tabular.transformation._imputer")
+package safeds.data.tabular.transformation.Imputer
+
+from safeds.data.tabular.transformation.TableTransformer import TableTransformer
+from safeds.data.tabular.typing.ImputerStrategy import ImputerStrategy
+
+class Imputer(
+	strategy: ImputerStrategy
+) sub TableTransformer {
+	class Strategy() {
+		class Constant(
+			value: Any
+		) sub ImputerStrategy
+
+		class Mean() sub ImputerStrategy
+
+		class Median() sub ImputerStrategy
+
+		class Mode() sub ImputerStrategy
+	}
+}

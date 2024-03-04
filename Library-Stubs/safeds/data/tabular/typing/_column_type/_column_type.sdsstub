@@ -1,0 +1,26 @@
+@PythonModule("safeds.data.tabular.typing._column_type")
+package safeds.data.tabular.typing.ColumnType
+
+class ColumnType
+
+class Anything(
+	@PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType
+
+class Boolean(
+	@PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType
+
+class RealNumber(
+	@PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType
+
+class Integer(
+	@PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType
+
+class String(
+	@PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType
+
+class Nothing() sub ColumnType

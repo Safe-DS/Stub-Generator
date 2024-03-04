@@ -1,0 +1,8 @@
+@PythonModule("safeds.data.tabular.transformation._discretizer")
+package safeds.data.tabular.transformation.Discretizer
+
+from safeds.data.tabular.transformation.TableTransformer import TableTransformer
+
+class Discretizer(
+	@PythonName("number_of_bins") numberOfBins: Float = 5
+) sub TableTransformer

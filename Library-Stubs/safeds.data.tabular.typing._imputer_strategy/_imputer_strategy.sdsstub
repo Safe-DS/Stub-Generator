@@ -1,0 +1,4 @@
+@PythonModule("safeds.data.tabular.typing._imputer_strategy")
+package safeds.data.tabular.typing.ImputerStrategy
+
+class ImputerStrategy

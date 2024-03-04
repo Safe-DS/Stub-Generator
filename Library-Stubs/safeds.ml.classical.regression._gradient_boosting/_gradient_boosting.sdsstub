@@ -1,0 +1,9 @@
+@PythonModule("safeds.ml.classical.regression._gradient_boosting")
+package safeds.ml.classical.regression.GradientBoosting
+
+from safeds.ml.classical.regression.Regressor import Regressor
+
+class GradientBoosting(
+	@PythonName("number_of_trees") numberOfTrees: Int = 100,
+	@PythonName("learning_rate") learningRate: Float = 0.1
+) sub Regressor
