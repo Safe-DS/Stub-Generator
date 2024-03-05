@@ -134,11 +134,11 @@ class MyPyAstVisitor:
         # Variance
         # Special base classes like Generic[...] get moved to "removed_base_type_expr" during semantic analysis of mypy
         generic_exprs = []
-        for removed_base_type_expr in node.removed_base_type_exprs:
-            base = getattr(removed_base_type_expr, "base", None)
+        for base_type_expr in node.removed_base_type_exprs + node.base_type_exprs:
+            base = getattr(base_type_expr, "base", None)
             base_name = getattr(base, "name", None)
-            if base_name == "Generic":
-                generic_exprs.append(removed_base_type_expr)
+            if base_name in {"Collection", "Generic", "Sequence"}:
+                generic_exprs.append(base_type_expr)
 
         type_parameters = []
         if generic_exprs:

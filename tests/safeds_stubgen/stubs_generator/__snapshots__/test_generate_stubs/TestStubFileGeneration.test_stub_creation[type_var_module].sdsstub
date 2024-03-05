@@ -20,7 +20,7 @@ fun typeVarFunInvarianceWithBound<TIn sub Int>(
 	a: List<TIn>
 ) -> result1: TIn
 
-class TypeVarClass<T>(
+class GenericTypeVar<T>(
 	items: List<T>
 ) {
 	@Pure
@@ -30,7 +30,43 @@ class TypeVarClass<T>(
 	) -> result1: T
 }
 
-class TypeVarClass2<T>() {
+class GenericTypeVar2<T>() {
+	@Pure
+	@PythonName("type_var_class_method2")
+	fun typeVarClassMethod2(
+		a: T
+	) -> result1: T
+}
+
+class SequenceTypeVar<T>(
+	items: List<T>
+) {
+	@Pure
+	@PythonName("type_var_class_method")
+	fun typeVarClassMethod(
+		a: T
+	) -> result1: T
+}
+
+class SequenceTypeVar2<T>() {
+	@Pure
+	@PythonName("type_var_class_method2")
+	fun typeVarClassMethod2(
+		a: T
+	) -> result1: T
+}
+
+class CollectionTypeVar<T>(
+	items: List<T>
+) {
+	@Pure
+	@PythonName("type_var_class_method")
+	fun typeVarClassMethod(
+		a: T
+	) -> result1: T
+}
+
+class CollectionTypeVar2<T>() {
 	@Pure
 	@PythonName("type_var_class_method2")
 	fun typeVarClassMethod2(

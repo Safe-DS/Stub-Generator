@@ -1333,6 +1333,56 @@
     }),
   ])
 # ---
+# name: test_class_methods[CollectionTypeVar2]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/type_var_module/CollectionTypeVar2/type_var_class_method2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method2',
+      'parameters': list([
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar2/type_var_class_method2/self',
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar2/type_var_class_method2/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar2/type_var_class_method2/result_1',
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods[CollectionTypeVar]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/type_var_module/CollectionTypeVar/type_var_class_method',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method',
+      'parameters': list([
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar/type_var_class_method/self',
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar/type_var_class_method/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/type_var_module/CollectionTypeVar/type_var_class_method/result_1',
+      ]),
+    }),
+  ])
+# ---
 # name: test_class_methods[EpydocDocstringClass]
   list([
     dict({
@@ -1554,6 +1604,56 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods[GenericTypeVar2]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/type_var_module/GenericTypeVar2/type_var_class_method2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method2',
+      'parameters': list([
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar2/type_var_class_method2/self',
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar2/type_var_class_method2/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar2/type_var_class_method2/result_1',
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods[GenericTypeVar]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/type_var_module/GenericTypeVar/type_var_class_method',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method',
+      'parameters': list([
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar/type_var_class_method/self',
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar/type_var_class_method/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/type_var_module/GenericTypeVar/type_var_class_method/result_1',
       ]),
     }),
   ])
@@ -1844,27 +1944,52 @@
     }),
   ])
 # ---
-# name: test_class_methods[TypeVarClass]
+# name: test_class_methods[SequenceTypeVar2]
   list([
     dict({
       'docstring': dict({
         'description': '',
         'full_docstring': '',
       }),
-      'id': 'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method',
+      'id': 'tests/data/various_modules_package/type_var_module/SequenceTypeVar2/type_var_class_method2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_var_class_method2',
+      'parameters': list([
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar2/type_var_class_method2/self',
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar2/type_var_class_method2/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar2/type_var_class_method2/result_1',
+      ]),
+    }),
+  ])
+# ---
+# name: test_class_methods[SequenceTypeVar]
+  list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/type_var_module/SequenceTypeVar/type_var_class_method',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
       'name': 'type_var_class_method',
       'parameters': list([
-        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/self',
-        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/a',
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar/type_var_class_method/self',
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar/type_var_class_method/a',
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'tests/data/various_modules_package/type_var_module/TypeVarClass/type_var_class_method/result_1',
+        'tests/data/various_modules_package/type_var_module/SequenceTypeVar/type_var_class_method/result_1',
       ]),
     }),
   ])
@@ -7046,8 +7171,12 @@
 # name: test_modules[type_var_module]
   dict({
     'classes': list([
-      'tests/data/various_modules_package/type_var_module/TypeVarClass',
-      'tests/data/various_modules_package/type_var_module/TypeVarClass2',
+      'tests/data/various_modules_package/type_var_module/GenericTypeVar',
+      'tests/data/various_modules_package/type_var_module/GenericTypeVar2',
+      'tests/data/various_modules_package/type_var_module/SequenceTypeVar',
+      'tests/data/various_modules_package/type_var_module/SequenceTypeVar2',
+      'tests/data/various_modules_package/type_var_module/CollectionTypeVar',
+      'tests/data/various_modules_package/type_var_module/CollectionTypeVar2',
     ]),
     'docstring': '',
     'enums': list([
@@ -7067,6 +7196,14 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Generic',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Sequence',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Collection',
       }),
     ]),
     'wildcard_imports': list([

@@ -906,9 +906,6 @@ def _replace_if_safeds_keyword(keyword: str) -> str:
         "sub",
         "super",
         "_",
-        "Boolean",
-        "Nothing",
-        "String",
     }:
         return f"`{keyword}`"
     return keyword
