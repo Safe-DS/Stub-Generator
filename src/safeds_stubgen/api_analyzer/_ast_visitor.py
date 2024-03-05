@@ -1003,12 +1003,12 @@ class MyPyAstVisitor:
 
         if not isinstance(parent, Module | Class) and not (isinstance(parent, Function) and parent.name == "__init__"):
             raise TypeError(
-                f"Expected parent for {name} in module {self.mypy_file.fullname} to be a class or a module."
+                f"Expected parent for {name} in module {self.mypy_file.fullname} to be a class or a module.",
             )  # pragma: no cover
 
         if not isinstance(parent, Function):
             _check_publicity_through_reexport: bool | None = self._check_publicity_through_reexport(
-                name, self.mypy_file.name, package_id, parent
+                name, self.mypy_file.name, package_id, parent,
             )
 
             if _check_publicity_through_reexport is not None:
@@ -1052,7 +1052,7 @@ class MyPyAstVisitor:
         return any(self._inherits_from_exception(base.type) for base in node.bases)
 
     def _check_publicity_through_reexport(
-        self, name: str, module_name: str, package_id: str, parent: Module | Class
+        self, name: str, module_name: str, package_id: str, parent: Module | Class,
     ) -> bool | None:
         for reexported_key in self.reexported:
             module_is_reexported = reexported_key == module_name
@@ -1077,9 +1077,10 @@ class MyPyAstVisitor:
 
                             # Check the qualified imports of the source
                             for qualified_import in reexport_source.qualified_imports:
-                                if qualified_import.qualified_name == module_name and (not is_internal(module_name) or (
-                                    qualified_import.alias and not is_internal(qualified_import.alias)
-                                )):
+                                if qualified_import.qualified_name == module_name and (
+                                    not is_internal(module_name)
+                                    or (qualified_import.alias and not is_internal(qualified_import.alias))
+                                ):
                                     # If the module name or alias is not internal, check if the parent is public
                                     return isinstance(parent, Module) or parent.is_public
                         else:
