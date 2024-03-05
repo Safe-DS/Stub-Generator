@@ -6,7 +6,7 @@ class OutOfBoundsError(
 	name: String? = null,
 	@PythonName("lower_bound") lowerBound: Bound? = null,
 	@PythonName("upper_bound") upperBound: Bound? = null
-) sub ValueError
+)
 
 class Bound
 

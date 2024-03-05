@@ -3,7 +3,7 @@ package safeds.data.tabular.containers.Column
 
 from typing import Sequence
 
-class Column(
+class Column<T>(
 	name: String,
 	data: Sequence? = null
 )

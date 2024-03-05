@@ -2,6 +2,6 @@
 package safeds.ml.hyperparameters.Choice
 
 // TODO Safe-DS does not support variadic parameters.
-class Choice(
+class Choice<T>(
 	args: List<T>
 )
