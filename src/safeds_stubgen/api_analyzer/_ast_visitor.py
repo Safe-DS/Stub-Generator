@@ -178,9 +178,11 @@ class MyPyAstVisitor:
         superclasses = []
         for superclass in node.base_type_exprs:
             # Check for superclasses that inherit directly or transitively from Exception and remove them
-            if (hasattr(superclass, "node") and
-                    isinstance(superclass.node, mp_nodes.TypeInfo) and
-                    self._inherits_from_exception(superclass.node)):
+            if (
+                hasattr(superclass, "node")
+                and isinstance(superclass.node, mp_nodes.TypeInfo)
+                and self._inherits_from_exception(superclass.node)
+            ):
                 continue
 
             if hasattr(superclass, "fullname"):
