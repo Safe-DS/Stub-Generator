@@ -40,3 +40,7 @@ class ClassModuleClassD() {
 		fun classEFunc()
 	}
 }
+
+class InheritFromException()
+
+class InheritFromException2() sub ClassModuleClassB

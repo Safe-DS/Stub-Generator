@@ -32,3 +32,11 @@ class ClassModuleClassD:
 class _ClassModulePrivateClassG:
     _attr_1: float
     _attr_2: bool
+
+
+class InheritFromException(ValueError):
+    ...
+
+
+class InheritFromException2(Exception, InheritFromException, ClassModuleClassB):
+    ...

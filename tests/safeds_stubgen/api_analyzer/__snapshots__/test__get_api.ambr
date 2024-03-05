@@ -6890,6 +6890,8 @@
       'tests/data/various_modules_package/class_module/ClassModuleClassC',
       'tests/data/various_modules_package/class_module/ClassModuleClassD',
       'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
+      'tests/data/various_modules_package/class_module/InheritFromException',
+      'tests/data/various_modules_package/class_module/InheritFromException2',
     ]),
     'docstring': '',
     'enums': list([

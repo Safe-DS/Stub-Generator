@@ -177,6 +177,12 @@ class MyPyAstVisitor:
         # superclasses
         superclasses = []
         for superclass in node.base_type_exprs:
+            # Check for superclasses that inherit directly or transitively from Exception and remove them
+            if (hasattr(superclass, "node") and
+                    isinstance(superclass.node, mp_nodes.TypeInfo) and
+                    self._inherits_from_exception(superclass.node)):
+                continue
+
             if hasattr(superclass, "fullname"):
                 superclass_qname = superclass.fullname
                 superclass_name = superclass_qname.split(".")[-1]
@@ -1021,3 +1027,9 @@ class MyPyAstVisitor:
         segments += [name]
 
         return "/".join(segments)
+
+    def _inherits_from_exception(self, node: mp_nodes.TypeInfo) -> bool:
+        if node.fullname == "builtins.Exception":
+            return True
+
+        return any(self._inherits_from_exception(base.type) for base in node.bases)
