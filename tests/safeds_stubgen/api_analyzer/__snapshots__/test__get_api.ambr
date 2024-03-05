@@ -6574,6 +6574,10 @@
         'alias': None,
         'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.ReexportedInAnotherPackageClass2',
       }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.reexported_in_another_package_function2',
+      }),
     ]),
     'wildcard_imports': list([
       dict({
@@ -6760,6 +6764,8 @@
     'enums': list([
     ]),
     'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/reexported_in_another_package_function2',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/_still_internal_function2',
     ]),
     'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_2',
     'name': '_reexported_from_another_package_2',
