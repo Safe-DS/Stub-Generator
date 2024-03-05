@@ -176,6 +176,7 @@ class StubsStringGenerator:
 
     def _create_module_string(self, module: Module) -> str:
         # Create package info
+        # Todo The shortest public "reexport" should be used based on the __init__.py files.
         package_info = module.id.replace("/", ".")
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""

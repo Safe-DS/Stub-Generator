@@ -6570,8 +6570,15 @@
         'alias': None,
         'qualified_name': '_module_6.public_reexported',
       }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.ReexportedInAnotherPackageClass2',
+      }),
     ]),
     'wildcard_imports': list([
+      dict({
+        'module_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package',
+      }),
     ]),
   })
 # ---
@@ -6718,6 +6725,44 @@
     ]),
     'id': 'tests/data/various_modules_package/_reexport_module_4',
     'name': '_reexport_module_4',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexported_from_another_package]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/ReexportedInAnotherPackageClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/reexported_in_another_package_function',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/_still_internal_function',
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package',
+    'name': '_reexported_from_another_package',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexported_from_another_package_2]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/ReexportedInAnotherPackageClass2',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_2',
+    'name': '_reexported_from_another_package_2',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([

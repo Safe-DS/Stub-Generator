@@ -1054,6 +1054,7 @@ class MyPyAstVisitor:
     def _check_publicity_through_reexport(
         self, name: str, module_name: str, package_id: str, parent: Module | Class,
     ) -> bool | None:
+        # Todo does not work yet if the reexport is through an __init__ file of another package
         for reexported_key in self.reexported:
             module_is_reexported = reexported_key == module_name
 

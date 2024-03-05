@@ -1,0 +1,8 @@
+@PythonModule("tests.data.various_modules_package.another_path._reexported_from_another_package")
+package tests.data.variousModulesPackage.anotherPath.ReexportedFromAnotherPackage
+
+@Pure
+@PythonName("reexported_in_another_package_function")
+static fun reexportedInAnotherPackageFunction() -> result1: String
+
+class ReexportedInAnotherPackageClass()
