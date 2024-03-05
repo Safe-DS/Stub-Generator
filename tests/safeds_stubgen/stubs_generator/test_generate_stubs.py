@@ -101,7 +101,7 @@ class TestStubFileGeneration:
                 return
 
         # For these files stubs won't get created, because they are either empty or private.
-        if file_name in {"__init__", "_reexport_module_3", "_module_2", "_module_4"}:
+        if file_name in {"__init__", "_module_2", "_module_4"}:
             return
 
         raise AssertionError(f"Stub file not found for '{file_name}'.")

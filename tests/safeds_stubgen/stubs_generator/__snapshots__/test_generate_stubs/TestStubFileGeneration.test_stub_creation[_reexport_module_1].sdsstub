@@ -1,4 +1,9 @@
 @PythonModule("tests.data.various_modules_package._reexport_module_1")
 package tests.data.variousModulesPackage.ReexportModule1
 
+// TODO Result type information missing.
+@Pure
+@PythonName("reexported_function")
+fun reexportedFunction()
+
 class ReexportClass()

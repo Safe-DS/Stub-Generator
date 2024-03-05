@@ -77,10 +77,11 @@ class MyPyAstVisitor:
                     )
 
             elif isinstance(import_, mp_nodes.ImportFrom):
+                import_id = f"{import_.id}." if import_.id else ""
                 for import_name, import_alias in import_.names:
                     qualified_imports.append(
                         QualifiedImport(
-                            f"{import_.id}.{import_name}",
+                            f"{import_id}{import_name}",
                             import_alias,
                         ),
                     )
@@ -991,19 +992,50 @@ class MyPyAstVisitor:
         return "", ""
 
     def _is_public(self, name: str, qualified_name: str) -> bool:
-        if name.startswith("_") and not name.endswith("__"):
+        if is_internal(name) and not name.endswith("__"):
             return False
 
-        for reexported_item in self.reexported:
-            if reexported_item.endswith(f".{name}"):
-                return True
-
+        package_id = "/".join(self.mypy_file.fullname.split(".")[:-1])
+        module_name = self.mypy_file.name
         parent = self.__declaration_stack[-1]
+
+        for reexported_key in self.reexported:
+            module_is_reexported = reexported_key == module_name
+
+            # Check if the function/class/module is reexported
+            if reexported_key.endswith(name) or module_is_reexported:
+
+                # Iterate through all sources (__init__.py files) where it was reexported
+                for reexport_source in self.reexported[reexported_key]:
+
+                    # We have to check if it's the correct reexport with the ID
+                    if reexport_source.id == package_id:
+
+                        if module_is_reexported:
+                            # If the whole module was reexported we have to check if the name or alias is intern
+
+                            # Check the wildcard imports of the source
+                            for wildcard_import in reexport_source.wildcard_imports:
+                                if wildcard_import.module_name == module_name:
+                                    # Check if the parent is public
+                                    return isinstance(parent, Module) or parent.is_public
+
+                            # Check the qualified imports of the source
+                            for qualified_import in reexport_source.qualified_imports:
+                                if qualified_import.qualified_name == module_name and (not is_internal(module_name) or (
+                                    qualified_import.alias and not is_internal(qualified_import.alias)
+                                )):
+                                    # If the module name or alias is not internal, check if the parent is public
+                                    return isinstance(parent, Module) or parent.is_public
+                        else:
+                            # A specific function or class was reexported
+                            return True
+
         if isinstance(parent, Class) and name == "__init__":
             return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
-        return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])
+        return all(not is_internal(it) for it in qualified_name.split(".")[:-1])
 
     def _create_id_from_stack(self, name: str) -> str:
         """Create an ID for a new object using previous objects of the stack.
@@ -1035,3 +1067,7 @@ class MyPyAstVisitor:
             return True
 
         return any(self._inherits_from_exception(base.type) for base in node.bases)
+
+
+def is_internal(name: str) -> bool:
+    return name.startswith("_")

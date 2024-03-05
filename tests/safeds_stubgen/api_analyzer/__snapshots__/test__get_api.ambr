@@ -5575,12 +5575,13 @@
       'id': 'tests/data/various_modules_package/_reexport_module_1/reexported_function',
       'is_class_method': False,
       'is_property': False,
-      'is_public': False,
+      'is_public': True,
       'is_static': False,
       'name': 'reexported_function',
       'parameters': list([
       ]),
       'reexported_by': list([
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -5620,7 +5621,7 @@
       'id': 'tests/data/various_modules_package/_reexport_module_3/reexported_function_3',
       'is_class_method': False,
       'is_property': False,
-      'is_public': False,
+      'is_public': True,
       'is_static': False,
       'name': 'reexported_function_3',
       'parameters': list([
@@ -6418,7 +6419,7 @@
   list([
     dict({
       'alias': 'reex_1',
-      'qualified_name': '._reexport_module_1',
+      'qualified_name': '_reexport_module_1',
     }),
     dict({
       'alias': None,
@@ -6515,7 +6516,7 @@
     'qualified_imports': list([
       dict({
         'alias': 'reex_1',
-        'qualified_name': '._reexport_module_1',
+        'qualified_name': '_reexport_module_1',
       }),
       dict({
         'alias': None,
@@ -7179,6 +7180,8 @@
       'tests/data/various_modules_package/type_var_module/SequenceTypeVar2',
       'tests/data/various_modules_package/type_var_module/CollectionTypeVar',
       'tests/data/various_modules_package/type_var_module/CollectionTypeVar2',
+      'tests/data/various_modules_package/type_var_module/MappingTypeVar',
+      'tests/data/various_modules_package/type_var_module/MappingTypeVar2',
     ]),
     'docstring': '',
     'enums': list([
@@ -7206,6 +7209,14 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Collection',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Mapping',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Any',
       }),
     ]),
     'wildcard_imports': list([
