@@ -1008,7 +1008,10 @@ class MyPyAstVisitor:
 
         if not isinstance(parent, Function):
             _check_publicity_through_reexport: bool | None = self._check_publicity_through_reexport(
-                name, self.mypy_file.name, package_id, parent,
+                name,
+                self.mypy_file.name,
+                package_id,
+                parent,
             )
 
             if _check_publicity_through_reexport is not None:
@@ -1052,7 +1055,11 @@ class MyPyAstVisitor:
         return any(self._inherits_from_exception(base.type) for base in node.bases)
 
     def _check_publicity_through_reexport(
-        self, name: str, module_name: str, package_id: str, parent: Module | Class,
+        self,
+        name: str,
+        module_name: str,
+        package_id: str,
+        parent: Module | Class,
     ) -> bool | None:
         # Todo does not work yet if the reexport is through an __init__ file of another package
         for reexported_key in self.reexported:
