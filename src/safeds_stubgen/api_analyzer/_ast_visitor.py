@@ -913,7 +913,7 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
 
             # Iterable builtins
-            elif type_name in {"tuple", "list", "set"}:
+            elif type_name in {"tuple", "list", "set", "Sequence", "Collection"}:
                 types = [self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
                 match type_name:
                     case "tuple":
@@ -922,8 +922,12 @@ class MyPyAstVisitor:
                         return sds_types.ListType(types=types)
                     case "set":
                         return sds_types.SetType(types=types)
+                    case "Sequence":
+                        return sds_types.ListType(types=types)
+                    case "Collection":
+                        return sds_types.ListType(types=types)
 
-            elif type_name == "dict":
+            elif type_name in {"dict", "Mapping"}:
                 return sds_types.DictType(
                     key_type=self.mypy_type_to_abstract_type(mypy_type.args[0]),
                     value_type=self.mypy_type_to_abstract_type(mypy_type.args[1]),

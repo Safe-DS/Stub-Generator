@@ -278,7 +278,12 @@ class StubsStringGenerator:
         # Type parameters
         constraints_info = ""
         variance_info = ""
-        if class_.type_parameters:
+
+        constructor_type_vars = None
+        if class_.constructor:
+            constructor_type_vars = class_.constructor.type_var_types
+
+        if class_.type_parameters or constructor_type_vars:
             # We collect the class generics for the methods later
             self.class_generics = []
             out = "out "
@@ -297,6 +302,11 @@ class StubsStringGenerator:
                 if variance.type is not None:
                     variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
                 self.class_generics.append(variance_item)
+
+            if constructor_type_vars:
+                for constructor_type_var in constructor_type_vars:
+                    if constructor_type_var.name not in self.class_generics:
+                        self.class_generics.append(constructor_type_var.name)
 
             if self.class_generics:
                 variance_info = f"<{', '.join(self.class_generics)}>"

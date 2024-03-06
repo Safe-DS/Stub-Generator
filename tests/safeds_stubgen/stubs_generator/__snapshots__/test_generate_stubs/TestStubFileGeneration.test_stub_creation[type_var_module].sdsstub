@@ -1,8 +1,6 @@
 @PythonModule("tests.data.various_modules_package.type_var_module")
 package tests.data.variousModulesPackage.typeVarModule
 
-from typing import Mapping
-
 @Pure
 @PythonName("type_var_func")
 fun typeVarFunc<typeVar>(
