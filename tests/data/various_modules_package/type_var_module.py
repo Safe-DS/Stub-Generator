@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, Sequence, Collection
+from typing import TypeVar, Generic, Sequence, Collection, Mapping, Any
 
 T = TypeVar('T')
 
@@ -43,6 +43,18 @@ class CollectionTypeVar2(Collection[T]):
     type_var = TypeVar("type_var")
 
     def type_var_class_method2(self, a: T) -> T: ...
+
+
+class MappingTypeVar(Mapping[str, Any]):
+    def __init__(self, data: Mapping[str, Any] | None = None): ...
+
+
+class MappingTypeVar2:
+    def __init__(self, data: Mapping[str, Sequence[Any]]): ...
+
+
+class MappingTypeVar3(Mapping[str, Collection[T]]):
+    def __init__(self, data: Mapping[str, Collection[T]] | None): ...
 
 
 _type_var = TypeVar("_type_var")

@@ -7252,6 +7252,9 @@
       'tests/data/various_modules_package/type_var_module/SequenceTypeVar2',
       'tests/data/various_modules_package/type_var_module/CollectionTypeVar',
       'tests/data/various_modules_package/type_var_module/CollectionTypeVar2',
+      'tests/data/various_modules_package/type_var_module/MappingTypeVar',
+      'tests/data/various_modules_package/type_var_module/MappingTypeVar2',
+      'tests/data/various_modules_package/type_var_module/MappingTypeVar3',
     ]),
     'docstring': '',
     'enums': list([
