@@ -286,11 +286,10 @@ class StubsStringGenerator:
         if class_.type_parameters or constructor_type_vars:
             # We collect the class generics for the methods later
             self.class_generics = []
-            out = "out "
             for variance in class_.type_parameters:
                 variance_direction = {
                     VarianceKind.INVARIANT.name: "",
-                    VarianceKind.COVARIANT.name: out,
+                    VarianceKind.COVARIANT.name: "out ",
                     VarianceKind.CONTRAVARIANT.name: "in ",
                 }[variance.variance.name]
 
