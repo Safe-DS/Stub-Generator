@@ -177,6 +177,7 @@ class MyPyAstVisitor:
 
         # superclasses
         superclasses = []
+        inherits_from_exception = False
         for superclass in node.base_type_exprs:
             # Check for superclasses that inherit directly or transitively from Exception and remove them
             if (
@@ -184,7 +185,7 @@ class MyPyAstVisitor:
                 and isinstance(superclass.node, mp_nodes.TypeInfo)
                 and self._inherits_from_exception(superclass.node)
             ):
-                continue
+                inherits_from_exception = True
 
             if hasattr(superclass, "fullname"):
                 superclass_qname = superclass.fullname
@@ -217,6 +218,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
+            inherits_from_exception=inherits_from_exception,
             type_parameters=type_parameters,
         )
         self.__declaration_stack.append(class_)
@@ -1061,7 +1063,7 @@ class MyPyAstVisitor:
         package_id: str,
         parent: Module | Class,
     ) -> bool | None:
-        # Todo does not work yet if the reexport is through an __init__ file of another package
+        # Todo Frage: does not work yet if the reexport is through an __init__ file of another package
         for reexported_key in self.reexported:
             module_is_reexported = reexported_key == module_name
 

@@ -111,6 +111,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/AnotherClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
         ]),
@@ -133,6 +134,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
           'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function',
@@ -195,6 +197,7 @@
           ''',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
           'tests/data/main_package/main_module/ModuleClass/_some_function',
@@ -219,6 +222,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
           'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function',
@@ -264,6 +268,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass',
+        'inherits_from_exception': False,
         'is_public': False,
         'methods': list([
           'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class',
@@ -289,6 +294,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
           'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
@@ -312,6 +318,7 @@
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
+        'inherits_from_exception': False,
         'is_public': True,
         'methods': list([
         ]),

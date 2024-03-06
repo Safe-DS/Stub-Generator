@@ -192,7 +192,7 @@ class StubsStringGenerator:
 
         # Create classes, class attr. & class methods
         for class_ in module.classes:
-            if class_.is_public:
+            if class_.is_public and not class_.inherits_from_exception:
                 module_text += f"\n{self._create_class_string(class_)}\n"
 
         # Create enums & enum instances

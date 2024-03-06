@@ -170,6 +170,7 @@ class Class:
     docstring: ClassDocstring
     constructor: Function | None = None
     constructor_fulldocstring: str = ""
+    inherits_from_exception: bool = False
     reexported_by: list[Module] = field(default_factory=list)
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
@@ -184,6 +185,7 @@ class Class:
             "is_public": self.is_public,
             "superclasses": self.superclasses,
             "constructor": self.constructor.to_dict() if self.constructor is not None else None,
+            "inherits_from_exception": self.inherits_from_exception,
             "reexported_by": [module.id for module in self.reexported_by],
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],

@@ -2048,6 +2048,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
@@ -2078,6 +2079,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_2/AnotherReexportClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2122,6 +2124,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
@@ -2150,6 +2153,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassC',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassC/f1',
@@ -2179,6 +2183,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2203,6 +2208,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleEmptyClassA',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2230,6 +2236,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
@@ -2282,6 +2289,7 @@
       ''',
     }),
     'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
@@ -2307,6 +2315,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_4/FourthReexportClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2366,6 +2375,7 @@
       ''',
     }),
     'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func',
@@ -2417,6 +2427,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
@@ -2485,6 +2496,7 @@
       ''',
     }),
     'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func',
@@ -2510,6 +2522,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_1/ReexportClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
@@ -2563,6 +2576,7 @@
       ''',
     }),
     'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func',
@@ -2588,6 +2602,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassAll',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2661,6 +2676,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2690,6 +2706,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2719,6 +2736,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
+    'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
     ]),
@@ -2750,6 +2768,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
+    'inherits_from_exception': False,
     'is_public': False,
     'methods': list([
     ]),
@@ -2774,6 +2793,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
+    'inherits_from_exception': False,
     'is_public': False,
     'methods': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
@@ -2799,6 +2819,7 @@
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_3/_ThirdReexportClass',
+    'inherits_from_exception': False,
     'is_public': False,
     'methods': list([
     ]),
