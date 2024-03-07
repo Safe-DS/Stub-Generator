@@ -5681,6 +5681,44 @@
         'description': '',
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4_alias',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '_reexported_function_4_alias',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+        'tests/data/various_modules_package',
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/_reexport_module_4/_two_times_reexported',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '_two_times_reexported',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+        'tests/data/various_modules_package',
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/_reexport_module_4/_unreexported_function',
       'is_class_method': False,
       'is_property': False,
@@ -6459,6 +6497,18 @@
       'qualified_name': '_reexport_module_4._reexported_function_4',
     }),
     dict({
+      'alias': 'reexported_function_4_alias',
+      'qualified_name': '_reexport_module_4._reexported_function_4_alias',
+    }),
+    dict({
+      'alias': None,
+      'qualified_name': '_reexport_module_4._two_times_reexported',
+    }),
+    dict({
+      'alias': 'two_times_reexported',
+      'qualified_name': '_reexport_module_4._two_times_reexported',
+    }),
+    dict({
       'alias': None,
       'qualified_name': 'enum_module._ReexportedEmptyEnum',
     }),
@@ -6554,6 +6604,18 @@
       dict({
         'alias': None,
         'qualified_name': '_reexport_module_4._reexported_function_4',
+      }),
+      dict({
+        'alias': 'reexported_function_4_alias',
+        'qualified_name': '_reexport_module_4._reexported_function_4_alias',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': '_reexport_module_4._two_times_reexported',
+      }),
+      dict({
+        'alias': 'two_times_reexported',
+        'qualified_name': '_reexport_module_4._two_times_reexported',
       }),
       dict({
         'alias': None,
@@ -6747,6 +6809,8 @@
     'functions': list([
       'tests/data/various_modules_package/_reexport_module_4/_unreexported_function',
       'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4',
+      'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4_alias',
+      'tests/data/various_modules_package/_reexport_module_4/_two_times_reexported',
     ]),
     'id': 'tests/data/various_modules_package/_reexport_module_4',
     'name': '_reexport_module_4',

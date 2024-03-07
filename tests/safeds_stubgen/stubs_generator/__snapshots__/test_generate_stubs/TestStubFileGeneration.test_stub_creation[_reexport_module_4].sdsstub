@@ -1,4 +1,14 @@
 @PythonModule("tests.data.various_modules_package._reexport_module_4")
 package tests.data.variousModulesPackage.ReexportModule4
 
+// TODO Result type information missing.
+@Pure
+@PythonName("_reexported_function_4_alias")
+fun reexportedFunction4Alias()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("_two_times_reexported")
+fun twoTimesReexported()
+
 class FourthReexportClass()

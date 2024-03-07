@@ -464,7 +464,7 @@ class MyPyAstVisitor:
                     continue
 
                 if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
-                    # Todo Frage: Parse conditional branches recursively?
+                    # Todo Parse conditional branches recursively? -> Serach for a type inference function of mypy
                     # If the return statement is a conditional expression we parse the "if" and "else" branches
                     if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
                         for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
@@ -998,9 +998,6 @@ class MyPyAstVisitor:
         return "", ""
 
     def _is_public(self, name: str, qualified_name: str) -> bool:
-        if is_internal(name) and not name.endswith("__"):
-            return False
-
         if self.mypy_file is None:  # pragma: no cover
             raise ValueError("A Mypy file (module) should be defined.")
 
@@ -1015,6 +1012,7 @@ class MyPyAstVisitor:
         if not isinstance(parent, Function):
             _check_publicity_through_reexport: bool | None = self._check_publicity_through_reexport(
                 name,
+                qualified_name,
                 self.mypy_file.name,
                 package_id,
                 parent,
@@ -1022,6 +1020,9 @@ class MyPyAstVisitor:
 
             if _check_publicity_through_reexport is not None:
                 return _check_publicity_through_reexport
+
+        if is_internal(name) and not name.endswith("__"):
+            return False
 
         if isinstance(parent, Class) and name == "__init__":
             return parent.is_public
@@ -1063,11 +1064,16 @@ class MyPyAstVisitor:
     def _check_publicity_through_reexport(
         self,
         name: str,
+        qname: str,
         module_name: str,
         package_id: str,
         parent: Module | Class,
     ) -> bool | None:
-        # Todo Frage: does not work yet if the reexport is through an __init__ file of another package
+        not_internal = not is_internal(name)
+        found_positiv: bool | None = None
+
+        # Todo does not work yet if the reexport is through an __init__ file of another package
+        # Todo The alias of functions or classes have to be used as function / class names
         for reexported_key in self.reexported:
             module_is_reexported = reexported_key == module_name
 
@@ -1080,27 +1086,45 @@ class MyPyAstVisitor:
                     # We have to check if it's the correct reexport with the ID
                     if reexport_source.id == package_id:
 
+                        # If the whole module was reexported we have to check if the name or alias is intern
                         if module_is_reexported:
-                            # If the whole module was reexported we have to check if the name or alias is intern
 
                             # Check the wildcard imports of the source
                             for wildcard_import in reexport_source.wildcard_imports:
-                                if wildcard_import.module_name == module_name:
-                                    # Check if the parent is public
-                                    return isinstance(parent, Module) or parent.is_public
+                                if wildcard_import.module_name == module_name and not_internal and (
+                                        isinstance(parent, Module) or parent.is_public):
+                                    found_positiv = True
 
                             # Check the qualified imports of the source
                             for qualified_import in reexport_source.qualified_imports:
-                                if qualified_import.qualified_name == module_name and (
-                                    not is_internal(module_name)
-                                    or (qualified_import.alias and not is_internal(qualified_import.alias))
+
+                                # If the whole module was exported, we have to check if the func / class / attr we are
+                                #  checking here is internal, and if not, if any parents are internal.
+                                if (qualified_import.qualified_name == module_name and (
+                                    not_internal or
+                                    (qualified_import.alias is not None and
+                                     not is_internal(qualified_import.alias))
+                                ) and
+                                    not_internal and (isinstance(parent, Module) or parent.is_public)
                                 ):
                                     # If the module name or alias is not internal, check if the parent is public
-                                    return isinstance(parent, Module) or parent.is_public
-                        else:
-                            # A specific function or class was reexported
-                            return True
-        return None
+                                    found_positiv = True
+
+                        # A specific function or class was reexported.
+                        if reexported_key.endswith(name):
+
+                            # For wildcard imports we check in the _is_public method if the func / class is internal
+                            for qualified_import in reexport_source.qualified_imports:
+
+                                # Check if we've found the right import
+                                if qname.endswith(qualified_import.qualified_name):
+                                    if qualified_import.alias is not None and not is_internal(qualified_import.alias):
+                                        # If the specific func / class was reexported check if its alias is internal
+                                        return True
+                                    elif found_positiv is None:
+                                        # Else we check if the normal name (not alias) is internal
+                                        found_positiv = not_internal
+        return found_positiv
 
 
 def is_internal(name: str) -> bool:
