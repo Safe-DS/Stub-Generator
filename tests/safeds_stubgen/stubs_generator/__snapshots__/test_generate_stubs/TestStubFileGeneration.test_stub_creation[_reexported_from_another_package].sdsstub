@@ -3,6 +3,6 @@ package tests.data.variousModulesPackage.anotherPath.ReexportedFromAnotherPackag
 
 @Pure
 @PythonName("reexported_in_another_package_function")
-static fun reexportedInAnotherPackageFunction() -> result1: String
+fun reexportedInAnotherPackageFunction() -> result1: String
 
 class ReexportedInAnotherPackageClass()

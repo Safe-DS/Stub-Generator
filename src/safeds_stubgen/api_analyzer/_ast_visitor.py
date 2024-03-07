@@ -1074,7 +1074,7 @@ class MyPyAstVisitor:
         # Todo does not work yet if the reexport is through an __init__ file of another package
         # Todo The alias of functions or classes have to be used as function / class names
         for reexported_key in self.reexported:
-            module_is_reexported = reexported_key == module_name
+            module_is_reexported = reexported_key in {module_name, self.mypy_file.fullname}
 
             # Check if the function/class/module is reexported
             if reexported_key.endswith(name) or module_is_reexported:
@@ -1083,57 +1083,61 @@ class MyPyAstVisitor:
                 for reexport_source in self.reexported[reexported_key]:
 
                     # We have to check if it's the correct reexport with the ID
-                    if reexport_source.id == package_id:
+                    is_from_same_package = reexport_source.id == package_id
+                    is_from_another_package = reexported_key in {qname, self.mypy_file.fullname}
 
-                        # If the whole module was reexported we have to check if the name or alias is intern
-                        if module_is_reexported:
+                    if not is_from_same_package and not is_from_another_package:
+                        continue
 
-                            # Check the wildcard imports of the source
-                            for wildcard_import in reexport_source.wildcard_imports:
-                                if (
-                                    wildcard_import.module_name == module_name
-                                    and not_internal
-                                    and (isinstance(parent, Module) or parent.is_public)
-                                ):
-                                    return True
+                    # If the whole module was reexported we have to check if the name or alias is intern
+                    if module_is_reexported:
 
-                            # Check the qualified imports of the source
-                            for qualified_import in reexport_source.qualified_imports:
+                        # Check the wildcard imports of the source
+                        for wildcard_import in reexport_source.wildcard_imports:
+                            if (
+                                wildcard_import.module_name in {module_name, self.mypy_file.fullname}
+                                and not_internal
+                                and (isinstance(parent, Module) or parent.is_public)
+                            ):
+                                return True
 
-                                # If the whole module was exported, we have to check if the func / class / attr we are
-                                #  checking here is internal, and if not, if any parents are internal.
-                                if (
-                                    qualified_import.qualified_name == module_name
-                                    and ((
-                                             qualified_import.alias is None
-                                             and not_internal
-                                         )
-                                         or (
-                                             qualified_import.alias is not None
-                                             and not is_internal(qualified_import.alias)
-                                    ))
-                                    and not_internal
-                                    and (isinstance(parent, Module) or parent.is_public)
-                                ):
-                                    # If the module name or alias is not internal, check if the parent is public
-                                    return True
+                        # Check the qualified imports of the source
+                        for qualified_import in reexport_source.qualified_imports:
 
-                        # A specific function or class was reexported.
-                        if reexported_key.endswith(name):
+                            # If the whole module was exported, we have to check if the func / class / attr we are
+                            #  checking here is internal, and if not, if any parents are internal.
+                            if (
+                                qualified_import.qualified_name == module_name
+                                and ((
+                                         qualified_import.alias is None
+                                         and not_internal
+                                     )
+                                     or (
+                                         qualified_import.alias is not None
+                                         and not is_internal(qualified_import.alias)
+                                ))
+                                and not_internal
+                                and (isinstance(parent, Module) or parent.is_public)
+                            ):
+                                # If the module name or alias is not internal, check if the parent is public
+                                return True
 
-                            # For wildcard imports we check in the _is_public method if the func / class is internal
-                            for qualified_import in reexport_source.qualified_imports:
+                    # A specific function or class was reexported.
+                    if reexported_key.endswith(name):
 
-                                if qname.endswith(qualified_import.qualified_name) and (
-                                    qualified_import.alias is not None
-                                    and not is_internal(qualified_import.alias)
-                                    or (qualified_import.alias is None and not_internal)
-                                ):
-                                    # First we check if we've found the right import then do the following:
-                                    # If a specific func / class was reexported check
-                                    #   1. If it has an alias and if it's alias is internal
-                                    #   2. Else if it has no alias and is not internal
-                                    return True
+                        # For wildcard imports we check in the _is_public method if the func / class is internal
+                        for qualified_import in reexport_source.qualified_imports:
+
+                            if qname.endswith(qualified_import.qualified_name) and (
+                                qualified_import.alias is not None
+                                and not is_internal(qualified_import.alias)
+                                or (qualified_import.alias is None and not_internal)
+                            ):
+                                # First we check if we've found the right import then do the following:
+                                # If a specific func / class was reexported check
+                                #   1. If it has an alias and if it's alias is internal
+                                #   2. Else if it has no alias and is not internal
+                                return True
 
 
 def is_internal(name: str) -> bool:
