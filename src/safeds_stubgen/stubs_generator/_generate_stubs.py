@@ -892,9 +892,8 @@ class StubsStringGenerator:
 
         shortest_module_path: Module | None = None
         for source_module in modules_to_check:
-            if (
-                shortest_module_path is None or
-                len(shortest_module_path.id.split("/")) > len(source_module.id.split("/"))
+            if shortest_module_path is None or len(shortest_module_path.id.split("/")) > len(
+                source_module.id.split("/"),
             ):
                 shortest_module_path = source_module
 
