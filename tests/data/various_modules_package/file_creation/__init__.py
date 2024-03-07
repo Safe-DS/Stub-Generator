@@ -4,6 +4,7 @@ from ._module_6 import public_reexported
 from tests.data.various_modules_package.another_path._reexported_from_another_package import *
 from tests.data.various_modules_package.another_path._reexported_from_another_package_2 import ReexportedInAnotherPackageClass2
 from tests.data.various_modules_package.another_path._reexported_from_another_package_2 import reexported_in_another_package_function2
+from tests.data.various_modules_package.another_path import _reexported_from_another_package_3 as reexported_from_another_package_3
 
 __all__ = [
     "_private_reexported",
@@ -11,4 +12,5 @@ __all__ = [
     "reexported_in_another_package_function2",
     "Reexported",
     "ReexportedInAnotherPackageClass2",
+    "reexported_from_another_package_3",
 ]

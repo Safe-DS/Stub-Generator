@@ -45,7 +45,6 @@ if TYPE_CHECKING:
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
-        self.reexported: dict[str, set[Module]] = defaultdict(set)
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -798,8 +797,8 @@ class MyPyAstVisitor:
         reexported_by = set()
         for i in range(len(path)):
             reexport_name = ".".join(path[: i + 1])
-            if reexport_name in self.reexported:
-                for mod in self.reexported[reexport_name]:
+            if reexport_name in self.api.reexport_map:
+                for mod in self.api.reexport_map[reexport_name]:
                     reexported_by.add(mod)
 
         return list(reexported_by)
@@ -807,11 +806,11 @@ class MyPyAstVisitor:
     def _add_reexports(self, module: Module) -> None:
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
-            self.reexported[name].add(module)
+            self.api.reexport_map[name].add(module)
 
         for wildcard_import in module.wildcard_imports:
             name = wildcard_import.module_name
-            self.reexported[name].add(module)
+            self.api.reexport_map[name].add(module)
 
     # #### Misc. utilities
     def mypy_type_to_abstract_type(
@@ -1059,14 +1058,14 @@ class MyPyAstVisitor:
         module_name = getattr(self.mypy_file, "name", "")
         package_id = "/".join(module_qname.split(".")[:-1])
 
-        for reexported_key in self.reexported:
+        for reexported_key in self.api.reexport_map:
             module_is_reexported = reexported_key in {module_name, module_qname}
 
             # Check if the function/class/module is reexported
             if reexported_key.endswith(name) or module_is_reexported:
 
                 # Iterate through all sources (__init__.py files) where it was reexported
-                for reexport_source in self.reexported[reexported_key]:
+                for reexport_source in self.api.reexport_map[reexported_key]:
 
                     # We have to check if it's the correct reexport with the ID
                     is_from_same_package = reexport_source.id == package_id
@@ -1095,7 +1094,7 @@ class MyPyAstVisitor:
                             # If the whole module was exported, we have to check if the func / class / attr we are
                             #  checking here is internal, and if not, if any parents are internal.
                             if (
-                                qualified_import.qualified_name == module_name
+                                qualified_import.qualified_name in {module_name, module_qname}
                                 and (
                                     (qualified_import.alias is None and not_internal)
                                     or (qualified_import.alias is not None and not is_internal(qualified_import.alias))

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum as PythonEnum
 from typing import TYPE_CHECKING, Any
@@ -47,6 +48,8 @@ class API:
         self.enum_instances: dict[str, EnumInstance] = {}
         self.attributes_: dict[str, Attribute] = {}
         self.parameters_: dict[str, Parameter] = {}
+
+        self.reexport_map: dict[str, set[Module]] = defaultdict(set)
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module

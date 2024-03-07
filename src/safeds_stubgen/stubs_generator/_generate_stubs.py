@@ -176,8 +176,7 @@ class StubsStringGenerator:
 
     def _create_module_string(self, module: Module) -> str:
         # Create package info
-        # Todo The shortest public "reexport" should be used based on the __init__.py files.
-        package_info = module.id.replace("/", ".")
+        package_info = self._get_shortest_public_reexport()
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
         module_text = ""
@@ -869,6 +868,39 @@ class StubsStringGenerator:
                 return self.api.classes[class_]
 
         raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
+
+    def _get_shortest_public_reexport(self) -> str:
+        module_qname = self.module.id.replace("/", ".")
+
+        reexports = self.api.reexport_map
+        if self.module.name in reexports:
+            reexport_sources = reexports[self.module.name]
+        elif module_qname in reexports:
+            reexport_sources = reexports[module_qname]
+        else:
+            return module_qname
+
+        same_package_modules = []
+        other_package_modules = []
+        for reexport_source in reexport_sources:
+            if self.module.id.startswith(reexport_source.id):
+                same_package_modules.append(reexport_source)
+            else:
+                other_package_modules.append(reexport_source)
+
+        modules_to_check = same_package_modules if same_package_modules else other_package_modules
+
+        shortest_module_path: Module | None = None
+        for source_module in modules_to_check:
+            if (
+                shortest_module_path is None or
+                len(shortest_module_path.id.split("/")) > len(source_module.id.split("/"))
+            ):
+                shortest_module_path = source_module
+
+        if shortest_module_path is not None:
+            return shortest_module_path.id.replace("/", ".")
+        return module_qname
 
 
 def _callable_type_name_generator() -> Generator:

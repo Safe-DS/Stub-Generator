@@ -6661,6 +6661,10 @@
         'alias': None,
         'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.reexported_in_another_package_function2',
       }),
+      dict({
+        'alias': 'reexported_from_another_package_3',
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_3',
+      }),
     ]),
     'wildcard_imports': list([
       dict({
@@ -6854,6 +6858,26 @@
     ]),
     'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_2',
     'name': '_reexported_from_another_package_2',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[_reexported_from_another_package_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/ReexportedInAnotherPackageClass3',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/reexported_in_another_package_function3',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/_still_internal_function3',
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_3',
+    'name': '_reexported_from_another_package_3',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([
