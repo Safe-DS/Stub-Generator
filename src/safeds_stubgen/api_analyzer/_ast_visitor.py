@@ -1055,10 +1055,10 @@ class MyPyAstVisitor:
         return any(self._inherits_from_exception(base.type) for base in node.bases)
 
     def _check_publicity_in_reexports(self, name: str, qname: str, parent: Module | Class) -> bool | None:
-        package_id = "/".join(self.mypy_file.fullname.split(".")[:-1])
         not_internal = not is_internal(name)
-        module_qname = getattr(self.mypy_file, "fullname", None)
-        module_name = getattr(self.mypy_file, "name", None)
+        module_qname = getattr(self.mypy_file, "fullname", "")
+        module_name = getattr(self.mypy_file, "name", "")
+        package_id = "/".join(module_qname.split(".")[:-1])
 
         # Todo The alias of functions or classes have to be used as function / class names
         for reexported_key in self.reexported:
