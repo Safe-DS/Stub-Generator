@@ -2,10 +2,9 @@
 package safeds.data.tabular.containers.TaggedTable
 
 from safeds.data.tabular.containers.Table import Table
-from typing import Mapping
 
 class TaggedTable(
-	data: Mapping,
+	data: Map<String, List<Any>>,
 	@PythonName("target_name") targetName: String,
 	@PythonName("feature_names") featureNames: List<String>? = null
 ) sub Table

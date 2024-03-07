@@ -71,6 +71,9 @@ class ASTWalker:
                 if isinstance(node, FuncDef) and node.name != "__init__":
                     continue
 
+            if isinstance(child_node, FuncDef) and isinstance(node, FuncDef):
+                continue
+
             self.__walk(child_node, visited_nodes)
         self.__leave(node)
 
