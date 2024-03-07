@@ -1070,7 +1070,6 @@ class MyPyAstVisitor:
         parent: Module | Class,
     ) -> bool | None:
         not_internal = not is_internal(name)
-        found_positiv: bool | None = None
 
         # Todo does not work yet if the reexport is through an __init__ file of another package
         # Todo The alias of functions or classes have to be used as function / class names
@@ -1093,7 +1092,7 @@ class MyPyAstVisitor:
                             for wildcard_import in reexport_source.wildcard_imports:
                                 if wildcard_import.module_name == module_name and not_internal and (
                                         isinstance(parent, Module) or parent.is_public):
-                                    found_positiv = True
+                                    return True
 
                             # Check the qualified imports of the source
                             for qualified_import in reexport_source.qualified_imports:
@@ -1108,7 +1107,7 @@ class MyPyAstVisitor:
                                     not_internal and (isinstance(parent, Module) or parent.is_public)
                                 ):
                                     # If the module name or alias is not internal, check if the parent is public
-                                    found_positiv = True
+                                    return True
 
                         # A specific function or class was reexported.
                         if reexported_key.endswith(name):
@@ -1116,15 +1115,16 @@ class MyPyAstVisitor:
                             # For wildcard imports we check in the _is_public method if the func / class is internal
                             for qualified_import in reexport_source.qualified_imports:
 
-                                # Check if we've found the right import
-                                if qname.endswith(qualified_import.qualified_name):
-                                    if qualified_import.alias is not None and not is_internal(qualified_import.alias):
-                                        # If the specific func / class was reexported check if its alias is internal
-                                        return True
-                                    elif found_positiv is None:
-                                        # Else we check if the normal name (not alias) is internal
-                                        found_positiv = not_internal
-        return found_positiv
+                                if qname.endswith(qualified_import.qualified_name) and (
+                                    qualified_import.alias is not None and not is_internal(qualified_import.alias)
+                                    or (qualified_import.alias is None and not_internal)
+                                ):
+                                    # First we check if we've found the right import then do the following:
+                                    # If a specific func / class was reexported check
+                                    #   1. If it has an alias and if it's alias is internal
+                                    #   2. Else if it has no alias and is not internal
+                                    return True
+        return None
 
 
 def is_internal(name: str) -> bool:
