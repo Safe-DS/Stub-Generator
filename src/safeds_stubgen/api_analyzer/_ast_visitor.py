@@ -1098,14 +1098,10 @@ class MyPyAstVisitor:
                             #  checking here is internal, and if not, if any parents are internal.
                             if (
                                 qualified_import.qualified_name == module_name
-                                and ((
-                                         qualified_import.alias is None
-                                         and not_internal
-                                     )
-                                     or (
-                                         qualified_import.alias is not None
-                                         and not is_internal(qualified_import.alias)
-                                ))
+                                and (
+                                    (qualified_import.alias is None and not_internal)
+                                    or (qualified_import.alias is not None and not is_internal(qualified_import.alias))
+                                )
                                 and not_internal
                                 and (isinstance(parent, Module) or parent.is_public)
                             ):
