@@ -897,9 +897,10 @@ class StubsStringGenerator:
             ):
                 shortest_module_path = source_module
 
-        if shortest_module_path is not None:
-            return shortest_module_path.id.replace("/", ".")
-        return module_qname
+        if shortest_module_path is None:  # pragma: no cover
+            raise ValueError
+
+        return shortest_module_path.id.replace("/", ".")
 
 
 def _callable_type_name_generator() -> Generator:
