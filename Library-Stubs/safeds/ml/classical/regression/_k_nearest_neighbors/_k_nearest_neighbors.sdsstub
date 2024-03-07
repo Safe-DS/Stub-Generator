@@ -1,8 +1,26 @@
 @PythonModule("safeds.ml.classical.regression._k_nearest_neighbors")
 package safeds.ml.classical.regression.KNearestNeighbors
 
+from safeds.data.tabular.containers.Table import Table
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
 from safeds.ml.classical.regression.Regressor import Regressor
 
 class KNearestNeighbors(
 	@PythonName("number_of_neighbors") numberOfNeighbors: Int
-) sub Regressor
+) sub Regressor {
+	@PythonName("number_of_neighbors") attr numberOfNeighbors: Int
+
+	@Pure
+	fun fit(
+		@PythonName("training_set") trainingSet: TaggedTable
+	) -> result1: KNearestNeighbors
+
+	@Pure
+	fun predict(
+		dataset: Table
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+}

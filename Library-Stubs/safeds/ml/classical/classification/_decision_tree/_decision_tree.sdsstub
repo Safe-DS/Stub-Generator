@@ -1,6 +1,22 @@
 @PythonModule("safeds.ml.classical.classification._decision_tree")
 package safeds.ml.classical.classification.DecisionTree
 
+from safeds.data.tabular.containers.Table import Table
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
 from safeds.ml.classical.classification.Classifier import Classifier
 
-class DecisionTree() sub Classifier
+class DecisionTree() sub Classifier {
+	@Pure
+	fun fit(
+		@PythonName("training_set") trainingSet: TaggedTable
+	) -> result1: DecisionTree
+
+	@Pure
+	fun predict(
+		dataset: Table
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+}

@@ -1,10 +1,30 @@
 @PythonModule("safeds.ml.classical.classification._ada_boost")
 package safeds.ml.classical.classification.AdaBoost
 
+from safeds.data.tabular.containers.Table import Table
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
 from safeds.ml.classical.classification.Classifier import Classifier
 
 class AdaBoost(
 	learner: Classifier? = null,
 	@PythonName("maximum_number_of_learners") maximumNumberOfLearners: Int = 50,
 	@PythonName("learning_rate") learningRate: Float = 1.0
-) sub Classifier
+) sub Classifier {
+	attr learner: Classifier?
+	@PythonName("maximum_number_of_learners") attr maximumNumberOfLearners: Int
+	@PythonName("learning_rate") attr learningRate: Float
+
+	@Pure
+	fun fit(
+		@PythonName("training_set") trainingSet: TaggedTable
+	) -> result1: AdaBoost
+
+	@Pure
+	fun predict(
+		dataset: Table
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+}

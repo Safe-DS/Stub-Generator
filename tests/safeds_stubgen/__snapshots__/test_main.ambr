@@ -295,7 +295,7 @@
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass',
         'inherits_from_exception': False,
-        'is_public': True,
+        'is_public': False,
         'methods': list([
           'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
         ]),
@@ -319,7 +319,7 @@
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
         'inherits_from_exception': False,
-        'is_public': True,
+        'is_public': False,
         'methods': list([
         ]),
         'name': 'NestedNestedPrivateClass',

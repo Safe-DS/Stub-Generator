@@ -1,6 +1,7 @@
 @PythonModule("safeds.data.tabular.transformation._imputer")
 package safeds.data.tabular.transformation.Imputer
 
+from safeds.data.tabular.containers.Table import Table
 from safeds.data.tabular.transformation.TableTransformer import TableTransformer
 from safeds.data.tabular.typing.ImputerStrategy import ImputerStrategy
 
@@ -18,4 +19,31 @@ class Imputer(
 
 		class Mode() sub ImputerStrategy
 	}
+
+	@Pure
+	fun fit(
+		table: Table,
+		@PythonName("column_names") columnNames: List<String>?
+	) -> result1: Imputer
+
+	@Pure
+	fun transform(
+		table: Table
+	) -> result1: Table
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+
+	@Pure
+	@PythonName("get_names_of_added_columns")
+	fun getNamesOfAddedColumns() -> result1: List<String>
+
+	@Pure
+	@PythonName("get_names_of_changed_columns")
+	fun getNamesOfChangedColumns() -> result1: List<String>
+
+	@Pure
+	@PythonName("get_names_of_removed_columns")
+	fun getNamesOfRemovedColumns() -> result1: List<String>
 }

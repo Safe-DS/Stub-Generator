@@ -1,23 +1,62 @@
 @PythonModule("safeds.ml.classical.regression._support_vector_machine")
 package safeds.ml.classical.regression.SupportVectorMachine
 
+from safeds.data.tabular.containers.Table import Table
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
 from safeds.ml.classical.regression.Regressor import Regressor
 
-class SupportVectorMachineKernel
+class SupportVectorMachineKernel {
+	@Pure
+	@PythonName("get_sklearn_kernel")
+	fun getSklearnKernel() -> result1: object
+}
 
 class SupportVectorMachine(
 	c: Float = 1.0,
 	kernel: SupportVectorMachineKernel? = null
 ) sub Regressor {
 	class Kernel() {
-		class Linear() sub SupportVectorMachineKernel
+		class Linear() sub SupportVectorMachineKernel {
+			@Pure
+			@PythonName("get_sklearn_kernel")
+			fun getSklearnKernel() -> result1: String
+		}
 
 		class Polynomial(
 			degree: Int
-		) sub SupportVectorMachineKernel
+		) sub SupportVectorMachineKernel {
+			@Pure
+			@PythonName("get_sklearn_kernel")
+			fun getSklearnKernel() -> result1: String
+		}
 
-		class Sigmoid() sub SupportVectorMachineKernel
+		class Sigmoid() sub SupportVectorMachineKernel {
+			@Pure
+			@PythonName("get_sklearn_kernel")
+			fun getSklearnKernel() -> result1: String
+		}
 
-		class RadialBasisFunction() sub SupportVectorMachineKernel
+		class RadialBasisFunction() sub SupportVectorMachineKernel {
+			@Pure
+			@PythonName("get_sklearn_kernel")
+			fun getSklearnKernel() -> result1: String
+		}
 	}
+
+	attr c: Float
+	attr kernel: SupportVectorMachineKernel?
+
+	@Pure
+	fun fit(
+		@PythonName("training_set") trainingSet: TaggedTable
+	) -> result1: SupportVectorMachine
+
+	@Pure
+	fun predict(
+		dataset: Table
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
 }

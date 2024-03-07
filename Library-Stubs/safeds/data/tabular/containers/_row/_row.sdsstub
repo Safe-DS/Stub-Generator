@@ -1,6 +1,52 @@
 @PythonModule("safeds.data.tabular.containers._row")
 package safeds.data.tabular.containers.Row
 
+from safeds.data.tabular.typing.ColumnType import ColumnType
+from safeds.data.tabular.typing.Schema import Schema
+
 class Row(
 	data: Map<String, Any>? = null
-)
+) {
+	@PythonName("column_names") attr columnNames: List<String>
+	@PythonName("number_of_column") attr numberOfColumn: Int
+	attr `schema`: Schema
+
+	@Pure
+	@PythonName("from_dict")
+	static fun fromDict(
+		data: Map<String, Any>
+	) -> result1: Row
+
+	@Pure
+	@PythonName("get_value")
+	fun getValue(
+		@PythonName("column_name") columnName: String
+	) -> result1: Any
+
+	@Pure
+	@PythonName("has_column")
+	fun hasColumn(
+		@PythonName("column_name") columnName: String
+	) -> result1: Boolean
+
+	@Pure
+	@PythonName("get_column_type")
+	fun getColumnType(
+		@PythonName("column_name") columnName: String
+	) -> result1: ColumnType
+
+	// TODO Safe-DS does not support tuple types.
+	@Pure
+	@PythonName("sort_columns")
+	fun sortColumns(
+		comparator: (param1: Tuple<Any>, param2: Tuple<Any>) -> param3: Int
+	) -> result1: Row
+
+	@Pure
+	@PythonName("to_dict")
+	fun toDict() -> result1: Map<String, Any>
+
+	@Pure
+	@PythonName("to_html")
+	fun toHtml() -> result1: String
+}

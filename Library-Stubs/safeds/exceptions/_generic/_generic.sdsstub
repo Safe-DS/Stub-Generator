@@ -1,7 +1,9 @@
 @PythonModule("safeds.exceptions._generic")
 package safeds.exceptions.Generic
 
-class Bound
+class Bound {
+	attr value: Float
+}
 
 class ClosedBound(
 	value: Float

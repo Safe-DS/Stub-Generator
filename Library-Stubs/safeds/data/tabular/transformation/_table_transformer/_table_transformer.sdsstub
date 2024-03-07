@@ -1,6 +1,54 @@
 @PythonModule("safeds.data.tabular.transformation._table_transformer")
 package safeds.data.tabular.transformation.TableTransformer
 
-class TableTransformer
+from safeds.data.tabular.containers.Table import Table
 
-class InvertibleTableTransformer() sub TableTransformer
+class TableTransformer {
+	@Pure
+	fun fit(
+		table: Table,
+		@PythonName("column_names") columnNames: List<String>?
+	) -> result1: TableTransformer
+
+	@Pure
+	fun transform(
+		table: Table
+	) -> result1: Table
+
+	@Pure
+	@PythonName("get_names_of_added_columns")
+	fun getNamesOfAddedColumns() -> result1: List<String>
+
+	@Pure
+	@PythonName("get_names_of_changed_columns")
+	fun getNamesOfChangedColumns() -> result1: List<String>
+
+	@Pure
+	@PythonName("get_names_of_removed_columns")
+	fun getNamesOfRemovedColumns() -> result1: List<String>
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+
+	@Pure
+	@PythonName("fit_and_transform")
+	fun fitAndTransform(
+		table: Table,
+		@PythonName("column_names") columnNames: List<String>? = null
+	) -> result1: Table
+}
+
+class InvertibleTableTransformer() sub TableTransformer {
+	@Pure
+	fun fit(
+		table: Table,
+		@PythonName("column_names") columnNames: List<String>?
+	) -> result1: InvertibleTableTransformer
+
+	@Pure
+	@PythonName("inverse_transform")
+	fun inverseTransform(
+		@PythonName("transformed_table") transformedTable: Table
+	) -> result1: Table
+}

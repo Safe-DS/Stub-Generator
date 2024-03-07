@@ -1,10 +1,120 @@
 @PythonModule("safeds.data.image.containers._image")
 package safeds.data.image.containers.Image
 
+from pathlib import Path
 from torch import Tensor
 from torch.types import Device
 
 class Image(
 	@PythonName("image_tensor") imageTensor: Tensor,
 	device: Device
-)
+) {
+	attr width: Int
+	attr height: Int
+	attr channel: Int
+	attr device: Device
+
+	@Pure
+	@PythonName("from_file")
+	static fun fromFile(
+		path: union<Path, String>,
+		device: Device
+	) -> result1: Image
+
+	@Pure
+	@PythonName("from_bytes")
+	static fun fromBytes(
+		data: bytes,
+		device: Device
+	) -> result1: Image
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("to_jpeg_file")
+	fun toJpegFile(
+		path: union<Path, String>
+	)
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("to_png_file")
+	fun toPngFile(
+		path: union<Path, String>
+	)
+
+	@Pure
+	fun resize(
+		@PythonName("new_width") newWidth: Int,
+		@PythonName("new_height") newHeight: Int
+	) -> result1: Image
+
+	@Pure
+	@PythonName("convert_to_grayscale")
+	fun convertToGrayscale() -> result1: Image
+
+	@Pure
+	fun crop(
+		x: Int,
+		y: Int,
+		width: Int,
+		height: Int
+	) -> result1: Image
+
+	@Pure
+	@PythonName("flip_vertically")
+	fun flipVertically() -> result1: Image
+
+	@Pure
+	@PythonName("flip_horizontally")
+	fun flipHorizontally() -> result1: Image
+
+	@Pure
+	@PythonName("adjust_brightness")
+	fun adjustBrightness(
+		factor: Float
+	) -> result1: Image
+
+	@Pure
+	@PythonName("add_noise")
+	fun addNoise(
+		@PythonName("standard_deviation") standardDeviation: Float
+	) -> result1: Image
+
+	@Pure
+	@PythonName("adjust_contrast")
+	fun adjustContrast(
+		factor: Float
+	) -> result1: Image
+
+	@Pure
+	@PythonName("adjust_color_balance")
+	fun adjustColorBalance(
+		factor: Float
+	) -> result1: Image
+
+	@Pure
+	fun blur(
+		radius: Int
+	) -> result1: Image
+
+	@Pure
+	fun sharpen(
+		factor: Float
+	) -> result1: Image
+
+	@Pure
+	@PythonName("invert_colors")
+	fun invertColors() -> result1: Image
+
+	@Pure
+	@PythonName("rotate_right")
+	fun rotateRight() -> result1: Image
+
+	@Pure
+	@PythonName("rotate_left")
+	fun rotateLeft() -> result1: Image
+
+	@Pure
+	@PythonName("find_edges")
+	fun findEdges() -> result1: Image
+}

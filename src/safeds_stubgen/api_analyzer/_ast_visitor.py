@@ -1014,7 +1014,7 @@ class MyPyAstVisitor:
         if is_internal(name) and not name.endswith("__"):
             return False
 
-        if isinstance(parent, Class) and name == "__init__":
+        if isinstance(parent, Class) and (name == "__init__" or not is_internal(name)):
             return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).

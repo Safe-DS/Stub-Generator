@@ -1,6 +1,22 @@
 @PythonModule("safeds.ml.classical.regression._linear_regression")
 package safeds.ml.classical.regression.LinearRegression
 
+from safeds.data.tabular.containers.Table import Table
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
 from safeds.ml.classical.regression.Regressor import Regressor
 
-class LinearRegression() sub Regressor
+class LinearRegression() sub Regressor {
+	@Pure
+	fun fit(
+		@PythonName("training_set") trainingSet: TaggedTable
+	) -> result1: LinearRegression
+
+	@Pure
+	fun predict(
+		dataset: Table
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("is_fitted")
+	fun isFitted() -> result1: Boolean
+}

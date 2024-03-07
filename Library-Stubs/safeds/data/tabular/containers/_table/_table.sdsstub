@@ -1,6 +1,295 @@
 @PythonModule("safeds.data.tabular.containers._table")
 package safeds.data.tabular.containers.Table
 
+from pathlib import Path
+from safeds.data.image.containers.Image import Image
+from safeds.data.tabular.containers.Column import Column
+from safeds.data.tabular.containers.Row import Row
+from safeds.data.tabular.containers.TaggedTable import TaggedTable
+from safeds.data.tabular.containers.TimeSeries import TimeSeries
+from safeds.data.tabular.transformation.TableTransformer import InvertibleTableTransformer
+from safeds.data.tabular.transformation.TableTransformer import TableTransformer
+from safeds.data.tabular.typing.ColumnType import ColumnType
+from safeds.data.tabular.typing.Schema import Schema
+
 class Table(
 	data: Map<String, List<Any>>? = null
-)
+) {
+	@PythonName("column_names") attr columnNames: List<String>
+	@PythonName("number_of_columns") attr numberOfColumns: Int
+	@PythonName("number_of_rows") attr numberOfRows: Int
+	attr `schema`: Schema
+
+	@Pure
+	@PythonName("from_csv_file")
+	static fun fromCsvFile(
+		path: union<Path, String>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("from_excel_file")
+	static fun fromExcelFile(
+		path: union<Path, String>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("from_json_file")
+	static fun fromJsonFile(
+		path: union<Path, String>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("from_dict")
+	static fun fromDict(
+		data: Map<String, List<Any>>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("from_columns")
+	static fun fromColumns(
+		columns: List<Column>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("from_rows")
+	static fun fromRows(
+		rows: List<Row>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("get_column")
+	fun getColumn(
+		@PythonName("column_name") columnName: String
+	) -> result1: Column
+
+	@Pure
+	@PythonName("has_column")
+	fun hasColumn(
+		@PythonName("column_name") columnName: String
+	) -> result1: Boolean
+
+	@Pure
+	@PythonName("get_column_type")
+	fun getColumnType(
+		@PythonName("column_name") columnName: String
+	) -> result1: ColumnType
+
+	@Pure
+	@PythonName("get_row")
+	fun getRow(
+		index: Int
+	) -> result1: Row
+
+	@Pure
+	@PythonName("summarize_statistics")
+	fun summarizeStatistics() -> result1: Table
+
+	@Pure
+	@PythonName("add_column")
+	fun addColumn(
+		column: Column
+	) -> result1: Table
+
+	@Pure
+	@PythonName("add_columns")
+	fun addColumns(
+		columns: union<List<Column>, Table>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("add_row")
+	fun addRow(
+		row: Row
+	) -> result1: Table
+
+	@Pure
+	@PythonName("add_rows")
+	fun addRows(
+		rows: union<List<Row>, Table>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("filter_rows")
+	fun filterRows(
+		query: (param1: Row) -> param2: Boolean
+	) -> result1: Table
+
+	@Pure
+	@PythonName("group_rows_by")
+	fun groupRowsBy<T>(
+		@PythonName("key_selector") keySelector: (param1: Row) -> param2: T
+	) -> result1: Map<T, Table>
+
+	@Pure
+	@PythonName("keep_only_columns")
+	fun keepOnlyColumns(
+		@PythonName("column_names") columnNames: List<String>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("remove_columns")
+	fun removeColumns(
+		@PythonName("column_names") columnNames: List<String>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("remove_columns_with_missing_values")
+	fun removeColumnsWithMissingValues() -> result1: Table
+
+	@Pure
+	@PythonName("remove_columns_with_non_numerical_values")
+	fun removeColumnsWithNonNumericalValues() -> result1: Table
+
+	@Pure
+	@PythonName("remove_duplicate_rows")
+	fun removeDuplicateRows() -> result1: Table
+
+	@Pure
+	@PythonName("remove_rows_with_missing_values")
+	fun removeRowsWithMissingValues() -> result1: Table
+
+	@Pure
+	@PythonName("remove_rows_with_outliers")
+	fun removeRowsWithOutliers() -> result1: Table
+
+	@Pure
+	@PythonName("rename_column")
+	fun renameColumn(
+		@PythonName("old_name") oldName: String,
+		@PythonName("new_name") newName: String
+	) -> result1: Table
+
+	@Pure
+	@PythonName("replace_column")
+	fun replaceColumn(
+		@PythonName("old_column_name") oldColumnName: String,
+		@PythonName("new_columns") newColumns: List<Column>
+	) -> result1: Table
+
+	@Pure
+	@PythonName("shuffle_rows")
+	fun shuffleRows() -> result1: Table
+
+	@Pure
+	@PythonName("slice_rows")
+	fun sliceRows(
+		start: Int? = null,
+		end: Int? = null,
+		step: Int = 1
+	) -> result1: Table
+
+	@Pure
+	@PythonName("sort_columns")
+	fun sortColumns(
+		comparator: (param1: Column, param2: Column) -> param3: Int
+	) -> result1: Table
+
+	@Pure
+	@PythonName("sort_rows")
+	fun sortRows(
+		comparator: (param1: Row, param2: Row) -> param3: Int
+	) -> result1: Table
+
+	@Pure
+	@PythonName("split_rows")
+	fun splitRows(
+		@PythonName("percentage_in_first") percentageInFirst: Float
+	) -> (result1: Table, result2: Table)
+
+	@Pure
+	@PythonName("tag_columns")
+	fun tagColumns(
+		@PythonName("target_name") targetName: String,
+		@PythonName("feature_names") featureNames: List<String>? = null
+	) -> result1: TaggedTable
+
+	@Pure
+	@PythonName("time_columns")
+	fun timeColumns(
+		@PythonName("target_name") targetName: String,
+		@PythonName("time_name") timeName: String,
+		@PythonName("feature_names") featureNames: List<String>? = null
+	) -> result1: TimeSeries
+
+	@Pure
+	@PythonName("transform_column")
+	fun transformColumn(
+		name: String,
+		transformer: (param1: Row) -> param2: Any
+	) -> result1: Table
+
+	@Pure
+	@PythonName("transform_table")
+	fun transformTable(
+		transformer: TableTransformer
+	) -> result1: Table
+
+	@Pure
+	@PythonName("inverse_transform_table")
+	fun inverseTransformTable(
+		transformer: InvertibleTableTransformer
+	) -> result1: Table
+
+	@Pure
+	@PythonName("plot_correlation_heatmap")
+	fun plotCorrelationHeatmap() -> result1: Image
+
+	@Pure
+	@PythonName("plot_lineplot")
+	fun plotLineplot(
+		@PythonName("x_column_name") xColumnName: String,
+		@PythonName("y_column_name") yColumnName: String
+	) -> result1: Image
+
+	@Pure
+	@PythonName("plot_scatterplot")
+	fun plotScatterplot(
+		@PythonName("x_column_name") xColumnName: String,
+		@PythonName("y_column_name") yColumnName: String
+	) -> result1: Image
+
+	@Pure
+	@PythonName("plot_boxplots")
+	fun plotBoxplots() -> result1: Image
+
+	@Pure
+	@PythonName("plot_histograms")
+	fun plotHistograms() -> result1: Image
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("to_csv_file")
+	fun toCsvFile(
+		path: union<Path, String>
+	)
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("to_excel_file")
+	fun toExcelFile(
+		path: union<Path, String>
+	)
+
+	// TODO Result type information missing.
+	@Pure
+	@PythonName("to_json_file")
+	fun toJsonFile(
+		path: union<Path, String>
+	)
+
+	@Pure
+	@PythonName("to_dict")
+	fun toDict() -> result1: Map<String, List<Any>>
+
+	@Pure
+	@PythonName("to_html")
+	fun toHtml() -> result1: String
+
+	@Pure
+	@PythonName("to_columns")
+	fun toColumns() -> result1: List<Column>
+
+	@Pure
+	@PythonName("to_rows")
+	fun toRows() -> result1: List<Row>
+}
