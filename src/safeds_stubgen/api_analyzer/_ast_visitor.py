@@ -1090,8 +1090,11 @@ class MyPyAstVisitor:
 
                             # Check the wildcard imports of the source
                             for wildcard_import in reexport_source.wildcard_imports:
-                                if wildcard_import.module_name == module_name and not_internal and (
-                                        isinstance(parent, Module) or parent.is_public):
+                                if (
+                                    wildcard_import.module_name == module_name
+                                    and not_internal
+                                    and (isinstance(parent, Module) or parent.is_public)
+                                ):
                                     return True
 
                             # Check the qualified imports of the source
@@ -1099,12 +1102,17 @@ class MyPyAstVisitor:
 
                                 # If the whole module was exported, we have to check if the func / class / attr we are
                                 #  checking here is internal, and if not, if any parents are internal.
-                                if (qualified_import.qualified_name == module_name and (
-                                    not_internal or
-                                    (qualified_import.alias is not None and
-                                     not is_internal(qualified_import.alias))
-                                ) and
-                                    not_internal and (isinstance(parent, Module) or parent.is_public)
+                                if (
+                                    qualified_import.qualified_name == module_name
+                                    and (
+                                        not_internal
+                                        or (
+                                            qualified_import.alias is not None
+                                            and not is_internal(qualified_import.alias)
+                                        )
+                                    )
+                                    and not_internal
+                                    and (isinstance(parent, Module) or parent.is_public)
                                 ):
                                     # If the module name or alias is not internal, check if the parent is public
                                     return True
@@ -1116,7 +1124,8 @@ class MyPyAstVisitor:
                             for qualified_import in reexport_source.qualified_imports:
 
                                 if qname.endswith(qualified_import.qualified_name) and (
-                                    qualified_import.alias is not None and not is_internal(qualified_import.alias)
+                                    qualified_import.alias is not None
+                                    and not is_internal(qualified_import.alias)
                                     or (qualified_import.alias is None and not_internal)
                                 ):
                                     # First we check if we've found the right import then do the following:
