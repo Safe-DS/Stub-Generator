@@ -464,7 +464,6 @@ class MyPyAstVisitor:
                     continue
 
                 if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
-                    # Todo Parse conditional branches recursively? -> Serach for a type inference function of mypy
                     # If the return statement is a conditional expression we parse the "if" and "else" branches
                     if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
                         for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
@@ -1060,7 +1059,6 @@ class MyPyAstVisitor:
         module_name = getattr(self.mypy_file, "name", "")
         package_id = "/".join(module_qname.split(".")[:-1])
 
-        # Todo The alias of functions or classes have to be used as function / class names
         for reexported_key in self.reexported:
             module_is_reexported = reexported_key in {module_name, module_qname}
 
