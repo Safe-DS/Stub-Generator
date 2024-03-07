@@ -997,11 +997,10 @@ class MyPyAstVisitor:
                 return name, qname
         return "", ""
 
-    def _is_public(self, name: str, qualified_name: str) -> bool:
+    def _is_public(self, name: str, qname: str) -> bool:
         if self.mypy_file is None:  # pragma: no cover
             raise ValueError("A Mypy file (module) should be defined.")
 
-        package_id = "/".join(self.mypy_file.fullname.split(".")[:-1])
         parent = self.__declaration_stack[-1]
 
         if not isinstance(parent, Module | Class) and not (isinstance(parent, Function) and parent.name == "__init__"):
@@ -1010,16 +1009,10 @@ class MyPyAstVisitor:
             )  # pragma: no cover
 
         if not isinstance(parent, Function):
-            _check_publicity_through_reexport: bool | None = self._check_publicity_through_reexport(
-                name,
-                qualified_name,
-                self.mypy_file.name,
-                package_id,
-                parent,
-            )
+            _check_publicity_with_reexports: bool | None = self._check_publicity_in_reexports(name, qname, parent)
 
-            if _check_publicity_through_reexport is not None:
-                return _check_publicity_through_reexport
+            if _check_publicity_with_reexports is not None:
+                return _check_publicity_with_reexports
 
         if is_internal(name) and not name.endswith("__"):
             return False
@@ -1028,7 +1021,7 @@ class MyPyAstVisitor:
             return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
-        return all(not is_internal(it) for it in qualified_name.split(".")[:-1])
+        return all(not is_internal(it) for it in qname.split(".")[:-1])
 
     def _create_id_from_stack(self, name: str) -> str:
         """Create an ID for a new object using previous objects of the stack.
@@ -1061,20 +1054,15 @@ class MyPyAstVisitor:
 
         return any(self._inherits_from_exception(base.type) for base in node.bases)
 
-    def _check_publicity_through_reexport(
-        self,
-        name: str,
-        qname: str,
-        module_name: str,
-        package_id: str,
-        parent: Module | Class,
-    ) -> bool | None:
+    def _check_publicity_in_reexports(self, name: str, qname: str, parent: Module | Class) -> bool | None:
+        package_id = "/".join(self.mypy_file.fullname.split(".")[:-1])
         not_internal = not is_internal(name)
+        module_qname = getattr(self.mypy_file, "fullname", None)
+        module_name = getattr(self.mypy_file, "name", None)
 
-        # Todo does not work yet if the reexport is through an __init__ file of another package
         # Todo The alias of functions or classes have to be used as function / class names
         for reexported_key in self.reexported:
-            module_is_reexported = reexported_key in {module_name, self.mypy_file.fullname}
+            module_is_reexported = reexported_key in {module_name, module_qname}
 
             # Check if the function/class/module is reexported
             if reexported_key.endswith(name) or module_is_reexported:
@@ -1084,8 +1072,7 @@ class MyPyAstVisitor:
 
                     # We have to check if it's the correct reexport with the ID
                     is_from_same_package = reexport_source.id == package_id
-                    is_from_another_package = reexported_key in {qname, self.mypy_file.fullname}
-
+                    is_from_another_package = reexported_key in {qname, module_qname}
                     if not is_from_same_package and not is_from_another_package:
                         continue
 
@@ -1095,7 +1082,10 @@ class MyPyAstVisitor:
                         # Check the wildcard imports of the source
                         for wildcard_import in reexport_source.wildcard_imports:
                             if (
-                                wildcard_import.module_name in {module_name, self.mypy_file.fullname}
+                                (
+                                    (is_from_same_package and wildcard_import.module_name == module_name)
+                                    or (is_from_another_package and wildcard_import.module_name == module_qname)
+                                )
                                 and not_internal
                                 and (isinstance(parent, Module) or parent.is_public)
                             ):
@@ -1138,6 +1128,7 @@ class MyPyAstVisitor:
                                 #   1. If it has an alias and if it's alias is internal
                                 #   2. Else if it has no alias and is not internal
                                 return True
+        return None
 
 
 def is_internal(name: str) -> bool:
