@@ -16,7 +16,8 @@ class InferMyTypes:
     infer_bool = False
     infer_str = "String"
     infer_none = None
-    infer_obj = InferMe
+    infer_call_expr = InferMe()
+    uninferable_callable = InferMe
 
     def __init__(self, init_param=1):
         self.init_infer = 3

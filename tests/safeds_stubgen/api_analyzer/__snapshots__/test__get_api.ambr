@@ -97,14 +97,9 @@
       'is_static': True,
       'name': 'attr_default_value_from_outside_package',
       'type': dict({
-        'kind': 'CallableType',
-        'parameter_types': list([
-        ]),
-        'return_type': dict({
-          'kind': 'NamedType',
-          'name': 'AnotherClass',
-          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
-        }),
+        'kind': 'NamedType',
+        'name': 'AnotherClass',
+        'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
       }),
     }),
     dict({
@@ -2397,7 +2392,8 @@
       'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_bool',
       'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_str',
       'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_none',
-      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_obj',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_expr',
+      'tests/data/various_modules_package/infer_types_module/InferMyTypes/uninferable_callable',
       'tests/data/various_modules_package/infer_types_module/InferMyTypes/init_infer',
     ]),
     'classes': list([

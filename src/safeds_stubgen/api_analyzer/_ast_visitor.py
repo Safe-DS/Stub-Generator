@@ -657,7 +657,7 @@ class MyPyAstVisitor:
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if attribute_type is not None and not (
             isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
-        ):
+        ) and not isinstance(attribute_type, mp_types.CallableType):
             # noinspection PyTypeChecker
             type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
 

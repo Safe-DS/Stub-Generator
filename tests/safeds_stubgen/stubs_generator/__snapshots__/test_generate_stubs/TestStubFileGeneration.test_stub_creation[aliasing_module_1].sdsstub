@@ -16,6 +16,9 @@ class AliasingModuleClassC() {
 	static attr typedAliasAttr2: AliasingModule2ClassA
 	@PythonName("infer_alias_attr2")
 	static attr inferAliasAttr2: AliasingModule2ClassA
+	// TODO Attribute has no type information.
+	@PythonName("infer_alias_attr3")
+	static attr inferAliasAttr3
 	// TODO An internal class must not be used as a type in a public class.
 	// TODO List type has to many type arguments.
 	@PythonName("alias_list")

@@ -94,7 +94,7 @@ class AttributesClassB() {
 	@PythonName("attr_type_from_outside_package")
 	static attr attrTypeFromOutsidePackage: AnotherClass
 	@PythonName("attr_default_value_from_outside_package")
-	static attr attrDefaultValueFromOutsidePackage: () -> param1: AnotherClass
+	static attr attrDefaultValueFromOutsidePackage: AnotherClass
 	@PythonName("init_attr")
 	attr initAttr: Boolean
 
