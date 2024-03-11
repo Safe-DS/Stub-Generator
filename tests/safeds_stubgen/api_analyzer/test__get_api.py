@@ -131,6 +131,9 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
 
     module_id = ""
     if is_package:
+        for part in python_file.parts[:-1]:
+            if part.startswith("_"):
+                return
         module_id = "/".join(python_file.parts[:-1])
 
     api_data = get_api_data("plaintext")

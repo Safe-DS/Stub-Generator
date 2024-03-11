@@ -6832,6 +6832,24 @@
     ]),
   })
 # ---
+# name: test_modules[_reexport_module_5]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/_reexport_module_5/reexported_in_an_internal_package',
+    ]),
+    'id': 'tests/data/various_modules_package/_reexport_module_5',
+    'name': '_reexport_module_5',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
 # name: test_modules[_reexported_from_another_package]
   dict({
     'classes': list([

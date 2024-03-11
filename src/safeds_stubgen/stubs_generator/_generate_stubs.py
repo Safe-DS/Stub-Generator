@@ -913,15 +913,6 @@ class StubsStringGenerator:
         shortest_id = None
         for fixed_module_id_parts in fixed_module_ids_parts:
             if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
-                internal_part = False
-                for part in fixed_module_id_parts:
-                    if is_internal(part):
-                        internal_part = True
-                        break
-
-                if internal_part:
-                    continue
-
                 shortest_id = fixed_module_id_parts
 
                 if len(shortest_id) == 1:
