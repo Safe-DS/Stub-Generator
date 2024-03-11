@@ -876,9 +876,9 @@ class StubsStringGenerator:
 
         def _module_name_check(name: str, string: str) -> bool:
             return (
-                string == name or
-                (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string)) or
-                (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
+                string == name
+                or (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string))
+                or (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
             )
 
         keys = [reexport_key for reexport_key in reexports if _module_name_check(module_name, reexport_key)]
@@ -905,8 +905,11 @@ class StubsStringGenerator:
         # Adjust all ids
         package = self.api.package
         fixed_module_ids_parts = [
-            [package, *module_id.split(f"{package}/", maxsplit=1)[-1].split("/")]
-            if not module_id.endswith(package) else [package]
+            (
+                [package, *module_id.split(f"{package}/", maxsplit=1)[-1].split("/")]
+                if not module_id.endswith(package)
+                else [package]
+            )
             for module_id in module_ids
         ]
 
