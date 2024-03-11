@@ -6512,6 +6512,10 @@
       'alias': None,
       'qualified_name': 'enum_module._ReexportedEmptyEnum',
     }),
+    dict({
+      'alias': None,
+      'qualified_name': 'file_creation._module_3.Reexported',
+    }),
   ])
 # ---
 # name: test_imports[__init__ (wildcard_imports)]
@@ -6620,6 +6624,10 @@
       dict({
         'alias': None,
         'qualified_name': 'enum_module._ReexportedEmptyEnum',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'file_creation._module_3.Reexported',
       }),
     ]),
     'wildcard_imports': list([

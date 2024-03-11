@@ -8,6 +8,7 @@ from ._reexport_module_4 import _reexported_function_4_alias as reexported_funct
 from ._reexport_module_4 import _two_times_reexported
 from ._reexport_module_4 import _two_times_reexported as two_times_reexported
 from .enum_module import _ReexportedEmptyEnum
+from file_creation._module_3 import Reexported
 
 __all__ = [
     "reex_1",
@@ -20,4 +21,5 @@ __all__ = [
     "two_times_reexported",
     "FourthReexportClass",
     "_ReexportedEmptyEnum",
+    "Reexported",
 ]

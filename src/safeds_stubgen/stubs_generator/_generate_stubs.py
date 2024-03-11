@@ -871,36 +871,65 @@ class StubsStringGenerator:
 
     def _get_shortest_public_reexport(self) -> str:
         module_qname = self.module.id.replace("/", ".")
-
+        module_name = self.module.name
         reexports = self.api.reexport_map
-        if self.module.name in reexports:
-            reexport_sources = reexports[self.module.name]
-        elif module_qname in reexports:
-            reexport_sources = reexports[module_qname]
-        else:
+
+        def _module_name_check(name: str, string: str) -> bool:
+            return (
+                string == name or
+                (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string)) or
+                (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
+            )
+
+        keys = [reexport_key for reexport_key in reexports if _module_name_check(module_name, reexport_key)]
+
+        module_ids = set()
+        for key in keys:
+            for module in reexports[key]:
+                added_module_id = False
+
+                for qualified_import in module.qualified_imports:
+                    if _module_name_check(module_name, qualified_import.qualified_name):
+                        module_ids.add(module.id)
+                        added_module_id = True
+                        break
+
+                if added_module_id:
+                    continue
+
+                for wildcard_import in module.wildcard_imports:
+                    if _module_name_check(module_name, wildcard_import.module_name):
+                        module_ids.add(module.id)
+                        break
+
+        # Adjust all ids
+        package = self.api.package
+        fixed_module_ids_parts = [
+            [package, *module_id.split(f"{package}/", maxsplit=1)[-1].split("/")]
+            if not module_id.endswith(package) else [package]
+            for module_id in module_ids
+        ]
+
+        shortest_id = None
+        for fixed_module_id_parts in fixed_module_ids_parts:
+            if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
+                internal_part = False
+                for part in fixed_module_id_parts:
+                    if is_internal(part):
+                        internal_part = True
+                        break
+
+                if internal_part:
+                    continue
+
+                shortest_id = fixed_module_id_parts
+
+                if len(shortest_id) == 1:
+                    break
+
+        if shortest_id is None:
             return module_qname
-
-        same_package_modules = []
-        other_package_modules = []
-        for reexport_source in reexport_sources:
-            if self.module.id.startswith(reexport_source.id):
-                same_package_modules.append(reexport_source)
-            else:
-                other_package_modules.append(reexport_source)
-
-        modules_to_check = same_package_modules if same_package_modules else other_package_modules
-
-        shortest_module_path: Module | None = None
-        for source_module in modules_to_check:
-            if shortest_module_path is None or len(shortest_module_path.id.split("/")) > len(
-                source_module.id.split("/"),
-            ):
-                shortest_module_path = source_module
-
-        if shortest_module_path is None:  # pragma: no cover
-            raise ValueError
-
-        return shortest_module_path.id.replace("/", ".")
+        return ".".join(shortest_id)
 
 
 def _callable_type_name_generator() -> Generator:

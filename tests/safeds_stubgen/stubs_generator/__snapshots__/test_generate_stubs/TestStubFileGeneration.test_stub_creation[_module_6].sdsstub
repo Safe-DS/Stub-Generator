@@ -1,5 +1,5 @@
-@PythonModule("tests.data.various_modules_package.file_creation._module_6")
-package tests.data.variousModulesPackage.fileCreation.Module6
+@PythonModule("various_modules_package.file_creation")
+package variousModulesPackage.fileCreation
 
 // TODO Result type information missing.
 @Pure
