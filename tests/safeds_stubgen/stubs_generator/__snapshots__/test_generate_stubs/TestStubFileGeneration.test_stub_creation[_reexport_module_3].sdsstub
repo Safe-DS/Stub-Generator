@@ -3,7 +3,5 @@ package tests.data.variousModulesPackage
 
 // TODO Result type information missing.
 @Pure
-@PythonName("reexported_function")
-fun reexportedFunction()
-
-class ReexportClass()
+@PythonName("reexported_function_3")
+fun reexportedFunction3()

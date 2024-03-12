@@ -1,9 +1,9 @@
-from typing import TypeVar, Generic
+from typing import TypeVar, Generic, Sequence, Collection, Mapping, Any
 
 T = TypeVar('T')
 
 
-class TypeVarClass(Generic[T]):
+class GenericTypeVar(Generic[T]):
     type_var = TypeVar("type_var")
 
     def __init__(self, items: list[T]): ...
@@ -11,10 +11,50 @@ class TypeVarClass(Generic[T]):
     def type_var_class_method(self, a: T) -> T: ...
 
 
-class TypeVarClass2(Generic[T]):
+class GenericTypeVar2(Generic[T]):
     type_var = TypeVar("type_var")
 
     def type_var_class_method2(self, a: T) -> T: ...
+
+
+class SequenceTypeVar(Sequence[T]):
+    type_var = TypeVar("type_var")
+
+    def __init__(self, items: list[T]): ...
+
+    def type_var_class_method(self, a: T) -> T: ...
+
+
+class SequenceTypeVar2(Sequence[T]):
+    type_var = TypeVar("type_var")
+
+    def type_var_class_method2(self, a: T) -> T: ...
+
+
+class CollectionTypeVar(Collection[T]):
+    type_var = TypeVar("type_var")
+
+    def __init__(self, items: list[T]): ...
+
+    def type_var_class_method(self, a: T) -> T: ...
+
+
+class CollectionTypeVar2(Collection[T]):
+    type_var = TypeVar("type_var")
+
+    def type_var_class_method2(self, a: T) -> T: ...
+
+
+class MappingTypeVar(Mapping[str, Any]):
+    def __init__(self, data: Mapping[str, Any] | None = None): ...
+
+
+class MappingTypeVar2:
+    def __init__(self, data: Mapping[str, Sequence[Any]]): ...
+
+
+class MappingTypeVar3(Mapping[str, Collection[T]]):
+    def __init__(self, data: Mapping[str, Collection[T]] | None): ...
 
 
 _type_var = TypeVar("_type_var")

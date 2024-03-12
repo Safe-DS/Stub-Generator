@@ -1,0 +1,1 @@
+from tests.data.various_modules_package._reexport_module_5 import reexported_in_an_internal_package

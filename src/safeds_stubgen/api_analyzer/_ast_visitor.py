@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from collections import defaultdict
 from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
@@ -45,7 +44,6 @@ if TYPE_CHECKING:
 class MyPyAstVisitor:
     def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
-        self.reexported: dict[str, set[Module]] = defaultdict(set)
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -68,41 +66,41 @@ class MyPyAstVisitor:
             if _definition.__class__.__name__ not in ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
         ]
 
-        for definition in child_definitions:
-            # Imports
-            if isinstance(definition, mp_nodes.Import):
-                for import_name, import_alias in definition.ids:
+        # Imports
+        for import_ in node.imports:
+            if isinstance(import_, mp_nodes.Import):
+                for import_name, import_alias in import_.ids:
                     qualified_imports.append(
                         QualifiedImport(import_name, import_alias),
                     )
 
-            elif isinstance(definition, mp_nodes.ImportFrom):
-                for import_name, import_alias in definition.names:
+            elif isinstance(import_, mp_nodes.ImportFrom):
+                import_id = f"{import_.id}." if import_.id else ""
+                for import_name, import_alias in import_.names:
                     qualified_imports.append(
                         QualifiedImport(
-                            f"{definition.id}.{import_name}",
+                            f"{import_id}{import_name}",
                             import_alias,
                         ),
                     )
 
-            elif isinstance(definition, mp_nodes.ImportAll):
+            elif isinstance(import_, mp_nodes.ImportAll):
                 wildcard_imports.append(
-                    WildcardImport(definition.id),
+                    WildcardImport(import_.id),
                 )
 
-            # Docstring
-            elif isinstance(definition, mp_nodes.ExpressionStmt) and isinstance(definition.expr, mp_nodes.StrExpr):
+        # Search for a Docstring
+        for definition in child_definitions:
+            if isinstance(definition, mp_nodes.ExpressionStmt) and isinstance(definition.expr, mp_nodes.StrExpr):
                 docstring = definition.expr.value
+                break
 
         # Create module id to get the full path
-        id_ = self._create_module_id(node.path)
+        id_ = node.fullname.replace(".", "/")
 
         # If we are checking a package node.name will be the package name, but since we get import information from
         # the __init__.py file we set the name to __init__
-        if is_package:
-            name = "__init__"
-        else:
-            name = node.name
+        name = "__init__" if is_package else node.name
 
         # Remember module, so we can later add classes and global functions
         module = Module(
@@ -135,11 +133,11 @@ class MyPyAstVisitor:
         # Variance
         # Special base classes like Generic[...] get moved to "removed_base_type_expr" during semantic analysis of mypy
         generic_exprs = []
-        for removed_base_type_expr in node.removed_base_type_exprs:
-            base = getattr(removed_base_type_expr, "base", None)
+        for base_type_expr in node.removed_base_type_exprs + node.base_type_exprs:
+            base = getattr(base_type_expr, "base", None)
             base_name = getattr(base, "name", None)
-            if base_name == "Generic":
-                generic_exprs.append(removed_base_type_expr)
+            if base_name in {"Collection", "Generic", "Sequence"}:
+                generic_exprs.append(base_type_expr)
 
         type_parameters = []
         if generic_exprs:
@@ -177,7 +175,16 @@ class MyPyAstVisitor:
 
         # superclasses
         superclasses = []
+        inherits_from_exception = False
         for superclass in node.base_type_exprs:
+            # Check for superclasses that inherit directly or transitively from Exception and remove them
+            if (
+                hasattr(superclass, "node")
+                and isinstance(superclass.node, mp_nodes.TypeInfo)
+                and self._inherits_from_exception(superclass.node)
+            ):
+                inherits_from_exception = True
+
             if hasattr(superclass, "fullname"):
                 superclass_qname = superclass.fullname
                 superclass_name = superclass_qname.split(".")[-1]
@@ -209,6 +216,7 @@ class MyPyAstVisitor:
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
+            inherits_from_exception=inherits_from_exception,
             type_parameters=type_parameters,
         )
         self.__declaration_stack.append(class_)
@@ -454,7 +462,6 @@ class MyPyAstVisitor:
                     continue
 
                 if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
-                    # Todo Frage: Parse conditional branches recursively?
                     # If the return statement is a conditional expression we parse the "if" and "else" branches
                     if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
                         for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
@@ -648,8 +655,12 @@ class MyPyAstVisitor:
                     raise AttributeError("Could not get argument information for attribute.")
 
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
-        if attribute_type is not None and not (
-            isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
+        if (
+            attribute_type is not None
+            and not (
+                isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any)
+            )
+            and not isinstance(attribute_type, mp_types.CallableType)
         ):
             # noinspection PyTypeChecker
             type_ = self.mypy_type_to_abstract_type(attribute_type, unanalyzed_type)
@@ -789,8 +800,8 @@ class MyPyAstVisitor:
         reexported_by = set()
         for i in range(len(path)):
             reexport_name = ".".join(path[: i + 1])
-            if reexport_name in self.reexported:
-                for mod in self.reexported[reexport_name]:
+            if reexport_name in self.api.reexport_map:
+                for mod in self.api.reexport_map[reexport_name]:
                     reexported_by.add(mod)
 
         return list(reexported_by)
@@ -798,11 +809,11 @@ class MyPyAstVisitor:
     def _add_reexports(self, module: Module) -> None:
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
-            self.reexported[name].add(module)
+            self.api.reexport_map[name].add(module)
 
         for wildcard_import in module.wildcard_imports:
             name = wildcard_import.module_name
-            self.reexported[name].add(module)
+            self.api.reexport_map[name].add(module)
 
     # #### Misc. utilities
     def mypy_type_to_abstract_type(
@@ -903,7 +914,7 @@ class MyPyAstVisitor:
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
 
             # Iterable builtins
-            elif type_name in {"tuple", "list", "set"}:
+            elif type_name in {"tuple", "list", "set", "Sequence", "Collection"}:
                 types = [self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
                 match type_name:
                     case "tuple":
@@ -912,8 +923,12 @@ class MyPyAstVisitor:
                         return sds_types.ListType(types=types)
                     case "set":
                         return sds_types.SetType(types=types)
+                    case "Sequence":
+                        return sds_types.ListType(types=types)
+                    case "Collection":
+                        return sds_types.ListType(types=types)
 
-            elif type_name == "dict":
+            elif type_name in {"dict", "Mapping"}:
                 return sds_types.DictType(
                     key_type=self.mypy_type_to_abstract_type(mypy_type.args[0]),
                     value_type=self.mypy_type_to_abstract_type(mypy_type.args[1]),
@@ -983,55 +998,31 @@ class MyPyAstVisitor:
                 return name, qname
         return "", ""
 
-    def _create_module_id(self, module_path: str) -> str:
-        """Create an ID for the module object.
-
-        Creates the module ID while discarding possible unnecessary information from the module qname.
-
-        Paramters
-        ---------
-        qname : str
-            The qualified name of the module
-
-        Returns
-        -------
-        str
-            ID of the module
-        """
-        package_name = self.api.package
-
-        if package_name not in module_path:
-            raise ValueError("Package name could not be found in the module path.")
-
-        # We have to split the qname of the module at the first occurence of the package name and reconnect it while
-        # discarding everything in front of it. This is necessary since the qname could contain unwanted information.
-        module_id = module_path.split(package_name, 1)[-1]
-        module_id = module_id.replace("\\", "/")
-
-        if module_id.startswith("/"):
-            module_id = module_id[1:]
-
-        if module_id.endswith(".py"):
-            module_id = module_id[:-3]
-
-        if module_id:
-            return f"{package_name}/{module_id}"
-        return package_name
-
-    def _is_public(self, name: str, qualified_name: str) -> bool:
-        if name.startswith("_") and not name.endswith("__"):
-            return False
-
-        for reexported_item in self.reexported:
-            if reexported_item.endswith(f".{name}"):
-                return True
+    def _is_public(self, name: str, qname: str) -> bool:
+        if self.mypy_file is None:  # pragma: no cover
+            raise ValueError("A Mypy file (module) should be defined.")
 
         parent = self.__declaration_stack[-1]
-        if isinstance(parent, Class) and name == "__init__":
+
+        if not isinstance(parent, Module | Class) and not (isinstance(parent, Function) and parent.name == "__init__"):
+            raise TypeError(
+                f"Expected parent for {name} in module {self.mypy_file.fullname} to be a class or a module.",
+            )  # pragma: no cover
+
+        if not isinstance(parent, Function):
+            _check_publicity_with_reexports: bool | None = self._check_publicity_in_reexports(name, qname, parent)
+
+            if _check_publicity_with_reexports is not None:
+                return _check_publicity_with_reexports
+
+        if is_internal(name) and not name.endswith("__"):
+            return False
+
+        if isinstance(parent, Class) and (name == "__init__" or not is_internal(name)):
             return parent.is_public
 
         # The slicing is necessary so __init__ functions are not excluded (already handled in the first condition).
-        return all(not it.startswith("_") for it in qualified_name.split(".")[:-1])
+        return all(not is_internal(it) for it in qname.split(".")[:-1])
 
     def _create_id_from_stack(self, name: str) -> str:
         """Create an ID for a new object using previous objects of the stack.
@@ -1057,3 +1048,84 @@ class MyPyAstVisitor:
         segments += [name]
 
         return "/".join(segments)
+
+    def _inherits_from_exception(self, node: mp_nodes.TypeInfo) -> bool:
+        if node.fullname == "builtins.Exception":
+            return True
+
+        return any(self._inherits_from_exception(base.type) for base in node.bases)
+
+    def _check_publicity_in_reexports(self, name: str, qname: str, parent: Module | Class) -> bool | None:
+        not_internal = not is_internal(name)
+        module_qname = getattr(self.mypy_file, "fullname", "")
+        module_name = getattr(self.mypy_file, "name", "")
+        package_id = "/".join(module_qname.split(".")[:-1])
+
+        for reexported_key in self.api.reexport_map:
+            module_is_reexported = reexported_key in {module_name, module_qname}
+
+            # Check if the function/class/module is reexported
+            if reexported_key.endswith(name) or module_is_reexported:
+
+                # Iterate through all sources (__init__.py files) where it was reexported
+                for reexport_source in self.api.reexport_map[reexported_key]:
+
+                    # We have to check if it's the correct reexport with the ID
+                    is_from_same_package = reexport_source.id == package_id
+                    is_from_another_package = reexported_key in {qname, module_qname}
+                    if not is_from_same_package and not is_from_another_package:
+                        continue
+
+                    # If the whole module was reexported we have to check if the name or alias is intern
+                    if module_is_reexported:
+
+                        # Check the wildcard imports of the source
+                        for wildcard_import in reexport_source.wildcard_imports:
+                            if (
+                                (
+                                    (is_from_same_package and wildcard_import.module_name == module_name)
+                                    or (is_from_another_package and wildcard_import.module_name == module_qname)
+                                )
+                                and not_internal
+                                and (isinstance(parent, Module) or parent.is_public)
+                            ):
+                                return True
+
+                        # Check the qualified imports of the source
+                        for qualified_import in reexport_source.qualified_imports:
+
+                            # If the whole module was exported, we have to check if the func / class / attr we are
+                            #  checking here is internal, and if not, if any parents are internal.
+                            if (
+                                qualified_import.qualified_name in {module_name, module_qname}
+                                and (
+                                    (qualified_import.alias is None and not_internal)
+                                    or (qualified_import.alias is not None and not is_internal(qualified_import.alias))
+                                )
+                                and not_internal
+                                and (isinstance(parent, Module) or parent.is_public)
+                            ):
+                                # If the module name or alias is not internal, check if the parent is public
+                                return True
+
+                    # A specific function or class was reexported.
+                    if reexported_key.endswith(name):
+
+                        # For wildcard imports we check in the _is_public method if the func / class is internal
+                        for qualified_import in reexport_source.qualified_imports:
+
+                            if qname.endswith(qualified_import.qualified_name) and (
+                                qualified_import.alias is not None
+                                and not is_internal(qualified_import.alias)
+                                or (qualified_import.alias is None and not_internal)
+                            ):
+                                # First we check if we've found the right import then do the following:
+                                # If a specific func / class was reexported check
+                                #   1. If it has an alias and if it's alias is internal
+                                #   2. Else if it has no alias and is not internal
+                                return True
+        return None
+
+
+def is_internal(name: str) -> bool:
+    return name.startswith("_")

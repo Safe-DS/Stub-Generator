@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.inheritance_module")
-package variousModulesPackage.inheritanceModule
+@PythonModule("tests.data.various_modules_package.inheritance_module")
+package tests.data.variousModulesPackage.inheritanceModule
 
 class PublicSuperClass() {
 	@Pure

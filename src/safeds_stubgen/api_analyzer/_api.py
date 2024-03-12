@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+from collections import defaultdict
 from dataclasses import dataclass, field
 from enum import Enum as PythonEnum
 from typing import TYPE_CHECKING, Any
@@ -47,6 +48,8 @@ class API:
         self.enum_instances: dict[str, EnumInstance] = {}
         self.attributes_: dict[str, Attribute] = {}
         self.parameters_: dict[str, Parameter] = {}
+
+        self.reexport_map: dict[str, set[Module]] = defaultdict(set)
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
@@ -170,6 +173,7 @@ class Class:
     docstring: ClassDocstring
     constructor: Function | None = None
     constructor_fulldocstring: str = ""
+    inherits_from_exception: bool = False
     reexported_by: list[Module] = field(default_factory=list)
     attributes: list[Attribute] = field(default_factory=list)
     methods: list[Function] = field(default_factory=list)
@@ -184,6 +188,7 @@ class Class:
             "is_public": self.is_public,
             "superclasses": self.superclasses,
             "constructor": self.constructor.to_dict() if self.constructor is not None else None,
+            "inherits_from_exception": self.inherits_from_exception,
             "reexported_by": [module.id for module in self.reexported_by],
             "attributes": [attribute.id for attribute in self.attributes],
             "methods": [method.id for method in self.methods],

@@ -30,7 +30,6 @@ mypy_file = _get_mypy_asts(
     build_result=mypy_build,
     files=files,
     package_paths=[],
-    root=Path(_test_dir / "data" / _test_package_name),
 )[0]
 
 

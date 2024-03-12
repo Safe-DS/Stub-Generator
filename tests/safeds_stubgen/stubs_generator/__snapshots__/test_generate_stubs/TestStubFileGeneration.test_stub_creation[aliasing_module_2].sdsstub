@@ -1,7 +1,7 @@
-@PythonModule("various_modules_package.aliasing.aliasing_module_2")
-package variousModulesPackage.aliasing.aliasingModule2
+@PythonModule("tests.data.various_modules_package.aliasing.aliasing_module_2")
+package tests.data.variousModulesPackage.aliasing.aliasingModule2
 
-from variousModulesPackage.aliasing.aliasingModule1 import AliasingModuleClassC
+from tests.data.variousModulesPackage.aliasing.aliasingModule1 import AliasingModuleClassC
 
 class AliasingModule2ClassA()
 

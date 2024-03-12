@@ -64,7 +64,7 @@ class AttributesClassB:
     multi_attr_7 = multi_attr_8 = "A"
 
     attr_type_from_outside_package: AnotherClass
-    attr_default_value_from_outside_package = AnotherClass
+    attr_default_value_from_outside_package = AnotherClass()
 
     def __init__(self):
         self.init_attr: bool = False

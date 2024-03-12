@@ -26,7 +26,7 @@ _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "various_modules_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
-_out_dir_stubs = Path(_out_dir / _test_package_name)
+_out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
 stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
@@ -34,7 +34,7 @@ stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
 def test_file_creation() -> None:
-    _generate_stubs_files(stubs_data, api, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
+    _generate_stubs_files(stubs_data, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
         stub_path=Path(_out_dir_stubs / "file_creation"),
@@ -101,7 +101,7 @@ class TestStubFileGeneration:
                 return
 
         # For these files stubs won't get created, because they are either empty or private.
-        if file_name in {"__init__", "_reexport_module_3", "_module_2", "_module_4"}:
+        if file_name in {"__init__", "_module_2", "_module_4", "_reexport_module_5"}:
             return
 
         raise AssertionError(f"Stub file not found for '{file_name}'.")

@@ -15,7 +15,8 @@ class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB, yetAnotherCla
     attr_1: int
     attr_2: int
 
-    def f1(self): ...
+    def f1(self):
+        def f1_2(): ...
 
 
 class ClassModuleClassD:
@@ -32,3 +33,11 @@ class ClassModuleClassD:
 class _ClassModulePrivateClassG:
     _attr_1: float
     _attr_2: bool
+
+
+class InheritFromException(ValueError):
+    ...
+
+
+class InheritFromException2(Exception, InheritFromException, ClassModuleClassB):
+    ...

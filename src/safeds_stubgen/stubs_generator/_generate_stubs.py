@@ -46,7 +46,7 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
     stubs_generator = StubsStringGenerator(api, naming_convention)
     stubs_data = _generate_stubs_data(api, out_path, stubs_generator)
-    _generate_stubs_files(stubs_data, api, out_path, stubs_generator, naming_convention)
+    _generate_stubs_files(stubs_data, out_path, stubs_generator, naming_convention)
 
 
 def _generate_stubs_data(
@@ -76,13 +76,10 @@ def _generate_stubs_data(
 
 def _generate_stubs_files(
     stubs_data: list[tuple[Path, str, str]],
-    api: API,
     out_path: Path,
     stubs_generator: StubsStringGenerator,
     naming_convention: NamingConvention,
 ) -> None:
-    Path(out_path / api.package).mkdir(parents=True, exist_ok=True)
-
     for module_dir, module_name, module_text in stubs_data:
         # Create module dir
         module_dir.mkdir(parents=True, exist_ok=True)
@@ -179,7 +176,7 @@ class StubsStringGenerator:
 
     def _create_module_string(self, module: Module) -> str:
         # Create package info
-        package_info = module.id.replace("/", ".")
+        package_info = self._get_shortest_public_reexport()
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
         module_text = ""
@@ -194,7 +191,7 @@ class StubsStringGenerator:
 
         # Create classes, class attr. & class methods
         for class_ in module.classes:
-            if class_.is_public:
+            if class_.is_public and not class_.inherits_from_exception:
                 module_text += f"\n{self._create_class_string(class_)}\n"
 
         # Create enums & enum instances
@@ -280,14 +277,18 @@ class StubsStringGenerator:
         # Type parameters
         constraints_info = ""
         variance_info = ""
-        if class_.type_parameters:
+
+        constructor_type_vars = None
+        if class_.constructor:
+            constructor_type_vars = class_.constructor.type_var_types
+
+        if class_.type_parameters or constructor_type_vars:
             # We collect the class generics for the methods later
             self.class_generics = []
-            out = "out "
             for variance in class_.type_parameters:
                 variance_direction = {
                     VarianceKind.INVARIANT.name: "",
-                    VarianceKind.COVARIANT.name: out,
+                    VarianceKind.COVARIANT.name: "out ",
                     VarianceKind.CONTRAVARIANT.name: "in ",
                 }[variance.variance.name]
 
@@ -299,6 +300,11 @@ class StubsStringGenerator:
                 if variance.type is not None:
                     variance_item = f"{variance_item} sub {self._create_type_string(variance.type.to_dict())}"
                 self.class_generics.append(variance_item)
+
+            if constructor_type_vars:
+                for constructor_type_var in constructor_type_vars:
+                    if constructor_type_var.name not in self.class_generics:
+                        self.class_generics.append(constructor_type_var.name)
 
             if self.class_generics:
                 variance_info = f"<{', '.join(self.class_generics)}>"
@@ -729,6 +735,8 @@ class StubsStringGenerator:
                 if len(types) == 2 and none_type_name in types:
                     # if None is at least one of the two possible types, we can remove the None and just return the
                     # other type with a question mark
+                    if types[0] == none_type_name:
+                        return f"{types[1]}?"
                     return f"{types[0]}?"
 
                 # If the union contains only one type, return the type instead of creating a union
@@ -860,6 +868,54 @@ class StubsStringGenerator:
                 return self.api.classes[class_]
 
         raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
+
+    def _get_shortest_public_reexport(self) -> str:
+        module_qname = self.module.id.replace("/", ".")
+        module_name = self.module.name
+        reexports = self.api.reexport_map
+
+        def _module_name_check(name: str, string: str) -> bool:
+            return (
+                string == name
+                or (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string))
+                or (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
+            )
+
+        keys = [reexport_key for reexport_key in reexports if _module_name_check(module_name, reexport_key)]
+
+        module_ids = set()
+        for key in keys:
+            for module in reexports[key]:
+                added_module_id = False
+
+                for qualified_import in module.qualified_imports:
+                    if _module_name_check(module_name, qualified_import.qualified_name):
+                        module_ids.add(module.id)
+                        added_module_id = True
+                        break
+
+                if added_module_id:
+                    continue
+
+                for wildcard_import in module.wildcard_imports:
+                    if _module_name_check(module_name, wildcard_import.module_name):
+                        module_ids.add(module.id)
+                        break
+
+        # Adjust all ids
+        fixed_module_ids_parts = [module_id.split("/") for module_id in module_ids]
+
+        shortest_id = None
+        for fixed_module_id_parts in fixed_module_ids_parts:
+            if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
+                shortest_id = fixed_module_id_parts
+
+                if len(shortest_id) == 1:
+                    break
+
+        if shortest_id is None:
+            return module_qname
+        return ".".join(shortest_id)
 
 
 def _callable_type_name_generator() -> Generator:

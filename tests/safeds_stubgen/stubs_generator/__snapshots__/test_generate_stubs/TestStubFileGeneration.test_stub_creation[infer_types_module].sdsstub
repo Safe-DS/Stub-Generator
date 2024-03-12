@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.infer_types_module")
-package variousModulesPackage.inferTypesModule
+@PythonModule("tests.data.various_modules_package.infer_types_module")
+package tests.data.variousModulesPackage.inferTypesModule
 
 class InferMe()
 
@@ -20,8 +20,11 @@ class InferMyTypes(
 	static attr inferStr: String
 	@PythonName("infer_none")
 	static attr inferNone: Nothing?
-	@PythonName("infer_obj")
-	static attr inferObj: () -> param1: InferMe
+	@PythonName("infer_call_expr")
+	static attr inferCallExpr: InferMe
+	// TODO Attribute has no type information.
+	@PythonName("uninferable_callable")
+	static attr uninferableCallable
 	// TODO Attribute has no type information.
 	@PythonName("init_infer")
 	attr initInfer
