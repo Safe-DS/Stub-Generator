@@ -903,15 +903,7 @@ class StubsStringGenerator:
                         break
 
         # Adjust all ids
-        package = self.api.package
-        fixed_module_ids_parts = [
-            (
-                [package, *module_id.split(f"{package}/", maxsplit=1)[-1].split("/")]
-                if not module_id.endswith(package)
-                else [package]
-            )
-            for module_id in module_ids
-        ]
+        fixed_module_ids_parts = [module_id.split("/") for module_id in module_ids]
 
         shortest_id = None
         for fixed_module_id_parts in fixed_module_ids_parts:

@@ -1,5 +1,5 @@
-@PythonModule("various_modules_package.file_creation")
-package variousModulesPackage.fileCreation
+@PythonModule("tests.data.various_modules_package.file_creation")
+package tests.data.variousModulesPackage.fileCreation
 
 @Pure
 @PythonName("reexported_in_another_package_function3")
