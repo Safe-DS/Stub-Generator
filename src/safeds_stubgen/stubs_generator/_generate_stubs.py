@@ -409,10 +409,19 @@ class StubsStringGenerator:
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
+            # Create docstring text
+            docstring = ""
+            doc_desc = attribute.docstring.description
+            if doc_desc:
+                docstring += f"{inner_indentations}/**\n"
+                doc_desc.replace("\n", f"\n{inner_indentations} * ")
+                docstring += f"{inner_indentations} * {doc_desc}\n"
+                docstring += f"{inner_indentations} */\n"
+
             # Create attribute string
             class_attributes.append(
                 f"{self._create_todo_msg(inner_indentations)}"
-                f"{inner_indentations}{attr_name_annotation}"
+                f"{docstring}{inner_indentations}{attr_name_annotation}"
                 f"{static_string}attr {attr_name_camel_case}"
                 f"{type_string}",
             )

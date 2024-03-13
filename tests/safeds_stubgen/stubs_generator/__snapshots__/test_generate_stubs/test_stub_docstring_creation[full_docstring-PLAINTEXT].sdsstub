@@ -1,0 +1,23 @@
+@PythonModule("tests.data.docstring_parser_package.full_docstring")
+package tests.data.docstringParserPackage.fullDocstring
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_multi_line_documentation")
+fun functionWithMultiLineDocumentation()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_single_line_documentation")
+fun functionWithSingleLineDocumentation()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation()
+
+class ClassWithMultiLineDocumentation()
+
+class ClassWithSingleLineDocumentation()
+
+class ClassWithoutDocumentation()

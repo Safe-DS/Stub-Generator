@@ -1,3 +1,6 @@
+from typing import Any, Optional
+
+
 class ClassWithDocumentation:
     """
     Lorem ipsum. Code::
@@ -38,11 +41,14 @@ class ClassWithParameters:
         foo
     """
 
-    def __init__(self) -> None:
+    def __init__(self, p) -> None:
         pass
 
 
-def function_with_parameters() -> None:
+def function_with_parameters(
+    no_type_no_default, type_no_default, optional_unknown_default, with_default_syntax_1, with_default_syntax_2,
+    with_default_syntax_3, grouped_parameter_1, grouped_parameter_2, *args, **kwargs
+) -> None:
     """
     Lorem ipsum.
 
@@ -73,7 +79,7 @@ def function_with_parameters() -> None:
     """
 
 
-class ClassAndFunctionWithParameters:
+class ClassAndConstructorWithParameters:
     """
     Parameters
     ----------
@@ -102,16 +108,20 @@ class ClassWithParametersAndAttributes:
 
     Parameters
     ----------
-    p : int, default=1
+    x : int, default=1
         foo
 
     Attributes
     ----------
+    p : int, default=1
+        foo
     q : int, default=1
         foo
     """
+    p: int
+    q = 1
 
-    def __init__(self) -> None:
+    def __init__(self, x) -> None:
         pass
 
 
@@ -140,12 +150,19 @@ class ClassWithAttributes:
     grouped_attribute_1, grouped_attribute_2 : int, default=4
         foo: grouped_attribute_1 and grouped_attribute_2
     """
+    no_type_no_default: Any
+    type_no_default: int
+    optional_unknown_default: Optional[int]
+    with_default_syntax_1 = 1
+    with_default_syntax_2: int
+    with_default_syntax_3: int = 3
+    grouped_attribute_1, grouped_attribute_2 = 4, 4
 
     def __init__(self) -> None:
         pass
 
 
-def function_with_result_value_and_type() -> None:
+def function_with_result_value_and_type() -> bool:
     """
     Lorem ipsum.
 
@@ -153,12 +170,25 @@ def function_with_result_value_and_type() -> None:
 
     Returns
     -------
-    int
+    bool
         this will be the return value
     """
 
 
-def function_without_result_value() -> None:
+def function_with_named_result() -> bool:
+    """
+    Lorem ipsum.
+
+    Dolor sit amet.
+
+    Returns
+    -------
+    named_result : bool
+        this will be the return value
+    """
+
+
+def function_without_result_value():
     """
     Lorem ipsum.
 

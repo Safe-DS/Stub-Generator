@@ -5,6 +5,7 @@ from typing import TYPE_CHECKING
 
 import pytest
 from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.docstring_parsing import DocstringStyle
 from safeds_stubgen.stubs_generator import generate_stubs
 
 # noinspection PyProtectedMember
@@ -27,6 +28,9 @@ _test_package_name = "various_modules_package"
 _test_package_dir = Path(_lib_dir / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "data" / "out")
 _out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
+
+_docstring_package_name = "docstring_parser_package"
+_docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
 stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
@@ -135,3 +139,27 @@ def test_convert_name_to_convention(
         _convert_name_to_convention(name=name, naming_convention=naming_convention, is_class_name=is_class_name)
         == expected_result
     )
+
+
+@pytest.mark.parametrize(
+    ("filename", "docstring_style"),
+    [
+        ("epydoc", DocstringStyle.EPYDOC),
+        ("full_docstring", DocstringStyle.PLAINTEXT),
+        ("googledoc", DocstringStyle.GOOGLE),
+        ("numpydoc", DocstringStyle.NUMPYDOC),
+        ("plaintext", DocstringStyle.PLAINTEXT),
+        ("restdoc", DocstringStyle.REST),
+    ]
+)
+def test_stub_docstring_creation(filename: str, docstring_style: DocstringStyle, snapshot_sds_stub: SnapshotAssertion):
+    docstring_api = get_api(_docstring_package_name, _docstring_package_dir, docstring_style=docstring_style, is_test_run=True)
+    docstring_stubs_generator = StubsStringGenerator(docstring_api, naming_convention=NamingConvention.SAFE_DS)
+    docstring_stubs_data = _generate_stubs_data(docstring_api, _out_dir, docstring_stubs_generator)
+
+    for stub_text in docstring_stubs_data:
+        if stub_text[1] == filename:
+            assert stub_text[2] == snapshot_sds_stub
+            return
+
+    raise AssertionError

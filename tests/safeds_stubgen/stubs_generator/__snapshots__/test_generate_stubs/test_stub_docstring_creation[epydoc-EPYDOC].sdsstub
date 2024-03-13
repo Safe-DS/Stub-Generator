@@ -1,0 +1,58 @@
+@PythonModule("tests.data.docstring_parser_package.epydoc")
+package tests.data.docstringParserPackage.epydoc
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_documentation")
+fun functionWithDocumentation()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation()
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support variadic parameters.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("function_with_parameters")
+fun functionWithParameters(
+	@PythonName("no_type_no_default") noTypeNoDefault,
+	@PythonName("type_no_default") typeNoDefault,
+	@PythonName("with_default") withDefault,
+	args: List<Any>,
+	kwargs: Map<String, Any>
+)
+
+@Pure
+@PythonName("function_with_result_value_and_type")
+fun functionWithResultValueAndType() -> result1: Boolean
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_result_value_no_type")
+fun functionWithResultValueNoType()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_result_value")
+fun functionWithoutResultValue()
+
+class ClassWithDocumentation()
+
+class ClassWithoutDocumentation()
+
+// TODO Some parameter have no type information.
+class ClassWithParameters(
+	p
+)
+
+class ClassWithAttributes() {
+	static attr p: Int
+	static attr q: Int
+}
+
+class ClassWithAttributesNoType() {
+	static attr p: Int
+	static attr q: Int
+}

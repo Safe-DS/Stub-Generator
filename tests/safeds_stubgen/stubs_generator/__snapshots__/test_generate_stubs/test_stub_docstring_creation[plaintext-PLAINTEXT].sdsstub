@@ -1,0 +1,22 @@
+@PythonModule("tests.data.docstring_parser_package.plaintext")
+package tests.data.docstringParserPackage.plaintext
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_documentation")
+fun functionWithDocumentation(
+	p: Int
+)
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation(
+	p: Int
+)
+
+class ClassWithDocumentation(
+	p: Int
+)
+
+class ClassWithoutDocumentation()

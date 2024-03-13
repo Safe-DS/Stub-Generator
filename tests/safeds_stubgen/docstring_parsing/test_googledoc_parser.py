@@ -319,11 +319,11 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_return_value_and_type",
-            ResultDocstring(type="int", description="this will be the return value."),
+            ResultDocstring(type="bool", description="this will be the return value."),
         ),
         (
             "function_with_return_value_no_type",
-            ResultDocstring(type="", description="int"),
+            ResultDocstring(type="", description="None"),
         ),
         ("function_without_return_value", ResultDocstring(type="", description="")),
     ],

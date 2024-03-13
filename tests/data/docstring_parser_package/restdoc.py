@@ -36,11 +36,11 @@ class ClassWithParameters:
     :type p: int
     """
 
-    def __init__(self) -> None:
+    def __init__(self, p) -> None:
         pass
 
 
-def function_with_parameters() -> None:
+def function_with_parameters(no_type_no_default, type_no_default, with_default, *args, **kwargs) -> None:
     """
     Lorem ipsum.
 
@@ -58,7 +58,7 @@ def function_with_parameters() -> None:
     """
 
 
-def function_with_return_value_and_type() -> None:
+def function_with_return_value_and_type() -> bool:
     """
     Lorem ipsum.
 
@@ -79,7 +79,7 @@ def function_with_return_value_no_type() -> None:
     """
 
 
-def function_without_return_value() -> None:
+def function_without_return_value():
     """
     Lorem ipsum.
 

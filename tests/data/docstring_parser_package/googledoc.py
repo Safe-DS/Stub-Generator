@@ -35,11 +35,11 @@ class ClassWithParameters:
         p (int): foo. Defaults to 1.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, p) -> None:
         pass
 
 
-def function_with_parameters() -> None:
+def function_with_parameters(no_type_no_default, type_no_default, with_default, *args, **kwargs) -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -53,7 +53,7 @@ def function_with_parameters() -> None:
     """
 
 
-def function_with_attributes_and_parameters() -> None:
+def function_with_attributes_and_parameters(q) -> None:
     """Lorem ipsum.
 
     Dolor sit amet.
@@ -63,7 +63,6 @@ def function_with_attributes_and_parameters() -> None:
 
     Args:
         q (int): foo. Defaults to 2.
-
     """
 
 
@@ -74,16 +73,19 @@ class ClassWithAttributes:
 
     Attributes:
         p (int): foo. Defaults to 1.
+        q (int): foo. Defaults to 1.
     """
+    p: int
+    q = 1
 
 
-def function_with_return_value_and_type() -> None:
+def function_with_return_value_and_type() -> bool:
     """Lorem ipsum.
 
     Dolor sit amet.
 
     Returns:
-        int: this will be the return value.
+        bool: this will be the return value.
     """
 
 
@@ -93,11 +95,11 @@ def function_with_return_value_no_type() -> None:
     Dolor sit amet.
 
     Returns:
-        int
+        None
     """
 
 
-def function_without_return_value() -> None:
+def function_without_return_value():
     """Lorem ipsum.
 
     Dolor sit amet.

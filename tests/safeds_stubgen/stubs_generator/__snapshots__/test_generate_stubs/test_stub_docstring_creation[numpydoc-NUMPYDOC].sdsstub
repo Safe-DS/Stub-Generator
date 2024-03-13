@@ -1,0 +1,118 @@
+@PythonModule("tests.data.docstring_parser_package.numpydoc")
+package tests.data.docstringParserPackage.numpydoc
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_with_documentation")
+fun functionWithDocumentation()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation()
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support variadic parameters.
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("function_with_parameters")
+fun functionWithParameters(
+	@PythonName("no_type_no_default") noTypeNoDefault,
+	@PythonName("type_no_default") typeNoDefault,
+	@PythonName("optional_unknown_default") optionalUnknownDefault,
+	@PythonName("with_default_syntax_1") withDefaultSyntax1,
+	@PythonName("with_default_syntax_2") withDefaultSyntax2,
+	@PythonName("with_default_syntax_3") withDefaultSyntax3,
+	@PythonName("grouped_parameter_1") groupedParameter1,
+	@PythonName("grouped_parameter_2") groupedParameter2,
+	args: List<Any>,
+	kwargs: Map<String, Any>
+)
+
+@Pure
+@PythonName("function_with_result_value_and_type")
+fun functionWithResultValueAndType() -> result1: Boolean
+
+@Pure
+@PythonName("function_with_named_result")
+fun functionWithNamedResult() -> result1: Boolean
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_result_value")
+fun functionWithoutResultValue()
+
+class ClassWithDocumentation()
+
+class ClassWithoutDocumentation()
+
+// TODO Some parameter have no type information.
+class ClassWithParameters(
+	p
+)
+
+// TODO Some parameter have no type information.
+class ClassAndConstructorWithParameters(
+	x,
+	y,
+	z
+)
+
+// TODO Some parameter have no type information.
+class ClassWithParametersAndAttributes(
+	x
+) {
+	/**
+	 * foo
+	 */
+	static attr p: Int
+	/**
+	 * foo
+	 */
+	static attr q: Int
+}
+
+class ClassWithAttributes() {
+	/**
+	 * foo: no_type_no_default. Code::
+
+    pass
+	 */
+	@PythonName("no_type_no_default")
+	static attr noTypeNoDefault: Any
+	/**
+	 * foo: type_no_default
+	 */
+	@PythonName("type_no_default")
+	static attr typeNoDefault: Int
+	/**
+	 * foo: optional_unknown_default
+	 */
+	@PythonName("optional_unknown_default")
+	static attr optionalUnknownDefault: Int?
+	/**
+	 * foo: with_default_syntax_1
+	 */
+	@PythonName("with_default_syntax_1")
+	static attr withDefaultSyntax1: Int
+	/**
+	 * foo: with_default_syntax_2
+	 */
+	@PythonName("with_default_syntax_2")
+	static attr withDefaultSyntax2: Int
+	/**
+	 * foo: with_default_syntax_3
+	 */
+	@PythonName("with_default_syntax_3")
+	static attr withDefaultSyntax3: Int
+	/**
+	 * foo: grouped_attribute_1 and grouped_attribute_2
+	 */
+	@PythonName("grouped_attribute_1")
+	static attr groupedAttribute1: Int
+	/**
+	 * foo: grouped_attribute_1 and grouped_attribute_2
+	 */
+	@PythonName("grouped_attribute_2")
+	static attr groupedAttribute2: Int
+}
