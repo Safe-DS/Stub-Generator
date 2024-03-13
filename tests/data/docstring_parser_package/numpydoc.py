@@ -1,4 +1,10 @@
+"""
+Test module for docstring tests.
+
+A module for testing the various docstring types.
+"""
 from typing import Any, Optional
+from enum import Enum
 
 
 class ClassWithDocumentation:
@@ -189,6 +195,45 @@ def function_with_named_result() -> bool:
 
 
 def function_without_result_value():
+    """
+    Lorem ipsum.
+
+    Dolor sit amet.
+    """
+
+
+class ClassWithMethod:
+    def method_with_docstring(self, a) -> bool:
+        """
+        Lorem ipsum.
+
+        Dolor sit amet.
+
+        Parameters
+        ----------
+        a: str
+
+        Returns
+        -------
+        named_result : bool
+            this will be the return value
+        """
+
+    @property
+    def property_method_with_docstring(self):
+        """
+        Lorem ipsum.
+
+        Dolor sit amet.
+
+        Returns
+        -------
+        named_result : bool
+            this will be the return value
+        """
+
+
+class EnumDocstring(Enum):
     """
     Lorem ipsum.
 

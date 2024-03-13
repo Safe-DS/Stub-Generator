@@ -1,3 +1,9 @@
+/**
+ * Another Module Docstring.
+ * 
+ * Full Docstring Description
+ */
+
 @PythonModule("tests.data.various_modules_package.another_path.another_module")
 package tests.data.variousModulesPackage.anotherPath.anotherModule
 

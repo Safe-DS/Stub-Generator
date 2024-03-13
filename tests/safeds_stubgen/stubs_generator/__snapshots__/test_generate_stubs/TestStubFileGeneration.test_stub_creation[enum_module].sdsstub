@@ -1,8 +1,16 @@
 @PythonModule("tests.data.various_modules_package")
 package tests.data.variousModulesPackage
 
+/**
+ * Nothing's here.
+ */
 enum _ReexportedEmptyEnum
 
+/**
+ * Enum Docstring.
+ * 
+ * Full Docstring Description
+ */
 enum EnumTest {
 	ONE
 	TWO

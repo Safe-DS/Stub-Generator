@@ -1,3 +1,10 @@
+"""
+Test module for docstring tests.
+
+A module for testing the various docstring types.
+"""
+
+
 class ClassWithMultiLineDocumentation:
     """
     Lorem ipsum.

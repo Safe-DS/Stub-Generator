@@ -65,7 +65,11 @@ def _generate_stubs_data(
         # the file would look like this: "package path.to.myPackage\n" or this:
         # '@PythonModule("path.to.my_package")\npackage path.to.myPackage\n'. With the split we check if the module
         # has enough information, if not, we won't create it.
-        splitted_text = module_text.split("\n")
+        splitted_text = module_text
+        if module_text.startswith("/**"):
+            # Remove docstring
+            splitted_text = "*/\n".join(module_text.split("*/\n\n")[1:])
+        splitted_text = splitted_text.split("\n")
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
@@ -172,9 +176,9 @@ class StubsStringGenerator:
         self._current_todo_msgs: set[str] = set()
         self.module = module
         self.class_generics: list = []
-        return self._create_module_string(module)
+        return self._create_module_string()
 
-    def _create_module_string(self, module: Module) -> str:
+    def _create_module_string(self) -> str:
         # Create package info
         package_info = self._get_shortest_public_reexport()
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
@@ -184,24 +188,29 @@ class StubsStringGenerator:
             module_name_info = f'@PythonModule("{package_info}")\n'
         module_header = f"{module_name_info}package {package_info_camel_case}\n"
 
+        # Create docstring
+        docstring = self._create_sds_docstring(self.module.docstring, "")
+        if docstring:
+            docstring += "\n"
+
         # Create global functions and properties
-        for function in module.global_functions:
+        for function in self.module.global_functions:
             if function.is_public:
                 module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
 
         # Create classes, class attr. & class methods
-        for class_ in module.classes:
+        for class_ in self.module.classes:
             if class_.is_public and not class_.inherits_from_exception:
                 module_text += f"\n{self._create_class_string(class_)}\n"
 
         # Create enums & enum instances
-        for enum in module.enums:
+        for enum in self.module.enums:
             module_text += f"\n{self._create_enum_string(enum)}\n"
 
         # Create imports - We have to create them last, since we have to check all used types in this module first
         module_header += self._create_imports_string()
 
-        return module_header + module_text
+        return docstring + module_header + module_text
 
     def _create_imports_string(self) -> str:
         if not self.module_imports:
@@ -230,7 +239,6 @@ class StubsStringGenerator:
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
-        class_text = ""
 
         # Constructor parameter
         if class_.is_abstract:
@@ -324,7 +332,7 @@ class StubsStringGenerator:
         )
 
         # Attributes
-        class_text += self._create_class_attribute_string(class_.attributes, inner_indentations)
+        class_text = self._create_class_attribute_string(class_.attributes, inner_indentations)
 
         # Inner classes
         for inner_class in class_.classes:
@@ -336,14 +344,17 @@ class StubsStringGenerator:
         # Methods
         class_text += self._create_class_method_string(class_.methods, inner_indentations)
 
-        # If the does not have a body, we just return the signature line
+        # Docstring
+        docstring = self._create_sds_docstring(class_.docstring.description, "")
+
+        # If the does not have a body, we just return the docstring and signature line
         if not class_text:
-            return class_signature
+            return docstring + class_signature
 
         # Close class
         class_text += f"{class_indentation}}}"
 
-        return f"{class_signature} {{{class_text}"
+        return f"{docstring}{class_signature} {{{class_text}"
 
     def _create_class_method_string(
         self,
@@ -410,13 +421,7 @@ class StubsStringGenerator:
                 self._current_todo_msgs.add("attr without type")
 
             # Create docstring text
-            docstring = ""
-            doc_desc = attribute.docstring.description
-            if doc_desc:
-                docstring += f"{inner_indentations}/**\n"
-                doc_desc.replace("\n", f"\n{inner_indentations} * ")
-                docstring += f"{inner_indentations} * {doc_desc}\n"
-                docstring += f"{inner_indentations} */\n"
+            docstring = self._create_sds_docstring(attribute.docstring.description, inner_indentations)
 
             # Create attribute string
             class_attributes.append(
@@ -470,6 +475,9 @@ class StubsStringGenerator:
                 type_var_string = ", ".join(type_var_names)
                 type_var_info = f"<{type_var_string}>"
 
+        # Docstring
+        docstring = self._create_sds_docstring(function.docstring.description, indentations)
+
         # Convert function name to camelCase
         name = function.name
         camel_case_name = _convert_name_to_convention(name, self.naming_convention)
@@ -485,6 +493,7 @@ class StubsStringGenerator:
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
+            f"{docstring}"
             f"{indentations}@Pure\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}{type_var_info}"
@@ -505,6 +514,9 @@ class StubsStringGenerator:
         # Escape keywords
         camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
+        # Docstring
+        docstring = self._create_sds_docstring(function.docstring.description, indentations)
+
         # Create type information
         result_types = [result.type for result in function.results if result.type is not None]
         result_union = UnionType(types=result_types)
@@ -514,6 +526,7 @@ class StubsStringGenerator:
 
         return (
             f"{self._create_todo_msg(indentations)}"
+            f"{docstring}"
             f"{indentations}{function_name_annotation}"
             f"attr {camel_case_name}{type_string}"
         )
@@ -626,8 +639,11 @@ class StubsStringGenerator:
         return ""
 
     def _create_enum_string(self, enum_data: Enum) -> str:
+        # Docstring
+        docstring = self._create_sds_docstring(enum_data.docstring.description, "")
+
         # Signature
-        enum_signature = f"enum {enum_data.name}"
+        enum_signature = f"{docstring}enum {enum_data.name}"
 
         # Enum body
         enum_text = ""
@@ -925,6 +941,20 @@ class StubsStringGenerator:
         if shortest_id is None:
             return module_qname
         return ".".join(shortest_id)
+
+    @staticmethod
+    def _create_sds_docstring(docstring_description: str, indentations: str):
+        if docstring_description == "":
+            return ""
+
+        docstring = f"{indentations}/**\n"
+
+        docstring_description = docstring_description.rstrip("\n")
+        docstring_description = docstring_description.replace("\n", f"\n{indentations} * ")
+
+        docstring += f"{indentations} * {docstring_description}\n"
+        docstring += f"{indentations} */\n"
+        return docstring
 
 
 def _callable_type_name_generator() -> Generator:
