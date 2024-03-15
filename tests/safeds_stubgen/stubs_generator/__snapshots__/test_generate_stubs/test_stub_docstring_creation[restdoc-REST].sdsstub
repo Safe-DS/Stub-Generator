@@ -1,5 +1,4 @@
 /**
- * 
  * Test module for docstring tests.
  * 
  * A module for testing the various docstring types.
@@ -32,6 +31,10 @@ fun functionWithoutDocumentation()
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @param no_type_no_default no type and no default
+ * @param type_no_default type but no default
+ * @param with_default foo that defaults to 2
  */
 @Pure
 @PythonName("function_with_parameters")
@@ -47,6 +50,8 @@ fun functionWithParameters(
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @result result_1 return value
  */
 @Pure
 @PythonName("function_with_return_value_and_type")
@@ -87,6 +92,8 @@ class ClassWithoutDocumentation()
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @param p foo defaults to 1
  */
 // TODO Some parameter have no type information.
 class ClassWithParameters(
@@ -106,6 +113,10 @@ class ClassWithMethod() {
 	 * Lorem ipsum.
 	 * 
 	 * Dolor sit amet.
+	 *
+	 * @param a type but no default
+	 *
+	 * @result result_1 return value
 	 */
 	@Pure
 	@PythonName("method_with_docstring")

@@ -87,8 +87,6 @@ def function_with_parameters(no_type_no_default, type_no_default, with_default, 
 
     Dolor sit amet.
 
-    Parameters
-    ----------
     @param no_type_no_default: no type and no default
     @param type_no_default: type but no default
     @type type_no_default: int

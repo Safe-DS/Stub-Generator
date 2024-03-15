@@ -31,6 +31,10 @@ fun functionWithoutDocumentation()
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @param no_type_no_default no type and no default.
+ * @param type_no_default type but no default.
+ * @param with_default foo. Defaults to 2.
  */
 @Pure
 @PythonName("function_with_parameters")
@@ -48,6 +52,8 @@ fun functionWithParameters(
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @param q foo. Defaults to 2.
  */
 @Pure
 @PythonName("function_with_attributes_and_parameters")
@@ -59,6 +65,8 @@ fun functionWithAttributesAndParameters(
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @result result_1 this will be the return value.
  */
 @Pure
 @PythonName("function_with_return_value_and_type")
@@ -99,6 +107,8 @@ class ClassWithoutDocumentation()
  * Lorem ipsum.
  * 
  * Dolor sit amet.
+ *
+ * @param p foo. Defaults to 1.
  */
 // TODO Some parameter have no type information.
 class ClassWithParameters(
@@ -134,6 +144,10 @@ class ClassWithMethod() {
 	 * Lorem ipsum.
 	 * 
 	 * Dolor sit amet.
+	 *
+	 * @param a foo
+	 *
+	 * @result result_1 this will be the return value.
 	 */
 	@Pure
 	@PythonName("method_with_docstring")
