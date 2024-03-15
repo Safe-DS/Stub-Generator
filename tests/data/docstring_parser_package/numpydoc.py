@@ -220,7 +220,7 @@ class ClassWithMethod:
         """
 
     @property
-    def property_method_with_docstring(self):
+    def property_method_with_docstring(self) -> bool:
         """
         Lorem ipsum.
 

@@ -203,8 +203,10 @@ class ClassWithMethod() {
 	 * Lorem ipsum.
 	 * 
 	 * Dolor sit amet.
+	 *
+	 * @result result_1 this will be the return value
 	 */
-	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring
+	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
 
 	// TODO Some parameter have no type information.
 	/**
