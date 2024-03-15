@@ -19,8 +19,9 @@ from safeds_stubgen.api_analyzer import (
 )
 
 if TYPE_CHECKING:
-    from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, AttributeDocstring
     from collections.abc import Generator
+
+    from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
 
 class NamingConvention(IntEnum):
@@ -957,7 +958,7 @@ class StubsStringGenerator:
     def _create_sds_docstring(
         docstring: ClassDocstring | FunctionDocstring | AttributeDocstring,
         indentations: str,
-        node: Class | Function | None = None
+        node: Class | Function | None = None,
     ) -> str:
         full_docstring = ""
 
