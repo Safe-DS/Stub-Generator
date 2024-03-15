@@ -140,7 +140,7 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
 
     for module in api_data["modules"]:
         is_init_file = is_package and module_id.endswith(module["id"])
-        is_module_file = str(python_file).replace("\\", "/").endswith(f"{module['id']}.py")
+        is_module_file = "/".join(python_file.parts).endswith(f"{module['id']}.py")
         if is_init_file or is_module_file:
             assert module == snapshot
             return
