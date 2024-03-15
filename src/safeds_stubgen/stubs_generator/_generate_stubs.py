@@ -66,11 +66,11 @@ def _generate_stubs_data(
         # the file would look like this: "package path.to.myPackage\n" or this:
         # '@PythonModule("path.to.my_package")\npackage path.to.myPackage\n'. With the split we check if the module
         # has enough information, if not, we won't create it.
-        splitted_text = module_text
-        if module_text.startswith("/**"):
+        _module_text = module_text
+        if _module_text.startswith("/**"):
             # Remove docstring
-            splitted_text = "*/\n".join(module_text.split("*/\n\n")[1:])
-        splitted_text = splitted_text.split("\n")
+            _module_text = "*/\n".join(_module_text.split("*/\n\n")[1:])
+        splitted_text = _module_text.split("\n")
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
