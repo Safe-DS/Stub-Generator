@@ -153,10 +153,15 @@ def test_convert_name_to_convention(
     ],
 )
 def test_stub_docstring_creation(
-    filename: str, docstring_style: DocstringStyle, snapshot_sds_stub: SnapshotAssertion,
+    filename: str,
+    docstring_style: DocstringStyle,
+    snapshot_sds_stub: SnapshotAssertion,
 ) -> None:
     docstring_api = get_api(
-        _docstring_package_name, _docstring_package_dir, docstring_style=docstring_style, is_test_run=True,
+        _docstring_package_name,
+        _docstring_package_dir,
+        docstring_style=docstring_style,
+        is_test_run=True,
     )
     docstring_stubs_generator = StubsStringGenerator(docstring_api, naming_convention=NamingConvention.SAFE_DS)
     docstring_stubs_data = _generate_stubs_data(docstring_api, _out_dir, docstring_stubs_generator)
