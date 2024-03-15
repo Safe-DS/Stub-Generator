@@ -17,10 +17,9 @@ from safeds_stubgen.api_analyzer import (
     UnionType,
     VarianceKind,
 )
-from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring, \
-    AttributeDocstring
 
 if TYPE_CHECKING:
+    from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring, AttributeDocstring
     from collections.abc import Generator
 
 
