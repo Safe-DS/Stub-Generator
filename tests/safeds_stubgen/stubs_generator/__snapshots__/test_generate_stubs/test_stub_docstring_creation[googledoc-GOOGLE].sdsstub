@@ -1,7 +1,20 @@
+/**
+ * Test module for docstring tests.
+ * 
+ * A module for testing the various docstring types.
+ */
+
 @PythonModule("tests.data.docstring_parser_package.googledoc")
 package tests.data.docstringParserPackage.googledoc
 
 // TODO Result type information missing.
+/**
+ * Lorem ipsum. Code::
+ * 
+ * pass
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_with_documentation")
 fun functionWithDocumentation()
@@ -14,6 +27,11 @@ fun functionWithoutDocumentation()
 // TODO Result type information missing.
 // TODO Safe-DS does not support variadic parameters.
 // TODO Some parameter have no type information.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_with_parameters")
 fun functionWithParameters(
@@ -26,35 +44,72 @@ fun functionWithParameters(
 
 // TODO Result type information missing.
 // TODO Some parameter have no type information.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_with_attributes_and_parameters")
 fun functionWithAttributesAndParameters(
 	q
 )
 
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_with_return_value_and_type")
 fun functionWithReturnValueAndType() -> result1: Boolean
 
 // TODO Result type information missing.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_with_return_value_no_type")
 fun functionWithReturnValueNoType()
 
 // TODO Result type information missing.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 @Pure
 @PythonName("function_without_return_value")
 fun functionWithoutReturnValue()
 
+/**
+ * Lorem ipsum. Code::
+ * 
+ * pass
+ * 
+ * Dolor sit amet.
+ */
 class ClassWithDocumentation()
 
 class ClassWithoutDocumentation()
 
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 // TODO Some parameter have no type information.
 class ClassWithParameters(
 	p
 )
 
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
 class ClassWithAttributes() {
 	/**
 	 * foo. Defaults to 1.
@@ -65,3 +120,31 @@ class ClassWithAttributes() {
 	 */
 	static attr q: Int
 }
+
+class ClassWithMethod() {
+	/**
+	 * Lorem ipsum.
+	 * 
+	 * Dolor sit amet.
+	 */
+	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring
+
+	// TODO Some parameter have no type information.
+	/**
+	 * Lorem ipsum.
+	 * 
+	 * Dolor sit amet.
+	 */
+	@Pure
+	@PythonName("method_with_docstring")
+	fun methodWithDocstring(
+		a
+	) -> result1: Boolean
+}
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+enum EnumDocstring
