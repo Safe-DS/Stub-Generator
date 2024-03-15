@@ -3,6 +3,7 @@ Test module for docstring tests.
 
 A module for testing the various docstring types.
 """
+from enum import Enum
 
 
 class ClassWithDocumentation:

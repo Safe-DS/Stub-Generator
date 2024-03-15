@@ -97,10 +97,7 @@ class ASTWalker:
                 raise AttributeError("Expected classdef node to have attribute 'base_type_exprs'.")
 
             for superclass in node.base_type_exprs:
-                if (
-                    (hasattr(superclass, "fullname") and superclass.fullname in ("enum.Enum", "enum.IntEnum")) or
-                    (hasattr(superclass, "name") and superclass.name in ("Enum", "IntEnum"))
-                ):
+                if hasattr(superclass, "fullname") and superclass.fullname in ("enum.Enum", "enum.IntEnum"):
                     class_name = "enumdef"
         elif class_name == "mypyfile":
             class_name = "moduledef"
