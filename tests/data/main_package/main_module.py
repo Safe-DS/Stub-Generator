@@ -5,9 +5,6 @@ import math as mathematics
 # noinspection PyUnresolvedReferences
 import mypy
 
-# noinspection PyUnresolvedReferences
-from docstring_parser import *
-
 from .another_path.another_module import AnotherClass
 from .another_path.another_module import AnotherClass as _AcImportAlias
 

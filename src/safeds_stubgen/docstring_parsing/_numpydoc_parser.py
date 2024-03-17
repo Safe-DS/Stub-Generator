@@ -1,4 +1,6 @@
 from __future__ import annotations
+from griffe.docstrings.dataclasses import DocstringSectionText, DocstringSection, DocstringSectionParameters, \
+    DocstringParameter
 
 import re
 from typing import TYPE_CHECKING
@@ -6,6 +8,9 @@ from typing import TYPE_CHECKING
 from docstring_parser import Docstring, DocstringParam
 from docstring_parser import DocstringStyle as DP_DocstringStyle
 from docstring_parser import parse as parse_docstring
+
+from griffe import parse_numpy
+from griffe.dataclasses import Docstring as griffe_Docstring
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -38,23 +43,35 @@ class NumpyDocParser(AbstractDocstringParser):
 
     def __init__(self) -> None:
         self.__cached_node: nodes.FuncDef | Class | None = None
-        self.__cached_docstring: Docstring | None = None
+        self.__cached_docstring: griffe_Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
-        docstring_obj = parse_docstring(docstring, style=DP_DocstringStyle.NUMPYDOC)
+
+        griffe_doc = griffe_Docstring(value=docstring)
+        description = ""
+        for docstring_section in parse_numpy(griffe_doc):
+            if isinstance(docstring_section, DocstringSectionText):
+                description = docstring_section.value
+                break
 
         return ClassDocstring(
-            description=get_description(docstring_obj),
+            description=description,
             full_docstring=docstring,
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
-        docstring_obj = self.__get_cached_numpydoc_string(function_node, docstring)
+
+        griffe_doc = griffe_Docstring(value=docstring)
+        description = ""
+        for docstring_section in parse_numpy(griffe_doc):
+            if isinstance(docstring_section, DocstringSectionText):
+                description = docstring_section.value
+                break
 
         return FunctionDocstring(
-            description=get_description(docstring_obj),
+            description=description,
             full_docstring=docstring,
         )
 
@@ -75,11 +92,14 @@ class NumpyDocParser(AbstractDocstringParser):
 
         # Find matching parameter docstrings
         function_numpydoc = self.__get_cached_numpydoc_string(function_node, docstring)
-        all_parameters_numpydoc: list[DocstringParam] = function_numpydoc.params
-        matching_parameters_numpydoc = [
-            it
-            for it in all_parameters_numpydoc
-            if it.args[0] == "param" and _is_matching_parameter_numpydoc(it, parameter_name, parameter_assigned_by)
+        all_parameters_numpydoc = None
+        for docstring_section in function_numpydoc:
+            if isinstance(docstring_section, DocstringSectionParameters):
+                all_parameters_numpydoc = docstring_section
+                break
+
+        matching_parameters_numpydoc: list[DocstringParameter] = [
+            it for it in all_parameters_numpydoc.value if it.name == parameter_name
         ]
 
         if len(matching_parameters_numpydoc) == 0:
@@ -87,26 +107,27 @@ class NumpyDocParser(AbstractDocstringParser):
             # https://github.com/Safe-DS/Library-Analyzer/issues/10)
             if function_node.name == "__init__":
                 docstring_constructor = get_full_docstring(function_node)
+                griffe_docstring = griffe_Docstring(docstring_constructor)
+
                 # Find matching parameter docstrings
-                function_numpydoc = parse_docstring(docstring_constructor, style=DP_DocstringStyle.NUMPYDOC)
-                all_parameters_numpydoc = function_numpydoc.params
+                function_numpydoc = parse_numpy(griffe_docstring)
+                all_parameters_numpydoc = []
+                for docstring_section in function_numpydoc:
+                    if isinstance(docstring_section, DocstringSectionParameters):
+                        all_parameters_numpydoc = docstring_section
+                        break
 
                 # Overwrite previous matching_parameters_numpydoc list
-                matching_parameters_numpydoc = [
-                    it
-                    for it in all_parameters_numpydoc
-                    if _is_matching_parameter_numpydoc(it, parameter_name, parameter_assigned_by)
-                ]
+                matching_parameters_numpydoc = [it for it in all_parameters_numpydoc if it.name == parameter_name]
 
             if len(matching_parameters_numpydoc) == 0:
                 return ParameterDocstring(type="", default_value="", description="")
 
         last_parameter_numpydoc = matching_parameters_numpydoc[-1]
-        type_, default_value = _get_type_and_default_value(last_parameter_numpydoc)
         return ParameterDocstring(
-            type=type_,
-            default_value=default_value,
-            description=last_parameter_numpydoc.description or "",
+            type=last_parameter_numpydoc.annotation,
+            default_value=last_parameter_numpydoc.default,
+            description=last_parameter_numpydoc.description,
         )
 
     def get_attribute_documentation(
@@ -164,7 +185,7 @@ class NumpyDocParser(AbstractDocstringParser):
             description=function_result.description or "",
         )
 
-    def __get_cached_numpydoc_string(self, node: nodes.FuncDef | Class, docstring: str) -> Docstring:
+    def __get_cached_numpydoc_string(self, node: nodes.FuncDef | Class, docstring: str) -> list[DocstringSection]:
         """
         Return the NumpyDocString for the given function node.
 
@@ -176,7 +197,8 @@ class NumpyDocParser(AbstractDocstringParser):
         """
         if self.__cached_node is not node or node.name == "__init__":
             self.__cached_node = node
-            self.__cached_docstring = parse_docstring(docstring, style=DP_DocstringStyle.NUMPYDOC)
+            griffe_docstring = griffe_Docstring(value=docstring)
+            self.__cached_docstring = parse_numpy(griffe_docstring)
 
         if self.__cached_docstring is None:  # pragma: no cover
             raise ValueError("Expected a docstring, got None instead.")
@@ -184,23 +206,13 @@ class NumpyDocParser(AbstractDocstringParser):
 
 
 def _is_matching_parameter_numpydoc(
-    parameter_docstring_obj: DocstringParam,
-    parameter_name: str,
-    parameter_assigned_by: ParameterAssignment,
+    parameter_docstring_obj: DocstringParameter,
+    parameter_name: str
 ) -> bool:
     """Return whether the given docstring object applies to the parameter with the given name."""
-    from safeds_stubgen.api_analyzer import ParameterAssignment
-
-    if parameter_assigned_by == ParameterAssignment.POSITIONAL_VARARG:
-        lookup_name = f"*{parameter_name}"
-    elif parameter_assigned_by == ParameterAssignment.NAMED_VARARG:
-        lookup_name = f"**{parameter_name}"
-    else:
-        lookup_name = parameter_name
-
     # Numpydoc allows multiple parameters to be documented at once. See
     # https://numpydoc.readthedocs.io/en/latest/format.html#parameters for more information.
-    return any(name.strip() == lookup_name for name in parameter_docstring_obj.arg_name.split(","))
+    return parameter_docstring_obj.name == parameter_name
 
 
 def _is_matching_attribute_numpydoc(parameter_docstring_obj: DocstringParam, parameter_name: str) -> bool:
