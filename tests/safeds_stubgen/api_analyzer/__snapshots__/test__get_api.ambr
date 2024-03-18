@@ -6573,7 +6573,7 @@
   list([
   ])
 # ---
-# name: test_modules[__init__0]
+# name: test_modules[__init__]
   dict({
     'classes': list([
     ]),
@@ -6630,122 +6630,6 @@
       dict({
         'module_name': '_reexport_module_3',
       }),
-    ]),
-  })
-# ---
-# name: test_modules[__init__1]
-  dict({
-    'classes': list([
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation',
-    'name': '__init__',
-    'qualified_imports': list([
-      dict({
-        'alias': None,
-        'qualified_name': '_module_2._private_reexported',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': '_module_3.Reexported',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': '_module_6.public_reexported',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.ReexportedInAnotherPackageClass2',
-      }),
-      dict({
-        'alias': None,
-        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.reexported_in_another_package_function2',
-      }),
-      dict({
-        'alias': 'reexported_from_another_package_3',
-        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_3',
-      }),
-    ]),
-    'wildcard_imports': list([
-      dict({
-        'module_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package',
-      }),
-    ]),
-  })
-# ---
-# name: test_modules[_module_2]
-  dict({
-    'classes': list([
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-      'tests/data/various_modules_package/file_creation/_module_2/_private_reexported',
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/_module_2',
-    'name': '_module_2',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[_module_3]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/file_creation/_module_3/Reexported',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/_module_3',
-    'name': '_module_3',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[_module_4]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/file_creation/_module_4/_Private',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/_module_4',
-    'name': '_module_4',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[_module_6]
-  dict({
-    'classes': list([
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-      'tests/data/various_modules_package/file_creation/_module_6/public_reexported',
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/_module_6',
-    'name': '_module_6',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
     ]),
   })
 # ---
@@ -6846,66 +6730,6 @@
     ]),
   })
 # ---
-# name: test_modules[_reexported_from_another_package]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package/ReexportedInAnotherPackageClass',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package/reexported_in_another_package_function',
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package/_still_internal_function',
-    ]),
-    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package',
-    'name': '_reexported_from_another_package',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[_reexported_from_another_package_2]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/ReexportedInAnotherPackageClass2',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/reexported_in_another_package_function2',
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/_still_internal_function2',
-    ]),
-    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_2',
-    'name': '_reexported_from_another_package_2',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[_reexported_from_another_package_3]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/ReexportedInAnotherPackageClass3',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/reexported_in_another_package_function3',
-      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/_still_internal_function3',
-    ]),
-    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_3',
-    'name': '_reexported_from_another_package_3',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
 # name: test_modules[abstract_module]
   dict({
     'classes': list([
@@ -6932,7 +6756,7 @@
     ]),
   })
 # ---
-# name: test_modules[aliasing_module_1]
+# name: test_modules[aliasing/aliasing_module_1]
   dict({
     'classes': list([
       'tests/data/various_modules_package/aliasing/aliasing_module_1/_AliasingModuleClassA',
@@ -6960,7 +6784,7 @@
     ]),
   })
 # ---
-# name: test_modules[aliasing_module_2]
+# name: test_modules[aliasing/aliasing_module_2]
   dict({
     'classes': list([
       'tests/data/various_modules_package/aliasing/aliasing_module_2/AliasingModule2ClassA',
@@ -6985,7 +6809,7 @@
     ]),
   })
 # ---
-# name: test_modules[aliasing_module_3]
+# name: test_modules[aliasing/aliasing_module_3]
   dict({
     'classes': list([
       'tests/data/various_modules_package/aliasing/aliasing_module_3/ImportMeAliasingModuleClass',
@@ -7007,7 +6831,67 @@
     ]),
   })
 # ---
-# name: test_modules[another_module]
+# name: test_modules[another_path/_reexported_from_another_package]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/ReexportedInAnotherPackageClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/reexported_in_another_package_function',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package/_still_internal_function',
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package',
+    'name': '_reexported_from_another_package',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[another_path/_reexported_from_another_package_2]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/ReexportedInAnotherPackageClass2',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/reexported_in_another_package_function2',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_2/_still_internal_function2',
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_2',
+    'name': '_reexported_from_another_package_2',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[another_path/_reexported_from_another_package_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/ReexportedInAnotherPackageClass3',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/reexported_in_another_package_function3',
+      'tests/data/various_modules_package/another_path/_reexported_from_another_package_3/_still_internal_function3',
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/_reexported_from_another_package_3',
+    'name': '_reexported_from_another_package_3',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[another_path/another_module]
   dict({
     'classes': list([
       'tests/data/various_modules_package/another_path/another_module/AnotherClass',
@@ -7152,6 +7036,158 @@
         'alias': '_AcImportAlias',
         'qualified_name': 'another_path.another_module.AnotherClass',
       }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation',
+    'name': '__init__',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': '_module_2._private_reexported',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': '_module_3.Reexported',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': '_module_6.public_reexported',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.ReexportedInAnotherPackageClass2',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_2.reexported_in_another_package_function2',
+      }),
+      dict({
+        'alias': 'reexported_from_another_package_3',
+        'qualified_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package_3',
+      }),
+    ]),
+    'wildcard_imports': list([
+      dict({
+        'module_name': 'tests.data.various_modules_package.another_path._reexported_from_another_package',
+      }),
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/_module_2]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/file_creation/_module_2/_private_reexported',
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_2',
+    'name': '_module_2',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/_module_3]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/_module_3/Reexported',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_3',
+    'name': '_module_3',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/_module_4]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/_module_4/_Private',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_4',
+    'name': '_module_4',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/_module_6]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+      'tests/data/various_modules_package/file_creation/_module_6/public_reexported',
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/_module_6',
+    'name': '_module_6',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/module_1]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/module_1/C',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/module_1',
+    'name': 'module_1',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/package_1/module_5]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/package_1/module_5/C',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/package_1/module_5',
+    'name': 'module_5',
+    'qualified_imports': list([
     ]),
     'wildcard_imports': list([
     ]),
@@ -7311,42 +7347,6 @@
     ]),
     'id': 'tests/data/various_modules_package/inheritance_module',
     'name': 'inheritance_module',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[module_1]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/file_creation/module_1/C',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/module_1',
-    'name': 'module_1',
-    'qualified_imports': list([
-    ]),
-    'wildcard_imports': list([
-    ]),
-  })
-# ---
-# name: test_modules[module_5]
-  dict({
-    'classes': list([
-      'tests/data/various_modules_package/file_creation/package_1/module_5/C',
-    ]),
-    'docstring': '',
-    'enums': list([
-    ]),
-    'functions': list([
-    ]),
-    'id': 'tests/data/various_modules_package/file_creation/package_1/module_5',
-    'name': 'module_5',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([
