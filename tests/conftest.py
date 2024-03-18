@@ -1,3 +1,4 @@
+import re
 from typing import Any
 
 import pytest
@@ -10,7 +11,8 @@ class SdsStubExtension(SingleFileSnapshotExtension):
     _file_extension = "sdsstub"
 
     def serialize(self, data: str, **_kwargs: Any) -> SerializedData:
-        return bytes(data, encoding="utf8")
+        normalized_data = re.sub(r"\r?\n", "\n", data)
+        return bytes(normalized_data, encoding="utf8")
 
 
 @pytest.fixture()
