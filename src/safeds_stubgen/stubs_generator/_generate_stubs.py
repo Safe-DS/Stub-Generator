@@ -517,7 +517,7 @@ class StubsStringGenerator:
         camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
         # Docstring
-        docstring = self._create_sds_docstring(function.docstring, indentations, function)
+        docstring = self._create_sds_docstring_description(function.docstring.description, indentations)
 
         # Create type information
         result_types = [result.type for result in function.results if result.type is not None]
