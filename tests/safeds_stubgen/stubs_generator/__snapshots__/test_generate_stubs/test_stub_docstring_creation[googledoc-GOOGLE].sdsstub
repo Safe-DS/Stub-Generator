@@ -32,9 +32,9 @@ fun functionWithoutDocumentation()
  * 
  * Dolor sit amet.
  *
- * @param no_type_no_default no type and no default.
- * @param type_no_default type but no default.
- * @param with_default foo. Defaults to 2.
+ * @param noTypeNoDefault no type and no default.
+ * @param typeNoDefault type but no default.
+ * @param withDefault foo. Defaults to 2.
  */
 @Pure
 @PythonName("function_with_parameters")
@@ -66,7 +66,7 @@ fun functionWithAttributesAndParameters(
  * 
  * Dolor sit amet.
  *
- * @result result_1 this will be the return value.
+ * @result result1 this will be the return value.
  */
 @Pure
 @PythonName("function_with_return_value_and_type")
@@ -137,7 +137,7 @@ class ClassWithMethod() {
 	 * 
 	 * Dolor sit amet.
 	 *
-	 * @result result_1 this will be the return value.
+	 * @result result1 this will be the return value.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
 
@@ -149,7 +149,7 @@ class ClassWithMethod() {
 	 *
 	 * @param a foo
 	 *
-	 * @result result_1 this will be the return value.
+	 * @result result1 this will be the return value.
 	 */
 	@Pure
 	@PythonName("method_with_docstring")

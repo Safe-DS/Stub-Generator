@@ -32,16 +32,16 @@ fun functionWithoutDocumentation()
  * 
  * Dolor sit amet.
  *
- * @param no_type_no_default foo: no_type_no_default. Code::
+ * @param noTypeNoDefault foo: no_type_no_default. Code::
  * 
  *     pass
- * @param type_no_default foo: type_no_default
- * @param optional_unknown_default foo: optional_unknown_default
- * @param with_default_syntax_1 foo: with_default_syntax_1
- * @param with_default_syntax_2 foo: with_default_syntax_2
- * @param with_default_syntax_3 foo: with_default_syntax_3
- * @param grouped_parameter_1 foo: grouped_parameter_1 and grouped_parameter_2
- * @param grouped_parameter_2 foo: grouped_parameter_1 and grouped_parameter_2
+ * @param typeNoDefault foo: type_no_default
+ * @param optionalUnknownDefault foo: optional_unknown_default
+ * @param withDefaultSyntax1 foo: with_default_syntax_1
+ * @param withDefaultSyntax2 foo: with_default_syntax_2
+ * @param withDefaultSyntax3 foo: with_default_syntax_3
+ * @param groupedParameter1 foo: grouped_parameter_1 and grouped_parameter_2
+ * @param groupedParameter2 foo: grouped_parameter_1 and grouped_parameter_2
  * @param args foo: *args
  * @param kwargs foo: **kwargs
  */
@@ -65,7 +65,7 @@ fun functionWithParameters(
  * 
  * Dolor sit amet.
  *
- * @result result_1 this will be the return value
+ * @result result1 this will be the return value
  */
 @Pure
 @PythonName("function_with_result_value_and_type")
@@ -76,7 +76,7 @@ fun functionWithResultValueAndType() -> result1: Boolean
  * 
  * Dolor sit amet.
  *
- * @result result_1 this will be the return value
+ * @result result1 this will be the return value
  */
 @Pure
 @PythonName("function_with_named_result")
@@ -204,7 +204,7 @@ class ClassWithMethod() {
 	 * 
 	 * Dolor sit amet.
 	 *
-	 * @result result_1 this will be the return value
+	 * @result result1 this will be the return value
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
 
@@ -214,7 +214,7 @@ class ClassWithMethod() {
 	 * 
 	 * Dolor sit amet.
 	 *
-	 * @result result_1 this will be the return value
+	 * @result result1 this will be the return value
 	 */
 	@Pure
 	@PythonName("method_with_docstring")

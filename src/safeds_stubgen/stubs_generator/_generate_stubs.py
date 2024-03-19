@@ -954,8 +954,8 @@ class StubsStringGenerator:
         description = description.replace("\n", f"\n{indentations} * ")
         return f"{indentations}/**\n{indentations} * {description}\n{indentations} */\n"
 
-    @staticmethod
     def _create_sds_docstring(
+        self,
         docstring: ClassDocstring | FunctionDocstring | AttributeDocstring,
         indentations: str,
         node: Class | Function | None = None,
@@ -988,7 +988,8 @@ class StubsStringGenerator:
 
                     param_desc = f"\n{indentations} * ".join(param_desc.split("\n"))
 
-                    parameter_docstrings.append(f"{indentations} * @param {parameter.name} {param_desc}\n")
+                    parameter_name = _convert_name_to_convention(parameter.name, self.naming_convention)
+                    parameter_docstrings.append(f"{indentations} * @param {parameter_name} {param_desc}\n")
 
                 full_parameter_docstring = "".join(parameter_docstrings)
 
@@ -1007,7 +1008,8 @@ class StubsStringGenerator:
 
                 result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
 
-                result_docstrings.append(f"{indentations} * @result {result.name} {result_desc}\n")
+                result_name = _convert_name_to_convention(result.name, self.naming_convention)
+                result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
 
             full_result_docstring = "".join(result_docstrings)
 
