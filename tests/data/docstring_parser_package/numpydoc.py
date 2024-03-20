@@ -89,9 +89,9 @@ class ClassAndConstructorWithParameters:
     """
     Parameters
     ----------
-    x: str
+    x : str
         Lorem ipsum 1.
-    z: int, default=5
+    z : int, default=5
         Lorem ipsum 3.
     """
 
@@ -99,9 +99,9 @@ class ClassAndConstructorWithParameters:
         """
         Parameters
         ----------
-        y: str
+        y : str
             Lorem ipsum 2.
-        z: str
+        z : str
             Lorem ipsum 4.
         """
 

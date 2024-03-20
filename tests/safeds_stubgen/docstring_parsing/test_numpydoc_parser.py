@@ -45,7 +45,7 @@ def numpydoc_parser() -> NumpyDocParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
+                description="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -80,7 +80,7 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
+                description="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -217,7 +217,7 @@ def test_get_function_documentation(
         (
             "function_with_parameters",
             False,
-            "args",
+            "*args",
             ParameterAssignment.POSITIONAL_VARARG,
             ParameterDocstring(
                 type="int",
@@ -228,7 +228,7 @@ def test_get_function_documentation(
         (
             "function_with_parameters",
             False,
-            "kwargs",
+            "**kwargs",
             ParameterAssignment.NAMED_VARARG,
             ParameterDocstring(
                 type="int",

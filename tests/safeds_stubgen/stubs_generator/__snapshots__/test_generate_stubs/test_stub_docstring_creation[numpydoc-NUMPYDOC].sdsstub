@@ -1,6 +1,6 @@
 /**
  * Test module for docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -10,9 +10,9 @@ package tests.data.docstringParserPackage.numpydoc
 // TODO Result type information missing.
 /**
  * Lorem ipsum. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -29,11 +29,11 @@ fun functionWithoutDocumentation()
 // TODO Some parameter have no type information.
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @param noTypeNoDefault foo: no_type_no_default. Code::
- * 
+ *
  *     pass
  * @param typeNoDefault foo: type_no_default
  * @param optionalUnknownDefault foo: optional_unknown_default
@@ -62,7 +62,7 @@ fun functionWithParameters(
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -73,7 +73,7 @@ fun functionWithResultValueAndType() -> result1: Boolean
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -85,7 +85,7 @@ fun functionWithNamedResult() -> result1: Boolean
 // TODO Result type information missing.
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -94,9 +94,9 @@ fun functionWithoutResultValue()
 
 /**
  * Lorem ipsum. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation()
@@ -105,7 +105,7 @@ class ClassWithoutDocumentation()
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @param p foo
@@ -129,7 +129,7 @@ class ClassAndConstructorWithParameters(
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @param x foo
@@ -150,13 +150,13 @@ class ClassWithParametersAndAttributes(
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithAttributes() {
 	/**
 	 * foo: no_type_no_default. Code::
-	 * 
+	 *
 	 *     pass
 	 */
 	@PythonName("no_type_no_default")
@@ -201,7 +201,7 @@ class ClassWithAttributes() {
 class ClassWithMethod() {
 	/**
 	 * Lorem ipsum.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
@@ -209,7 +209,7 @@ class ClassWithMethod() {
 	// TODO Some parameter have no type information.
 	/**
 	 * Lorem ipsum.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 *
 	 * @result result1 this will be the return value
@@ -223,7 +223,7 @@ class ClassWithMethod() {
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 enum EnumDocstring
