@@ -121,7 +121,7 @@ def _python_files() -> Generator:
 def _python_file_ids() -> Generator:
     files = package_root.rglob(pattern="*.py")
     for file in files:
-        yield file.parts[-1].split(".py")[0]
+        yield str(file.relative_to(package_root).as_posix()).removesuffix(".py")
 
 
 @pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
