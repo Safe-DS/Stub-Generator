@@ -1,5 +1,5 @@
 """
-Test module for docstring tests.
+Test module for ReST docstring tests.
 
 A module for testing the various docstring types.
 """
@@ -8,7 +8,7 @@ from enum import Enum
 
 class ClassWithDocumentation:
     """
-    Lorem ipsum. Code::
+    ClassWithDocumentation. Code::
 
         pass
 
@@ -22,7 +22,7 @@ class ClassWithoutDocumentation:
 
 def function_with_documentation() -> None:
     """
-    Lorem ipsum. Code::
+    function_with_documentation. Code::
 
         pass
 
@@ -36,7 +36,7 @@ def function_without_documentation() -> None:
 
 class ClassWithParameters:
     """
-    Lorem ipsum.
+    ClassWithParameters.
 
     Dolor sit amet.
 
@@ -50,7 +50,7 @@ class ClassWithParameters:
 
 def function_with_parameters(no_type_no_default, type_no_default, with_default, *args, **kwargs) -> None:
     """
-    Lorem ipsum.
+    function_with_parameters.
 
     Dolor sit amet.
 
@@ -68,7 +68,7 @@ def function_with_parameters(no_type_no_default, type_no_default, with_default, 
 
 def function_with_return_value_and_type() -> bool:
     """
-    Lorem ipsum.
+    function_with_return_value_and_type.
 
     Dolor sit amet.
 
@@ -79,7 +79,7 @@ def function_with_return_value_and_type() -> bool:
 
 def function_with_return_value_no_type() -> None:
     """
-    Lorem ipsum.
+    function_with_return_value_no_type.
 
     Dolor sit amet.
 
@@ -89,7 +89,7 @@ def function_with_return_value_no_type() -> None:
 
 def function_without_return_value():
     """
-    Lorem ipsum.
+    function_without_return_value.
 
     Dolor sit amet.
     """
@@ -98,7 +98,7 @@ def function_without_return_value():
 class ClassWithMethod:
     def method_with_docstring(self, a) -> bool:
         """
-        Lorem ipsum.
+        method_with_docstring.
 
         Dolor sit amet.
 
@@ -112,7 +112,7 @@ class ClassWithMethod:
     @property
     def property_method_with_docstring(self) -> bool:
         """
-        Lorem ipsum.
+        property_method_with_docstring.
 
         Dolor sit amet.
 
@@ -123,7 +123,7 @@ class ClassWithMethod:
 
 class EnumDocstring(Enum):
     """
-    Lorem ipsum.
+    EnumDocstring.
 
     Dolor sit amet.
     """

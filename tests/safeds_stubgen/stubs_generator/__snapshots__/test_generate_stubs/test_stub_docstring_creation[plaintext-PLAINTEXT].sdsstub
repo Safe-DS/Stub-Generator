@@ -1,5 +1,5 @@
 /**
- * Test module for docstring tests.
+ * Test module for plaintext docstring tests.
  * 
  * A module for testing the various docstring types.
  */
@@ -9,7 +9,7 @@ package tests.data.docstringParserPackage.plaintext
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_with_documentation.
  * 
  * Dolor sit amet.
  */
@@ -27,7 +27,7 @@ fun functionWithoutDocumentation(
 )
 
 /**
- * Lorem ipsum.
+ * ClassWithDocumentation.
  * 
  * Dolor sit amet.
  */

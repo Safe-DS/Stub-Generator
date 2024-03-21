@@ -1,5 +1,5 @@
 """
-Test module for docstring tests.
+Test module for Numpy docstring tests.
 
 A module for testing the various docstring types.
 """
@@ -9,7 +9,7 @@ from enum import Enum
 
 class ClassWithDocumentation:
     """
-    Lorem ipsum. Code::
+    ClassWithDocumentation. Code::
 
         pass
 
@@ -23,7 +23,7 @@ class ClassWithoutDocumentation:
 
 def function_with_documentation() -> None:
     """
-    Lorem ipsum. Code::
+    function_with_documentation. Code::
 
         pass
 
@@ -37,7 +37,7 @@ def function_without_documentation() -> None:
 
 class ClassWithParameters:
     """
-    Lorem ipsum.
+    ClassWithParameters.
 
     Dolor sit amet.
 
@@ -56,7 +56,7 @@ def function_with_parameters(
     with_default_syntax_3, grouped_parameter_1, grouped_parameter_2, *args, **kwargs
 ) -> None:
     """
-    Lorem ipsum.
+    function_with_parameters.
 
     Dolor sit amet.
 
@@ -87,6 +87,10 @@ def function_with_parameters(
 
 class ClassAndConstructorWithParameters:
     """
+    ClassAndConstructorWithParameters
+
+    Dolor sit amet.
+
     Parameters
     ----------
     x : str
@@ -108,7 +112,7 @@ class ClassAndConstructorWithParameters:
 
 class ClassWithParametersAndAttributes:
     """
-    Lorem ipsum.
+    ClassWithParametersAndAttributes.
 
     Dolor sit amet.
 
@@ -133,7 +137,7 @@ class ClassWithParametersAndAttributes:
 
 class ClassWithAttributes:
     """
-    Lorem ipsum.
+    ClassWithAttributes.
 
     Dolor sit amet.
 
@@ -170,7 +174,7 @@ class ClassWithAttributes:
 
 def function_with_result_value_and_type() -> bool:
     """
-    Lorem ipsum.
+    function_with_result_value_and_type.
 
     Dolor sit amet.
 
@@ -183,7 +187,7 @@ def function_with_result_value_and_type() -> bool:
 
 def function_with_named_result() -> bool:
     """
-    Lorem ipsum.
+    function_with_named_result.
 
     Dolor sit amet.
 
@@ -196,7 +200,7 @@ def function_with_named_result() -> bool:
 
 def function_without_result_value():
     """
-    Lorem ipsum.
+    function_without_result_value.
 
     Dolor sit amet.
     """
@@ -205,7 +209,7 @@ def function_without_result_value():
 class ClassWithMethod:
     def method_with_docstring(self, a) -> bool:
         """
-        Lorem ipsum.
+        method_with_docstring.
 
         Dolor sit amet.
 
@@ -222,7 +226,7 @@ class ClassWithMethod:
     @property
     def property_method_with_docstring(self) -> bool:
         """
-        Lorem ipsum.
+        property_method_with_docstring.
 
         Dolor sit amet.
 
@@ -235,7 +239,7 @@ class ClassWithMethod:
 
 class EnumDocstring(Enum):
     """
-    Lorem ipsum.
+    EnumDocstring.
 
     Dolor sit amet.
     """

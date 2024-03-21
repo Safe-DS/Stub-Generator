@@ -59,7 +59,7 @@ def _get_specific_module_data(module_name: str, docstring_style: str = "plaintex
     for module in api_data["modules"]:
         if module["name"] == module_name:
             return module
-    raise AssertionError
+    raise pytest.fail(f"Could not find module data for '{module_name}'.")
 
 
 def _get_specific_class_data(
@@ -73,7 +73,7 @@ def _get_specific_class_data(
     for class_ in api_data[data_type]:
         if module_name in class_["id"] and class_["id"].endswith(f"/{class_name}"):
             return class_
-    raise AssertionError
+    raise pytest.fail(f"Could not find class data for '{class_name}' in module '{module_name}'.")
 
 
 def get_api_data(docstring_style: str) -> dict:
@@ -100,7 +100,7 @@ def _get_specific_function_data(
     for function in api_data["functions"]:
         if function["id"].endswith(f"{parent_class_name}/{function_name}"):
             return function
-    raise AssertionError
+    raise pytest.fail(f"Could not find function data for '{function_name}' in module '{module_name}'.")
 
 
 _function_module_name = "function_module"
@@ -144,7 +144,7 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
         if is_init_file or is_module_file:
             assert module == snapshot
             return
-    raise AssertionError
+    raise pytest.fail(f"Could not find module data for '{file_name}'.")
 
 
 # Todo new tests after issue #38

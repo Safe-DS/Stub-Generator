@@ -29,11 +29,11 @@ mypy_file = _get_mypy_asts(
     [
         (
             "ClassWithMultiLineDocumentation",
-            "Lorem ipsum.\n\nDolor sit amet.",
+            "ClassWithMultiLineDocumentation.\n\nDolor sit amet.",
         ),
         (
             "ClassWithSingleLineDocumentation",
-            "Lorem ipsum.",
+            "ClassWithSingleLineDocumentation.",
         ),
         (
             "ClassWithoutDocumentation",
@@ -41,11 +41,11 @@ mypy_file = _get_mypy_asts(
         ),
         (
             "function_with_multi_line_documentation",
-            "Lorem ipsum.\n\nDolor sit amet.",
+            "function_with_multi_line_documentation.\n\nDolor sit amet.",
         ),
         (
             "function_with_single_line_documentation",
-            "Lorem ipsum.",
+            "function_with_single_line_documentation.",
         ),
         (
             "function_without_documentation",

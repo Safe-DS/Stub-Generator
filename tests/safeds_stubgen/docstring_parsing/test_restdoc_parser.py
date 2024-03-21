@@ -41,8 +41,8 @@ def restdoc_parser() -> RestDocParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
+                description="ClassWithDocumentation. Code::\n\npass\n\nDolor sit amet.",
+                full_docstring="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
@@ -76,8 +76,8 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
+                description="function_with_documentation. Code::\n\npass\n\nDolor sit amet.",
+                full_docstring="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (

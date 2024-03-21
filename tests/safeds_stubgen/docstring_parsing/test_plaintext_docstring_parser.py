@@ -43,8 +43,8 @@ def plaintext_docstring_parser() -> PlaintextDocstringParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="Lorem ipsum.\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum.\n\nDolor sit amet.",
+                description="ClassWithDocumentation.\n\nDolor sit amet.",
+                full_docstring="ClassWithDocumentation.\n\nDolor sit amet.",
             ),
         ),
         (
@@ -78,8 +78,8 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="Lorem ipsum.\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum.\n\nDolor sit amet.",
+                description="function_with_documentation.\n\nDolor sit amet.",
+                full_docstring="function_with_documentation.\n\nDolor sit amet.",
             ),
         ),
         (

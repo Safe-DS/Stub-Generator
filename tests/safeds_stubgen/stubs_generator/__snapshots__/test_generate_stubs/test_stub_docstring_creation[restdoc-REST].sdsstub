@@ -1,5 +1,5 @@
 /**
- * Test module for docstring tests.
+ * Test module for ReST docstring tests.
  * 
  * A module for testing the various docstring types.
  */
@@ -9,7 +9,7 @@ package tests.data.docstringParserPackage.restdoc
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum. Code::
+ * function_with_documentation. Code::
  * 
  * pass
  * 
@@ -28,7 +28,7 @@ fun functionWithoutDocumentation()
 // TODO Safe-DS does not support variadic parameters.
 // TODO Some parameter have no type information.
 /**
- * Lorem ipsum.
+ * function_with_parameters.
  * 
  * Dolor sit amet.
  *
@@ -47,7 +47,7 @@ fun functionWithParameters(
 )
 
 /**
- * Lorem ipsum.
+ * function_with_return_value_and_type.
  * 
  * Dolor sit amet.
  *
@@ -59,7 +59,7 @@ fun functionWithReturnValueAndType() -> result1: Boolean
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_with_return_value_no_type.
  * 
  * Dolor sit amet.
  */
@@ -69,7 +69,7 @@ fun functionWithReturnValueNoType()
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_without_return_value.
  * 
  * Dolor sit amet.
  */
@@ -78,7 +78,7 @@ fun functionWithReturnValueNoType()
 fun functionWithoutReturnValue()
 
 /**
- * Lorem ipsum. Code::
+ * ClassWithDocumentation. Code::
  * 
  * pass
  * 
@@ -89,7 +89,7 @@ class ClassWithDocumentation()
 class ClassWithoutDocumentation()
 
 /**
- * Lorem ipsum.
+ * ClassWithParameters.
  * 
  * Dolor sit amet.
  *
@@ -102,7 +102,7 @@ class ClassWithParameters(
 
 class ClassWithMethod() {
 	/**
-	 * Lorem ipsum.
+	 * property_method_with_docstring.
 	 * 
 	 * Dolor sit amet.
 	 */
@@ -110,7 +110,7 @@ class ClassWithMethod() {
 
 	// TODO Some parameter have no type information.
 	/**
-	 * Lorem ipsum.
+	 * method_with_docstring.
 	 * 
 	 * Dolor sit amet.
 	 *
@@ -126,7 +126,7 @@ class ClassWithMethod() {
 }
 
 /**
- * Lorem ipsum.
+ * EnumDocstring.
  * 
  * Dolor sit amet.
  */

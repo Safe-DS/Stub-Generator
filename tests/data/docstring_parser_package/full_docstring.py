@@ -1,5 +1,5 @@
 """
-Test module for docstring tests.
+Test module for full docstring tests.
 
 A module for testing the various docstring types.
 """
@@ -7,14 +7,14 @@ A module for testing the various docstring types.
 
 class ClassWithMultiLineDocumentation:
     """
-    Lorem ipsum.
+    ClassWithMultiLineDocumentation.
 
     Dolor sit amet.
     """
 
 
 class ClassWithSingleLineDocumentation:
-    """Lorem ipsum."""
+    """ClassWithSingleLineDocumentation."""
 
 
 class ClassWithoutDocumentation:
@@ -23,14 +23,14 @@ class ClassWithoutDocumentation:
 
 def function_with_multi_line_documentation() -> None:
     """
-    Lorem ipsum.
+    function_with_multi_line_documentation.
 
     Dolor sit amet.
     """
 
 
 def function_with_single_line_documentation() -> None:
-    """Lorem ipsum."""
+    """function_with_single_line_documentation."""
 
 
 def function_without_documentation() -> None:
