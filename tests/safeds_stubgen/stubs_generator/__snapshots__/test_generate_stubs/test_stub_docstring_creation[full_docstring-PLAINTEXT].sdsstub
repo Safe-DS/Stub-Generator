@@ -1,5 +1,5 @@
 /**
- * Test module for docstring tests.
+ * Test module for full docstring tests.
  * 
  * A module for testing the various docstring types.
  */
@@ -9,7 +9,7 @@ package tests.data.docstringParserPackage.fullDocstring
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_with_multi_line_documentation.
  * 
  * Dolor sit amet.
  */
@@ -19,7 +19,7 @@ fun functionWithMultiLineDocumentation()
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_with_single_line_documentation.
  */
 @Pure
 @PythonName("function_with_single_line_documentation")
@@ -31,14 +31,14 @@ fun functionWithSingleLineDocumentation()
 fun functionWithoutDocumentation()
 
 /**
- * Lorem ipsum.
+ * ClassWithMultiLineDocumentation.
  * 
  * Dolor sit amet.
  */
 class ClassWithMultiLineDocumentation()
 
 /**
- * Lorem ipsum.
+ * ClassWithSingleLineDocumentation.
  */
 class ClassWithSingleLineDocumentation()
 
