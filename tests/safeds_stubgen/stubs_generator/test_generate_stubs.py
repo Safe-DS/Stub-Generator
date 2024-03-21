@@ -108,7 +108,7 @@ class TestStubFileGeneration:
         if file_name in {"__init__", "_module_2", "_module_4", "_reexport_module_5"}:
             return
 
-        raise AssertionError(f"Stub file not found for '{file_name}'.")
+        raise pytest.fail(f"Stub file not found for '{file_name}'.")
 
 
 @pytest.mark.parametrize(
@@ -171,4 +171,4 @@ def test_stub_docstring_creation(
             assert stub_text[2] == snapshot_sds_stub
             return
 
-    raise AssertionError
+    raise pytest.fail(f"Could not find data for '{filename}'.")
