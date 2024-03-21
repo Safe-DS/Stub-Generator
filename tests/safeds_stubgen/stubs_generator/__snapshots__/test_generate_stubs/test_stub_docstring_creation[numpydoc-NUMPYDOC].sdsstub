@@ -1,5 +1,5 @@
 /**
- * Test module for docstring tests.
+ * Test module for Numpy docstring tests.
  *
  * A module for testing the various docstring types.
  */
@@ -9,7 +9,7 @@ package tests.data.docstringParserPackage.numpydoc
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum. Code::
+ * function_with_documentation. Code::
  *
  *     pass
  *
@@ -28,7 +28,7 @@ fun functionWithoutDocumentation()
 // TODO Safe-DS does not support variadic parameters.
 // TODO Some parameter have no type information.
 /**
- * Lorem ipsum.
+ * function_with_parameters.
  *
  * Dolor sit amet.
  *
@@ -61,7 +61,7 @@ fun functionWithParameters(
 )
 
 /**
- * Lorem ipsum.
+ * function_with_result_value_and_type.
  *
  * Dolor sit amet.
  *
@@ -72,7 +72,7 @@ fun functionWithParameters(
 fun functionWithResultValueAndType() -> result1: Boolean
 
 /**
- * Lorem ipsum.
+ * function_with_named_result.
  *
  * Dolor sit amet.
  *
@@ -84,7 +84,7 @@ fun functionWithNamedResult() -> result1: Boolean
 
 // TODO Result type information missing.
 /**
- * Lorem ipsum.
+ * function_without_result_value.
  *
  * Dolor sit amet.
  */
@@ -93,7 +93,7 @@ fun functionWithNamedResult() -> result1: Boolean
 fun functionWithoutResultValue()
 
 /**
- * Lorem ipsum. Code::
+ * ClassWithDocumentation. Code::
  *
  *     pass
  *
@@ -104,7 +104,7 @@ class ClassWithDocumentation()
 class ClassWithoutDocumentation()
 
 /**
- * Lorem ipsum.
+ * ClassWithParameters.
  *
  * Dolor sit amet.
  *
@@ -116,6 +116,10 @@ class ClassWithParameters(
 )
 
 /**
+ * ClassAndConstructorWithParameters
+ *
+ * Dolor sit amet.
+ *
  * @param x Lorem ipsum 1.
  * @param y Lorem ipsum 2.
  * @param z Lorem ipsum 3.
@@ -128,7 +132,7 @@ class ClassAndConstructorWithParameters(
 )
 
 /**
- * Lorem ipsum.
+ * ClassWithParametersAndAttributes.
  *
  * Dolor sit amet.
  *
@@ -149,7 +153,7 @@ class ClassWithParametersAndAttributes(
 }
 
 /**
- * Lorem ipsum.
+ * ClassWithAttributes.
  *
  * Dolor sit amet.
  */
@@ -200,7 +204,7 @@ class ClassWithAttributes() {
 
 class ClassWithMethod() {
 	/**
-	 * Lorem ipsum.
+	 * property_method_with_docstring.
 	 *
 	 * Dolor sit amet.
 	 */
@@ -208,7 +212,7 @@ class ClassWithMethod() {
 
 	// TODO Some parameter have no type information.
 	/**
-	 * Lorem ipsum.
+	 * method_with_docstring.
 	 *
 	 * Dolor sit amet.
 	 *
@@ -222,7 +226,7 @@ class ClassWithMethod() {
 }
 
 /**
- * Lorem ipsum.
+ * EnumDocstring.
  *
  * Dolor sit amet.
  */
