@@ -1,6 +1,13 @@
+"""Test module for Google docstring tests.
+
+A module for testing the various docstring types.
+"""
+from enum import Enum
+
+
 class ClassWithDocumentation:
     """
-    Lorem ipsum. Code::
+    ClassWithDocumentation. Code::
 
         pass
 
@@ -14,7 +21,7 @@ class ClassWithoutDocumentation:
 
 def function_with_documentation() -> None:
     """
-    Lorem ipsum. Code::
+    function_with_documentation. Code::
 
         pass
 
@@ -27,7 +34,7 @@ def function_without_documentation() -> None:
 
 
 class ClassWithParameters:
-    """Lorem ipsum.
+    """ClassWithParameters.
 
     Dolor sit amet.
 
@@ -35,12 +42,12 @@ class ClassWithParameters:
         p (int): foo. Defaults to 1.
     """
 
-    def __init__(self) -> None:
+    def __init__(self, p) -> None:
         pass
 
 
-def function_with_parameters() -> None:
-    """Lorem ipsum.
+def function_with_parameters(no_type_no_default, type_no_default, with_default, *args, **kwargs) -> None:
+    """function_with_parameters.
 
     Dolor sit amet.
 
@@ -53,8 +60,8 @@ def function_with_parameters() -> None:
     """
 
 
-def function_with_attributes_and_parameters() -> None:
-    """Lorem ipsum.
+def function_with_attributes_and_parameters(q) -> None:
+    """function_with_attributes_and_parameters.
 
     Dolor sit amet.
 
@@ -63,42 +70,78 @@ def function_with_attributes_and_parameters() -> None:
 
     Args:
         q (int): foo. Defaults to 2.
-
     """
 
 
 class ClassWithAttributes:
-    """Lorem ipsum.
+    """ClassWithAttributes.
 
     Dolor sit amet.
 
     Attributes:
         p (int): foo. Defaults to 1.
+        q (int): foo. Defaults to 1.
     """
+    p: int
+    q = 1
 
 
-def function_with_return_value_and_type() -> None:
-    """Lorem ipsum.
+def function_with_return_value_and_type() -> bool:
+    """function_with_return_value_and_type.
 
     Dolor sit amet.
 
     Returns:
-        int: this will be the return value.
+        bool: this will be the return value.
     """
 
 
 def function_with_return_value_no_type() -> None:
-    """Lorem ipsum.
+    """function_with_return_value_no_type.
 
     Dolor sit amet.
 
     Returns:
-        int
+        None
     """
 
 
-def function_without_return_value() -> None:
-    """Lorem ipsum.
+def function_without_return_value():
+    """function_without_return_value.
+
+    Dolor sit amet.
+    """
+
+
+class ClassWithMethod:
+    def method_with_docstring(self, a) -> bool:
+        """
+        method_with_docstring.
+
+        Dolor sit amet.
+
+        Args:
+            a (int): foo
+
+        Returns:
+            bool: this will be the return value.
+        """
+
+    @property
+    def property_method_with_docstring(self) -> bool:
+        """
+        property_method_with_docstring.
+
+        Dolor sit amet.
+
+        Returns:
+            bool: this will be the return value.
+        """
+
+
+class EnumDocstring(Enum):
+    """
+    EnumDocstring.
 
     Dolor sit amet.
     """

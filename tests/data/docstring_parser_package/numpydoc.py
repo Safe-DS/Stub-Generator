@@ -1,6 +1,15 @@
+"""
+Test module for Numpy docstring tests.
+
+A module for testing the various docstring types.
+"""
+from typing import Any, Optional
+from enum import Enum
+
+
 class ClassWithDocumentation:
     """
-    Lorem ipsum. Code::
+    ClassWithDocumentation. Code::
 
         pass
 
@@ -14,7 +23,7 @@ class ClassWithoutDocumentation:
 
 def function_with_documentation() -> None:
     """
-    Lorem ipsum. Code::
+    function_with_documentation. Code::
 
         pass
 
@@ -28,7 +37,7 @@ def function_without_documentation() -> None:
 
 class ClassWithParameters:
     """
-    Lorem ipsum.
+    ClassWithParameters.
 
     Dolor sit amet.
 
@@ -38,13 +47,16 @@ class ClassWithParameters:
         foo
     """
 
-    def __init__(self) -> None:
+    def __init__(self, p) -> None:
         pass
 
 
-def function_with_parameters() -> None:
+def function_with_parameters(
+    no_type_no_default, type_no_default, optional_unknown_default, with_default_syntax_1, with_default_syntax_2,
+    with_default_syntax_3, grouped_parameter_1, grouped_parameter_2, *args, **kwargs
+) -> None:
     """
-    Lorem ipsum.
+    function_with_parameters.
 
     Dolor sit amet.
 
@@ -73,8 +85,12 @@ def function_with_parameters() -> None:
     """
 
 
-class ClassAndFunctionWithParameters:
+class ClassAndConstructorWithParameters:
     """
+    ClassAndConstructorWithParameters
+
+    Dolor sit amet.
+
     Parameters
     ----------
     x: str
@@ -96,28 +112,32 @@ class ClassAndFunctionWithParameters:
 
 class ClassWithParametersAndAttributes:
     """
-    Lorem ipsum.
+    ClassWithParametersAndAttributes.
 
     Dolor sit amet.
 
     Parameters
     ----------
-    p : int, default=1
+    x : int, default=1
         foo
 
     Attributes
     ----------
+    p : int, default=1
+        foo
     q : int, default=1
         foo
     """
+    p: int
+    q = 1
 
-    def __init__(self) -> None:
+    def __init__(self, x) -> None:
         pass
 
 
 class ClassWithAttributes:
     """
-    Lorem ipsum.
+    ClassWithAttributes.
 
     Dolor sit amet.
 
@@ -140,27 +160,86 @@ class ClassWithAttributes:
     grouped_attribute_1, grouped_attribute_2 : int, default=4
         foo: grouped_attribute_1 and grouped_attribute_2
     """
+    no_type_no_default: Any
+    type_no_default: int
+    optional_unknown_default: Optional[int]
+    with_default_syntax_1 = 1
+    with_default_syntax_2: int
+    with_default_syntax_3: int = 3
+    grouped_attribute_1, grouped_attribute_2 = 4, 4
 
     def __init__(self) -> None:
         pass
 
 
-def function_with_result_value_and_type() -> None:
+def function_with_result_value_and_type() -> bool:
     """
-    Lorem ipsum.
+    function_with_result_value_and_type.
 
     Dolor sit amet.
 
     Returns
     -------
-    int
+    bool
         this will be the return value
     """
 
 
-def function_without_result_value() -> None:
+def function_with_named_result() -> bool:
     """
-    Lorem ipsum.
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    Returns
+    -------
+    named_result : bool
+        this will be the return value
+    """
+
+
+def function_without_result_value():
+    """
+    function_without_result_value.
+
+    Dolor sit amet.
+    """
+
+
+class ClassWithMethod:
+    def method_with_docstring(self, a) -> bool:
+        """
+        method_with_docstring.
+
+        Dolor sit amet.
+
+        Parameters
+        ----------
+        a: str
+
+        Returns
+        -------
+        named_result : bool
+            this will be the return value
+        """
+
+    @property
+    def property_method_with_docstring(self) -> bool:
+        """
+        property_method_with_docstring.
+
+        Dolor sit amet.
+
+        Returns
+        -------
+        named_result : bool
+            this will be the return value
+        """
+
+
+class EnumDocstring(Enum):
+    """
+    EnumDocstring.
 
     Dolor sit amet.
     """

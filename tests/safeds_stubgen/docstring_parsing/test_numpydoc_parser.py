@@ -45,8 +45,8 @@ def numpydoc_parser() -> NumpyDocParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
+                description="ClassWithDocumentation. Code::\n\npass\n\nDolor sit amet.",
+                full_docstring="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
@@ -80,8 +80,8 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="Lorem ipsum. Code::\n\npass\n\nDolor sit amet.",
-                full_docstring="Lorem ipsum. Code::\n\n    pass\n\nDolor sit amet.",
+                description="function_with_documentation. Code::\n\npass\n\nDolor sit amet.",
+                full_docstring="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
         (
@@ -244,7 +244,7 @@ def test_get_function_documentation(
             ParameterDocstring(type="", default_value="", description=""),
         ),
         (
-            "ClassAndFunctionWithParameters",
+            "ClassAndConstructorWithParameters",
             True,
             "x",
             ParameterAssignment.POSITION_OR_NAME,
@@ -255,7 +255,7 @@ def test_get_function_documentation(
             ),
         ),
         (
-            "ClassAndFunctionWithParameters",
+            "ClassAndConstructorWithParameters",
             True,
             "y",
             ParameterAssignment.POSITION_OR_NAME,
@@ -266,7 +266,7 @@ def test_get_function_documentation(
             ),
         ),
         (
-            "ClassAndFunctionWithParameters",
+            "ClassAndConstructorWithParameters",
             True,
             "z",
             ParameterAssignment.POSITION_OR_NAME,
@@ -279,7 +279,7 @@ def test_get_function_documentation(
         (
             "ClassWithParametersAndAttributes",
             True,
-            "p",
+            "x",
             ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
@@ -430,7 +430,7 @@ def test_get_parameter_documentation(
         ),
         (
             "ClassWithParametersAndAttributes",
-            "p",
+            "r",
             AttributeDocstring(
                 type="",
                 default_value="",
@@ -486,7 +486,7 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstring(type="int", description="this will be the return value"),
+            ResultDocstring(type="bool", description="this will be the return value"),
         ),
         ("function_without_result_value", ResultDocstring(type="", description="")),
     ],

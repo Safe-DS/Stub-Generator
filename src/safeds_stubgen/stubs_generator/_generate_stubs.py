@@ -21,6 +21,8 @@ from safeds_stubgen.api_analyzer import (
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
+
 
 class NamingConvention(IntEnum):
     PYTHON = 1
@@ -65,7 +67,11 @@ def _generate_stubs_data(
         # the file would look like this: "package path.to.myPackage\n" or this:
         # '@PythonModule("path.to.my_package")\npackage path.to.myPackage\n'. With the split we check if the module
         # has enough information, if not, we won't create it.
-        splitted_text = module_text.split("\n")
+        _module_text = module_text
+        if _module_text.startswith("/**"):
+            # Remove docstring
+            _module_text = "*/\n".join(_module_text.split("*/\n\n")[1:])
+        splitted_text = _module_text.split("\n")
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
@@ -172,9 +178,9 @@ class StubsStringGenerator:
         self._current_todo_msgs: set[str] = set()
         self.module = module
         self.class_generics: list = []
-        return self._create_module_string(module)
+        return self._create_module_string()
 
-    def _create_module_string(self, module: Module) -> str:
+    def _create_module_string(self) -> str:
         # Create package info
         package_info = self._get_shortest_public_reexport()
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
@@ -184,24 +190,29 @@ class StubsStringGenerator:
             module_name_info = f'@PythonModule("{package_info}")\n'
         module_header = f"{module_name_info}package {package_info_camel_case}\n"
 
+        # Create docstring
+        docstring = self._create_sds_docstring_description(self.module.docstring, "")
+        if docstring:
+            docstring += "\n"
+
         # Create global functions and properties
-        for function in module.global_functions:
+        for function in self.module.global_functions:
             if function.is_public:
                 module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
 
         # Create classes, class attr. & class methods
-        for class_ in module.classes:
+        for class_ in self.module.classes:
             if class_.is_public and not class_.inherits_from_exception:
                 module_text += f"\n{self._create_class_string(class_)}\n"
 
         # Create enums & enum instances
-        for enum in module.enums:
+        for enum in self.module.enums:
             module_text += f"\n{self._create_enum_string(enum)}\n"
 
         # Create imports - We have to create them last, since we have to check all used types in this module first
         module_header += self._create_imports_string()
 
-        return module_header + module_text
+        return docstring + module_header + module_text
 
     def _create_imports_string(self) -> str:
         if not self.module_imports:
@@ -230,7 +241,6 @@ class StubsStringGenerator:
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
         inner_indentations = class_indentation + "\t"
-        class_text = ""
 
         # Constructor parameter
         if class_.is_abstract:
@@ -324,7 +334,7 @@ class StubsStringGenerator:
         )
 
         # Attributes
-        class_text += self._create_class_attribute_string(class_.attributes, inner_indentations)
+        class_text = self._create_class_attribute_string(class_.attributes, inner_indentations)
 
         # Inner classes
         for inner_class in class_.classes:
@@ -336,14 +346,17 @@ class StubsStringGenerator:
         # Methods
         class_text += self._create_class_method_string(class_.methods, inner_indentations)
 
-        # If the does not have a body, we just return the signature line
+        # Docstring
+        docstring = self._create_sds_docstring(class_.docstring, "", node=class_)
+
+        # If the does not have a body, we just return the docstring and signature line
         if not class_text:
-            return class_signature
+            return docstring + class_signature
 
         # Close class
         class_text += f"{class_indentation}}}"
 
-        return f"{class_signature} {{{class_text}"
+        return f"{docstring}{class_signature} {{{class_text}"
 
     def _create_class_method_string(
         self,
@@ -409,10 +422,13 @@ class StubsStringGenerator:
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
+            # Create docstring text
+            docstring = self._create_sds_docstring(attribute.docstring, inner_indentations)
+
             # Create attribute string
             class_attributes.append(
                 f"{self._create_todo_msg(inner_indentations)}"
-                f"{inner_indentations}{attr_name_annotation}"
+                f"{docstring}{inner_indentations}{attr_name_annotation}"
                 f"{static_string}attr {attr_name_camel_case}"
                 f"{type_string}",
             )
@@ -461,6 +477,9 @@ class StubsStringGenerator:
                 type_var_string = ", ".join(type_var_names)
                 type_var_info = f"<{type_var_string}>"
 
+        # Docstring
+        docstring = self._create_sds_docstring(function.docstring, indentations, function)
+
         # Convert function name to camelCase
         name = function.name
         camel_case_name = _convert_name_to_convention(name, self.naming_convention)
@@ -476,6 +495,7 @@ class StubsStringGenerator:
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
+            f"{docstring}"
             f"{indentations}@Pure\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}{type_var_info}"
@@ -496,6 +516,9 @@ class StubsStringGenerator:
         # Escape keywords
         camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
+        # Docstring
+        docstring = self._create_sds_docstring_description(function.docstring.description, indentations)
+
         # Create type information
         result_types = [result.type for result in function.results if result.type is not None]
         result_union = UnionType(types=result_types)
@@ -505,6 +528,7 @@ class StubsStringGenerator:
 
         return (
             f"{self._create_todo_msg(indentations)}"
+            f"{docstring}"
             f"{indentations}{function_name_annotation}"
             f"attr {camel_case_name}{type_string}"
         )
@@ -617,8 +641,11 @@ class StubsStringGenerator:
         return ""
 
     def _create_enum_string(self, enum_data: Enum) -> str:
+        # Docstring
+        docstring = self._create_sds_docstring(enum_data.docstring, "")
+
         # Signature
-        enum_signature = f"enum {enum_data.name}"
+        enum_signature = f"{docstring}enum {enum_data.name}"
 
         # Enum body
         enum_text = ""
@@ -916,6 +943,85 @@ class StubsStringGenerator:
         if shortest_id is None:
             return module_qname
         return ".".join(shortest_id)
+
+    @staticmethod
+    def _create_sds_docstring_description(description: str, indentations: str) -> str:
+        if not description:
+            return ""
+
+        description = description.rstrip("\n")
+        description = description.lstrip("\n")
+        description = description.replace("\n", f"\n{indentations} * ")
+        return f"{indentations}/**\n{indentations} * {description}\n{indentations} */\n"
+
+    def _create_sds_docstring(
+        self,
+        docstring: ClassDocstring | FunctionDocstring | AttributeDocstring,
+        indentations: str,
+        node: Class | Function | None = None,
+    ) -> str:
+        full_docstring = ""
+
+        # Description
+        if docstring.description:
+            docstring_description = docstring.description.rstrip("\n")
+            docstring_description = docstring_description.lstrip("\n")
+            docstring_description = docstring_description.replace("\n", f"\n{indentations} * ")
+            full_docstring += f"{indentations} * {docstring_description}\n"
+
+        # Parameters
+        full_parameter_docstring = ""
+        if node is not None:
+            parameters = []
+            if isinstance(node, Class):
+                if node.constructor is not None:
+                    parameters = node.constructor.parameters
+            else:
+                parameters = node.parameters
+
+            if parameters:
+                parameter_docstrings = []
+                for parameter in parameters:
+                    param_desc = parameter.docstring.description
+                    if not param_desc:
+                        continue
+
+                    param_desc = f"\n{indentations} * ".join(param_desc.split("\n"))
+
+                    parameter_name = _convert_name_to_convention(parameter.name, self.naming_convention)
+                    parameter_docstrings.append(f"{indentations} * @param {parameter_name} {param_desc}\n")
+
+                full_parameter_docstring = "".join(parameter_docstrings)
+
+                if full_parameter_docstring and full_docstring:
+                    full_parameter_docstring = f"{indentations} *\n{full_parameter_docstring}"
+        full_docstring += full_parameter_docstring
+
+        # Results
+        full_result_docstring = ""
+        if isinstance(node, Function):
+            result_docstrings = []
+            for result in node.results:
+                result_desc = result.docstring.description
+                if not result_desc:
+                    continue
+
+                result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
+
+                result_name = _convert_name_to_convention(result.name, self.naming_convention)
+                result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+
+            full_result_docstring = "".join(result_docstrings)
+
+            if full_result_docstring and full_docstring:
+                full_result_docstring = f"{indentations} *\n{full_result_docstring}"
+        full_docstring += full_result_docstring
+
+        # Open and close the docstring
+        if full_docstring:
+            full_docstring = f"{indentations}/**\n{full_docstring}{indentations} */\n"
+
+        return full_docstring
 
 
 def _callable_type_name_generator() -> Generator:

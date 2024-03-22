@@ -1,0 +1,153 @@
+/**
+ * Test module for docstring tests.
+ * 
+ * A module for testing the various docstring types.
+ */
+
+@PythonModule("tests.data.docstring_parser_package.epydoc")
+package tests.data.docstringParserPackage.epydoc
+
+// TODO Result type information missing.
+/**
+ * Lorem ipsum. Code::
+ * 
+ * pass
+ * 
+ * Dolor sit amet.
+ */
+@Pure
+@PythonName("function_with_documentation")
+fun functionWithDocumentation()
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation()
+
+// TODO Result type information missing.
+// TODO Safe-DS does not support variadic parameters.
+// TODO Some parameter have no type information.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ *
+ * @param noTypeNoDefault no type and no default
+ * @param typeNoDefault type but no default
+ * @param withDefault foo that defaults to 2
+ */
+@Pure
+@PythonName("function_with_parameters")
+fun functionWithParameters(
+	@PythonName("no_type_no_default") noTypeNoDefault,
+	@PythonName("type_no_default") typeNoDefault,
+	@PythonName("with_default") withDefault,
+	args: List<Any>,
+	kwargs: Map<String, Any>
+)
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ *
+ * @result result1 return value
+ */
+@Pure
+@PythonName("function_with_result_value_and_type")
+fun functionWithResultValueAndType() -> result1: Boolean
+
+// TODO Result type information missing.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+@Pure
+@PythonName("function_with_result_value_no_type")
+fun functionWithResultValueNoType()
+
+// TODO Result type information missing.
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+@Pure
+@PythonName("function_without_result_value")
+fun functionWithoutResultValue()
+
+/**
+ * Lorem ipsum. Code::
+ * 
+ * pass
+ * 
+ * Dolor sit amet.
+ */
+class ClassWithDocumentation()
+
+class ClassWithoutDocumentation()
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ *
+ * @param p foo defaults to 1
+ */
+// TODO Some parameter have no type information.
+class ClassWithParameters(
+	p
+)
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+class ClassWithAttributes() {
+	static attr p: Int
+	static attr q: Int
+}
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+class ClassWithAttributesNoType() {
+	static attr p: Int
+	static attr q: Int
+}
+
+class ClassWithMethod() {
+	/**
+	 * Lorem ipsum.
+	 * 
+	 * Dolor sit amet.
+	 */
+	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
+
+	// TODO Some parameter have no type information.
+	/**
+	 * Lorem ipsum.
+	 * 
+	 * Dolor sit amet.
+	 *
+	 * @param a type but no default
+	 *
+	 * @result result1 return value
+	 */
+	@Pure
+	@PythonName("method_with_docstring")
+	fun methodWithDocstring(
+		a
+	) -> result1: Boolean
+}
+
+/**
+ * Lorem ipsum.
+ * 
+ * Dolor sit amet.
+ */
+enum EnumDocstring

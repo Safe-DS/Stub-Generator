@@ -1,0 +1,38 @@
+/**
+ * Test module for plaintext docstring tests.
+ * 
+ * A module for testing the various docstring types.
+ */
+
+@PythonModule("tests.data.docstring_parser_package.plaintext")
+package tests.data.docstringParserPackage.plaintext
+
+// TODO Result type information missing.
+/**
+ * function_with_documentation.
+ * 
+ * Dolor sit amet.
+ */
+@Pure
+@PythonName("function_with_documentation")
+fun functionWithDocumentation(
+	p: Int
+)
+
+// TODO Result type information missing.
+@Pure
+@PythonName("function_without_documentation")
+fun functionWithoutDocumentation(
+	p: Int
+)
+
+/**
+ * ClassWithDocumentation.
+ * 
+ * Dolor sit amet.
+ */
+class ClassWithDocumentation(
+	p: Int
+)
+
+class ClassWithoutDocumentation()

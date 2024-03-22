@@ -53,6 +53,9 @@ class InferMyTypes(
 		@PythonName("infer_param_2") inferParam2: Int = "Something"
 	) -> (result1: union<Boolean, Float, InferMe, InferMe2, InferMe3, InferMyTypes, Int, Nothing?, String>, result2: union<Float, Int>, result3: Float)
 
+	/**
+	 * Test for inferring results with just one possible result, and not a tuple of results.
+	 */
 	@Pure
 	@PythonName("infer_function_2")
 	static fun inferFunction2(

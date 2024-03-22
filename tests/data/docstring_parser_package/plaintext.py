@@ -1,6 +1,12 @@
+"""Test module for plaintext docstring tests.
+
+A module for testing the various docstring types.
+"""
+
+
 class ClassWithDocumentation:
     """
-    Lorem ipsum.
+    ClassWithDocumentation.
 
     Dolor sit amet.
     """
@@ -15,7 +21,7 @@ class ClassWithoutDocumentation:
 
 def function_with_documentation(p: int) -> None:
     """
-    Lorem ipsum.
+    function_with_documentation.
 
     Dolor sit amet.
     """

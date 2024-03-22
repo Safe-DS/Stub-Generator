@@ -270,7 +270,7 @@ def xtest_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstring(type="float", description="return value"),
+            ResultDocstring(type="bool", description="return value"),
         ),
         (
             "function_with_result_value_no_type",

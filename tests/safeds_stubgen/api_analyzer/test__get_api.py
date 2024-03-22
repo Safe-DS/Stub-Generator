@@ -59,7 +59,7 @@ def _get_specific_module_data(module_name: str, docstring_style: str = "plaintex
     for module in api_data["modules"]:
         if module["name"] == module_name:
             return module
-    raise AssertionError
+    raise pytest.fail(f"Could not find module data for '{module_name}'.")
 
 
 def _get_specific_class_data(
@@ -73,7 +73,7 @@ def _get_specific_class_data(
     for class_ in api_data[data_type]:
         if module_name in class_["id"] and class_["id"].endswith(f"/{class_name}"):
             return class_
-    raise AssertionError
+    raise pytest.fail(f"Could not find class data for '{class_name}' in module '{module_name}'.")
 
 
 def get_api_data(docstring_style: str) -> dict:
@@ -100,7 +100,7 @@ def _get_specific_function_data(
     for function in api_data["functions"]:
         if function["id"].endswith(f"{parent_class_name}/{function_name}"):
             return function
-    raise AssertionError
+    raise pytest.fail(f"Could not find function data for '{function_name}' in module '{module_name}'.")
 
 
 _function_module_name = "function_module"
@@ -121,7 +121,7 @@ def _python_files() -> Generator:
 def _python_file_ids() -> Generator:
     files = package_root.rglob(pattern="*.py")
     for file in files:
-        yield file.parts[-1].split(".py")[0]
+        yield str(file.relative_to(package_root).as_posix()).removesuffix(".py")
 
 
 @pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
@@ -140,11 +140,11 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
 
     for module in api_data["modules"]:
         is_init_file = is_package and module_id.endswith(module["id"])
-        is_module_file = str(python_file).replace("\\", "/").endswith(f"{module['id']}.py")
+        is_module_file = "/".join(python_file.parts).endswith(f"{module['id']}.py")
         if is_init_file or is_module_file:
             assert module == snapshot
             return
-    raise AssertionError
+    raise pytest.fail(f"Could not find module data for '{file_name}'.")
 
 
 # Todo new tests after issue #38

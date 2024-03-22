@@ -25,6 +25,7 @@ __pycache__/
 
 # Python environment
 venv/
+.venv/
 
 # Pytest outputs
 .mypy_cache/
