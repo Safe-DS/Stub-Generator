@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from griffe.dataclasses import Docstring as griffe_Docstring
+from griffe.dataclasses import Docstring
 from griffe.docstrings.dataclasses import (
     DocstringAttribute,
     DocstringParameter,
@@ -12,6 +12,7 @@ from griffe.docstrings.dataclasses import (
     DocstringSectionReturns,
     DocstringSectionText,
 )
+from griffe.enumerations import Parser
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -21,7 +22,7 @@ from ._docstring import (
     ParameterDocstring,
     ResultDocstring,
 )
-from ._helpers import get_full_docstring
+from ._helpers import get_full_docstring, remove_newline_from_text
 
 if TYPE_CHECKING:
     from mypy import nodes
@@ -44,12 +45,12 @@ class NumpyDocParser(AbstractDocstringParser):
 
     def __init__(self) -> None:
         self.__cached_node: nodes.FuncDef | Class | None = None
-        self.__cached_docstring: griffe_Docstring | None = None
+        self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
 
-        griffe_doc = griffe_Docstring(value=docstring)
+        griffe_doc = Docstring(value=docstring, parser=Parser.numpy)
         description = ""
         for docstring_section in griffe_doc.parse("numpy"):
             if isinstance(docstring_section, DocstringSectionText):
@@ -57,14 +58,14 @@ class NumpyDocParser(AbstractDocstringParser):
                 break
 
         return ClassDocstring(
-            description=description,
-            full_docstring=docstring,
+            description=remove_newline_from_text(description),
+            full_docstring=remove_newline_from_text(docstring),
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = get_full_docstring(function_node)
 
-        griffe_doc = griffe_Docstring(value=docstring)
+        griffe_doc = Docstring(value=docstring, parser=Parser.numpy)
         description = ""
         for docstring_section in griffe_doc.parse("numpy"):
             if isinstance(docstring_section, DocstringSectionText):
@@ -72,8 +73,8 @@ class NumpyDocParser(AbstractDocstringParser):
                 break
 
         return FunctionDocstring(
-            description=description,
-            full_docstring=docstring,
+            description=remove_newline_from_text(description),
+            full_docstring=remove_newline_from_text(docstring),
         )
 
     def get_parameter_documentation(
@@ -83,8 +84,8 @@ class NumpyDocParser(AbstractDocstringParser):
         parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,
     ) -> ParameterDocstring:
-        from safeds_stubgen.api_analyzer import Class
 
+        from safeds_stubgen.api_analyzer import Class
         # For constructors (__init__ functions) the parameters are described on the class
         if function_node.name == "__init__" and isinstance(parent_class, Class):
             docstring = parent_class.docstring.full_docstring
@@ -102,7 +103,7 @@ class NumpyDocParser(AbstractDocstringParser):
         matching_parameters_numpydoc: list[DocstringParameter] = []
         if all_parameters_numpydoc:
             matching_parameters_numpydoc = [
-                it for it in all_parameters_numpydoc.value if it.name == parameter_name
+                it for it in all_parameters_numpydoc.value if it.name.lstrip("*") == parameter_name
             ]
 
         if len(matching_parameters_numpydoc) == 0:
@@ -110,7 +111,7 @@ class NumpyDocParser(AbstractDocstringParser):
             # https://github.com/Safe-DS/Library-Analyzer/issues/10)
             if function_node.name == "__init__":
                 docstring_constructor = get_full_docstring(function_node)
-                griffe_docstring = griffe_Docstring(docstring_constructor)
+                griffe_docstring = Docstring(value=docstring_constructor, parser=Parser.numpy)
 
                 # Find matching parameter docstrings
                 function_numpydoc = griffe_docstring.parse("numpy")
@@ -133,7 +134,7 @@ class NumpyDocParser(AbstractDocstringParser):
         return ParameterDocstring(
             type=last_parameter_numpydoc.annotation or "",
             default_value=last_parameter_numpydoc.default or "",
-            description=last_parameter_numpydoc.description,
+            description=remove_newline_from_text(last_parameter_numpydoc.description),
         )
 
     def get_attribute_documentation(
@@ -159,7 +160,7 @@ class NumpyDocParser(AbstractDocstringParser):
         # If the class has a constructor we have to check both the class and then the constructor
         # (see issue https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if len(matching_attributes_numpydoc) == 0:
-            griffe_docstring = griffe_Docstring(parent_class.constructor_fulldocstring)
+            griffe_docstring = Docstring(parent_class.constructor_fulldocstring, parser=Parser.numpy)
 
             # Find matching parameter docstrings
             function_numpydoc = griffe_docstring.parse("numpy")
@@ -179,7 +180,7 @@ class NumpyDocParser(AbstractDocstringParser):
         return AttributeDocstring(
             type=last_attribute_numpydoc.annotation or "",
             default_value=last_attribute_numpydoc.value or "",
-            description=last_attribute_numpydoc.description,
+            description=remove_newline_from_text(last_attribute_numpydoc.description),
         )
 
     def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
@@ -199,7 +200,7 @@ class NumpyDocParser(AbstractDocstringParser):
 
         return ResultDocstring(
             type=all_returns.value[0].annotation or "",
-            description=all_returns.value[0].description,
+            description=remove_newline_from_text(all_returns.value[0].description),
         )
 
     def __get_cached_numpydoc_string(self, node: nodes.FuncDef | Class, docstring: str) -> list[DocstringSection]:
@@ -214,8 +215,8 @@ class NumpyDocParser(AbstractDocstringParser):
         """
         if self.__cached_node is not node or node.name == "__init__":
             self.__cached_node = node
-            griffe_docstring = griffe_Docstring(value=docstring)
-            self.__cached_docstring = griffe_docstring.parse("numpy")
+            griffe_docstring = Docstring(value=docstring, parser=Parser.numpy)
+            self.__cached_docstring = griffe_docstring.parse(parser=Parser.numpy)
 
         if self.__cached_docstring is None:  # pragma: no cover
             raise ValueError("Expected a docstring, got None instead.")
