@@ -4959,7 +4959,7 @@
       'docstring': dict({
         'description': '''
           Checks if the sum of x and y is greater than 10 and returns
-          a boolean value. (Google Style)
+            a boolean value. (Google Style)
         ''',
         'type': 'bool',
       }),
