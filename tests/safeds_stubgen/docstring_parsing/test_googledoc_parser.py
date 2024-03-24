@@ -44,7 +44,7 @@ def googlestyledoc_parser() -> GoogleDocParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="ClassWithDocumentation. Code::\n\npass\n\nDolor sit amet.",
+                description="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -79,7 +79,7 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="function_with_documentation. Code::\n\npass\n\nDolor sit amet.",
+                description="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -325,9 +325,16 @@ def test_get_attribute_documentation(
             "function_with_return_value_no_type",
             ResultDocstring(type="", description="None"),
         ),
-        ("function_without_return_value", ResultDocstring(type="", description="")),
+        (
+            "function_without_return_value",
+            ResultDocstring(type="", description="")
+        ),
     ],
-    ids=["existing return value and type", "existing return value no description", "function without return value"],
+    ids=[
+        "existing return value and type",
+        "existing return value no description",
+        "function without return value"
+    ],
 )
 def test_get_result_documentation(
     googlestyledoc_parser: GoogleDocParser,

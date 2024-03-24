@@ -159,7 +159,9 @@ def _get_matching_docstrings(
             break
 
     if all_docstrings:
+        name = name.lstrip("*")
         return [it for it in all_docstrings.value if it.name.lstrip("*") == name]
+
     return []
 
 
