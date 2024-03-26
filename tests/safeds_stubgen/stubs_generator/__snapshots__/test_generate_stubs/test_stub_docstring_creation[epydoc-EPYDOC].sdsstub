@@ -10,9 +10,9 @@ package tests.data.docstringParserPackage.epydoc
 // TODO Result type information missing.
 /**
  * Lorem ipsum. Code::
- * 
+ *
  * pass
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -29,7 +29,7 @@ fun functionWithoutDocumentation()
 // TODO Some parameter have no type information.
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @param noTypeNoDefault no type and no default
@@ -48,7 +48,7 @@ fun functionWithParameters(
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 return value
@@ -60,7 +60,7 @@ fun functionWithResultValueAndType() -> result1: Boolean
 // TODO Result type information missing.
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -70,7 +70,7 @@ fun functionWithResultValueNoType()
 // TODO Result type information missing.
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -79,9 +79,9 @@ fun functionWithoutResultValue()
 
 /**
  * Lorem ipsum. Code::
- * 
+ *
  * pass
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation()
@@ -90,7 +90,7 @@ class ClassWithoutDocumentation()
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  *
  * @param p foo defaults to 1
@@ -102,7 +102,7 @@ class ClassWithParameters(
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithAttributes() {
@@ -112,7 +112,7 @@ class ClassWithAttributes() {
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithAttributesNoType() {
@@ -131,7 +131,7 @@ class ClassWithMethod() {
 	// TODO Some parameter have no type information.
 	/**
 	 * Lorem ipsum.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 *
 	 * @param a type but no default
@@ -147,7 +147,7 @@ class ClassWithMethod() {
 
 /**
  * Lorem ipsum.
- * 
+ *
  * Dolor sit amet.
  */
 enum EnumDocstring

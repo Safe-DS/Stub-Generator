@@ -10,7 +10,7 @@ package tests.data.docstringParserPackage.plaintext
 // TODO Result type information missing.
 /**
  * function_with_documentation.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -28,7 +28,7 @@ fun functionWithoutDocumentation(
 
 /**
  * ClassWithDocumentation.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation(

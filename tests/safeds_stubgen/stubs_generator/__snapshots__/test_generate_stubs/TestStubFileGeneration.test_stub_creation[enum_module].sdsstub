@@ -8,7 +8,7 @@ enum _ReexportedEmptyEnum
 
 /**
  * Enum Docstring.
- * 
+ *
  * Full Docstring Description
  */
 enum EnumTest {

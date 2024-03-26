@@ -966,8 +966,17 @@ class StubsStringGenerator:
         if docstring.description:
             docstring_description = docstring.description.rstrip("\n")
             docstring_description = docstring_description.lstrip("\n")
-            docstring_description = docstring_description.replace("\n", f"\n{indentations} * ")
-            full_docstring += f"{indentations} * {docstring_description}\n"
+
+            x = docstring_description.split("\n")
+            for i, y in enumerate(x):
+                if i == 0:
+                    full_docstring = f"{indentations} * {y}"
+                elif y:
+                    full_docstring += f"\n{indentations} * {y}"
+                else:
+                    full_docstring += f"\n{indentations} *"
+
+            full_docstring += "\n"
 
         # Parameters
         full_parameter_docstring = ""

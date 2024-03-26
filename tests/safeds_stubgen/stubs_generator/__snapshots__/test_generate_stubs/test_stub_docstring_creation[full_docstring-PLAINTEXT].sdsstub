@@ -10,7 +10,7 @@ package tests.data.docstringParserPackage.fullDocstring
 // TODO Result type information missing.
 /**
  * function_with_multi_line_documentation.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -32,7 +32,7 @@ fun functionWithoutDocumentation()
 
 /**
  * ClassWithMultiLineDocumentation.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithMultiLineDocumentation()
