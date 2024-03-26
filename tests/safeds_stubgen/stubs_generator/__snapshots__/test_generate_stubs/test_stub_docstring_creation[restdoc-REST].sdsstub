@@ -11,7 +11,7 @@ package tests.data.docstringParserPackage.restdoc
 /**
  * function_with_documentation. Code::
  * 
- * pass
+ *     pass
  * 
  * Dolor sit amet.
  */
@@ -35,6 +35,8 @@ fun functionWithoutDocumentation()
  * @param noTypeNoDefault no type and no default
  * @param typeNoDefault type but no default
  * @param withDefault foo that defaults to 2
+ * @param args foo: *args
+ * @param kwargs foo: **kwargs
  */
 @Pure
 @PythonName("function_with_parameters")
@@ -80,7 +82,7 @@ fun functionWithoutReturnValue()
 /**
  * ClassWithDocumentation. Code::
  * 
- * pass
+ *     pass
  * 
  * Dolor sit amet.
  */

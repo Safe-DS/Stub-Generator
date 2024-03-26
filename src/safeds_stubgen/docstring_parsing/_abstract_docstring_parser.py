@@ -31,7 +31,6 @@ class AbstractDocstringParser(ABC):
         self,
         function_node: nodes.FuncDef,
         parameter_name: str,
-        parameter_assigned_by: ParameterAssignment,
         parent_class: Class | None,
     ) -> ParameterDocstring:
         pass  # pragma: no cover

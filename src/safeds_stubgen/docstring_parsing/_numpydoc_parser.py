@@ -55,7 +55,6 @@ class NumpyDocParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,
         parameter_name: str,
-        parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,
     ) -> ParameterDocstring:
         return create_parameter_docstring(
@@ -66,11 +65,7 @@ class NumpyDocParser(AbstractDocstringParser):
             parser=Parser.numpy
         )
 
-    def get_attribute_documentation(
-        self,
-        parent_class: Class,
-        attribute_name: str,
-    ) -> AttributeDocstring:
+    def get_attribute_documentation(self, parent_class: Class, attribute_name: str) -> AttributeDocstring:
         return create_attribute_docstring(
             attribute_name=attribute_name,
             parent_class=parent_class,

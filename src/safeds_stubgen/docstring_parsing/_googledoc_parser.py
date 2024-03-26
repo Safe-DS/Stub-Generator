@@ -49,7 +49,6 @@ class GoogleDocParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,
         parameter_name: str,
-        parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,
     ) -> ParameterDocstring:
         return create_parameter_docstring(

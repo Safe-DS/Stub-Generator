@@ -35,7 +35,6 @@ class PlaintextDocstringParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,  # noqa: ARG002
         parameter_name: str,  # noqa: ARG002
-        parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,  # noqa: ARG002
     ) -> ParameterDocstring:
         return ParameterDocstring()

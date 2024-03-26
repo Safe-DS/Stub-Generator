@@ -106,13 +106,12 @@ def test_get_function_documentation(
 
 # ############################## Parameter Documentation ############################## #
 @pytest.mark.parametrize(
-    ("name", "is_class", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
+    ("name", "is_class", "parameter_name", "expected_parameter_documentation"),
     [
         (
             "ClassWithParameters",
             True,
             "p",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="1",
@@ -123,7 +122,6 @@ def test_get_function_documentation(
             "ClassWithParameters",
             True,
             "missing",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="",
                 default_value="",
@@ -134,7 +132,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "no_type_no_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="",
                 default_value="",
@@ -145,7 +142,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "type_no_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="",
@@ -156,7 +152,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "with_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="2",
@@ -167,7 +162,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "missing",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(type="", default_value="", description=""),
         ),
     ],
@@ -185,7 +179,6 @@ def test_get_parameter_documentation(
     name: str,
     is_class: bool,
     parameter_name: str,
-    parameter_assigned_by: ParameterAssignment,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
     parent = None
@@ -208,7 +201,6 @@ def test_get_parameter_documentation(
     parameter_documentation = epydoc_parser.get_parameter_documentation(
         function_node=node,
         parameter_name=parameter_name,
-        parameter_assigned_by=parameter_assigned_by,
         parent_class=parent,
     )
 

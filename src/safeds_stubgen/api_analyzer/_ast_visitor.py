@@ -729,7 +729,6 @@ class MyPyAstVisitor:
             docstring = self.docstring_parser.get_parameter_documentation(
                 function_node=node,
                 parameter_name=arg_name,
-                parameter_assigned_by=arg_kind,
                 parent_class=parent if isinstance(parent, Class) else None,
             )
 
