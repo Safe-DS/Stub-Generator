@@ -2,7 +2,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from docstring_parser import Docstring
 from griffe.dataclasses import Docstring
 from griffe.enumerations import Parser
 
@@ -65,8 +64,6 @@ class RestDocParser(AbstractDocstringParser):
         parent_class: Class,
         attribute_name: str,
     ) -> AttributeDocstring:
-        # ReST docstrings do not differentiate between parameter and attributes, therefore the parameter and attribute
-        #  functions are quite similiar
         return create_attribute_docstring(
             attribute_name=attribute_name,
             parent_class=parent_class,

@@ -25,7 +25,7 @@ if TYPE_CHECKING:
     )
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class
 
 
 class NumpyDocParser(AbstractDocstringParser):
