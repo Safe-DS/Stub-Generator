@@ -56,7 +56,7 @@ class RestDocParser(AbstractDocstringParser):
             parameter_name=parameter_name,
             parent_class=parent_class,
             cache_function=self.__get_cached_restdoc_string,
-            parser=Parser.numpy
+            parser=Parser.sphinx
         )
 
     def get_attribute_documentation(
@@ -68,7 +68,7 @@ class RestDocParser(AbstractDocstringParser):
             attribute_name=attribute_name,
             parent_class=parent_class,
             cache_function=self.__get_cached_restdoc_string,
-            parser=Parser.numpy
+            parser=Parser.sphinx
         )
 
     def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:

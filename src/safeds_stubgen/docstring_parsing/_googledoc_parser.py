@@ -40,7 +40,7 @@ class GoogleDocParser(AbstractDocstringParser):
         self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
-        return create_class_docstring(class_node=class_node, parser=Parser.numpy)
+        return create_class_docstring(class_node=class_node, parser=Parser.google)
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         return create_function_docstring(function_node=function_node, cache_function=self.__get_cached_googledoc_string)
