@@ -173,7 +173,11 @@ def create_attribute_docstring(
 ) -> AttributeDocstring:
     # Find matching attribute docstrings
     function_doc = cache_function(parent_class, parent_class.docstring.full_docstring)
-    matching_attributes = _get_matching_docstrings(function_doc, attribute_name, "attr")
+    if parser == Parser.sphinx:
+        # ReST does not differentiate between attribute and parameter
+        matching_attributes = _get_matching_docstrings(function_doc, attribute_name, "param")
+    else:
+        matching_attributes = _get_matching_docstrings(function_doc, attribute_name, "attr")
 
     # For Numpydoc, if the class has a constructor we have to check both the class and then the constructor
     # (see issue https://github.com/Safe-DS/Library-Analyzer/issues/10)

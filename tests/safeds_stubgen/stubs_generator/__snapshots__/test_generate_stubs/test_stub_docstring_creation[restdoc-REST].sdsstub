@@ -1,6 +1,6 @@
 /**
  * Test module for ReST docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -105,7 +105,7 @@ class ClassWithParameters(
 class ClassWithMethod() {
 	/**
 	 * property_method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean

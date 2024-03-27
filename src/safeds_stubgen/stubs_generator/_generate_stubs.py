@@ -951,8 +951,19 @@ class StubsStringGenerator:
 
         description = description.rstrip("\n")
         description = description.lstrip("\n")
-        description = description.replace("\n", f"\n{indentations} * ")
-        return f"{indentations}/**\n{indentations} * {description}\n{indentations} */\n"
+
+        splitted_docstring = description.split("\n")
+
+        full_docstring = ""
+        for i, docstring_part in enumerate(splitted_docstring):
+            if i == 0:
+                full_docstring = f"{indentations} * {docstring_part}"
+            elif docstring_part:
+                full_docstring += f"\n{indentations} * {docstring_part}"
+            else:
+                full_docstring += f"\n{indentations} *"
+
+        return f"{indentations}/**\n{full_docstring}\n{indentations} */\n"
 
     def _create_sds_docstring(
         self,
@@ -967,12 +978,12 @@ class StubsStringGenerator:
             docstring_description = docstring.description.rstrip("\n")
             docstring_description = docstring_description.lstrip("\n")
 
-            x = docstring_description.split("\n")
-            for i, y in enumerate(x):
+            splitted_docstring = docstring_description.split("\n")
+            for i, docstring_part in enumerate(splitted_docstring):
                 if i == 0:
-                    full_docstring = f"{indentations} * {y}"
-                elif y:
-                    full_docstring += f"\n{indentations} * {y}"
+                    full_docstring = f"{indentations} * {docstring_part}"
+                elif docstring_part:
+                    full_docstring += f"\n{indentations} * {docstring_part}"
                 else:
                     full_docstring += f"\n{indentations} *"
 

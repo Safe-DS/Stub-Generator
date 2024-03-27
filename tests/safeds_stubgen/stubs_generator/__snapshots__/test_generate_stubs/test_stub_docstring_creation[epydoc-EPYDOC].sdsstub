@@ -1,6 +1,6 @@
 /**
  * Test module for docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -123,7 +123,7 @@ class ClassWithAttributesNoType() {
 class ClassWithMethod() {
 	/**
 	 * Lorem ipsum.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
