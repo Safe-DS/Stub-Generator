@@ -168,7 +168,9 @@ class DocstringParser(AbstractDocstringParser):
 
     @staticmethod
     def _get_matching_docstrings(
-        function_doc: list[DocstringSection], name: str, type_: Literal["attr", "param"],
+        function_doc: list[DocstringSection],
+        name: str,
+        type_: Literal["attr", "param"],
     ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
         for docstring_section in function_doc:
