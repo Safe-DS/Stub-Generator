@@ -820,6 +820,80 @@ class StubsStringGenerator:
 
         return superclass_methods_text
 
+    def _create_sds_docstring_description(self, description: str, indentations: str) -> str:
+        if not description:
+            return ""
+
+        full_docstring = self._create_docstring_description_part(description, indentations)
+        return f"{indentations}/**\n{indentations} * {full_docstring}{indentations} */\n"
+
+    def _create_sds_docstring(
+        self,
+        docstring: ClassDocstring | FunctionDocstring | AttributeDocstring,
+        indentations: str,
+        node: Class | Function | None = None,
+    ) -> str:
+        full_docstring = ""
+
+        # Description
+        if docstring.description:
+            full_docstring = f"{indentations} * "
+            full_docstring += self._create_docstring_description_part(docstring.description, indentations)
+
+        # Parameters
+        full_parameter_docstring = ""
+        if node is not None:
+            parameters = []
+            if isinstance(node, Class):
+                if node.constructor is not None:
+                    parameters = node.constructor.parameters
+            else:
+                parameters = node.parameters
+
+            if parameters:
+                parameter_docstrings = []
+                for parameter in parameters:
+                    param_desc = parameter.docstring.description
+                    if not param_desc:
+                        continue
+
+                    param_desc = self._create_docstring_description_part(param_desc, indentations)
+
+                    parameter_name = _convert_name_to_convention(parameter.name, self.naming_convention)
+                    parameter_docstrings.append(f"{indentations} * @param {parameter_name} {param_desc}")
+
+                full_parameter_docstring = "".join(parameter_docstrings)
+
+                if full_parameter_docstring and full_docstring:
+                    full_parameter_docstring = f"{indentations} *\n{full_parameter_docstring}"
+        full_docstring += full_parameter_docstring
+
+        # Results
+        full_result_docstring = ""
+        if isinstance(node, Function):
+            result_docstrings = []
+            for result in node.results:
+                result_desc = result.docstring.description
+                if not result_desc:
+                    continue
+
+                result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
+
+                result_name = _convert_name_to_convention(result.name, self.naming_convention)
+                result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+
+            full_result_docstring = "".join(result_docstrings)
+
+            if full_result_docstring and full_docstring:
+                full_result_docstring = f"{indentations} *\n{full_result_docstring}"
+        full_docstring += full_result_docstring
+
+        # Open and close the docstring
+        if full_docstring:
+            full_docstring = f"{indentations}/**\n{full_docstring}{indentations} */\n"
+
+        return full_docstring
+
     # ############################### Utilities ############################### #
 
     def _add_to_imports(self, qname: str) -> None:
@@ -945,103 +1019,24 @@ class StubsStringGenerator:
         return ".".join(shortest_id)
 
     @staticmethod
-    def _create_sds_docstring_description(description: str, indentations: str) -> str:
+    def _create_docstring_description_part(description: str, indentations: str) -> str:
         if not description:
             return ""
 
         description = description.rstrip("\n")
         description = description.lstrip("\n")
-
         splitted_docstring = description.split("\n")
 
         full_docstring = ""
         for i, docstring_part in enumerate(splitted_docstring):
             if i == 0:
-                full_docstring = f"{indentations} * {docstring_part}"
+                full_docstring = f"{docstring_part}"
             elif docstring_part:
                 full_docstring += f"\n{indentations} * {docstring_part}"
             else:
                 full_docstring += f"\n{indentations} *"
 
-        return f"{indentations}/**\n{full_docstring}\n{indentations} */\n"
-
-    def _create_sds_docstring(
-        self,
-        docstring: ClassDocstring | FunctionDocstring | AttributeDocstring,
-        indentations: str,
-        node: Class | Function | None = None,
-    ) -> str:
-        full_docstring = ""
-
-        # Description
-        if docstring.description:
-            docstring_description = docstring.description.rstrip("\n")
-            docstring_description = docstring_description.lstrip("\n")
-
-            splitted_docstring = docstring_description.split("\n")
-            for i, docstring_part in enumerate(splitted_docstring):
-                if i == 0:
-                    full_docstring = f"{indentations} * {docstring_part}"
-                elif docstring_part:
-                    full_docstring += f"\n{indentations} * {docstring_part}"
-                else:
-                    full_docstring += f"\n{indentations} *"
-
-            full_docstring += "\n"
-
-        # Parameters
-        full_parameter_docstring = ""
-        if node is not None:
-            parameters = []
-            if isinstance(node, Class):
-                if node.constructor is not None:
-                    parameters = node.constructor.parameters
-            else:
-                parameters = node.parameters
-
-            if parameters:
-                parameter_docstrings = []
-                for parameter in parameters:
-                    param_desc = parameter.docstring.description
-                    if not param_desc:
-                        continue
-
-                    param_desc = f"\n{indentations} * ".join(param_desc.split("\n"))
-
-                    parameter_name = _convert_name_to_convention(parameter.name, self.naming_convention)
-                    parameter_docstrings.append(f"{indentations} * @param {parameter_name} {param_desc}\n")
-
-                full_parameter_docstring = "".join(parameter_docstrings)
-
-                if full_parameter_docstring and full_docstring:
-                    full_parameter_docstring = f"{indentations} *\n{full_parameter_docstring}"
-        full_docstring += full_parameter_docstring
-
-        # Results
-        full_result_docstring = ""
-        if isinstance(node, Function):
-            result_docstrings = []
-            for result in node.results:
-                result_desc = result.docstring.description
-                if not result_desc:
-                    continue
-
-                result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-
-                result_name = _convert_name_to_convention(result.name, self.naming_convention)
-                result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
-
-            full_result_docstring = "".join(result_docstrings)
-
-            if full_result_docstring and full_docstring:
-                full_result_docstring = f"{indentations} *\n{full_result_docstring}"
-        full_docstring += full_result_docstring
-
-        # Open and close the docstring
-        if full_docstring:
-            full_docstring = f"{indentations}/**\n{full_docstring}{indentations} */\n"
-
-        return full_docstring
+        return full_docstring + "\n"
 
 
 def _callable_type_name_generator() -> Generator:
