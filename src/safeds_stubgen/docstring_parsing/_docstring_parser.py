@@ -33,8 +33,8 @@ if TYPE_CHECKING:
 class DocstringParser(AbstractDocstringParser):
     def __init__(self, parser: Parser):
         self.parser = parser
-        self.__cached_node: nodes.FuncDef | None = None
-        self.__cached_docstring: Docstring | None = None
+        self.__cached_node: nodes.FuncDef | Class | None = None
+        self.__cached_docstring: list[DocstringSection] | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         docstring = get_full_docstring(class_node)
@@ -82,7 +82,7 @@ class DocstringParser(AbstractDocstringParser):
 
         # Find matching parameter docstrings
         function_doc = self.__get_cached_docstring(function_node, docstring)
-        matching_parameters: list[DocstringParameter] = self._get_matching_docstrings(
+        matching_parameters = self._get_matching_docstrings(
             function_doc,
             parameter_name,
             "param"
@@ -97,7 +97,7 @@ class DocstringParser(AbstractDocstringParser):
 
             # Find matching parameter docstrings
             function_doc = griffe_docstring.parse(self.parser)
-            matching_parameters: list[DocstringParameter] = self._get_matching_docstrings(
+            matching_parameters = self._get_matching_docstrings(
                 function_doc,
                 parameter_name,
                 "param"
@@ -107,8 +107,14 @@ class DocstringParser(AbstractDocstringParser):
             return ParameterDocstring()
 
         last_parameter = matching_parameters[-1]
+
+        if not isinstance(last_parameter, DocstringParameter):  # pragma: no cover
+            raise TypeError(f"Expected parameter docstring, got {type(last_parameter)}.")
+
+        annotation = "" if not last_parameter.annotation else str(last_parameter.annotation)
+
         return ParameterDocstring(
-            type=last_parameter.annotation or "",
+            type=annotation,
             default_value=last_parameter.default or "",
             description=remove_newline_from_text(last_parameter.description) or "",
         )
@@ -139,8 +145,9 @@ class DocstringParser(AbstractDocstringParser):
             return AttributeDocstring()
 
         last_attribute = matching_attributes[-1]
+        annotation = "" if not last_attribute.annotation else str(last_attribute.annotation)
         return AttributeDocstring(
-            type=last_attribute.annotation or "",
+            type=annotation,
             default_value=last_attribute.value or "",
             description=remove_newline_from_text(last_attribute.description),
         )
@@ -160,8 +167,9 @@ class DocstringParser(AbstractDocstringParser):
         if not all_returns:
             return ResultDocstring()
 
+        annotation = "" if not all_returns.value[0].annotation else str(all_returns.value[0].annotation)
         return ResultDocstring(
-            type=all_returns.value[0].annotation or "",
+            type=annotation,
             description=remove_newline_from_text(all_returns.value[0].description),
         )
 
@@ -170,7 +178,7 @@ class DocstringParser(AbstractDocstringParser):
         function_doc: list[DocstringSection],
         name: str,
         type_: Literal["attr", "param"]
-    ) -> list[DocstringAttribute] | list[DocstringParameter]:
+    ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
         for docstring_section in function_doc:
             if ((type_ == "attr" and isinstance(docstring_section, DocstringSectionAttributes)) or

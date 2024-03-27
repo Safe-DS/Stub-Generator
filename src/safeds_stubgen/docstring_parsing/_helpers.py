@@ -1,18 +1,11 @@
 from __future__ import annotations
 
 import inspect
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from docstring_parser import Docstring
 
-from griffe.docstrings.dataclasses import (
-    DocstringAttribute,
-    DocstringParameter,
-    DocstringSection,
-    DocstringSectionAttributes,
-    DocstringSectionParameters,
-)
 from mypy import nodes
 
 
@@ -57,22 +50,3 @@ def get_description(docstring_obj: Docstring) -> str:
     result += "\n\n"
     result += extended_summary.rstrip()
     return result.strip()
-
-
-def _get_matching_docstrings(
-    function_doc: list[DocstringSection],
-    name: str,
-    type_: Literal["attr", "param"]
-) -> list[DocstringAttribute] | list[DocstringParameter]:
-    all_docstrings = None
-    for docstring_section in function_doc:
-        if ((type_ == "attr" and isinstance(docstring_section, DocstringSectionAttributes)) or
-                (type_ == "param" and isinstance(docstring_section, DocstringSectionParameters))):
-            all_docstrings = docstring_section
-            break
-
-    if all_docstrings:
-        name = name.lstrip("*")
-        return [it for it in all_docstrings.value if it.name.lstrip("*") == name]
-
-    return []
