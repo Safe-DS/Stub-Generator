@@ -3,15 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
+from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
+    DocstringParser,
     FunctionDocstring,
-    NumpyDocParser,
     ParameterDocstring,
     ResultDocstring,
 )
@@ -34,8 +35,8 @@ mypy_file = _get_mypy_asts(
 
 
 @pytest.fixture()
-def numpydoc_parser() -> NumpyDocParser:
-    return NumpyDocParser()
+def numpydoc_parser() -> DocstringParser:
+    return DocstringParser(Parser.numpy)
 
 
 # ############################## Class Documentation ############################## #
@@ -63,7 +64,7 @@ def numpydoc_parser() -> NumpyDocParser:
     ],
 )
 def test_get_class_documentation(
-    numpydoc_parser: NumpyDocParser,
+    numpydoc_parser: DocstringParser,
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
@@ -98,7 +99,7 @@ def test_get_class_documentation(
     ],
 )
 def test_get_function_documentation(
-    numpydoc_parser: NumpyDocParser,
+    numpydoc_parser: DocstringParser,
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
@@ -303,7 +304,7 @@ def test_get_function_documentation(
     ],
 )
 def test_get_parameter_documentation(
-    numpydoc_parser: NumpyDocParser,
+    numpydoc_parser: DocstringParser,
     name: str,
     is_class: bool,
     parameter_name: str,
@@ -442,7 +443,7 @@ def test_get_parameter_documentation(
     ],
 )
 def test_get_attribute_documentation(
-    numpydoc_parser: NumpyDocParser,
+    numpydoc_parser: DocstringParser,
     class_name: str,
     attribute_name: str,
     expected_attribute_documentation: AttributeDocstring,
@@ -473,7 +474,7 @@ def test_get_attribute_documentation(
     ids=["existing return value and type", "function without return value"],
 )
 def test_get_result_documentation(
-    numpydoc_parser: NumpyDocParser,
+    numpydoc_parser: DocstringParser,
     function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:

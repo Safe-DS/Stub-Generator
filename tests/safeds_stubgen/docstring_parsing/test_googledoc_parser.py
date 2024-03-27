@@ -3,15 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
+from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
+    DocstringParser,
     FunctionDocstring,
-    GoogleDocParser,
     ParameterDocstring,
     ResultDocstring,
 )
@@ -33,8 +34,8 @@ mypy_file = _get_mypy_asts(
 
 
 @pytest.fixture()
-def googlestyledoc_parser() -> GoogleDocParser:
-    return GoogleDocParser()
+def googlestyledoc_parser() -> DocstringParser:
+    return DocstringParser(Parser.google)
 
 
 # ############################## Class Documentation ############################## #
@@ -62,7 +63,7 @@ def googlestyledoc_parser() -> GoogleDocParser:
     ],
 )
 def test_get_class_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
@@ -97,7 +98,7 @@ def test_get_class_documentation(
     ],
 )
 def test_get_function_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
@@ -222,7 +223,7 @@ def test_get_function_documentation(
     ],
 )
 def test_get_parameter_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     name: str,
     is_class: bool,
     parameter_name: str,
@@ -283,7 +284,7 @@ def test_get_parameter_documentation(
     ],
 )
 def test_get_attribute_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     class_name: str,
     attribute_name: str,
     expected_attribute_documentation: AttributeDocstring,
@@ -325,7 +326,7 @@ def test_get_attribute_documentation(
     ],
 )
 def test_get_result_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:

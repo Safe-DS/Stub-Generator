@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class
 
     from ._docstring import (
         AttributeDocstring,

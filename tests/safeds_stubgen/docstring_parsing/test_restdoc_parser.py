@@ -3,6 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from griffe.enumerations import Parser
 from mypy import nodes
 from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
 
@@ -10,9 +11,9 @@ from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
+    DocstringParser,
     FunctionDocstring,
     ParameterDocstring,
-    RestDocParser,
     ResultDocstring,
 )
 
@@ -30,8 +31,8 @@ mypy_file = _get_mypy_asts(
 
 
 @pytest.fixture()
-def restdoc_parser() -> RestDocParser:
-    return RestDocParser()
+def restdoc_parser() -> DocstringParser:
+    return DocstringParser(Parser.sphinx)
 
 
 # ############################## Class Documentation ############################## #
@@ -59,7 +60,7 @@ def restdoc_parser() -> RestDocParser:
     ],
 )
 def test_get_class_documentation(
-    restdoc_parser: RestDocParser,
+    restdoc_parser: DocstringParser,
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
@@ -94,7 +95,7 @@ def test_get_class_documentation(
     ],
 )
 def test_get_function_documentation(
-    restdoc_parser: RestDocParser,
+    restdoc_parser: DocstringParser,
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
@@ -197,7 +198,7 @@ def test_get_function_documentation(
     ],
 )
 def test_get_parameter_documentation(
-    restdoc_parser: RestDocParser,
+    restdoc_parser: DocstringParser,
     name: str,
     is_class: bool,
     parameter_name: str,
@@ -246,7 +247,7 @@ def test_get_parameter_documentation(
     ids=["existing return value and type", "existing return value no type", "function without return value"],
 )
 def test_get_result_documentation(
-    restdoc_parser: RestDocParser,
+    restdoc_parser: DocstringParser,
     function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:
