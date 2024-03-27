@@ -314,16 +314,9 @@ def test_get_attribute_documentation(
             "function_with_return_value_no_type",
             ResultDocstring(type="", description="None"),
         ),
-        (
-            "function_without_return_value",
-            ResultDocstring(type="", description="")
-        ),
+        ("function_without_return_value", ResultDocstring(type="", description="")),
     ],
-    ids=[
-        "existing return value and type",
-        "existing return value no description",
-        "function without return value"
-    ],
+    ids=["existing return value and type", "existing return value no description", "function without return value"],
 )
 def test_get_result_documentation(
     googlestyledoc_parser: DocstringParser,

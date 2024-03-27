@@ -13,9 +13,9 @@ from griffe.docstrings.dataclasses import (
     DocstringSectionReturns,
     DocstringSectionText,
 )
-from ._abstract_docstring_parser import AbstractDocstringParser
 from griffe.enumerations import Parser
 
+from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
     AttributeDocstring,
     ClassDocstring,
@@ -27,6 +27,7 @@ from ._helpers import get_full_docstring, remove_newline_from_text
 
 if TYPE_CHECKING:
     from mypy import nodes
+
     from safeds_stubgen.api_analyzer import Class
 
 
@@ -82,11 +83,7 @@ class DocstringParser(AbstractDocstringParser):
 
         # Find matching parameter docstrings
         function_doc = self.__get_cached_docstring(function_node, docstring)
-        matching_parameters = self._get_matching_docstrings(
-            function_doc,
-            parameter_name,
-            "param"
-        )
+        matching_parameters = self._get_matching_docstrings(function_doc, parameter_name, "param")
 
         # For numpy, if we have a constructor we have to check both, the class and then the constructor (see issue
         # https://github.com/Safe-DS/Library-Analyzer/issues/10)
@@ -97,11 +94,7 @@ class DocstringParser(AbstractDocstringParser):
 
             # Find matching parameter docstrings
             function_doc = griffe_docstring.parse(self.parser)
-            matching_parameters = self._get_matching_docstrings(
-                function_doc,
-                parameter_name,
-                "param"
-            )
+            matching_parameters = self._get_matching_docstrings(function_doc, parameter_name, "param")
 
         if len(matching_parameters) == 0:
             return ParameterDocstring()
@@ -175,14 +168,13 @@ class DocstringParser(AbstractDocstringParser):
 
     @staticmethod
     def _get_matching_docstrings(
-        function_doc: list[DocstringSection],
-        name: str,
-        type_: Literal["attr", "param"]
+        function_doc: list[DocstringSection], name: str, type_: Literal["attr", "param"],
     ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
         for docstring_section in function_doc:
-            if ((type_ == "attr" and isinstance(docstring_section, DocstringSectionAttributes)) or
-                    (type_ == "param" and isinstance(docstring_section, DocstringSectionParameters))):
+            if (type_ == "attr" and isinstance(docstring_section, DocstringSectionAttributes)) or (
+                type_ == "param" and isinstance(docstring_section, DocstringSectionParameters)
+            ):
                 all_docstrings = docstring_section
                 break
 
