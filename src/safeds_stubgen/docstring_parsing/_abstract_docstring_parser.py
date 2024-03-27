@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class
 
     from ._docstring import (
         AttributeDocstring,
@@ -31,7 +31,6 @@ class AbstractDocstringParser(ABC):
         self,
         function_node: nodes.FuncDef,
         parameter_name: str,
-        parameter_assigned_by: ParameterAssignment,
         parent_class: Class | None,
     ) -> ParameterDocstring:
         pass  # pragma: no cover

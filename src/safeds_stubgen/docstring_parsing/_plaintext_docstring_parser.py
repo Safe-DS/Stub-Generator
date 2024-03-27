@@ -9,7 +9,7 @@ from ._helpers import get_full_docstring
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class
 
 
 class PlaintextDocstringParser(AbstractDocstringParser):
@@ -35,7 +35,6 @@ class PlaintextDocstringParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,  # noqa: ARG002
         parameter_name: str,  # noqa: ARG002
-        parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,  # noqa: ARG002
     ) -> ParameterDocstring:
         return ParameterDocstring()

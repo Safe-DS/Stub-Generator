@@ -597,9 +597,6 @@
           }),
         ]),
         'wildcard_imports': list([
-          dict({
-            'module_name': 'docstring_parser',
-          }),
         ]),
       }),
     ]),

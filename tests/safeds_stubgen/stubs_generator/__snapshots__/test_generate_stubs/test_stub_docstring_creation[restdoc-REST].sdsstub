@@ -1,6 +1,6 @@
 /**
  * Test module for ReST docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -10,9 +10,9 @@ package tests.data.docstringParserPackage.restdoc
 // TODO Result type information missing.
 /**
  * function_with_documentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -29,12 +29,14 @@ fun functionWithoutDocumentation()
 // TODO Some parameter have no type information.
 /**
  * function_with_parameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param noTypeNoDefault no type and no default
  * @param typeNoDefault type but no default
  * @param withDefault foo that defaults to 2
+ * @param args foo: *args
+ * @param kwargs foo: **kwargs
  */
 @Pure
 @PythonName("function_with_parameters")
@@ -48,7 +50,7 @@ fun functionWithParameters(
 
 /**
  * function_with_return_value_and_type.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 return value
@@ -60,7 +62,7 @@ fun functionWithReturnValueAndType() -> result1: Boolean
 // TODO Result type information missing.
 /**
  * function_with_return_value_no_type.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -70,7 +72,7 @@ fun functionWithReturnValueNoType()
 // TODO Result type information missing.
 /**
  * function_without_return_value.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -79,9 +81,9 @@ fun functionWithoutReturnValue()
 
 /**
  * ClassWithDocumentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation()
@@ -90,7 +92,7 @@ class ClassWithoutDocumentation()
 
 /**
  * ClassWithParameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param p foo defaults to 1
@@ -103,7 +105,7 @@ class ClassWithParameters(
 class ClassWithMethod() {
 	/**
 	 * property_method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
@@ -111,7 +113,7 @@ class ClassWithMethod() {
 	// TODO Some parameter have no type information.
 	/**
 	 * method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 *
 	 * @param a type but no default
@@ -127,7 +129,7 @@ class ClassWithMethod() {
 
 /**
  * EnumDocstring.
- * 
+ *
  * Dolor sit amet.
  */
 enum EnumDocstring

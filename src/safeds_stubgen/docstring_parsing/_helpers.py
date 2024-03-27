@@ -3,10 +3,14 @@ from __future__ import annotations
 import inspect
 from typing import TYPE_CHECKING
 
-from mypy import nodes
-
 if TYPE_CHECKING:
     from docstring_parser import Docstring
+
+from mypy import nodes
+
+
+def remove_newline_from_text(text: str) -> str:
+    return text.rstrip("\n").strip("\n")
 
 
 def get_full_docstring(declaration: nodes.ClassDef | nodes.FuncDef) -> str:

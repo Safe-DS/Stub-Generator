@@ -19,7 +19,7 @@ from ._helpers import get_description, get_full_docstring
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class, ParameterAssignment
+    from safeds_stubgen.api_analyzer import Class
 
 
 class EpydocParser(AbstractDocstringParser):
@@ -55,7 +55,6 @@ class EpydocParser(AbstractDocstringParser):
         self,
         function_node: nodes.FuncDef,
         parameter_name: str,
-        parameter_assigned_by: ParameterAssignment,  # noqa: ARG002
         parent_class: Class | None,
     ) -> ParameterDocstring:
         from safeds_stubgen.api_analyzer import Class

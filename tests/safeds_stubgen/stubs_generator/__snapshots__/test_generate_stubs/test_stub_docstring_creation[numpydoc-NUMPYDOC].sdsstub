@@ -1,6 +1,6 @@
 /**
  * Test module for Numpy docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -10,9 +10,9 @@ package tests.data.docstringParserPackage.numpydoc
 // TODO Result type information missing.
 /**
  * function_with_documentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -29,11 +29,11 @@ fun functionWithoutDocumentation()
 // TODO Some parameter have no type information.
 /**
  * function_with_parameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param noTypeNoDefault foo: no_type_no_default. Code::
- * 
+ *
  *     pass
  * @param typeNoDefault foo: type_no_default
  * @param optionalUnknownDefault foo: optional_unknown_default
@@ -62,7 +62,7 @@ fun functionWithParameters(
 
 /**
  * function_with_result_value_and_type.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -73,7 +73,7 @@ fun functionWithResultValueAndType() -> result1: Boolean
 
 /**
  * function_with_named_result.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -85,7 +85,7 @@ fun functionWithNamedResult() -> result1: Boolean
 // TODO Result type information missing.
 /**
  * function_without_result_value.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -94,9 +94,9 @@ fun functionWithoutResultValue()
 
 /**
  * ClassWithDocumentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation()
@@ -105,7 +105,7 @@ class ClassWithoutDocumentation()
 
 /**
  * ClassWithParameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param p foo
@@ -117,7 +117,7 @@ class ClassWithParameters(
 
 /**
  * ClassAndConstructorWithParameters
- * 
+ *
  * Dolor sit amet.
  *
  * @param x Lorem ipsum 1.
@@ -133,7 +133,7 @@ class ClassAndConstructorWithParameters(
 
 /**
  * ClassWithParametersAndAttributes.
- * 
+ *
  * Dolor sit amet.
  *
  * @param x foo
@@ -154,13 +154,13 @@ class ClassWithParametersAndAttributes(
 
 /**
  * ClassWithAttributes.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithAttributes() {
 	/**
 	 * foo: no_type_no_default. Code::
-	 * 
+	 *
 	 *     pass
 	 */
 	@PythonName("no_type_no_default")
@@ -205,7 +205,7 @@ class ClassWithAttributes() {
 class ClassWithMethod() {
 	/**
 	 * property_method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
@@ -213,7 +213,7 @@ class ClassWithMethod() {
 	// TODO Some parameter have no type information.
 	/**
 	 * method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 *
 	 * @result result1 this will be the return value
@@ -227,7 +227,7 @@ class ClassWithMethod() {
 
 /**
  * EnumDocstring.
- * 
+ *
  * Dolor sit amet.
  */
 enum EnumDocstring

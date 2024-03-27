@@ -3,15 +3,16 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
+from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class, ParameterAssignment, get_classdef_definitions
+from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
 from safeds_stubgen.docstring_parsing import (
     ClassDocstring,
+    DocstringParser,
     FunctionDocstring,
-    GoogleDocParser,
     ParameterDocstring,
     ResultDocstring,
 )
@@ -33,8 +34,8 @@ mypy_file = _get_mypy_asts(
 
 
 @pytest.fixture()
-def googlestyledoc_parser() -> GoogleDocParser:
-    return GoogleDocParser()
+def googlestyledoc_parser() -> DocstringParser:
+    return DocstringParser(Parser.google)
 
 
 # ############################## Class Documentation ############################## #
@@ -44,7 +45,7 @@ def googlestyledoc_parser() -> GoogleDocParser:
         (
             "ClassWithDocumentation",
             ClassDocstring(
-                description="ClassWithDocumentation. Code::\n\npass\n\nDolor sit amet.",
+                description="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="ClassWithDocumentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -62,7 +63,7 @@ def googlestyledoc_parser() -> GoogleDocParser:
     ],
 )
 def test_get_class_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     class_name: str,
     expected_class_documentation: ClassDocstring,
 ) -> None:
@@ -79,7 +80,7 @@ def test_get_class_documentation(
         (
             "function_with_documentation",
             FunctionDocstring(
-                description="function_with_documentation. Code::\n\npass\n\nDolor sit amet.",
+                description="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
                 full_docstring="function_with_documentation. Code::\n\n    pass\n\nDolor sit amet.",
             ),
         ),
@@ -97,7 +98,7 @@ def test_get_class_documentation(
     ],
 )
 def test_get_function_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     function_name: str,
     expected_function_documentation: FunctionDocstring,
 ) -> None:
@@ -109,13 +110,12 @@ def test_get_function_documentation(
 
 # ############################## Parameter Documentation ############################## #
 @pytest.mark.parametrize(
-    ("name", "is_class", "parameter_name", "parameter_assigned_by", "expected_parameter_documentation"),
+    ("name", "is_class", "parameter_name", "expected_parameter_documentation"),
     [
         (
             "ClassWithParameters",
             True,
             "p",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="1",
@@ -126,7 +126,6 @@ def test_get_function_documentation(
             "ClassWithParameters",
             True,
             "missing",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="",
                 default_value="",
@@ -137,7 +136,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "no_type_no_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="",
                 default_value="",
@@ -148,7 +146,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "type_no_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="",
@@ -159,7 +156,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "with_default",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="2",
@@ -170,7 +166,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "*args",
-            ParameterAssignment.POSITIONAL_VARARG,
             ParameterDocstring(
                 type="int",
                 default_value="",
@@ -181,7 +176,6 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "**kwargs",
-            ParameterAssignment.NAMED_VARARG,
             ParameterDocstring(
                 type="int",
                 default_value="",
@@ -192,14 +186,12 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "missing",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(type="", default_value="", description=""),
         ),
         (
             "function_with_attributes_and_parameters",
             False,
             "q",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="int",
                 default_value="2",
@@ -210,7 +202,6 @@ def test_get_function_documentation(
             "function_with_attributes_and_parameters",
             False,
             "p",
-            ParameterAssignment.POSITION_OR_NAME,
             ParameterDocstring(
                 type="",
                 default_value="",
@@ -232,11 +223,10 @@ def test_get_function_documentation(
     ],
 )
 def test_get_parameter_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     name: str,
     is_class: bool,
     parameter_name: str,
-    parameter_assigned_by: ParameterAssignment,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
     parent = None
@@ -259,7 +249,6 @@ def test_get_parameter_documentation(
     parameter_documentation = googlestyledoc_parser.get_parameter_documentation(
         function_node=node,
         parameter_name=parameter_name,
-        parameter_assigned_by=parameter_assigned_by,
         parent_class=parent,
     )
 
@@ -295,7 +284,7 @@ def test_get_parameter_documentation(
     ],
 )
 def test_get_attribute_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     class_name: str,
     attribute_name: str,
     expected_attribute_documentation: AttributeDocstring,
@@ -330,7 +319,7 @@ def test_get_attribute_documentation(
     ids=["existing return value and type", "existing return value no description", "function without return value"],
 )
 def test_get_result_documentation(
-    googlestyledoc_parser: GoogleDocParser,
+    googlestyledoc_parser: DocstringParser,
     function_name: str,
     expected_result_documentation: ResultDocstring,
 ) -> None:

@@ -1905,7 +1905,6 @@
       'docstring': dict({
         'description': '''
           This function checks if the sum of x and y is less than the value 10
-          
           and returns True if it is. (ReST).
         ''',
         'full_docstring': '''
@@ -4959,7 +4958,7 @@
       'docstring': dict({
         'description': '''
           Checks if the sum of x and y is greater than 10 and returns
-          a boolean value. (Google Style)
+            a boolean value. (Google Style)
         ''',
         'type': 'bool',
       }),
