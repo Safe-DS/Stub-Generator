@@ -693,7 +693,7 @@ class StubsStringGenerator:
                 case _:
                     self._add_to_imports(type_data["qname"])
 
-                    # inner classes that are private should not be used as types, therefore we add a TOD0
+                    # inner classes that are private should not be used as types, therefore we add a TODO
                     if name[0] == "_" and type_data["qname"] not in self.module_imports:
                         self._current_todo_msgs.add("internal class as type")
 
