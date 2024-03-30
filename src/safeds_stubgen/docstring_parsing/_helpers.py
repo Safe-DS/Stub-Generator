@@ -1,10 +1,6 @@
 from __future__ import annotations
 
 import inspect
-from typing import TYPE_CHECKING
-
-if TYPE_CHECKING:
-    from docstring_parser import Docstring
 
 from mypy import nodes
 
@@ -34,19 +30,3 @@ def get_full_docstring(declaration: nodes.ClassDef | nodes.FuncDef) -> str:
             full_docstring = definition.expr.value
 
     return inspect.cleandoc(full_docstring)
-
-
-def get_description(docstring_obj: Docstring) -> str:
-    """
-    Return the concatenated short and long description of the given docstring object.
-
-    If these parts are blank, an empty string is returned.
-    """
-    summary: str = docstring_obj.short_description or ""
-    extended_summary: str = docstring_obj.long_description or ""
-
-    result = ""
-    result += summary.rstrip()
-    result += "\n\n"
-    result += extended_summary.rstrip()
-    return result.strip()
