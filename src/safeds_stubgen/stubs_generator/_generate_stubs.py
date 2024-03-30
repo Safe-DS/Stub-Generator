@@ -937,9 +937,6 @@ class StubsStringGenerator:
             if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
                 shortest_id = fixed_module_id_parts
 
-                if len(shortest_id) == 1:
-                    break
-
         if shortest_id is None:
             return module_qname
         return ".".join(shortest_id)
