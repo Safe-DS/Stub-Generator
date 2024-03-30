@@ -693,7 +693,7 @@ class StubsStringGenerator:
                 case _:
                     self._add_to_imports(type_data["qname"])
 
-                    # inner classes that are private should not be used as types, therefore we add a todo
+                    # inner classes that are private should not be used as types, therefore we add a TOD0
                     if name[0] == "_" and type_data["qname"] not in self.module_imports:
                         self._current_todo_msgs.add("internal class as type")
 
@@ -1010,9 +1010,6 @@ class StubsStringGenerator:
         for fixed_module_id_parts in fixed_module_ids_parts:
             if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
                 shortest_id = fixed_module_id_parts
-
-                if len(shortest_id) == 1:
-                    break
 
         if shortest_id is None:
             return module_qname

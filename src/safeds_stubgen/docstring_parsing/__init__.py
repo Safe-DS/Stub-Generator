@@ -5,7 +5,6 @@ from ._create_docstring_parser import create_docstring_parser
 from ._docstring import AttributeDocstring, ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
 from ._docstring_parser import DocstringParser
 from ._docstring_style import DocstringStyle
-from ._epydoc_parser import EpydocParser
 from ._plaintext_docstring_parser import PlaintextDocstringParser
 
 __all__ = [
@@ -15,7 +14,6 @@ __all__ = [
     "create_docstring_parser",
     "DocstringParser",
     "DocstringStyle",
-    "EpydocParser",
     "FunctionDocstring",
     "ParameterDocstring",
     "PlaintextDocstringParser",

@@ -6,7 +6,6 @@ from griffe.enumerations import Parser
 
 from ._docstring_parser import DocstringParser
 from ._docstring_style import DocstringStyle
-from ._epydoc_parser import EpydocParser
 from ._plaintext_docstring_parser import PlaintextDocstringParser
 
 if TYPE_CHECKING:
@@ -14,9 +13,7 @@ if TYPE_CHECKING:
 
 
 def create_docstring_parser(style: DocstringStyle) -> AbstractDocstringParser:
-    if style == DocstringStyle.EPYDOC:
-        return EpydocParser()
-    elif style == DocstringStyle.GOOGLE:
+    if style == DocstringStyle.GOOGLE:
         return DocstringParser(Parser.google)
     elif style == DocstringStyle.NUMPYDOC:
         return DocstringParser(Parser.numpy)

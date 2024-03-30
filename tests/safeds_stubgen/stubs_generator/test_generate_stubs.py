@@ -144,7 +144,6 @@ def test_convert_name_to_convention(
 @pytest.mark.parametrize(
     ("filename", "docstring_style"),
     [
-        ("epydoc", DocstringStyle.EPYDOC),
         ("full_docstring", DocstringStyle.PLAINTEXT),
         ("googledoc", DocstringStyle.GOOGLE),
         ("numpydoc", DocstringStyle.NUMPYDOC),

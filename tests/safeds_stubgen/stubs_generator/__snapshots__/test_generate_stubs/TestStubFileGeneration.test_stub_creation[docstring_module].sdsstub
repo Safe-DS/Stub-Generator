@@ -8,38 +8,6 @@
 package tests.data.variousModulesPackage.docstringModule
 
 /**
- * A class with a variety of different methods for calculations. (Epydoc).
- *
- * @ivar attr_1: Attribute of the calculator. (Epydoc)
- * @type attr_1: str
- * @param param_1: Parameter of the calculator. (Epydoc)
- * @type param_1: str
- */
-class EpydocDocstringClass(
-	@PythonName("param_1") param1: String
-) {
-	@PythonName("attr_1")
-	static attr attr1: String
-
-	/**
-	 * This function checks if the sum of x and y is less than the value 10 and returns True if it is. (Epydoc).
-	 *
-	 * @param x: First integer value for the calculation. (Epydoc)
-	 * @type x: int
-	 * @param y: Second integer value for the calculation. (Epydoc)
-	 * @type y: int
-	 * @return: Checks if the sum of x and y is greater than 10. (Epydoc)
-	 * @rtype: bool
-	 */
-	@Pure
-	@PythonName("epydoc_docstring_func")
-	fun epydocDocstringFunc(
-		x: Int,
-		y: Int
-	) -> result1: Boolean
-}
-
-/**
  * A class with a variety of different methods for calculations. (ReST).
  *
  * :param attr_1: Attribute of the calculator. (ReST)
