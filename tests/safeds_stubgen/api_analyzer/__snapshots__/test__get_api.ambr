@@ -1378,41 +1378,6 @@
     }),
   ])
 # ---
-# name: test_class_methods[EpydocDocstringClass]
-  list([
-    dict({
-      'docstring': dict({
-        'description': 'This function checks if the sum of x and y is less than the value 10 and returns True if it is. (Epydoc).',
-        'full_docstring': '''
-          This function checks if the sum of x and y is less than the value 10 and returns True if it is. (Epydoc).
-          
-          @param x: First integer value for the calculation. (Epydoc)
-          @type x: int
-          @param y: Second integer value for the calculation. (Epydoc)
-          @type y: int
-          @return: Checks if the sum of x and y is greater than 10. (Epydoc)
-          @rtype: bool
-        ''',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
-      'is_class_method': False,
-      'is_property': False,
-      'is_public': True,
-      'is_static': False,
-      'name': 'epydoc_docstring_func',
-      'parameters': list([
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
-      ]),
-    }),
-  ])
-# ---
 # name: test_class_methods[FunctionModuleClassB]
   list([
     dict({
@@ -2237,59 +2202,6 @@
       'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
     ]),
     'name': 'ClassModuleNestedClassE',
-    'reexported_by': list([
-    ]),
-    'superclasses': list([
-    ]),
-    'type_parameters': list([
-    ]),
-  })
-# ---
-# name: test_classes[EpydocDocstringClass]
-  dict({
-    'attributes': list([
-      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/attr_1',
-    ]),
-    'classes': list([
-    ]),
-    'constructor': dict({
-      'docstring': dict({
-        'description': '',
-        'full_docstring': '',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__',
-      'is_class_method': False,
-      'is_property': False,
-      'is_public': True,
-      'is_static': False,
-      'name': '__init__',
-      'parameters': list([
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
-        'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
-      ]),
-      'reexported_by': list([
-      ]),
-      'results': list([
-      ]),
-    }),
-    'docstring': dict({
-      'description': 'A class with a variety of different methods for calculations. (Epydoc).',
-      'full_docstring': '''
-        A class with a variety of different methods for calculations. (Epydoc).
-        
-        @ivar attr_1: Attribute of the calculator. (Epydoc)
-        @type attr_1: str
-        @param param_1: Parameter of the calculator. (Epydoc)
-        @type param_1: str
-      ''',
-    }),
-    'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass',
-    'inherits_from_exception': False,
-    'is_public': True,
-    'methods': list([
-      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func',
-    ]),
-    'name': 'EpydocDocstringClass',
     'reexported_by': list([
     ]),
     'superclasses': list([
@@ -3266,91 +3178,6 @@
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/param_1',
       'is_optional': False,
       'name': 'param_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-        'qname': 'builtins.int',
-      }),
-    }),
-  ])
-# ---
-# name: test_function_parameters[epydoc.__init__]
-  list([
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': 'Parameter of the calculator. (Epydoc)',
-        'type': 'str',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/param_1',
-      'is_optional': False,
-      'name': 'param_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'str',
-        'qname': 'builtins.str',
-      }),
-    }),
-    dict({
-      'assigned_by': 'IMPLICIT',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/__init__/self',
-      'is_optional': False,
-      'name': 'self',
-      'type': None,
-    }),
-  ])
-# ---
-# name: test_function_parameters[epydoc_docstring_func]
-  list([
-    dict({
-      'assigned_by': 'IMPLICIT',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': '',
-        'type': '',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/self',
-      'is_optional': False,
-      'name': 'self',
-      'type': None,
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': 'First integer value for the calculation. (Epydoc)',
-        'type': 'int',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/x',
-      'is_optional': False,
-      'name': 'x',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'int',
-        'qname': 'builtins.int',
-      }),
-    }),
-    dict({
-      'assigned_by': 'POSITION_OR_NAME',
-      'default_value': None,
-      'docstring': dict({
-        'default_value': '',
-        'description': 'Second integer value for the calculation. (Epydoc)',
-        'type': 'int',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/y',
-      'is_optional': False,
-      'name': 'y',
       'type': dict({
         'kind': 'NamedType',
         'name': 'int',
@@ -4915,23 +4742,6 @@
           'name': 'Any',
           'qname': 'builtins.Any',
         }),
-      }),
-    }),
-  ])
-# ---
-# name: test_function_results[epydoc_docstring_func]
-  list([
-    dict({
-      'docstring': dict({
-        'description': 'Checks if the sum of x and y is greater than 10. (Epydoc)',
-        'type': 'bool',
-      }),
-      'id': 'tests/data/various_modules_package/docstring_module/EpydocDocstringClass/epydoc_docstring_func/result_1',
-      'name': 'result_1',
-      'type': dict({
-        'kind': 'NamedType',
-        'name': 'bool',
-        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -6980,7 +6790,6 @@
 # name: test_modules[docstring_module]
   dict({
     'classes': list([
-      'tests/data/various_modules_package/docstring_module/EpydocDocstringClass',
       'tests/data/various_modules_package/docstring_module/RestDocstringClass',
       'tests/data/various_modules_package/docstring_module/NumpyDocstringClass',
       'tests/data/various_modules_package/docstring_module/GoogleDocstringClass',

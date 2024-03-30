@@ -23,13 +23,6 @@ api_data_paintext = get_api(
     is_test_run=True,
 ).to_dict()
 
-api_data_epydoc = get_api(
-    package_name=_test_package_name,
-    root=package_root,
-    docstring_style=DocstringStyle.EPYDOC,
-    is_test_run=True,
-).to_dict()
-
 api_data_numpy = get_api(
     package_name=_test_package_name,
     root=package_root,
@@ -79,7 +72,6 @@ def _get_specific_class_data(
 def get_api_data(docstring_style: str) -> dict:
     return {
         "plaintext": api_data_paintext,
-        "epydoc": api_data_epydoc,
         "numpydoc": api_data_numpy,
         "rest": api_data_rest,
         "google": api_data_google,
@@ -188,7 +180,6 @@ def test_imports(module_name: str, import_type: str, snapshot: SnapshotAssertion
         ("variance_module", "VarianceClassOnlyContravarianceNoBound", "plaintext"),
         ("variance_module", "VarianceClassAll", "plaintext"),
         (_infer_types_module_name, "InferMyTypes", "plaintext"),
-        (_docstring_module_name, "EpydocDocstringClass", "epydoc"),
         (_docstring_module_name, "RestDocstringClass", "rest"),
         (_docstring_module_name, "NumpyDocstringClass", "numpydoc"),
         (_docstring_module_name, "GoogleDocstringClass", "google"),
@@ -211,7 +202,6 @@ def test_imports(module_name: str, import_type: str, snapshot: SnapshotAssertion
         "VarianceClassOnlyContravarianceNoBound",
         "VarianceClassAll",
         "InferMyTypes",
-        "EpydocDocstringClass",
         "RestDocstringClass",
         "NumpyDocstringClass",
         "GoogleDocstringClass",
@@ -227,14 +217,12 @@ def test_classes(module_name: str, class_name: str, docstring_style: str, snapsh
     assert class_data == snapshot
 
 
-# Todo Epydoc Tests are deactivated right now, since attribute handling is not implemented yet for the docstring_parser
 @pytest.mark.parametrize(
     argnames=("module_name", "class_name", "docstring_style"),
     argvalues=[
         ("attribute_module", "AttributesClassB", "plaintext"),
         (_class_module_name, "ClassModuleNestedClassE", "plaintext"),
         (_class_module_name, "_ClassModulePrivateClassG", "plaintext"),
-        # (_docstring_module_name, "EpydocDocstringClass", "epydoc"),
         (_docstring_module_name, "RestDocstringClass", "rest"),
         (_docstring_module_name, "NumpyDocstringClass", "numpydoc"),
         (_docstring_module_name, "GoogleDocstringClass", "google"),
@@ -243,7 +231,6 @@ def test_classes(module_name: str, class_name: str, docstring_style: str, snapsh
         "AttributesClassB",
         "ClassModuleNestedClassE",
         "_ClassModulePrivateClassG",
-        # "EpydocDocstringClass",
         "RestDocstringClass",
         "NumpyDocstringClass",
         "GoogleDocstringClass",
@@ -359,7 +346,6 @@ def test_global_functions(module_name: str, snapshot: SnapshotAssertion) -> None
         (_type_var_module_name, "CollectionTypeVar2", "plaintext"),
         ("_reexport_module_1", "ReexportClass", "plaintext"),
         (_abstract_module_name, "AbstractModuleClass", "plaintext"),
-        (_docstring_module_name, "EpydocDocstringClass", "epydoc"),
         (_docstring_module_name, "RestDocstringClass", "rest"),
         (_docstring_module_name, "NumpyDocstringClass", "numpydoc"),
         (_docstring_module_name, "GoogleDocstringClass", "google"),
@@ -382,7 +368,6 @@ def test_global_functions(module_name: str, snapshot: SnapshotAssertion) -> None
         "CollectionTypeVar2",
         "ReexportClass",
         "AbstractModuleClass",
-        "EpydocDocstringClass",
         "RestDocstringClass",
         "NumpyDocstringClass",
         "GoogleDocstringClass",
@@ -426,8 +411,6 @@ def test_class_methods(module_name: str, class_name: str, docstring_style: str, 
         ("abstract_method_params", _abstract_module_name, "AbstractModuleClass", "plaintext"),
         ("abstract_static_method_params", _abstract_module_name, "AbstractModuleClass", "plaintext"),
         ("abstract_property_method", _abstract_module_name, "AbstractModuleClass", "plaintext"),
-        ("epydoc_docstring_func", _docstring_module_name, "EpydocDocstringClass", "epydoc"),
-        ("__init__", _docstring_module_name, "EpydocDocstringClass", "epydoc"),
         ("rest_docstring_func", _docstring_module_name, "RestDocstringClass", "rest"),
         ("__init__", _docstring_module_name, "RestDocstringClass", "rest"),
         ("numpy_docstring_func", _docstring_module_name, "NumpyDocstringClass", "numpydoc"),
@@ -458,8 +441,6 @@ def test_class_methods(module_name: str, class_name: str, docstring_style: str, 
         "abstract_method_params",
         "abstract_static_method_params",
         "abstract_property_method",
-        "epydoc_docstring_func",
-        "epydoc.__init__",
         "rest_docstring_func",
         "rest.__init__",
         "numpy_docstring_func",
@@ -526,7 +507,6 @@ def test_function_parameters(
         ("abstract_method_params", _abstract_module_name, "AbstractModuleClass", "plaintext"),
         ("abstract_static_method_params", _abstract_module_name, "AbstractModuleClass", "plaintext"),
         ("abstract_property_method", _abstract_module_name, "AbstractModuleClass", "plaintext"),
-        ("epydoc_docstring_func", _docstring_module_name, "EpydocDocstringClass", "epydoc"),
         ("rest_docstring_func", _docstring_module_name, "RestDocstringClass", "rest"),
         ("numpy_docstring_func", _docstring_module_name, "NumpyDocstringClass", "numpydoc"),
         ("google_docstring_func", _docstring_module_name, "GoogleDocstringClass", "google"),
@@ -567,7 +547,6 @@ def test_function_parameters(
         "abstract_method_params",
         "abstract_static_method_params",
         "abstract_property_method",
-        "epydoc_docstring_func",
         "rest_docstring_func",
         "numpy_docstring_func",
         "google_docstring_func",

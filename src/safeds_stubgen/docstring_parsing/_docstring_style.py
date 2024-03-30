@@ -6,7 +6,6 @@ from enum import Enum
 class DocstringStyle(Enum):
     # AUTO = "auto",
     PLAINTEXT = "plaintext"
-    EPYDOC = "epydoc"
     GOOGLE = "google"
     NUMPYDOC = "numpydoc"
     REST = "rest"

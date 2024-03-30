@@ -3,7 +3,6 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ._docstring_style import DocstringStyle
-from ._epydoc_parser import EpydocParser
 from ._googledoc_parser import GoogleDocParser
 from ._numpydoc_parser import NumpyDocParser
 from ._plaintext_docstring_parser import PlaintextDocstringParser
@@ -14,9 +13,7 @@ if TYPE_CHECKING:
 
 
 def create_docstring_parser(style: DocstringStyle) -> AbstractDocstringParser:
-    if style == DocstringStyle.EPYDOC:
-        return EpydocParser()
-    elif style == DocstringStyle.GOOGLE:
+    if style == DocstringStyle.GOOGLE:
         return GoogleDocParser()
     elif style == DocstringStyle.NUMPYDOC:
         return NumpyDocParser()
