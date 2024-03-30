@@ -3,7 +3,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -19,7 +18,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -35,7 +33,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -56,7 +53,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -72,7 +68,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -88,7 +83,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -104,7 +98,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -120,7 +113,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -136,7 +128,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -148,7 +139,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -160,7 +150,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -176,7 +165,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -200,7 +188,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -224,7 +211,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -268,7 +254,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -287,7 +272,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -316,7 +300,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -345,7 +328,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -361,7 +343,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -377,7 +358,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -403,7 +383,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -419,7 +398,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -450,7 +428,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -476,7 +453,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -512,7 +488,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -529,7 +504,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -579,7 +553,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -595,7 +568,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -616,7 +588,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -632,7 +603,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -648,7 +618,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -664,7 +633,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -680,7 +648,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -720,7 +687,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -736,7 +702,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -752,7 +717,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -768,7 +732,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -794,7 +757,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -815,7 +777,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -846,7 +807,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -872,7 +832,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -908,7 +867,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -924,7 +882,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -945,7 +902,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -976,7 +932,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -1002,7 +957,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -1022,7 +976,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -1038,7 +991,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -1058,7 +1010,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': 'Attribute of the calculator. (Google Style)',
         'type': 'str',
       }),
@@ -1078,7 +1029,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': 'Attribute of the calculator. (Numpy)',
         'type': 'str',
       }),
@@ -1098,7 +1048,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': 'Attribute of the calculator. (ReST)',
         'type': 'str',
       }),
@@ -1118,7 +1067,6 @@
   list([
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),
@@ -1134,7 +1082,6 @@
     }),
     dict({
       'docstring': dict({
-        'default_value': '',
         'description': '',
         'type': '',
       }),

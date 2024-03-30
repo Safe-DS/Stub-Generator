@@ -345,7 +345,6 @@ def test_get_parameter_documentation(
             "no_type_no_default",
             AttributeDocstring(
                 type="",
-                default_value="",
                 description="foo: no_type_no_default. Code::\n\n    pass",
             ),
         ),
@@ -354,7 +353,6 @@ def test_get_parameter_documentation(
             "type_no_default",
             AttributeDocstring(
                 type="int",
-                default_value="",
                 description="foo: type_no_default",
             ),
         ),
@@ -363,7 +361,6 @@ def test_get_parameter_documentation(
             "optional_unknown_default",
             AttributeDocstring(
                 type="int",
-                default_value="",
                 description="foo: optional_unknown_default",
             ),
         ),
@@ -372,26 +369,24 @@ def test_get_parameter_documentation(
             "with_default_syntax_1",
             AttributeDocstring(
                 type="int",
-                default_value="1",
                 description="foo: with_default_syntax_1",
             ),
         ),
         (
             "ClassWithAttributes",
             "with_default_syntax_2",
-            AttributeDocstring(type="int", default_value="2", description="foo: with_default_syntax_2"),
+            AttributeDocstring(type="int", description="foo: with_default_syntax_2"),
         ),
         (
             "ClassWithAttributes",
             "with_default_syntax_3",
-            AttributeDocstring(type="int", default_value="3", description="foo: with_default_syntax_3"),
+            AttributeDocstring(type="int", description="foo: with_default_syntax_3"),
         ),
         (
             "ClassWithAttributes",
             "grouped_attribute_1",
             AttributeDocstring(
                 type="int",
-                default_value="4",
                 description="foo: grouped_attribute_1 and grouped_attribute_2",
             ),
         ),
@@ -400,21 +395,19 @@ def test_get_parameter_documentation(
             "grouped_attribute_2",
             AttributeDocstring(
                 type="int",
-                default_value="4",
                 description="foo: grouped_attribute_1 and grouped_attribute_2",
             ),
         ),
         (
             "ClassWithAttributes",
             "missing",
-            AttributeDocstring(type="", default_value="", description=""),
+            AttributeDocstring(type="", description=""),
         ),
         (
             "ClassWithParametersAndAttributes",
             "r",
             AttributeDocstring(
                 type="",
-                default_value="",
                 description="",
             ),
         ),
@@ -423,7 +416,6 @@ def test_get_parameter_documentation(
             "q",
             AttributeDocstring(
                 type="int",
-                default_value="1",
                 description="foo",
             ),
         ),

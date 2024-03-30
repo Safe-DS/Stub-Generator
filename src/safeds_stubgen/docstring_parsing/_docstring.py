@@ -39,7 +39,6 @@ class ParameterDocstring:
 @dataclass(frozen=True)
 class AttributeDocstring:
     type: str = ""
-    default_value: str = ""
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:

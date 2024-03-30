@@ -4,7 +4,6 @@
     'attributes': list([
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),
@@ -20,7 +19,6 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),
@@ -36,7 +34,6 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),
@@ -52,7 +49,6 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),
@@ -68,7 +64,6 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),
@@ -84,7 +79,6 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
           'type': '',
         }),

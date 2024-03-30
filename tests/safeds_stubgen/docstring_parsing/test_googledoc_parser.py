@@ -264,7 +264,6 @@ def test_get_parameter_documentation(
             "p",
             AttributeDocstring(
                 type="int",
-                default_value="1",
                 description="foo. Defaults to 1.",
             ),
         ),
@@ -273,7 +272,6 @@ def test_get_parameter_documentation(
             "missing",
             AttributeDocstring(
                 type="",
-                default_value="",
                 description="",
             ),
         ),

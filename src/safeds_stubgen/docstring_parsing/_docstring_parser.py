@@ -141,7 +141,6 @@ class DocstringParser(AbstractDocstringParser):
         annotation = "" if not last_attribute.annotation else str(last_attribute.annotation)
         return AttributeDocstring(
             type=annotation,
-            default_value=last_attribute.value or "",
             description=remove_newline_from_text(last_attribute.description),
         )
 
