@@ -4,36 +4,6 @@ A module for testing the various docstring types.
 """
 
 
-class EpydocDocstringClass:
-    """
-    A class with a variety of different methods for calculations. (Epydoc).
-
-    @ivar attr_1: Attribute of the calculator. (Epydoc)
-    @type attr_1: str
-    @param param_1: Parameter of the calculator. (Epydoc)
-    @type param_1: str
-    """
-
-    attr_1: str
-
-    def __init__(self, param_1: str):
-        pass
-
-    def epydoc_docstring_func(self, x: int, y: int) -> bool:
-        """
-        This function checks if the sum of x and y is less than the value 10 and returns True if it is. (Epydoc).
-
-        @param x: First integer value for the calculation. (Epydoc)
-        @type x: int
-        @param y: Second integer value for the calculation. (Epydoc)
-        @type y: int
-        @return: Checks if the sum of x and y is greater than 10. (Epydoc)
-        @rtype: bool
-        """
-        z = x + y
-        return z < 10
-
-
 class RestDocstringClass:
     """
     A class with a variety of different methods for calculations. (ReST).
