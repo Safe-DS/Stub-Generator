@@ -23,7 +23,6 @@ if TYPE_CHECKING:
     from mypy import nodes
 
 
-
 class DocstringParser(AbstractDocstringParser):
     def __init__(self, parser: Parser, package_path: Path):
         while True:
