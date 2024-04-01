@@ -748,10 +748,12 @@ class StubsStringGenerator:
 
                 # We overwrite the old types of the union with the joined literal types
                 type_data["types"] = other_type_data
-                type_data["types"].append({
-                    "kind": "LiteralType",
-                    "literals": all_literals,
-                })
+                type_data["types"].append(
+                    {
+                        "kind": "LiteralType",
+                        "literals": all_literals,
+                    },
+                )
 
             # Union items have to be unique, therefore we use sets. But the types set has to be a sorted list, since
             # otherwise the snapshot tests would fail b/c element order in sets is non-deterministic.

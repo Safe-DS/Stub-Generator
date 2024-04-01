@@ -17,11 +17,11 @@ from ._docstring import (
 from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
-    from griffe.dataclasses import Docstring, Object
-    from griffe.docstrings.dataclasses import DocstringSection
-    from mypy import nodes
     from pathlib import Path
-    from safeds_stubgen.api_analyzer import Class
+
+    from griffe.dataclasses import Docstring, Object
+    from mypy import nodes
+
 
 
 class DocstringParser(AbstractDocstringParser):
@@ -218,8 +218,10 @@ class DocstringParser(AbstractDocstringParser):
             elif part == "__init__" and griffe_node.is_class:
                 return None
             else:
-                raise ValueError(f"Something went wrong while searching for the docstring for {qname}. Please make sure"
-                                 " that all directories with python files have an __init__.py file.")
+                raise ValueError(
+                    f"Something went wrong while searching for the docstring for {qname}. Please make sure"
+                    " that all directories with python files have an __init__.py file.",
+                )
 
         return griffe_node
 

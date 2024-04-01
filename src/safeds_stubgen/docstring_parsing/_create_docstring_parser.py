@@ -9,8 +9,9 @@ from ._docstring_style import DocstringStyle
 from ._plaintext_docstring_parser import PlaintextDocstringParser
 
 if TYPE_CHECKING:
-    from ._abstract_docstring_parser import AbstractDocstringParser
     from pathlib import Path
+
+    from ._abstract_docstring_parser import AbstractDocstringParser
 
 
 def create_docstring_parser(style: DocstringStyle, package_path: Path) -> AbstractDocstringParser:
