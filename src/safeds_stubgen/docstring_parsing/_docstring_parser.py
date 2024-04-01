@@ -34,8 +34,8 @@ class DocstringParser(AbstractDocstringParser):
                 package_path = package_path.parent
 
         self.parser = parser
-        self.__cached_node: nodes.FuncDef | Class | None = None
-        self.__cached_docstring: list[DocstringSection] | None = None
+        self.__cached_node: str | None = None
+        self.__cached_docstring: Docstring | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
         griffe_node = self._get_griffe_node(class_node.fullname)
