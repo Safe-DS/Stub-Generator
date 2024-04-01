@@ -433,7 +433,7 @@ class MyPyAstVisitor:
         if ret_type is None:
             return []
 
-        result_docstring = self.docstring_parser.get_result_documentation(node)
+        result_docstring = self.docstring_parser.get_result_documentation(node.fullname)
 
         if type_is_inferred and isinstance(ret_type, sds_types.TupleType):
             return self._create_inferred_results(ret_type, result_docstring, function_id)
@@ -670,7 +670,7 @@ class MyPyAstVisitor:
         if isinstance(parent, Function) and parent.name == "__init__":
             parent = self.__declaration_stack[-2]
         assert isinstance(parent, Class)
-        docstring = self.docstring_parser.get_attribute_documentation(parent, name)
+        docstring = self.docstring_parser.get_attribute_documentation(parent.id, name)
 
         # Remove __init__ for attribute ids
         id_ = self._create_id_from_stack(name).replace("__init__/", "")

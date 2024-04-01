@@ -38,11 +38,11 @@ class AbstractDocstringParser(ABC):
     @abstractmethod
     def get_attribute_documentation(
         self,
-        parent_class: Class,
+        parent_class_qname: str,
         attribute_name: str,
     ) -> AttributeDocstring:
         pass  # pragma: no cover
 
     @abstractmethod
-    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
+    def get_result_documentation(self, function_qname: str) -> ResultDocstring:
         pass  # pragma: no cover

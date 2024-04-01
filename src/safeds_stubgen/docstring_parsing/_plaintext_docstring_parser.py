@@ -41,13 +41,13 @@ class PlaintextDocstringParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        parent_class: Class,  # noqa: ARG002
+        parent_class_qname: str,  # noqa: ARG002
         attribute_name: str,  # noqa: ARG002
     ) -> AttributeDocstring:
         return AttributeDocstring()
 
     def get_result_documentation(
         self,
-        function_node: nodes.FuncDef,  # noqa: ARG002
+        function_qname: str,  # noqa: ARG002
     ) -> ResultDocstring:
         return ResultDocstring()

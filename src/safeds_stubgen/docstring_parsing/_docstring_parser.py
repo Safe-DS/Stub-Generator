@@ -2,18 +2,9 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Literal
 
-from griffe.dataclasses import Docstring
-from griffe.dataclasses import Docstring as GriffeDocstring
-from griffe.docstrings.dataclasses import (
-    DocstringAttribute,
-    DocstringParameter,
-    DocstringSection,
-    DocstringSectionAttributes,
-    DocstringSectionParameters,
-    DocstringSectionReturns,
-    DocstringSectionText,
-)
-from griffe.enumerations import Parser
+from griffe import load
+from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
+from griffe.enumerations import DocstringSectionKind, Parser
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -23,29 +14,44 @@ from ._docstring import (
     ParameterDocstring,
     ResultDocstring,
 )
-from ._helpers import get_full_docstring, remove_newline_from_text
+from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
+    from griffe.dataclasses import Docstring, Object
+    from griffe.docstrings.dataclasses import DocstringSection
     from mypy import nodes
-
+    from pathlib import Path
     from safeds_stubgen.api_analyzer import Class
 
 
 class DocstringParser(AbstractDocstringParser):
-    def __init__(self, parser: Parser):
+    def __init__(self, parser: Parser, package_path: Path):
+        while True:
+            try:
+                self.griffe_build = load(package_path, docstring_parser=parser)
+                break
+            except KeyError:
+                package_path = package_path.parent
+
         self.parser = parser
         self.__cached_node: nodes.FuncDef | Class | None = None
         self.__cached_docstring: list[DocstringSection] | None = None
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
-        docstring = get_full_docstring(class_node)
+        griffe_node = self._get_griffe_node(class_node.fullname)
 
-        griffe_doc = GriffeDocstring(value=docstring, parser=self.parser)
+        if griffe_node is None:  # pragma: no cover
+            raise TypeError(f"Expected a griffe node for {class_node.fullname}, got None.")
+
         description = ""
-        for docstring_section in griffe_doc.parse(parser=self.parser):
-            if isinstance(docstring_section, DocstringSectionText):
-                description = docstring_section.value
-                break
+        docstring = ""
+        if griffe_node.docstring is not None:
+            docstring = griffe_node.docstring.value
+
+            for docstring_section in griffe_node.docstring.parsed:
+                if docstring_section.kind == DocstringSectionKind.text:
+                    description = docstring_section.value
+                    break
 
         return ClassDocstring(
             description=remove_newline_from_text(description),
@@ -53,14 +59,15 @@ class DocstringParser(AbstractDocstringParser):
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
-        docstring = get_full_docstring(function_node)
-        griffe_docstring = self.__get_cached_docstring(function_node, docstring)
-
+        docstring = ""
         description = ""
-        for docstring_section in griffe_docstring:
-            if isinstance(docstring_section, DocstringSectionText):
-                description = docstring_section.value
-                break
+        griffe_docstring = self.__get_cached_docstring(function_node.fullname)
+        if griffe_docstring is not None:
+            docstring = griffe_docstring.value
+            for docstring_section in griffe_docstring.parsed:
+                if docstring_section.kind == DocstringSectionKind.text:
+                    description = docstring_section.value
+                    break
 
         return FunctionDocstring(
             description=remove_newline_from_text(description),
@@ -73,28 +80,25 @@ class DocstringParser(AbstractDocstringParser):
         parameter_name: str,
         parent_class: Class | None,
     ) -> ParameterDocstring:
-        from safeds_stubgen.api_analyzer import Class
-
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and isinstance(parent_class, Class):
-            docstring = parent_class.docstring.full_docstring
+        if function_node.name == "__init__" and parent_class is not None:
+            parent_qname = parent_class.id.replace("/", ".")
+            griffe_docstring = self.__get_cached_docstring(parent_qname)
         else:
-            docstring = get_full_docstring(function_node)
+            griffe_docstring = self.__get_cached_docstring(function_node.fullname)
 
         # Find matching parameter docstrings
-        function_doc = self.__get_cached_docstring(function_node, docstring)
-        matching_parameters = self._get_matching_docstrings(function_doc, parameter_name, "param")
+        matching_parameters = []
+        if griffe_docstring is not None:
+            matching_parameters = self._get_matching_docstrings(griffe_docstring, parameter_name, "param")
 
         # For numpy, if we have a constructor we have to check both, the class and then the constructor (see issue
         # https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if self.parser == Parser.numpy and len(matching_parameters) == 0 and function_node.name == "__init__":
-            # Get constructor docstring
-            docstring_constructor = get_full_docstring(function_node)
-            griffe_docstring = GriffeDocstring(value=docstring_constructor, parser=self.parser)
-
-            # Find matching parameter docstrings
-            function_doc = griffe_docstring.parse(self.parser)
-            matching_parameters = self._get_matching_docstrings(function_doc, parameter_name, "param")
+            # Get constructor docstring & find matching parameter docstrings
+            constructor_docstring = self.__get_cached_docstring(function_node.fullname)
+            if constructor_docstring is not None:
+                matching_parameters = self._get_matching_docstrings(constructor_docstring, parameter_name, "param")
 
         if len(matching_parameters) == 0:
             return ParameterDocstring()
@@ -114,25 +118,31 @@ class DocstringParser(AbstractDocstringParser):
 
     def get_attribute_documentation(
         self,
-        parent_class: Class,
+        parent_class_qname: str,
         attribute_name: str,
     ) -> AttributeDocstring:
+        parent_class_qname = parent_class_qname.replace("/", ".")
+
         # Find matching attribute docstrings
-        function_doc = self.__get_cached_docstring(parent_class, parent_class.docstring.full_docstring)
-        if self.parser == Parser.sphinx:
-            # ReST does not differentiate between attribute and parameter
-            matching_attributes = self._get_matching_docstrings(function_doc, attribute_name, "param")
+        parent_qname = parent_class_qname
+        griffe_docstring = self.__get_cached_docstring(parent_qname)
+        if griffe_docstring is None:
+            matching_attributes = []
+        elif self.parser == Parser.sphinx:
+            # ReST does not differentiate between parameterd and attributes
+            matching_attributes = self._get_matching_docstrings(griffe_docstring, attribute_name, "param")
         else:
-            matching_attributes = self._get_matching_docstrings(function_doc, attribute_name, "attr")
+            matching_attributes = self._get_matching_docstrings(griffe_docstring, attribute_name, "attr")
 
         # For Numpydoc, if the class has a constructor we have to check both the class and then the constructor
         # (see issue https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if self.parser == Parser.numpy and len(matching_attributes) == 0:
-            griffe_docstring = GriffeDocstring(value=parent_class.constructor_fulldocstring, parser=self.parser)
+            constructor_qname = f"{parent_class_qname}.__init__"
+            constructor_docstring = self.__get_cached_docstring(constructor_qname)
 
             # Find matching parameter docstrings
-            function_doc = griffe_docstring.parse(self.parser)
-            matching_attributes = self._get_matching_docstrings(function_doc, attribute_name, "attr")
+            if constructor_docstring is not None:
+                matching_attributes = self._get_matching_docstrings(constructor_docstring, attribute_name, "attr")
 
         if len(matching_attributes) == 0:
             return AttributeDocstring()
@@ -144,15 +154,17 @@ class DocstringParser(AbstractDocstringParser):
             description=remove_newline_from_text(last_attribute.description),
         )
 
-    def get_result_documentation(self, function_node: nodes.FuncDef) -> ResultDocstring:
-        docstring = get_full_docstring(function_node)
-
+    # Todo handle multiple results
+    def get_result_documentation(self, function_qname: str) -> ResultDocstring:
         # Find matching parameter docstrings
-        function_doc = self.__get_cached_docstring(function_node, docstring)
+        griffe_docstring = self.__get_cached_docstring(function_qname)
+
+        if griffe_docstring is None:
+            return ResultDocstring()
 
         all_returns = None
-        for docstring_section in function_doc:
-            if isinstance(docstring_section, DocstringSectionReturns):
+        for docstring_section in griffe_docstring.parsed:
+            if docstring_section.kind == DocstringSectionKind.returns:
                 all_returns = docstring_section
                 break
 
@@ -167,14 +179,15 @@ class DocstringParser(AbstractDocstringParser):
 
     @staticmethod
     def _get_matching_docstrings(
-        function_doc: list[DocstringSection],
+        function_doc: Docstring,
         name: str,
         type_: Literal["attr", "param"],
     ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
-        for docstring_section in function_doc:
-            if (type_ == "attr" and isinstance(docstring_section, DocstringSectionAttributes)) or (
-                type_ == "param" and isinstance(docstring_section, DocstringSectionParameters)
+        for docstring_section in function_doc.parsed:
+            section_kind = docstring_section.kind
+            if (type_ == "attr" and section_kind == DocstringSectionKind.attributes) or (
+                type_ == "param" and section_kind == DocstringSectionKind.parameters
             ):
                 all_docstrings = docstring_section
                 break
@@ -185,7 +198,30 @@ class DocstringParser(AbstractDocstringParser):
 
         return []
 
-    def __get_cached_docstring(self, node: nodes.FuncDef | Class, docstring: str) -> list[DocstringSection]:
+    def _get_griffe_node(self, qname: str) -> Object | None:
+        node_qname_parts = qname.split(".")
+        griffe_node = self.griffe_build
+        for part in node_qname_parts:
+            if griffe_node.name == part:
+                continue
+
+            if part in griffe_node.modules:
+                griffe_node = griffe_node.modules[part]
+            elif part in griffe_node.classes:
+                griffe_node = griffe_node.classes[part]
+            elif part in griffe_node.functions:
+                griffe_node = griffe_node.functions[part]
+            elif part in griffe_node.attributes:
+                griffe_node = griffe_node.attributes[part]
+            elif part == "__init__" and griffe_node.is_class:
+                return None
+            else:
+                raise ValueError(f"Something went wrong while searching for the docstring for {qname}. Please make sure"
+                                 " that all directories with python files have an __init__.py file.")
+
+        return griffe_node
+
+    def __get_cached_docstring(self, qname: str) -> Docstring | None:
         """
         Return the Docstring for the given function node.
 
@@ -195,11 +231,14 @@ class DocstringParser(AbstractDocstringParser):
         On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
         function get_parameter_documentation when parsing sklearn. Afterward, it was only 2.113s.
         """
-        if self.__cached_node is not node or node.name == "__init__":
-            self.__cached_node = node
-            griffe_docstring = Docstring(value=docstring, parser=self.parser)
-            self.__cached_docstring = griffe_docstring.parse(parser=self.parser)
+        if self.__cached_node != qname or qname.endswith("__init__"):
+            self.__cached_node = qname
 
-        if self.__cached_docstring is None:  # pragma: no cover
-            raise ValueError("Expected a docstring, got None instead.")
+            griffe_node = self._get_griffe_node(qname)
+            if griffe_node is not None:
+                griffe_docstring = griffe_node.docstring
+                self.__cached_docstring = griffe_docstring
+            else:
+                self.__cached_docstring = None
+
         return self.__cached_docstring

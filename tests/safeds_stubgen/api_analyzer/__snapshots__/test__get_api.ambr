@@ -6512,6 +6512,23 @@
     ]),
   })
 # ---
+# name: test_modules[aliasing/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/aliasing',
+    'name': '__init__',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
 # name: test_modules[aliasing/aliasing_module_1]
   dict({
     'classes': list([
@@ -6582,6 +6599,23 @@
         'alias': 'ImportMeAlias',
         'qualified_name': 'aliasing_module_2.ImportMeAliasingModuleClass',
       }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[another_path/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/another_path',
+    'name': '__init__',
+    'qualified_imports': list([
     ]),
     'wildcard_imports': list([
     ]),
@@ -6924,6 +6958,23 @@
     ]),
     'id': 'tests/data/various_modules_package/file_creation/module_1',
     'name': 'module_1',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[file_creation/package_1/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/package_1',
+    'name': '__init__',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([

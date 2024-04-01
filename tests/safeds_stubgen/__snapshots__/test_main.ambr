@@ -538,6 +538,36 @@
     'modules': list([
       dict({
         'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package/another_path',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
           'tests/data/main_package/another_path/another_module/AnotherClass',
           'tests/data/main_package/another_path/another_module/yetAnotherClass',
         ]),

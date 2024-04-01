@@ -36,7 +36,7 @@ mypy_file = _get_mypy_asts(
 
 @pytest.fixture()
 def numpydoc_parser() -> DocstringParser:
-    return DocstringParser(Parser.numpy)
+    return DocstringParser(Parser.numpy, _test_dir)
 
 
 # ############################## Class Documentation ############################## #
@@ -442,11 +442,8 @@ def test_get_attribute_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, class_name)
     assert isinstance(node, nodes.ClassDef)
-    docstring = numpydoc_parser.get_class_documentation(node)
-    fake_class = Class(id="some_id", name="some_class", superclasses=[], is_public=True, docstring=docstring)
-
     attribute_documentation = numpydoc_parser.get_attribute_documentation(
-        parent_class=fake_class,
+        parent_class_qname=node.fullname,
         attribute_name=attribute_name,
     )
 
@@ -472,4 +469,4 @@ def test_get_result_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
-    assert numpydoc_parser.get_result_documentation(node) == expected_result_documentation
+    assert numpydoc_parser.get_result_documentation(node.fullname) == expected_result_documentation

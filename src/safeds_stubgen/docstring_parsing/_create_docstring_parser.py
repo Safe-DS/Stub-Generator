@@ -10,14 +10,15 @@ from ._plaintext_docstring_parser import PlaintextDocstringParser
 
 if TYPE_CHECKING:
     from ._abstract_docstring_parser import AbstractDocstringParser
+    from pathlib import Path
 
 
-def create_docstring_parser(style: DocstringStyle) -> AbstractDocstringParser:
+def create_docstring_parser(style: DocstringStyle, package_path: Path) -> AbstractDocstringParser:
     if style == DocstringStyle.GOOGLE:
-        return DocstringParser(Parser.google)
+        return DocstringParser(parser=Parser.google, package_path=package_path)
     elif style == DocstringStyle.NUMPYDOC:
-        return DocstringParser(Parser.numpy)
+        return DocstringParser(parser=Parser.numpy, package_path=package_path)
     elif style == DocstringStyle.REST:
-        return DocstringParser(Parser.sphinx)
+        return DocstringParser(parser=Parser.sphinx, package_path=package_path)
     else:
         return PlaintextDocstringParser()

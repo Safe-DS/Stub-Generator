@@ -32,7 +32,7 @@ mypy_file = _get_mypy_asts(
 
 @pytest.fixture()
 def restdoc_parser() -> DocstringParser:
-    return DocstringParser(Parser.sphinx)
+    return DocstringParser(Parser.sphinx, _test_dir)
 
 
 # ############################## Class Documentation ############################## #
@@ -253,4 +253,4 @@ def test_get_result_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
-    assert restdoc_parser.get_result_documentation(node) == expected_result_documentation
+    assert restdoc_parser.get_result_documentation(node.fullname) == expected_result_documentation
