@@ -76,16 +76,18 @@ class DocstringParser(AbstractDocstringParser):
 
     def get_parameter_documentation(
         self,
-        function_node: nodes.FuncDef,
+        function_qname: str,
         parameter_name: str,
-        parent_class: Class | None,
+        parent_class_qname: str,
     ) -> ParameterDocstring:
+        function_name = function_qname.split(".")[-1]
+
         # For constructors (__init__ functions) the parameters are described on the class
-        if function_node.name == "__init__" and parent_class is not None:
-            parent_qname = parent_class.id.replace("/", ".")
+        if function_name == "__init__" and parent_class_qname:
+            parent_qname = parent_class_qname.replace("/", ".")
             griffe_docstring = self.__get_cached_docstring(parent_qname)
         else:
-            griffe_docstring = self.__get_cached_docstring(function_node.fullname)
+            griffe_docstring = self.__get_cached_docstring(function_qname)
 
         # Find matching parameter docstrings
         matching_parameters = []
@@ -94,9 +96,9 @@ class DocstringParser(AbstractDocstringParser):
 
         # For numpy, if we have a constructor we have to check both, the class and then the constructor (see issue
         # https://github.com/Safe-DS/Library-Analyzer/issues/10)
-        if self.parser == Parser.numpy and len(matching_parameters) == 0 and function_node.name == "__init__":
+        if self.parser == Parser.numpy and len(matching_parameters) == 0 and function_name == "__init__":
             # Get constructor docstring & find matching parameter docstrings
-            constructor_docstring = self.__get_cached_docstring(function_node.fullname)
+            constructor_docstring = self.__get_cached_docstring(function_qname)
             if constructor_docstring is not None:
                 matching_parameters = self._get_matching_docstrings(constructor_docstring, parameter_name, "param")
 

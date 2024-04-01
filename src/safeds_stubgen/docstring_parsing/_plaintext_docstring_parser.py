@@ -9,8 +9,6 @@ from ._helpers import get_full_docstring
 if TYPE_CHECKING:
     from mypy import nodes
 
-    from safeds_stubgen.api_analyzer import Class
-
 
 class PlaintextDocstringParser(AbstractDocstringParser):
     """Parses documentation in any format. Should not be used if there is another parser for the specific format."""
@@ -33,9 +31,9 @@ class PlaintextDocstringParser(AbstractDocstringParser):
 
     def get_parameter_documentation(
         self,
-        function_node: nodes.FuncDef,  # noqa: ARG002
+        function_qname: str,  # noqa: ARG002
         parameter_name: str,  # noqa: ARG002
-        parent_class: Class | None,  # noqa: ARG002
+        parent_class_qname: str,  # noqa: ARG002
     ) -> ParameterDocstring:
         return ParameterDocstring()
 

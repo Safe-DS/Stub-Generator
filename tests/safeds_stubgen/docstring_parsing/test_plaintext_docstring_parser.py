@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -133,9 +132,9 @@ def test_get_parameter_documentation(
     assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_parameter_documentation(
-            function_node=node,
+            function_qname=node.fullname,
             parameter_name=parameter_name,
-            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
+            parent_class_qname=".".join(node.fullname.split(".")[:-1]),
         )
         == expected_parameter_documentation
     )

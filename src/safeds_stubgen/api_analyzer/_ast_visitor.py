@@ -727,9 +727,9 @@ class MyPyAstVisitor:
             # Create parameter docstring
             parent = self.__declaration_stack[-1]
             docstring = self.docstring_parser.get_parameter_documentation(
-                function_node=node,
+                function_qname=node.fullname,
                 parameter_name=arg_name,
-                parent_class=parent if isinstance(parent, Class) else None,
+                parent_class_qname=parent.id if isinstance(parent, Class) else "",
             )
 
             if isinstance(default_value, type):  # pragma: no cover

@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class, get_classdef_definitions
+from safeds_stubgen.api_analyzer import get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -310,14 +310,13 @@ def test_get_parameter_documentation(
     parameter_name: str,
     expected_parameter_documentation: ParameterDocstring,
 ) -> None:
-    parent = None
     node = get_specific_mypy_node(mypy_file, name)
     if is_class:
         assert isinstance(node, nodes.ClassDef)
-        class_doc = numpydoc_parser.get_class_documentation(node)
-        parent = Class(id=node.fullname, name=node.name, superclasses=[], is_public=True, docstring=class_doc)
+        parent_qname = node.fullname
     else:
         assert isinstance(node, nodes.FuncDef)
+        parent_qname = ""
 
     # Find the constructor
     if isinstance(node, nodes.ClassDef):
@@ -328,9 +327,9 @@ def test_get_parameter_documentation(
         assert isinstance(node, nodes.FuncDef)
 
     parameter_documentation = numpydoc_parser.get_parameter_documentation(
-        function_node=node,
+        function_qname=node.fullname,
         parameter_name=parameter_name,
-        parent_class=parent,
+        parent_class_qname=parent_qname,
     )
 
     assert parameter_documentation == expected_parameter_documentation
