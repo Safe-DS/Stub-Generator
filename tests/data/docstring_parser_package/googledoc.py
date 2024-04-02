@@ -145,3 +145,36 @@ class EnumDocstring(Enum):
 
     Dolor sit amet.
     """
+
+
+class ClassWithVariousParameterTypes:
+    """
+    Args:
+        no_type:
+        optional_type (int, optional):
+        none_type (None):
+        int_type (int):
+        bool_type (bool):
+        str_type (str):
+        float_type (float):
+        multiple_types (int, bool):
+        list_type_1 (list):
+        list_type_2 (list[str]):
+        list_type_3 (list[int, bool]):
+        list_type_4 (list[list[int]]):
+        set_type_1 (set):
+        set_type_2 (set[str]):
+        set_type_3 (set[int, bool]):
+        set_type_4 (set[list[int]]):
+        tuple_type_1 (tuple):
+        tuple_type_2 (tuple[str]):
+        tuple_type_3 (tuple[int, bool]):
+        tuple_type_4 (tuple[list[int]]):
+    """
+
+    def __init__(
+        self, no_type, optional_type, none_type, int_type, bool_type, str_type, float_type, multiple_types, list_type_1,
+        list_type_2, list_type_3, list_type_4, list_type_5, set_type_1, set_type_2, set_type_3, set_type_4, set_type_5,
+        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, tuple_type_5
+    ) -> None:
+        pass

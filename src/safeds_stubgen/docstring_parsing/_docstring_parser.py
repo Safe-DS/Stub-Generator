@@ -6,7 +6,7 @@ from griffe import load
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
 from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
-from griffe.expressions import Expr, ExprName, ExprTuple
+from griffe.expressions import Expr, ExprName, ExprSubscript, ExprTuple
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -220,6 +220,29 @@ class DocstringParser(AbstractDocstringParser):
                 return sds_types.NamedType(name="float", qname="builtins.float")
             elif annotation.canonical_path == "str":
                 return sds_types.NamedType(name="str", qname="builtins.str")
+            elif annotation.canonical_path == "list":
+                return sds_types.ListType(types=[])
+            elif annotation.canonical_path == "tuple":
+                return sds_types.TupleType(types=[])
+            elif annotation.canonical_path == "set":
+                return sds_types.SetType(types=[])
+            else:
+                raise
+        elif isinstance(annotation, ExprSubscript):
+            slices = annotation.slice
+            if isinstance(slices, ExprTuple):
+                types = [
+                    self._griffe_annotation_to_api_type(slice_, docstring) for slice_ in slices.elements
+                ]
+            else:
+                types = [self._griffe_annotation_to_api_type(slices, docstring)]
+
+            if annotation.canonical_path == "list":
+                return sds_types.ListType(types=types)
+            elif annotation.canonical_path == "tuple":
+                return sds_types.TupleType(types=types)
+            elif annotation.canonical_path == "set":
+                return sds_types.SetType(types=types)
             else:
                 raise
         elif isinstance(annotation, ExprTuple):
@@ -239,7 +262,7 @@ class DocstringParser(AbstractDocstringParser):
                 else:
                     return elements[0]
             else:
-                raise
+                return sds_types.UnionType(elements)
         elif isinstance(annotation, str):
             new_annotation = self._remove_default_from_griffe_annotation(annotation)
             parsed_annotation = parse_annotation(new_annotation, docstring)

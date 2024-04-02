@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import NamedType, UnionType, get_classdef_definitions
+from safeds_stubgen.api_analyzer import ListType, NamedType, SetType, TupleType, UnionType, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -158,10 +158,7 @@ def test_get_function_documentation(
             False,
             "optional_unknown_default",
             ParameterDocstring(
-                type=UnionType(types=[
-                    NamedType(name="int", qname="builtins.int"),
-                    NamedType(name="None", qname="builtins.None")
-                ]),
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="",
                 description="foo: optional_unknown_default",
             ),
@@ -292,6 +289,139 @@ def test_get_function_documentation(
                 description="",
             ),
         ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "no_type",
+            ParameterDocstring(type=None),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "optional_type",
+            ParameterDocstring(type=NamedType(name="int", qname="builtins.int")),
+
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "none_type",
+            ParameterDocstring(type=NamedType(name="None", qname="builtins.None")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "int_type",
+            ParameterDocstring(type=NamedType(name="int", qname="builtins.int")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "bool_type",
+            ParameterDocstring(type=NamedType(name="bool", qname="builtins.bool")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "str_type",
+            ParameterDocstring(type=NamedType(name="str", qname="builtins.str")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "float_type",
+            ParameterDocstring(type=NamedType(name="float", qname="builtins.float")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "multiple_types",
+            ParameterDocstring(type=UnionType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool")
+            ])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "list_type_1",
+            ParameterDocstring(type=ListType(types=[])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "list_type_2",
+            ParameterDocstring(type=ListType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "list_type_3",
+            ParameterDocstring(type=ListType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "list_type_4",
+            ParameterDocstring(type=ListType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "set_type_1",
+            ParameterDocstring(type=SetType(types=[])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "set_type_2",
+            ParameterDocstring(type=SetType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "set_type_3",
+            ParameterDocstring(type=SetType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ]))
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "set_type_4",
+            ParameterDocstring(type=SetType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "tuple_type_1",
+            ParameterDocstring(type=TupleType(types=[])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "tuple_type_2",
+            ParameterDocstring(type=TupleType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "tuple_type_3",
+            ParameterDocstring(type=TupleType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ]))
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "tuple_type_4",
+            ParameterDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
     ],
     ids=[
         "existing class parameter",
@@ -312,6 +442,26 @@ def test_get_function_documentation(
         "class and __init__ with params 3",
         "class with parameter and attribute existing parameter",
         "class with parameter and attribute missing parameter",
+        "Various types: no_type",
+        "Various types: optional_type : int, optional",
+        "Various types: none_type : None",
+        "Various types: int_type : int",
+        "Various types: bool_type : bool",
+        "Various types: str_type : str",
+        "Various types: float_type : float",
+        "Various types: multiple_types : int, bool",
+        "Various types: list_type_1 : list",
+        "Various types: list_type_2 : list[str]",
+        "Various types: list_type_3 : list[int, bool]",
+        "Various types: list_type_4 : list[list[int]]",
+        "Various types: set_type_1 : set",
+        "Various types: set_type_2 : set[str]",
+        "Various types: set_type_3 : set[int, bool]",
+        "Various types: set_type_4 : set[list[int]]",
+        "Various types: tuple_type_1 : tuple",
+        "Various types: tuple_type_2 : tuple[str]",
+        "Various types: tuple_type_3 : tuple[int, bool]",
+        "Various types: tuple_type_4 : tuple[list[int]]",
     ],
 )
 def test_get_parameter_documentation(

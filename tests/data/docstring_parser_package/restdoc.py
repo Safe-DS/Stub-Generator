@@ -127,3 +127,56 @@ class EnumDocstring(Enum):
 
     Dolor sit amet.
     """
+
+
+class ClassWithVariousParameterTypes:
+    """
+    Parameters
+    ----------
+    :param no_type:
+    :param optional_type:
+    :type optional_type: int, optional
+    :param none_type:
+    :type none_type: None
+    :param int_type:
+    :type int_type: int
+    :param bool_type:
+    :type bool_type: bool
+    :param str_type:
+    :type str_type: str
+    :param float_type:
+    :type float_type: float
+    :param multiple_types:
+    :type multiple_types: int, bool
+    :param list_type_1:
+    :type list_type_1: list
+    :param list_type_2:
+    :type list_type_2: list[str]
+    :param list_type_3:
+    :type list_type_3: list[int, bool]
+    :param list_type_4:
+    :type list_type_4: list[list[int]]
+    :param set_type_1:
+    :type set_type_1: set
+    :param set_type_2:
+    :type set_type_2: set[str]
+    :param set_type_3:
+    :type set_type_3: set[int, bool]
+    :param set_type_4:
+    :type set_type_4: set[list[int]]
+    :param tuple_type_1:
+    :type tuple_type_1: tuple
+    :param tuple_type_2:
+    :type tuple_type_2: tuple[str]
+    :param tuple_type_3:
+    :type tuple_type_3: tuple[int, bool]
+    :param tuple_type_4:
+    :type tuple_type_4: tuple[list[int]]
+    """
+
+    def __init__(
+        self, no_type, optional_type, none_type, int_type, bool_type, str_type, float_type, multiple_types, list_type_1,
+        list_type_2, list_type_3, list_type_4, list_type_5, set_type_1, set_type_2, set_type_3, set_type_4, set_type_5,
+        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, tuple_type_5
+    ) -> None:
+        pass
