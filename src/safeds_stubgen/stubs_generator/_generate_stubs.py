@@ -908,7 +908,7 @@ class StubsStringGenerator:
             raise ValueError("Type has no import source.")
 
         qname_parts = qname.split(".")
-        if qname_parts[0] == "builtins" and len(qname_parts) == 2:
+        if (qname_parts[0] == "builtins" and len(qname_parts) == 2) or qname == "typing.Any":
             return
 
         module_id = self.module.id.replace("/", ".")

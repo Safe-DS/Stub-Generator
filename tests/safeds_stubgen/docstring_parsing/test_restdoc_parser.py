@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import get_classdef_definitions
+from safeds_stubgen.api_analyzer import NamedType, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -114,7 +114,7 @@ def test_get_function_documentation(
             True,
             "p",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="1",
                 description="foo defaults to 1",
             ),
@@ -124,7 +124,7 @@ def test_get_function_documentation(
             True,
             "missing",
             ParameterDocstring(
-                type="",
+                type=None,
                 default_value="",
                 description="",
             ),
@@ -134,7 +134,7 @@ def test_get_function_documentation(
             False,
             "no_type_no_default",
             ParameterDocstring(
-                type="",
+                type=None,
                 default_value="",
                 description="no type and no default",
             ),
@@ -144,7 +144,7 @@ def test_get_function_documentation(
             False,
             "type_no_default",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="",
                 description="type but no default",
             ),
@@ -154,7 +154,7 @@ def test_get_function_documentation(
             False,
             "with_default",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="2",
                 description="foo that defaults to 2",
             ),
@@ -164,8 +164,8 @@ def test_get_function_documentation(
             False,
             "*args",
             ParameterDocstring(
-                type="int",
-                default_value="",
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="()",
                 description="foo: *args",
             ),
         ),
@@ -174,8 +174,8 @@ def test_get_function_documentation(
             False,
             "**kwargs",
             ParameterDocstring(
-                type="int",
-                default_value="",
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="{}",
                 description="foo: **kwargs",
             ),
         ),
@@ -183,7 +183,7 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "missing",
-            ParameterDocstring(type="", default_value="", description=""),
+            ParameterDocstring(type=None, default_value="", description=""),
         ),
     ],
     ids=[
@@ -235,13 +235,13 @@ def test_get_parameter_documentation(
     [
         (
             "function_with_return_value_and_type",
-            ResultDocstring(type="bool", description="return value"),
+            ResultDocstring(type=NamedType(name="bool", qname="builtins.bool"), description="return value"),
         ),
         (
             "function_with_return_value_no_type",
-            ResultDocstring(type="", description="return value"),
+            ResultDocstring(type=NamedType(name="None", qname="builtins.None"), description="return value"),
         ),
-        ("function_without_return_value", ResultDocstring(type="", description="")),
+        ("function_without_return_value", ResultDocstring(type=None, description="")),
     ],
     ids=["existing return value and type", "existing return value no type", "function without return value"],
 )

@@ -4,7 +4,9 @@ from typing import TYPE_CHECKING, Literal
 
 from griffe import load
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
+from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
+from griffe.expressions import Expr, ExprName, ExprTuple
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -17,11 +19,12 @@ from ._docstring import (
 from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
-    from griffe.dataclasses import Docstring, Object
-    from griffe.docstrings.dataclasses import DocstringSection
-    from mypy import nodes
     from pathlib import Path
-    from safeds_stubgen.api_analyzer import Class
+
+    from griffe.dataclasses import Docstring, Object
+    from mypy import nodes
+
+    from safeds_stubgen.api_analyzer import AbstractType
 
 
 class DocstringParser(AbstractDocstringParser):
@@ -110,10 +113,8 @@ class DocstringParser(AbstractDocstringParser):
         if not isinstance(last_parameter, DocstringParameter):  # pragma: no cover
             raise TypeError(f"Expected parameter docstring, got {type(last_parameter)}.")
 
-        annotation = "" if not last_parameter.annotation else str(last_parameter.annotation)
-
         return ParameterDocstring(
-            type=annotation,
+            type=self._griffe_annotation_to_api_type(last_parameter.annotation, griffe_docstring),
             default_value=last_parameter.default or "",
             description=remove_newline_from_text(last_parameter.description) or "",
         )
@@ -150,9 +151,8 @@ class DocstringParser(AbstractDocstringParser):
             return AttributeDocstring()
 
         last_attribute = matching_attributes[-1]
-        annotation = "" if not last_attribute.annotation else str(last_attribute.annotation)
         return AttributeDocstring(
-            type=annotation,
+            type=self._griffe_annotation_to_api_type(last_attribute.annotation, griffe_docstring),
             description=remove_newline_from_text(last_attribute.description),
         )
 
@@ -173,9 +173,8 @@ class DocstringParser(AbstractDocstringParser):
         if not all_returns:
             return ResultDocstring()
 
-        annotation = "" if not all_returns.value[0].annotation else str(all_returns.value[0].annotation)
         return ResultDocstring(
-            type=annotation,
+            type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
             description=remove_newline_from_text(all_returns.value[0].description),
         )
 
@@ -199,6 +198,65 @@ class DocstringParser(AbstractDocstringParser):
             return [it for it in all_docstrings.value if it.name.lstrip("*") == name]
 
         return []
+
+    # Todo replace the raises with appropriate code after adding more tests for all possible types in each doc type
+    def _griffe_annotation_to_api_type(
+        self,
+        annotation: Expr | str | None,
+        docstring: Docstring
+    ) -> AbstractType | None:
+        import safeds_stubgen.api_analyzer._types as sds_types
+
+        if annotation is None:
+            return None
+        elif isinstance(annotation, ExprName):
+            if annotation.canonical_path == "typing.Any":
+                return sds_types.NamedType(name="Any", qname="typing.Any")
+            elif annotation.canonical_path == "int":
+                return sds_types.NamedType(name="int", qname="builtins.int")
+            elif annotation.canonical_path == "bool":
+                return sds_types.NamedType(name="bool", qname="builtins.bool")
+            elif annotation.canonical_path == "float":
+                return sds_types.NamedType(name="float", qname="builtins.float")
+            elif annotation.canonical_path == "str":
+                return sds_types.NamedType(name="str", qname="builtins.str")
+            else:
+                raise
+        elif isinstance(annotation, ExprTuple):
+            elements = []
+            has_optional = False
+            for element in annotation.elements:
+                if element.canonical_path == "optional":
+                    has_optional = True
+                else:
+                    elements.append(
+                        self._griffe_annotation_to_api_type(element, docstring)
+                    )
+            if len(elements) == 1:
+                if has_optional:
+                    elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
+                    return sds_types.UnionType(elements)
+                else:
+                    return elements[0]
+            else:
+                raise
+        elif isinstance(annotation, str):
+            new_annotation = self._remove_default_from_griffe_annotation(annotation)
+            parsed_annotation = parse_annotation(new_annotation, docstring)
+            if parsed_annotation in (new_annotation, annotation):
+                if parsed_annotation == "None":
+                    return sds_types.NamedType(name="None", qname="builtins.None")
+                else:
+                    raise
+            else:
+                return self._griffe_annotation_to_api_type(parsed_annotation, docstring)
+        else:
+            raise
+
+    def _remove_default_from_griffe_annotation(self, annotation: str) -> str:
+        if self.parser == Parser.numpy:
+            return annotation.split(", default")[0]
+        return annotation
 
     def _get_griffe_node(self, qname: str) -> Object | None:
         node_qname_parts = qname.split(".")

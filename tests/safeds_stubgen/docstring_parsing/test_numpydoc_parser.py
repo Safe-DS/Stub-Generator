@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import get_classdef_definitions
+from safeds_stubgen.api_analyzer import NamedType, UnionType, get_classdef_definitions
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -118,7 +118,7 @@ def test_get_function_documentation(
             True,
             "p",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="1",
                 description="foo",
             ),
@@ -128,7 +128,7 @@ def test_get_function_documentation(
             True,
             "missing",
             ParameterDocstring(
-                type="",
+                type=None,
                 default_value="",
                 description="",
             ),
@@ -138,7 +138,7 @@ def test_get_function_documentation(
             False,
             "no_type_no_default",
             ParameterDocstring(
-                type="",
+                type=None,
                 default_value="",
                 description="foo: no_type_no_default. Code::\n\n    pass",
             ),
@@ -148,7 +148,7 @@ def test_get_function_documentation(
             False,
             "type_no_default",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="",
                 description="foo: type_no_default",
             ),
@@ -158,7 +158,10 @@ def test_get_function_documentation(
             False,
             "optional_unknown_default",
             ParameterDocstring(
-                type="int",
+                type=UnionType(types=[
+                    NamedType(name="int", qname="builtins.int"),
+                    NamedType(name="None", qname="builtins.None")
+                ]),
                 default_value="",
                 description="foo: optional_unknown_default",
             ),
@@ -168,7 +171,7 @@ def test_get_function_documentation(
             False,
             "with_default_syntax_1",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="1",
                 description="foo: with_default_syntax_1",
             ),
@@ -177,20 +180,28 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "with_default_syntax_2",
-            ParameterDocstring(type="int", default_value="2", description="foo: with_default_syntax_2"),
+            ParameterDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="2",
+                description="foo: with_default_syntax_2"
+            ),
         ),
         (
             "function_with_parameters",
             False,
             "with_default_syntax_3",
-            ParameterDocstring(type="int", default_value="3", description="foo: with_default_syntax_3"),
+            ParameterDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="3",
+                description="foo: with_default_syntax_3"
+            ),
         ),
         (
             "function_with_parameters",
             False,
             "grouped_parameter_1",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="4",
                 description="foo: grouped_parameter_1 and grouped_parameter_2",
             ),
@@ -200,7 +211,7 @@ def test_get_function_documentation(
             False,
             "grouped_parameter_2",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="4",
                 description="foo: grouped_parameter_1 and grouped_parameter_2",
             ),
@@ -210,8 +221,8 @@ def test_get_function_documentation(
             False,
             "*args",
             ParameterDocstring(
-                type="int",
-                default_value="",
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="()",
                 description="foo: *args",
             ),
         ),
@@ -220,8 +231,8 @@ def test_get_function_documentation(
             False,
             "**kwargs",
             ParameterDocstring(
-                type="int",
-                default_value="",
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="{}",
                 description="foo: **kwargs",
             ),
         ),
@@ -229,14 +240,14 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "missing",
-            ParameterDocstring(type="", default_value="", description=""),
+            ParameterDocstring(type=None, default_value="", description=""),
         ),
         (
             "ClassAndConstructorWithParameters",
             True,
             "x",
             ParameterDocstring(
-                type="str",
+                type=NamedType(name="str", qname="builtins.str"),
                 default_value="",
                 description="Lorem ipsum 1.",
             ),
@@ -246,7 +257,7 @@ def test_get_function_documentation(
             True,
             "y",
             ParameterDocstring(
-                type="str",
+                type=NamedType(name="str", qname="builtins.str"),
                 default_value="",
                 description="Lorem ipsum 2.",
             ),
@@ -256,7 +267,7 @@ def test_get_function_documentation(
             True,
             "z",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="5",
                 description="Lorem ipsum 3.",
             ),
@@ -266,7 +277,7 @@ def test_get_function_documentation(
             True,
             "x",
             ParameterDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 default_value="1",
                 description="foo",
             ),
@@ -276,7 +287,7 @@ def test_get_function_documentation(
             True,
             "q",
             ParameterDocstring(
-                type="",
+                type=None,
                 default_value="",
                 description="",
             ),
@@ -343,7 +354,7 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "no_type_no_default",
             AttributeDocstring(
-                type="",
+                type=NamedType(name="Any", qname="typing.Any"),
                 description="foo: no_type_no_default. Code::\n\n    pass",
             ),
         ),
@@ -351,7 +362,7 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "type_no_default",
             AttributeDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 description="foo: type_no_default",
             ),
         ),
@@ -359,7 +370,10 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "optional_unknown_default",
             AttributeDocstring(
-                type="int",
+                type=UnionType(types=[
+                    NamedType(name="int", qname="builtins.int"),
+                    NamedType(name="None", qname="builtins.None")
+                ]),
                 description="foo: optional_unknown_default",
             ),
         ),
@@ -367,25 +381,31 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "with_default_syntax_1",
             AttributeDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 description="foo: with_default_syntax_1",
             ),
         ),
         (
             "ClassWithAttributes",
             "with_default_syntax_2",
-            AttributeDocstring(type="int", description="foo: with_default_syntax_2"),
+            AttributeDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                description="foo: with_default_syntax_2"
+            ),
         ),
         (
             "ClassWithAttributes",
             "with_default_syntax_3",
-            AttributeDocstring(type="int", description="foo: with_default_syntax_3"),
+            AttributeDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                description="foo: with_default_syntax_3"
+            ),
         ),
         (
             "ClassWithAttributes",
             "grouped_attribute_1",
             AttributeDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 description="foo: grouped_attribute_1 and grouped_attribute_2",
             ),
         ),
@@ -393,20 +413,20 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "grouped_attribute_2",
             AttributeDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 description="foo: grouped_attribute_1 and grouped_attribute_2",
             ),
         ),
         (
             "ClassWithAttributes",
             "missing",
-            AttributeDocstring(type="", description=""),
+            AttributeDocstring(None, description=""),
         ),
         (
             "ClassWithParametersAndAttributes",
             "r",
             AttributeDocstring(
-                type="",
+                type=None,
                 description="",
             ),
         ),
@@ -414,7 +434,7 @@ def test_get_parameter_documentation(
             "ClassWithParametersAndAttributes",
             "q",
             AttributeDocstring(
-                type="int",
+                type=NamedType(name="int", qname="builtins.int"),
                 description="foo",
             ),
         ),
@@ -428,7 +448,7 @@ def test_get_parameter_documentation(
         "class attribute with default syntax 3 (equals)",
         "class attribute with grouped attributes 1",
         "class attribute with grouped attributes 2",
-        "missing function parameter",
+        "missing attribute",
         "class with parameter and attribute missing attribute",
         "class with parameter and attribute existing attribute",
     ],
@@ -455,9 +475,15 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstring(type="bool", description="this will be the return value"),
+            ResultDocstring(
+                type=NamedType(name="bool", qname="builtins.bool"),
+                description="this will be the return value"
+            ),
         ),
-        ("function_without_result_value", ResultDocstring(type="", description="")),
+        (
+            "function_without_result_value",
+            ResultDocstring(type=None, description="")
+        ),
     ],
     ids=["existing return value and type", "function without return value"],
 )

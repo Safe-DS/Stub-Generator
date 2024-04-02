@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from safeds_stubgen.api_analyzer import AbstractType
     from typing import Any
 
 
@@ -28,7 +29,7 @@ class FunctionDocstring:
 
 @dataclass(frozen=True)
 class ParameterDocstring:
-    type: str = ""
+    type: AbstractType | None = None
     default_value: str = ""
     description: str = ""
 
@@ -38,7 +39,7 @@ class ParameterDocstring:
 
 @dataclass(frozen=True)
 class AttributeDocstring:
-    type: str = ""
+    type: AbstractType | None = None
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:
@@ -47,7 +48,7 @@ class AttributeDocstring:
 
 @dataclass(frozen=True)
 class ResultDocstring:
-    type: str = ""
+    type: AbstractType | None = None
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:

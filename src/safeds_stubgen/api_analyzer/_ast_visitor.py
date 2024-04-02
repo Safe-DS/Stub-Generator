@@ -873,7 +873,7 @@ class MyPyAstVisitor:
                 name, qname = self._find_alias(missing_import_name)
                 return sds_types.NamedType(name=name, qname=qname)
             else:
-                return sds_types.NamedType(name="Any", qname="builtins.Any")
+                return sds_types.NamedType(name="Any", qname="typing.Any")
         elif isinstance(mypy_type, mp_types.NoneType):
             return sds_types.NamedType(name="None", qname="builtins.None")
         elif isinstance(mypy_type, mp_types.LiteralType):
