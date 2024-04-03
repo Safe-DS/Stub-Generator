@@ -427,10 +427,143 @@ def test_get_parameter_documentation(
                 description="",
             ),
         ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "no_type",
+            AttributeDocstring(type=None),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "optional_type",
+            AttributeDocstring(type=NamedType(name="int", qname="builtins.int")),
+
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "none_type",
+            AttributeDocstring(type=NamedType(name="None", qname="builtins.None")),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "int_type",
+            AttributeDocstring(type=NamedType(name="int", qname="builtins.int")),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "bool_type",
+            AttributeDocstring(type=NamedType(name="bool", qname="builtins.bool")),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "str_type",
+            AttributeDocstring(type=NamedType(name="str", qname="builtins.str")),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "float_type",
+            AttributeDocstring(type=NamedType(name="float", qname="builtins.float")),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "multiple_types",
+            AttributeDocstring(type=UnionType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool")
+            ])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "list_type_1",
+            AttributeDocstring(type=ListType(types=[])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "list_type_2",
+            AttributeDocstring(type=ListType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "list_type_3",
+            AttributeDocstring(type=ListType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "list_type_4",
+            AttributeDocstring(type=ListType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "set_type_1",
+            AttributeDocstring(type=SetType(types=[])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "set_type_2",
+            AttributeDocstring(type=SetType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "set_type_3",
+            AttributeDocstring(type=SetType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ]))
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "set_type_4",
+            AttributeDocstring(type=SetType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "tuple_type_1",
+            AttributeDocstring(type=TupleType(types=[])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "tuple_type_2",
+            AttributeDocstring(type=TupleType(types=[NamedType(name="str", qname="builtins.str")])),
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "tuple_type_3",
+            AttributeDocstring(type=TupleType(types=[
+                NamedType(name="int", qname="builtins.int"),
+                NamedType(name="bool", qname="builtins.bool"),
+            ]))
+        ),
+        (
+            "ClassWithVariousAttributeTypes",
+            "tuple_type_4",
+            AttributeDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+        ),
     ],
     ids=[
         "existing class attribute",
         "missing class attribute",
+        "Various types: no_type",
+        "Various types: optional_type : int, optional",
+        "Various types: none_type : None",
+        "Various types: int_type : int",
+        "Various types: bool_type : bool",
+        "Various types: str_type : str",
+        "Various types: float_type : float",
+        "Various types: multiple_types : int, bool",
+        "Various types: list_type_1 : list",
+        "Various types: list_type_2 : list[str]",
+        "Various types: list_type_3 : list[int, bool]",
+        "Various types: list_type_4 : list[list[int]]",
+        "Various types: set_type_1 : set",
+        "Various types: set_type_2 : set[str]",
+        "Various types: set_type_3 : set[int, bool]",
+        "Various types: set_type_4 : set[list[int]]",
+        "Various types: tuple_type_1 : tuple",
+        "Various types: tuple_type_2 : tuple[str]",
+        "Various types: tuple_type_3 : tuple[int, bool]",
+        "Various types: tuple_type_4 : tuple[list[int]]",
     ],
 )
 def test_get_attribute_documentation(
