@@ -3,10 +3,14 @@ from __future__ import annotations
 from typing import TYPE_CHECKING, Literal
 
 from griffe import load
+from griffe.dataclasses import Docstring
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
 from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
 from griffe.expressions import Expr, ExprName, ExprSubscript, ExprTuple
+
+# noinspection PyProtectedMember
+import safeds_stubgen.api_analyzer._types as sds_types
 
 from ._abstract_docstring_parser import AbstractDocstringParser
 from ._docstring import (
@@ -21,7 +25,7 @@ from ._helpers import remove_newline_from_text
 if TYPE_CHECKING:
     from pathlib import Path
 
-    from griffe.dataclasses import Docstring, Object
+    from griffe.dataclasses import Object
     from mypy import nodes
 
     from safeds_stubgen.api_analyzer import AbstractType
@@ -113,6 +117,9 @@ class DocstringParser(AbstractDocstringParser):
         if not isinstance(last_parameter, DocstringParameter):  # pragma: no cover
             raise TypeError(f"Expected parameter docstring, got {type(last_parameter)}.")
 
+        if griffe_docstring is None:
+            griffe_docstring = Docstring("")
+
         return ParameterDocstring(
             type=self._griffe_annotation_to_api_type(last_parameter.annotation, griffe_docstring),
             default_value=last_parameter.default or "",
@@ -131,9 +138,7 @@ class DocstringParser(AbstractDocstringParser):
         griffe_docstring = self.__get_cached_docstring(parent_qname)
         if griffe_docstring is None:
             matching_attributes = []
-        elif self.parser == Parser.sphinx:
-            # ReST does not differentiate between parameterd and attributes
-            matching_attributes = self._get_matching_docstrings(griffe_docstring, attribute_name, "param")
+            griffe_docstring = Docstring("")
         else:
             matching_attributes = self._get_matching_docstrings(griffe_docstring, attribute_name, "attr")
 
@@ -203,10 +208,8 @@ class DocstringParser(AbstractDocstringParser):
     def _griffe_annotation_to_api_type(
         self,
         annotation: Expr | str | None,
-        docstring: Docstring
+        docstring: Docstring,
     ) -> AbstractType | None:
-        import safeds_stubgen.api_analyzer._types as sds_types
-
         if annotation is None:
             return None
         elif isinstance(annotation, ExprName):
@@ -231,11 +234,17 @@ class DocstringParser(AbstractDocstringParser):
         elif isinstance(annotation, ExprSubscript):
             slices = annotation.slice
             if isinstance(slices, ExprTuple):
-                types = [
-                    self._griffe_annotation_to_api_type(slice_, docstring) for slice_ in slices.elements
-                ]
+                types = []
+                for slice_ in slices.elements:
+                    new_type = self._griffe_annotation_to_api_type(slice_, docstring)
+                    if new_type is None:
+                        continue
+                    types.append(new_type)
             else:
-                types = [self._griffe_annotation_to_api_type(slices, docstring)]
+                types = []
+                type_ = self._griffe_annotation_to_api_type(slices, docstring)
+                if type_ is not None:
+                    types.append(type_)
 
             if annotation.canonical_path == "list":
                 return sds_types.ListType(types=types)
@@ -249,12 +258,13 @@ class DocstringParser(AbstractDocstringParser):
             elements = []
             has_optional = False
             for element in annotation.elements:
-                if element.canonical_path == "optional":
+                if not isinstance(element, str) and element.canonical_path == "optional":
                     has_optional = True
                 else:
-                    elements.append(
-                        self._griffe_annotation_to_api_type(element, docstring)
-                    )
+                    new_element = self._griffe_annotation_to_api_type(element, docstring)
+                    if new_element is None:
+                        continue
+                    elements.append(new_element)
             if len(elements) == 1:
                 if has_optional:
                     elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
@@ -299,8 +309,10 @@ class DocstringParser(AbstractDocstringParser):
             elif part == "__init__" and griffe_node.is_class:
                 return None
             else:
-                raise ValueError(f"Something went wrong while searching for the docstring for {qname}. Please make sure"
-                                 " that all directories with python files have an __init__.py file.")
+                raise ValueError(
+                    f"Something went wrong while searching for the docstring for {qname}. Please make sure"
+                    " that all directories with python files have an __init__.py file.",
+                )
 
         return griffe_node
 

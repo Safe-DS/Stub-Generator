@@ -46,13 +46,14 @@ class ClassWithParameters:
         pass
 
 
-def function_with_parameters(no_type_no_default, type_no_default, with_default, *args, **kwargs) -> None:
+def function_with_parameters(no_type_no_default, optional_type, type_no_default, with_default, *args, **kwargs) -> None:
     """function_with_parameters.
 
     Dolor sit amet.
 
     Args:
         no_type_no_default: no type and no default.
+        optional_type (int, optional): optional type.
         type_no_default (int): type but no default.
         with_default (int): foo. Defaults to 2.
         *args (int): foo: *args
@@ -71,6 +72,7 @@ def function_with_attributes_and_parameters(q) -> None:
     Args:
         q (int): foo. Defaults to 2.
     """
+    p: int = 2
 
 
 class ClassWithAttributes:
@@ -81,9 +83,11 @@ class ClassWithAttributes:
     Attributes:
         p (int): foo. Defaults to 1.
         q (int): foo. Defaults to 1.
+        optional_unknown_default (int, optional): foo.
     """
     p: int
     q = 1
+    optional_unknown_default = None
 
 
 def function_with_return_value_and_type() -> bool:

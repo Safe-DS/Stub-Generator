@@ -3,7 +3,7 @@ Test module for Numpy docstring tests.
 
 A module for testing the various docstring types.
 """
-from typing import Any, Optional
+from typing import Optional
 from enum import Enum
 
 
@@ -45,9 +45,11 @@ class ClassWithParameters:
     ----------
     p : int, default=1
         foo
+    grouped_parameter_1, grouped_parameter_2 : int, default=4
+        foo: grouped_parameter_1 and grouped_parameter_2
     """
 
-    def __init__(self, p) -> None:
+    def __init__(self, p, grouped_parameter_1, grouped_parameter_2) -> None:
         pass
 
 
@@ -160,7 +162,7 @@ class ClassWithAttributes:
     grouped_attribute_1, grouped_attribute_2 : int, default=4
         foo: grouped_attribute_1 and grouped_attribute_2
     """
-    no_type_no_default: Any
+    no_type_no_default = ""
     type_no_default: int
     optional_unknown_default: Optional[int]
     with_default_syntax_1 = 1

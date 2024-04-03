@@ -5,8 +5,9 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from safeds_stubgen.api_analyzer import AbstractType
     from typing import Any
+
+    from safeds_stubgen.api_analyzer import AbstractType
 
 
 @dataclass(frozen=True)

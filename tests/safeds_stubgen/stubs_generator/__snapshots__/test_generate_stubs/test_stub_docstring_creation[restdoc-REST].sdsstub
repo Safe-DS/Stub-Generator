@@ -33,6 +33,7 @@ fun functionWithoutDocumentation()
  * Dolor sit amet.
  *
  * @param noTypeNoDefault no type and no default
+ * @param optionalUnknownDefault optional type
  * @param typeNoDefault type but no default
  * @param withDefault foo that defaults to 2
  * @param args foo: *args
@@ -42,6 +43,7 @@ fun functionWithoutDocumentation()
 @PythonName("function_with_parameters")
 fun functionWithParameters(
 	@PythonName("no_type_no_default") noTypeNoDefault,
+	@PythonName("optional_unknown_default") optionalUnknownDefault,
 	@PythonName("type_no_default") typeNoDefault,
 	@PythonName("with_default") withDefault,
 	args: List<Any>,
@@ -126,6 +128,33 @@ class ClassWithMethod() {
 		a
 	) -> result1: Boolean
 }
+
+// TODO Some parameter have no type information.
+class ClassWithVariousParameterTypes(
+	@PythonName("no_type") noType,
+	@PythonName("optional_type") optionalType,
+	@PythonName("none_type") noneType,
+	@PythonName("int_type") intType,
+	@PythonName("bool_type") boolType,
+	@PythonName("str_type") strType,
+	@PythonName("float_type") floatType,
+	@PythonName("multiple_types") multipleTypes,
+	@PythonName("list_type_1") listType1,
+	@PythonName("list_type_2") listType2,
+	@PythonName("list_type_3") listType3,
+	@PythonName("list_type_4") listType4,
+	@PythonName("list_type_5") listType5,
+	@PythonName("set_type_1") setType1,
+	@PythonName("set_type_2") setType2,
+	@PythonName("set_type_3") setType3,
+	@PythonName("set_type_4") setType4,
+	@PythonName("set_type_5") setType5,
+	@PythonName("tuple_type_1") tupleType1,
+	@PythonName("tuple_type_2") tupleType2,
+	@PythonName("tuple_type_3") tupleType3,
+	@PythonName("tuple_type_4") tupleType4,
+	@PythonName("tuple_type_5") tupleType5
+)
 
 /**
  * EnumDocstring.

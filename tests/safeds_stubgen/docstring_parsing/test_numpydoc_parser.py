@@ -126,6 +126,26 @@ def test_get_function_documentation(
         (
             "ClassWithParameters",
             True,
+            "grouped_parameter_1",
+            ParameterDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="4",
+                description="foo: grouped_parameter_1 and grouped_parameter_2",
+            ),
+        ),
+        (
+            "ClassWithParameters",
+            True,
+            "grouped_parameter_2",
+            ParameterDocstring(
+                type=NamedType(name="int", qname="builtins.int"),
+                default_value="4",
+                description="foo: grouped_parameter_1 and grouped_parameter_2",
+            ),
+        ),
+        (
+            "ClassWithParameters",
+            True,
             "missing",
             ParameterDocstring(
                 type=None,
@@ -180,7 +200,7 @@ def test_get_function_documentation(
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
                 default_value="2",
-                description="foo: with_default_syntax_2"
+                description="foo: with_default_syntax_2",
             ),
         ),
         (
@@ -190,7 +210,7 @@ def test_get_function_documentation(
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
                 default_value="3",
-                description="foo: with_default_syntax_3"
+                description="foo: with_default_syntax_3",
             ),
         ),
         (
@@ -300,7 +320,6 @@ def test_get_function_documentation(
             True,
             "optional_type",
             ParameterDocstring(type=NamedType(name="int", qname="builtins.int")),
-
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -336,10 +355,11 @@ def test_get_function_documentation(
             "ClassWithVariousParameterTypes",
             True,
             "multiple_types",
-            ParameterDocstring(type=UnionType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool")
-            ])),
+            ParameterDocstring(
+                type=UnionType(
+                    types=[NamedType(name="int", qname="builtins.int"), NamedType(name="bool", qname="builtins.bool")],
+                ),
+            ),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -357,10 +377,14 @@ def test_get_function_documentation(
             "ClassWithVariousParameterTypes",
             True,
             "list_type_3",
-            ParameterDocstring(type=ListType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ])),
+            ParameterDocstring(
+                type=ListType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -384,10 +408,14 @@ def test_get_function_documentation(
             "ClassWithVariousParameterTypes",
             True,
             "set_type_3",
-            ParameterDocstring(type=SetType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ]))
+            ParameterDocstring(
+                type=SetType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -411,10 +439,14 @@ def test_get_function_documentation(
             "ClassWithVariousParameterTypes",
             True,
             "tuple_type_3",
-            ParameterDocstring(type=TupleType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ]))
+            ParameterDocstring(
+                type=TupleType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -425,6 +457,8 @@ def test_get_function_documentation(
     ],
     ids=[
         "existing class parameter",
+        "grouped_parameter_1",
+        "grouped_parameter_2",
         "missing class parameter",
         "function parameter with no type and no default",
         "function parameter with type and no default",
@@ -504,7 +538,7 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "no_type_no_default",
             AttributeDocstring(
-                type=NamedType(name="Any", qname="typing.Any"),
+                type=None,
                 description="foo: no_type_no_default. Code::\n\n    pass",
             ),
         ),
@@ -520,10 +554,9 @@ def test_get_parameter_documentation(
             "ClassWithAttributes",
             "optional_unknown_default",
             AttributeDocstring(
-                type=UnionType(types=[
-                    NamedType(name="int", qname="builtins.int"),
-                    NamedType(name="None", qname="builtins.None")
-                ]),
+                type=UnionType(
+                    types=[NamedType(name="int", qname="builtins.int"), NamedType(name="None", qname="builtins.None")],
+                ),
                 description="foo: optional_unknown_default",
             ),
         ),
@@ -540,7 +573,7 @@ def test_get_parameter_documentation(
             "with_default_syntax_2",
             AttributeDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
-                description="foo: with_default_syntax_2"
+                description="foo: with_default_syntax_2",
             ),
         ),
         (
@@ -548,23 +581,23 @@ def test_get_parameter_documentation(
             "with_default_syntax_3",
             AttributeDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
-                description="foo: with_default_syntax_3"
+                description="foo: with_default_syntax_3",
             ),
         ),
         (
             "ClassWithAttributes",
             "grouped_attribute_1",
             AttributeDocstring(
-                type=NamedType(name="int", qname="builtins.int"),
-                description="foo: grouped_attribute_1 and grouped_attribute_2",
+                type=None,
+                description="",
             ),
         ),
         (
             "ClassWithAttributes",
             "grouped_attribute_2",
             AttributeDocstring(
-                type=NamedType(name="int", qname="builtins.int"),
-                description="foo: grouped_attribute_1 and grouped_attribute_2",
+                type=None,
+                description="",
             ),
         ),
         (
@@ -596,10 +629,14 @@ def test_get_parameter_documentation(
         (
             "ClassWithVariousAttributeTypes",
             "optional_type",
-            AttributeDocstring(type=UnionType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="None", qname="builtins.None"),
-            ])),
+            AttributeDocstring(
+                type=UnionType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="None", qname="builtins.None"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousAttributeTypes",
@@ -629,10 +666,11 @@ def test_get_parameter_documentation(
         (
             "ClassWithVariousAttributeTypes",
             "multiple_types",
-            AttributeDocstring(type=UnionType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool")
-            ])),
+            AttributeDocstring(
+                type=UnionType(
+                    types=[NamedType(name="int", qname="builtins.int"), NamedType(name="bool", qname="builtins.bool")],
+                ),
+            ),
         ),
         (
             "ClassWithVariousAttributeTypes",
@@ -647,10 +685,14 @@ def test_get_parameter_documentation(
         (
             "ClassWithVariousAttributeTypes",
             "list_type_3",
-            AttributeDocstring(type=ListType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ])),
+            AttributeDocstring(
+                type=ListType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousAttributeTypes",
@@ -670,10 +712,14 @@ def test_get_parameter_documentation(
         (
             "ClassWithVariousAttributeTypes",
             "set_type_3",
-            AttributeDocstring(type=SetType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ]))
+            AttributeDocstring(
+                type=SetType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousAttributeTypes",
@@ -693,10 +739,14 @@ def test_get_parameter_documentation(
         (
             "ClassWithVariousAttributeTypes",
             "tuple_type_3",
-            AttributeDocstring(type=TupleType(types=[
-                NamedType(name="int", qname="builtins.int"),
-                NamedType(name="bool", qname="builtins.bool"),
-            ]))
+            AttributeDocstring(
+                type=TupleType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="bool", qname="builtins.bool"),
+                    ],
+                ),
+            ),
         ),
         (
             "ClassWithVariousAttributeTypes",
@@ -762,13 +812,10 @@ def test_get_attribute_documentation(
             "function_with_result_value_and_type",
             ResultDocstring(
                 type=NamedType(name="bool", qname="builtins.bool"),
-                description="this will be the return value"
+                description="this will be the return value",
             ),
         ),
-        (
-            "function_without_result_value",
-            ResultDocstring(type=None, description="")
-        ),
+        ("function_without_result_value", ResultDocstring(type=None, description="")),
     ],
     ids=["existing return value and type", "function without return value"],
 )

@@ -1054,11 +1054,8 @@
   list([
     dict({
       'docstring': dict({
-        'description': 'Attribute of the calculator. (ReST)',
-        'type': dict({
-          'name': 'str',
-          'qname': 'builtins.str',
-        }),
+        'description': '',
+        'type': None,
       }),
       'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/attr_1',
       'is_public': True,
