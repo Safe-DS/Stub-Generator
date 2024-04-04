@@ -349,6 +349,47 @@ def test_get_function_documentation(
             "tuple_type_4",
             ParameterDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
         ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "any_type",
+            ParameterDocstring(type=NamedType(name="Any", qname="typing.Any")),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "optional_type_2",
+            ParameterDocstring(
+                type=UnionType(
+                    types=[
+                        NamedType(name="int", qname="builtins.int"),
+                        NamedType(name="None", qname="builtins.None"),
+                    ],
+                ),
+            ),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "class_type",
+            ParameterDocstring(
+                type=NamedType(
+                    name="ClassWithMethod",
+                    qname="tests.data.docstring_parser_package.restdoc.ClassWithMethod",
+                ),
+            ),
+        ),
+        (
+            "ClassWithVariousParameterTypes",
+            True,
+            "imported_type",
+            ParameterDocstring(
+                type=NamedType(
+                    name="AnotherClass",
+                    qname="tests.data.various_modules_package.another_path.another_module.AnotherClass",
+                ),
+            ),
+        ),
     ],
     ids=[
         "existing class parameter",
@@ -380,6 +421,10 @@ def test_get_function_documentation(
         "Various types: tuple_type_2 : tuple[str]",
         "Various types: tuple_type_3 : tuple[int, bool]",
         "Various types: tuple_type_4 : tuple[list[int]]",
+        "Various types: any_type : Any",
+        "Various types: optional_type_2 : Optional[int]",
+        "Various types: class_type : ClassWithAttributes",
+        "Various types: imported_type : AnotherClass",
     ],
 )
 def test_get_parameter_documentation(
@@ -579,6 +624,33 @@ def test_get_parameter_documentation(
 #             "tuple_type_4",
 #             AttributeDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
 #         ),
+#         (
+#             "ClassWithVariousAttributeTypes",
+#             "any_type",
+#             AttributeDocstring(type=NamedType(name="Any", qname="typing.Any")),
+#         ),
+#         (
+#             "ClassWithVariousAttributeTypes",
+#             "optional_type_2",
+#             AttributeDocstring(type=UnionType(types=[
+#                 NamedType(name="int", qname="builtins.int"),
+#                 NamedType(name="None", qname="builtins.None"),
+#             ])),
+#         ),
+#         (
+#             "ClassWithVariousAttributeTypes",
+#             True,
+#             "class_type",
+#             AttributeDocstring(type=NamedType(name="ClassWithAttributes", qname="tests.data.docstring_parser_package.
+#             restdoc.ClassWithAttributes")),
+#         ),
+#         (
+#             "ClassWithVariousAttributeTypes",
+#             True,
+#             "imported_type",
+#             AttributeDocstring(type=NamedType(name="AnotherClass", qname="tests.data.various_modules_package.
+#             another_path.another_module.AnotherClass")),
+#         ),
 #     ],
 #     ids=[
 #         "Various types: attr with default",
@@ -606,6 +678,10 @@ def test_get_parameter_documentation(
 #         "Various types: tuple_type_2 : tuple[str]",
 #         "Various types: tuple_type_3 : tuple[int, bool]",
 #         "Various types: tuple_type_4 : tuple[list[int]]",
+#         "Various types: any_type : Any",
+#         "Various types: optional_type_2 : Optional[int]",
+#         "Various types: class_type : ClassWithAttributes",
+#         "Various types: imported_type : AnotherClass",
 #     ],
 # )
 # def test_get_attribute_documentation(

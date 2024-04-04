@@ -153,7 +153,10 @@ class ClassWithVariousParameterTypes(
 	@PythonName("tuple_type_2") tupleType2,
 	@PythonName("tuple_type_3") tupleType3,
 	@PythonName("tuple_type_4") tupleType4,
-	@PythonName("tuple_type_5") tupleType5
+	@PythonName("any_type") anyType: Any,
+	@PythonName("optional_type_2") optionalType2: Int?,
+	@PythonName("class_type") classType,
+	@PythonName("imported_type") importedType
 )
 
 /**

@@ -117,11 +117,17 @@ class DocstringParser(AbstractDocstringParser):
         if not isinstance(last_parameter, DocstringParameter):  # pragma: no cover
             raise TypeError(f"Expected parameter docstring, got {type(last_parameter)}.")
 
-        if griffe_docstring is None:
+        if griffe_docstring is None:  # pragma: no cover
             griffe_docstring = Docstring("")
 
+        annotation = last_parameter.annotation
+        if annotation is None:
+            type_ = None
+        else:
+            type_ = self._griffe_annotation_to_api_type(annotation, griffe_docstring)
+
         return ParameterDocstring(
-            type=self._griffe_annotation_to_api_type(last_parameter.annotation, griffe_docstring),
+            type=type_,
             default_value=last_parameter.default or "",
             description=remove_newline_from_text(last_parameter.description) or "",
         )
@@ -156,8 +162,15 @@ class DocstringParser(AbstractDocstringParser):
             return AttributeDocstring()
 
         last_attribute = matching_attributes[-1]
+
+        annotation = last_attribute.annotation
+        if annotation is None:
+            type_ = None
+        else:
+            type_ = self._griffe_annotation_to_api_type(annotation, griffe_docstring)
+
         return AttributeDocstring(
-            type=self._griffe_annotation_to_api_type(last_attribute.annotation, griffe_docstring),
+            type=type_,
             description=remove_newline_from_text(last_attribute.description),
         )
 
@@ -204,15 +217,8 @@ class DocstringParser(AbstractDocstringParser):
 
         return []
 
-    # Todo replace the raises with appropriate code after adding more tests for all possible types in each doc type
-    def _griffe_annotation_to_api_type(
-        self,
-        annotation: Expr | str | None,
-        docstring: Docstring,
-    ) -> AbstractType | None:
-        if annotation is None:
-            return None
-        elif isinstance(annotation, ExprName):
+    def _griffe_annotation_to_api_type(self, annotation: Expr | str, docstring: Docstring) -> AbstractType:
+        if isinstance(annotation, ExprName):
             if annotation.canonical_path == "typing.Any":
                 return sds_types.NamedType(name="Any", qname="typing.Any")
             elif annotation.canonical_path == "int":
@@ -230,15 +236,13 @@ class DocstringParser(AbstractDocstringParser):
             elif annotation.canonical_path == "set":
                 return sds_types.SetType(types=[])
             else:
-                raise
+                return sds_types.NamedType(name=annotation.canonical_name, qname=annotation.canonical_path)
         elif isinstance(annotation, ExprSubscript):
             slices = annotation.slice
             if isinstance(slices, ExprTuple):
                 types = []
                 for slice_ in slices.elements:
                     new_type = self._griffe_annotation_to_api_type(slice_, docstring)
-                    if new_type is None:
-                        continue
                     types.append(new_type)
             else:
                 types = []
@@ -252,25 +256,26 @@ class DocstringParser(AbstractDocstringParser):
                 return sds_types.TupleType(types=types)
             elif annotation.canonical_path == "set":
                 return sds_types.SetType(types=types)
-            else:
-                raise
+            elif annotation.canonical_path == "typing.Optional":
+                types.append(sds_types.NamedType(name="None", qname="builtins.None"))
+                return sds_types.UnionType(types=types)
+            else:  # pragma: no cover
+                raise TypeError(f"Can't parse unexpected type from docstring {annotation.canonical_path}.")
         elif isinstance(annotation, ExprTuple):
             elements = []
+            # Todo Remove the "optional" related part of the code once issue #99 is solved.
             has_optional = False
             for element in annotation.elements:
                 if not isinstance(element, str) and element.canonical_path == "optional":
                     has_optional = True
                 else:
                     new_element = self._griffe_annotation_to_api_type(element, docstring)
-                    if new_element is None:
+                    if new_element is None:  # pragma: no cover
                         continue
                     elements.append(new_element)
-            if len(elements) == 1:
-                if has_optional:
-                    elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
-                    return sds_types.UnionType(elements)
-                else:
-                    return elements[0]
+            if has_optional:
+                elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
+                return sds_types.UnionType(elements)
             else:
                 return sds_types.UnionType(elements)
         elif isinstance(annotation, str):
@@ -279,12 +284,18 @@ class DocstringParser(AbstractDocstringParser):
             if parsed_annotation in (new_annotation, annotation):
                 if parsed_annotation == "None":
                     return sds_types.NamedType(name="None", qname="builtins.None")
-                else:
-                    raise
+                else:  # pragma: no cover
+                    raise TypeError(
+                        f"Can't parse unexpected type from docstring {parsed_annotation}. We received a "
+                        f"str type, but we expected a Griffe object.",
+                    )
             else:
                 return self._griffe_annotation_to_api_type(parsed_annotation, docstring)
-        else:
-            raise
+        else:  # pragma: no cover
+            raise TypeError(
+                f"Can't parse unexpected type from docstring: {annotation}. This case is not handled by us"
+                f"(yet), please report this.",
+            )
 
     def _remove_default_from_griffe_annotation(self, annotation: str) -> str:
         if self.parser == Parser.numpy:
@@ -308,7 +319,7 @@ class DocstringParser(AbstractDocstringParser):
                 griffe_node = griffe_node.attributes[part]
             elif part == "__init__" and griffe_node.is_class:
                 return None
-            else:
+            else:  # pragma: no cover
                 raise ValueError(
                     f"Something went wrong while searching for the docstring for {qname}. Please make sure"
                     " that all directories with python files have an __init__.py file.",

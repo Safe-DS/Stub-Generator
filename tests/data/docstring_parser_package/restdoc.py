@@ -4,6 +4,8 @@ Test module for ReST docstring tests.
 A module for testing the various docstring types.
 """
 from enum import Enum
+from typing import Any, Optional
+from tests.data.various_modules_package.another_path.another_module import AnotherClass
 
 
 class ClassWithDocumentation:
@@ -172,12 +174,21 @@ class ClassWithVariousParameterTypes:
     :type tuple_type_3: tuple[int, bool]
     :param tuple_type_4:
     :type tuple_type_4: tuple[list[int]]
+    :param any_type:
+    :type any_type: Any
+    :param optional_type_2:
+    :type optional_type_2: Optional[int]
+    :param class_type:
+    :type class_type: ClassWithMethod
+    :param imported_type:
+    :type imported_type: AnotherClass
     """
 
     def __init__(
         self, no_type, optional_type, none_type, int_type, bool_type, str_type, float_type, multiple_types, list_type_1,
         list_type_2, list_type_3, list_type_4, list_type_5, set_type_1, set_type_2, set_type_3, set_type_4, set_type_5,
-        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, tuple_type_5
+        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, any_type: Any,
+        optional_type_2: Optional[int], class_type, imported_type
     ) -> None:
         pass
 
@@ -232,6 +243,10 @@ class ClassWithVariousParameterTypes:
 #     :type tuple_type_3: tuple[int, bool]
 #     :var tuple_type_4:
 #     :type tuple_type_4: tuple[list[int]]
+#     :var any_type:
+#     :type any_type: Any
+#     :var optional_type_2:
+#     :type optional_type_2: Optional[int]
 #     """
 #     has_default = 1
 #     optional_int = None
@@ -257,3 +272,7 @@ class ClassWithVariousParameterTypes:
 #     tuple_type_2 = ""
 #     tuple_type_3 = ""
 #     tuple_type_4 = ""
+#     any_type: Any
+#     optional_type_2: Optional[int]
+#     class_type: ClassWithMethod
+#     imported_type: AnotherClass

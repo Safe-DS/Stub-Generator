@@ -1019,9 +1019,6 @@ class StubsStringGenerator:
 
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:
-        if not description:
-            return ""
-
         description = description.rstrip("\n")
         description = description.lstrip("\n")
         splitted_docstring = description.split("\n")

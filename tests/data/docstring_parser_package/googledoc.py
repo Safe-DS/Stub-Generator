@@ -3,6 +3,8 @@
 A module for testing the various docstring types.
 """
 from enum import Enum
+from typing import Optional, Any
+from tests.data.various_modules_package.another_path.another_module import AnotherClass
 
 
 class ClassWithDocumentation:
@@ -174,12 +176,17 @@ class ClassWithVariousParameterTypes:
         tuple_type_2 (tuple[str]):
         tuple_type_3 (tuple[int, bool]):
         tuple_type_4 (tuple[list[int]]):
-    """
+        any_type (Any):
+        optional_type_2 (Optional[int]):
+        class_type (ClassWithAttributes):
+        imported_type (AnotherClass):
+   """
 
     def __init__(
         self, no_type, optional_type, none_type, int_type, bool_type, str_type, float_type, multiple_types, list_type_1,
         list_type_2, list_type_3, list_type_4, list_type_5, set_type_1, set_type_2, set_type_3, set_type_4, set_type_5,
-        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, tuple_type_5
+        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, any_type: Any,
+        optional_type_2: Optional[int], class_type, imported_type
     ) -> None:
         pass
 
@@ -207,6 +214,10 @@ class ClassWithVariousAttributeTypes:
         tuple_type_2 (tuple[str]):
         tuple_type_3 (tuple[int, bool]):
         tuple_type_4 (tuple[list[int]]):
+        any_type (Any):
+        optional_type_2 (Optional[int]):
+        class_type (ClassWithAttributes):
+        imported_type (AnotherClass):
     """
     no_type = ""
     optional_type = ""
@@ -228,3 +239,7 @@ class ClassWithVariousAttributeTypes:
     tuple_type_2 = ""
     tuple_type_3 = ""
     tuple_type_4 = ""
+    any_type: Any
+    optional_type_2: Optional[int]
+    class_type: ClassWithAttributes
+    imported_type: AnotherClass

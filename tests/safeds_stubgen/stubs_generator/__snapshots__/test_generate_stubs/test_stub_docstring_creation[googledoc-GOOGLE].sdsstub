@@ -7,6 +7,8 @@
 @PythonModule("tests.data.docstring_parser_package.googledoc")
 package tests.data.docstringParserPackage.googledoc
 
+from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherClass
+
 // TODO Result type information missing.
 /**
  * function_with_documentation. Code::
@@ -189,7 +191,10 @@ class ClassWithVariousParameterTypes(
 	@PythonName("tuple_type_2") tupleType2,
 	@PythonName("tuple_type_3") tupleType3,
 	@PythonName("tuple_type_4") tupleType4,
-	@PythonName("tuple_type_5") tupleType5
+	@PythonName("any_type") anyType: Any,
+	@PythonName("optional_type_2") optionalType2: Int?,
+	@PythonName("class_type") classType,
+	@PythonName("imported_type") importedType
 )
 
 class ClassWithVariousAttributeTypes() {
@@ -233,6 +238,14 @@ class ClassWithVariousAttributeTypes() {
 	static attr tupleType3: String
 	@PythonName("tuple_type_4")
 	static attr tupleType4: String
+	@PythonName("any_type")
+	static attr anyType: Any
+	@PythonName("optional_type_2")
+	static attr optionalType2: Int?
+	@PythonName("class_type")
+	static attr classType: ClassWithAttributes
+	@PythonName("imported_type")
+	static attr importedType: AnotherClass
 }
 
 /**
