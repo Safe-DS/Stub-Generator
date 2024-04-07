@@ -107,6 +107,36 @@ fun functionWithMultipleResults() -> (firstResult: Int, secondResult: Boolean)
 fun functionWithoutResultValue()
 
 /**
+ * property_method_with_docstring.
+ *
+ * Dolor sit amet.
+ *
+ * @result firstResult This is the first result
+ * @result secondResult This is the second result
+ */
+@Pure
+@PythonName("infer_types")
+fun inferTypes() -> (firstResult: Boolean, secondResult: String)
+
+// TODO Some parameter have no type information.
+/**
+ * property_method_with_docstring.
+ *
+ * Dolor sit amet.
+ *
+ * @param a The first parameter
+ * @param b The second parameter
+ *
+ * @result funcResult This is the result
+ */
+@Pure
+@PythonName("infer_types2")
+fun inferTypes2(
+	a,
+	b
+) -> funcResult: union<Boolean, Int, String>
+
+/**
  * ClassWithDocumentation. Code::
  *
  *     pass

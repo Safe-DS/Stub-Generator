@@ -923,10 +923,14 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="bool", qname="builtins.bool"),
-                description="this will be the return value",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="bool", qname="builtins.bool"),
+                        description="this will be the return value",
+                    ),
+                ],
+            ),
         ),
         (
             "function_without_result_value",
@@ -934,18 +938,20 @@ def test_get_attribute_documentation(
         ),
         (
             "function_with_multiple_results",
-            ResultDocstrings(docstrings=[
-                ResultDocstring(
-                    type=NamedType(name="int", qname="builtins.int"),
-                    description="first result",
-                    name="first_result",
-                ),
-                ResultDocstring(
-                    type=NamedType(name="bool", qname="builtins.bool"),
-                    description="second result",
-                    name="second_result",
-                )
-            ]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="int", qname="builtins.int"),
+                        description="first result",
+                        name="first_result",
+                    ),
+                    ResultDocstring(
+                        type=NamedType(name="bool", qname="builtins.bool"),
+                        description="second result",
+                        name="second_result",
+                    ),
+                ],
+            ),
         ),
     ],
     ids=[

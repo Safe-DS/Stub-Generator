@@ -718,17 +718,25 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_return_value_and_type",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="bool", qname="builtins.bool"),
-                description="this will be the return value.",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="bool", qname="builtins.bool"),
+                        description="this will be the return value.",
+                    ),
+                ],
+            ),
         ),
         (
             "function_with_return_value_no_type",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="None", qname="builtins.None"),
-                description="None",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="None", qname="builtins.None"),
+                        description="None",
+                    ),
+                ],
+            ),
         ),
         (
             "function_without_return_value",
@@ -736,12 +744,19 @@ def test_get_attribute_documentation(
         ),
         (
             "function_with_multiple_results",
-            ResultDocstrings(docstrings=[
-                ResultDocstring(type=TupleType(types=[
-                    NamedType(name="int", qname="builtins.int"),
-                    NamedType(name="bool", qname="builtins.bool")
-                ]), description="first result")
-            ]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=TupleType(
+                            types=[
+                                NamedType(name="int", qname="builtins.int"),
+                                NamedType(name="bool", qname="builtins.bool"),
+                            ],
+                        ),
+                        description="first result",
+                    ),
+                ],
+            ),
         ),
     ],
     ids=[

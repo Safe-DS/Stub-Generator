@@ -406,7 +406,10 @@ class MyPyAstVisitor:
     # #### Result utilities
 
     def _parse_results(
-        self, node: mp_nodes.FuncDef, function_id: str, result_docstrings: ResultDocstrings
+        self,
+        node: mp_nodes.FuncDef,
+        function_id: str,
+        result_docstrings: ResultDocstrings,
     ) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
@@ -425,12 +428,12 @@ class MyPyAstVisitor:
 
                     if (
                         (
-                            not unanalyzed_ret_type or
-                            getattr(unanalyzed_ret_type, "literal_value", "") is None or
-                            isinstance(unanalyzed_ret_type, mp_types.AnyType)
+                            not unanalyzed_ret_type
+                            or getattr(unanalyzed_ret_type, "literal_value", "") is None
+                            or isinstance(unanalyzed_ret_type, mp_types.AnyType)
                         )
-                        and isinstance(node_ret_type, mp_types.AnyType) and
-                        not has_correct_type_of_any(node_ret_type.type_of_any)
+                        and isinstance(node_ret_type, mp_types.AnyType)
+                        and not has_correct_type_of_any(node_ret_type.type_of_any)
                     ):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
@@ -485,7 +488,7 @@ class MyPyAstVisitor:
                 yield f"result_{x}"
 
     @staticmethod
-    def _infer_type_from_return_stmts(func_node: mp_nodes.FuncDef) -> sds_types.NamedType | sds_types.TupleType | None:
+    def _infer_type_from_return_stmts(func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
         # To infer the type, we iterate through all return statements we find in the function
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
@@ -517,14 +520,11 @@ class MyPyAstVisitor:
                 key=lambda x: (x.name if isinstance(x, sds_types.NamedType) else str(len(x.types))),
             )
 
-            if len(return_stmt_types) == 1:
-                return return_stmt_types[0]
-            elif len(return_stmt_types) >= 2:
-                return sds_types.TupleType(types=return_stmt_types)
+            return sds_types.TupleType(types=return_stmt_types)
         return None
 
-    @staticmethod
     def _create_inferred_results(
+        self,
         results: sds_types.TupleType,
         docstrings: ResultDocstrings,
         function_id: str,
@@ -550,7 +550,8 @@ class MyPyAstVisitor:
         list[Result]
             A list of Results objects representing the possible results of a funtion.
         """
-        result_array: list[list] = []
+        result_array: list[list[AbstractType]] = []
+        longest_inner_list = 1
         for type_ in results.types:
             if isinstance(type_, sds_types.NamedType):
                 if result_array:
@@ -560,33 +561,57 @@ class MyPyAstVisitor:
             elif isinstance(type_, sds_types.TupleType):
                 for i, type__ in enumerate(type_.types):
                     if len(result_array) > i:
-                        result_array[i].append(type__)
+                        if type__ not in result_array[i]:
+                            result_array[i].append(type__)
+
+                            if len(result_array[i]) > longest_inner_list:
+                                longest_inner_list = len(result_array[i])
                     else:
                         result_array.append([type__])
             else:  # pragma: no cover
                 raise TypeError(f"Expected NamedType or TupleType, received {type(type_)}")
 
+        # If there are any arrays longer than others, these "others" are optional types and can be None
+        none_element = sds_types.NamedType(name="None", qname="builtins.None")
+        for array in result_array:
+            if len(array) < longest_inner_list and none_element not in array:
+                array.append(none_element)
+
+        # Create Result objects
+        result_name_generator = self._result_name_generator()
         inferred_results = []
-        for i, result_list in enumerate(result_array):
+        for result_list in result_array:
             result_count = len(result_list)
             if result_count == 1:
                 result_type = result_list[0]
             else:
                 result_type = sds_types.UnionType(result_list)
 
+            # Search for matching docstrings for each result
             result_docstring = ResultDocstring()
             if docstrings.docstrings:
-                for docstring in docstrings.docstrings:
-                    if hash(docstring.type) == hash(result_type):
-                        result_docstring = docstring
-                        break
+                if isinstance(result_type, sds_types.UnionType):
+                    if len(docstrings.docstrings) > 1:
+                        docstring_types = [
+                            docstring.type for docstring in docstrings.docstrings if docstring.type is not None
+                        ]
+                        possible_type = sds_types.UnionType(types=docstring_types)
+                    else:
+                        possible_type = docstrings.docstrings[0].type
+                    if possible_type == result_type:
+                        result_docstring = docstrings.docstrings[0]
+                else:
+                    for docstring in docstrings.docstrings:
+                        if hash(docstring.type) == hash(result_type):
+                            result_docstring = docstring
+                            break
 
-            name = f"result_{i + 1}"
+            result_name = result_docstring.name or next(result_name_generator)
             inferred_results.append(
                 Result(
-                    id=f"{function_id}/{name}",
+                    id=f"{function_id}/{result_name}",
                     type=result_type,
-                    name=name,
+                    name=result_name,
                     docstring=result_docstring,
                 ),
             )

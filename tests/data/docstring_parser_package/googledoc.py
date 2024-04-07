@@ -119,8 +119,8 @@ def function_with_multiple_results() -> (int, bool):
     Dolor sit amet.
 
     Returns:
-        int : first result
-        bool : second result
+        int: first result
+        bool: second result
     """
 
 
@@ -255,3 +255,34 @@ class ClassWithVariousAttributeTypes:
     optional_type_2: Optional[int]
     class_type: ClassWithAttributes
     imported_type: AnotherClass
+
+
+def infer_types():
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Returns:
+        str: This is the first result
+        int: This is the second result
+    """
+    return "Some value", 2
+
+
+def infer_types2(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Args:
+        a (int): The first parameter
+        b (bool): The second parameter
+
+    Returns:
+        str | bool: This is the result
+    """
+    if a or b:
+        return "A value"
+    return True
