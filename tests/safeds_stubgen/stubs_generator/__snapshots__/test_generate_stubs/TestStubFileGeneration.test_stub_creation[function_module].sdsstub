@@ -14,23 +14,23 @@ fun publicNoParamsNoResult()
 // TODO Some parameter have no type information.
 @Pure
 fun params(
-	integer: Int,
-	boolean: Boolean,
-	@PythonName("float_") float: Float,
-	none: Nothing?,
-	string: String,
-	obj: FunctionModuleClassA,
-	callexpr,
-	`union`: union<Boolean, Int>,
-	@PythonName("union_with_none_1") unionWithNone1: Int?,
-	@PythonName("union_with_none_2") unionWithNone2: Int?,
-	@PythonName("list_") list: List<Int>,
-	dictionary: Map<String, union<Float, Int>>,
-	@PythonName("set_") set: Set<String>,
-	optional: Int?,
-	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
-	`literal`: literal<"Some String">,
-	@PythonName("any_") any: Any
+    integer: Int,
+    boolean: Boolean,
+    @PythonName("float_") float: Float,
+    none: Nothing?,
+    string: String,
+    obj: FunctionModuleClassA,
+    callexpr,
+    `union`: union<Boolean, Int>,
+    @PythonName("union_with_none_1") unionWithNone1: Int?,
+    @PythonName("union_with_none_2") unionWithNone2: Int?,
+    @PythonName("list_") list: List<Int>,
+    dictionary: Map<String, union<Float, Int>>,
+    @PythonName("set_") set: Set<String>,
+    optional: Int?,
+    @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+    `literal`: literal<"Some String">,
+    @PythonName("any_") any: Any
 )
 
 // TODO Result type information missing.
@@ -40,23 +40,23 @@ fun params(
 @Pure
 @PythonName("params_with_default_value")
 fun paramsWithDefaultValue(
-	integer: Int = 3,
-	boolean: Boolean = true,
-	@PythonName("float_") float: Float = 1.2,
-	none: Nothing? = null,
-	string: String = "Some String",
-	obj: FunctionModuleClassA,
-	callexpr,
-	`union`: union<Boolean, Int> = 2,
-	@PythonName("union_with_none_1") unionWithNone1: Int? = 2,
-	@PythonName("union_with_none_2") unionWithNone2: Int? = 3,
-	@PythonName("list_") list: List<Int>,
-	dictionary: Map<String, union<Float, Int>>,
-	@PythonName("set_") set: Set<String>,
-	optional: Int? = null,
-	@PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
-	`literal`: literal<"Some String"> = "Some String",
-	@PythonName("any_") any: Any = false
+    integer: Int = 3,
+    boolean: Boolean = true,
+    @PythonName("float_") float: Float = 1.2,
+    none: Nothing? = null,
+    string: String = "Some String",
+    obj: FunctionModuleClassA,
+    callexpr,
+    `union`: union<Boolean, Int> = 2,
+    @PythonName("union_with_none_1") unionWithNone1: Int? = 2,
+    @PythonName("union_with_none_2") unionWithNone2: Int? = 3,
+    @PythonName("list_") list: List<Int>,
+    dictionary: Map<String, union<Float, Int>>,
+    @PythonName("set_") set: Set<String>,
+    optional: Int? = null,
+    @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
+    `literal`: literal<"Some String"> = "Some String",
+    @PythonName("any_") any: Any = false
 )
 
 // TODO List type has to many type arguments.
@@ -65,26 +65,26 @@ fun paramsWithDefaultValue(
 @Pure
 @PythonName("illegal_params")
 fun illegalParams(
-	lst: List<Int, String>,
-	@PythonName("lst_2") lst2: List<Int, String, Int>,
-	tpl: Tuple<Int, String, Boolean, Int>,
-	dct: Map<Any, Any>,
-	`_`: Int = "String"
+    lst: List<Int, String>,
+    @PythonName("lst_2") lst2: List<Int, String, Int>,
+    tpl: Tuple<Int, String, Boolean, Int>,
+    dct: Map<Any, Any>,
+    `_`: Int = "String"
 )
 
 // TODO Result type information missing.
 @Pure
 @PythonName("special_params")
 fun specialParams(
-	@PythonName("none_union") noneUnion: Nothing?,
-	@PythonName("none_bool_union") noneBoolUnion: Boolean?,
-	@PythonName("bool_none_union") boolNoneUnion: Boolean?,
-	@PythonName("bool_none_str") boolNoneStr: String?,
-	@PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
-	@PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
-	@PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
-	@PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
-	none: Nothing?
+    @PythonName("none_union") noneUnion: Nothing?,
+    @PythonName("none_bool_union") noneBoolUnion: Boolean?,
+    @PythonName("bool_none_union") boolNoneUnion: Boolean?,
+    @PythonName("bool_none_str") boolNoneStr: String?,
+    @PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
+    @PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
+    @PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
+    @PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
+    none: Nothing?
 )
 
 // TODO Result type information missing.
@@ -93,12 +93,12 @@ fun specialParams(
 @Pure
 @PythonName("param_position")
 fun paramPosition(
-	self,
-	a,
-	b: Boolean,
-	c,
-	d,
-	e: Int = 1
+    self,
+    a,
+    b: Boolean,
+    c,
+    d,
+    e: Int = 1
 )
 
 // TODO Result type information missing.
@@ -107,8 +107,8 @@ fun paramPosition(
 @Pure
 @PythonName("opt_pos_only")
 fun optPosOnly(
-	required,
-	optional: Int = 1
+    required,
+    optional: Int = 1
 )
 
 // TODO Result type information missing.
@@ -117,8 +117,8 @@ fun optPosOnly(
 @Pure
 @PythonName("req_name_only")
 fun reqNameOnly(
-	required,
-	optional: Int = 1
+    required,
+    optional: Int = 1
 )
 
 // TODO Result type information missing.
@@ -126,8 +126,8 @@ fun reqNameOnly(
 // TODO Some parameter have no type information.
 @Pure
 fun arg(
-	args: List<Any>,
-	kwargs: Map<String, Any>
+    args: List<Any>,
+    kwargs: Map<String, Any>
 )
 
 // TODO Result type information missing.
@@ -135,8 +135,8 @@ fun arg(
 @Pure
 @PythonName("args_type")
 fun argsType(
-	args: List<Int>,
-	kwargs: Map<String, Int>
+    args: List<Int>,
+    kwargs: Map<String, Int>
 )
 
 @Pure
@@ -233,7 +233,7 @@ fun anyResults() -> result1: Any
 @Pure
 @PythonName("callable_type")
 fun callableType(
-	param: (param1: String) -> (param2: Int, param3: String)
+    param: (param1: String) -> (param2: Int, param3: String)
 ) -> result1: (param1: Int, param2: Int) -> param3: Int
 
 // TODO Result type information missing.
@@ -241,8 +241,8 @@ fun callableType(
 @Pure
 @PythonName("param_from_outside_the_package")
 fun paramFromOutsideThePackage(
-	@PythonName("param_type") paramType: AnotherClass,
-	@PythonName("param_value") paramValue
+    @PythonName("param_type") paramType: AnotherClass,
+    @PythonName("param_value") paramValue
 )
 
 @Pure
@@ -257,52 +257,52 @@ class FunctionModuleClassA()
 
 // TODO Some parameter have no type information.
 class FunctionModuleClassB(
-	@PythonName("init_param") initParam
+    @PythonName("init_param") initParam
 ) {
-	class FunctionModuleClassC() {
-		class FunctionModuleClassD()
+    class FunctionModuleClassC() {
+        class FunctionModuleClassD()
 
-		@Pure
-		@PythonName("nested_class_function")
-		fun nestedClassFunction(
-			param1: Int
-		) -> result1: Boolean
-	}
+        @Pure
+        @PythonName("nested_class_function")
+        fun nestedClassFunction(
+            param1: Int
+        ) -> result1: Boolean
+    }
 
-	@Pure
-	@PythonName("instance_method")
-	fun instanceMethod(
-		a: FunctionModuleClassA
-	) -> result1: FunctionModuleClassA
+    @Pure
+    @PythonName("instance_method")
+    fun instanceMethod(
+        a: FunctionModuleClassA
+    ) -> result1: FunctionModuleClassA
 
-	// TODO Result type information missing.
-	@Pure
-	@PythonName("static_method")
-	static fun staticMethod()
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("static_method")
+    static fun staticMethod()
 
-	// TODO Result type information missing.
-	@Pure
-	@PythonName("static_method_params")
-	static fun staticMethodParams(
-		@PythonName("param_1") param1: Int
-	)
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("static_method_params")
+    static fun staticMethodParams(
+        @PythonName("param_1") param1: Int
+    )
 
-	// TODO Result type information missing.
-	// TODO Safe-DS does not support class methods.
-	@Pure
-	@PythonName("class_method")
-	static fun classMethod()
+    // TODO Result type information missing.
+    // TODO Safe-DS does not support class methods.
+    @Pure
+    @PythonName("class_method")
+    static fun classMethod()
 
-	// TODO Safe-DS does not support class methods.
-	@Pure
-	@PythonName("class_method_params")
-	static fun classMethodParams(
-		@PythonName("param_1") param1: Int
-	) -> result1: Boolean
+    // TODO Safe-DS does not support class methods.
+    @Pure
+    @PythonName("class_method_params")
+    static fun classMethodParams(
+        @PythonName("param_1") param1: Int
+    ) -> result1: Boolean
 }
 
 class FunctionModulePropertiesClass() {
-	@PythonName("property_function") attr propertyFunction
-	@PythonName("property_function_params") attr propertyFunctionParams: String
-	@PythonName("property_function_infer") attr propertyFunctionInfer: String
+    @PythonName("property_function") attr propertyFunction
+    @PythonName("property_function_params") attr propertyFunctionParams: String
+    @PythonName("property_function_infer") attr propertyFunctionInfer: String
 }

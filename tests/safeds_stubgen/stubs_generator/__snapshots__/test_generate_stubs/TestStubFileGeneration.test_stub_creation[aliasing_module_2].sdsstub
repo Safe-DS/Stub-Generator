@@ -10,11 +10,11 @@ class AliasingModuleClassB()
 class ImportMeAliasingModuleClass()
 
 class AliasingModuleClassC() {
-	@PythonName("typed_alias_attr")
-	static attr typedAliasAttr: AliasingModuleClassB
-	@PythonName("typed_alias_infer")
-	static attr typedAliasInfer: AliasingModuleClassC
-	// TODO List type has to many type arguments.
-	@PythonName("alias_list")
-	static attr aliasList: List<union<AliasingModuleClassB, String>, ImportMeAliasingModuleClass>
+    @PythonName("typed_alias_attr")
+    static attr typedAliasAttr: AliasingModuleClassB
+    @PythonName("typed_alias_infer")
+    static attr typedAliasInfer: AliasingModuleClassC
+    // TODO List type has to many type arguments.
+    @PythonName("alias_list")
+    static attr aliasList: List<union<AliasingModuleClassB, String>, ImportMeAliasingModuleClass>
 }
