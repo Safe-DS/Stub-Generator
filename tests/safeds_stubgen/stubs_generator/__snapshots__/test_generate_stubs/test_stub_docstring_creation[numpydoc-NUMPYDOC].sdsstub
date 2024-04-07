@@ -132,7 +132,7 @@ fun inferTypes() -> (firstResult: Boolean, secondResult: String)
 fun inferTypes2(
 	a,
 	b
-) -> result1: union<Boolean, String>
+) -> result1: union<Boolean, Int, String>
 
 /**
  * ClassWithDocumentation. Code::
