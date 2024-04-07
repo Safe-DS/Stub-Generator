@@ -231,6 +231,24 @@ def function_with_named_result() -> bool:
     """
 
 
+def function_with_multiple_results() -> (int, bool):
+    """
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    Returns
+    -------
+    first_result : int
+        first result
+    second_result : bool
+        second result
+    """
+    if ClassWithAttributes:
+        return 1
+    return True
+
+
 def function_without_result_value():
     """
     function_without_result_value.

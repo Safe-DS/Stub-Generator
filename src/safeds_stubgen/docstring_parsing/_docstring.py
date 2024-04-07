@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
+    from collections.abc import Sequence
     from typing import Any
 
     from safeds_stubgen.api_analyzer import AbstractType
@@ -48,9 +49,18 @@ class AttributeDocstring:
 
 
 @dataclass(frozen=True)
+class ResultDocstrings:
+    docstrings: Sequence[ResultDocstring]
+
+    def to_dict(self) -> dict[str, Any]:
+        return dataclasses.asdict(self)
+
+
+@dataclass(frozen=True)
 class ResultDocstring:
     type: AbstractType | None = None
     description: str = ""
+    name: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)

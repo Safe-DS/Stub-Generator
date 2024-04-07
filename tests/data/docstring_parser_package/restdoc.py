@@ -91,6 +91,22 @@ def function_with_return_value_no_type() -> None:
     """
 
 
+def function_with_multiple_results() -> (int, bool):
+    """
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    :return: first result
+    :rtype: int
+    :return: second result
+    :rtype: bool
+    """
+    if ClassWithMethod:
+        return 1
+    return True
+
+
 def function_without_return_value():
     """
     function_without_return_value.

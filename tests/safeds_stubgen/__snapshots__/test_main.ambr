@@ -817,6 +817,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'name': '',
           'type': None,
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
@@ -830,6 +831,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'name': '',
           'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/result_1',
@@ -858,6 +860,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'name': '',
           'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/result_1',
@@ -871,6 +874,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'name': '',
           'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_private_global_func/result_1',
@@ -899,6 +903,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'name': '',
           'type': None,
         }),
         'id': 'tests/data/main_package/main_module/global_func/result_1',

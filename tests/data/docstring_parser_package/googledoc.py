@@ -112,6 +112,18 @@ def function_with_return_value_no_type() -> None:
     """
 
 
+def function_with_multiple_results() -> (int, bool):
+    """
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    Returns:
+        int : first result
+        bool : second result
+    """
+
+
 def function_without_return_value():
     """function_without_return_value.
 

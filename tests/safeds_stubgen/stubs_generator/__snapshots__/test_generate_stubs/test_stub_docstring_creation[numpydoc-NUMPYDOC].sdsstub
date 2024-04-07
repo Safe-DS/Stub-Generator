@@ -78,11 +78,23 @@ fun functionWithResultValueAndType() -> result1: Boolean
  *
  * Dolor sit amet.
  *
- * @result result1 this will be the return value
+ * @result namedResult this will be the return value
  */
 @Pure
 @PythonName("function_with_named_result")
-fun functionWithNamedResult() -> result1: Boolean
+fun functionWithNamedResult() -> namedResult: Boolean
+
+/**
+ * function_with_named_result.
+ *
+ * Dolor sit amet.
+ *
+ * @result firstResult first result
+ * @result secondResult second result
+ */
+@Pure
+@PythonName("function_with_multiple_results")
+fun functionWithMultipleResults() -> (firstResult: Int, secondResult: Boolean)
 
 // TODO Result type information missing.
 /**
@@ -236,13 +248,13 @@ class ClassWithMethod() {
 	 *
 	 * Dolor sit amet.
 	 *
-	 * @result result1 this will be the return value
+	 * @result namedResult this will be the return value
 	 */
 	@Pure
 	@PythonName("method_with_docstring")
 	fun methodWithDocstring(
 		a
-	) -> result1: Boolean
+	) -> namedResult: Boolean
 }
 
 // TODO Some parameter have no type information.

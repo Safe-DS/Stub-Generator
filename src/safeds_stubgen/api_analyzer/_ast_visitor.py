@@ -8,6 +8,7 @@ import mypy.nodes as mp_nodes
 import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
+from safeds_stubgen.docstring_parsing import ResultDocstring, ResultDocstrings
 
 from ._api import (
     API,
@@ -37,8 +38,10 @@ from ._mypy_helpers import (
 )
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from safeds_stubgen.api_analyzer._types import AbstractType
-    from safeds_stubgen.docstring_parsing import AbstractDocstringParser, ResultDocstring
+    from safeds_stubgen.docstring_parsing import AbstractDocstringParser
 
 
 class MyPyAstVisitor:
@@ -256,8 +259,9 @@ class MyPyAstVisitor:
                 # Sort for the snapshot tests
                 type_var_types.sort(key=lambda x: x.name)
 
-        # Create results
-        results = self._parse_results(node, function_id)
+        # Create results and result docstrings
+        result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
+        results = self._parse_results(node, function_id, result_docstrings)
 
         # Get reexported data
         reexported_by = self._get_reexported_by(name)
@@ -275,6 +279,7 @@ class MyPyAstVisitor:
             reexported_by=reexported_by,
             parameters=arguments,
             type_var_types=type_var_types,
+            result_docstrings=result_docstrings,
         )
         self.__declaration_stack.append(function)
 
@@ -400,7 +405,9 @@ class MyPyAstVisitor:
 
     # #### Result utilities
 
-    def _parse_results(self, node: mp_nodes.FuncDef, function_id: str) -> list[Result]:
+    def _parse_results(
+        self, node: mp_nodes.FuncDef, function_id: str, result_docstrings: ResultDocstrings
+    ) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
             return []
@@ -414,8 +421,16 @@ class MyPyAstVisitor:
                 node_ret_type = node_type.ret_type
 
                 if not isinstance(node_ret_type, mp_types.NoneType):
-                    if isinstance(node_ret_type, mp_types.AnyType) and not has_correct_type_of_any(
-                        node_ret_type.type_of_any,
+                    unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
+
+                    if (
+                        (
+                            not unanalyzed_ret_type or
+                            getattr(unanalyzed_ret_type, "literal_value", "") is None or
+                            isinstance(unanalyzed_ret_type, mp_types.AnyType)
+                        )
+                        and isinstance(node_ret_type, mp_types.AnyType) and
+                        not has_correct_type_of_any(node_ret_type.type_of_any)
                     ):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.
@@ -423,7 +438,6 @@ class MyPyAstVisitor:
                         type_is_inferred = ret_type is not None
                     else:
                         # Otherwise, we can parse the type normally
-                        unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
                         ret_type = self.mypy_type_to_abstract_type(node_ret_type, unanalyzed_ret_type)
             else:
                 # Infer type
@@ -433,22 +447,42 @@ class MyPyAstVisitor:
         if ret_type is None:
             return []
 
-        result_docstring = self.docstring_parser.get_result_documentation(node.fullname)
-
         if type_is_inferred and isinstance(ret_type, sds_types.TupleType):
-            return self._create_inferred_results(ret_type, result_docstring, function_id)
+            return self._create_inferred_results(ret_type, result_docstrings, function_id)
 
         # If we got a TupleType, we can iterate it for the results, but if we got a NamedType, we have just one result
         return_results = ret_type.types if isinstance(ret_type, sds_types.TupleType) else [ret_type]
-        return [
-            Result(
-                id=f"{function_id}/result_{i + 1}",
+
+        # Create Result objects and try to find a matching docstring
+        all_results = []
+        name_generator = self._result_name_generator()
+        for type_ in return_results:
+            result_docstring = ResultDocstring()
+            if result_docstrings.docstrings:
+                for docstring in result_docstrings.docstrings:
+                    if hash(docstring.type) == hash(type_):
+                        result_docstring = docstring
+                        break
+
+            result_name = result_docstring.name if result_docstring.name else next(name_generator)
+
+            result = Result(
+                id=f"{function_id}/{result_name}",
                 type=type_,
-                name=f"result_{i + 1}",
+                name=f"{result_name}",
                 docstring=result_docstring,
             )
-            for i, type_ in enumerate(return_results)
-        ]
+
+            all_results.append(result)
+
+        return all_results
+
+    @staticmethod
+    def _result_name_generator() -> Generator:
+        """Generate a name for callable type parameters starting from 'a' until 'zz'."""
+        while True:
+            for x in range(1, 1000):
+                yield f"result_{x}"
 
     @staticmethod
     def _infer_type_from_return_stmts(func_node: mp_nodes.FuncDef) -> sds_types.NamedType | sds_types.TupleType | None:
@@ -492,7 +526,7 @@ class MyPyAstVisitor:
     @staticmethod
     def _create_inferred_results(
         results: sds_types.TupleType,
-        result_docstring: ResultDocstring,
+        docstrings: ResultDocstrings,
         function_id: str,
     ) -> list[Result]:
         """Create Result objects with inferred results.
@@ -539,6 +573,13 @@ class MyPyAstVisitor:
                 result_type = result_list[0]
             else:
                 result_type = sds_types.UnionType(result_list)
+
+            result_docstring = ResultDocstring()
+            if docstrings.docstrings:
+                for docstring in docstrings.docstrings:
+                    if hash(docstring.type) == hash(result_type):
+                        result_docstring = docstring
+                        break
 
             name = f"result_{i + 1}"
             inferred_results.append(
@@ -843,6 +884,8 @@ class MyPyAstVisitor:
                     # not allowed. In this case mypy interprets the type as "list[Any]", but we want the real types
                     # of the list arguments, which we cant get through the "unanalyzed_type" attribute
                     return self.mypy_type_to_abstract_type(unanalyzed_type)
+        elif isinstance(unanalyzed_type, mp_types.TupleType):
+            return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in unanalyzed_type.items])
 
         # Iterable mypy types
         if isinstance(mypy_type, mp_types.TupleType):

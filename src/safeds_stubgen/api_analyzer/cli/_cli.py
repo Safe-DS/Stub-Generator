@@ -3,13 +3,10 @@ from __future__ import annotations
 import argparse
 import logging
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.docstring_parsing import DocstringStyle
 from safeds_stubgen.stubs_generator import generate_stubs
-
-if TYPE_CHECKING:
-    from safeds_stubgen.docstring_parsing import DocstringStyle
 
 
 def cli() -> None:
@@ -100,4 +97,5 @@ def _run_api_command(
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
 
-    generate_stubs(api, out_dir_path, convert_identifiers)
+    is_numpy_parser = docstring_style == DocstringStyle.NUMPYDOC
+    generate_stubs(api, out_dir_path, convert_identifiers, is_numpy_parser)

@@ -15,6 +15,7 @@ if TYPE_CHECKING:
         FunctionDocstring,
         ParameterDocstring,
         ResultDocstring,
+        ResultDocstrings,
     )
 
     from ._types import AbstractType, TypeVarType
@@ -242,6 +243,7 @@ class Function:
     is_static: bool
     is_class_method: bool
     is_property: bool
+    result_docstrings: ResultDocstrings
     type_var_types: list[TypeVarType] = field(default_factory=list)
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)

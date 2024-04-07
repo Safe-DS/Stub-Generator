@@ -19,7 +19,9 @@ from ._docstring import (
     FunctionDocstring,
     ParameterDocstring,
     ResultDocstring,
+    ResultDocstrings,
 )
+from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -173,13 +175,12 @@ class DocstringParser(AbstractDocstringParser):
             description=last_attribute.description.strip("\n"),
         )
 
-    # Todo handle multiple results
-    def get_result_documentation(self, function_qname: str) -> ResultDocstring:
+    def get_result_documentation(self, function_qname: str) -> ResultDocstrings:
         # Find matching parameter docstrings
         griffe_docstring = self.__get_cached_docstring(function_qname)
 
         if griffe_docstring is None:
-            return ResultDocstring()
+            return ResultDocstrings(docstrings=[])
 
         all_returns = None
         for docstring_section in griffe_docstring.parsed:
@@ -188,12 +189,24 @@ class DocstringParser(AbstractDocstringParser):
                 break
 
         if not all_returns:
-            return ResultDocstring()
+            return ResultDocstrings(docstrings=[])
 
-        return ResultDocstring(
-            type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
-            description=all_returns.value[0].description.strip("\n"),
-        )
+        # Multiple results are handled differently for numpy, since there we can define multiple named results.
+        if self.parser == Parser.numpy:
+            results = [
+                ResultDocstring(
+                    type=self._griffe_annotation_to_api_type(result.annotation, griffe_docstring),
+                    description=remove_newline_from_text(result.description),
+                    name=result.name or "",
+                ) for result in all_returns.value
+            ]
+        else:
+            results = [ResultDocstring(
+                type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
+                description=all_returns.value[0].description.strip("\n"),
+            )]
+
+        return ResultDocstrings(docstrings=results)
 
     @staticmethod
     def _get_matching_docstrings(
@@ -276,7 +289,7 @@ class DocstringParser(AbstractDocstringParser):
                 elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
                 return sds_types.UnionType(elements)
             else:
-                return sds_types.UnionType(elements)
+                return sds_types.TupleType(elements)
         elif isinstance(annotation, str):
             new_annotation = self._remove_default_from_griffe_annotation(annotation)
             parsed_annotation = parse_annotation(new_annotation, docstring)

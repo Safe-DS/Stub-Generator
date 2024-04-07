@@ -4532,6 +4532,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
@@ -4559,6 +4560,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
@@ -4572,6 +4574,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
@@ -4589,6 +4592,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
@@ -4606,6 +4610,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/any_results/result_1',
@@ -4623,6 +4628,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/callable_type/result_1',
@@ -4663,6 +4669,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
@@ -4680,6 +4687,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results/result_1',
@@ -4705,6 +4713,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
@@ -4730,6 +4739,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/float_result/result_1',
@@ -4750,6 +4760,7 @@
           Checks if the sum of x and y is greater than 10 and returns
             a boolean value. (Google Style)
         ''',
+        'name': '',
         'type': dict({
           'name': 'bool',
           'qname': 'builtins.bool',
@@ -4770,6 +4781,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results/result_1',
@@ -4795,6 +4807,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_list_results/result_1',
@@ -4822,6 +4835,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_set_results/result_1',
@@ -4849,6 +4863,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
@@ -4912,6 +4927,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
@@ -4935,6 +4951,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
@@ -4952,6 +4969,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
@@ -4969,6 +4987,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/int_result/result_1',
@@ -4986,6 +5005,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/list_results/result_1',
@@ -5008,6 +5028,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/literal_results/result_1',
@@ -5026,6 +5047,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/type_var_module/multiple_type_var/result_1',
@@ -5058,6 +5080,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
@@ -5079,6 +5102,7 @@
     dict({
       'docstring': dict({
         'description': 'Checks if the sum of `x` and `y` is greater than 10. (Numpy)',
+        'name': '',
         'type': dict({
           'name': 'bool',
           'qname': 'builtins.bool',
@@ -5099,6 +5123,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/obj_result/result_1',
@@ -5116,6 +5141,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/optional_results/result_1',
@@ -5147,6 +5173,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
@@ -5164,6 +5191,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
@@ -5181,6 +5209,7 @@
     dict({
       'docstring': dict({
         'description': 'Checks if the sum of x and y is greater than 10. (ReST)',
+        'name': '',
         'type': dict({
           'name': 'bool',
           'qname': 'builtins.bool',
@@ -5201,6 +5230,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/result_from_outside_the_package/result_1',
@@ -5218,6 +5248,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/set_results/result_1',
@@ -5244,6 +5275,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/str_result/result_1',
@@ -5261,6 +5293,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/tuple_results/result_1',
@@ -5274,6 +5307,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/tuple_results/result_2',
@@ -5291,6 +5325,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/type_var_module/type_var_func/result_1',
@@ -5313,6 +5348,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/union_dictionary_results/result_1',
@@ -5358,6 +5394,7 @@
     dict({
       'docstring': dict({
         'description': '',
+        'name': '',
         'type': None,
       }),
       'id': 'tests/data/various_modules_package/function_module/union_results/result_1',

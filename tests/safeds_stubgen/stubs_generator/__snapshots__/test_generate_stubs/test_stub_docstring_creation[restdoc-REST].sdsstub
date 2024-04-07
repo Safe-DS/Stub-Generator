@@ -66,10 +66,23 @@ fun functionWithReturnValueAndType() -> result1: Boolean
  * function_with_return_value_no_type.
  *
  * Dolor sit amet.
+ *
+ * @result result1 return value
  */
 @Pure
 @PythonName("function_with_return_value_no_type")
 fun functionWithReturnValueNoType()
+
+/**
+ * function_with_named_result.
+ *
+ * Dolor sit amet.
+ *
+ * @result result1 second result
+ */
+@Pure
+@PythonName("function_with_multiple_results")
+fun functionWithMultipleResults() -> (result1: Int, result2: Boolean)
 
 // TODO Result type information missing.
 /**

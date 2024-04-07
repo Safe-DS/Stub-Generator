@@ -15,7 +15,7 @@ from safeds_stubgen.docstring_parsing import (
 )
 
 # noinspection PyProtectedMember
-from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstring
+from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstrings
 
 from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
@@ -182,11 +182,11 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_documentation",
-            ResultDocstring(),
+            ResultDocstrings(docstrings=[]),
         ),
         (
             "function_without_documentation",
-            ResultDocstring(),
+            ResultDocstrings(docstrings=[]),
         ),
     ],
     ids=[
@@ -197,7 +197,7 @@ def test_get_attribute_documentation(
 def test_get_result_documentation(
     plaintext_docstring_parser: PlaintextDocstringParser,
     function_name: str,
-    expected_result_documentation: ParameterDocstring,
+    expected_result_documentation: ResultDocstrings,
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
