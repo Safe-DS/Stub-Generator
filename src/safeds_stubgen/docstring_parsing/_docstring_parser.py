@@ -197,13 +197,16 @@ class DocstringParser(AbstractDocstringParser):
                     type=self._griffe_annotation_to_api_type(result.annotation, griffe_docstring),
                     description=result.description.strip("\n"),
                     name=result.name or "",
-                ) for result in all_returns.value
+                )
+                for result in all_returns.value
             ]
         else:
-            results = [ResultDocstring(
-                type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
-                description=all_returns.value[0].description.strip("\n"),
-            )]
+            results = [
+                ResultDocstring(
+                    type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
+                    description=all_returns.value[0].description.strip("\n"),
+                ),
+            ]
 
         return ResultDocstrings(docstrings=results)
 

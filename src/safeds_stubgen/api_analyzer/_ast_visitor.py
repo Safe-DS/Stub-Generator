@@ -406,7 +406,7 @@ class MyPyAstVisitor:
     # #### Result utilities
 
     def _parse_results(
-        self, node: mp_nodes.FuncDef, function_id: str, result_docstrings: ResultDocstrings
+        self, node: mp_nodes.FuncDef, function_id: str, result_docstrings: ResultDocstrings,
     ) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
@@ -425,12 +425,12 @@ class MyPyAstVisitor:
 
                     if (
                         (
-                            not unanalyzed_ret_type or
-                            getattr(unanalyzed_ret_type, "literal_value", "") is None or
-                            isinstance(unanalyzed_ret_type, mp_types.AnyType)
+                            not unanalyzed_ret_type
+                            or getattr(unanalyzed_ret_type, "literal_value", "") is None
+                            or isinstance(unanalyzed_ret_type, mp_types.AnyType)
                         )
-                        and isinstance(node_ret_type, mp_types.AnyType) and
-                        not has_correct_type_of_any(node_ret_type.type_of_any)
+                        and isinstance(node_ret_type, mp_types.AnyType)
+                        and not has_correct_type_of_any(node_ret_type.type_of_any)
                     ):
                         # In this case, the "Any" type was given because it was not explicitly annotated.
                         # Therefor we have to try to infer the type.

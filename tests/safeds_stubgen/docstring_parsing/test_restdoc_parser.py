@@ -707,17 +707,25 @@ def test_get_parameter_documentation(
     [
         (
             "function_with_return_value_and_type",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="bool", qname="builtins.bool"),
-                description="return value",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="bool", qname="builtins.bool"),
+                        description="return value",
+                    ),
+                ],
+            ),
         ),
         (
             "function_with_return_value_no_type",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="None", qname="builtins.None"),
-                description="return value",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="None", qname="builtins.None"),
+                        description="return value",
+                    ),
+                ],
+            ),
         ),
         (
             "function_without_return_value",
@@ -725,10 +733,14 @@ def test_get_parameter_documentation(
         ),
         (
             "function_with_multiple_results",
-            ResultDocstrings(docstrings=[ResultDocstring(
-                type=NamedType(name="bool", qname="builtins.bool"),
-                description="second result",
-            )]),
+            ResultDocstrings(
+                docstrings=[
+                    ResultDocstring(
+                        type=NamedType(name="bool", qname="builtins.bool"),
+                        description="second result",
+                    ),
+                ],
+            ),
         ),
     ],
     ids=[
