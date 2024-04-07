@@ -7,7 +7,7 @@ from griffe.dataclasses import Docstring
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
 from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
-from griffe.expressions import Expr, ExprName, ExprSubscript, ExprTuple
+from griffe.expressions import Expr, ExprBinOp, ExprName, ExprSubscript, ExprTuple
 
 # noinspection PyProtectedMember
 import safeds_stubgen.api_analyzer._types as sds_types
@@ -209,9 +209,13 @@ class DocstringParser(AbstractDocstringParser):
             else:
                 annotation = return_value.annotation
 
+            type_ = None
+            if annotation:
+                type_ = self._griffe_annotation_to_api_type(annotation, griffe_docstring)
+
             results = [
                 ResultDocstring(
-                    type=self._griffe_annotation_to_api_type(annotation, griffe_docstring),
+                    type=type_,
                     description=return_value.description.strip("\n"),
                 ),
             ]
@@ -313,9 +317,18 @@ class DocstringParser(AbstractDocstringParser):
                     )
             else:
                 return self._griffe_annotation_to_api_type(parsed_annotation, docstring)
+        elif isinstance(annotation, ExprBinOp):
+            types = [self._griffe_annotation_to_api_type(annotation.right, docstring)]
+            left_bin = annotation.left
+            if isinstance(left_bin, ExprBinOp):
+                while isinstance(left_bin, ExprBinOp):
+                    types.append(self._griffe_annotation_to_api_type(left_bin.right, docstring))
+                    left_bin = left_bin.left
+            types.append(self._griffe_annotation_to_api_type(left_bin, docstring))
+            return sds_types.UnionType(types=types)
         else:  # pragma: no cover
             raise TypeError(
-                f"Can't parse unexpected type from docstring: {annotation}. This case is not handled by us"
+                f"Can't parse unexpected type from docstring: {annotation}. This case is not handled by us "
                 f"(yet), please report this.",
             )
 

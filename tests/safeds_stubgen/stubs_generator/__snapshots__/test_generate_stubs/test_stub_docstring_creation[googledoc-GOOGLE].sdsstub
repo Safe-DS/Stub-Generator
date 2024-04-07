@@ -111,6 +111,17 @@ fun functionWithMultipleResults() -> (result1: Int, result2: Boolean)
 @PythonName("function_without_return_value")
 fun functionWithoutReturnValue()
 
+/**
+ * property_method_with_docstring.
+ *
+ * Dolor sit amet.
+ *
+ * @result result1 This is the first result
+ */
+@Pure
+@PythonName("infer_types")
+fun inferTypes() -> (result1: String, result2: Int)
+
 // TODO Some parameter have no type information.
 /**
  * property_method_with_docstring.
@@ -120,14 +131,14 @@ fun functionWithoutReturnValue()
  * @param a The first parameter
  * @param b The second parameter
  *
- * @result result1 This is the first result
+ * @result result1 str | bool: This is the result
  */
 @Pure
-@PythonName("infer_types")
-fun inferTypes(
+@PythonName("infer_types2")
+fun inferTypes2(
 	a,
 	b
-) -> result1: String
+) -> result1: union<Boolean, String>
 
 /**
  * ClassWithDocumentation. Code::

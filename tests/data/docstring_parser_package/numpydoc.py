@@ -390,7 +390,23 @@ class ClassWithVariousAttributeTypes:
     imported_type: AnotherClass
 
 
-def infer_types(a, b):
+def infer_types():
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Returns
+    -------
+    first_result : bool
+        This is the first result
+    second_result : str
+        This is the second result
+    """
+    return True, "Another value"
+
+
+def infer_types2(a, b):
     """
     property_method_with_docstring.
 
@@ -405,9 +421,9 @@ def infer_types(a, b):
 
     Returns
     -------
-    first_result : bool
-        This is the first result
-    second_result : str
-        This is the second result
+    func_result : str | bool
+        This is the result
     """
-    return True, "Another value"
+    if a or b:
+        return "A value"
+    return True
