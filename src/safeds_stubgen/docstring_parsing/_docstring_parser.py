@@ -20,7 +20,6 @@ from ._docstring import (
     ParameterDocstring,
     ResultDocstring,
 )
-from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -53,16 +52,16 @@ class DocstringParser(AbstractDocstringParser):
         description = ""
         docstring = ""
         if griffe_node.docstring is not None:
-            docstring = griffe_node.docstring.value
+            docstring = griffe_node.docstring.value.strip("\n")
 
             for docstring_section in griffe_node.docstring.parsed:
                 if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value
+                    description = docstring_section.value.strip("\n")
                     break
 
         return ClassDocstring(
-            description=remove_newline_from_text(description),
-            full_docstring=remove_newline_from_text(docstring),
+            description=description,
+            full_docstring=docstring,
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
@@ -70,15 +69,15 @@ class DocstringParser(AbstractDocstringParser):
         description = ""
         griffe_docstring = self.__get_cached_docstring(function_node.fullname)
         if griffe_docstring is not None:
-            docstring = griffe_docstring.value
+            docstring = griffe_docstring.value.strip("\n")
             for docstring_section in griffe_docstring.parsed:
                 if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value
+                    description = docstring_section.value.strip("\n")
                     break
 
         return FunctionDocstring(
-            description=remove_newline_from_text(description),
-            full_docstring=remove_newline_from_text(docstring),
+            description=description,
+            full_docstring=docstring,
         )
 
     def get_parameter_documentation(
@@ -129,7 +128,7 @@ class DocstringParser(AbstractDocstringParser):
         return ParameterDocstring(
             type=type_,
             default_value=last_parameter.default or "",
-            description=remove_newline_from_text(last_parameter.description) or "",
+            description=last_parameter.description.strip("\n") or "",
         )
 
     def get_attribute_documentation(
@@ -171,7 +170,7 @@ class DocstringParser(AbstractDocstringParser):
 
         return AttributeDocstring(
             type=type_,
-            description=remove_newline_from_text(last_attribute.description),
+            description=last_attribute.description.strip("\n"),
         )
 
     # Todo handle multiple results
@@ -193,7 +192,7 @@ class DocstringParser(AbstractDocstringParser):
 
         return ResultDocstring(
             type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
-            description=remove_newline_from_text(all_returns.value[0].description),
+            description=all_returns.value[0].description.strip("\n"),
         )
 
     @staticmethod
