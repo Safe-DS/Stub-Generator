@@ -406,7 +406,10 @@ class MyPyAstVisitor:
     # #### Result utilities
 
     def _parse_results(
-        self, node: mp_nodes.FuncDef, function_id: str, result_docstrings: ResultDocstrings,
+        self,
+        node: mp_nodes.FuncDef,
+        function_id: str,
+        result_docstrings: ResultDocstrings,
     ) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
