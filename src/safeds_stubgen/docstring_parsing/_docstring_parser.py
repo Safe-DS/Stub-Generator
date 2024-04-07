@@ -21,7 +21,6 @@ from ._docstring import (
     ResultDocstring,
     ResultDocstrings,
 )
-from ._helpers import remove_newline_from_text
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -196,7 +195,7 @@ class DocstringParser(AbstractDocstringParser):
             results = [
                 ResultDocstring(
                     type=self._griffe_annotation_to_api_type(result.annotation, griffe_docstring),
-                    description=remove_newline_from_text(result.description),
+                    description=result.description.strip("\n"),
                     name=result.name or "",
                 ) for result in all_returns.value
             ]
