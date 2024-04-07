@@ -67,10 +67,7 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     assert len(actual_python_files) + add == len(stub_files)
 
     # Remove the imported module
-    actual_stub_files = [
-        s_file for s_file in stub_files
-        if "reexported" not in s_file.name
-    ]
+    actual_stub_files = [s_file for s_file in stub_files if "reexported" not in s_file.name]
 
     actual_python_files.sort(key=lambda x: x.stem)
     actual_stub_files.sort(key=lambda x: x.stem)
