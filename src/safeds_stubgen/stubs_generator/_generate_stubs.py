@@ -19,7 +19,6 @@ from safeds_stubgen.api_analyzer import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
 
     from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
@@ -702,16 +701,20 @@ class StubsStringGenerator:
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
             params = [
-                (f"{_convert_name_to_convention('param_' + str(i + 1), self.naming_convention)}: "
-                 f"{self._create_type_string(parameter_type)}")
+                (
+                    f"{_convert_name_to_convention('param_' + str(i + 1), self.naming_convention)}: "
+                    f"{self._create_type_string(parameter_type)}"
+                )
                 for i, parameter_type in enumerate(type_data["parameter_types"])
             ]
 
             return_type = type_data["return_type"]
             if return_type["kind"] == "TupleType":
                 return_types = [
-                    (f"{_convert_name_to_convention('result_' + str(i+1), self.naming_convention)}: "
-                     f"{self._create_type_string(type_)}")
+                    (
+                        f"{_convert_name_to_convention('result_' + str(i+1), self.naming_convention)}: "
+                        f"{self._create_type_string(type_)}"
+                    )
                     for i, type_ in enumerate(return_type["types"])
                 ]
                 return_type_string = f"({', '.join(return_types)})"
