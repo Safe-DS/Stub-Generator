@@ -53,23 +53,38 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
     stub_files: list[Path] = list(stub_path.iterdir())
 
     # Remove __init__ files and private files without public reexported content.
-    # We reexport public content from _module_3 and _module_6, not from empty_module, _module_2 and _module_4.
+    # We reexport public content to the root package from _module_3, therefore it is created on the root level.
+    # We do not reexport from empty_module, _module_2 and _module_4, therefore these files are not created.
     actual_python_files = []
     for item in python_files:
-        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4"}):
+        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4", "_module_3"}):
             actual_python_files.append(item)
 
-    assert len(actual_python_files) == len(stub_files)
+    # The +3 are added since the package imports 3 more modules
+    add = 0
+    if python_path.name == "file_creation":
+        add = 3
+    assert len(actual_python_files) + add == len(stub_files)
+
+    # Remove the imported module
+    actual_stub_files = [
+        s_file for s_file in stub_files
+        if "reexported" not in s_file.name
+    ]
 
     actual_python_files.sort(key=lambda x: x.stem)
-    stub_files.sort(key=lambda x: x.stem)
+    actual_stub_files.sort(key=lambda x: x.stem)
 
-    for py_item, stub_item in zip(actual_python_files, stub_files, strict=True):
-        if py_item.is_file():
-            assert stub_item.is_dir()
-            stub_files = list(stub_item.iterdir())
-            assert len(stub_files) == 1
-            assert stub_files[0].stem == py_item.stem
+    for py_item, stub_item in zip(actual_python_files, actual_stub_files, strict=True):
+        if py_item.name.endswith(".py"):
+            if py_item.name == "_module_6.py":
+                # _module_6 is reexported in the file_creation package, therefore we don't need to create a stub dir
+                assert not stub_item.is_dir()
+            else:
+                assert stub_item.is_dir()
+                actual_stub_files = list(stub_item.iterdir())
+                assert len(actual_stub_files) == 1
+                assert actual_stub_files[0].stem == py_item.stem
         else:
             _assert_file_creation_recursive(py_item, stub_item)
 

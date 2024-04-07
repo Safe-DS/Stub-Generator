@@ -61,7 +61,7 @@ def _generate_stubs_data(
         if module.name == "__init__":
             continue
 
-        module_text = stubs_generator(module)
+        module_text, package_info = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, if there is only the package information
         # the file would look like this: "package path.to.myPackage\n" or this:
@@ -75,7 +75,7 @@ def _generate_stubs_data(
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        module_dir = Path(out_path / module.id)
+        module_dir = Path(out_path / package_info.replace(".", "/"))
         stubs_data.append((module_dir, module.name, module_text))
     return stubs_data
 
@@ -173,14 +173,14 @@ class StubsStringGenerator:
         self.naming_convention = naming_convention
         self.classes_outside_package: set[str] = set()
 
-    def __call__(self, module: Module) -> str:
+    def __call__(self, module: Module) -> tuple[str, str]:
         self.module_imports: set[str] = set()
         self._current_todo_msgs: set[str] = set()
         self.module = module
         self.class_generics: list = []
         return self._create_module_string()
 
-    def _create_module_string(self) -> str:
+    def _create_module_string(self) -> tuple[str, str]:
         # Create package info
         package_info = self._get_shortest_public_reexport()
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
@@ -212,7 +212,7 @@ class StubsStringGenerator:
         # Create imports - We have to create them last, since we have to check all used types in this module first
         module_header += self._create_imports_string()
 
-        return docstring + module_header + module_text
+        return f"{docstring}{module_header}{module_text}", package_info
 
     def _create_imports_string(self) -> str:
         if not self.module_imports:
