@@ -421,9 +421,11 @@ def infer_types2(a, b):
 
     Returns
     -------
-    func_result : str | bool
+    func_result : str | bool | int
         This is the result
     """
-    if a or b:
+    if b:
         return "A value"
+    if a:
+        return int
     return True
