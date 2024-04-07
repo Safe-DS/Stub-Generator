@@ -54,7 +54,8 @@ def params(
     optional: Optional[int],
     tuple_: tuple[int, str, bool],
     literal: Literal["Some String"],
-    any_: Any
+    any_: Any,
+    callable_none: Callable[[int, float], None] | None,
 ): ...
 
 

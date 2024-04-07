@@ -737,11 +737,15 @@ class StubsStringGenerator:
             # and we have to join them for the stubs.
             literal_data = []
             other_type_data = []
+            has_callable_type = False
             for type_information in type_data["types"]:
                 if type_information["kind"] == "LiteralType":
                     literal_data.append(type_information)
                 else:
                     other_type_data.append(type_information)
+
+                if type_information["kind"] == "CallableType":
+                    has_callable_type = True
 
             if len(literal_data) >= 2:
                 all_literals = [literal_type for literal in literal_data for literal_type in literal["literals"]]
@@ -761,9 +765,10 @@ class StubsStringGenerator:
             types.sort()
 
             if types:
-                if len(types) == 2 and none_type_name in types:
+                if len(types) == 2 and none_type_name in types and not has_callable_type:
                     # if None is at least one of the two possible types, we can remove the None and just return the
-                    # other type with a question mark
+                    # other type with a question mark. But only named types (class/enum/enum variant) support the ?
+                    # syntax for nullability, therefore we handle callable types here.
                     if types[0] == none_type_name:
                         return f"{types[1]}?"
                     return f"{types[0]}?"
