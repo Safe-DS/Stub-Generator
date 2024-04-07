@@ -5,6 +5,7 @@ A module for testing the various docstring types.
 """
 from typing import Any, Optional
 from enum import Enum
+from tests.data.various_modules_package.another_path.another_module import AnotherClass
 
 
 class ClassWithDocumentation:
@@ -45,9 +46,11 @@ class ClassWithParameters:
     ----------
     p : int, default=1
         foo
+    grouped_parameter_1, grouped_parameter_2 : int, default=4
+        foo: grouped_parameter_1 and grouped_parameter_2
     """
 
-    def __init__(self, p) -> None:
+    def __init__(self, p, grouped_parameter_1, grouped_parameter_2) -> None:
         pass
 
 
@@ -93,9 +96,9 @@ class ClassAndConstructorWithParameters:
 
     Parameters
     ----------
-    x: str
+    x : str
         Lorem ipsum 1.
-    z: int, default=5
+    z : int, default=5
         Lorem ipsum 3.
     """
 
@@ -103,11 +106,41 @@ class ClassAndConstructorWithParameters:
         """
         Parameters
         ----------
-        y: str
+        y : str
             Lorem ipsum 2.
-        z: str
+        z : str
             Lorem ipsum 4.
         """
+
+
+class ClassAndConstructorWithAttributes:
+    """
+    ClassAndConstructorWithParameters
+
+    Dolor sit amet.
+
+    Attributes
+    ----------
+    x : str
+        Lorem ipsum 1.
+    z : int, default=5
+        Lorem ipsum 3.
+    """
+    x: str
+    z: int
+    y: str
+
+    def __init__(self) -> None:
+        """
+        Attributes
+        ----------
+        y : str
+            Lorem ipsum 2.
+        z : str
+            Lorem ipsum 4.
+        """
+        self.y: str
+        self.z: str
 
 
 class ClassWithParametersAndAttributes:
@@ -160,7 +193,7 @@ class ClassWithAttributes:
     grouped_attribute_1, grouped_attribute_2 : int, default=4
         foo: grouped_attribute_1 and grouped_attribute_2
     """
-    no_type_no_default: Any
+    no_type_no_default = ""
     type_no_default: int
     optional_unknown_default: Optional[int]
     with_default_syntax_1 = 1
@@ -243,3 +276,97 @@ class EnumDocstring(Enum):
 
     Dolor sit amet.
     """
+
+
+class ClassWithVariousParameterTypes:
+    """
+    Parameters
+    ----------
+    no_type
+    optional_type : int, optional
+    none_type : None
+    int_type : int
+    bool_type : bool
+    str_type : str
+    float_type : float
+    multiple_types : int, bool
+    list_type_1 : list
+    list_type_2 : list[str]
+    list_type_3 : list[int, bool]
+    list_type_4 : list[list[int]]
+    set_type_1 : set
+    set_type_2 : set[str]
+    set_type_3 : set[int, bool]
+    set_type_4 : set[list[int]]
+    tuple_type_1 : tuple
+    tuple_type_2 : tuple[str]
+    tuple_type_3 : tuple[int, bool]
+    tuple_type_4 : tuple[list[int]]
+    any_type : Any
+    optional_type_2 : Optional[int]
+    class_type : ClassWithAttributes
+    imported_type : AnotherClass
+    """
+
+    def __init__(
+        self, no_type, optional_type, none_type, int_type, bool_type, str_type, float_type, multiple_types, list_type_1,
+        list_type_2, list_type_3, list_type_4, list_type_5, set_type_1, set_type_2, set_type_3, set_type_4, set_type_5,
+        tuple_type_1, tuple_type_2, tuple_type_3, tuple_type_4, any_type: Any,
+        optional_type_2: Optional[int], class_type, imported_type
+    ) -> None:
+        pass
+
+
+class ClassWithVariousAttributeTypes:
+    """
+    Attributes
+    ----------
+    no_type
+    optional_type : int, optional
+    none_type : None
+    int_type : int
+    bool_type : bool
+    str_type : str
+    float_type : float
+    multiple_types : int, bool
+    list_type_1 : list
+    list_type_2 : list[str]
+    list_type_3 : list[int, bool]
+    list_type_4 : list[list[int]]
+    set_type_1 : set
+    set_type_2 : set[str]
+    set_type_3 : set[int, bool]
+    set_type_4 : set[list[int]]
+    tuple_type_1 : tuple
+    tuple_type_2 : tuple[str]
+    tuple_type_3 : tuple[int, bool]
+    tuple_type_4 : tuple[list[int]]
+    any_type : Any
+    optional_type_2 : Optional[int]
+    class_type : ClassWithAttributes
+    imported_type : AnotherClass
+  """
+    no_type = ""
+    optional_type = ""
+    none_type = ""
+    int_type = ""
+    bool_type = ""
+    str_type = ""
+    float_type = ""
+    multiple_types = ""
+    list_type_1 = ""
+    list_type_2 = ""
+    list_type_3 = ""
+    list_type_4 = ""
+    set_type_1 = ""
+    set_type_2 = ""
+    set_type_3 = ""
+    set_type_4 = ""
+    tuple_type_1 = ""
+    tuple_type_2 = ""
+    tuple_type_3 = ""
+    tuple_type_4 = ""
+    any_type: Any
+    optional_type_2: Optional[int]
+    class_type: ClassWithAttributes
+    imported_type: AnotherClass

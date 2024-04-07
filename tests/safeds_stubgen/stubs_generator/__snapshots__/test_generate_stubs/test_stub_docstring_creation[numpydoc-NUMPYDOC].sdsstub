@@ -1,18 +1,20 @@
 /**
  * Test module for Numpy docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
 @PythonModule("tests.data.docstring_parser_package.numpydoc")
 package tests.data.docstringParserPackage.numpydoc
 
+from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherClass
+
 // TODO Result type information missing.
 /**
  * function_with_documentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -29,11 +31,11 @@ fun functionWithoutDocumentation()
 // TODO Some parameter have no type information.
 /**
  * function_with_parameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param noTypeNoDefault foo: no_type_no_default. Code::
- * 
+ *
  *     pass
  * @param typeNoDefault foo: type_no_default
  * @param optionalUnknownDefault foo: optional_unknown_default
@@ -62,7 +64,7 @@ fun functionWithParameters(
 
 /**
  * function_with_result_value_and_type.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -73,7 +75,7 @@ fun functionWithResultValueAndType() -> result1: Boolean
 
 /**
  * function_with_named_result.
- * 
+ *
  * Dolor sit amet.
  *
  * @result result1 this will be the return value
@@ -85,7 +87,7 @@ fun functionWithNamedResult() -> result1: Boolean
 // TODO Result type information missing.
 /**
  * function_without_result_value.
- * 
+ *
  * Dolor sit amet.
  */
 @Pure
@@ -94,9 +96,9 @@ fun functionWithoutResultValue()
 
 /**
  * ClassWithDocumentation. Code::
- * 
- * pass
- * 
+ *
+ *     pass
+ *
  * Dolor sit amet.
  */
 class ClassWithDocumentation()
@@ -105,19 +107,23 @@ class ClassWithoutDocumentation()
 
 /**
  * ClassWithParameters.
- * 
+ *
  * Dolor sit amet.
  *
  * @param p foo
+ * @param groupedParameter1 foo: grouped_parameter_1 and grouped_parameter_2
+ * @param groupedParameter2 foo: grouped_parameter_1 and grouped_parameter_2
  */
 // TODO Some parameter have no type information.
 class ClassWithParameters(
-	p
+	p,
+	@PythonName("grouped_parameter_1") groupedParameter1,
+	@PythonName("grouped_parameter_2") groupedParameter2
 )
 
 /**
  * ClassAndConstructorWithParameters
- * 
+ *
  * Dolor sit amet.
  *
  * @param x Lorem ipsum 1.
@@ -132,8 +138,28 @@ class ClassAndConstructorWithParameters(
 )
 
 /**
+ * ClassAndConstructorWithParameters
+ *
+ * Dolor sit amet.
+ */
+class ClassAndConstructorWithAttributes() {
+	/**
+	 * Lorem ipsum 1.
+	 */
+	static attr x: String
+	/**
+	 * Lorem ipsum 3.
+	 */
+	static attr z: Int
+	/**
+	 * Lorem ipsum 2.
+	 */
+	static attr y: String
+}
+
+/**
  * ClassWithParametersAndAttributes.
- * 
+ *
  * Dolor sit amet.
  *
  * @param x foo
@@ -154,17 +180,17 @@ class ClassWithParametersAndAttributes(
 
 /**
  * ClassWithAttributes.
- * 
+ *
  * Dolor sit amet.
  */
 class ClassWithAttributes() {
 	/**
 	 * foo: no_type_no_default. Code::
-	 * 
+	 *
 	 *     pass
 	 */
 	@PythonName("no_type_no_default")
-	static attr noTypeNoDefault: Any
+	static attr noTypeNoDefault: String
 	/**
 	 * foo: type_no_default
 	 */
@@ -190,14 +216,8 @@ class ClassWithAttributes() {
 	 */
 	@PythonName("with_default_syntax_3")
 	static attr withDefaultSyntax3: Int
-	/**
-	 * foo: grouped_attribute_1 and grouped_attribute_2
-	 */
 	@PythonName("grouped_attribute_1")
 	static attr groupedAttribute1: Int
-	/**
-	 * foo: grouped_attribute_1 and grouped_attribute_2
-	 */
 	@PythonName("grouped_attribute_2")
 	static attr groupedAttribute2: Int
 }
@@ -205,7 +225,7 @@ class ClassWithAttributes() {
 class ClassWithMethod() {
 	/**
 	 * property_method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 */
 	@PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
@@ -213,7 +233,7 @@ class ClassWithMethod() {
 	// TODO Some parameter have no type information.
 	/**
 	 * method_with_docstring.
-	 * 
+	 *
 	 * Dolor sit amet.
 	 *
 	 * @result result1 this will be the return value
@@ -225,9 +245,90 @@ class ClassWithMethod() {
 	) -> result1: Boolean
 }
 
+// TODO Some parameter have no type information.
+class ClassWithVariousParameterTypes(
+	@PythonName("no_type") noType,
+	@PythonName("optional_type") optionalType,
+	@PythonName("none_type") noneType,
+	@PythonName("int_type") intType,
+	@PythonName("bool_type") boolType,
+	@PythonName("str_type") strType,
+	@PythonName("float_type") floatType,
+	@PythonName("multiple_types") multipleTypes,
+	@PythonName("list_type_1") listType1,
+	@PythonName("list_type_2") listType2,
+	@PythonName("list_type_3") listType3,
+	@PythonName("list_type_4") listType4,
+	@PythonName("list_type_5") listType5,
+	@PythonName("set_type_1") setType1,
+	@PythonName("set_type_2") setType2,
+	@PythonName("set_type_3") setType3,
+	@PythonName("set_type_4") setType4,
+	@PythonName("set_type_5") setType5,
+	@PythonName("tuple_type_1") tupleType1,
+	@PythonName("tuple_type_2") tupleType2,
+	@PythonName("tuple_type_3") tupleType3,
+	@PythonName("tuple_type_4") tupleType4,
+	@PythonName("any_type") anyType: Any,
+	@PythonName("optional_type_2") optionalType2: Int?,
+	@PythonName("class_type") classType,
+	@PythonName("imported_type") importedType
+)
+
+class ClassWithVariousAttributeTypes() {
+	@PythonName("no_type")
+	static attr noType: String
+	@PythonName("optional_type")
+	static attr optionalType: String
+	@PythonName("none_type")
+	static attr noneType: String
+	@PythonName("int_type")
+	static attr intType: String
+	@PythonName("bool_type")
+	static attr boolType: String
+	@PythonName("str_type")
+	static attr strType: String
+	@PythonName("float_type")
+	static attr floatType: String
+	@PythonName("multiple_types")
+	static attr multipleTypes: String
+	@PythonName("list_type_1")
+	static attr listType1: String
+	@PythonName("list_type_2")
+	static attr listType2: String
+	@PythonName("list_type_3")
+	static attr listType3: String
+	@PythonName("list_type_4")
+	static attr listType4: String
+	@PythonName("set_type_1")
+	static attr setType1: String
+	@PythonName("set_type_2")
+	static attr setType2: String
+	@PythonName("set_type_3")
+	static attr setType3: String
+	@PythonName("set_type_4")
+	static attr setType4: String
+	@PythonName("tuple_type_1")
+	static attr tupleType1: String
+	@PythonName("tuple_type_2")
+	static attr tupleType2: String
+	@PythonName("tuple_type_3")
+	static attr tupleType3: String
+	@PythonName("tuple_type_4")
+	static attr tupleType4: String
+	@PythonName("any_type")
+	static attr anyType: Any
+	@PythonName("optional_type_2")
+	static attr optionalType2: Int?
+	@PythonName("class_type")
+	static attr classType: ClassWithAttributes
+	@PythonName("imported_type")
+	static attr importedType: AnotherClass
+}
+
 /**
  * EnumDocstring.
- * 
+ *
  * Dolor sit amet.
  */
 enum EnumDocstring

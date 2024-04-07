@@ -4,9 +4,8 @@
     'attributes': list([
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_init_attr_private',
         'is_public': False,
@@ -20,9 +19,8 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/attr_1',
         'is_public': True,
@@ -36,9 +34,8 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/init_attr',
         'is_public': True,
@@ -52,9 +49,8 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
         'is_public': False,
@@ -68,9 +64,8 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_attr_in_private_class',
         'is_public': False,
@@ -84,9 +79,8 @@
       }),
       dict({
         'docstring': dict({
-          'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
         'is_public': False,
@@ -544,6 +538,36 @@
     'modules': list([
       dict({
         'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package/another_path',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
           'tests/data/main_package/another_path/another_module/AnotherClass',
           'tests/data/main_package/another_path/another_module/yetAnotherClass',
         ]),
@@ -597,9 +621,6 @@
           }),
         ]),
         'wildcard_imports': list([
-          dict({
-            'module_name': 'docstring_parser',
-          }),
         ]),
       }),
     ]),
@@ -611,7 +632,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
         'is_optional': False,
@@ -624,7 +645,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
@@ -641,7 +662,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
         'is_optional': False,
@@ -654,7 +675,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
         'is_optional': False,
@@ -667,7 +688,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/self',
         'is_optional': False,
@@ -680,7 +701,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
         'is_optional': False,
@@ -697,7 +718,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
         'is_optional': True,
@@ -714,7 +735,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/self',
         'is_optional': False,
@@ -727,7 +748,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/__init__/self',
         'is_optional': False,
@@ -740,7 +761,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
@@ -753,7 +774,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_1',
         'is_optional': True,
@@ -770,7 +791,7 @@
         'docstring': dict({
           'default_value': '',
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_2',
         'is_optional': True,
@@ -796,7 +817,7 @@
       dict({
         'docstring': dict({
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
         'name': 'result_1',
@@ -809,7 +830,7 @@
       dict({
         'docstring': dict({
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/result_1',
         'name': 'result_1',
@@ -837,7 +858,7 @@
       dict({
         'docstring': dict({
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/result_1',
         'name': 'result_1',
@@ -850,7 +871,7 @@
       dict({
         'docstring': dict({
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/_private_global_func/result_1',
         'name': 'result_1',
@@ -878,7 +899,7 @@
       dict({
         'docstring': dict({
           'description': '',
-          'type': '',
+          'type': None,
         }),
         'id': 'tests/data/main_package/main_module/global_func/result_1',
         'name': 'result_1',

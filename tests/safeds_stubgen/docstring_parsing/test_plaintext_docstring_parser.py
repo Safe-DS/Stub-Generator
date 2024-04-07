@@ -4,7 +4,6 @@ from pathlib import Path
 
 import pytest
 from mypy import nodes
-from safeds_stubgen.api_analyzer import Class, ParameterAssignment
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -133,10 +132,9 @@ def test_get_parameter_documentation(
     assert isinstance(node, nodes.FuncDef)
     assert (
         plaintext_docstring_parser.get_parameter_documentation(
-            node,
-            parameter_name,
-            ParameterAssignment.POSITION_OR_NAME,
-            parent_class=Class(id="", name="", superclasses=[], is_public=True, docstring=ClassDocstring()),
+            function_qname=node.fullname,
+            parameter_name=parameter_name,
+            parent_class_qname=".".join(node.fullname.split(".")[:-1]),
         )
         == expected_parameter_documentation
     )
@@ -170,11 +168,8 @@ def test_get_attribute_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, class_name)
     assert isinstance(node, nodes.ClassDef)
-    docstring = plaintext_docstring_parser.get_class_documentation(node)
-    fake_class = Class(id="some_id", name="some_class", superclasses=[], is_public=True, docstring=docstring)
-
     attribute_documentation = plaintext_docstring_parser.get_attribute_documentation(
-        parent_class=fake_class,
+        parent_class_qname=node.fullname,
         attribute_name=attribute_name,
     )
 
@@ -206,4 +201,4 @@ def test_get_result_documentation(
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
-    assert plaintext_docstring_parser.get_result_documentation(node) == expected_result_documentation
+    assert plaintext_docstring_parser.get_result_documentation(node.fullname) == expected_result_documentation

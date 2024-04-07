@@ -433,7 +433,7 @@ class MyPyAstVisitor:
         if ret_type is None:
             return []
 
-        result_docstring = self.docstring_parser.get_result_documentation(node)
+        result_docstring = self.docstring_parser.get_result_documentation(node.fullname)
 
         if type_is_inferred and isinstance(ret_type, sds_types.TupleType):
             return self._create_inferred_results(ret_type, result_docstring, function_id)
@@ -670,7 +670,7 @@ class MyPyAstVisitor:
         if isinstance(parent, Function) and parent.name == "__init__":
             parent = self.__declaration_stack[-2]
         assert isinstance(parent, Class)
-        docstring = self.docstring_parser.get_attribute_documentation(parent, name)
+        docstring = self.docstring_parser.get_attribute_documentation(parent.id, name)
 
         # Remove __init__ for attribute ids
         id_ = self._create_id_from_stack(name).replace("__init__/", "")
@@ -727,10 +727,9 @@ class MyPyAstVisitor:
             # Create parameter docstring
             parent = self.__declaration_stack[-1]
             docstring = self.docstring_parser.get_parameter_documentation(
-                function_node=node,
+                function_qname=node.fullname,
                 parameter_name=arg_name,
-                parameter_assigned_by=arg_kind,
-                parent_class=parent if isinstance(parent, Class) else None,
+                parent_class_qname=parent.id if isinstance(parent, Class) else "",
             )
 
             if isinstance(default_value, type):  # pragma: no cover
@@ -874,7 +873,7 @@ class MyPyAstVisitor:
                 name, qname = self._find_alias(missing_import_name)
                 return sds_types.NamedType(name=name, qname=qname)
             else:
-                return sds_types.NamedType(name="Any", qname="builtins.Any")
+                return sds_types.NamedType(name="Any", qname="typing.Any")
         elif isinstance(mypy_type, mp_types.NoneType):
             return sds_types.NamedType(name="None", qname="builtins.None")
         elif isinstance(mypy_type, mp_types.LiteralType):

@@ -1,6 +1,6 @@
 /**
  * Test module for docstring tests.
- * 
+ *
  * A module for testing the various docstring types.
  */
 
@@ -9,7 +9,7 @@ package tests.data.variousModulesPackage.docstringModule
 
 /**
  * A class with a variety of different methods for calculations. (ReST).
- * 
+ *
  * :param attr_1: Attribute of the calculator. (ReST)
  * :type attr_1: str
  * :param param_1: Parameter of the calculator. (ReST)
@@ -24,7 +24,7 @@ class RestDocstringClass(
 	/**
 	 * This function checks if the sum of x and y is less than the value 10
 	 * and returns True if it is. (ReST).
-	 * 
+	 *
 	 * :param x: First integer value for the calculation. (ReST)
 	 * :type x: int
 	 * :param y: Second integer value for the calculation. (ReST)
@@ -42,14 +42,14 @@ class RestDocstringClass(
 
 /**
  * A class that calculates stuff. (Numpy).
- * 
+ *
  * A class with a variety of different methods for calculations. (Numpy)
- * 
+ *
  * Attributes
  * ----------
  * attr_1 : str
  *     Attribute of the calculator. (Numpy)
- * 
+ *
  * Parameters
  * ----------
  * param_1 : str
@@ -63,16 +63,16 @@ class NumpyDocstringClass(
 
 	/**
 	 * Checks if the sum of two variables is over the value of 10. (Numpy).
-	 * 
+	 *
 	 * This function checks if the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)
-	 * 
+	 *
 	 * Parameters
 	 * ----------
 	 * x : int
 	 *     First integer value for the calculation. (Numpy)
 	 * y : int
 	 *     Second integer value for the calculation. (Numpy)
-	 * 
+	 *
 	 * Returns
 	 * -------
 	 * bool
@@ -88,12 +88,12 @@ class NumpyDocstringClass(
 
 /**
  * A class that calculates stuff. (Google Style).
- * 
+ *
  * A class with a variety of different methods for calculations. (Google Style)
- * 
+ *
  * Attributes:
  *     attr_1 (str): Attribute of the calculator. (Google Style)
- * 
+ *
  * Args:
  *     param_1 (str): Parameter of the calculator. (Google Style)
  */
@@ -105,14 +105,14 @@ class GoogleDocstringClass(
 
 	/**
 	 * Checks if the sum of two variables is over the value of 10. (Google Style).
-	 * 
+	 *
 	 * This function checks if the sum of x and y is less than the value 10
 	 * and returns True if it is. (Google Style)
-	 * 
+	 *
 	 * Args:
 	 *     x (int): First integer value for the calculation. (Google Style)
 	 *     y (int): Second integer value for the calculation. (Google Style)
-	 * 
+	 *
 	 * Returns:
 	 *     bool: Checks if the sum of x and y is greater than 10 and returns
 	 *           a boolean value. (Google Style)

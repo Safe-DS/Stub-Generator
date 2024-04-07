@@ -57,22 +57,22 @@ def get_api(
         raise ValueError("No files found to analyse.")
 
     # Get distribution data
-    dist = distribution(package_name) or ""
-    dist_version = distribution_version(dist) or ""
+    dist = distribution(package_name=package_name) or ""
+    dist_version = distribution_version(dist=dist) or ""
 
     # Get mypy ast and aliases
-    build_result = _get_mypy_build(walkable_files)
-    mypy_asts = _get_mypy_asts(build_result, walkable_files, package_paths)
-    aliases = _get_aliases(build_result.types, package_name)
+    build_result = _get_mypy_build(files=walkable_files)
+    mypy_asts = _get_mypy_asts(build_result=build_result, files=walkable_files, package_paths=package_paths)
+    aliases = _get_aliases(result_types=build_result.types, package_name=package_name)
 
     # Setup api walker
-    api = API(dist, package_name, dist_version)
-    docstring_parser = create_docstring_parser(docstring_style)
-    callable_visitor = MyPyAstVisitor(docstring_parser, api, aliases)
-    walker = ASTWalker(callable_visitor)
+    api = API(distribution=dist, package=package_name, version=dist_version)
+    docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
+    callable_visitor = MyPyAstVisitor(docstring_parser=docstring_parser, api=api, aliases=aliases)
+    walker = ASTWalker(handler=callable_visitor)
 
     for tree in mypy_asts:
-        walker.walk(tree)
+        walker.walk(tree=tree)
 
     return callable_visitor.api
 
