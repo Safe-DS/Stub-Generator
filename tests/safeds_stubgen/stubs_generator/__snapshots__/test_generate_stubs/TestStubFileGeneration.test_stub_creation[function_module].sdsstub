@@ -233,8 +233,8 @@ fun anyResults() -> result1: Any
 @Pure
 @PythonName("callable_type")
 fun callableType(
-	param: (param1: String) -> (param2: Int, param3: String)
-) -> result1: (param1: Int, param2: Int) -> param3: Int
+	param: (param1: String) -> (result1: Int, result2: String)
+) -> result1: (param1: Int, param2: Int) -> result1: Int
 
 // TODO Result type information missing.
 // TODO Some parameter have no type information.

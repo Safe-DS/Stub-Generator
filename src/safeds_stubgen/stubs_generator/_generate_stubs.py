@@ -19,7 +19,6 @@ from safeds_stubgen.api_analyzer import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
 
     from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
@@ -701,23 +700,29 @@ class StubsStringGenerator:
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
-            name_generator = _callable_type_name_generator()
-
             params = [
-                f"{next(name_generator)}: {self._create_type_string(parameter_type)}"
-                for parameter_type in type_data["parameter_types"]
+                (
+                    f"{_convert_name_to_convention('param_' + str(i + 1), self.naming_convention)}: "
+                    f"{self._create_type_string(parameter_type)}"
+                )
+                for i, parameter_type in enumerate(type_data["parameter_types"])
             ]
 
             return_type = type_data["return_type"]
             if return_type["kind"] == "TupleType":
                 return_types = [
-                    f"{next(name_generator)}: {self._create_type_string(type_)}" for type_ in return_type["types"]
+                    (
+                        f"{_convert_name_to_convention('result_' + str(i+1), self.naming_convention)}: "
+                        f"{self._create_type_string(type_)}"
+                    )
+                    for i, type_ in enumerate(return_type["types"])
                 ]
                 return_type_string = f"({', '.join(return_types)})"
             elif return_type["kind"] == "NamedType" and return_type["name"] == "None":
                 return_type_string = ""
             else:
-                return_type_string = f"{next(name_generator)}: {self._create_type_string(return_type)}"
+                result_name = _convert_name_to_convention("result_1", self.naming_convention)
+                return_type_string = f"{result_name}: {self._create_type_string(return_type)}"
 
             if return_type_string:
                 return f"({', '.join(params)}) -> {return_type_string}"
@@ -1037,13 +1042,6 @@ class StubsStringGenerator:
                 full_docstring += f"\n{indentations} *"
 
         return full_docstring + "\n"
-
-
-def _callable_type_name_generator() -> Generator:
-    """Generate a name for callable type parameters starting from 'a' until 'zz'."""
-    while True:
-        for x in range(1, 1000):
-            yield f"param{x}"
 
 
 def _create_name_annotation(name: str) -> str:
