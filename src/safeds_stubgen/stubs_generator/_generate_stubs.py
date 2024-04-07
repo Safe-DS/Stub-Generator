@@ -719,14 +719,12 @@ class StubsStringGenerator:
                 ]
                 return_type_string = f"({', '.join(return_types)})"
             elif return_type["kind"] == "NamedType" and return_type["name"] == "None":
-                return_type_string = ""
+                return f"({', '.join(params)}) -> ()"
             else:
                 result_name = _convert_name_to_convention("result_1", self.naming_convention)
                 return_type_string = f"{result_name}: {self._create_type_string(return_type)}"
 
-            if return_type_string:
-                return f"({', '.join(params)}) -> {return_type_string}"
-            return f"({', '.join(params)}) -> ()"
+            return f"({', '.join(params)}) -> {return_type_string}"
         elif kind in {"SetType", "ListType"}:
             types = [self._create_type_string(type_) for type_ in type_data["types"]]
 
