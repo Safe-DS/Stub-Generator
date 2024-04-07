@@ -201,10 +201,18 @@ class DocstringParser(AbstractDocstringParser):
                 for result in all_returns.value
             ]
         else:
+            return_value = all_returns.value[0]
+            # If a GoogleDoc result docstring only has a type and no name Griffe parses it wrong and saves the
+            # type as the name...
+            if self.parser == Parser.google and return_value.annotation is None:
+                annotation = return_value.name
+            else:
+                annotation = return_value.annotation
+
             results = [
                 ResultDocstring(
-                    type=self._griffe_annotation_to_api_type(all_returns.value[0].annotation, griffe_docstring),
-                    description=all_returns.value[0].description.strip("\n"),
+                    type=self._griffe_annotation_to_api_type(annotation, griffe_docstring),
+                    description=return_value.description.strip("\n"),
                 ),
             ]
 

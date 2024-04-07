@@ -4957,9 +4957,19 @@
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
       'name': 'result_3',
       'type': dict({
-        'kind': 'NamedType',
-        'name': 'float',
-        'qname': 'builtins.float',
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
       }),
     }),
   ])

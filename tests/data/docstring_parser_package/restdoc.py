@@ -209,6 +209,22 @@ class ClassWithVariousParameterTypes:
         pass
 
 
+def infer_types(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    :param a: The first parameter
+    :type a: int
+    :param b: The second parameter
+    :type b: bool
+    :return: return value
+    :rtype: str
+    """
+    return "Some value"
+
+
 # Todo Currently disabled, since Griffe can't analyze ReST (Sphinx) attributes (see issue #98)
 # class ClassWithVariousAttributeTypes:
 #     """

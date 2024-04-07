@@ -388,3 +388,26 @@ class ClassWithVariousAttributeTypes:
     optional_type_2: Optional[int]
     class_type: ClassWithAttributes
     imported_type: AnotherClass
+
+
+def infer_types(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Parameters
+    ----------
+    a : str
+        The first parameter
+    b : bool
+        The second parameter
+
+    Returns
+    -------
+    first_result : bool
+        This is the first result
+    second_result : str
+        This is the second result
+    """
+    return True, "Another value"
