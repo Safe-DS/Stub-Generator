@@ -52,9 +52,6 @@ class AttributeDocstring:
 class ResultDocstrings:
     docstrings: Sequence[ResultDocstring]
 
-    def to_dict(self) -> dict[str, Any]:
-        return dataclasses.asdict(self)
-
 
 @dataclass(frozen=True)
 class ResultDocstring:

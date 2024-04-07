@@ -884,8 +884,8 @@ class StubsStringGenerator:
                         continue
 
                     result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-
                     result_name = _convert_name_to_convention(result.name, self.naming_convention)
+
                     result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
             else:
                 for i, result_docstring in enumerate(node.result_docstrings.docstrings):
@@ -894,8 +894,8 @@ class StubsStringGenerator:
                         continue
 
                     result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-
                     result_name = _convert_name_to_convention(f"result_{i+1}", self.naming_convention)
+
                     result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
 
             full_result_docstring = "".join(result_docstrings)

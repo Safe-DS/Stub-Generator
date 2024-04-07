@@ -136,6 +136,22 @@ fun inferTypes2(
 	b
 ) -> funcResult: union<Boolean, Int, String>
 
+// TODO Some parameter have no type information.
+/**
+ * property_method_with_docstring.
+ *
+ * Dolor sit amet.
+ *
+ * @param a The first parameter
+ * @param b The second parameter
+ */
+@Pure
+@PythonName("infer_types3")
+fun inferTypes3(
+	a,
+	b
+) -> result1: union<Boolean, Int, String>
+
 /**
  * ClassWithDocumentation. Code::
  *

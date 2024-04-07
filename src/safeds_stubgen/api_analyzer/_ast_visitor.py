@@ -591,6 +591,7 @@ class MyPyAstVisitor:
             result_docstring = ResultDocstring()
             if docstrings.docstrings:
                 if isinstance(result_type, sds_types.UnionType):
+                    possible_type: sds_types.AbstractType | None
                     if len(docstrings.docstrings) > 1:
                         docstring_types = [
                             docstring.type for docstring in docstrings.docstrings if docstring.type is not None

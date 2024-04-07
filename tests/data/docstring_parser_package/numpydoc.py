@@ -429,3 +429,30 @@ def infer_types2(a, b):
     if a:
         return int
     return True
+
+
+def infer_types3(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Parameters
+    ----------
+    a : str
+        The first parameter
+    b : bool
+        The second parameter
+
+    Returns
+    -------
+    func_result : str
+        This is the result
+    func_result_2 : int
+        This is the second result
+    """
+    if b:
+        return "A value"
+    if a:
+        return int
+    return True
