@@ -591,9 +591,11 @@ class MyPyAstVisitor:
             result_docstring = ResultDocstring()
             if docstrings.docstrings:
                 if isinstance(result_type, sds_types.UnionType):
-                    docstring_types = []
-                    for docstring in docstrings.docstrings:
-                        docstring_types.append(docstring.type)
+                    docstring_types = [
+                        docstring.type
+                        for docstring in docstrings.docstrings
+                        if docstring.type is not None
+                    ]
                     possible_union_type = sds_types.UnionType(types=docstring_types)
                     if possible_union_type == result_type:
                         result_docstring = docstrings.docstrings[0]
