@@ -885,23 +885,19 @@ class StubsStringGenerator:
             if self.is_numpy_parser:
                 for result in node.results:
                     result_desc = result.docstring.description
-                    if not result_desc:
-                        continue
+                    if result_desc:
+                        result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
+                        result_name = _convert_name_to_convention(result.name, self.naming_convention)
 
-                    result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-                    result_name = _convert_name_to_convention(result.name, self.naming_convention)
-
-                    result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+                        result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
             else:
                 for i, result_docstring in enumerate(node.result_docstrings.docstrings):
                     result_desc = result_docstring.description
-                    if not result_desc:
-                        continue
+                    if result_desc:
+                        result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
+                        result_name = _convert_name_to_convention(f"result_{i+1}", self.naming_convention)
 
-                    result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-                    result_name = _convert_name_to_convention(f"result_{i+1}", self.naming_convention)
-
-                    result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+                        result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
 
             full_result_docstring = "".join(result_docstrings)
 
