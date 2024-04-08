@@ -81,7 +81,6 @@ def has_correct_type_of_any(type_of_any: int) -> bool:
     # In Mypy AnyType can be set as type because of different reasons (see TypeOfAny class-documentation)
     return type_of_any in {
         mp_types.TypeOfAny.explicit,
-        mp_types.TypeOfAny.from_omitted_generics,
         mp_types.TypeOfAny.from_another_any,
         mp_types.TypeOfAny.from_unimported_type,
     }
