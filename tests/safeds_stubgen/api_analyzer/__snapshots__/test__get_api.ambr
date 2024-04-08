@@ -767,11 +767,6 @@
       'type': dict({
         'kind': 'SetType',
         'types': list([
-          dict({
-            'kind': 'NamedType',
-            'name': 'Any',
-            'qname': 'typing.Any',
-          }),
         ]),
       }),
     }),
