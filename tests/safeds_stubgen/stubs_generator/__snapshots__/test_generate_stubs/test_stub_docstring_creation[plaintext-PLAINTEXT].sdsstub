@@ -16,14 +16,14 @@ package tests.data.docstringParserPackage.plaintext
 @Pure
 @PythonName("function_with_documentation")
 fun functionWithDocumentation(
-	p: Int
+    p: Int
 )
 
 // TODO Result type information missing.
 @Pure
 @PythonName("function_without_documentation")
 fun functionWithoutDocumentation(
-	p: Int
+    p: Int
 )
 
 /**
@@ -32,7 +32,7 @@ fun functionWithoutDocumentation(
  * Dolor sit amet.
  */
 class ClassWithDocumentation(
-	p: Int
+    p: Int
 )
 
 class ClassWithoutDocumentation()

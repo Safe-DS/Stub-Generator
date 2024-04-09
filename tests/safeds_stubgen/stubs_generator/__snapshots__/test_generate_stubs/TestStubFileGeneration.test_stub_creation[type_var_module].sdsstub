@@ -4,84 +4,84 @@ package tests.data.variousModulesPackage.typeVarModule
 @Pure
 @PythonName("type_var_func")
 fun typeVarFunc<typeVar>(
-	a: List<typeVar>
+    a: List<typeVar>
 ) -> result1: List<typeVar>
 
 @Pure
 @PythonName("multiple_type_var")
 fun multipleTypeVar<typeVar1, typeVar2>(
-	a: typeVar1,
-	b: typeVar2
+    a: typeVar1,
+    b: typeVar2
 ) -> result1: List<union<typeVar1, typeVar2>>
 
 @Pure
 @PythonName("type_var_fun_invariance_with_bound")
 fun typeVarFunInvarianceWithBound<TIn sub Int>(
-	a: List<TIn>
+    a: List<TIn>
 ) -> result1: TIn
 
 class GenericTypeVar<T>(
-	items: List<T>
+    items: List<T>
 ) {
-	@Pure
-	@PythonName("type_var_class_method")
-	fun typeVarClassMethod(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method")
+    fun typeVarClassMethod(
+        a: T
+    ) -> result1: T
 }
 
 class GenericTypeVar2<T>() {
-	@Pure
-	@PythonName("type_var_class_method2")
-	fun typeVarClassMethod2(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method2")
+    fun typeVarClassMethod2(
+        a: T
+    ) -> result1: T
 }
 
 class SequenceTypeVar<T>(
-	items: List<T>
+    items: List<T>
 ) {
-	@Pure
-	@PythonName("type_var_class_method")
-	fun typeVarClassMethod(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method")
+    fun typeVarClassMethod(
+        a: T
+    ) -> result1: T
 }
 
 class SequenceTypeVar2<T>() {
-	@Pure
-	@PythonName("type_var_class_method2")
-	fun typeVarClassMethod2(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method2")
+    fun typeVarClassMethod2(
+        a: T
+    ) -> result1: T
 }
 
 class CollectionTypeVar<T>(
-	items: List<T>
+    items: List<T>
 ) {
-	@Pure
-	@PythonName("type_var_class_method")
-	fun typeVarClassMethod(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method")
+    fun typeVarClassMethod(
+        a: T
+    ) -> result1: T
 }
 
 class CollectionTypeVar2<T>() {
-	@Pure
-	@PythonName("type_var_class_method2")
-	fun typeVarClassMethod2(
-		a: T
-	) -> result1: T
+    @Pure
+    @PythonName("type_var_class_method2")
+    fun typeVarClassMethod2(
+        a: T
+    ) -> result1: T
 }
 
 class MappingTypeVar(
-	data: Map<String, Any>? = null
+    data: Map<String, Any>? = null
 )
 
 class MappingTypeVar2(
-	data: Map<String, List<Any>>
+    data: Map<String, List<Any>>
 )
 
 class MappingTypeVar3<T>(
-	data: Map<String, List<T>>?
+    data: Map<String, List<T>>?
 )
