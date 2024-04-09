@@ -23,6 +23,9 @@ if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
 
+INDENTATION = "    "
+
+
 class NamingConvention(IntEnum):
     PYTHON = 1
     SAFE_DS = 2
@@ -239,7 +242,7 @@ class StubsStringGenerator:
         return f"\n{import_string}\n"
 
     def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
-        inner_indentations = class_indentation + "    "
+        inner_indentations = class_indentation + INDENTATION
 
         # Constructor parameter
         if class_.is_abstract:
@@ -633,7 +636,7 @@ class StubsStringGenerator:
                 f"{name_annotation}{camel_case_name}{type_string}{param_value}",
             )
 
-        inner_indentations = indentations + "    "
+        inner_indentations = indentations + INDENTATION
         if parameters_data:
             inner_param_data = f",\n{inner_indentations}".join(parameters_data)
             return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
@@ -664,7 +667,7 @@ class StubsStringGenerator:
                 # Check if the name is a Safe-DS keyword and escape it
                 camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
-                enum_text += f"    {annotation}{camel_case_name}\n"
+                enum_text += f"{INDENTATION}{annotation}{camel_case_name}\n"
             return f"{enum_signature} {{{enum_text}}}"
 
         return enum_signature
