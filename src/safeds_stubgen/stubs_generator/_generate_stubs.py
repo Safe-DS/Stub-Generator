@@ -755,8 +755,9 @@ class StubsStringGenerator:
                 else:
                     other_type_data.append(type_information)
 
-                if (type_information["kind"] in {"NamedType", "TupleType", "ListType", "SetType", "DictType"} and
-                        not (type_information["kind"] == "NamedType" and type_information["qname"] == "builtins.None")):
+                if type_information["kind"] in {"NamedType", "TupleType", "ListType", "SetType", "DictType"} and not (
+                    type_information["kind"] == "NamedType" and type_information["qname"] == "builtins.None"
+                ):
                     has_named_type = True
 
             if len(literal_data) >= 2:
@@ -773,8 +774,9 @@ class StubsStringGenerator:
 
             if len(type_data["types"]) == 2 and literal_data:
                 # If we have a LiteralType and a None we combine them to a "Literal[..., null]"
-                has_none = (type_data["types"][0]["kind"] == "NamedType" and type_data["types"][0]["kind"]) \
-                            or (type_data["types"][1]["kind"] == "NamedType" and type_data["types"][1]["kind"])
+                has_none = (type_data["types"][0]["kind"] == "NamedType" and type_data["types"][0]["kind"]) or (
+                    type_data["types"][1]["kind"] == "NamedType" and type_data["types"][1]["kind"]
+                )
                 if has_none:
                     if type_data["types"][0]["kind"] == "LiteralType":
                         literal_type_data = type_data["types"][0]
