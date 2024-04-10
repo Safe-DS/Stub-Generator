@@ -722,6 +722,8 @@ class StubsStringGenerator:
                     for i, type_ in enumerate(return_type["types"])
                 ]
                 return_type_string = f"({', '.join(return_types)})"
+            elif return_type["kind"] == "NamedType" and return_type["name"] == "None":
+                return f"({', '.join(params)}) -> ()"
             else:
                 result_name = _convert_name_to_convention("result_1", self.naming_convention)
                 return_type_string = f"{result_name}: {self._create_type_string(return_type)}"

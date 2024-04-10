@@ -83,7 +83,7 @@ def params_with_default_value(
     optional: Optional[int] = None,
     tuple_: tuple[int, str, bool] = (1, "2", True),
     literal: Literal["Some String"] = "Some String",
-    any_: Any = False
+    any_: Any = False,
 ): ...
 
 
