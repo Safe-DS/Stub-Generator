@@ -32,12 +32,13 @@ fun params(
     `literal`: literal<"Some String">,
     @PythonName("any_") any: Any,
     @PythonName("callable_none") callableNone: union<(param1: Int, param2: Float) -> result1: Nothing?, Nothing?>,
-    @PythonName("literal_none") literalNone: union<Nothing?, literal<"1", 2>>,
-    @PythonName("set_none") setNone: union<Nothing?, Set<Int>>,
-    @PythonName("dict_none") dictNone: union<Map<String, Int>, Nothing?>,
+    @PythonName("literal_none") literalNone: literal<"1", 2, null>,
+    @PythonName("literal_none2") literalNone2: literal<"1", 2, null>,
+    @PythonName("set_none") setNone: Set<Int>?,
+    @PythonName("dict_none") dictNone: Map<String, Int>?,
     @PythonName("named_class_none") namedClassNone: FunctionModuleClassA?,
-    @PythonName("list_class_none") listClassNone: union<List<Float>, Nothing?>,
-    @PythonName("tuple_class_none") tupleClassNone: union<Nothing?, Tuple<Int, String>>
+    @PythonName("list_class_none") listClassNone: List<Float>?,
+    @PythonName("tuple_class_none") tupleClassNone: Tuple<Int, String>?
 )
 
 // TODO Result type information missing.
@@ -90,7 +91,7 @@ fun specialParams(
     @PythonName("none_bool_none_union") noneBoolNoneUnion: Boolean?,
     @PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
     @PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
-    @PythonName("none_list_union_none_none") noneListUnionNoneNone: union<List<Nothing?>, Nothing?>,
+    @PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
     none: Nothing?
 )
 

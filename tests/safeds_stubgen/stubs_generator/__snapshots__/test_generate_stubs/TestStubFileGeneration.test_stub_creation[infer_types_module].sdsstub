@@ -51,7 +51,7 @@ class InferMyTypes(
     static fun inferFunction(
         @PythonName("infer_param") inferParam: Int = 1,
         @PythonName("infer_param_2") inferParam2: Int = "Something"
-    ) -> (result1: union<Boolean, Float, InferMe, InferMe2, InferMe3, InferMyTypes, Int, Nothing?, String>, result2: union<Float, Int>, result3: Float)
+    ) -> (result1: union<Boolean, Float, InferMe, InferMe2, InferMe3, InferMyTypes, Int, String, Nothing?>, result2: union<Float, Int>, result3: Float)
 
     /**
      * Test for inferring results with just one possible result, and not a tuple of results.

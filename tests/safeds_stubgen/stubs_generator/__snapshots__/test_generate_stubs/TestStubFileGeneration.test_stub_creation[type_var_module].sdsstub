@@ -75,7 +75,7 @@ class CollectionTypeVar2<T>() {
 }
 
 class MappingTypeVar(
-    data: union<Map<String, Any>, Nothing?> = null
+    data: Map<String, Any>? = null
 )
 
 class MappingTypeVar2(
@@ -83,5 +83,5 @@ class MappingTypeVar2(
 )
 
 class MappingTypeVar3<T>(
-    data: union<Map<String, List<T>>, Nothing?>
+    data: Map<String, List<T>>?
 )

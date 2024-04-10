@@ -57,6 +57,7 @@ def params(
     any_: Any,
     callable_none: Callable[[int, float], None] | None,
     literal_none: Literal["1", 2] | None,
+    literal_none2: None | Literal["1", 2],
     set_none: set[int] | None,
     dict_none: dict[str, int] | None,
     named_class_none: FunctionModuleClassA | None,
