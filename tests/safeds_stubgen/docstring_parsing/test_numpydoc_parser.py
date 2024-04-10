@@ -18,7 +18,7 @@ from safeds_stubgen.docstring_parsing import (
 )
 
 # noinspection PyProtectedMember
-from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstrings
+from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring
 
 from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
@@ -923,35 +923,31 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstrings(
-                docstrings=[
-                    ResultDocstring(
-                        type=NamedType(name="bool", qname="builtins.bool"),
-                        description="this will be the return value",
-                    ),
-                ],
-            ),
+            [
+                ResultDocstring(
+                    type=NamedType(name="bool", qname="builtins.bool"),
+                    description="this will be the return value",
+                ),
+            ],
         ),
         (
             "function_without_result_value",
-            ResultDocstrings(docstrings=[]),
+            [],
         ),
         (
             "function_with_multiple_results",
-            ResultDocstrings(
-                docstrings=[
-                    ResultDocstring(
-                        type=NamedType(name="int", qname="builtins.int"),
-                        description="first result",
-                        name="first_result",
-                    ),
-                    ResultDocstring(
-                        type=NamedType(name="bool", qname="builtins.bool"),
-                        description="second result",
-                        name="second_result",
-                    ),
-                ],
-            ),
+            [
+                ResultDocstring(
+                    type=NamedType(name="int", qname="builtins.int"),
+                    description="first result",
+                    name="first_result",
+                ),
+                ResultDocstring(
+                    type=NamedType(name="bool", qname="builtins.bool"),
+                    description="second result",
+                    name="second_result",
+                ),
+            ],
         ),
     ],
     ids=[
@@ -963,7 +959,7 @@ def test_get_attribute_documentation(
 def test_get_result_documentation(
     numpydoc_parser: DocstringParser,
     function_name: str,
-    expected_result_documentation: ResultDocstrings,
+    expected_result_documentation: list[ResultDocstring],
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)

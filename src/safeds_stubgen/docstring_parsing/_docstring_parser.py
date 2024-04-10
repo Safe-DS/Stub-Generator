@@ -19,7 +19,6 @@ from ._docstring import (
     FunctionDocstring,
     ParameterDocstring,
     ResultDocstring,
-    ResultDocstrings,
 )
 
 if TYPE_CHECKING:
@@ -174,12 +173,12 @@ class DocstringParser(AbstractDocstringParser):
             description=last_attribute.description.strip("\n"),
         )
 
-    def get_result_documentation(self, function_qname: str) -> ResultDocstrings:
+    def get_result_documentation(self, function_qname: str) -> list[ResultDocstring]:
         # Find matching parameter docstrings
         griffe_docstring = self.__get_cached_docstring(function_qname)
 
         if griffe_docstring is None:
-            return ResultDocstrings(docstrings=[])
+            return []
 
         all_returns = None
         for docstring_section in griffe_docstring.parsed:
@@ -188,7 +187,7 @@ class DocstringParser(AbstractDocstringParser):
                 break
 
         if not all_returns:
-            return ResultDocstrings(docstrings=[])
+            return []
 
         # Multiple results are handled differently for numpy, since there we can define multiple named results.
         if self.parser == Parser.numpy:
@@ -220,7 +219,7 @@ class DocstringParser(AbstractDocstringParser):
                 ),
             ]
 
-        return ResultDocstrings(docstrings=results)
+        return results
 
     @staticmethod
     def _get_matching_docstrings(

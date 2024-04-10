@@ -8,7 +8,7 @@ from ._docstring import (
     ClassDocstring,
     FunctionDocstring,
     ParameterDocstring,
-    ResultDocstrings,
+    ResultDocstring,
 )
 from ._helpers import get_full_docstring
 
@@ -53,5 +53,5 @@ class PlaintextDocstringParser(AbstractDocstringParser):
     def get_result_documentation(
         self,
         function_qname: str,  # noqa: ARG002
-    ) -> ResultDocstrings:
-        return ResultDocstrings(docstrings=[])
+    ) -> list[ResultDocstring]:
+        return []

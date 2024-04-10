@@ -8,7 +8,6 @@ from ._docstring import (
     FunctionDocstring,
     ParameterDocstring,
     ResultDocstring,
-    ResultDocstrings,
 )
 from ._docstring_parser import DocstringParser
 from ._docstring_style import DocstringStyle
@@ -25,5 +24,4 @@ __all__ = [
     "ParameterDocstring",
     "PlaintextDocstringParser",
     "ResultDocstring",
-    "ResultDocstrings",
 ]

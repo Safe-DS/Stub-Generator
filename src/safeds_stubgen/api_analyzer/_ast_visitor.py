@@ -8,7 +8,7 @@ import mypy.nodes as mp_nodes
 import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
-from safeds_stubgen.docstring_parsing import ResultDocstring, ResultDocstrings
+from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
     API,
@@ -409,7 +409,7 @@ class MyPyAstVisitor:
         self,
         node: mp_nodes.FuncDef,
         function_id: str,
-        result_docstrings: ResultDocstrings,
+        result_docstrings: list[ResultDocstring],
     ) -> list[Result]:
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
@@ -461,11 +461,10 @@ class MyPyAstVisitor:
         name_generator = result_name_generator()
         for type_ in return_results:
             result_docstring = ResultDocstring()
-            if result_docstrings.docstrings:
-                for docstring in result_docstrings.docstrings:
-                    if hash(docstring.type) == hash(type_):
-                        result_docstring = docstring
-                        break
+            for docstring in result_docstrings:
+                if hash(docstring.type) == hash(type_):
+                    result_docstring = docstring
+                    break
 
             result_name = result_docstring.name if result_docstring.name else next(name_generator)
 
@@ -518,7 +517,7 @@ class MyPyAstVisitor:
     @staticmethod
     def _create_inferred_results(
         results: sds_types.TupleType,
-        docstrings: ResultDocstrings,
+        docstrings: list[ResultDocstring],
         function_id: str,
     ) -> list[Result]:
         """Create Result objects with inferred results.
@@ -581,20 +580,18 @@ class MyPyAstVisitor:
 
             # Search for matching docstrings for each result for the name
             result_docstring = ResultDocstring()
-            if docstrings.docstrings:
+            if docstrings:
                 if isinstance(result_type, sds_types.UnionType):
                     possible_type: sds_types.AbstractType | None
-                    if len(docstrings.docstrings) > 1:
-                        docstring_types = [
-                            docstring.type for docstring in docstrings.docstrings if docstring.type is not None
-                        ]
+                    if len(docstrings) > 1:
+                        docstring_types = [docstring.type for docstring in docstrings if docstring.type is not None]
                         possible_type = sds_types.UnionType(types=docstring_types)
                     else:
-                        possible_type = docstrings.docstrings[0].type
+                        possible_type = docstrings[0].type
                     if possible_type == result_type:
-                        result_docstring = docstrings.docstrings[0]
+                        result_docstring = docstrings[0]
                 else:
-                    for docstring in docstrings.docstrings:
+                    for docstring in docstrings:
                         if hash(docstring.type) == hash(result_type):
                             result_docstring = docstring
                             break

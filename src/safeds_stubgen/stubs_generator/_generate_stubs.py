@@ -885,7 +885,7 @@ class StubsStringGenerator:
         if isinstance(node, Function):
             name_generator = result_name_generator()
 
-            for result_docstring in node.result_docstrings.docstrings:
+            for result_docstring in node.result_docstrings:
                 result_desc = result_docstring.description
                 if result_desc:
                     result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))

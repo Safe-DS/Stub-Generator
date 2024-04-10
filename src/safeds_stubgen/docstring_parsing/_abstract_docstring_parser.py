@@ -11,7 +11,7 @@ if TYPE_CHECKING:
         ClassDocstring,
         FunctionDocstring,
         ParameterDocstring,
-        ResultDocstrings,
+        ResultDocstring,
     )
 
 
@@ -42,5 +42,5 @@ class AbstractDocstringParser(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def get_result_documentation(self, function_qname: str) -> ResultDocstrings:
+    def get_result_documentation(self, function_qname: str) -> list[ResultDocstring]:
         pass  # pragma: no cover
