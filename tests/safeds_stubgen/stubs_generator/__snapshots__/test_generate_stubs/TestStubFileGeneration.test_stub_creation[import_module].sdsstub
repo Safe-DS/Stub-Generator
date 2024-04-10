@@ -8,14 +8,14 @@ from tests.data.variousModulesPackage.classModule import ClassModuleClassD
 from tests.data.variousModulesPackage.classModule import ClassModuleEmptyClassA
 
 class ImportClass() sub AnotherClass {
-	@PythonName("typed_import_attr")
-	static attr typedImportAttr: ClassModuleClassD
-	@PythonName("default_import_attr")
-	static attr defaultImportAttr: ClassModuleEmptyClassA
+    @PythonName("typed_import_attr")
+    static attr typedImportAttr: ClassModuleClassD
+    @PythonName("default_import_attr")
+    static attr defaultImportAttr: ClassModuleEmptyClassA
 
-	@Pure
-	@PythonName("import_function")
-	fun importFunction(
-		@PythonName("import_param") importParam: ClassModuleClassB
-	) -> result1: ClassModuleClassC
+    @Pure
+    @PythonName("import_function")
+    fun importFunction(
+        @PythonName("import_param") importParam: ClassModuleClassB
+    ) -> result1: ClassModuleClassC
 }
