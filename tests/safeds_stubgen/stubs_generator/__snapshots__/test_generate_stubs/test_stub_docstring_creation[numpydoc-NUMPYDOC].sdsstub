@@ -144,6 +144,9 @@ fun inferTypes2(
  *
  * @param a The first parameter
  * @param b The second parameter
+ *
+ * @result funcResult This is the result
+ * @result funcResult2 This is the second result
  */
 @Pure
 @PythonName("infer_types3")

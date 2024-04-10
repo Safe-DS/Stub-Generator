@@ -16,10 +16,10 @@ from safeds_stubgen.api_analyzer import (
     Result,
     UnionType,
     VarianceKind,
+    result_name_generator,
 )
 
 if TYPE_CHECKING:
-
     from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
 
@@ -31,7 +31,7 @@ class NamingConvention(IntEnum):
     SAFE_DS = 2
 
 
-def generate_stubs(api: API, out_path: Path, convert_identifiers: bool, is_numpy_parser: bool = False) -> None:
+def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
     """Generate Safe-DS stubs.
 
     Generates stub files from an API object and writes them to the out_path path.
@@ -46,11 +46,9 @@ def generate_stubs(api: API, out_path: Path, convert_identifiers: bool, is_numpy
     convert_identifiers
         Set this True if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and
         camelCase for everything else).
-    is_numpy_parser
-        Check if we parse for numpydoc, since only numpydoc supports multiple named results.
     """
     naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
-    stubs_generator = StubsStringGenerator(api, naming_convention, is_numpy_parser=is_numpy_parser)
+    stubs_generator = StubsStringGenerator(api, naming_convention)
     stubs_data = _generate_stubs_data(api, out_path, stubs_generator)
     _generate_stubs_files(stubs_data, out_path, stubs_generator, naming_convention)
 
@@ -172,10 +170,9 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, api: API, naming_convention: NamingConvention, is_numpy_parser: bool) -> None:
+    def __init__(self, api: API, naming_convention: NamingConvention) -> None:
         self.api = api
         self.naming_convention = naming_convention
-        self.is_numpy_parser = is_numpy_parser
         self.classes_outside_package: set[str] = set()
 
     def __call__(self, module: Module) -> str:
@@ -884,25 +881,17 @@ class StubsStringGenerator:
         # Results
         full_result_docstring = ""
         if isinstance(node, Function):
-            result_docstrings = []
-            if self.is_numpy_parser:
-                for result in node.results:
-                    result_desc = result.docstring.description
-                    if result_desc:
-                        result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-                        result_name = _convert_name_to_convention(result.name, self.naming_convention)
+            name_generator = result_name_generator()
 
-                        result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
-            else:
-                for i, result_docstring in enumerate(node.result_docstrings.docstrings):
-                    result_desc = result_docstring.description
-                    if result_desc:
-                        result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
-                        result_name = _convert_name_to_convention(f"result_{i+1}", self.naming_convention)
+            for result_docstring in node.result_docstrings.docstrings:
+                result_desc = result_docstring.description
+                if result_desc:
+                    result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
 
-                        result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+                    result_name = result_docstring.name if result_docstring.name else next(name_generator)
+                    result_name = _convert_name_to_convention(result_name, self.naming_convention)
 
-            full_result_docstring = "".join(result_docstrings)
+                    full_result_docstring += f"{indentations} * @result {result_name} {result_desc}\n"
 
             if full_result_docstring and full_docstring:
                 full_result_docstring = f"{indentations} *\n{full_result_docstring}"

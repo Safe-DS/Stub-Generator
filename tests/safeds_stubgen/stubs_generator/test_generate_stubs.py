@@ -33,7 +33,7 @@ _docstring_package_name = "docstring_parser_package"
 _docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
 api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
-stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS, is_numpy_parser=False)
+stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
 stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
@@ -76,7 +76,7 @@ def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
 
 def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: SnapshotAssertion) -> None:
     # Somehow the stubs get overwritten by other tests, therefore we have to call the function before asserting
-    generate_stubs(api, _out_dir, convert_identifiers=True, is_numpy_parser=False)
+    generate_stubs(api, _out_dir, convert_identifiers=True)
     path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
     assert path.is_file()
 
@@ -162,11 +162,7 @@ def test_stub_docstring_creation(
         docstring_style=docstring_style,
         is_test_run=True,
     )
-    docstring_stubs_generator = StubsStringGenerator(
-        docstring_api,
-        naming_convention=NamingConvention.SAFE_DS,
-        is_numpy_parser=filename == "numpydoc",
-    )
+    docstring_stubs_generator = StubsStringGenerator(docstring_api, naming_convention=NamingConvention.SAFE_DS)
     docstring_stubs_data = _generate_stubs_data(docstring_api, _out_dir, docstring_stubs_generator)
 
     for stub_text in docstring_stubs_data:

@@ -97,5 +97,4 @@ def _run_api_command(
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
 
-    is_numpy_parser = docstring_style == DocstringStyle.NUMPYDOC
-    generate_stubs(api, out_dir_path, convert_identifiers, is_numpy_parser)
+    generate_stubs(api, out_dir_path, convert_identifiers)

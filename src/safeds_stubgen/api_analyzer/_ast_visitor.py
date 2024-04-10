@@ -456,9 +456,9 @@ class MyPyAstVisitor:
         # If we got a TupleType, we can iterate it for the results, but if we got a NamedType, we have just one result
         return_results = ret_type.types if isinstance(ret_type, sds_types.TupleType) else [ret_type]
 
-        # Create Result objects and try to find a matching docstring
+        # Create Result objects and try to find a matching docstring name
         all_results = []
-        name_generator = self._result_name_generator()
+        name_generator = result_name_generator()
         for type_ in return_results:
             result_docstring = ResultDocstring()
             if result_docstrings.docstrings:
@@ -473,19 +473,11 @@ class MyPyAstVisitor:
                 id=f"{function_id}/{result_name}",
                 type=type_,
                 name=f"{result_name}",
-                docstring=result_docstring,
             )
 
             all_results.append(result)
 
         return all_results
-
-    @staticmethod
-    def _result_name_generator() -> Generator:
-        """Generate a name for callable type parameters starting from 'a' until 'zz'."""
-        while True:
-            for x in range(1, 1000):
-                yield f"result_{x}"
 
     @staticmethod
     def _infer_type_from_return_stmts(func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
@@ -523,8 +515,8 @@ class MyPyAstVisitor:
             return sds_types.TupleType(types=return_stmt_types)
         return None
 
+    @staticmethod
     def _create_inferred_results(
-        self,
         results: sds_types.TupleType,
         docstrings: ResultDocstrings,
         function_id: str,
@@ -578,7 +570,7 @@ class MyPyAstVisitor:
                 array.append(none_element)
 
         # Create Result objects
-        result_name_generator = self._result_name_generator()
+        name_generator = result_name_generator()
         inferred_results = []
         for result_list in result_array:
             result_count = len(result_list)
@@ -587,7 +579,7 @@ class MyPyAstVisitor:
             else:
                 result_type = sds_types.UnionType(result_list)
 
-            # Search for matching docstrings for each result
+            # Search for matching docstrings for each result for the name
             result_docstring = ResultDocstring()
             if docstrings.docstrings:
                 if isinstance(result_type, sds_types.UnionType):
@@ -607,13 +599,12 @@ class MyPyAstVisitor:
                             result_docstring = docstring
                             break
 
-            result_name = result_docstring.name or next(result_name_generator)
+            result_name = result_docstring.name or next(name_generator)
             inferred_results.append(
                 Result(
                     id=f"{function_id}/{result_name}",
                     type=result_type,
                     name=result_name,
-                    docstring=result_docstring,
                 ),
             )
 
@@ -1197,3 +1188,10 @@ class MyPyAstVisitor:
 
 def is_internal(name: str) -> bool:
     return name.startswith("_")
+
+
+def result_name_generator() -> Generator:
+    """Generate a name for callable type parameters starting from 'a' until 'zz'."""
+    while True:
+        for x in range(1, 1000):
+            yield f"result_{x}"
