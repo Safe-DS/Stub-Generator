@@ -119,8 +119,8 @@ fun inferTypes() -> (result1: String, result2: Int)
 @Pure
 @PythonName("infer_types2")
 fun inferTypes2(
-	a,
-	b
+    a,
+    b
 ) -> result1: union<Boolean, String>
 
 /**
