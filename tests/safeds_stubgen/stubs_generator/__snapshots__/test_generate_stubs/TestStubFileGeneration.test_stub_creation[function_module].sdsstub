@@ -31,7 +31,7 @@ fun params(
     @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
     `literal`: literal<"Some String">,
     @PythonName("any_") any: Any,
-    @PythonName("callable_none") callableNone: union<(param1: Int, param2: Float) -> result1: Nothing?, Nothing?>,
+    @PythonName("callable_none") callableNone: union<(param1: Int, param2: Float) -> (), Nothing?>,
     @PythonName("literal_none") literalNone: literal<"1", 2, null>,
     @PythonName("literal_none2") literalNone2: literal<"1", 2, null>,
     @PythonName("set_none") setNone: Set<Int>?,

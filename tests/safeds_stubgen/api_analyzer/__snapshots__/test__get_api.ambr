@@ -4002,6 +4002,40 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/function_module/params/literal_none2',
+      'is_optional': False,
+      'name': 'literal_none2',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              '1',
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              2,
+            ]),
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/function_module/params/named_class_none',
       'is_optional': False,
       'name': 'named_class_none',
@@ -6262,6 +6296,7 @@
         'tests/data/various_modules_package/function_module/params/any_',
         'tests/data/various_modules_package/function_module/params/callable_none',
         'tests/data/various_modules_package/function_module/params/literal_none',
+        'tests/data/various_modules_package/function_module/params/literal_none2',
         'tests/data/various_modules_package/function_module/params/set_none',
         'tests/data/various_modules_package/function_module/params/dict_none',
         'tests/data/various_modules_package/function_module/params/named_class_none',
