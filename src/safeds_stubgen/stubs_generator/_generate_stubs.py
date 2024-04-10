@@ -778,10 +778,8 @@ class StubsStringGenerator:
                     type_data["types"][1]["kind"] == "NamedType" and type_data["types"][1]["kind"]
                 )
                 if has_none:
-                    if type_data["types"][0]["kind"] == "LiteralType":
-                        literal_type_data = type_data["types"][0]
-                    else:
-                        literal_type_data = type_data["types"][1]
+                    _types = type_data["types"]
+                    literal_type_data = _types[0] if _types[0]["kind"] == "LiteralType" else _types[1]
 
                     literal_type_data["literals"].append(None)
                     return self._create_type_string(literal_type_data)
