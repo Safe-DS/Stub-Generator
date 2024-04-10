@@ -14,7 +14,6 @@ if TYPE_CHECKING:
         ClassDocstring,
         FunctionDocstring,
         ParameterDocstring,
-        ResultDocstring,
         ResultDocstrings,
     )
 
