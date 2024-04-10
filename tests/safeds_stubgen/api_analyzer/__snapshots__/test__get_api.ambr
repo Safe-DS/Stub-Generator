@@ -3792,6 +3792,41 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/function_module/params/dict_none',
+      'is_optional': False,
+      'name': 'dict_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'key_type': dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+            'kind': 'DictType',
+            'value_type': dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/function_module/params/dictionary',
       'is_optional': False,
       'name': 'dictionary',
@@ -3883,6 +3918,38 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/function_module/params/list_class_none',
+      'is_optional': False,
+      'name': 'list_class_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'ListType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/function_module/params/literal',
       'is_optional': False,
       'name': 'literal',
@@ -3890,6 +3957,67 @@
         'kind': 'LiteralType',
         'literals': list([
           'Some String',
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/function_module/params/literal_none',
+      'is_optional': False,
+      'name': 'literal_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              '1',
+            ]),
+          }),
+          dict({
+            'kind': 'LiteralType',
+            'literals': list([
+              2,
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/function_module/params/named_class_none',
+      'is_optional': False,
+      'name': 'named_class_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'FunctionModuleClassA',
+            'qname': 'tests.data.various_modules_package.function_module.FunctionModuleClassA',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
         ]),
       }),
     }),
@@ -3984,6 +4112,38 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/function_module/params/set_none',
+      'is_optional': False,
+      'name': 'set_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'SetType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/function_module/params/string',
       'is_optional': False,
       'name': 'string',
@@ -4021,6 +4181,43 @@
             'kind': 'NamedType',
             'name': 'bool',
             'qname': 'builtins.bool',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/function_module/params/tuple_class_none',
+      'is_optional': False,
+      'name': 'tuple_class_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'TupleType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+            ]),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -6064,6 +6261,12 @@
         'tests/data/various_modules_package/function_module/params/literal',
         'tests/data/various_modules_package/function_module/params/any_',
         'tests/data/various_modules_package/function_module/params/callable_none',
+        'tests/data/various_modules_package/function_module/params/literal_none',
+        'tests/data/various_modules_package/function_module/params/set_none',
+        'tests/data/various_modules_package/function_module/params/dict_none',
+        'tests/data/various_modules_package/function_module/params/named_class_none',
+        'tests/data/various_modules_package/function_module/params/list_class_none',
+        'tests/data/various_modules_package/function_module/params/tuple_class_none',
       ]),
       'reexported_by': list([
       ]),
@@ -7145,6 +7348,10 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Any',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Final',
       }),
       dict({
         'alias': None,

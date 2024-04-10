@@ -56,6 +56,12 @@ def params(
     literal: Literal["Some String"],
     any_: Any,
     callable_none: Callable[[int, float], None] | None,
+    literal_none: Literal["1", 2] | None,
+    set_none: set[int] | None,
+    dict_none: dict[str, int] | None,
+    named_class_none: FunctionModuleClassA | None,
+    list_class_none: list[float] | None,
+    tuple_class_none: tuple[int, str] | None,
 ): ...
 
 
