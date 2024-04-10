@@ -30,7 +30,8 @@ fun params(
     optional: Int?,
     @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
     `literal`: literal<"Some String">,
-    @PythonName("any_") any: Any
+    @PythonName("any_") any: Any,
+    @PythonName("callable_none") callableNone: (param1: Int, param2: Float) -> ()?
 )
 
 // TODO Result type information missing.
