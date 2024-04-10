@@ -12,23 +12,23 @@ enum _ReexportedEmptyEnum
  * Full Docstring Description
  */
 enum EnumTest {
-	ONE
-	TWO
-	THREE
-	FOUR
-	FIVE
-	SIX
-	SEVEN
-	EIGHT
-	NINE
+    ONE
+    TWO
+    THREE
+    FOUR
+    FIVE
+    SIX
+    SEVEN
+    EIGHT
+    NINE
 }
 
 enum EnumTest2 {
-	TEN
+    TEN
 }
 
 enum EnumTest3 {
-	@PythonName("ele_ven") eleVen
+    @PythonName("ele_ven") eleVen
 }
 
 enum EmptyEnum
