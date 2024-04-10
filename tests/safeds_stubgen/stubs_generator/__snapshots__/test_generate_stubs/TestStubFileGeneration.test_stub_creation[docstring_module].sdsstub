@@ -16,28 +16,28 @@ package tests.data.variousModulesPackage.docstringModule
  * :type param_1: str
  */
 class RestDocstringClass(
-	@PythonName("param_1") param1: String
+    @PythonName("param_1") param1: String
 ) {
-	@PythonName("attr_1")
-	static attr attr1: String
+    @PythonName("attr_1")
+    static attr attr1: String
 
-	/**
-	 * This function checks if the sum of x and y is less than the value 10
-	 * and returns True if it is. (ReST).
-	 *
-	 * :param x: First integer value for the calculation. (ReST)
-	 * :type x: int
-	 * :param y: Second integer value for the calculation. (ReST)
-	 * :type y: int
-	 * :returns: Checks if the sum of x and y is greater than 10. (ReST)
-	 * :rtype: bool
-	 */
-	@Pure
-	@PythonName("rest_docstring_func")
-	fun restDocstringFunc(
-		x: Int,
-		y: Int
-	) -> result1: Boolean
+    /**
+     * This function checks if the sum of x and y is less than the value 10
+     * and returns True if it is. (ReST).
+     *
+     * :param x: First integer value for the calculation. (ReST)
+     * :type x: int
+     * :param y: Second integer value for the calculation. (ReST)
+     * :type y: int
+     * :returns: Checks if the sum of x and y is greater than 10. (ReST)
+     * :rtype: bool
+     */
+    @Pure
+    @PythonName("rest_docstring_func")
+    fun restDocstringFunc(
+        x: Int,
+        y: Int
+    ) -> result1: Boolean
 }
 
 /**
@@ -56,34 +56,34 @@ class RestDocstringClass(
  *     Parameter of the calculator. (Numpy)
  */
 class NumpyDocstringClass(
-	@PythonName("param_1") param1: String
+    @PythonName("param_1") param1: String
 ) {
-	@PythonName("attr_1")
-	static attr attr1: String
+    @PythonName("attr_1")
+    static attr attr1: String
 
-	/**
-	 * Checks if the sum of two variables is over the value of 10. (Numpy).
-	 *
-	 * This function checks if the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)
-	 *
-	 * Parameters
-	 * ----------
-	 * x : int
-	 *     First integer value for the calculation. (Numpy)
-	 * y : int
-	 *     Second integer value for the calculation. (Numpy)
-	 *
-	 * Returns
-	 * -------
-	 * bool
-	 *     Checks if the sum of `x` and `y` is greater than 10. (Numpy)
-	 */
-	@Pure
-	@PythonName("numpy_docstring_func")
-	fun numpyDocstringFunc(
-		x: Int,
-		y: Int
-	) -> result1: Boolean
+    /**
+     * Checks if the sum of two variables is over the value of 10. (Numpy).
+     *
+     * This function checks if the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)
+     *
+     * Parameters
+     * ----------
+     * x : int
+     *     First integer value for the calculation. (Numpy)
+     * y : int
+     *     Second integer value for the calculation. (Numpy)
+     *
+     * Returns
+     * -------
+     * bool
+     *     Checks if the sum of `x` and `y` is greater than 10. (Numpy)
+     */
+    @Pure
+    @PythonName("numpy_docstring_func")
+    fun numpyDocstringFunc(
+        x: Int,
+        y: Int
+    ) -> result1: Boolean
 }
 
 /**
@@ -98,29 +98,29 @@ class NumpyDocstringClass(
  *     param_1 (str): Parameter of the calculator. (Google Style)
  */
 class GoogleDocstringClass(
-	@PythonName("param_1") param1: String
+    @PythonName("param_1") param1: String
 ) {
-	@PythonName("attr_1")
-	static attr attr1: String
+    @PythonName("attr_1")
+    static attr attr1: String
 
-	/**
-	 * Checks if the sum of two variables is over the value of 10. (Google Style).
-	 *
-	 * This function checks if the sum of x and y is less than the value 10
-	 * and returns True if it is. (Google Style)
-	 *
-	 * Args:
-	 *     x (int): First integer value for the calculation. (Google Style)
-	 *     y (int): Second integer value for the calculation. (Google Style)
-	 *
-	 * Returns:
-	 *     bool: Checks if the sum of x and y is greater than 10 and returns
-	 *           a boolean value. (Google Style)
-	 */
-	@Pure
-	@PythonName("google_docstring_func")
-	fun googleDocstringFunc(
-		x: Int,
-		y: Int
-	) -> result1: Boolean
+    /**
+     * Checks if the sum of two variables is over the value of 10. (Google Style).
+     *
+     * This function checks if the sum of x and y is less than the value 10
+     * and returns True if it is. (Google Style)
+     *
+     * Args:
+     *     x (int): First integer value for the calculation. (Google Style)
+     *     y (int): Second integer value for the calculation. (Google Style)
+     *
+     * Returns:
+     *     bool: Checks if the sum of x and y is greater than 10 and returns
+     *           a boolean value. (Google Style)
+     */
+    @Pure
+    @PythonName("google_docstring_func")
+    fun googleDocstringFunc(
+        x: Int,
+        y: Int
+    ) -> result1: Boolean
 }

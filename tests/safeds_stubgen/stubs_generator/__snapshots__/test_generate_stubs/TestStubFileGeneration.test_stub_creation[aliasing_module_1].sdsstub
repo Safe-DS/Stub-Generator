@@ -7,20 +7,20 @@ from tests.data.variousModulesPackage.aliasing.aliasingModule3 import ImportMeAl
 class AliasingModuleClassB()
 
 class AliasingModuleClassC() {
-	@PythonName("typed_alias_attr")
-	static attr typedAliasAttr: AliasingModuleClassB
-	// TODO An internal class must not be used as a type in a public class.
-	@PythonName("infer_alias_attr")
-	static attr inferAliasAttr: _AliasingModuleClassA
-	@PythonName("typed_alias_attr2")
-	static attr typedAliasAttr2: AliasingModule2ClassA
-	@PythonName("infer_alias_attr2")
-	static attr inferAliasAttr2: AliasingModule2ClassA
-	// TODO Attribute has no type information.
-	@PythonName("infer_alias_attr3")
-	static attr inferAliasAttr3
-	// TODO An internal class must not be used as a type in a public class.
-	// TODO List type has to many type arguments.
-	@PythonName("alias_list")
-	static attr aliasList: List<union<AliasingModuleClassB, _AliasingModuleClassA>, AliasingModule2ClassA, ImportMeAliasingModuleClass>
+    @PythonName("typed_alias_attr")
+    static attr typedAliasAttr: AliasingModuleClassB
+    // TODO An internal class must not be used as a type in a public class.
+    @PythonName("infer_alias_attr")
+    static attr inferAliasAttr: _AliasingModuleClassA
+    @PythonName("typed_alias_attr2")
+    static attr typedAliasAttr2: AliasingModule2ClassA
+    @PythonName("infer_alias_attr2")
+    static attr inferAliasAttr2: AliasingModule2ClassA
+    // TODO Attribute has no type information.
+    @PythonName("infer_alias_attr3")
+    static attr inferAliasAttr3
+    // TODO An internal class must not be used as a type in a public class.
+    // TODO List type has to many type arguments.
+    @PythonName("alias_list")
+    static attr aliasList: List<union<AliasingModuleClassB, _AliasingModuleClassA>, AliasingModule2ClassA, ImportMeAliasingModuleClass>
 }

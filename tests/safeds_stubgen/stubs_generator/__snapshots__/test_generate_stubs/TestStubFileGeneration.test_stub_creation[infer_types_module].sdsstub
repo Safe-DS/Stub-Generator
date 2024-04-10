@@ -8,67 +8,67 @@ class InferMe2()
 class InferMe3()
 
 class InferMyTypes(
-	@PythonName("init_param") initParam: Int = 1
+    @PythonName("init_param") initParam: Int = 1
 ) {
-	@PythonName("infer_int")
-	static attr inferInt: Int
-	@PythonName("infer_float")
-	static attr inferFloat: Float
-	@PythonName("infer_bool")
-	static attr inferBool: Boolean
-	@PythonName("infer_str")
-	static attr inferStr: String
-	@PythonName("infer_none")
-	static attr inferNone: Nothing?
-	@PythonName("infer_call_expr")
-	static attr inferCallExpr: InferMe
-	// TODO Attribute has no type information.
-	@PythonName("uninferable_callable")
-	static attr uninferableCallable
-	// TODO Attribute has no type information.
-	@PythonName("init_infer")
-	attr initInfer
+    @PythonName("infer_int")
+    static attr inferInt: Int
+    @PythonName("infer_float")
+    static attr inferFloat: Float
+    @PythonName("infer_bool")
+    static attr inferBool: Boolean
+    @PythonName("infer_str")
+    static attr inferStr: String
+    @PythonName("infer_none")
+    static attr inferNone: Nothing?
+    @PythonName("infer_call_expr")
+    static attr inferCallExpr: InferMe
+    // TODO Attribute has no type information.
+    @PythonName("uninferable_callable")
+    static attr uninferableCallable
+    // TODO Attribute has no type information.
+    @PythonName("init_infer")
+    attr initInfer
 
-	// TODO Result type information missing.
-	// TODO Some parameter have no type information.
-	@Pure
-	@PythonName("infer_param_types")
-	static fun inferParamTypes(
-		integer: Int = 3,
-		boolean: Boolean = true,
-		@PythonName("float_") float: Float = 1.2,
-		none: Nothing? = null,
-		string: String = "Some String",
-		callexpr,
-		@PythonName("int_list") intList,
-		dictionary,
-		@PythonName("string_set") stringSet,
-		@PythonName("tuple_") tuple
-	)
+    // TODO Result type information missing.
+    // TODO Some parameter have no type information.
+    @Pure
+    @PythonName("infer_param_types")
+    static fun inferParamTypes(
+        integer: Int = 3,
+        boolean: Boolean = true,
+        @PythonName("float_") float: Float = 1.2,
+        none: Nothing? = null,
+        string: String = "Some String",
+        callexpr,
+        @PythonName("int_list") intList,
+        dictionary,
+        @PythonName("string_set") stringSet,
+        @PythonName("tuple_") tuple
+    )
 
-	@Pure
-	@PythonName("infer_function")
-	static fun inferFunction(
-		@PythonName("infer_param") inferParam: Int = 1,
-		@PythonName("infer_param_2") inferParam2: Int = "Something"
-	) -> (result1: union<Boolean, Float, InferMe, InferMe2, InferMe3, InferMyTypes, Int, Nothing?, String>, result2: union<Float, Int>, result3: Float?)
+    @Pure
+    @PythonName("infer_function")
+    static fun inferFunction(
+        @PythonName("infer_param") inferParam: Int = 1,
+        @PythonName("infer_param_2") inferParam2: Int = "Something"
+    ) -> (result1: union<Boolean, Float, InferMe, InferMe2, InferMe3, InferMyTypes, Int, Nothing?, String>, result2: union<Float, Int>, result3: Float?)
 
-	/**
-	 * Test for inferring results with just one possible result, and not a tuple of results.
-	 */
-	@Pure
-	@PythonName("infer_function_2")
-	static fun inferFunction2(
-		i: Int = 2
-	) -> result1: union<Boolean, String>
+    /**
+     * Test for inferring results with just one possible result, and not a tuple of results.
+     */
+    @Pure
+    @PythonName("infer_function_2")
+    static fun inferFunction2(
+        i: Int = 2
+    ) -> result1: union<Boolean, String>
 
-	// TODO Result type information missing.
-	@Pure
-	@PythonName("infer_call_result_1")
-	fun inferCallResult1()
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("infer_call_result_1")
+    fun inferCallResult1()
 
-	// TODO Result type information missing.
-	@Pure
-	@PythonName("infer_call_result_2")
-	fun inferCallResult2()
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("infer_call_result_2")
+    fun inferCallResult2()
 }
