@@ -3737,6 +3737,48 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/function_module/params/callable_none',
+      'is_optional': False,
+      'name': 'callable_none',
+      'type': dict({
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'CallableType',
+            'parameter_types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+            'return_type': dict({
+              'kind': 'NamedType',
+              'name': 'None',
+              'qname': 'builtins.None',
+            }),
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
+      }),
+    }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': None,
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/function_module/params/callexpr',
       'is_optional': False,
       'name': 'callexpr',
@@ -5871,6 +5913,7 @@
         'tests/data/various_modules_package/function_module/params/tuple_',
         'tests/data/various_modules_package/function_module/params/literal',
         'tests/data/various_modules_package/function_module/params/any_',
+        'tests/data/various_modules_package/function_module/params/callable_none',
       ]),
       'reexported_by': list([
       ]),
