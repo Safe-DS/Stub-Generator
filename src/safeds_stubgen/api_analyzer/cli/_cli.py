@@ -3,10 +3,13 @@ from __future__ import annotations
 import argparse
 import logging
 from pathlib import Path
+from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
-from safeds_stubgen.docstring_parsing import DocstringStyle
 from safeds_stubgen.stubs_generator import generate_stubs
+
+if TYPE_CHECKING:
+    from safeds_stubgen.docstring_parsing import DocstringStyle
 
 
 def cli() -> None:
