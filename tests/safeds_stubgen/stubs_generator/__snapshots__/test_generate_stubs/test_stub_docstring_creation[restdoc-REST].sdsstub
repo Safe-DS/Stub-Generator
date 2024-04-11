@@ -123,6 +123,18 @@ fun inferTypes2(
     b
 ) -> result1: union<Boolean, String>
 
+// TODO Result type information missing.
+/**
+ * uninferable_return_doc.
+ *
+ * Dolor sit amet.
+ *
+ * @result result1 return value
+ */
+@Pure
+@PythonName("uninferable_return_doc")
+fun uninferableReturnDoc()
+
 /**
  * ClassWithDocumentation. Code::
  *

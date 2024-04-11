@@ -47,40 +47,22 @@ class ASTWalker:
         if isinstance(node, MypyFile):
             definitions = get_mypyfile_definitions(node)
             child_nodes = [
-                _def
-                for _def in definitions
-                if _def.__class__.__name__
-                in {"FuncDef", "ClassDef", "Decorator"}
+                _def for _def in definitions if _def.__class__.__name__ in {"FuncDef", "ClassDef", "Decorator"}
             ]
         elif isinstance(node, ClassDef):
             definitions = get_classdef_definitions(node)
             child_nodes = [
                 _def
                 for _def in definitions
-                if _def.__class__.__name__
-                in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator"}
+                if _def.__class__.__name__ in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator"}
             ]
         elif isinstance(node, FuncDef) and node.name == "__init__":
             definitions = get_funcdef_definitions(node)
-            child_nodes = [
-                _def
-                for _def in definitions
-                if _def.__class__.__name__ == "AssignmentStmt"
-            ]
+            child_nodes = [_def for _def in definitions if _def.__class__.__name__ == "AssignmentStmt"]
 
         for child_node in child_nodes:
-            # Ignore global variables and function attributes if the function is an __init__
-            if isinstance(child_node, AssignmentStmt):
-                if isinstance(node, MypyFile):
-                    continue
-                if isinstance(node, FuncDef) and node.name != "__init__":
-                    continue
-
             # The '__mypy-replace' name is a mypy placeholer which we don't want to parse.
-            if (
-                (isinstance(child_node, FuncDef) and isinstance(node, FuncDef))
-                or getattr(child_node, "name", "") == "__mypy-replace"
-            ):
+            if getattr(child_node, "name", "") == "__mypy-replace":  # pragma: no cover
                 continue
 
             self.__walk(child_node, visited_nodes)

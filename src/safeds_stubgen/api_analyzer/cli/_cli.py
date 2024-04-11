@@ -36,9 +36,7 @@ def _get_args() -> argparse.Namespace:
     parser.add_argument(
         "-s",
         "--src",
-        help=(
-            "Source directory containing the Python code of the package."
-        ),
+        help=("Source directory containing the Python code of the package."),
         type=Path,
         required=True,
         default=None,
