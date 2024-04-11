@@ -37,11 +37,10 @@ def _get_args() -> argparse.Namespace:
         "-s",
         "--src",
         help=(
-            "Directory containing the Python code of the package. If this is omitted, we try to locate the package "
-            "with the given name in the current Python interpreter."
+            "Source directory containing the Python code of the package."
         ),
         type=Path,
-        required=False,
+        required=True,
         default=None,
     )
     parser.add_argument("-o", "--out", help="Output directory.", type=Path, required=True)

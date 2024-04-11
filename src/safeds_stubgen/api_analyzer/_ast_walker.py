@@ -41,27 +41,32 @@ class ASTWalker:
 
         self.__enter(node)
 
-        definitions: list = []
+        # Search nodes for more child nodes. Skip other not specified types, since we either get them through the
+        # ast_visitor, some other way or don't need to parse them at all
+        child_nodes = []
         if isinstance(node, MypyFile):
             definitions = get_mypyfile_definitions(node)
+            child_nodes = [
+                _def
+                for _def in definitions
+                if _def.__class__.__name__
+                in {"FuncDef", "ClassDef", "Decorator"}
+            ]
         elif isinstance(node, ClassDef):
             definitions = get_classdef_definitions(node)
-        elif isinstance(node, FuncDef):
+            child_nodes = [
+                _def
+                for _def in definitions
+                if _def.__class__.__name__
+                in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator"}
+            ]
+        elif isinstance(node, FuncDef) and node.name == "__init__":
             definitions = get_funcdef_definitions(node)
-
-        # Skip other types, since we either get them through the ast_visitor, some other way or
-        # don't need to parse them
-        child_nodes = [
-            _def
-            for _def in definitions
-            if _def.__class__.__name__
-            in {
-                "AssignmentStmt",
-                "FuncDef",
-                "ClassDef",
-                "Decorator",
-            }
-        ]
+            child_nodes = [
+                _def
+                for _def in definitions
+                if _def.__class__.__name__ == "AssignmentStmt"
+            ]
 
         for child_node in child_nodes:
             # Ignore global variables and function attributes if the function is an __init__
@@ -71,7 +76,11 @@ class ASTWalker:
                 if isinstance(node, FuncDef) and node.name != "__init__":
                     continue
 
-            if isinstance(child_node, FuncDef) and isinstance(node, FuncDef):
+            # The '__mypy-replace' name is a mypy placeholer which we don't want to parse.
+            if (
+                (isinstance(child_node, FuncDef) and isinstance(node, FuncDef))
+                or getattr(child_node, "name", "") == "__mypy-replace"
+            ):
                 continue
 
             self.__walk(child_node, visited_nodes)

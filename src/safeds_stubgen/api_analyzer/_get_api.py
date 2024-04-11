@@ -39,7 +39,7 @@ def get_api(
         )
 
         # Check if the current path is a test directory
-        if not is_test_run and ("test" in file_path.parts or "tests" in file_path.parts):
+        if not is_test_run and ("test" in file_path.parts or "tests" in file_path.parts or "docs" in file_path.parts):
             logging.info("Skipping test file")
             continue
 
