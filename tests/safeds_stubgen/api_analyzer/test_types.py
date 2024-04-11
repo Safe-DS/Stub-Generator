@@ -29,7 +29,7 @@ def test_correct_hash() -> None:
         is_optional=True,
         default_value="test_str",
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
-        docstring=ParameterDocstring("'hashvalue'", "r", "r"),
+        docstring=ParameterDocstring(None, "r", "r"),
         type=NamedType(name="str", qname=""),
     )
     assert hash(parameter) == hash(deepcopy(parameter))
@@ -122,6 +122,10 @@ def test_union_type() -> None:
     assert hash(UnionType([NamedType("a", "")])) == hash(UnionType([NamedType("a", "")]))
     assert UnionType([NamedType("a", "")]) != UnionType([NamedType("b", "")])
     assert hash(UnionType([NamedType("a", "")])) != hash(UnionType([NamedType("b", "")]))
+
+    assert UnionType([NamedType("a", ""), LiteralType(["b"])]) == UnionType([LiteralType(["b"]), NamedType("a", "")])
+    assert UnionType([NamedType("a", ""), LiteralType(["b"])]) != UnionType([LiteralType(["a"]), NamedType("b", "")])
+    assert UnionType([NamedType("a", ""), NamedType("b", "")]) != UnionType([NamedType("a", ""), NamedType("c", "")])
 
 
 def test_callable_type() -> None:

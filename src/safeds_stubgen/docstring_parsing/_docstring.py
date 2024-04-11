@@ -51,6 +51,4 @@ class AttributeDocstring:
 class ResultDocstring:
     type: AbstractType | None = None
     description: str = ""
-
-    def to_dict(self) -> dict[str, Any]:
-        return dataclasses.asdict(self)
+    name: str = ""

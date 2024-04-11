@@ -4567,10 +4567,6 @@
 # name: test_function_results[abstract_method_params]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4594,10 +4590,6 @@
 # name: test_function_results[abstract_property_method]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4607,10 +4599,6 @@
       }),
     }),
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method/result_2',
       'name': 'result_2',
       'type': dict({
@@ -4624,10 +4612,6 @@
 # name: test_function_results[abstract_static_method_params]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4641,10 +4625,6 @@
 # name: test_function_results[any_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/any_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4658,10 +4638,6 @@
 # name: test_function_results[callable_type]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/callable_type/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4698,10 +4674,6 @@
 # name: test_function_results[class_method_params]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4715,10 +4687,6 @@
 # name: test_function_results[dictionary_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4740,10 +4708,6 @@
 # name: test_function_results[dictionary_results_no_key_no_value]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4765,10 +4729,6 @@
 # name: test_function_results[float_result]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/float_result/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4782,16 +4742,6 @@
 # name: test_function_results[google_docstring_func]
   list([
     dict({
-      'docstring': dict({
-        'description': '''
-          Checks if the sum of x and y is greater than 10 and returns
-            a boolean value. (Google Style)
-        ''',
-        'type': dict({
-          'name': 'bool',
-          'qname': 'builtins.bool',
-        }),
-      }),
       'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/google_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4805,10 +4755,6 @@
 # name: test_function_results[illegal_dictionary_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4830,10 +4776,6 @@
 # name: test_function_results[illegal_list_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/illegal_list_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4857,10 +4799,6 @@
 # name: test_function_results[illegal_set_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/illegal_set_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4884,10 +4822,6 @@
 # name: test_function_results[infer_function]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_1',
       'name': 'result_1',
       'type': dict({
@@ -4947,10 +4881,6 @@
       }),
     }),
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_2',
       'name': 'result_2',
       'type': dict({
@@ -4970,16 +4900,22 @@
       }),
     }),
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function/result_3',
       'name': 'result_3',
       'type': dict({
-        'kind': 'NamedType',
-        'name': 'float',
-        'qname': 'builtins.float',
+        'kind': 'UnionType',
+        'types': list([
+          dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+        ]),
       }),
     }),
   ])
@@ -4987,10 +4923,6 @@
 # name: test_function_results[instance_method]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5004,10 +4936,6 @@
 # name: test_function_results[int_result]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/int_result/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5021,10 +4949,6 @@
 # name: test_function_results[list_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/list_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5043,10 +4967,6 @@
 # name: test_function_results[literal_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/literal_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5061,10 +4981,6 @@
 # name: test_function_results[multiple_type_var]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/type_var_module/multiple_type_var/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5093,10 +5009,6 @@
 # name: test_function_results[nested_class_function]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5114,13 +5026,6 @@
 # name: test_function_results[numpy_docstring_func]
   list([
     dict({
-      'docstring': dict({
-        'description': 'Checks if the sum of `x` and `y` is greater than 10. (Numpy)',
-        'type': dict({
-          'name': 'bool',
-          'qname': 'builtins.bool',
-        }),
-      }),
       'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/numpy_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5134,10 +5039,6 @@
 # name: test_function_results[obj_result]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/obj_result/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5151,10 +5052,6 @@
 # name: test_function_results[optional_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/optional_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5182,10 +5079,6 @@
 # name: test_function_results[property_function_infer]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5199,10 +5092,6 @@
 # name: test_function_results[property_function_params]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5216,13 +5105,6 @@
 # name: test_function_results[rest_docstring_func]
   list([
     dict({
-      'docstring': dict({
-        'description': 'Checks if the sum of x and y is greater than 10. (ReST)',
-        'type': dict({
-          'name': 'bool',
-          'qname': 'builtins.bool',
-        }),
-      }),
       'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/rest_docstring_func/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5236,10 +5118,6 @@
 # name: test_function_results[result_from_outside_the_package]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/result_from_outside_the_package/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5253,10 +5131,6 @@
 # name: test_function_results[set_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/set_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5279,10 +5153,6 @@
 # name: test_function_results[str_result]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/str_result/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5296,10 +5166,6 @@
 # name: test_function_results[tuple_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/tuple_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5309,10 +5175,6 @@
       }),
     }),
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/tuple_results/result_2',
       'name': 'result_2',
       'type': dict({
@@ -5326,10 +5188,6 @@
 # name: test_function_results[type_var_func]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/type_var_module/type_var_func/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5348,10 +5206,6 @@
 # name: test_function_results[union_dictionary_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/union_dictionary_results/result_1',
       'name': 'result_1',
       'type': dict({
@@ -5393,10 +5247,6 @@
 # name: test_function_results[union_results]
   list([
     dict({
-      'docstring': dict({
-        'description': '',
-        'type': None,
-      }),
       'id': 'tests/data/various_modules_package/function_module/union_results/result_1',
       'name': 'result_1',
       'type': dict({

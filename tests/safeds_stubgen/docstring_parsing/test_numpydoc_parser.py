@@ -356,7 +356,7 @@ def test_get_function_documentation(
             True,
             "multiple_types",
             ParameterDocstring(
-                type=UnionType(
+                type=TupleType(
                     types=[NamedType(name="int", qname="builtins.int"), NamedType(name="bool", qname="builtins.bool")],
                 ),
             ),
@@ -712,7 +712,7 @@ def test_get_parameter_documentation(
             "ClassWithVariousAttributeTypes",
             "multiple_types",
             AttributeDocstring(
-                type=UnionType(
+                type=TupleType(
                     types=[NamedType(name="int", qname="builtins.int"), NamedType(name="bool", qname="builtins.bool")],
                 ),
             ),
@@ -923,19 +923,43 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_result_value_and_type",
-            ResultDocstring(
-                type=NamedType(name="bool", qname="builtins.bool"),
-                description="this will be the return value",
-            ),
+            [
+                ResultDocstring(
+                    type=NamedType(name="bool", qname="builtins.bool"),
+                    description="this will be the return value",
+                ),
+            ],
         ),
-        ("function_without_result_value", ResultDocstring(type=None, description="")),
+        (
+            "function_without_result_value",
+            [],
+        ),
+        (
+            "function_with_multiple_results",
+            [
+                ResultDocstring(
+                    type=NamedType(name="int", qname="builtins.int"),
+                    description="first result",
+                    name="first_result",
+                ),
+                ResultDocstring(
+                    type=NamedType(name="bool", qname="builtins.bool"),
+                    description="second result",
+                    name="second_result",
+                ),
+            ],
+        ),
     ],
-    ids=["existing return value and type", "function without return value"],
+    ids=[
+        "existing return value and type",
+        "function without return value",
+        "function with multiple results",
+    ],
 )
 def test_get_result_documentation(
     numpydoc_parser: DocstringParser,
     function_name: str,
-    expected_result_documentation: ResultDocstring,
+    expected_result_documentation: list[ResultDocstring],
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)
