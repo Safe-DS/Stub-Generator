@@ -3,7 +3,13 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from ._abstract_docstring_parser import AbstractDocstringParser
-from ._docstring import AttributeDocstring, ClassDocstring, FunctionDocstring, ParameterDocstring, ResultDocstring
+from ._docstring import (
+    AttributeDocstring,
+    ClassDocstring,
+    FunctionDocstring,
+    ParameterDocstring,
+    ResultDocstring,
+)
 from ._helpers import get_full_docstring
 
 if TYPE_CHECKING:
@@ -47,5 +53,5 @@ class PlaintextDocstringParser(AbstractDocstringParser):
     def get_result_documentation(
         self,
         function_qname: str,  # noqa: ARG002
-    ) -> ResultDocstring:
-        return ResultDocstring()
+    ) -> list[ResultDocstring]:
+        return []

@@ -42,5 +42,5 @@ class AbstractDocstringParser(ABC):
         pass  # pragma: no cover
 
     @abstractmethod
-    def get_result_documentation(self, function_qname: str) -> ResultDocstring:
+    def get_result_documentation(self, function_qname: str) -> list[ResultDocstring]:
         pass  # pragma: no cover

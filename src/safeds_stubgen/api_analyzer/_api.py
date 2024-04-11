@@ -242,6 +242,7 @@ class Function:
     is_static: bool
     is_class_method: bool
     is_property: bool
+    result_docstrings: list[ResultDocstring]
     type_var_types: list[TypeVarType] = field(default_factory=list)
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
@@ -339,13 +340,11 @@ class Result:
     id: str
     name: str
     type: AbstractType | None
-    docstring: ResultDocstring
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "id": self.id,
             "name": self.name,
-            "docstring": self.docstring.to_dict(),
             "type": self.type.to_dict() if self.type is not None else None,
         }
 

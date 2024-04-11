@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import re
 from abc import ABCMeta, abstractmethod
+from collections import Counter
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any, ClassVar
 
@@ -243,6 +244,11 @@ class UnionType(AbstractType):
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, UnionType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.types) == Counter(other.types)
 
 
 @dataclass(frozen=True)
