@@ -7,7 +7,6 @@
 @PythonModule("tests.data.docstring_parser_package.plaintext")
 package tests.data.docstringParserPackage.plaintext
 
-// TODO Result type information missing.
 /**
  * function_with_documentation.
  *
@@ -19,7 +18,6 @@ fun functionWithDocumentation(
     p: Int
 )
 
-// TODO Result type information missing.
 @Pure
 @PythonName("function_without_documentation")
 fun functionWithoutDocumentation(
