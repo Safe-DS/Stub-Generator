@@ -182,11 +182,11 @@ def test_get_attribute_documentation(
     [
         (
             "function_with_documentation",
-            ResultDocstring(),
+            [],
         ),
         (
             "function_without_documentation",
-            ResultDocstring(),
+            [],
         ),
     ],
     ids=[
@@ -197,7 +197,7 @@ def test_get_attribute_documentation(
 def test_get_result_documentation(
     plaintext_docstring_parser: PlaintextDocstringParser,
     function_name: str,
-    expected_result_documentation: ParameterDocstring,
+    expected_result_documentation: list[ResultDocstring],
 ) -> None:
     node = get_specific_mypy_node(mypy_file, function_name)
     assert isinstance(node, nodes.FuncDef)

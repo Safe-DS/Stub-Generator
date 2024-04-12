@@ -91,6 +91,22 @@ def function_with_return_value_no_type() -> None:
     """
 
 
+def function_with_multiple_results() -> (int, bool):
+    """
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    :return: first result
+    :rtype: int
+    :return: second result
+    :rtype: bool
+    """
+    if ClassWithMethod:
+        return 1
+    return True
+
+
 def function_without_return_value():
     """
     function_without_return_value.
@@ -191,6 +207,38 @@ class ClassWithVariousParameterTypes:
         optional_type_2: Optional[int], class_type, imported_type
     ) -> None:
         pass
+
+
+def infer_types():
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    :return: return value
+    :rtype: str
+    :return: return value
+    :rtype: int
+    """
+    return "Some value", 1
+
+
+def infer_types2(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    :param a: The first parameter
+    :type a: int
+    :param b: The second parameter
+    :type b: bool
+    :return: return value
+    :rtype: str | bool
+    """
+    if a or b:
+        return "A value"
+    return True
 
 
 # Todo Currently disabled, since Griffe can't analyze ReST (Sphinx) attributes (see issue #98)
