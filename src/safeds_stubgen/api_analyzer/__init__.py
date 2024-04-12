@@ -16,6 +16,7 @@ from ._api import (
     VarianceKind,
     WildcardImport,
 )
+from ._ast_visitor import result_name_generator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 from ._package_metadata import distribution, distribution_version, package_root
@@ -62,6 +63,7 @@ __all__ = [
     "ParameterAssignment",
     "QualifiedImport",
     "Result",
+    "result_name_generator",
     "SetType",
     "TupleType",
     "TypeVarType",

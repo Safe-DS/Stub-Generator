@@ -112,6 +112,18 @@ def function_with_return_value_no_type() -> None:
     """
 
 
+def function_with_multiple_results() -> (int, bool):
+    """
+    function_with_named_result.
+
+    Dolor sit amet.
+
+    Returns:
+        int: first result
+        bool: second result
+    """
+
+
 def function_without_return_value():
     """function_without_return_value.
 
@@ -243,3 +255,34 @@ class ClassWithVariousAttributeTypes:
     optional_type_2: Optional[int]
     class_type: ClassWithAttributes
     imported_type: AnotherClass
+
+
+def infer_types():
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Returns:
+        str: This is the first result
+        int: This is the second result
+    """
+    return "Some value", 2
+
+
+def infer_types2(a, b):
+    """
+    property_method_with_docstring.
+
+    Dolor sit amet.
+
+    Args:
+        a (int): The first parameter
+        b (bool): The second parameter
+
+    Returns:
+        str | bool: This is the result
+    """
+    if a or b:
+        return "A value"
+    return True

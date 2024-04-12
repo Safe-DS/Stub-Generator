@@ -17,10 +17,10 @@ from safeds_stubgen.api_analyzer import (
     Result,
     UnionType,
     VarianceKind,
+    result_name_generator,
 )
 
 if TYPE_CHECKING:
-
     from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
 
 
@@ -910,18 +910,17 @@ class StubsStringGenerator:
         # Results
         full_result_docstring = ""
         if isinstance(node, Function):
-            result_docstrings = []
-            for result in node.results:
-                result_desc = result.docstring.description
-                if not result_desc:
-                    continue
+            name_generator = result_name_generator()
 
-                result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
+            for result_docstring in node.result_docstrings:
+                result_desc = result_docstring.description
+                if result_desc:
+                    result_desc = f"\n{indentations} * ".join(result_desc.split("\n"))
 
-                result_name = _convert_name_to_convention(result.name, self.naming_convention)
-                result_docstrings.append(f"{indentations} * @result {result_name} {result_desc}\n")
+                    result_name = result_docstring.name if result_docstring.name else next(name_generator)
+                    result_name = _convert_name_to_convention(result_name, self.naming_convention)
 
-            full_result_docstring = "".join(result_docstrings)
+                    full_result_docstring += f"{indentations} * @result {result_name} {result_desc}\n"
 
             if full_result_docstring and full_docstring:
                 full_result_docstring = f"{indentations} *\n{full_result_docstring}"
