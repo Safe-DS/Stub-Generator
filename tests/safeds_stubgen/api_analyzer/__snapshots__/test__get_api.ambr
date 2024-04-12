@@ -6679,6 +6679,8 @@
       'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
       'tests/data/various_modules_package/class_module/InheritFromException',
       'tests/data/various_modules_package/class_module/InheritFromException2',
+      'tests/data/various_modules_package/class_module/SelfTypes1',
+      'tests/data/various_modules_package/class_module/SelfTypes2',
     ]),
     'docstring': '',
     'enums': list([
@@ -6688,6 +6690,10 @@
     'id': 'tests/data/various_modules_package/class_module',
     'name': 'class_module',
     'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Self',
+      }),
       dict({
         'alias': None,
         'qualified_name': 'tests.data.main_package.another_path.another_module.yetAnotherClass',
