@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import get_api
-from safeds_stubgen.stubs_generator import generate_stubs
+from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import DocstringStyle
@@ -17,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_api_command(args.package, args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
+    _run_stub_generator(args.package, args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
 
 
 def _get_args() -> argparse.Namespace:
@@ -74,7 +74,7 @@ def _get_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _run_api_command(
+def _run_stub_generator(
     package: str,
     src_dir_path: Path,
     out_dir_path: Path,
@@ -83,7 +83,7 @@ def _run_api_command(
     convert_identifiers: bool,
 ) -> None:
     """
-    List the API of a package.
+    Create API data of a package and Safe-DS stub files.
 
     Parameters
     ----------
@@ -96,8 +96,14 @@ def _run_api_command(
     is_test_run : bool
         Set True if files in test directories should be parsed too.
     """
-    api = get_api(package, src_dir_path, docstring_style, is_test_run)
+    # Generate the API data
+    api = get_api(package_name=package, root=src_dir_path, docstring_style=docstring_style, is_test_run=is_test_run)
+    # Create an API file
     out_file_api = out_dir_path.joinpath(f"{package}__api.json")
     api.to_json_file(out_file_api)
 
-    generate_stubs(api, out_dir_path, convert_identifiers)
+    # Generate the stub data
+    stubs_generator = StubsStringGenerator(api=api, convert_identifiers=convert_identifiers)
+    stub_data = generate_stub_data(stubs_generator=stubs_generator, out_path=out_dir_path)
+    # Create the stub files
+    create_stub_files(stubs_generator=stubs_generator, stubs_data=stub_data, out_path=out_dir_path)
