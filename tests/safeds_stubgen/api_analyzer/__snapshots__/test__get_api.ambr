@@ -1424,6 +1424,7 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params/result_1',
       ]),
     }),
   ])
@@ -1808,6 +1809,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class/result_1',
       ]),
     }),
   ])
@@ -5021,6 +5023,15 @@
 # ---
 # name: test_function_results[none_result]
   list([
+    dict({
+      'id': 'tests/data/various_modules_package/function_module/none_result/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+        'qname': 'builtins.None',
+      }),
+    }),
   ])
 # ---
 # name: test_function_results[numpy_docstring_func]
@@ -5148,6 +5159,15 @@
 # ---
 # name: test_function_results[static_method_params]
   list([
+    dict({
+      'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+        'qname': 'builtins.None',
+      }),
+    }),
   ])
 # ---
 # name: test_function_results[str_result]
@@ -5286,6 +5306,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_1/reexported_function/result_1',
       ]),
     }),
   ])
@@ -5309,6 +5330,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_2/reexported_function_2/result_1',
       ]),
     }),
   ])
@@ -5332,6 +5354,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_3/reexported_function_3/result_1',
       ]),
     }),
   ])
@@ -5355,6 +5378,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4/result_1',
       ]),
     }),
     dict({
@@ -5374,6 +5398,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4_alias/result_1',
       ]),
     }),
     dict({
@@ -5393,6 +5418,7 @@
         'tests/data/various_modules_package',
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_4/_two_times_reexported/result_1',
       ]),
     }),
     dict({
@@ -5411,6 +5437,7 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'tests/data/various_modules_package/_reexport_module_4/_unreexported_function/result_1',
       ]),
     }),
   ])
@@ -5780,6 +5807,7 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'tests/data/various_modules_package/function_module/none_result/result_1',
       ]),
     }),
     dict({
