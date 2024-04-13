@@ -1,3 +1,5 @@
+from typing import Self
+
 from tests.data.main_package.another_path.another_module import yetAnotherClass
 
 
@@ -41,3 +43,16 @@ class InheritFromException(ValueError):
 
 class InheritFromException2(Exception, InheritFromException, ClassModuleClassB):
     ...
+
+
+class SelfTypes1:
+    def self_result1(self) -> Self:
+        pass
+
+
+class SelfTypes2(SelfTypes1):
+    def self_result2(self) -> Self:
+        pass
+
+    def infer_self_result2(self):
+        return self
