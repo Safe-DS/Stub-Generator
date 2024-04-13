@@ -185,7 +185,10 @@ class StubsStringGenerator:
 
     def _create_module_string(self) -> str:
         # Create package info
-        package_info = self._get_shortest_public_reexport()
+        package_info = self._get_shortest_public_reexport(
+            module_qname=self.module.id.replace("/", "."),
+            name=self.module.name
+        )
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
         module_text = ""
@@ -962,7 +965,15 @@ class StubsStringGenerator:
             for class_ in self.api.classes:
                 if class_.endswith(qname_path):
                     qname = class_.replace("/", ".")
-                    qname = _convert_name_to_convention(qname, self.naming_convention)
+
+                    name = qname.split(".")[-1]
+                    qname = ".".join(qname.split(".")[:-1])
+                    qname = self._get_shortest_public_reexport(module_qname=qname, name=name)
+
+                    qname = _convert_name_to_convention(
+                        name=f"{qname}.{name}",
+                        naming_convention=self.naming_convention
+                    )
                     in_package = True
                     break
 
@@ -1012,19 +1023,17 @@ class StubsStringGenerator:
 
         raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
 
-    def _get_shortest_public_reexport(self) -> str:
-        module_qname = self.module.id.replace("/", ".")
-        module_name = self.module.name
+    def _get_shortest_public_reexport(self, module_qname: str, name: str) -> str:
         reexports = self.api.reexport_map
 
-        def _module_name_check(name: str, string: str) -> bool:
+        def _module_name_check(name_: str, text: str) -> bool:
             return (
-                string == name
-                or (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string))
-                or (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
+                text == name_
+                or (f".{name_}" in text and (text.endswith(f".{name_}") or f"{name_}." in text))
+                or (f"{name_}." in text and (text.startswith(f"{name_}.") or f".{name_}" in text))
             )
 
-        keys = [reexport_key for reexport_key in reexports if _module_name_check(module_name, reexport_key)]
+        keys = [reexport_key for reexport_key in reexports if _module_name_check(name, reexport_key)]
 
         module_ids = set()
         for key in keys:
@@ -1032,7 +1041,7 @@ class StubsStringGenerator:
                 added_module_id = False
 
                 for qualified_import in module.qualified_imports:
-                    if _module_name_check(module_name, qualified_import.qualified_name):
+                    if _module_name_check(name, qualified_import.qualified_name):
                         module_ids.add(module.id)
                         added_module_id = True
                         break
@@ -1041,7 +1050,7 @@ class StubsStringGenerator:
                     continue
 
                 for wildcard_import in module.wildcard_imports:
-                    if _module_name_check(module_name, wildcard_import.module_name):
+                    if _module_name_check(name, wildcard_import.module_name):
                         module_ids.add(module.id)
                         break
 
