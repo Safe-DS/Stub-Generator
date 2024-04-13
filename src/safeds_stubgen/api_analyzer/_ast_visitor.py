@@ -423,7 +423,9 @@ class MyPyAstVisitor:
             if node_type is not None and hasattr(node_type, "ret_type"):
                 node_ret_type = node_type.ret_type
 
-                if not isinstance(node_ret_type, mp_types.NoneType):
+                if isinstance(node_ret_type, mp_types.NoneType):
+                    ret_type = sds_types.NamedType(name="None", qname="builtins.None")
+                else:
                     unanalyzed_ret_type = getattr(node.unanalyzed_type, "ret_type", None)
 
                     if (

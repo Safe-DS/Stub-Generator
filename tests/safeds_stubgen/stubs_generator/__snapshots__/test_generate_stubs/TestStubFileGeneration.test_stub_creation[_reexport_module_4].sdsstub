@@ -1,12 +1,10 @@
 @PythonModule("tests.data.various_modules_package")
 package tests.data.variousModulesPackage
 
-// TODO Result type information missing.
 @Pure
 @PythonName("_reexported_function_4_alias")
 fun reexportedFunction4Alias()
 
-// TODO Result type information missing.
 @Pure
 @PythonName("_two_times_reexported")
 fun twoTimesReexported()
