@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from enum import IntEnum
 from pathlib import Path
+from types import NoneType
 from typing import TYPE_CHECKING
 
 from safeds_stubgen.api_analyzer import (
@@ -751,11 +752,17 @@ class StubsStringGenerator:
             # and we have to join them for the stubs.
             literal_data = []
             other_type_data = []
+            has_named_type = False
             for type_information in type_data["types"]:
                 if type_information["kind"] == "LiteralType":
                     literal_data.append(type_information)
                 else:
                     other_type_data.append(type_information)
+
+                if type_information["kind"] in {"NamedType", "TupleType", "ListType", "SetType", "DictType"} and not (
+                    type_information["kind"] == "NamedType" and type_information["qname"] == "builtins.None"
+                ):
+                    has_named_type = True
 
             if len(literal_data) >= 2:
                 all_literals = [literal_type for literal in literal_data for literal_type in literal["literals"]]
@@ -769,15 +776,28 @@ class StubsStringGenerator:
                     },
                 )
 
+            if len(type_data["types"]) == 2 and literal_data:
+                # If we have a LiteralType and a None we combine them to a "Literal[..., null]"
+                has_none = (type_data["types"][0]["kind"] == "NamedType" and type_data["types"][0]["kind"]) or (
+                    type_data["types"][1]["kind"] == "NamedType" and type_data["types"][1]["kind"]
+                )
+                if has_none:
+                    _types = type_data["types"]
+                    literal_type_data = _types[0] if _types[0]["kind"] == "LiteralType" else _types[1]
+
+                    literal_type_data["literals"].append(None)
+                    return self._create_type_string(literal_type_data)
+
             # Union items have to be unique, therefore we use sets. But the types set has to be a sorted list, since
             # otherwise the snapshot tests would fail b/c element order in sets is non-deterministic.
             types = list({self._create_type_string(type_) for type_ in type_data["types"]})
             types.sort()
 
             if types:
-                if len(types) == 2 and none_type_name in types:
+                if len(types) == 2 and none_type_name in types and has_named_type:
                     # if None is at least one of the two possible types, we can remove the None and just return the
-                    # other type with a question mark
+                    # other type with a question mark. But only named types (class/enum/enum variant) support the ?
+                    # syntax for nullability in Safe-DS, therefore we handle callable types here.
                     if types[0] == none_type_name:
                         return f"{types[1]}?"
                     return f"{types[0]}?"
@@ -785,6 +805,11 @@ class StubsStringGenerator:
                 # If the union contains only one type, return the type instead of creating a union
                 elif len(types) == 1:
                     return types[0]
+
+                if none_type_name in types and types[-1] != none_type_name:
+                    # Make sure Nones are always at the end of Unions
+                    types.pop(types.index(none_type_name))
+                    types.append(none_type_name)
 
                 return f"union<{', '.join(types)}>"
             return ""
@@ -807,6 +832,8 @@ class StubsStringGenerator:
                         types.append("true")
                     else:
                         types.append("false")
+                elif isinstance(literal_type, NoneType):
+                    types.append("null")
                 else:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
