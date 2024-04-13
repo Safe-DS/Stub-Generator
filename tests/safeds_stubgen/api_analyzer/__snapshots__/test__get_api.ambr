@@ -1270,6 +1270,7 @@
         'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func/self',
       ]),
       'reexported_by': list([
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -1920,6 +1921,7 @@
         'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func/self',
       ]),
       'reexported_by': list([
+        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -2098,6 +2100,7 @@
     ]),
     'name': 'ClassModuleClassD',
     'reexported_by': list([
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2152,6 +2155,7 @@
     ]),
     'name': 'ClassModuleNestedClassE',
     'reexported_by': list([
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2657,6 +2661,7 @@
     ]),
     'name': '_ClassModulePrivateDoubleNestedClassF',
     'reexported_by': list([
+      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -6464,6 +6469,10 @@
       'alias': None,
       'qualified_name': 'file_creation._module_3.Reexported',
     }),
+    dict({
+      'alias': 'ClMCD',
+      'qualified_name': 'class_module.ClassModuleClassD',
+    }),
   ])
 # ---
 # name: test_imports[__init__ (wildcard_imports)]
@@ -6576,6 +6585,10 @@
       dict({
         'alias': None,
         'qualified_name': 'file_creation._module_3.Reexported',
+      }),
+      dict({
+        'alias': 'ClMCD',
+        'qualified_name': 'class_module.ClassModuleClassD',
       }),
     ]),
     'wildcard_imports': list([
