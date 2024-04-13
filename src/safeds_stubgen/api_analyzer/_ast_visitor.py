@@ -503,6 +503,10 @@ class MyPyAstVisitor:
                                 type_ = mypy_expression_to_sds_type(conditional_branch)
                                 if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
                                     types.add(type_)
+                    elif hasattr(return_stmt.expr, "node") and getattr(return_stmt.expr.node, "is_self", False):
+                        # The result type is an instance of the parent class
+                        expr_type = return_stmt.expr.node.type.type
+                        types.add(sds_types.NamedType(name=expr_type.name, qname=expr_type.fullname))
                     else:
                         type_ = mypy_expression_to_sds_type(return_stmt.expr)
                         if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
@@ -916,6 +920,10 @@ class MyPyAstVisitor:
             type_ = None
             if upper_bound.__str__() != "builtins.object":
                 type_ = self.mypy_type_to_abstract_type(upper_bound)
+
+                if mypy_type.name == "Self":
+                    # Special case, where the method returns an instance of its class
+                    return type_
 
             type_var = sds_types.TypeVarType(name=mypy_type.name, upper_bound=type_)
             self.type_var_types.add(type_var)

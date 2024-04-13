@@ -40,3 +40,19 @@ class ClassModuleClassD() {
         fun classEFunc()
     }
 }
+
+class SelfTypes1() {
+    @Pure
+    @PythonName("self_result1")
+    fun selfResult1() -> result1: SelfTypes1
+}
+
+class SelfTypes2() sub SelfTypes1 {
+    @Pure
+    @PythonName("self_result2")
+    fun selfResult2() -> result1: SelfTypes2
+
+    @Pure
+    @PythonName("infer_self_result2")
+    fun inferSelfResult2() -> result1: SelfTypes2
+}
