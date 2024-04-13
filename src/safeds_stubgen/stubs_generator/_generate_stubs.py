@@ -186,7 +186,8 @@ class StubsStringGenerator:
     def _create_module_string(self) -> str:
         # Create package info
         package_info = self._get_shortest_public_reexport(
-            module_qname=self.module.id.replace("/", "."), name=self.module.name,
+            module_qname=self.module.id.replace("/", "."),
+            name=self.module.name,
         )
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
@@ -970,7 +971,8 @@ class StubsStringGenerator:
                     qname = self._get_shortest_public_reexport(module_qname=qname, name=name)
 
                     qname = _convert_name_to_convention(
-                        name=f"{qname}.{name}", naming_convention=self.naming_convention,
+                        name=f"{qname}.{name}",
+                        naming_convention=self.naming_convention,
                     )
                     in_package = True
                     break
