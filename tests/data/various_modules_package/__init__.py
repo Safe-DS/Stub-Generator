@@ -9,10 +9,12 @@ from ._reexport_module_4 import _two_times_reexported
 from ._reexport_module_4 import _two_times_reexported as two_times_reexported
 from .enum_module import _ReexportedEmptyEnum
 from file_creation._module_3 import Reexported
+from .class_module import ClassModuleClassD as ClMCD
 
 __all__ = [
     "reex_1",
     "ReexportClass",
+    "ClMCD",
     "reexported_function_2",
     "reexported_function_3",
     "_reexported_function_4",

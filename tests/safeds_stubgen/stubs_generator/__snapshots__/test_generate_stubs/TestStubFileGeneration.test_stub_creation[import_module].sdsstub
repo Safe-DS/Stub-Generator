@@ -1,10 +1,10 @@
 @PythonModule("tests.data.various_modules_package.import_module")
 package tests.data.variousModulesPackage.importModule
 
+from tests.data.variousModulesPackage import ClassModuleClassD
 from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherClass
 from tests.data.variousModulesPackage.classModule import ClassModuleClassB
 from tests.data.variousModulesPackage.classModule import ClassModuleClassC
-from tests.data.variousModulesPackage.classModule import ClassModuleClassD
 from tests.data.variousModulesPackage.classModule import ClassModuleEmptyClassA
 
 class ImportClass() sub AnotherClass {
