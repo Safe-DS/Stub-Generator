@@ -538,6 +538,10 @@ class StubsStringGenerator:
                 continue
 
             result_type = result.type.to_dict()
+
+            if result_type["kind"] == "NamedType" and result_type["qname"] == "builtins.None":
+                return ""
+
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
             result_name = _convert_name_to_convention(result.name, self.naming_convention)
