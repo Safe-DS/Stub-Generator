@@ -7,7 +7,6 @@
 @PythonModule("tests.data.docstring_parser_package.restdoc")
 package tests.data.docstringParserPackage.restdoc
 
-// TODO Result type information missing.
 /**
  * function_with_documentation. Code::
  *
@@ -19,12 +18,10 @@ package tests.data.docstringParserPackage.restdoc
 @PythonName("function_with_documentation")
 fun functionWithDocumentation()
 
-// TODO Result type information missing.
 @Pure
 @PythonName("function_without_documentation")
 fun functionWithoutDocumentation()
 
-// TODO Result type information missing.
 // TODO Safe-DS does not support variadic parameters.
 // TODO Some parameter have no type information.
 /**
@@ -61,7 +58,6 @@ fun functionWithParameters(
 @PythonName("function_with_return_value_and_type")
 fun functionWithReturnValueAndType() -> result1: Boolean
 
-// TODO Result type information missing.
 /**
  * function_with_return_value_no_type.
  *

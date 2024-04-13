@@ -9,7 +9,6 @@ package tests.data.docstringParserPackage.googledoc
 
 from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherClass
 
-// TODO Result type information missing.
 /**
  * function_with_documentation. Code::
  *
@@ -21,12 +20,10 @@ from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherCl
 @PythonName("function_with_documentation")
 fun functionWithDocumentation()
 
-// TODO Result type information missing.
 @Pure
 @PythonName("function_without_documentation")
 fun functionWithoutDocumentation()
 
-// TODO Result type information missing.
 // TODO Safe-DS does not support variadic parameters.
 // TODO Some parameter have no type information.
 /**
@@ -52,7 +49,6 @@ fun functionWithParameters(
     kwargs: Map<String, Any>
 )
 
-// TODO Result type information missing.
 // TODO Some parameter have no type information.
 /**
  * function_with_attributes_and_parameters.
@@ -78,7 +74,6 @@ fun functionWithAttributesAndParameters(
 @PythonName("function_with_return_value_and_type")
 fun functionWithReturnValueAndType() -> result1: Boolean
 
-// TODO Result type information missing.
 /**
  * function_with_return_value_no_type.
  *

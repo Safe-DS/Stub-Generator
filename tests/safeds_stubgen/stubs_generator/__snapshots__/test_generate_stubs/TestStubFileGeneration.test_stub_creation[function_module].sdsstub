@@ -156,7 +156,6 @@ fun boolResult() -> result1: Boolean
 @PythonName("float_result")
 fun floatResult() -> result1: Float
 
-// TODO Result type information missing.
 @Pure
 @PythonName("none_result")
 fun noneResult()
@@ -281,7 +280,6 @@ class FunctionModuleClassB(
     @PythonName("static_method")
     static fun staticMethod()
 
-    // TODO Result type information missing.
     @Pure
     @PythonName("static_method_params")
     static fun staticMethodParams(
