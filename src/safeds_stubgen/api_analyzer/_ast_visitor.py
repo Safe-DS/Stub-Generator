@@ -67,7 +67,7 @@ class MyPyAstVisitor:
         child_definitions = [
             _definition
             for _definition in get_mypyfile_definitions(node)
-            if _definition.__class__.__name__ not in ["FuncDef", "Decorator", "ClassDef", "AssignmentStmt"]
+            if _definition.__class__.__name__ not in {"FuncDef", "Decorator", "ClassDef", "AssignmentStmt"}
         ]
 
         # Imports

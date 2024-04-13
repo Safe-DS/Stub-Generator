@@ -31,7 +31,14 @@ fun params(
     @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
     `literal`: literal<"Some String">,
     @PythonName("any_") any: Any,
-    @PythonName("callable_none") callableNone: (param1: Int, param2: Float) -> ()?
+    @PythonName("callable_none") callableNone: union<(param1: Int, param2: Float) -> (), Nothing?>,
+    @PythonName("literal_none") literalNone: literal<"1", 2, null>,
+    @PythonName("literal_none2") literalNone2: literal<"1", 2, null>,
+    @PythonName("set_none") setNone: Set<Int>?,
+    @PythonName("dict_none") dictNone: Map<String, Int>?,
+    @PythonName("named_class_none") namedClassNone: FunctionModuleClassA?,
+    @PythonName("list_class_none") listClassNone: List<Float>?,
+    @PythonName("tuple_class_none") tupleClassNone: Tuple<Int, String>?
 )
 
 // TODO Result type information missing.
