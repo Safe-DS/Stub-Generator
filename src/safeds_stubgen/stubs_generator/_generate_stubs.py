@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from enum import IntEnum
 from pathlib import Path
 from types import NoneType
@@ -64,6 +65,9 @@ def _generate_stubs_data(
         if module.name == "__init__":
             continue
 
+        log_msg = f"Creating stub data for {module.id}"
+        logging.info(log_msg)
+
         module_text = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, if there is only the package information
@@ -90,6 +94,9 @@ def _generate_stubs_files(
     naming_convention: NamingConvention,
 ) -> None:
     for module_dir, module_name, module_text in stubs_data:
+        log_msg = f"Creating stub file for {module_dir}"
+        logging.info(log_msg)
+
         # Create module dir
         module_dir.mkdir(parents=True, exist_ok=True)
 

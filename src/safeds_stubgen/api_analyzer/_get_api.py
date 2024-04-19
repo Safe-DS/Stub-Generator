@@ -30,17 +30,15 @@ def get_api(
     if root is None:
         root = package_root(package_name)
 
+    logging.info("Started gathering the raw package data with Mypy.")
+
     walkable_files = []
     package_paths = []
     for file_path in root.glob(pattern="./**/*.py"):
-        logging.info(
-            "Working on file {posix_path}",
-            extra={"posix_path": str(file_path)},
-        )
-
         # Check if the current path is a test directory
         if not is_test_run and ("test" in file_path.parts or "tests" in file_path.parts or "docs" in file_path.parts):
-            logging.info("Skipping test file")
+            log_msg = f"Skipping test file in {file_path}"
+            logging.info(log_msg)
             continue
 
         # Check if the current file is an init file
