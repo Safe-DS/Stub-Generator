@@ -14,6 +14,8 @@ class AbstractType(metaclass=ABCMeta):
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> AbstractType:
         match d["kind"]:
+            case UnknownType.__name__:
+                return UnknownType.from_dict(d)
             case NamedType.__name__:
                 return NamedType.from_dict(d)
             case EnumType.__name__:
@@ -43,6 +45,21 @@ class AbstractType(metaclass=ABCMeta):
 
     @abstractmethod
     def to_dict(self) -> dict[str, Any]: ...
+
+
+@dataclass(frozen=True)
+class UnknownType(AbstractType):
+    @classmethod
+    def from_dict(cls, _: dict[str, Any]) -> UnknownType:
+        return UnknownType()
+
+    def to_dict(self) -> dict[str, str]:
+        return {"kind": self.__class__.__name__}
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, NamedType):  # pragma: no cover
+            return NotImplemented
+        return True
 
 
 @dataclass(frozen=True)

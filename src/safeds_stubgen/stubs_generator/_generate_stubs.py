@@ -754,6 +754,9 @@ class StubsStringGenerator:
                     self._current_todo_msgs.add(name)
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
+        elif kind == "UnknownType":  # pragma: no cover
+            self._current_todo_msgs.add("unknown")
+            return "unknown"
         elif kind == "UnionType":
             # In Mypy LiteralTypes are getting seperated into unions of LiteralTypes,
             # and we have to join them for the stubs.
@@ -998,6 +1001,7 @@ class StubsStringGenerator:
                 "attr without type": "Attribute has no type information.",
                 "result without type": "Result type information missing.",
                 "internal class as type": "An internal class must not be used as a type in a public class.",
+                "unknown": "Unknown type - Type could not be parsed.",
             }[msg]
             for msg in self._current_todo_msgs
         ]

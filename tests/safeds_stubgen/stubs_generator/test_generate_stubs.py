@@ -32,7 +32,7 @@ _out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
 _docstring_package_name = "docstring_parser_package"
 _docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
-api = get_api(_test_package_name, _test_package_dir, is_test_run=True)
+api = get_api(_test_package_dir, is_test_run=True)
 stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
 stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
@@ -157,8 +157,7 @@ def test_stub_docstring_creation(
     snapshot_sds_stub: SnapshotAssertion,
 ) -> None:
     docstring_api = get_api(
-        _docstring_package_name,
-        _docstring_package_dir,
+        root=_docstring_package_dir,
         docstring_style=docstring_style,
         is_test_run=True,
     )
