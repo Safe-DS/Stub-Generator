@@ -167,6 +167,16 @@ def test_callable_type() -> None:
         CallableType([NamedType("b", "")], NamedType("a", "")),
     )
 
+    assert CallableType([NamedType("a", ""), LiteralType(["b"])], NamedType("c", "")) == CallableType(
+        [LiteralType(["b"]), NamedType("a", "")], NamedType("c", "")
+    )
+    assert CallableType([NamedType("a", ""), LiteralType(["b"])], NamedType("c", "")) != CallableType(
+        [LiteralType(["a"]), NamedType("b", "")], NamedType("c", "")
+    )
+    assert CallableType([NamedType("a", ""), NamedType("b", "")], NamedType("c", "")) != CallableType(
+        [NamedType("a", ""), NamedType("c", "")], NamedType("c", "")
+    )
+
 
 def test_list_type() -> None:
     list_type = ListType([NamedType("str", "builtins.str"), NamedType("int", "builtins.int")])
@@ -186,6 +196,10 @@ def test_list_type() -> None:
     assert hash(ListType([NamedType("a", "")])) == hash(ListType([NamedType("a", "")]))
     assert ListType([NamedType("a", "")]) != ListType([NamedType("b", "")])
     assert hash(ListType([NamedType("a", "")])) != hash(ListType([NamedType("b", "")]))
+
+    assert ListType([NamedType("a", ""), LiteralType(["b"])]) == ListType([LiteralType(["b"]), NamedType("a", "")])
+    assert ListType([NamedType("a", ""), LiteralType(["b"])]) != ListType([LiteralType(["a"]), NamedType("b", "")])
+    assert ListType([NamedType("a", ""), NamedType("b", "")]) != ListType([NamedType("a", ""), NamedType("c", "")])
 
 
 def test_dict_type() -> None:
@@ -244,6 +258,10 @@ def test_set_type() -> None:
     assert SetType([NamedType("a", "")]) != SetType([NamedType("b", "")])
     assert hash(SetType([NamedType("a", "")])) != hash(SetType([NamedType("b", "")]))
 
+    assert SetType([NamedType("a", ""), LiteralType(["b"])]) == SetType([LiteralType(["b"]), NamedType("a", "")])
+    assert SetType([NamedType("a", ""), LiteralType(["b"])]) != SetType([LiteralType(["a"]), NamedType("b", "")])
+    assert SetType([NamedType("a", ""), NamedType("b", "")]) != SetType([NamedType("a", ""), NamedType("c", "")])
+
 
 def test_literal_type() -> None:
     type_ = LiteralType(["Literal_1", 2])
@@ -260,6 +278,10 @@ def test_literal_type() -> None:
     assert hash(LiteralType(["a"])) == hash(LiteralType(["a"]))
     assert LiteralType(["a"]) != LiteralType(["b"])
     assert hash(LiteralType(["a"])) != hash(LiteralType(["b"]))
+
+    assert LiteralType(["a", 1]) == LiteralType([1, "a"])
+    assert LiteralType(["a", 1]) != LiteralType(["a", "1"])
+    assert LiteralType(["a", "b"]) != LiteralType(["a", "c"])
 
 
 def test_type_var_type() -> None:
@@ -311,6 +333,10 @@ def test_tuple_type() -> None:
     assert hash(TupleType([NamedType("a", "")])) == hash(TupleType([NamedType("a", "")]))
     assert TupleType([NamedType("a", "")]) != TupleType([NamedType("b", "")])
     assert hash(TupleType([NamedType("a", "")])) != hash(TupleType([NamedType("b", "")]))
+
+    assert TupleType([NamedType("a", ""), LiteralType(["b"])]) == TupleType([LiteralType(["b"]), NamedType("a", "")])
+    assert TupleType([NamedType("a", ""), LiteralType(["b"])]) != TupleType([LiteralType(["a"]), NamedType("b", "")])
+    assert TupleType([NamedType("a", ""), NamedType("b", "")]) != TupleType([NamedType("a", ""), NamedType("c", "")])
 
 
 def test_abstract_type_from_dict_exception() -> None:
