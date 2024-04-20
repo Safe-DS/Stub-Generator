@@ -23,10 +23,13 @@ class ClassModuleClassC(ClassModuleEmptyClassA, ClassModuleClassB, yetAnotherCla
 
 class ClassModuleClassD:
     class ClassModuleNestedClassE:
+        """Docstring of the nested class E."""
         nested_attr_1: None
         _nested_attr_2: None
 
-        def class_e_func(self): ...
+        def class_e_func(self):
+            """Docstring of func of nested class E"""
+            ...
 
         class _ClassModulePrivateDoubleNestedClassF:
             def _class_f_func(self): ...
