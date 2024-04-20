@@ -135,7 +135,6 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
     raise pytest.fail(f"Could not find module data for '{file_name}'.")
 
 
-# Todo new tests after issue #38
 @pytest.mark.parametrize(
     argnames=("module_name", "import_type"),
     argvalues=[

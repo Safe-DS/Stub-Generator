@@ -57,7 +57,7 @@ class UnknownType(AbstractType):
         return {"kind": self.__class__.__name__}
 
     def __eq__(self, other: object) -> bool:
-        if not isinstance(other, NamedType):  # pragma: no cover
+        if not isinstance(other, UnknownType):  # pragma: no cover
             return NotImplemented
         return True
 

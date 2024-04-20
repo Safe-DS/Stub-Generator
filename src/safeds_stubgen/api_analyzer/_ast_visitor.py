@@ -1043,8 +1043,6 @@ class MyPyAstVisitor:
                     if self.mypy_file.fullname in type_path:
                         qname = alias_qname
                         break
-        else:
-            name, qname = self._search_alias_in_qualified_imports(module.qualified_imports, type_name)
 
         return name, qname
 

@@ -18,6 +18,7 @@ from safeds_stubgen.api_analyzer import (
     TupleType,
     TypeVarType,
     UnionType,
+    UnknownType,
 )
 from safeds_stubgen.docstring_parsing import AttributeDocstring, ParameterDocstring
 
@@ -313,6 +314,15 @@ def test_final_type() -> None:
     assert hash(FinalType(NamedType("a", ""))) == hash(FinalType(NamedType("a", "")))
     assert FinalType(NamedType("a", "")) != FinalType(NamedType("b", ""))
     assert hash(FinalType(NamedType("a", ""))) != hash(FinalType(NamedType("b", "")))
+
+
+def test_unknown_type() -> None:
+    type_ = UnknownType()
+    type_dict = {"kind": "UnknownType"}
+
+    assert AbstractType.from_dict(type_dict) == type_
+    assert UnknownType.from_dict(type_dict) == type_
+    assert type_.to_dict() == type_dict
 
 
 def test_tuple_type() -> None:
