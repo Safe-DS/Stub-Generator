@@ -27,7 +27,7 @@ def get_api(
 ) -> API:
     init_roots = _get_nearest_init_dirs(root)
     if len(init_roots) == 1:
-        root = init_roots.pop()
+        root = init_roots[0]
 
     logging.info("Started gathering the raw package data with Mypy.")
 
@@ -77,21 +77,21 @@ def get_api(
     return callable_visitor.api
 
 
-def _get_nearest_init_dirs(root: Path) -> set[Path]:
-    all_inits = set(root.glob("./**/__init__.py"))
-    shortest_init_paths = set()
+def _get_nearest_init_dirs(root: Path) -> list[Path]:
+    all_inits = list(root.glob("./**/__init__.py"))
+    shortest_init_paths = []
     shortest_len = -1
     for init in all_inits:
         path_len = len(init.parts)
         if shortest_len == -1:
             shortest_len = path_len
-            shortest_init_paths.add(init.parent)
-        elif path_len <= shortest_len:
+            shortest_init_paths.append(init.parent)
+        elif path_len <= shortest_len:  # pragma: no cover
             if path_len == shortest_len:
-                shortest_init_paths.add(init.parent)
+                shortest_init_paths.append(init.parent)
             else:
                 shortest_len = path_len
-                shortest_init_paths = {init.parent}
+                shortest_init_paths = [init.parent]
 
     return shortest_init_paths
 
