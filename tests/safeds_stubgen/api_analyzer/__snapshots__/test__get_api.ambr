@@ -1257,8 +1257,8 @@
   list([
     dict({
       'docstring': dict({
-        'description': '',
-        'full_docstring': '',
+        'description': 'Docstring of func of nested class E',
+        'full_docstring': 'Docstring of func of nested class E',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
       'is_class_method': False,
@@ -2144,8 +2144,8 @@
     ]),
     'constructor': None,
     'docstring': dict({
-      'description': '',
-      'full_docstring': '',
+      'description': 'Docstring of the nested class E.',
+      'full_docstring': 'Docstring of the nested class E.',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
     'inherits_from_exception': False,
