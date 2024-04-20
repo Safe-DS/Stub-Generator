@@ -169,13 +169,16 @@ def test_callable_type() -> None:
     )
 
     assert CallableType([NamedType("a", ""), LiteralType(["b"])], NamedType("c", "")) == CallableType(
-        [LiteralType(["b"]), NamedType("a", "")], NamedType("c", "")
+        [LiteralType(["b"]), NamedType("a", "")],
+        NamedType("c", ""),
     )
     assert CallableType([NamedType("a", ""), LiteralType(["b"])], NamedType("c", "")) != CallableType(
-        [LiteralType(["a"]), NamedType("b", "")], NamedType("c", "")
+        [LiteralType(["a"]), NamedType("b", "")],
+        NamedType("c", ""),
     )
     assert CallableType([NamedType("a", ""), NamedType("b", "")], NamedType("c", "")) != CallableType(
-        [NamedType("a", ""), NamedType("c", "")], NamedType("c", "")
+        [NamedType("a", ""), NamedType("c", "")],
+        NamedType("c", ""),
     )
 
 
