@@ -357,7 +357,7 @@ class StubsStringGenerator:
         class_text += self._create_class_method_string(class_.methods, inner_indentations)
 
         # Docstring
-        docstring = self._create_sds_docstring(class_.docstring, "", node=class_)
+        docstring = self._create_sds_docstring(class_.docstring, class_indentation, node=class_)
 
         # If the does not have a body, we just return the docstring and signature line
         if not class_text:
