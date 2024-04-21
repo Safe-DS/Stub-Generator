@@ -127,8 +127,7 @@ class MyPyAstVisitor:
         self.api.add_module(module)
 
     def enter_classdef(self, node: mp_nodes.ClassDef) -> None:
-        name = node.name
-        id_ = self._create_id_from_stack(name)
+        id_ = self._create_id_from_stack(node.name)
 
         # Get docstring
         docstring = self.docstring_parser.get_class_documentation(node)
@@ -200,7 +199,7 @@ class MyPyAstVisitor:
                 superclasses.append(superclass_qname)
 
         # Get reexported data
-        reexported_by = self._get_reexported_by(name)
+        reexported_by = self._get_reexported_by(node.fullname)
 
         # Get constructor docstring
         definitions = get_classdef_definitions(node)
@@ -213,9 +212,9 @@ class MyPyAstVisitor:
         # Remember class, so we can later add methods
         class_ = Class(
             id=id_,
-            name=name,
+            name=node.name,
             superclasses=superclasses,
-            is_public=self._is_public(node.name, name),
+            is_public=self._is_public(node.name, node.fullname),
             docstring=docstring,
             reexported_by=reexported_by,
             constructor_fulldocstring=constructor_fulldocstring,
@@ -264,7 +263,7 @@ class MyPyAstVisitor:
         results = self._parse_results(node, function_id, result_docstrings)
 
         # Get reexported data
-        reexported_by = self._get_reexported_by(name)
+        reexported_by = self._get_reexported_by(node.fullname)
 
         # Create and add Function to stack
         function = Function(
@@ -843,25 +842,20 @@ class MyPyAstVisitor:
 
     # #### Reexport utilities
 
-    def _get_reexported_by(self, name: str) -> list[Module]:
-        # Get the uppermost module and the path to the current node
-        parents = []
-        parent = None
-        i = 1
-        while not isinstance(parent, Module):
-            parent = self.__declaration_stack[-i]
-            if isinstance(parent, list):  # pragma: no cover
-                continue
-            parents.append(parent.name)
-            i += 1
-        path = [*list(reversed(parents)), name]
+    def _get_reexported_by(self, qname: str) -> list[Module]:
+        path = qname.split(".")
 
         # Check if there is a reexport entry for each item in the path to the current module
         reexported_by = set()
         for i in range(len(path)):
-            reexport_name = ".".join(path[: i + 1])
-            if reexport_name in self.api.reexport_map:
-                for mod in self.api.reexport_map[reexport_name]:
+            reexport_name_forward = ".".join(path[: i + 1])
+            if reexport_name_forward in self.api.reexport_map:
+                for mod in self.api.reexport_map[reexport_name_forward]:
+                    reexported_by.add(mod)
+
+            reexport_name_backward = ".".join(path[-i - 1:])
+            if reexport_name_backward in self.api.reexport_map:
+                for mod in self.api.reexport_map[reexport_name_backward]:
                     reexported_by.add(mod)
 
         return list(reexported_by)

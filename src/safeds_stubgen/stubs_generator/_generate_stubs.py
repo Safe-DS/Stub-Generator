@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from collections import defaultdict
 from enum import IntEnum
 from pathlib import Path
 from types import NoneType
@@ -80,7 +81,10 @@ def _generate_stubs_data(
 
         module_dir = Path(out_path / module.id)
         stubs_data.append((module_dir, module.name, module_text))
-    return stubs_data
+
+    reexport_module_data = stubs_generator.create_reexport_module_strings(out_path=out_path)
+
+    return stubs_data + reexport_module_data
 
 
 def _generate_stubs_files(
@@ -175,6 +179,7 @@ class StubsStringGenerator:
         self.api = api
         self.naming_convention = naming_convention
         self.classes_outside_package: set[str] = set()
+        self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
 
     def __call__(self, module: Module) -> str:
         self.module_imports: set[str] = set()
@@ -183,15 +188,40 @@ class StubsStringGenerator:
         self.class_generics: list = []
         return self._create_module_string()
 
+    def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str]]:
+        module_data = []
+        for module_id in self.reexport_modules:
+            module_name = module_id.split("/")[-1]
+
+            # Create module header
+            package_info = ".".join(module_id.split("/"))
+            package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
+            module_name_info = ""
+            if package_info != package_info_camel_case:
+                module_name_info = f'@PythonModule("{package_info}")\n'
+            module_text = f"{module_name_info}package {package_info_camel_case}\n"
+
+            # Create module text
+            elements = self.reexport_modules[module_id]
+
+            for element in elements:
+                if isinstance(element, Class):
+                    module_text += f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
+                elif isinstance(element, Function):
+                    module_text += f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
+                else:  # pragma: no cover
+                    raise TypeError("Something went wrong, only Class and Funktion types are allowed here.")
+
+            module_data.append((Path(out_path / module_id), module_name, module_text))
+        return module_data
+
     def _create_module_string(self) -> str:
+        module_text = ""
+
         # Create package info
-        package_info = self._get_shortest_public_reexport(
-            module_qname=self.module.id.replace("/", "."),
-            name=self.module.name,
-        )
+        package_info = ".".join(self.module.id.split("/"))
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
-        module_text = ""
         if package_info != package_info_camel_case:
             module_name_info = f'@PythonModule("{package_info}")\n'
         module_header = f"{module_name_info}package {package_info_camel_case}\n"
@@ -204,12 +234,16 @@ class StubsStringGenerator:
         # Create global functions and properties
         for function in self.module.global_functions:
             if function.is_public:
-                module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
+                function_string = self._create_function_string(function=function, is_method=False)
+                if function_string:
+                    module_text += f"\n{function_string}\n"
 
         # Create classes, class attr. & class methods
         for class_ in self.module.classes:
             if class_.is_public and not class_.inherits_from_exception:
-                module_text += f"\n{self._create_class_string(class_)}\n"
+                class_string = self._create_class_string(class_)
+                if class_string:
+                    module_text += f"\n{class_string}\n"
 
         # Create enums & enum instances
         for enum in self.module.enums:
@@ -245,7 +279,19 @@ class StubsStringGenerator:
         import_string = "\n".join(import_strings)
         return f"\n{import_string}\n"
 
-    def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
+    def _create_class_string(self, class_: Class, class_indentation: str = "", in_reexport_module: bool = False) -> str:
+        # Check if this class is beeing reexported from a shorter path. If it is, we create it there, not in this module
+        if not in_reexport_module:
+            shortest_reexport_module = self.module
+            for reexport_module in class_.reexported_by:
+                if len(reexport_module.id.split("/")) < len(shortest_reexport_module.id.split("/")):
+                    shortest_reexport_module = reexport_module
+
+            if shortest_reexport_module != self.module:
+                self.reexport_modules[shortest_reexport_module.id].append(class_)
+                return ""
+
+        # Set indentation
         inner_indentations = class_indentation + INDENTATION
 
         # Constructor parameter
@@ -344,7 +390,12 @@ class StubsStringGenerator:
 
         # Inner classes
         for inner_class in class_.classes:
-            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
+            class_string = self._create_class_string(
+                class_=inner_class,
+                class_indentation=inner_indentations,
+                in_reexport_module=in_reexport_module
+            )
+            class_text += f"\n{class_string}\n"
 
         # Superclass methods, if the superclass is an internal class
         class_text += superclass_methods_text
@@ -382,7 +433,7 @@ class StubsStringGenerator:
                 )
             else:
                 class_methods.append(
-                    self._create_function_string(method, inner_indentations, is_method=True),
+                    self._create_function_string(function=method, indentations=inner_indentations, is_method=True),
                 )
 
         method_text = ""
@@ -445,8 +496,25 @@ class StubsStringGenerator:
             attribute_text += f"\n{attribute_infos}\n"
         return attribute_text
 
-    def _create_function_string(self, function: Function, indentations: str = "", is_method: bool = False) -> str:
+    def _create_function_string(
+        self,
+        function: Function,
+        indentations: str = "",
+        is_method: bool = False,
+        in_reexport_module: bool = False
+    ) -> str:
         """Create a function string for Safe-DS stubs."""
+        # Check if this class is beeing reexported from a shorter path. If it is, we create it there, not in this module
+        if not is_method and not in_reexport_module:
+            shortest_reexport_module = self.module
+            for reexport_module in function.reexported_by:
+                if len(reexport_module.id.split("/")) < len(shortest_reexport_module.id.split("/")):
+                    shortest_reexport_module = reexport_module
+
+            if shortest_reexport_module != self.module:
+                self.reexport_modules[shortest_reexport_module.id].append(function)
+                return ""
+
         # Check if static or class method
         is_static = function.is_static
         is_class_method = function.is_class_method
