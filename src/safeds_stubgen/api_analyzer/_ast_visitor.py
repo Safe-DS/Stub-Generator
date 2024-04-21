@@ -200,6 +200,8 @@ class MyPyAstVisitor:
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)
+        # Sort for snapshot tests
+        reexported_by.sort(key=lambda x: x.id)
 
         # Get constructor docstring
         definitions = get_classdef_definitions(node)
@@ -858,6 +860,11 @@ class MyPyAstVisitor:
                 for mod in self.api.reexport_map[reexport_name_backward]:
                     reexported_by.add(mod)
 
+            reexport_name_backward_whitelist = f"{'.'.join(path[-2 - i:-1])}.*"
+            if reexport_name_backward_whitelist in self.api.reexport_map:
+                for mod in self.api.reexport_map[reexport_name_backward_whitelist]:
+                    reexported_by.add(mod)
+
         return list(reexported_by)
 
     def _add_reexports(self, module: Module) -> None:
@@ -867,7 +874,7 @@ class MyPyAstVisitor:
 
         for wildcard_import in module.wildcard_imports:
             name = wildcard_import.module_name
-            self.api.reexport_map[name].add(module)
+            self.api.reexport_map[f"{name}.*"].add(module)
 
     # #### Misc. utilities
     def mypy_type_to_abstract_type(
@@ -1122,7 +1129,12 @@ class MyPyAstVisitor:
         package_id = "/".join(module_qname.split(".")[:-1])
 
         for reexported_key in self.api.reexport_map:
-            module_is_reexported = reexported_key in {module_name, module_qname}
+            module_is_reexported = reexported_key in {
+                module_name,
+                module_qname,
+                f"{module_name}.*",
+                f"{module_qname}.*",
+            }
 
             # Check if the function/class/module is reexported
             if reexported_key.endswith(name) or module_is_reexported:
@@ -1132,7 +1144,7 @@ class MyPyAstVisitor:
 
                     # We have to check if it's the correct reexport with the ID
                     is_from_same_package = reexport_source.id == package_id
-                    is_from_another_package = reexported_key in {qname, module_qname}
+                    is_from_another_package = reexported_key.rstrip(".*") in {qname, module_qname}
                     if not is_from_same_package and not is_from_another_package:
                         continue
 

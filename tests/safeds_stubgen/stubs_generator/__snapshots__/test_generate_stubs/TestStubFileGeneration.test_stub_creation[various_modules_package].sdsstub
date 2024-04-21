@@ -1,6 +1,22 @@
 @PythonModule("tests.data.various_modules_package")
 package tests.data.variousModulesPackage
 
+@Pure
+@PythonName("reexported_function_2")
+fun reexportedFunction2()
+
+@Pure
+@PythonName("reexported_function_3")
+fun reexportedFunction3()
+
+@Pure
+@PythonName("reexported_function_4_alias")
+fun reexportedFunction4Alias()
+
+@Pure
+@PythonName("two_times_reexported")
+fun twoTimesReexported()
+
 class ClMCD() {
     /**
      * Docstring of the nested class E.
@@ -22,26 +38,10 @@ class ClMCD() {
     }
 }
 
-class ReexportClass()
-
-@Pure
-@PythonName("reexported_function_2")
-fun reexportedFunction2()
-
-@Pure
-@PythonName("reexported_function_4_alias")
-fun reexportedFunction4Alias()
-
-@Pure
-@PythonName("two_times_reexported")
-fun twoTimesReexported()
-
 class FourthReexportClass()
 
 class Lv2()
 
 class Reexported()
 
-@Pure
-@PythonName("reexported_function_3")
-fun reexportedFunction3()
+class ThirdReexportedClassAsType()

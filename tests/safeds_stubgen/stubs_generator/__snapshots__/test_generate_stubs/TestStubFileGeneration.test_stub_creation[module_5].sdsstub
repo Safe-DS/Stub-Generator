@@ -1,4 +1,9 @@
 @PythonModule("tests.data.various_modules_package.file_creation.package_1.module_5")
 package tests.data.variousModulesPackage.fileCreation.package1.module5
 
+from tests.data.variousModulesPackage import ThirdReexportedClassAsType
+
+@Pure
+fun f() -> result1: ThirdReexportedClassAsType
+
 class C()

@@ -1,27 +1,21 @@
 @PythonModule("tests.data.various_modules_package.file_creation")
 package tests.data.variousModulesPackage.fileCreation
 
+// TODO Result type information missing.
+@Pure
+@PythonName("public_reexported")
+fun publicReexported()
+
 @Pure
 @PythonName("reexported_in_another_package_function")
 fun reexportedInAnotherPackageFunction() -> result1: String
-
-class ReexportedInAnotherPackageClass()
 
 @Pure
 @PythonName("reexported_in_another_package_function2")
 fun reexportedInAnotherPackageFunction2() -> result1: String
 
-class ReexportedInAnotherPackageClass2()
-
-@Pure
-@PythonName("reexported_in_another_package_function3")
-fun reexportedInAnotherPackageFunction3() -> result1: String
-
-class ReexportedInAnotherPackageClass3()
-
 class Lv1()
 
-// TODO Result type information missing.
-@Pure
-@PythonName("public_reexported")
-fun publicReexported()
+class ReexportedInAnotherPackageClass()
+
+class ReexportedInAnotherPackageClass2()

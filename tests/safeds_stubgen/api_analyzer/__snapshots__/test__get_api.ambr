@@ -2683,6 +2683,7 @@
     'name': '_ThirdReexportClass',
     'reexported_by': list([
       'tests/data/various_modules_package',
+      'tests/data/various_modules_package/file_creation/package_1',
     ]),
     'superclasses': list([
     ]),
@@ -5581,6 +5582,8 @@
       'parameters': list([
       ]),
       'reexported_by': list([
+        'tests/data/various_modules_package/file_creation/package_1',
+        'tests/data/various_modules_package',
       ]),
       'results': list([
         'tests/data/various_modules_package/_reexport_module_3/reexported_function_3/result_1',
@@ -6641,6 +6644,7 @@
   dict({
     'classes': list([
       'tests/data/various_modules_package/_reexport_module_3/_ThirdReexportClass',
+      'tests/data/various_modules_package/_reexport_module_3/ThirdReexportedClassAsType',
     ]),
     'docstring': '',
     'enums': list([
@@ -7200,6 +7204,9 @@
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([
+      dict({
+        'module_name': 'tests.data.various_modules_package._reexport_module_3',
+      }),
     ]),
   })
 # ---
@@ -7212,10 +7219,15 @@
     'enums': list([
     ]),
     'functions': list([
+      'tests/data/various_modules_package/file_creation/package_1/module_5/f',
     ]),
     'id': 'tests/data/various_modules_package/file_creation/package_1/module_5',
     'name': 'module_5',
     'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'ThirdReexportedClassAsType',
+      }),
     ]),
     'wildcard_imports': list([
     ]),

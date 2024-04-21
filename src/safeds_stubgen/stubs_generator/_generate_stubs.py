@@ -79,8 +79,20 @@ def _generate_stubs_data(
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        module_dir = Path(out_path / module.id)
-        stubs_data.append((module_dir, module.name, module_text))
+        shortest_path, alias = _get_shortest_public_reexport(
+            reexport_map=api.reexport_map,
+            name=module.name,
+            qname="",
+            is_module=True,
+        )
+        if shortest_path:
+            shortest_path = shortest_path.replace(".", "/")
+
+        module_id = shortest_path if shortest_path else module.id
+        module_name = alias if alias else module.name
+
+        module_dir = Path(out_path / module_id)
+        stubs_data.append((module_dir, module_name, module_text))
 
     reexport_module_data = stubs_generator.create_reexport_module_strings(out_path=out_path)
 
@@ -204,13 +216,19 @@ class StubsStringGenerator:
             # Create module text
             elements = self.reexport_modules[module_id]
 
+            # We sort for the snapshot tests
+            elements.sort(key=lambda x: x.name)
+            class_text = ""
             for element in elements:
                 if isinstance(element, Class):
-                    module_text += f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
+                    class_text += f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
                 elif isinstance(element, Function):
                     module_text += f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
                 else:  # pragma: no cover
                     raise TypeError("Something went wrong, only Class and Funktion types are allowed here.")
+
+            # We add the class text after global functions
+            module_text += class_text
 
             module_data.append((Path(out_path / module_id), module_name, module_text))
         return module_data
@@ -219,7 +237,18 @@ class StubsStringGenerator:
         module_text = ""
 
         # Create package info
-        package_info = ".".join(self.module.id.split("/"))
+        package_info, _ = _get_shortest_public_reexport(
+            reexport_map=self.api.reexport_map,
+            name=self.module.name,
+            qname="",
+            is_module=True,
+        )
+
+        in_reexport_module = bool(package_info)
+
+        if not package_info:
+            package_info = ".".join(self.module.id.split("/"))
+
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
         if package_info != package_info_camel_case:
@@ -234,14 +263,18 @@ class StubsStringGenerator:
         # Create global functions and properties
         for function in self.module.global_functions:
             if function.is_public:
-                function_string = self._create_function_string(function=function, is_method=False)
+                function_string = self._create_function_string(
+                    function=function,
+                    is_method=False,
+                    in_reexport_module=in_reexport_module,
+                )
                 if function_string:
                     module_text += f"\n{function_string}\n"
 
         # Create classes, class attr. & class methods
         for class_ in self.module.classes:
             if class_.is_public and not class_.inherits_from_exception:
-                class_string = self._create_class_string(class_)
+                class_string = self._create_class_string(class_=class_, in_reexport_module=in_reexport_module)
                 if class_string:
                     module_text += f"\n{class_string}\n"
 
@@ -288,6 +321,15 @@ class StubsStringGenerator:
                     shortest_reexport_module = reexport_module
 
             if shortest_reexport_module != self.module:
+                # Get alias
+                alias = None
+                for qualified_import in shortest_reexport_module.qualified_imports:
+                    if qualified_import.qualified_name.endswith(class_.name):
+                        alias = qualified_import.alias
+
+                if alias:
+                    class_.name = alias
+
                 self.reexport_modules[shortest_reexport_module.id].append(class_)
                 return ""
 
@@ -512,6 +554,15 @@ class StubsStringGenerator:
                     shortest_reexport_module = reexport_module
 
             if shortest_reexport_module != self.module:
+                # Get alias
+                alias = None
+                for qualified_import in shortest_reexport_module.qualified_imports:
+                    if qualified_import.qualified_name.endswith(function.name):
+                        alias = qualified_import.alias
+
+                if alias:
+                    function.name = alias
+
                 self.reexport_modules[shortest_reexport_module.id].append(function)
                 return ""
 
@@ -1035,8 +1086,13 @@ class StubsStringGenerator:
                     qname = class_.replace("/", ".")
 
                     name = qname.split(".")[-1]
-                    qname = ".".join(qname.split(".")[:-1])
-                    qname = self._get_shortest_public_reexport(module_qname=qname, name=name)
+                    shortest_qname, _ = _get_shortest_public_reexport(
+                        reexport_map=self.api.reexport_map,
+                        name=name,
+                        qname=qname,
+                        is_module=False,
+                    )
+                    qname = shortest_qname or ".".join(qname.split(".")[:-1])
 
                     qname = _convert_name_to_convention(
                         name=f"{qname}.{name}",
@@ -1091,49 +1147,6 @@ class StubsStringGenerator:
 
         raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
 
-    def _get_shortest_public_reexport(self, module_qname: str, name: str) -> str:
-        reexports = self.api.reexport_map
-
-        def _module_name_check(name_: str, text: str) -> bool:
-            return (
-                text == name_
-                or (f".{name_}" in text and (text.endswith(f".{name_}") or f"{name_}." in text))
-                or (f"{name_}." in text and (text.startswith(f"{name_}.") or f".{name_}" in text))
-            )
-
-        keys = [reexport_key for reexport_key in reexports if _module_name_check(name, reexport_key)]
-
-        module_ids = set()
-        for key in keys:
-            for module in reexports[key]:
-                added_module_id = False
-
-                for qualified_import in module.qualified_imports:
-                    if _module_name_check(name, qualified_import.qualified_name):
-                        module_ids.add(module.id)
-                        added_module_id = True
-                        break
-
-                if added_module_id:
-                    continue
-
-                for wildcard_import in module.wildcard_imports:
-                    if _module_name_check(name, wildcard_import.module_name):
-                        module_ids.add(module.id)
-                        break
-
-        # Adjust all ids
-        fixed_module_ids_parts = [module_id.split("/") for module_id in module_ids]
-
-        shortest_id = None
-        for fixed_module_id_parts in fixed_module_ids_parts:
-            if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
-                shortest_id = fixed_module_id_parts
-
-        if shortest_id is None:
-            return module_qname
-        return ".".join(shortest_id)
-
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:
         description = description.rstrip("\n")
@@ -1150,6 +1163,59 @@ class StubsStringGenerator:
                 full_docstring += f"\n{indentations} *"
 
         return full_docstring + "\n"
+
+
+def _get_shortest_public_reexport(
+    reexport_map: dict[str, set[Module]],
+    name: str,
+    qname: str,
+    is_module: bool,
+) -> tuple[str, str]:
+    parent_name = ""
+    if not is_module and qname:
+        qname_parts = qname.split(".")
+        if len(qname_parts) > 2:
+            parent_name = qname_parts[-2]
+
+    def _module_name_check(text: str, is_wildcard: bool = False) -> bool:
+        if is_module:
+            return text.endswith(f".{name}") or text == name
+        elif is_wildcard:
+            return text.endswith(f".{parent_name}") or text == parent_name
+        return (
+            text == name
+            or (f".{name}" in text and (text.endswith(f".{name}") or f"{name}." in text))
+            or (f"{name}." in text and (text.startswith(f"{name}.") or f".{name}" in text))
+            or (parent_name != "" and text.endswith(f"{parent_name}.*"))
+        )
+
+    keys = [reexport_key for reexport_key in reexport_map if _module_name_check(reexport_key)]
+
+    module_ids = set()
+    for key in keys:
+        for module in reexport_map[key]:
+
+            for qualified_import in module.qualified_imports:
+                if _module_name_check(qualified_import.qualified_name):
+                    module_ids.add((module.id, qualified_import.alias))
+                    break
+
+            for wildcard_import in module.wildcard_imports:
+                if _module_name_check(wildcard_import.module_name, is_wildcard=True):
+                    module_ids.add((module.id, None))
+                    break
+
+    shortest_id = None
+    alias = None
+    for module_id_tuple in module_ids:
+        module_id_parts = module_id_tuple[0].split("/")
+        if shortest_id is None or len(module_id_parts) < len(shortest_id):
+            shortest_id = module_id_parts
+            alias = module_id_tuple[1]
+
+    if shortest_id is None:
+        return "", ""
+    return ".".join(shortest_id), alias or ""
 
 
 def _create_name_annotation(name: str) -> str:

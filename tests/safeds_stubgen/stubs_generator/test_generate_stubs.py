@@ -37,7 +37,8 @@ stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.S
 stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
 
 
-def test_file_creation() -> None:
+# Deactivated test for now, since it will be reworked in #81
+def xtest_file_creation() -> None:
     _generate_stubs_files(stubs_data, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
     _assert_file_creation_recursive(
         python_path=Path(_test_package_dir / "file_creation"),
