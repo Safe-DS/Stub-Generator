@@ -1,0 +1,47 @@
+@PythonModule("tests.data.various_modules_package")
+package tests.data.variousModulesPackage
+
+class ClMCD() {
+    /**
+     * Docstring of the nested class E.
+     */
+    class ClassModuleNestedClassE() {
+        @PythonName("nested_attr_1")
+        static attr nestedAttr1: Nothing?
+
+        @PythonName("_ClassModulePrivateDoubleNestedClassF")
+        class ClassModulePrivateDoubleNestedClassF()
+
+        // TODO Result type information missing.
+        /**
+         * Docstring of func of nested class E
+         */
+        @Pure
+        @PythonName("class_e_func")
+        fun classEFunc()
+    }
+}
+
+class ReexportClass()
+
+@Pure
+@PythonName("reexported_function_2")
+fun reexportedFunction2()
+
+@Pure
+@PythonName("reexported_function_4_alias")
+fun reexportedFunction4Alias()
+
+@Pure
+@PythonName("two_times_reexported")
+fun twoTimesReexported()
+
+class FourthReexportClass()
+
+class Lv2()
+
+class Reexported()
+
+@Pure
+@PythonName("reexported_function_3")
+fun reexportedFunction3()

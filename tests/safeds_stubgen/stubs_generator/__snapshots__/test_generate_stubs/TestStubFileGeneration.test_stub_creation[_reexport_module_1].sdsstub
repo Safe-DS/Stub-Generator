@@ -4,5 +4,3 @@ package tests.data.variousModulesPackage
 @Pure
 @PythonName("reexported_function")
 fun reexportedFunction()
-
-class ReexportClass()

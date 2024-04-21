@@ -84,31 +84,20 @@ def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: Snapshot
         assert f.read() == snapshot_sds_stub
 
 
-def _python_files() -> Generator:
-    return Path(_test_package_dir).rglob(pattern="*.py")
+def stub_texts() -> Generator[str, None, None]:
+    for stub_data in stubs_data:
+        yield stub_data[2]
 
 
-def _python_file_ids() -> Generator:
-    files = Path(_test_package_dir).rglob(pattern="*.py")
-    for file in files:
-        yield file.parts[-1].split(".py")[0]
+def _stub_ids() -> Generator[str, None, None]:
+    for stub_data in stubs_data:
+        yield stub_data[1]
 
 
-@pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
+@pytest.mark.parametrize("stub_text", stub_texts(), ids=_stub_ids())
 class TestStubFileGeneration:
-    def test_stub_creation(self, python_file: Path, snapshot_sds_stub: SnapshotAssertion) -> None:
-        file_name = python_file.parts[-1].split(".py")[0]
-
-        for stub_data in stubs_data:
-            if stub_data[1] == file_name:
-                assert stub_data[2] == snapshot_sds_stub
-                return
-
-        # For these files stubs won't get created, because they are either empty or private.
-        if file_name in {"__init__", "_module_2", "_module_4", "_reexport_module_5"}:
-            return
-
-        raise pytest.fail(f"Stub file not found for '{file_name}'.")
+    def test_stub_creation(self, stub_text: str, snapshot_sds_stub: SnapshotAssertion) -> None:
+        assert stub_text == snapshot_sds_stub
 
 
 @pytest.mark.parametrize(

@@ -1,5 +1,5 @@
-@PythonModule("tests.data.various_modules_package")
-package tests.data.variousModulesPackage
+@PythonModule("tests.data.various_modules_package.class_module")
+package tests.data.variousModulesPackage.classModule
 
 from tests.data.mainPackage.anotherPath.anotherModule import yetAnotherClass
 
@@ -24,27 +24,6 @@ class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB, yetAnot
     // TODO Result type information missing.
     @Pure
     fun f1()
-}
-
-class ClassModuleClassD() {
-    /**
-     * Docstring of the nested class E.
-     */
-    class ClassModuleNestedClassE() {
-        @PythonName("nested_attr_1")
-        static attr nestedAttr1: Nothing?
-
-        @PythonName("_ClassModulePrivateDoubleNestedClassF")
-        class ClassModulePrivateDoubleNestedClassF()
-
-        // TODO Result type information missing.
-        /**
-         * Docstring of func of nested class E
-         */
-        @Pure
-        @PythonName("class_e_func")
-        fun classEFunc()
-    }
 }
 
 class SelfTypes1() {

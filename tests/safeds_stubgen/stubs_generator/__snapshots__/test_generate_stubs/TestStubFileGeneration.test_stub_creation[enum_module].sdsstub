@@ -1,5 +1,5 @@
-@PythonModule("tests.data.various_modules_package")
-package tests.data.variousModulesPackage
+@PythonModule("tests.data.various_modules_package.enum_module")
+package tests.data.variousModulesPackage.enumModule
 
 /**
  * Nothing's here.

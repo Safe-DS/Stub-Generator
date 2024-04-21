@@ -1270,7 +1270,6 @@
         'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func/self',
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -1807,7 +1806,6 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package',
       ]),
       'results': list([
         'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class/result_1',
@@ -1921,7 +1919,6 @@
         'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func/self',
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package',
       ]),
       'results': list([
       ]),
@@ -1978,7 +1975,7 @@
     ]),
   })
 # ---
-# name: test_classes[AnotherReexportClass]
+# name: test_classes[AnotherUnreexportedClass]
   dict({
     'attributes': list([
     ]),
@@ -1989,12 +1986,12 @@
       'description': '',
       'full_docstring': '',
     }),
-    'id': 'tests/data/various_modules_package/_reexport_module_2/AnotherReexportClass',
+    'id': 'tests/data/various_modules_package/_reexport_module_2/AnotherUnreexportedClass',
     'inherits_from_exception': False,
-    'is_public': True,
+    'is_public': False,
     'methods': list([
     ]),
-    'name': 'AnotherReexportClass',
+    'name': 'AnotherUnreexportedClass',
     'reexported_by': list([
     ]),
     'superclasses': list([
@@ -2155,7 +2152,6 @@
     ]),
     'name': 'ClassModuleNestedClassE',
     'reexported_by': list([
-      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -2661,7 +2657,6 @@
     ]),
     'name': '_ClassModulePrivateDoubleNestedClassF',
     'reexported_by': list([
-      'tests/data/various_modules_package',
     ]),
     'superclasses': list([
     ]),
@@ -5539,7 +5534,6 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package',
       ]),
       'results': list([
         'tests/data/various_modules_package/_reexport_module_1/reexported_function/result_1',
@@ -5587,7 +5581,6 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package',
       ]),
       'results': list([
         'tests/data/various_modules_package/_reexport_module_3/reexported_function_3/result_1',
@@ -6473,6 +6466,10 @@
       'alias': 'ClMCD',
       'qualified_name': 'class_module.ClassModuleClassD',
     }),
+    dict({
+      'alias': None,
+      'qualified_name': 'file_creation.module_1.Lv2',
+    }),
   ])
 # ---
 # name: test_imports[__init__ (wildcard_imports)]
@@ -6590,6 +6587,10 @@
         'alias': 'ClMCD',
         'qualified_name': 'class_module.ClassModuleClassD',
       }),
+      dict({
+        'alias': None,
+        'qualified_name': 'file_creation.module_1.Lv2',
+      }),
     ]),
     'wildcard_imports': list([
       dict({
@@ -6620,7 +6621,7 @@
 # name: test_modules[_reexport_module_2]
   dict({
     'classes': list([
-      'tests/data/various_modules_package/_reexport_module_2/AnotherReexportClass',
+      'tests/data/various_modules_package/_reexport_module_2/AnotherUnreexportedClass',
     ]),
     'docstring': '',
     'enums': list([
@@ -7059,6 +7060,10 @@
     'qualified_imports': list([
       dict({
         'alias': None,
+        'qualified_name': 'module_1.Lv1',
+      }),
+      dict({
+        'alias': None,
         'qualified_name': '_module_2._private_reexported',
       }),
       dict({
@@ -7165,6 +7170,8 @@
   dict({
     'classes': list([
       'tests/data/various_modules_package/file_creation/module_1/C',
+      'tests/data/various_modules_package/file_creation/module_1/Lv1',
+      'tests/data/various_modules_package/file_creation/module_1/Lv2',
     ]),
     'docstring': '',
     'enums': list([
