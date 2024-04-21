@@ -853,7 +853,7 @@ class MyPyAstVisitor:
                 for mod in self.api.reexport_map[reexport_name_forward]:
                     reexported_by.add(mod)
 
-            reexport_name_backward = ".".join(path[-i - 1:])
+            reexport_name_backward = ".".join(path[-i - 1 :])
             if reexport_name_backward in self.api.reexport_map:
                 for mod in self.api.reexport_map[reexport_name_backward]:
                     reexported_by.add(mod)

@@ -391,9 +391,7 @@ class StubsStringGenerator:
         # Inner classes
         for inner_class in class_.classes:
             class_string = self._create_class_string(
-                class_=inner_class,
-                class_indentation=inner_indentations,
-                in_reexport_module=in_reexport_module
+                class_=inner_class, class_indentation=inner_indentations, in_reexport_module=in_reexport_module,
             )
             class_text += f"\n{class_string}\n"
 
@@ -497,11 +495,7 @@ class StubsStringGenerator:
         return attribute_text
 
     def _create_function_string(
-        self,
-        function: Function,
-        indentations: str = "",
-        is_method: bool = False,
-        in_reexport_module: bool = False
+        self, function: Function, indentations: str = "", is_method: bool = False, in_reexport_module: bool = False,
     ) -> str:
         """Create a function string for Safe-DS stubs."""
         # Check if this class is beeing reexported from a shorter path. If it is, we create it there, not in this module
