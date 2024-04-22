@@ -460,6 +460,10 @@ def infer_types3(a, b):
 
 class NumpyClassWithExamples:
     """
+    NumpyClassWithExamples.
+
+    Dolor sit amet.
+
     Examples
     --------
     >>> from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples

@@ -385,6 +385,10 @@ class ClassWithVariousAttributeTypes() {
 }
 
 /**
+ * NumpyClassWithExamples.
+ *
+ * Dolor sit amet.
+ *
  * @example
  * pipeline example {
  *     // from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
