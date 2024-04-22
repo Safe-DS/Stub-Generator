@@ -102,6 +102,7 @@
         'constructor': None,
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/AnotherClass',
@@ -125,6 +126,7 @@
         'constructor': None,
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass',
@@ -157,6 +159,7 @@
               
               Full init description.
             ''',
+            'example': '',
             'full_docstring': '''
               Summary of the init description.
               
@@ -184,6 +187,7 @@
             
             Full description
           ''',
+          'example': '',
           'full_docstring': '''
             Summary of the description.
             
@@ -213,6 +217,7 @@
         'constructor': None,
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass',
@@ -241,6 +246,7 @@
         'constructor': dict({
           'docstring': dict({
             'description': '',
+            'example': '',
             'full_docstring': '',
           }),
           'id': 'tests/data/main_package/main_module/_PrivateClass/__init__',
@@ -259,6 +265,7 @@
         }),
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass',
@@ -285,6 +292,7 @@
         'constructor': None,
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass',
@@ -309,6 +317,7 @@
         'constructor': None,
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
@@ -334,6 +343,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function',
@@ -354,6 +364,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function',
@@ -379,6 +390,7 @@
             
             Full init description.
           ''',
+          'example': '',
           'full_docstring': '''
             Summary of the init description.
             
@@ -407,6 +419,7 @@
             
             param_2: bool.
           ''',
+          'example': '',
           'full_docstring': '''
             Function Docstring.
             
@@ -433,6 +446,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
@@ -451,6 +465,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/__init__',
@@ -470,6 +485,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class',
@@ -489,6 +505,7 @@
       dict({
         'docstring': dict({
           'description': '',
+          'example': '',
           'full_docstring': '',
         }),
         'id': 'tests/data/main_package/main_module/_private_global_func',
@@ -512,6 +529,7 @@
             
             Docstring 2.
           ''',
+          'example': '',
           'full_docstring': '''
             Docstring 1.
             
