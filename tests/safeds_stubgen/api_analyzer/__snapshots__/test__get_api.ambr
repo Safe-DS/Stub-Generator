@@ -5582,8 +5582,8 @@
       'parameters': list([
       ]),
       'reexported_by': list([
-        'tests/data/various_modules_package/file_creation/package_1',
         'tests/data/various_modules_package',
+        'tests/data/various_modules_package/file_creation/package_1',
       ]),
       'results': list([
         'tests/data/various_modules_package/_reexport_module_3/reexported_function_3/result_1',

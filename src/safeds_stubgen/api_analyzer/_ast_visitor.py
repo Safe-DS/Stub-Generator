@@ -266,6 +266,8 @@ class MyPyAstVisitor:
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)
+        # Sort for snapshot tests
+        reexported_by.sort(key=lambda x: x.id)
 
         # Create and add Function to stack
         function = Function(
