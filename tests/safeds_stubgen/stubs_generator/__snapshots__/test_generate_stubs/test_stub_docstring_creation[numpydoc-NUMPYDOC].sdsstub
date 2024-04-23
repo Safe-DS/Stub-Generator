@@ -385,6 +385,32 @@ class ClassWithVariousAttributeTypes() {
 }
 
 /**
+ * NumpyClassWithExamples.
+ *
+ * Dolor sit amet.
+ *
+ * @example
+ * pipeline example {
+ *     // from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
+ *     // class_ = NumpyClassWithExamples
+ * }
+ */
+class NumpyClassWithExamples() {
+    // TODO Result type information missing.
+    /**
+     * @example
+     * pipeline example {
+     *     // from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
+     *     // func = NumpyClassWithExamples.numpy_func_with_examples
+     *     // func()
+     * }
+     */
+    @Pure
+    @PythonName("numpy_func_with_examples")
+    fun numpyFuncWithExamples()
+}
+
+/**
  * EnumDocstring.
  *
  * Dolor sit amet.

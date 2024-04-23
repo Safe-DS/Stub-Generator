@@ -51,33 +51,39 @@ class DocstringParser(AbstractDocstringParser):
 
         description = ""
         docstring = ""
+        example = ""
         if griffe_node.docstring is not None:
             docstring = griffe_node.docstring.value.strip("\n")
 
             for docstring_section in griffe_node.docstring.parsed:
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
-                    break
+                elif docstring_section.kind == DocstringSectionKind.examples:
+                    example = docstring_section.value[0][1].strip("\n")
 
         return ClassDocstring(
             description=description,
             full_docstring=docstring,
+            example=example,
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = ""
         description = ""
+        example = ""
         griffe_docstring = self.__get_cached_docstring(function_node.fullname)
         if griffe_docstring is not None:
             docstring = griffe_docstring.value.strip("\n")
             for docstring_section in griffe_docstring.parsed:
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
-                    break
+                elif docstring_section.kind == DocstringSectionKind.examples:
+                    example = docstring_section.value[0][1].strip("\n")
 
         return FunctionDocstring(
             description=description,
             full_docstring=docstring,
+            example=example,
         )
 
     def get_parameter_documentation(
