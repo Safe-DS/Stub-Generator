@@ -456,3 +456,28 @@ def infer_types3(a, b):
     if a:
         return int
     return True
+
+
+class NumpyClassWithExamples:
+    """
+    NumpyClassWithExamples.
+
+    Dolor sit amet.
+
+    Examples
+    --------
+    >>> from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
+    This text should be ignored
+    >>> class_ = NumpyClassWithExamples
+    This text should be ignored, too.
+    """
+
+    def numpy_func_with_examples(self):
+        """
+        Examples
+        --------
+        >>> from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
+        >>> func = NumpyClassWithExamples.numpy_func_with_examples
+        >>> func()
+        This text should be ignored.
+        """

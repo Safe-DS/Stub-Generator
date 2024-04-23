@@ -20,9 +20,10 @@ from safeds_stubgen.api_analyzer import (
     VarianceKind,
     result_name_generator,
 )
+from safeds_stubgen.docstring_parsing import AttributeDocstring
 
 if TYPE_CHECKING:
-    from safeds_stubgen.docstring_parsing import AttributeDocstring, ClassDocstring, FunctionDocstring
+    from safeds_stubgen.docstring_parsing import ClassDocstring, FunctionDocstring
 
 
 INDENTATION = "    "
@@ -1051,6 +1052,18 @@ class StubsStringGenerator:
             if full_result_docstring and full_docstring:
                 full_result_docstring = f"{indentations} *\n{full_result_docstring}"
         full_docstring += full_result_docstring
+
+        # Example
+        example = ""
+        if not isinstance(docstring, AttributeDocstring) and docstring.example:
+            example = f"{indentations} * @example\n{indentations} * pipeline example {{\n"
+            for example_part in docstring.example.split("\n"):
+                if example_part.startswith(">>>"):
+                    example += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
+            example += f"{indentations} * }}\n"
+        if full_docstring and example:
+            full_docstring += f"{indentations} *\n"
+        full_docstring += example
 
         # Open and close the docstring
         if full_docstring:
