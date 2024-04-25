@@ -939,6 +939,10 @@ class MyPyAstVisitor:
                 # from the import information
                 missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
                 name, qname = self._find_alias(missing_import_name)
+
+                if not qname:  # pragma: no cover
+                    return sds_types.UnknownType()
+
                 return sds_types.NamedType(name=name, qname=qname)
             else:
                 return sds_types.NamedType(name="Any", qname="typing.Any")
@@ -972,6 +976,10 @@ class MyPyAstVisitor:
 
                 # if not, we check if it's an alias
                 name, qname = self._find_alias(mypy_type.name)
+
+                if not qname:  # pragma: no cover
+                    return sds_types.UnknownType()
+
                 return sds_types.NamedType(name=name, qname=qname)
 
         # Builtins
@@ -1002,7 +1010,8 @@ class MyPyAstVisitor:
                 )
             else:
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
-        raise ValueError("Unexpected type.")  # pragma: no cover
+
+        return sds_types.UnknownType()  # pragma: no cover
 
     def _find_alias(self, type_name: str) -> tuple[str, str]:
         module = self.__declaration_stack[0]
@@ -1011,27 +1020,17 @@ class MyPyAstVisitor:
         if not isinstance(module, Module):  # pragma: no cover
             raise TypeError(f"Expected module, got {type(module)}.")
 
-        name = ""
-        qname = ""
-        qualified_imports = module.qualified_imports
-        import_aliases = [qimport.alias for qimport in qualified_imports]
+        # First we check if it can be found in the imports
+        name, qname = self._search_alias_in_qualified_imports(module.qualified_imports, type_name)
+        if name and qname:
+            return name, qname
 
         if type_name in self.aliases:
             qnames: set = self.aliases[type_name]
             if len(qnames) == 1:
-                # We have to check if this is an alias from an import
-                import_name, import_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
-
                 # We need a deepcopy since qnames is a pointer to the set in the alias dict
-                qname = import_qname if import_qname else deepcopy(qnames).pop()
-                name = import_name if import_name else qname.split(".")[-1]
-            elif type_name in import_aliases:
-                # We check if the type was imported
-                qimport_name, qimport_qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
-
-                if qimport_qname:
-                    qname = qimport_qname
-                    name = qimport_name
+                qname = deepcopy(qnames).pop()
+                name = qname.split(".")[-1]
             else:
                 # In this case some types where defined in multiple modules with the same names.
                 for alias_qname in qnames:
@@ -1042,14 +1041,9 @@ class MyPyAstVisitor:
                     if self.mypy_file is None:  # pragma: no cover
                         raise TypeError("Expected mypy_file (module information), got None.")
 
-                    if type_path == self.mypy_file.fullname:
+                    if self.mypy_file.fullname in type_path:
                         qname = alias_qname
                         break
-        else:
-            name, qname = self._search_alias_in_qualified_imports(qualified_imports, type_name)
-
-        if not qname:  # pragma: no cover
-            raise ValueError(f"It was not possible to find out where the alias {type_name} was defined.")
 
         return name, qname
 

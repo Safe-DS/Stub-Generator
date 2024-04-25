@@ -19,7 +19,7 @@ from ._api import (
 from ._ast_visitor import result_name_generator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
-from ._package_metadata import distribution, distribution_version, package_root
+from ._package_metadata import distribution, distribution_version
 from ._types import (
     AbstractType,
     BoundaryType,
@@ -34,6 +34,7 @@ from ._types import (
     TupleType,
     TypeVarType,
     UnionType,
+    UnknownType,
 )
 
 __all__ = [
@@ -58,7 +59,6 @@ __all__ = [
     "LiteralType",
     "Module",
     "NamedType",
-    "package_root",
     "Parameter",
     "ParameterAssignment",
     "QualifiedImport",
@@ -68,6 +68,7 @@ __all__ = [
     "TupleType",
     "TypeVarType",
     "UnionType",
+    "UnknownType",
     "VarianceKind",
     "WildcardImport",
 ]

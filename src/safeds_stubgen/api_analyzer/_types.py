@@ -14,6 +14,8 @@ class AbstractType(metaclass=ABCMeta):
     @classmethod
     def from_dict(cls, d: dict[str, Any]) -> AbstractType:
         match d["kind"]:
+            case UnknownType.__name__:
+                return UnknownType.from_dict(d)
             case NamedType.__name__:
                 return NamedType.from_dict(d)
             case EnumType.__name__:
@@ -43,6 +45,21 @@ class AbstractType(metaclass=ABCMeta):
 
     @abstractmethod
     def to_dict(self) -> dict[str, Any]: ...
+
+
+@dataclass(frozen=True)
+class UnknownType(AbstractType):
+    @classmethod
+    def from_dict(cls, _: dict[str, Any]) -> UnknownType:
+        return UnknownType()
+
+    def to_dict(self) -> dict[str, str]:
+        return {"kind": self.__class__.__name__}
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, UnknownType):  # pragma: no cover
+            return NotImplemented
+        return True
 
 
 @dataclass(frozen=True)
@@ -269,6 +286,11 @@ class ListType(AbstractType):
 
         return {"kind": self.__class__.__name__, "types": type_list}
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, ListType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.types) == Counter(other.types)
+
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
 
@@ -315,6 +337,11 @@ class CallableType(AbstractType):
             "return_type": self.return_type.to_dict(),
         }
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, CallableType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.parameter_types) == Counter(other.parameter_types) and self.return_type == other.return_type
+
     def __hash__(self) -> int:
         return hash(frozenset([*self.parameter_types, self.return_type]))
 
@@ -338,6 +365,11 @@ class SetType(AbstractType):
             "types": [t.to_dict() for t in self.types],
         }
 
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, SetType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.types) == Counter(other.types)
+
     def __hash__(self) -> int:
         return hash(frozenset(self.types))
 
@@ -352,6 +384,11 @@ class LiteralType(AbstractType):
 
     def to_dict(self) -> dict[str, Any]:
         return {"kind": self.__class__.__name__, "literals": self.literals}
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, LiteralType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.literals) == Counter(other.literals)
 
     def __hash__(self) -> int:
         return hash(frozenset(self.literals))
@@ -389,6 +426,11 @@ class TupleType(AbstractType):
         type_list = [t.to_dict() for t in self.types]
 
         return {"kind": self.__class__.__name__, "types": type_list}
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, TupleType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.types) == Counter(other.types)
 
     def __hash__(self) -> int:
         return hash(frozenset(self.types))

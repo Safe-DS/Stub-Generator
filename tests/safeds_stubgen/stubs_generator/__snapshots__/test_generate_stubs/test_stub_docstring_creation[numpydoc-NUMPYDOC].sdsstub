@@ -103,6 +103,16 @@ fun functionWithMultipleResults() -> (firstResult: Int, secondResult: Boolean)
 @PythonName("function_without_result_value")
 fun functionWithoutResultValue()
 
+// TODO Result type information missing.
+/**
+ * uninferable_return_doc.
+ *
+ * Dolor sit amet.
+ */
+@Pure
+@PythonName("uninferable_return_doc")
+fun uninferableReturnDoc()
+
 /**
  * property_method_with_docstring.
  *
@@ -382,6 +392,15 @@ class ClassWithVariousAttributeTypes() {
     static attr classType: ClassWithAttributes
     @PythonName("imported_type")
     static attr importedType: AnotherClass
+    // TODO Attribute has no type information.
+    @PythonName("callable_type")
+    static attr callableType
+    @PythonName("mapping_type")
+    static attr mappingType: Map<Int, String>
+    @PythonName("bool_op_type")
+    static attr boolOpType: union<Boolean, Int, String>
+    @PythonName("list_type_5")
+    static attr listType5: List<Int>
 }
 
 /**

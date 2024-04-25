@@ -17,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_stub_generator(args.package, args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
+    _run_stub_generator(args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
 
 
 def _get_args() -> argparse.Namespace:
@@ -27,21 +27,11 @@ def _get_args() -> argparse.Namespace:
 
     parser.add_argument("-v", "--verbose", help="show info messages", action="store_true")
     parser.add_argument(
-        "-p",
-        "--package",
-        help="The name of the package.",
-        type=str,
-        required=True,
-    )
-    parser.add_argument(
         "-s",
         "--src",
-        help=(
-            "Directory containing the Python code of the package. If this is omitted, we try to locate the package "
-            "with the given name in the current Python interpreter."
-        ),
+        help="Source directory containing the Python code of the package.",
         type=Path,
-        required=False,
+        required=True,
         default=None,
     )
     parser.add_argument("-o", "--out", help="Output directory.", type=Path, required=True)
@@ -75,7 +65,6 @@ def _get_args() -> argparse.Namespace:
 
 
 def _run_stub_generator(
-    package: str,
     src_dir_path: Path,
     out_dir_path: Path,
     docstring_style: DocstringStyle,
@@ -87,8 +76,6 @@ def _run_stub_generator(
 
     Parameters
     ----------
-    package : str
-        The name of the package.
     out_dir_path : Path
         The path to the output directory.
     docstring_style : DocstringStyle
@@ -97,9 +84,9 @@ def _run_stub_generator(
         Set True if files in test directories should be parsed too.
     """
     # Generate the API data
-    api = get_api(package_name=package, root=src_dir_path, docstring_style=docstring_style, is_test_run=is_test_run)
+    api = get_api(root=src_dir_path, docstring_style=docstring_style, is_test_run=is_test_run)
     # Create an API file
-    out_file_api = out_dir_path.joinpath(f"{package}__api.json")
+    out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
 
     # Generate the stub data
