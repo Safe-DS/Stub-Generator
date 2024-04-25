@@ -18,27 +18,23 @@ _test_package_name = "various_modules_package"
 package_root = Path(_test_dir / "data" / _test_package_name)
 
 api_data_paintext = get_api(
-    package_name=_test_package_name,
     root=package_root,
     is_test_run=True,
 ).to_dict()
 
 api_data_numpy = get_api(
-    package_name=_test_package_name,
     root=package_root,
     docstring_style=DocstringStyle.NUMPYDOC,
     is_test_run=True,
 ).to_dict()
 
 api_data_rest = get_api(
-    package_name=_test_package_name,
     root=package_root,
     docstring_style=DocstringStyle.REST,
     is_test_run=True,
 ).to_dict()
 
 api_data_google = get_api(
-    package_name=_test_package_name,
     root=package_root,
     docstring_style=DocstringStyle.GOOGLE,
     is_test_run=True,
@@ -139,7 +135,6 @@ def test_modules(python_file: Path, snapshot: SnapshotAssertion) -> None:
     raise pytest.fail(f"Could not find module data for '{file_name}'.")
 
 
-# Todo new tests after issue #38
 @pytest.mark.parametrize(
     argnames=("module_name", "import_type"),
     argvalues=[

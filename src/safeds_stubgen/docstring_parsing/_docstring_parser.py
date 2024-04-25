@@ -7,7 +7,7 @@ from griffe.dataclasses import Docstring
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
 from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
-from griffe.expressions import Expr, ExprBinOp, ExprName, ExprSubscript, ExprTuple
+from griffe.expressions import Expr, ExprAttribute, ExprBinOp, ExprBoolOp, ExprList, ExprName, ExprSubscript, ExprTuple
 
 # noinspection PyProtectedMember
 import safeds_stubgen.api_analyzer._types as sds_types
@@ -26,8 +26,6 @@ if TYPE_CHECKING:
 
     from griffe.dataclasses import Object
     from mypy import nodes
-
-    from safeds_stubgen.api_analyzer import AbstractType
 
 
 class DocstringParser(AbstractDocstringParser):
@@ -131,9 +129,13 @@ class DocstringParser(AbstractDocstringParser):
         else:
             type_ = self._griffe_annotation_to_api_type(annotation, griffe_docstring)
 
+        default_value = ""
+        if last_parameter.default:
+            default_value = str(last_parameter.default)
+
         return ParameterDocstring(
             type=type_,
-            default_value=last_parameter.default or "",
+            default_value=default_value,
             description=last_parameter.description.strip("\n") or "",
         )
 
@@ -248,8 +250,12 @@ class DocstringParser(AbstractDocstringParser):
 
         return []
 
-    def _griffe_annotation_to_api_type(self, annotation: Expr | str, docstring: Docstring) -> AbstractType:
-        if isinstance(annotation, ExprName):
+    def _griffe_annotation_to_api_type(
+        self,
+        annotation: Expr | str,
+        docstring: Docstring,
+    ) -> sds_types.AbstractType | None:
+        if isinstance(annotation, ExprName | ExprAttribute):
             if annotation.canonical_path == "typing.Any":
                 return sds_types.NamedType(name="Any", qname="typing.Any")
             elif annotation.canonical_path == "int":
@@ -266,70 +272,95 @@ class DocstringParser(AbstractDocstringParser):
                 return sds_types.TupleType(types=[])
             elif annotation.canonical_path == "set":
                 return sds_types.SetType(types=[])
-            else:
-                return sds_types.NamedType(name=annotation.canonical_name, qname=annotation.canonical_path)
+            return sds_types.NamedType(name=annotation.canonical_name, qname=annotation.canonical_path)
         elif isinstance(annotation, ExprSubscript):
+            any_type = sds_types.NamedType(name="Any", qname="typing.Any")
             slices = annotation.slice
+            types: list[sds_types.AbstractType] = []
             if isinstance(slices, ExprTuple):
-                types = []
                 for slice_ in slices.elements:
                     new_type = self._griffe_annotation_to_api_type(slice_, docstring)
-                    types.append(new_type)
+                    if new_type is not None:
+                        types.append(new_type)
             else:
-                types = []
                 type_ = self._griffe_annotation_to_api_type(slices, docstring)
                 if type_ is not None:
                     types.append(type_)
 
-            if annotation.canonical_path == "list":
+            if annotation.canonical_path in {"list", "collections.abc.Sequence", "collections.abc.Iterator"}:
                 return sds_types.ListType(types=types)
             elif annotation.canonical_path == "tuple":
                 return sds_types.TupleType(types=types)
             elif annotation.canonical_path == "set":
                 return sds_types.SetType(types=types)
+            elif annotation.canonical_path in {"collections.abc.Callable", "typing.Callable"}:
+                param_type = types[0] if len(types) >= 1 else [any_type]
+                if not isinstance(param_type, sds_types.AbstractType):  # pragma: no cover
+                    raise TypeError(f"Expected AbstractType object, received {type(param_type)}")
+                parameter_types = param_type.types if isinstance(param_type, sds_types.ListType) else [param_type]
+                return_type = types[1] if len(types) >= 2 else any_type
+                return sds_types.CallableType(parameter_types=parameter_types, return_type=return_type)
+            elif annotation.canonical_path in {"dict", "collections.abc.Mapping", "typing.Mapping"}:
+                key_type = types[0] if len(types) >= 1 else any_type
+                value_type = types[1] if len(types) >= 2 else any_type
+                return sds_types.DictType(key_type=key_type, value_type=value_type)
             elif annotation.canonical_path == "typing.Optional":
                 types.append(sds_types.NamedType(name="None", qname="builtins.None"))
                 return sds_types.UnionType(types=types)
             else:  # pragma: no cover
                 raise TypeError(f"Can't parse unexpected type from docstring {annotation.canonical_path}.")
+        elif isinstance(annotation, ExprList):
+            elements = []
+            for element in annotation.elements:
+                annotation_element = self._griffe_annotation_to_api_type(element, docstring)
+                if annotation_element is not None:
+                    elements.append(annotation_element)
+            return sds_types.ListType(types=elements)
+        elif isinstance(annotation, ExprBoolOp):
+            types = []
+            for value in annotation.values:
+                value_type_ = self._griffe_annotation_to_api_type(value, docstring)
+                if value_type_ is not None:
+                    types.append(value_type_)
+            return sds_types.UnionType(types=types)
         elif isinstance(annotation, ExprTuple):
             elements = []
             # Todo Remove the "optional" related part of the code once issue #99 is solved.
             has_optional = False
-            for element in annotation.elements:
-                if not isinstance(element, str) and element.canonical_path == "optional":
+            for element_ in annotation.elements:
+                if not isinstance(element_, str) and element_.canonical_path == "optional":
                     has_optional = True
                 else:
-                    new_element = self._griffe_annotation_to_api_type(element, docstring)
-                    if new_element is None:  # pragma: no cover
-                        continue
-                    elements.append(new_element)
+                    new_element = self._griffe_annotation_to_api_type(element_, docstring)
+                    if new_element is not None:
+                        elements.append(new_element)
             if has_optional:
                 elements.append(sds_types.NamedType(name="None", qname="builtins.None"))
                 return sds_types.UnionType(elements)
-            else:
-                return sds_types.TupleType(elements)
+            return sds_types.TupleType(elements)
         elif isinstance(annotation, str):
             new_annotation = self._remove_default_from_griffe_annotation(annotation)
             parsed_annotation = parse_annotation(new_annotation, docstring)
             if parsed_annotation in (new_annotation, annotation):
                 if parsed_annotation == "None":
                     return sds_types.NamedType(name="None", qname="builtins.None")
-                else:  # pragma: no cover
-                    raise TypeError(
-                        f"Can't parse unexpected type from docstring {parsed_annotation}. We received a "
-                        f"str type, but we expected a Griffe object.",
-                    )
+                else:
+                    return None
             else:
                 return self._griffe_annotation_to_api_type(parsed_annotation, docstring)
         elif isinstance(annotation, ExprBinOp):
-            types = [self._griffe_annotation_to_api_type(annotation.right, docstring)]
+            type_ = self._griffe_annotation_to_api_type(annotation.right, docstring)
+            types = [type_] if type_ is not None else []
             left_bin = annotation.left
             if isinstance(left_bin, ExprBinOp):
                 while isinstance(left_bin, ExprBinOp):
-                    types.append(self._griffe_annotation_to_api_type(left_bin.right, docstring))
+                    right_type = self._griffe_annotation_to_api_type(left_bin.right, docstring)
+                    if right_type is not None:  # pragma: no cover
+                        types.append(right_type)
                     left_bin = left_bin.left
-            types.append(self._griffe_annotation_to_api_type(left_bin, docstring))
+            left_type = self._griffe_annotation_to_api_type(left_bin, docstring)
+            if left_type is not None:
+                types.append(left_type)
             return sds_types.UnionType(types=types)
         else:  # pragma: no cover
             raise TypeError(

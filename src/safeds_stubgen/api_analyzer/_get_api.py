@@ -14,33 +14,30 @@ from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_pa
 from ._api import API
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
-from ._package_metadata import distribution, distribution_version, package_root
+from ._package_metadata import distribution, distribution_version
 
 if TYPE_CHECKING:
     from pathlib import Path
 
 
 def get_api(
-    package_name: str,
-    root: Path | None = None,
+    root: Path,
     docstring_style: DocstringStyle = DocstringStyle.PLAINTEXT,
     is_test_run: bool = False,
 ) -> API:
-    # Check root
-    if root is None:
-        root = package_root(package_name)
+    init_roots = _get_nearest_init_dirs(root)
+    if len(init_roots) == 1:
+        root = init_roots[0]
+
+    logging.info("Started gathering the raw package data with Mypy.")
 
     walkable_files = []
     package_paths = []
     for file_path in root.glob(pattern="./**/*.py"):
-        logging.info(
-            "Working on file {posix_path}",
-            extra={"posix_path": str(file_path)},
-        )
-
         # Check if the current path is a test directory
-        if not is_test_run and ("test" in file_path.parts or "tests" in file_path.parts):
-            logging.info("Skipping test file")
+        if not is_test_run and ("test" in file_path.parts or "tests" in file_path.parts or "docs" in file_path.parts):
+            log_msg = f"Skipping test file in {file_path}"
+            logging.info(log_msg)
             continue
 
         # Check if the current file is an init file
@@ -55,6 +52,9 @@ def get_api(
 
     if not walkable_files:
         raise ValueError("No files found to analyse.")
+
+    # Package name
+    package_name = root.stem
 
     # Get distribution data
     dist = distribution(package_name=package_name) or ""
@@ -75,6 +75,25 @@ def get_api(
         walker.walk(tree=tree)
 
     return callable_visitor.api
+
+
+def _get_nearest_init_dirs(root: Path) -> list[Path]:
+    all_inits = list(root.glob("./**/__init__.py"))
+    shortest_init_paths = []
+    shortest_len = -1
+    for init in all_inits:
+        path_len = len(init.parts)
+        if shortest_len == -1:
+            shortest_len = path_len
+            shortest_init_paths.append(init.parent)
+        elif path_len <= shortest_len:  # pragma: no cover
+            if path_len == shortest_len:
+                shortest_init_paths.append(init.parent)
+            else:
+                shortest_len = path_len
+                shortest_init_paths = [init.parent]
+
+    return shortest_init_paths
 
 
 def _get_mypy_build(files: list[str]) -> mypy_build.BuildResult:

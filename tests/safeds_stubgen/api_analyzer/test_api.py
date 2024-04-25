@@ -30,7 +30,7 @@ def test_parameter(
         is_optional=True,
         default_value=default_value,
         assigned_by=assigned_by,
-        docstring=ParameterDocstring("'hashvalue'", "r", "r"),
+        docstring=ParameterDocstring(None, "r", "r"),
         type=NamedType(name="str", qname=""),
     )
 
