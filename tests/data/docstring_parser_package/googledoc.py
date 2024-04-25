@@ -3,7 +3,7 @@
 A module for testing the various docstring types.
 """
 from enum import Enum
-from typing import Optional, Any
+from typing import Optional, Any, Callable, Mapping
 from tests.data.various_modules_package.another_path.another_module import AnotherClass
 
 
@@ -230,6 +230,10 @@ class ClassWithVariousAttributeTypes:
         optional_type_2 (Optional[int]):
         class_type (ClassWithAttributes):
         imported_type (AnotherClass):
+        callable_type (Callable[[int], str]):
+        mapping_type (Mapping[int, str]):
+        bool_op_type (int or str or bool):
+        list_type_5 ([int]):
     """
     no_type = ""
     optional_type = ""
@@ -255,6 +259,21 @@ class ClassWithVariousAttributeTypes:
     optional_type_2: Optional[int]
     class_type: ClassWithAttributes
     imported_type: AnotherClass
+    callable_type: Callable[[int], str]
+    mapping_type: Mapping[int, str]
+    bool_op_type: int | str | bool
+    list_type_5: list[int]
+
+
+def uninferable_return_doc():
+    """
+    uninferable_return_doc.
+
+    Dolor sit amet.
+
+    Returns:
+        'True' is something happens, else 'False'.
+    """
 
 
 def infer_types():

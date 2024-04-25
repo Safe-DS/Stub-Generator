@@ -241,6 +241,17 @@ def infer_types2(a, b):
     return True
 
 
+def uninferable_return_doc():
+    """
+    uninferable_return_doc.
+
+    Dolor sit amet.
+
+    :return: return value
+    :rtype: 'True' is something happens, else 'False'.
+    """
+
+
 # Todo Currently disabled, since Griffe can't analyze ReST (Sphinx) attributes (see issue #98)
 # class ClassWithVariousAttributeTypes:
 #     """
@@ -295,6 +306,14 @@ def infer_types2(a, b):
 #     :type any_type: Any
 #     :var optional_type_2:
 #     :type optional_type_2: Optional[int]
+#     :var callable_type:
+#     :type callable_type: Callable[[int], str]
+#     :var mapping_type:
+#     :type mapping_type: Mapping[int, str]
+#     :var bool_op_type:
+#     :type bool_op_type: int or str or bool
+#     :var list_type_5:
+#     :type list_type_5: [int]
 #     """
 #     has_default = 1
 #     optional_int = None
@@ -324,3 +343,7 @@ def infer_types2(a, b):
 #     optional_type_2: Optional[int]
 #     class_type: ClassWithMethod
 #     imported_type: AnotherClass
+#     callable_type: Callable[[int], str]
+#     mapping_type: Mapping[int, str]
+#     bool_op_type: int | str | bool
+#     list_type_5: list[int]

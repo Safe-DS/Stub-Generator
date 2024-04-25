@@ -19,8 +19,6 @@ def test_main(snapshot: SnapshotAssertion) -> None:
     sys.argv = [
         str(_main_dir),
         "-v",
-        "-p",
-        str(_test_package_name),
         "-s",
         str(_test_package_dir),
         "-o",
@@ -44,8 +42,6 @@ def test_main_empty() -> None:
     sys.argv = [
         str(_main_dir),
         "-v",
-        "-p",
-        str(_test_package_name),
         "-s",
         str(_test_package_dir),
         "-o",

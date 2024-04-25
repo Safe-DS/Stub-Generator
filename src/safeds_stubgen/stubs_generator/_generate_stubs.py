@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from collections import defaultdict
 from enum import IntEnum
 from pathlib import Path
@@ -66,6 +67,9 @@ def _generate_stubs_data(
         if module.name == "__init__":
             continue
 
+        log_msg = f"Creating stub data for {module.id}"
+        logging.info(log_msg)
+
         module_text = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, if there is only the package information
@@ -107,6 +111,9 @@ def _generate_stubs_files(
     naming_convention: NamingConvention,
 ) -> None:
     for module_dir, module_name, module_text in stubs_data:
+        log_msg = f"Creating stub file for {module_dir}"
+        logging.info(log_msg)
+
         # Create module dir
         module_dir.mkdir(parents=True, exist_ok=True)
 
@@ -870,6 +877,9 @@ class StubsStringGenerator:
                     self._current_todo_msgs.add(name)
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
+        elif kind == "UnknownType":  # pragma: no cover
+            self._current_todo_msgs.add("unknown")
+            return "unknown"
         elif kind == "UnionType":
             # In Mypy LiteralTypes are getting seperated into unions of LiteralTypes,
             # and we have to join them for the stubs.
@@ -1139,6 +1149,7 @@ class StubsStringGenerator:
                 "attr without type": "Attribute has no type information.",
                 "result without type": "Result type information missing.",
                 "internal class as type": "An internal class must not be used as a type in a public class.",
+                "unknown": "Unknown type - Type could not be parsed.",
             }[msg]
             for msg in self._current_todo_msgs
         ]

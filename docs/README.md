@@ -5,7 +5,7 @@
 [![codecov](https://codecov.io/gh/Safe-DS/Stub-Generator/branch/main/graph/badge.svg?token=UyCUY59HKM)](https://codecov.io/gh/Safe-DS/Stub-Generator)
 [![Documentation Status](https://readthedocs.org/projects/safe-ds-stub-generator/badge/?version=stable)](https://stubgen.safeds.com)
 
-Automated generation of [Safe-DS stubs](https://dsl.safeds.com/en/stable/language/stub-language/) for Python libraries.
+Automated generation of [Safe-DS stubs](https://dsl.safeds.com/en/stable/stub-language/) for Python libraries.
 
 ## Installation
 
@@ -29,7 +29,7 @@ options:
   -v, --verbose         show info messages
   -p PACKAGE, --package PACKAGE
                         The name of the package.
-  -s SRC, --src SRC     Directory containing the Python code of the package. If this is omitted, we try to locate the package with the given name in the current Python interpreter.
+  -s SRC, --src SRC     Source directory containing the Python code of the package.
   -o OUT, --out OUT     Output directory.
   --docstyle {PLAINTEXT,EPYDOC,GOOGLE,NUMPYDOC,REST}
                         The docstring style.
