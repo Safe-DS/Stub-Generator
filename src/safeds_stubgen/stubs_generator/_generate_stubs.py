@@ -1115,12 +1115,10 @@ class StubsStringGenerator:
                         qname=qname,
                         is_module=False,
                     )
-                    qname = shortest_qname or ".".join(qname.split(".")[:-1])
 
-                    qname = _convert_name_to_convention(
-                        name=f"{qname}.{name}",
-                        naming_convention=self.naming_convention,
-                    )
+                    if shortest_qname:
+                        qname = f"{shortest_qname}.{name}"
+
                     in_package = True
                     break
 
