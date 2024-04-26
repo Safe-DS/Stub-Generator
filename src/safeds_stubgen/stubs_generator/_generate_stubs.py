@@ -981,7 +981,6 @@ class StubsStringGenerator:
             for class_ in self.api.classes:
                 if class_.endswith(qname_path):
                     qname = class_.replace("/", ".")
-                    qname = _convert_name_to_convention(qname, self.naming_convention)
                     in_package = True
                     break
 
