@@ -7,6 +7,7 @@ from pathlib import Path
 from types import NoneType
 from typing import TYPE_CHECKING
 
+from safeds_stubgen import is_internal
 from safeds_stubgen.api_analyzer import (
     API,
     Attribute,
@@ -35,33 +36,27 @@ class NamingConvention(IntEnum):
     SAFE_DS = 2
 
 
-def generate_stubs(api: API, out_path: Path, convert_identifiers: bool) -> None:
+def generate_stub_data(
+    stubs_generator: StubsStringGenerator,
+    out_path: Path,
+) -> list[tuple[Path, str, str]]:
     """Generate Safe-DS stubs.
 
-    Generates stub files from an API object and writes them to the out_path path.
+    Generates stub data from an API object.
 
     Parameters
     ----------
-    api
-        The API object from which the stubs
+    stubs_generator
+        The class for generating the stubs.
     out_path
         The path in which the stub files should be created. If no such path exists this function creates the directory
         files.
-    convert_identifiers
-        Set this True if the identifiers should be converted to Safe-DS standard (UpperCamelCase for classes and
-        camelCase for everything else).
+
+    Returns
+    -------
+    A list of tuples, which are 1. the path of the stub file, 2. the name of the stub file and 3. its content.
     """
-    naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
-    stubs_generator = StubsStringGenerator(api, naming_convention)
-    stubs_data = _generate_stubs_data(api, out_path, stubs_generator)
-    _generate_stubs_files(stubs_data, out_path, stubs_generator, naming_convention)
-
-
-def _generate_stubs_data(
-    api: API,
-    out_path: Path,
-    stubs_generator: StubsStringGenerator,
-) -> list[tuple[Path, str, str]]:
+    api = stubs_generator.api
     stubs_data: list[tuple[Path, str, str]] = []
     for module in api.modules.values():
         if module.name == "__init__":
@@ -70,7 +65,7 @@ def _generate_stubs_data(
         log_msg = f"Creating stub data for {module.id}"
         logging.info(log_msg)
 
-        module_text = stubs_generator(module)
+        module_text, package_info = stubs_generator(module)
 
         # Each text block we create ends with "\n", therefore, if there is only the package information
         # the file would look like this: "package path.to.myPackage\n" or this:
@@ -93,7 +88,7 @@ def _generate_stubs_data(
         if shortest_path:
             shortest_path = shortest_path.replace(".", "/")
 
-        module_id = shortest_path if shortest_path else module.id
+        module_id = shortest_path if shortest_path else package_info.replace(".", "/")
         module_name = alias if alias else module.name
 
         module_dir = Path(out_path / module_id)
@@ -104,12 +99,12 @@ def _generate_stubs_data(
     return stubs_data + reexport_module_data
 
 
-def _generate_stubs_files(
+def create_stub_files(
+    stubs_generator: StubsStringGenerator,
     stubs_data: list[tuple[Path, str, str]],
     out_path: Path,
-    stubs_generator: StubsStringGenerator,
-    naming_convention: NamingConvention,
 ) -> None:
+    naming_convention = stubs_generator.naming_convention
     for module_dir, module_name, module_text in stubs_data:
         log_msg = f"Creating stub file for {module_dir}"
         logging.info(log_msg)
@@ -118,7 +113,8 @@ def _generate_stubs_files(
         module_dir.mkdir(parents=True, exist_ok=True)
 
         # Create and open module file
-        file_path = Path(module_dir / f"{module_name}.sdsstub")
+        public_module_name = module_name.lstrip("_")
+        file_path = Path(module_dir / f"{public_module_name}.sdsstub")
         Path(file_path).touch()
 
         with file_path.open("w") as f:
@@ -195,13 +191,13 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, api: API, naming_convention: NamingConvention) -> None:
+    def __init__(self, api: API, convert_identifiers: bool) -> None:
         self.api = api
-        self.naming_convention = naming_convention
+        self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
 
-    def __call__(self, module: Module) -> str:
+    def __call__(self, module: Module) -> tuple[str, str]:
         self.module_imports: set[str] = set()
         self._current_todo_msgs: set[str] = set()
         self.module = module
@@ -241,7 +237,7 @@ class StubsStringGenerator:
             module_data.append((Path(out_path / module_id), module_name, module_text))
         return module_data
 
-    def _create_module_string(self) -> str:
+    def _create_module_string(self) -> tuple[str, str]:
         module_text = ""
 
         # Create package info
@@ -293,7 +289,7 @@ class StubsStringGenerator:
         # Create imports - We have to create them last, since we have to check all used types in this module first
         module_header += self._create_imports_string()
 
-        return docstring + module_header + module_text
+        return f"{docstring}{module_header}{module_text}", package_info
 
     def _create_imports_string(self) -> str:
         if not self.module_imports:
@@ -1278,13 +1274,10 @@ def _replace_if_safeds_keyword(keyword: str) -> str:
         "sub",
         "super",
         "_",
+        "unknown",
     }:
         return f"`{keyword}`"
     return keyword
-
-
-def is_internal(name: str) -> bool:
-    return name.startswith("_")
 
 
 def _convert_name_to_convention(

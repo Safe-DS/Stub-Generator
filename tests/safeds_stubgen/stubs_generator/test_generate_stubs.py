@@ -6,21 +6,16 @@ from typing import TYPE_CHECKING
 import pytest
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
-from safeds_stubgen.stubs_generator import generate_stubs
+from safeds_stubgen.stubs_generator import NamingConvention, StubsStringGenerator, create_stub_files, generate_stub_data
 
 # noinspection PyProtectedMember
-from safeds_stubgen.stubs_generator._generate_stubs import (
-    NamingConvention,
-    StubsStringGenerator,
-    _convert_name_to_convention,
-    _generate_stubs_data,
-    _generate_stubs_files,
-)
+from safeds_stubgen.stubs_generator._generate_stubs import _convert_name_to_convention
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from syrupy import SnapshotAssertion
+
 
 # Setup - Run API to create stub files
 _lib_dir = Path(__file__).parent.parent.parent
@@ -33,51 +28,43 @@ _docstring_package_name = "docstring_parser_package"
 _docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
 api = get_api(_test_package_dir, is_test_run=True)
-stubs_generator = StubsStringGenerator(api, naming_convention=NamingConvention.SAFE_DS)
-stubs_data = _generate_stubs_data(api, _out_dir, stubs_generator)
+stubs_generator = StubsStringGenerator(api=api, convert_identifiers=True)
+stubs_data = generate_stub_data(stubs_generator=stubs_generator, out_path=_out_dir)
 
 
-# Deactivated test for now, since it will be reworked in #81
-def xtest_file_creation() -> None:
-    _generate_stubs_files(stubs_data, _out_dir, stubs_generator, naming_convention=NamingConvention.SAFE_DS)
-    _assert_file_creation_recursive(
-        python_path=Path(_test_package_dir / "file_creation"),
-        stub_path=Path(_out_dir_stubs / "file_creation"),
-    )
+def test_file_creation() -> None:
+    data_to_test: list[tuple[str, str]] = [
+        ("/".join(stub_data[0].parts), stub_data[1]) for stub_data in stubs_data if "file_creation" in str(stub_data[0])
+    ]
+    data_to_test.sort(key=lambda x: x[1])
 
+    expected_files: list[tuple[str, str]] = [
+        # We reexport these three modules from another package into the file_creation package.
+        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package"),
+        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package_2"),
+        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package_3"),
+        # module_1 is public
+        ("tests/data/various_modules_package/file_creation/module_1", "module_1"),
+        # _module_6 has a public reexport in the file_creation package
+        ("tests/data/various_modules_package/file_creation", "_module_6"),
+        # module_5 is publich
+        ("tests/data/various_modules_package/file_creation/package_1/module_5", "module_5"),
+        # _module_3 is not created, even though it is reexported, since it's also reexported in the parent
+        # package.
+        # _module_2 is not created, since the reexport is still private
+        # _module_4 is not created, since it has no (public) reexport
+    ]
+    expected_files.sort(key=lambda x: x[1])
 
-def _assert_file_creation_recursive(python_path: Path, stub_path: Path) -> None:
-    assert python_path.is_dir()
-    assert stub_path.is_dir()
-
-    python_files: list[Path] = list(python_path.iterdir())
-    stub_files: list[Path] = list(stub_path.iterdir())
-
-    # Remove __init__ files and private files without public reexported content.
-    # We reexport public content from _module_3 and _module_6, not from empty_module, _module_2 and _module_4.
-    actual_python_files = []
-    for item in python_files:
-        if not (item.is_file() and item.stem in {"__init__", "_module_2", "_module_4"}):
-            actual_python_files.append(item)
-
-    assert len(actual_python_files) == len(stub_files)
-
-    actual_python_files.sort(key=lambda x: x.stem)
-    stub_files.sort(key=lambda x: x.stem)
-
-    for py_item, stub_item in zip(actual_python_files, stub_files, strict=True):
-        if py_item.is_file():
-            assert stub_item.is_dir()
-            stub_files = list(stub_item.iterdir())
-            assert len(stub_files) == 1
-            assert stub_files[0].stem == py_item.stem
-        else:
-            _assert_file_creation_recursive(py_item, stub_item)
+    assert len(data_to_test) == len(expected_files)
+    for data_tuple, expected_tuple in zip(data_to_test, expected_files, strict=True):
+        assert data_tuple[0].endswith(expected_tuple[0])
+        assert data_tuple[1] == expected_tuple[1]
 
 
 def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: SnapshotAssertion) -> None:
-    # Somehow the stubs get overwritten by other tests, therefore we have to call the function before asserting
-    generate_stubs(api, _out_dir, convert_identifiers=True)
+    create_stub_files(stubs_generator=stubs_generator, stubs_data=stubs_data, out_path=_out_dir)
+
     path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
     assert path.is_file()
 
@@ -151,8 +138,8 @@ def test_stub_docstring_creation(
         docstring_style=docstring_style,
         is_test_run=True,
     )
-    docstring_stubs_generator = StubsStringGenerator(docstring_api, naming_convention=NamingConvention.SAFE_DS)
-    docstring_stubs_data = _generate_stubs_data(docstring_api, _out_dir, docstring_stubs_generator)
+    docstring_stubs_generator = StubsStringGenerator(api=docstring_api, convert_identifiers=True)
+    docstring_stubs_data = generate_stub_data(stubs_generator=docstring_stubs_generator, out_path=_out_dir)
 
     for stub_text in docstring_stubs_data:
         if stub_text[1] == filename:
