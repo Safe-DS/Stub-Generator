@@ -8,6 +8,7 @@ import mypy.nodes as mp_nodes
 import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
+from safeds_stubgen import is_internal
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -1185,10 +1186,6 @@ class MyPyAstVisitor:
                                 #   2. Else if it has no alias and is not internal
                                 return True
         return None
-
-
-def is_internal(name: str) -> bool:
-    return name.startswith("_")
 
 
 def result_name_generator() -> Generator:

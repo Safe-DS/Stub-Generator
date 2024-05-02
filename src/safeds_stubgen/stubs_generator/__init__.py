@@ -2,8 +2,11 @@
 
 from __future__ import annotations
 
-from ._generate_stubs import generate_stubs
+from ._generate_stubs import NamingConvention, StubsStringGenerator, create_stub_files, generate_stub_data
 
 __all__ = [
-    "generate_stubs",
+    "create_stub_files",
+    "generate_stub_data",
+    "NamingConvention",
+    "StubsStringGenerator",
 ]
