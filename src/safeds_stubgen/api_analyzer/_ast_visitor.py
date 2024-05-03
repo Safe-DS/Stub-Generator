@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from copy import deepcopy
 from types import NoneType
 from typing import TYPE_CHECKING
@@ -941,6 +942,7 @@ class MyPyAstVisitor:
                 name, qname = self._find_alias(missing_import_name)
 
                 if not qname:  # pragma: no cover
+                    logging.warning("Could not parse a type, added unknown type instead.")
                     return sds_types.UnknownType()
 
                 return sds_types.NamedType(name=name, qname=qname)
@@ -978,6 +980,7 @@ class MyPyAstVisitor:
                 name, qname = self._find_alias(mypy_type.name)
 
                 if not qname:  # pragma: no cover
+                    logging.warning("Could not parse a type, added unknown type instead.")
                     return sds_types.UnknownType()
 
                 return sds_types.NamedType(name=name, qname=qname)
@@ -1009,8 +1012,12 @@ class MyPyAstVisitor:
                     value_type=self.mypy_type_to_abstract_type(mypy_type.args[1]),
                 )
             else:
+                if mypy_type.args:
+                    types = [self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args]
+                    return sds_types.NamedSequenceType(name=type_name, qname=mypy_type.type.fullname, types=types)
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
 
+        logging.warning("Could not parse a type, added unknown type instead.")  # pragma: no cover
         return sds_types.UnknownType()  # pragma: no cover
 
     def _find_alias(self, type_name: str) -> tuple[str, str]:

@@ -11,6 +11,7 @@ from safeds_stubgen.api_analyzer import (
     FinalType,
     ListType,
     LiteralType,
+    NamedSequenceType,
     NamedType,
     Parameter,
     ParameterAssignment,
@@ -204,6 +205,48 @@ def test_list_type() -> None:
     assert ListType([NamedType("a", ""), LiteralType(["b"])]) == ListType([LiteralType(["b"]), NamedType("a", "")])
     assert ListType([NamedType("a", ""), LiteralType(["b"])]) != ListType([LiteralType(["a"]), NamedType("b", "")])
     assert ListType([NamedType("a", ""), NamedType("b", "")]) != ListType([NamedType("a", ""), NamedType("c", "")])
+
+
+def test_named_sequence_type() -> None:
+    list_type = NamedSequenceType("a", "b.a", [NamedType("str", "builtins.str"), NamedType("int", "builtins.int")])
+    named_sequence_type_dict = {
+        "kind": "NamedSequenceType",
+        "name": "a",
+        "qname": "b.a",
+        "types": [
+            {"kind": "NamedType", "name": "str", "qname": "builtins.str"},
+            {"kind": "NamedType", "name": "int", "qname": "builtins.int"},
+        ],
+    }
+
+    assert AbstractType.from_dict(named_sequence_type_dict) == list_type
+    assert NamedSequenceType.from_dict(named_sequence_type_dict) == list_type
+    assert list_type.to_dict() == named_sequence_type_dict
+
+    assert NamedSequenceType("a", "b.a", [NamedType("a", "")]) == NamedSequenceType("a", "b.a", [NamedType("a", "")])
+    assert hash(NamedSequenceType("a", "b.a", [NamedType("a", "")])) == hash(
+        NamedSequenceType("a", "b.a", [NamedType("a", "")]),
+    )
+    assert NamedSequenceType("a", "b.a", [NamedType("a", "")]) != NamedSequenceType("a", "b.a", [NamedType("b", "")])
+    assert hash(NamedSequenceType("a", "b.a", [NamedType("a", "")])) != hash(
+        NamedSequenceType("a", "b.a", [NamedType("b", "")]),
+    )
+
+    assert NamedSequenceType("a", "b.a", [NamedType("a", ""), LiteralType(["b"])]) == NamedSequenceType(
+        "a",
+        "b.a",
+        [LiteralType(["b"]), NamedType("a", "")],
+    )
+    assert NamedSequenceType("a", "b.a", [NamedType("a", ""), LiteralType(["b"])]) != NamedSequenceType(
+        "a",
+        "b.a",
+        [LiteralType(["a"]), NamedType("b", "")],
+    )
+    assert NamedSequenceType("a", "b.a", [NamedType("a", ""), NamedType("b", "")]) != NamedSequenceType(
+        "a",
+        "b.a",
+        [NamedType("a", ""), NamedType("c", "")],
+    )
 
 
 def test_dict_type() -> None:

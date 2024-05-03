@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Literal
 
 from griffe import load
@@ -296,7 +297,9 @@ class DocstringParser(AbstractDocstringParser):
             elif annotation.canonical_path in {"collections.abc.Callable", "typing.Callable"}:
                 param_type = types[0] if len(types) >= 1 else [any_type]
                 if not isinstance(param_type, sds_types.AbstractType):  # pragma: no cover
-                    raise TypeError(f"Expected AbstractType object, received {type(param_type)}")
+                    msg = f"Expected AbstractType object, received {type(param_type)}. Added unknown type instead."
+                    logging.warning(msg)
+                    return sds_types.UnknownType()
                 parameter_types = param_type.types if isinstance(param_type, sds_types.ListType) else [param_type]
                 return_type = types[1] if len(types) >= 2 else any_type
                 return sds_types.CallableType(parameter_types=parameter_types, return_type=return_type)
@@ -307,8 +310,12 @@ class DocstringParser(AbstractDocstringParser):
             elif annotation.canonical_path == "typing.Optional":
                 types.append(sds_types.NamedType(name="None", qname="builtins.None"))
                 return sds_types.UnionType(types=types)
-            else:  # pragma: no cover
-                raise TypeError(f"Can't parse unexpected type from docstring {annotation.canonical_path}.")
+            else:
+                return sds_types.NamedSequenceType(
+                    name=annotation.canonical_name,
+                    qname=annotation.canonical_path,
+                    types=types,
+                )
         elif isinstance(annotation, ExprList):
             elements = []
             for element in annotation.elements:
@@ -363,10 +370,9 @@ class DocstringParser(AbstractDocstringParser):
                 types.append(left_type)
             return sds_types.UnionType(types=types)
         else:  # pragma: no cover
-            raise TypeError(
-                f"Can't parse unexpected type from docstring: {annotation}. This case is not handled by us "
-                f"(yet), please report this.",
-            )
+            msg = f"Can't parse unexpected type from docstring: {annotation}. Added unknown type instead."
+            logging.warning(msg)
+            return sds_types.UnknownType()
 
     def _remove_default_from_griffe_annotation(self, annotation: str) -> str:
         if self.parser == Parser.numpy:
