@@ -6,6 +6,7 @@ A module for testing the various docstring types.
 from typing import Any, Optional, Callable, Mapping
 from enum import Enum
 from tests.data.various_modules_package.another_path.another_module import AnotherClass
+from tests.data.various_modules_package.type_var_module import SequenceTypeVar, SequenceTypeVar2
 
 
 class ClassWithDocumentation:
@@ -501,3 +502,21 @@ class NumpyClassWithExamples:
         >>> func()
         This text should be ignored.
         """
+
+
+def numpy_sequence_types(a: SequenceTypeVar[list]) -> SequenceTypeVar2[int]:
+    """
+    numpy_sequence_types.
+
+    Dolor sit amet.
+
+    Parameters
+    ----------
+    a: SequenceTypeVar[list]
+
+    Returns
+    -------
+    named_result : SequenceTypeVar2[int]
+        this will be the return value
+    """
+    pass
