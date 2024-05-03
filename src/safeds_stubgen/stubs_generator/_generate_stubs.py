@@ -1103,8 +1103,11 @@ class StubsStringGenerator:
             if reexport.endswith(name):
                 for module in self.api.reexport_map[reexport]:
                     # Added "no cover" since I can't recreate this in the tests
-                    if (path.startswith(module.id) and class_path.startswith(module.id) and
-                            path.lstrip(module.id).lstrip("/") == name == class_name):  # pragma: no cover
+                    if (
+                        path.startswith(module.id)
+                        and class_path.startswith(module.id)
+                        and path.lstrip(module.id).lstrip("/") == name == class_name
+                    ):  # pragma: no cover
                         return True
 
         return False
