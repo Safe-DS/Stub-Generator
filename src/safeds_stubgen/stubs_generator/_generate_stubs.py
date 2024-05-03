@@ -212,8 +212,8 @@ class StubsStringGenerator:
 
     def __call__(self, module: Module) -> tuple[str, str]:
         self.module_id = module.id
-        self.class_generics: list = []
-        self.module_imports: set[str] = set()
+        self.class_generics = []
+        self.module_imports = set()
 
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
