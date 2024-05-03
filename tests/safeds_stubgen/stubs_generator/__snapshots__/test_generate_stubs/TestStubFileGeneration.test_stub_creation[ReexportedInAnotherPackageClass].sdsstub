@@ -1,0 +1,4 @@
+@PythonModule("tests.data.various_modules_package.file_creation.ReexportedInAnotherPackageClass")
+package tests.data.variousModulesPackage.fileCreation.ReexportedInAnotherPackageClass
+
+class ReexportedInAnotherPackageClass()

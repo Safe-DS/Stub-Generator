@@ -1,0 +1,4 @@
+@PythonModule("tests.data.various_modules_package.file_creation.Lv1")
+package tests.data.variousModulesPackage.fileCreation.Lv1
+
+class Lv1()

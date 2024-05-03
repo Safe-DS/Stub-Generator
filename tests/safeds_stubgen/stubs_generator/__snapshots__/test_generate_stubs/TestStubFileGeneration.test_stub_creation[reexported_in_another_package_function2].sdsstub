@@ -1,0 +1,6 @@
+@PythonModule("tests.data.various_modules_package.file_creation.reexported_in_another_package_function2")
+package tests.data.variousModulesPackage.fileCreation.reexportedInAnotherPackageFunction2
+
+@Pure
+@PythonName("reexported_in_another_package_function2")
+fun reexportedInAnotherPackageFunction2() -> result1: String

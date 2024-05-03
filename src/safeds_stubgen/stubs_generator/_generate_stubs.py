@@ -221,45 +221,43 @@ class StubsStringGenerator:
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
         module_data = []
         for module_id in self.reexport_modules:
-            # Reset the objects that we normally would reset in the __call__
-            self.module_imports = set()
-            self.class_generics = []
-            self.module_id = module_id
-
-            module_name = module_id.split("/")[-1]
-
-            # Create module header
-            package_info = ".".join(module_id.split("/"))
-            package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
-            module_name_info = ""
-            if package_info != package_info_camel_case:
-                module_name_info = f'@PythonModule("{package_info}")\n'
-            module_header = f"{module_name_info}package {package_info_camel_case}\n"
-
-            # Create module text
-            module_text = ""
-            elements = self.reexport_modules[module_id]
+            elements: list[Class | Function] = self.reexport_modules[module_id]
 
             # We sort for the snapshot tests
             elements.sort(key=lambda x: x.name)
-            class_text = ""
+
             for element in elements:
+                # Reset the objects that we normally would reset in the __call__
+                self.module_imports = set()
+                self.class_generics = []
+
+                module_name = element.name
+                self.module_id = f"{module_id}/{module_name}"
+
+                # Create module header
+                package_info = ".".join(self.module_id.split("/"))
+                package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
+                module_name_info = ""
+                if package_info != package_info_camel_case:
+                    module_name_info = f'@PythonModule("{package_info}")\n'
+                module_header = f"{module_name_info}package {package_info_camel_case}\n"
+
+                # Create body text
                 if isinstance(element, Class):
-                    class_text += f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
+                    module_text = f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
                 elif isinstance(element, Function):
-                    module_text += f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
+                    module_text = f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
                 else:  # pragma: no cover
-                    raise TypeError("Something went wrong, only Class and Funktion types are allowed here.")
+                    msg = f"Could not create a module for {element.id}. Unsupported type {type(element)}."
+                    logging.warning(msg)
+                    continue
 
-            # We add the class text after global functions
-            module_text += class_text
+                # Create imports
+                #  We have to create them last, since we have to check all used types in this module first
+                module_header += self._create_imports_string()
+                module_text = module_header + module_text
+                module_data.append((Path(out_path / self.module_id), module_name, module_text, True))
 
-            # Create imports - We have to create them last, since we have to check all used types in this module first
-            module_header += self._create_imports_string()
-
-            module_text = module_header + module_text
-
-            module_data.append((Path(out_path / module_id), module_name, module_text, True))
         return module_data
 
     def _create_module_string(self, module: Module) -> tuple[str, str]:

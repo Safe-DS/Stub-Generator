@@ -1,0 +1,4 @@
+@PythonModule("tests.data.various_modules_package.Lv2")
+package tests.data.variousModulesPackage.Lv2
+
+class Lv2()

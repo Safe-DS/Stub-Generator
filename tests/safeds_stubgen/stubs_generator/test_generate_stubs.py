@@ -39,18 +39,19 @@ def test_file_creation() -> None:
     data_to_test.sort(key=lambda x: x[1])
 
     expected_files: list[tuple[str, str]] = [
-        # We reexport the modules _reexported_from_another_package 1, 2, 3 and the only function in _module_6 are into
-        # the file_creation package, which is why we don't create those packages
-        ("/tests/data/various_modules_package/file_creation", "file_creation"),
-        # Class C of module_1 is public and not reexported
+        ("tests/data/various_modules_package/file_creation/Lv1", "Lv1"),
+        ("tests/data/various_modules_package/file_creation/ReexportedInAnotherPackageClass",
+         "ReexportedInAnotherPackageClass"),
+        ("tests/data/various_modules_package/file_creation/ReexportedInAnotherPackageClass2",
+         "ReexportedInAnotherPackageClass2"),
         ("tests/data/various_modules_package/file_creation/module_1", "module_1"),
-        # module_5 is public
         ("tests/data/various_modules_package/file_creation/package_1/module_5", "module_5"),
-        # reexported_from_another_package_3 is created, since we import the whole module in the file_creation package
-        ("tests/data/out/tests/data/various_modules_package/file_creation", "reexported_from_another_package_3"),
-        # _module_3 is not created, even though it is reexported, since it's also reexported in the parent package.
-        # _module_2 is not created, since the reexport is still private
-        # _module_4 is not created, since it has no (public) reexport
+        ("tests/data/various_modules_package/file_creation/public_reexported", "public_reexported"),
+        ("tests/data/various_modules_package/file_creation", "reexported_from_another_package_3"),
+        ("tests/data/various_modules_package/file_creation/reexported_in_another_package_function",
+         "reexported_in_another_package_function"),
+        ("tests/data/various_modules_package/file_creation/reexported_in_another_package_function2",
+         "reexported_in_another_package_function2"),
     ]
     expected_files.sort(key=lambda x: x[1])
 
