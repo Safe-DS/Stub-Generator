@@ -424,7 +424,9 @@ class ClassWithVariousAttributeTypes() {
  * @example
  * pipeline example {
  *     // from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
- *     // class_ = NumpyClassWithExamples
+ *     // class_ = (
+ *     //     NumpyClassWithExamples
+ *     // )
  * }
  */
 class NumpyClassWithExamples() {
@@ -433,7 +435,9 @@ class NumpyClassWithExamples() {
      * @example
      * pipeline example {
      *     // from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
-     *     // func = NumpyClassWithExamples.numpy_func_with_examples
+     *     // func = (
+     *     //     NumpyClassWithExamples.numpy_func_with_examples
+     *     // )
      *     // func()
      * }
      */
