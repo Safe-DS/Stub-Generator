@@ -28,7 +28,7 @@ def ensure_file_exists(file: Path) -> None:
 
     Parameters
     ----------
-    file: Path
+    file:
         The file path.
     """
     file.parent.mkdir(parents=True, exist_ok=True)

@@ -76,11 +76,11 @@ def _run_stub_generator(
 
     Parameters
     ----------
-    out_dir_path : Path
+    out_dir_path:
         The path to the output directory.
-    docstring_style : DocstringStyle
+    docstring_style:
         The style of docstrings that used in the library.
-    is_test_run : bool
+    is_test_run:
         Set True if files in test directories should be parsed too.
     """
     # Generate the API data
