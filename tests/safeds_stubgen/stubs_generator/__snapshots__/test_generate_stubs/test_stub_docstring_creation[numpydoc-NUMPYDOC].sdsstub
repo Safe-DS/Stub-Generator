@@ -176,6 +176,24 @@ fun numpySequenceTypes(
 ) -> namedResult: SequenceTypeVar2<Int>
 
 /**
+ * numpy_named_result_without_type
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("numpy_named_result_without_type")
+fun numpyNamedResultWithoutType() -> namedResult: String
+
+/**
+ * numpy_named_result_without_type_inferred
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("numpy_named_result_without_type_inferred")
+fun numpyNamedResultWithoutTypeInferred() -> namedResult: String
+
+/**
  * ClassWithDocumentation. Code::
  *
  *     pass

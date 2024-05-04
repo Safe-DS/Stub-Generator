@@ -466,22 +466,33 @@ class MyPyAstVisitor:
         # Create Result objects and try to find a matching docstring name
         all_results = []
         name_generator = result_name_generator()
-        for type_ in return_results:
-            result_docstring = ResultDocstring()
-            for docstring in result_docstrings:
-                if hash(docstring.type) == hash(type_):
-                    result_docstring = docstring
-                    break
 
-            result_name = result_docstring.name if result_docstring.name else next(name_generator)
+        if len(return_results) == 1 == len(result_docstrings):
+            result_name = result_docstrings[0].name or next(name_generator)
+            all_results = [
+                Result(
+                    id=f"{function_id}/{result_name}",
+                    type=return_results[0],
+                    name=f"{result_name}",
+                ),
+            ]
+        else:
+            for type_ in return_results:
+                result_docstring = ResultDocstring()
+                for docstring in result_docstrings:
+                    if hash(docstring.type) == hash(type_):
+                        result_docstring = docstring
+                        break
 
-            result = Result(
-                id=f"{function_id}/{result_name}",
-                type=type_,
-                name=f"{result_name}",
-            )
+                result_name = result_docstring.name or next(name_generator)
 
-            all_results.append(result)
+                all_results.append(
+                    Result(
+                        id=f"{function_id}/{result_name}",
+                        type=type_,
+                        name=f"{result_name}",
+                    ),
+                )
 
         return all_results
 
@@ -582,39 +593,49 @@ class MyPyAstVisitor:
         # Create Result objects
         name_generator = result_name_generator()
         inferred_results = []
-        for result_list in result_array:
-            result_count = len(result_list)
-            if result_count == 1:
-                result_type = result_list[0]
-            else:
-                result_type = sds_types.UnionType(result_list)
-
-            # Search for matching docstrings for each result for the name
-            result_docstring = ResultDocstring()
-            if docstrings:
-                if isinstance(result_type, sds_types.UnionType):
-                    possible_type: sds_types.AbstractType | None
-                    if len(docstrings) > 1:
-                        docstring_types = [docstring.type for docstring in docstrings if docstring.type is not None]
-                        possible_type = sds_types.UnionType(types=docstring_types)
-                    else:
-                        possible_type = docstrings[0].type
-                    if possible_type == result_type:
-                        result_docstring = docstrings[0]
-                else:
-                    for docstring in docstrings:
-                        if hash(docstring.type) == hash(result_type):
-                            result_docstring = docstring
-                            break
-
-            result_name = result_docstring.name or next(name_generator)
-            inferred_results.append(
+        if 1 == len(result_array) == len(result_array[0]) == len(docstrings):
+            result_name = docstrings[0].name or next(name_generator)
+            inferred_results = [
                 Result(
                     id=f"{function_id}/{result_name}",
-                    type=result_type,
+                    type=result_array[0][0],
                     name=result_name,
                 ),
-            )
+            ]
+        else:
+            for result_list in result_array:
+                result_count = len(result_list)
+                if result_count == 1:
+                    result_type = result_list[0]
+                else:
+                    result_type = sds_types.UnionType(result_list)
+
+                # Search for matching docstrings for each result for the name
+                result_docstring = ResultDocstring()
+                if docstrings:
+                    if isinstance(result_type, sds_types.UnionType):
+                        possible_type: sds_types.AbstractType | None
+                        if len(docstrings) > 1:
+                            docstring_types = [docstring.type for docstring in docstrings if docstring.type is not None]
+                            possible_type = sds_types.UnionType(types=docstring_types)
+                        else:
+                            possible_type = docstrings[0].type
+                        if possible_type == result_type:
+                            result_docstring = docstrings[0]
+                    else:
+                        for docstring in docstrings:
+                            if hash(docstring.type) == hash(result_type):
+                                result_docstring = docstring
+                                break
+
+                result_name = result_docstring.name or next(name_generator)
+                inferred_results.append(
+                    Result(
+                        id=f"{function_id}/{result_name}",
+                        type=result_type,
+                        name=result_name,
+                    ),
+                )
 
         return inferred_results
 
