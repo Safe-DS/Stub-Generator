@@ -962,7 +962,7 @@ class StubsStringGenerator:
 
         Paramters
         ---------
-        qname
+        qname:
             The qualified name of a module/class/etc.
         """
         if import_qname == "":  # pragma: no cover
