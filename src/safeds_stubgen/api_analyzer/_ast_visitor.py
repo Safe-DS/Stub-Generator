@@ -551,16 +551,16 @@ class MyPyAstVisitor:
 
         Paramters
         ---------
-        ret_type : sds_types.TupleType
+        ret_type:
             An object representing a tuple with all inferred types.
-        result_docstring : ResultDocstring
+        result_docstring:
             The docstring of the function to which the results belong to.
-        function_id : str
+        function_id:
             The function ID.
 
         Returns
         -------
-        list[Result]
+        results:
             A list of Results objects representing the possible results of a funtion.
         """
         result_array: list[list[AbstractType]] = []
@@ -1124,12 +1124,12 @@ class MyPyAstVisitor:
 
         Paramters
         ---------
-        name : str
+        name:
             The name of the new object which lies on the highest level.
 
         Returns
         -------
-        str
+        id:
             ID of the object
         """
         segments = [

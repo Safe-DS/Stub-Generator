@@ -26,16 +26,17 @@ def generate_stub_data(
 
     Parameters
     ----------
-    stubs_generator
+    stubs_generator:
         The class for generating the stubs.
-    out_path
+    out_path:
         The path in which the stub files should be created. If no such path exists this function creates the directory
         files.
 
     Returns
     -------
-    A list of tuples, which are 1. the path of the stub file, 2. the name of the stub file, 3. its content and 4. if
-    it's a package file (created through init reexports).
+    virtual_files:
+        A list of tuples, which are 1. the path of the stub file, 2. the name of the stub file, 3. its content and 4. if
+        it's a package file (created through init reexports).
     """
     api = stubs_generator.api
     stubs_data: list[tuple[Path, str, str, bool]] = []
