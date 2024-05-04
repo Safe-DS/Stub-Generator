@@ -1,5 +1,5 @@
-@PythonModule("tests.data.various_modules_package.ClMCD")
-package tests.data.variousModulesPackage.ClMCD
+@PythonModule("tests.data.various_modules_package")
+package tests.data.variousModulesPackage
 
 class ClMCD() {
     /**

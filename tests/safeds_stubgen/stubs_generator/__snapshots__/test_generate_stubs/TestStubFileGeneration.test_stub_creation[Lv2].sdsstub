@@ -1,4 +1,7 @@
-@PythonModule("tests.data.various_modules_package.Lv2")
-package tests.data.variousModulesPackage.Lv2
+@PythonModule("tests.data.various_modules_package")
+package tests.data.variousModulesPackage
 
-class Lv2()
+class Lv2() {
+    @PythonName("lv2_attr")
+    static attr lv2Attr: Lv2
+}

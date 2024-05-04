@@ -1,5 +1,5 @@
-@PythonModule("tests.data.various_modules_package.file_creation.public_reexported")
-package tests.data.variousModulesPackage.fileCreation.publicReexported
+@PythonModule("tests.data.various_modules_package.file_creation")
+package tests.data.variousModulesPackage.fileCreation
 
 // TODO Result type information missing.
 @Pure

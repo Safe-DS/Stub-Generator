@@ -7292,6 +7292,10 @@
     'id': 'tests/data/various_modules_package/file_creation/module_1',
     'name': 'module_1',
     'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Self',
+      }),
     ]),
     'wildcard_imports': list([
     ]),

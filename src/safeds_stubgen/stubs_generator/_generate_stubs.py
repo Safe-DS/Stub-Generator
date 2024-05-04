@@ -235,7 +235,7 @@ class StubsStringGenerator:
                 self.module_id = f"{module_id}/{module_name}"
 
                 # Create module header
-                package_info = ".".join(self.module_id.split("/"))
+                package_info = ".".join(self.module_id.split("/")[:-1])
                 package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
                 module_name_info = ""
                 if package_info != package_info_camel_case:
@@ -1157,7 +1157,8 @@ class StubsStringGenerator:
             if not in_package:
                 self.classes_outside_package.add(qname)
 
-            self.module_imports.add(qname)
+            if qname.replace(".", "/") != self.module_id:
+                self.module_imports.add(qname)
 
     def _create_todo_msg(self, indentations: str) -> str:
         if not self._current_todo_msgs:

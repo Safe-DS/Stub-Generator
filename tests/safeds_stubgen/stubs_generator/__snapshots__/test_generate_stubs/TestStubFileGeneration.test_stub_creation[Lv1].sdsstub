@@ -1,4 +1,8 @@
-@PythonModule("tests.data.various_modules_package.file_creation.Lv1")
-package tests.data.variousModulesPackage.fileCreation.Lv1
+@PythonModule("tests.data.various_modules_package.file_creation")
+package tests.data.variousModulesPackage.fileCreation
 
-class Lv1()
+class Lv1() {
+    @Pure
+    @PythonName("level1_function")
+    fun level1Function() -> result1: Lv1
+}

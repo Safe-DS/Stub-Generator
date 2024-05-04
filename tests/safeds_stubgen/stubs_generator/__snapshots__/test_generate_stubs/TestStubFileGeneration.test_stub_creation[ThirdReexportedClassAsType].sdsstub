@@ -1,4 +1,4 @@
-@PythonModule("tests.data.various_modules_package.ThirdReexportedClassAsType")
-package tests.data.variousModulesPackage.ThirdReexportedClassAsType
+@PythonModule("tests.data.various_modules_package")
+package tests.data.variousModulesPackage
 
 class ThirdReexportedClassAsType()
