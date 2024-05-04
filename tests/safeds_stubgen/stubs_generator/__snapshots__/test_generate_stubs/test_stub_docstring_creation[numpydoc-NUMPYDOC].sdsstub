@@ -163,6 +163,19 @@ fun inferTypes3(
 ) -> result1: union<Boolean, Int, String>
 
 /**
+ * numpy_sequence_types.
+ *
+ * Dolor sit amet.
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("numpy_sequence_types")
+fun numpySequenceTypes(
+    a: SequenceTypeVar<List<Any>>
+) -> namedResult: SequenceTypeVar2<Int>
+
+/**
  * ClassWithDocumentation. Code::
  *
  *     pass
