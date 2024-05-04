@@ -749,7 +749,7 @@ class StubsStringGenerator:
                 name = type_data["name"]
 
             if types:
-                if len(types) >= 2:
+                if len(types) >= 2 and name in {"Set", "List"}:
                     self._current_todo_msgs.add(name)
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"
