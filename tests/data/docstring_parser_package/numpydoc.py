@@ -488,7 +488,9 @@ class NumpyClassWithExamples:
     --------
     >>> from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
     This text should be ignored
-    >>> class_ = NumpyClassWithExamples
+    >>> class_ = (
+    ...     NumpyClassWithExamples
+    ... )
     This text should be ignored, too.
     """
 
@@ -497,7 +499,9 @@ class NumpyClassWithExamples:
         Examples
         --------
         >>> from tests.data.docstring_parser_package.numpydoc import NumpyClassWithExamples
-        >>> func = NumpyClassWithExamples.numpy_func_with_examples
+        >>> func = (
+        ...     NumpyClassWithExamples.numpy_func_with_examples
+        ... )
         >>> func()
         This text should be ignored.
         """
