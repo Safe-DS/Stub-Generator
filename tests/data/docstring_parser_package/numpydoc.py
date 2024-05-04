@@ -524,3 +524,27 @@ def numpy_sequence_types(a: SequenceTypeVar[list]) -> SequenceTypeVar2[int]:
         this will be the return value
     """
     pass
+
+
+def numpy_named_result_without_type() -> str:
+    """
+    numpy_named_result_without_type
+
+    Returns
+    -------
+    named_result :
+        this will be the return value
+    """
+    return "result"
+
+
+def numpy_named_result_without_type_inferred():
+    """
+    numpy_named_result_without_type_inferred
+
+    Returns
+    -------
+    named_result :
+        this will be the return value
+    """
+    return "result"
