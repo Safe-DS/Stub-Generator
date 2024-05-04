@@ -1,3 +1,32 @@
+## [0.3.0](https://github.com/Safe-DS/Stub-Generator/compare/v0.2.0...v0.3.0) (2024-05-04)
+
+
+### Features
+
+* Added handling for sequence classes ([#127](https://github.com/Safe-DS/Stub-Generator/issues/127)) ([cb061ab](https://github.com/Safe-DS/Stub-Generator/commit/cb061ab5e2ca10f9a8270d4141d6ac842612920e)), closes [#126](https://github.com/Safe-DS/Stub-Generator/issues/126)
+* DocString result names for Safe-DS stub results ([#101](https://github.com/Safe-DS/Stub-Generator/issues/101)) ([fe163e3](https://github.com/Safe-DS/Stub-Generator/commit/fe163e30b7a22b638d5aa6a2f861221afd2fc79c)), closes [#100](https://github.com/Safe-DS/Stub-Generator/issues/100)
+* Examples from docstrings are also taken over to stub docstrings ([#116](https://github.com/Safe-DS/Stub-Generator/issues/116)) ([6665186](https://github.com/Safe-DS/Stub-Generator/commit/6665186badeb10580081544603ce82878760fbfc)), closes [#115](https://github.com/Safe-DS/Stub-Generator/issues/115)
+* Replace the docstring_parser library with Griffe ([#79](https://github.com/Safe-DS/Stub-Generator/issues/79)) ([9b2f802](https://github.com/Safe-DS/Stub-Generator/commit/9b2f802311f51befbe5df2e54deadced84c372a6))
+
+
+### Bug Fixes
+
+* `Self` types as results are translated to class names  ([#110](https://github.com/Safe-DS/Stub-Generator/issues/110)) ([4554a56](https://github.com/Safe-DS/Stub-Generator/commit/4554a5637f441490f513b09ccc411c1c13d14d15)), closes [#86](https://github.com/Safe-DS/Stub-Generator/issues/86)
+* Creating stubs with relative paths for source and output directories ([#128](https://github.com/Safe-DS/Stub-Generator/issues/128)) ([b4493c9](https://github.com/Safe-DS/Stub-Generator/commit/b4493c90e29a9eabc0d28167982ab44172040961)), closes [#125](https://github.com/Safe-DS/Stub-Generator/issues/125)
+* Docstrings have the correct indentation for nested classes (stubs) ([#114](https://github.com/Safe-DS/Stub-Generator/issues/114)) ([c7b8550](https://github.com/Safe-DS/Stub-Generator/commit/c7b8550af78e87cdec989ce0b11db6e984bb7e21)), closes [#113](https://github.com/Safe-DS/Stub-Generator/issues/113)
+* Fixed a bug where double ? would be generated for stubs ([#103](https://github.com/Safe-DS/Stub-Generator/issues/103)) ([c35c6ac](https://github.com/Safe-DS/Stub-Generator/commit/c35c6ac4d6beae253da66b7acb1d91093023481c)), closes [#87](https://github.com/Safe-DS/Stub-Generator/issues/87) [#87](https://github.com/Safe-DS/Stub-Generator/issues/87)
+* Fixed a bug where imports would not check reexports for shortest path ([#112](https://github.com/Safe-DS/Stub-Generator/issues/112)) ([48c5367](https://github.com/Safe-DS/Stub-Generator/commit/48c5367d68a34c6693dee9660a4d696520e6aec0)), closes [#82](https://github.com/Safe-DS/Stub-Generator/issues/82)
+* Fixed a bug where results in stubs would not be named ([#131](https://github.com/Safe-DS/Stub-Generator/issues/131)) ([4408c84](https://github.com/Safe-DS/Stub-Generator/commit/4408c84da58dd84e1843d4fa39d04c1880088917)), closes [#100](https://github.com/Safe-DS/Stub-Generator/issues/100)
+* Fixed a bug which prevented mypy version update ([#107](https://github.com/Safe-DS/Stub-Generator/issues/107)) ([501d2cd](https://github.com/Safe-DS/Stub-Generator/commit/501d2cdb836de1fa46fd5a25619c44d5143053d2))
+* Fixed the stubs generator ([#108](https://github.com/Safe-DS/Stub-Generator/issues/108)) ([9ad6df6](https://github.com/Safe-DS/Stub-Generator/commit/9ad6df6143b3149dd8699593dcb6761d755d8181)), closes [#80](https://github.com/Safe-DS/Stub-Generator/issues/80)
+* Generated names of callback results start with result, not with param ([#104](https://github.com/Safe-DS/Stub-Generator/issues/104)) ([6e696e9](https://github.com/Safe-DS/Stub-Generator/commit/6e696e9f4ff57ca241706406d937275dec22cc4d)), closes [#85](https://github.com/Safe-DS/Stub-Generator/issues/85)
+* Include lines of examples that start with `...` ([#130](https://github.com/Safe-DS/Stub-Generator/issues/130)) ([3477b4a](https://github.com/Safe-DS/Stub-Generator/commit/3477b4adf702da7f99bd90e45d6c3561ef287f0e)), closes [#129](https://github.com/Safe-DS/Stub-Generator/issues/129)
+* No "// TODO ..." if return type is explicitly `None` ([#111](https://github.com/Safe-DS/Stub-Generator/issues/111)) ([08e345f](https://github.com/Safe-DS/Stub-Generator/commit/08e345fcb5e1bc1227691cd70df8d994242bfe69)), closes [#83](https://github.com/Safe-DS/Stub-Generator/issues/83)
+* Removed the Epydoc parser ([#89](https://github.com/Safe-DS/Stub-Generator/issues/89)) ([684a101](https://github.com/Safe-DS/Stub-Generator/commit/684a101ca5369bc2aff0e8c76804b0c3e533f60a))
+* Replaced tabs with 4 spaces ([#105](https://github.com/Safe-DS/Stub-Generator/issues/105)) ([8e7aa5d](https://github.com/Safe-DS/Stub-Generator/commit/8e7aa5df1c4f5c81e63fe7cb00927c8853f17d8f)), closes [#84](https://github.com/Safe-DS/Stub-Generator/issues/84)
+* The file structure of stubs resembles the "package" path. ([#106](https://github.com/Safe-DS/Stub-Generator/issues/106)) ([ff1800e](https://github.com/Safe-DS/Stub-Generator/commit/ff1800e23fbb3631e6fe8fa94de59e19910e4a04)), closes [#81](https://github.com/Safe-DS/Stub-Generator/issues/81)
+* Translation of callable ([#102](https://github.com/Safe-DS/Stub-Generator/issues/102)) ([c581e6a](https://github.com/Safe-DS/Stub-Generator/commit/c581e6a66324965afc627985b79f77351fa57ff7)), closes [#88](https://github.com/Safe-DS/Stub-Generator/issues/88) [#88](https://github.com/Safe-DS/Stub-Generator/issues/88)
+
 ## [0.2.0](https://github.com/Safe-DS/Stub-Generator/compare/v0.1.0...v0.2.0) (2024-03-29)
 
 

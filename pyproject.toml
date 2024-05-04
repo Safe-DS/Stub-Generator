@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "safe-ds-stubgen"
-version = "0.2.0"
+version = "0.3.0"
 description = "Generation of Safe-DS stubs for Python libraries."
 authors = ["Lars Reimann <mail@larsreimann.com>"]
 license = "MIT"
