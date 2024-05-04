@@ -17,7 +17,7 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_stub_generator(args.src, args.out, args.docstyle, args.testrun, args.naming_convert)
+    _run_stub_generator(args.src.resolve(), args.out.resolve(), args.docstyle, args.testrun, args.naming_convert)
 
 
 def _get_args() -> argparse.Namespace:
