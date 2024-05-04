@@ -737,7 +737,7 @@ class StubsStringGenerator:
                 return_type_string = f"{result_name}: {self._create_type_string(return_type)}"
 
             return f"({', '.join(params)}) -> {return_type_string}"
-        elif kind in {"SetType", "ListType"}:
+        elif kind in {"SetType", "ListType", "NamedSequenceType"}:
             types = [self._create_type_string(type_) for type_ in type_data["types"]]
 
             # Cut out the "Type" in the kind name
@@ -745,9 +745,11 @@ class StubsStringGenerator:
 
             if name == "Set":
                 self._current_todo_msgs.add("no set support")
+            elif name == "NamedSequence":
+                name = type_data["name"]
 
             if types:
-                if len(types) >= 2:
+                if len(types) >= 2 and name in {"Set", "List"}:
                     self._current_todo_msgs.add(name)
                 return f"{name}<{', '.join(types)}>"
             return f"{name}<Any>"

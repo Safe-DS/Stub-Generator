@@ -18,6 +18,8 @@ class AbstractType(metaclass=ABCMeta):
                 return UnknownType.from_dict(d)
             case NamedType.__name__:
                 return NamedType.from_dict(d)
+            case NamedSequenceType.__name__:
+                return NamedSequenceType.from_dict(d)
             case EnumType.__name__:
                 return EnumType.from_dict(d)
             case BoundaryType.__name__:
@@ -81,6 +83,38 @@ class NamedType(AbstractType):
 
     def __hash__(self) -> int:
         return hash((self.name, self.qname))
+
+
+@dataclass(frozen=True)
+class NamedSequenceType(AbstractType):
+    name: str
+    qname: str
+    types: Sequence[AbstractType]
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> NamedSequenceType:
+        types = []
+        for element in d["types"]:
+            type_ = AbstractType.from_dict(element)
+            if type_ is not None:
+                types.append(type_)
+        return NamedSequenceType(name=d["name"], qname=d["qname"], types=types)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.__class__.__name__,
+            "name": self.name,
+            "qname": self.qname,
+            "types": [t.to_dict() for t in self.types],
+        }
+
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, NamedSequenceType):  # pragma: no cover
+            return NotImplemented
+        return Counter(self.types) == Counter(other.types) and self.name == other.name and self.qname == other.qname
+
+    def __hash__(self) -> int:
+        return hash(frozenset([self.name, self.qname, *self.types]))
 
 
 @dataclass(frozen=True)
