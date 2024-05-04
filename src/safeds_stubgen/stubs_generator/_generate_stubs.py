@@ -944,6 +944,8 @@ class StubsStringGenerator:
             for example_part in docstring.example.split("\n"):
                 if example_part.startswith(">>>"):
                     example += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
+                elif example_part.startswith("..."):
+                    example += f"{indentations} *     {example_part.replace('...', '//')}\n"
             example += f"{indentations} * }}\n"
         if full_docstring and example:
             full_docstring += f"{indentations} *\n"
