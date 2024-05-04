@@ -469,11 +469,13 @@ class MyPyAstVisitor:
 
         if len(return_results) == 1 == len(result_docstrings):
             result_name = result_docstrings[0].name or next(name_generator)
-            all_results = [Result(
-                id=f"{function_id}/{result_name}",
-                type=return_results[0],
-                name=f"{result_name}",
-            )]
+            all_results = [
+                Result(
+                    id=f"{function_id}/{result_name}",
+                    type=return_results[0],
+                    name=f"{result_name}",
+                ),
+            ]
         else:
             for type_ in return_results:
                 result_docstring = ResultDocstring()
@@ -484,11 +486,13 @@ class MyPyAstVisitor:
 
                 result_name = result_docstring.name or next(name_generator)
 
-                all_results.append(Result(
-                    id=f"{function_id}/{result_name}",
-                    type=type_,
-                    name=f"{result_name}",
-                ))
+                all_results.append(
+                    Result(
+                        id=f"{function_id}/{result_name}",
+                        type=type_,
+                        name=f"{result_name}",
+                    ),
+                )
 
         return all_results
 
@@ -591,11 +595,13 @@ class MyPyAstVisitor:
         inferred_results = []
         if 1 == len(result_array) == len(result_array[0]) == len(docstrings):
             result_name = docstrings[0].name or next(name_generator)
-            inferred_results = [Result(
-                id=f"{function_id}/{result_name}",
-                type=result_array[0][0],
-                name=result_name,
-            )]
+            inferred_results = [
+                Result(
+                    id=f"{function_id}/{result_name}",
+                    type=result_array[0][0],
+                    name=result_name,
+                ),
+            ]
         else:
             for result_list in result_array:
                 result_count = len(result_list)
@@ -874,7 +880,7 @@ class MyPyAstVisitor:
                 for mod in self.api.reexport_map[reexport_name_forward]:
                     reexported_by.add(mod)
 
-            reexport_name_backward = ".".join(path[-i - 1:])
+            reexport_name_backward = ".".join(path[-i - 1 :])
             if reexport_name_backward in self.api.reexport_map:
                 for mod in self.api.reexport_map[reexport_name_backward]:
                     reexported_by.add(mod)
