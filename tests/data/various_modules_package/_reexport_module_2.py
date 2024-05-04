@@ -1,4 +1,4 @@
-class AnotherReexportClass:
+class AnotherUnreexportedClass:
     pass
 
 

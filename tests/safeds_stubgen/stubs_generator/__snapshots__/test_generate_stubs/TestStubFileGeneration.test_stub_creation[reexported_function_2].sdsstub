@@ -1,0 +1,6 @@
+@PythonModule("tests.data.various_modules_package")
+package tests.data.variousModulesPackage
+
+@Pure
+@PythonName("reexported_function_2")
+fun reexportedFunction2()

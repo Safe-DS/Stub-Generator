@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
 from enum import IntEnum
 from pathlib import Path
 from types import NoneType
@@ -38,7 +39,7 @@ class NamingConvention(IntEnum):
 def generate_stub_data(
     stubs_generator: StubsStringGenerator,
     out_path: Path,
-) -> list[tuple[Path, str, str]]:
+) -> list[tuple[Path, str, str, bool]]:
     """Generate Safe-DS stubs.
 
     Generates stub data from an API object.
@@ -53,10 +54,11 @@ def generate_stub_data(
 
     Returns
     -------
-    A list of tuples, which are 1. the path of the stub file, 2. the name of the stub file and 3. its content.
+    A list of tuples, which are 1. the path of the stub file, 2. the name of the stub file, 3. its content and 4. if
+    it's a package file (created through init reexports).
     """
     api = stubs_generator.api
-    stubs_data: list[tuple[Path, str, str]] = []
+    stubs_data: list[tuple[Path, str, str, bool]] = []
     for module in api.modules.values():
         if module.name == "__init__":
             continue
@@ -78,27 +80,50 @@ def generate_stub_data(
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        module_dir = Path(out_path / package_info.replace(".", "/"))
-        stubs_data.append((module_dir, module.name, module_text))
-    return stubs_data
+        shortest_path, alias = _get_shortest_public_reexport(
+            reexport_map=api.reexport_map,
+            name=module.name,
+            qname="",
+            is_module=True,
+        )
+        if shortest_path:
+            shortest_path = shortest_path.replace(".", "/")
+
+        module_id = shortest_path if shortest_path else package_info.replace(".", "/")
+        module_name = alias if alias else module.name
+
+        module_dir = Path(out_path / module_id)
+        stubs_data.append((module_dir, module_name, module_text, False))
+
+    reexport_module_data = stubs_generator.create_reexport_module_strings(out_path=out_path)
+
+    return stubs_data + reexport_module_data
 
 
 def create_stub_files(
     stubs_generator: StubsStringGenerator,
-    stubs_data: list[tuple[Path, str, str]],
+    stubs_data: list[tuple[Path, str, str, bool]],
     out_path: Path,
 ) -> None:
     naming_convention = stubs_generator.naming_convention
-    for module_dir, module_name, module_text in stubs_data:
-        log_msg = f"Creating stub file for {module_dir}"
+    # A "package module" is a module which is created though the reexported classes and functions in the __init__.py
+    for module_dir, module_name, module_text, is_package_module in stubs_data:
+        if is_package_module:
+            # Cut out the last part of the path, since we don't want "path/to/package/package.sdsstubs" but
+            # "path/to/package.sdsstubs" so that "package" is not doubled
+            corrected_module_dir = Path("/".join(module_dir.parts[:-1]))
+        else:
+            corrected_module_dir = module_dir
+
+        log_msg = f"Creating stub file for {corrected_module_dir}"
         logging.info(log_msg)
 
         # Create module dir
-        module_dir.mkdir(parents=True, exist_ok=True)
+        corrected_module_dir.mkdir(parents=True, exist_ok=True)
 
         # Create and open module file
         public_module_name = module_name.lstrip("_")
-        file_path = Path(module_dir / f"{public_module_name}.sdsstub")
+        file_path = Path(corrected_module_dir / f"{public_module_name}.sdsstub")
         Path(file_path).touch()
 
         with file_path.open("w") as f:
@@ -176,44 +201,112 @@ class StubsStringGenerator:
     """
 
     def __init__(self, api: API, convert_identifiers: bool) -> None:
+        self.module_id: str = ""
+        self.class_generics: list = []
+        self.module_imports: set[str] = set()
+
         self.api = api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
+        self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
 
     def __call__(self, module: Module) -> tuple[str, str]:
-        self.module_imports: set[str] = set()
-        self._current_todo_msgs: set[str] = set()
-        self.module = module
-        self.class_generics: list = []
-        return self._create_module_string()
+        self.module_id = module.id
+        self.class_generics = []
+        self.module_imports = set()
 
-    def _create_module_string(self) -> tuple[str, str]:
+        self._current_todo_msgs: set[str] = set()
+        return self._create_module_string(module)
+
+    def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
+        module_data = []
+        for module_id in self.reexport_modules:
+            elements: list[Class | Function] = self.reexport_modules[module_id]
+
+            # We sort for the snapshot tests
+            elements.sort(key=lambda x: x.name)
+
+            for element in elements:
+                # Reset the objects that we normally would reset in the __call__
+                self.module_imports = set()
+                self.class_generics = []
+
+                module_name = element.name
+                self.module_id = f"{module_id}/{module_name}"
+
+                # Create module header
+                package_info = ".".join(self.module_id.split("/")[:-1])
+                package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
+                module_name_info = ""
+                if package_info != package_info_camel_case:
+                    module_name_info = f'@PythonModule("{package_info}")\n'
+                module_header = f"{module_name_info}package {package_info_camel_case}\n"
+
+                # Create body text
+                if isinstance(element, Class):
+                    module_text = f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
+                elif isinstance(element, Function):
+                    module_text = f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
+                else:  # pragma: no cover
+                    msg = f"Could not create a module for {element.id}. Unsupported type {type(element)}."
+                    logging.warning(msg)
+                    continue
+
+                # Create imports
+                #  We have to create them last, since we have to check all used types in this module first
+                module_header += self._create_imports_string()
+                module_text = module_header + module_text
+                module_data.append((Path(out_path / self.module_id), module_name, module_text, True))
+
+        return module_data
+
+    def _create_module_string(self, module: Module) -> tuple[str, str]:
+        module_text = ""
+
         # Create package info
-        package_info = self._get_shortest_public_reexport()
+        package_info, _ = _get_shortest_public_reexport(
+            reexport_map=self.api.reexport_map,
+            name=module.name,
+            qname="",
+            is_module=True,
+        )
+
+        in_reexport_module = bool(package_info)
+
+        if not package_info:
+            package_info = ".".join(module.id.split("/"))
+
         package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
         module_name_info = ""
-        module_text = ""
         if package_info != package_info_camel_case:
             module_name_info = f'@PythonModule("{package_info}")\n'
         module_header = f"{module_name_info}package {package_info_camel_case}\n"
 
         # Create docstring
-        docstring = self._create_sds_docstring_description(self.module.docstring, "")
+        docstring = self._create_sds_docstring_description(module.docstring, "")
         if docstring:
             docstring += "\n"
 
         # Create global functions and properties
-        for function in self.module.global_functions:
+        for function in module.global_functions:
             if function.is_public:
-                module_text += f"\n{self._create_function_string(function, is_method=False)}\n"
+                function_string = self._create_function_string(
+                    function=function,
+                    is_method=False,
+                    in_reexport_module=in_reexport_module,
+                )
+                if function_string:
+                    module_text += f"\n{function_string}\n"
 
         # Create classes, class attr. & class methods
-        for class_ in self.module.classes:
+        for class_ in module.classes:
             if class_.is_public and not class_.inherits_from_exception:
-                module_text += f"\n{self._create_class_string(class_)}\n"
+                class_string = self._create_class_string(class_=class_, in_reexport_module=in_reexport_module)
+                if class_string:
+                    module_text += f"\n{class_string}\n"
 
         # Create enums & enum instances
-        for enum in self.module.enums:
+        for enum in module.enums:
             module_text += f"\n{self._create_enum_string(enum)}\n"
 
         # Create imports - We have to create them last, since we have to check all used types in this module first
@@ -246,7 +339,11 @@ class StubsStringGenerator:
         import_string = "\n".join(import_strings)
         return f"\n{import_string}\n"
 
-    def _create_class_string(self, class_: Class, class_indentation: str = "") -> str:
+    def _create_class_string(self, class_: Class, class_indentation: str = "", in_reexport_module: bool = False) -> str:
+        if not in_reexport_module and self._has_node_shorter_reexport(node=class_):
+            return ""
+
+        # Set indentation
         inner_indentations = class_indentation + INDENTATION
 
         # Constructor parameter
@@ -345,7 +442,12 @@ class StubsStringGenerator:
 
         # Inner classes
         for inner_class in class_.classes:
-            class_text += f"\n{self._create_class_string(inner_class, inner_indentations)}\n"
+            class_string = self._create_class_string(
+                class_=inner_class,
+                class_indentation=inner_indentations,
+                in_reexport_module=in_reexport_module,
+            )
+            class_text += f"\n{class_string}\n"
 
         # Superclass methods, if the superclass is an internal class
         class_text += superclass_methods_text
@@ -383,7 +485,7 @@ class StubsStringGenerator:
                 )
             else:
                 class_methods.append(
-                    self._create_function_string(method, inner_indentations, is_method=True),
+                    self._create_function_string(function=method, indentations=inner_indentations, is_method=True),
                 )
 
         method_text = ""
@@ -446,8 +548,17 @@ class StubsStringGenerator:
             attribute_text += f"\n{attribute_infos}\n"
         return attribute_text
 
-    def _create_function_string(self, function: Function, indentations: str = "", is_method: bool = False) -> str:
+    def _create_function_string(
+        self,
+        function: Function,
+        indentations: str = "",
+        is_method: bool = False,
+        in_reexport_module: bool = False,
+    ) -> str:
         """Create a function string for Safe-DS stubs."""
+        if not is_method and not in_reexport_module and self._has_node_shorter_reexport(node=function):
+            return ""
+
         # Check if static or class method
         is_static = function.is_static
         is_class_method = function.is_class_method
@@ -961,7 +1072,49 @@ class StubsStringGenerator:
 
     # ############################### Utilities ############################### #
 
-    def _add_to_imports(self, qname: str) -> None:
+    def _has_node_shorter_reexport(self, node: Class | Function) -> bool:
+        # Check if this node is beeing reexported from a shorter path. If it is, we create it there, not in this module
+        shortest_reexport_module_id = self.module_id
+        shortest_reexport_module: Module | None = None
+        for reexport_module in node.reexported_by:
+            if len(reexport_module.id.split("/")) < len(shortest_reexport_module_id.split("/")):
+                shortest_reexport_module_id = reexport_module.id
+                shortest_reexport_module = reexport_module
+
+        if shortest_reexport_module_id != self.module_id and shortest_reexport_module is not None:
+            # Get alias
+            alias = None
+            for qualified_import in shortest_reexport_module.qualified_imports:
+                if qualified_import.qualified_name.endswith(node.name):
+                    alias = qualified_import.alias
+
+            if alias:
+                node.name = alias
+
+            self.reexport_modules[shortest_reexport_module_id].append(node)
+            return True
+        return False
+
+    def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
+        if class_path.endswith(path):
+            return True
+
+        name = path.split("/")[-1]
+        class_name = class_path.split("/")[-1]
+        for reexport in self.api.reexport_map:
+            if reexport.endswith(name):
+                for module in self.api.reexport_map[reexport]:
+                    # Added "no cover" since I can't recreate this in the tests
+                    if (
+                        path.startswith(module.id)
+                        and class_path.startswith(module.id)
+                        and path.lstrip(module.id).lstrip("/") == name == class_name
+                    ):  # pragma: no cover
+                        return True
+
+        return False
+
+    def _add_to_imports(self, import_qname: str) -> None:
         """Check if the qname of a type is defined in the current module, if not, create an import for it.
 
         Paramters
@@ -969,29 +1122,45 @@ class StubsStringGenerator:
         qname
             The qualified name of a module/class/etc.
         """
-        if qname == "":  # pragma: no cover
+        if import_qname == "":  # pragma: no cover
             raise ValueError("Type has no import source.")
 
-        qname_parts = qname.split(".")
-        if (qname_parts[0] == "builtins" and len(qname_parts) == 2) or qname == "typing.Any":
+        qname_parts = import_qname.split(".")
+        if (qname_parts[0] == "builtins" and len(qname_parts) == 2) or import_qname == "typing.Any":
             return
 
-        module_id = self.module.id.replace("/", ".")
-        if module_id not in qname:
+        module_id = self.module_id.replace("/", ".")
+        if module_id not in import_qname:
             # We need the full path for an import from the same package, but we sometimes don't get enough information,
             # therefore we have to search for the class and get its id
-            qname_path = qname.replace(".", "/")
+            import_qname_path = import_qname.replace(".", "/")
             in_package = False
-            for class_ in self.api.classes:
-                if class_.endswith(qname_path):
-                    qname = class_.replace("/", ".")
+            qname = ""
+            for class_id in self.api.classes:
+                if self._is_path_connected_to_class(import_qname_path, class_id):
+                    qname = class_id.replace("/", ".")
+
+                    name = qname.split(".")[-1]
+                    shortest_qname, _ = _get_shortest_public_reexport(
+                        reexport_map=self.api.reexport_map,
+                        name=name,
+                        qname=qname,
+                        is_module=False,
+                    )
+
+                    if shortest_qname:
+                        qname = f"{shortest_qname}.{name}"
+
                     in_package = True
                     break
+
+            qname = qname or import_qname
 
             if not in_package:
                 self.classes_outside_package.add(qname)
 
-            self.module_imports.add(qname)
+            if qname.replace(".", "/") != self.module_id:
+                self.module_imports.add(qname)
 
     def _create_todo_msg(self, indentations: str) -> str:
         if not self._current_todo_msgs:
@@ -1025,60 +1194,15 @@ class StubsStringGenerator:
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
     def _get_class_in_module(self, class_name: str) -> Class:
-        if f"{self.module.id}/{class_name}" in self.api.classes:
-            return self.api.classes[f"{self.module.id}/{class_name}"]
+        if f"{self.module_id}/{class_name}" in self.api.classes:
+            return self.api.classes[f"{self.module_id}/{class_name}"]
 
         # If the class is a nested class
         for class_ in self.api.classes:
-            if class_.startswith(self.module.id) and class_.endswith(class_name):
+            if class_.startswith(self.module_id) and class_.endswith(class_name):
                 return self.api.classes[class_]
 
-        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module.id}'.")  # pragma: no cover
-
-    def _get_shortest_public_reexport(self) -> str:
-        module_qname = self.module.id.replace("/", ".")
-        module_name = self.module.name
-        reexports = self.api.reexport_map
-
-        def _module_name_check(name: str, string: str) -> bool:
-            return (
-                string == name
-                or (f".{name}" in string and (string.endswith(f".{name}") or f"{name}." in string))
-                or (f"{name}." in string and (string.startswith(f"{name}.") or f".{name}" in string))
-            )
-
-        keys = [reexport_key for reexport_key in reexports if _module_name_check(module_name, reexport_key)]
-
-        module_ids = set()
-        for key in keys:
-            for module in reexports[key]:
-                added_module_id = False
-
-                for qualified_import in module.qualified_imports:
-                    if _module_name_check(module_name, qualified_import.qualified_name):
-                        module_ids.add(module.id)
-                        added_module_id = True
-                        break
-
-                if added_module_id:
-                    continue
-
-                for wildcard_import in module.wildcard_imports:
-                    if _module_name_check(module_name, wildcard_import.module_name):
-                        module_ids.add(module.id)
-                        break
-
-        # Adjust all ids
-        fixed_module_ids_parts = [module_id.split("/") for module_id in module_ids]
-
-        shortest_id = None
-        for fixed_module_id_parts in fixed_module_ids_parts:
-            if shortest_id is None or len(fixed_module_id_parts) < len(shortest_id):
-                shortest_id = fixed_module_id_parts
-
-        if shortest_id is None:
-            return module_qname
-        return ".".join(shortest_id)
+        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module_id}'.")  # pragma: no cover
 
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:
@@ -1096,6 +1220,59 @@ class StubsStringGenerator:
                 full_docstring += f"\n{indentations} *"
 
         return full_docstring + "\n"
+
+
+def _get_shortest_public_reexport(
+    reexport_map: dict[str, set[Module]],
+    name: str,
+    qname: str,
+    is_module: bool,
+) -> tuple[str, str]:
+    parent_name = ""
+    if not is_module and qname:
+        qname_parts = qname.split(".")
+        if len(qname_parts) > 2:
+            parent_name = qname_parts[-2]
+
+    def _module_name_check(text: str, is_wildcard: bool = False) -> bool:
+        if is_module:
+            return text.endswith(f".{name}") or text == name
+        elif is_wildcard:
+            return text.endswith(f".{parent_name}") or text == parent_name
+        return (
+            text == name
+            or (f".{name}" in text and (text.endswith(f".{name}") or f"{name}." in text))
+            or (f"{name}." in text and (text.startswith(f"{name}.") or f".{name}" in text))
+            or (parent_name != "" and text.endswith(f"{parent_name}.*"))
+        )
+
+    keys = [reexport_key for reexport_key in reexport_map if _module_name_check(reexport_key)]
+
+    module_ids = set()
+    for key in keys:
+        for module in reexport_map[key]:
+
+            for qualified_import in module.qualified_imports:
+                if _module_name_check(qualified_import.qualified_name):
+                    module_ids.add((module.id, qualified_import.alias))
+                    break
+
+            for wildcard_import in module.wildcard_imports:
+                if _module_name_check(wildcard_import.module_name, is_wildcard=True):
+                    module_ids.add((module.id, None))
+                    break
+
+    shortest_id = None
+    alias = None
+    for module_id_tuple in module_ids:
+        module_id_parts = module_id_tuple[0].split("/")
+        if shortest_id is None or len(module_id_parts) < len(shortest_id):
+            shortest_id = module_id_parts
+            alias = module_id_tuple[1]
+
+    if shortest_id is None:
+        return "", ""
+    return ".".join(shortest_id), alias or ""
 
 
 def _create_name_annotation(name: str) -> str:

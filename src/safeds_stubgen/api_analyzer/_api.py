@@ -48,7 +48,6 @@ class API:
         self.enum_instances: dict[str, EnumInstance] = {}
         self.attributes_: dict[str, Attribute] = {}
         self.parameters_: dict[str, Parameter] = {}
-
         self.reexport_map: dict[str, set[Module]] = defaultdict(set)
 
     def add_module(self, module: Module) -> None:

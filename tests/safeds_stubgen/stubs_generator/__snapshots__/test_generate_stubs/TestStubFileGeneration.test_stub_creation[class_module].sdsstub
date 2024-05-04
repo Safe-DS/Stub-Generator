@@ -26,27 +26,6 @@ class ClassModuleClassC() sub ClassModuleEmptyClassA, ClassModuleClassB, yetAnot
     fun f1()
 }
 
-class ClassModuleClassD() {
-    /**
-     * Docstring of the nested class E.
-     */
-    class ClassModuleNestedClassE() {
-        @PythonName("nested_attr_1")
-        static attr nestedAttr1: Nothing?
-
-        @PythonName("_ClassModulePrivateDoubleNestedClassF")
-        class ClassModulePrivateDoubleNestedClassF()
-
-        // TODO Result type information missing.
-        /**
-         * Docstring of func of nested class E
-         */
-        @Pure
-        @PythonName("class_e_func")
-        fun classEFunc()
-    }
-}
-
 class SelfTypes1() {
     @Pure
     @PythonName("self_result1")

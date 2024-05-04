@@ -39,20 +39,27 @@ def test_file_creation() -> None:
     data_to_test.sort(key=lambda x: x[1])
 
     expected_files: list[tuple[str, str]] = [
-        # We reexport these three modules from another package into the file_creation package.
-        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package"),
-        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package_2"),
-        ("tests/data/various_modules_package/file_creation", "_reexported_from_another_package_3"),
-        # module_1 is public
+        ("tests/data/various_modules_package/file_creation/Lv1", "Lv1"),
+        (
+            "tests/data/various_modules_package/file_creation/ReexportedInAnotherPackageClass",
+            "ReexportedInAnotherPackageClass",
+        ),
+        (
+            "tests/data/various_modules_package/file_creation/ReexportedInAnotherPackageClass2",
+            "ReexportedInAnotherPackageClass2",
+        ),
         ("tests/data/various_modules_package/file_creation/module_1", "module_1"),
-        # _module_6 has a public reexport in the file_creation package
-        ("tests/data/various_modules_package/file_creation", "_module_6"),
-        # module_5 is publich
         ("tests/data/various_modules_package/file_creation/package_1/module_5", "module_5"),
-        # _module_3 is not created, even though it is reexported, since it's also reexported in the parent
-        # package.
-        # _module_2 is not created, since the reexport is still private
-        # _module_4 is not created, since it has no (public) reexport
+        ("tests/data/various_modules_package/file_creation/public_reexported", "public_reexported"),
+        ("tests/data/various_modules_package/file_creation", "reexported_from_another_package_3"),
+        (
+            "tests/data/various_modules_package/file_creation/reexported_in_another_package_function",
+            "reexported_in_another_package_function",
+        ),
+        (
+            "tests/data/various_modules_package/file_creation/reexported_in_another_package_function2",
+            "reexported_in_another_package_function2",
+        ),
     ]
     expected_files.sort(key=lambda x: x[1])
 
@@ -72,31 +79,20 @@ def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: Snapshot
         assert f.read() == snapshot_sds_stub
 
 
-def _python_files() -> Generator:
-    return Path(_test_package_dir).rglob(pattern="*.py")
+def stub_texts() -> Generator[str, None, None]:
+    for stub_data in stubs_data:
+        yield stub_data[2]
 
 
-def _python_file_ids() -> Generator:
-    files = Path(_test_package_dir).rglob(pattern="*.py")
-    for file in files:
-        yield file.parts[-1].split(".py")[0]
+def _stub_ids() -> Generator[str, None, None]:
+    for stub_data in stubs_data:
+        yield stub_data[1]
 
 
-@pytest.mark.parametrize("python_file", _python_files(), ids=_python_file_ids())
+@pytest.mark.parametrize("stub_text", stub_texts(), ids=_stub_ids())
 class TestStubFileGeneration:
-    def test_stub_creation(self, python_file: Path, snapshot_sds_stub: SnapshotAssertion) -> None:
-        file_name = python_file.parts[-1].split(".py")[0]
-
-        for stub_data in stubs_data:
-            if stub_data[1] == file_name:
-                assert stub_data[2] == snapshot_sds_stub
-                return
-
-        # For these files stubs won't get created, because they are either empty or private.
-        if file_name in {"__init__", "_module_2", "_module_4", "_reexport_module_5"}:
-            return
-
-        raise pytest.fail(f"Stub file not found for '{file_name}'.")
+    def test_stub_creation(self, stub_text: str, snapshot_sds_stub: SnapshotAssertion) -> None:
+        assert stub_text == snapshot_sds_stub
 
 
 @pytest.mark.parametrize(

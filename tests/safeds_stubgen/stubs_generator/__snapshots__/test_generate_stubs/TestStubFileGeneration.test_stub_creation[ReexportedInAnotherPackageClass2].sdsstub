@@ -1,8 +1,4 @@
 @PythonModule("tests.data.various_modules_package.file_creation")
 package tests.data.variousModulesPackage.fileCreation
 
-@Pure
-@PythonName("reexported_in_another_package_function2")
-fun reexportedInAnotherPackageFunction2() -> result1: String
-
 class ReexportedInAnotherPackageClass2()

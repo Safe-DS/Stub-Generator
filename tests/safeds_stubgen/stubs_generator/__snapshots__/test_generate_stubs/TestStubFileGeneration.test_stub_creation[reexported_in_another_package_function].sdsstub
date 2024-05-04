@@ -4,5 +4,3 @@ package tests.data.variousModulesPackage.fileCreation
 @Pure
 @PythonName("reexported_in_another_package_function")
 fun reexportedInAnotherPackageFunction() -> result1: String
-
-class ReexportedInAnotherPackageClass()

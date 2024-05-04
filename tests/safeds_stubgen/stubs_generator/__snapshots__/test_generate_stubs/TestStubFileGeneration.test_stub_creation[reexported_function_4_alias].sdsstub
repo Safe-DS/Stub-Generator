@@ -2,7 +2,5 @@
 package tests.data.variousModulesPackage
 
 @Pure
-@PythonName("reexported_function_2")
-fun reexportedFunction2()
-
-class AnotherReexportClass()
+@PythonName("reexported_function_4_alias")
+fun reexportedFunction4Alias()
