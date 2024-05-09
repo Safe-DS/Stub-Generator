@@ -1,6 +1,8 @@
 package safeds.ml.classical.regression
 
+from safeds.data.labeled.containers import ExperimentalTabularDataset
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import ExperimentalTable
 from safeds.data.tabular.containers import Table
 from safeds.ml.classical.regression import Regressor
 
@@ -46,7 +48,7 @@ class AdaBoostRegressor(
      */
     @Pure
     fun fit(
-        @PythonName("training_set") trainingSet: TabularDataset
+        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> fittedRegressor: AdaBoostRegressor
 
     /**
@@ -58,6 +60,6 @@ class AdaBoostRegressor(
      */
     @Pure
     fun predict(
-        dataset: Table
+        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
     ) -> table: TabularDataset
 }

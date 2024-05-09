@@ -1,6 +1,8 @@
 package safeds.ml.classical.regression
 
+from safeds.data.labeled.containers import ExperimentalTabularDataset
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import ExperimentalTable
 from safeds.data.tabular.containers import Table
 from safeds.ml.classical.regression import Regressor
 
@@ -8,14 +10,26 @@ from safeds.ml.classical.regression import Regressor
  * Random forest regression.
  *
  * @param numberOfTrees The number of trees to be used in the random forest. Has to be greater than 0.
+ * @param maximumDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
+ * @param minimumNumberOfSamplesInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
 class RandomForestRegressor(
-    @PythonName("number_of_trees") numberOfTrees: Int = 100
+    @PythonName("number_of_trees") numberOfTrees: Int = 100,
+    @PythonName("maximum_depth") maximumDepth: Int? = null,
+    @PythonName("minimum_number_of_samples_in_leaves") minimumNumberOfSamplesInLeaves: Int = 5
 ) sub Regressor {
     /**
-     * Get the number of trees used in the random forest.
+     * The number of trees used in the random forest.
      */
     @PythonName("number_of_trees") attr numberOfTrees: Int
+    /**
+     * The maximum depth of each tree.
+     */
+    @PythonName("maximum_depth") attr maximumDepth: Int?
+    /**
+     * The minimum number of samples that must remain in the leaves of each tree.
+     */
+    @PythonName("minimum_number_of_samples_in_leaves") attr minimumNumberOfSamplesInLeaves: Int
     /**
      * Whether the regressor is fitted.
      */
@@ -32,7 +46,7 @@ class RandomForestRegressor(
      */
     @Pure
     fun fit(
-        @PythonName("training_set") trainingSet: TabularDataset
+        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> fittedRegressor: RandomForestRegressor
 
     /**
@@ -44,6 +58,6 @@ class RandomForestRegressor(
      */
     @Pure
     fun predict(
-        dataset: Table
+        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
     ) -> table: TabularDataset
 }

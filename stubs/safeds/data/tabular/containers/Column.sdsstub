@@ -1,6 +1,7 @@
 package safeds.data.tabular.containers
 
 from safeds.data.image.containers import Image
+from safeds.data.tabular.containers import Table
 from safeds.data.tabular.typing import ColumnType
 
 /**
@@ -182,6 +183,24 @@ class Column<T>(
     fun transform<R>(
         transformer: (param1: T) -> result1: R
     ) -> transformedColumn: Column<R>
+
+    /**
+     * Return a table with a number of statistical key values.
+     *
+     * The original Column is not modified.
+     *
+     * @result statistics The table with statistics.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 3])
+     *     // column.summarize_statistics()
+     * }
+     */
+    @Pure
+    @PythonName("summarize_statistics")
+    fun summarizeStatistics() -> statistics: Table
 
     /**
      * Calculate Pearson correlation between this and another column. Both columns have to be numerical.
@@ -418,6 +437,8 @@ class Column<T>(
     /**
      * Plot a column in a histogram.
      *
+     * @param numberOfBins The number of bins to use in the histogram. Default is 10.
+     *
      * @result plot The plot as an image.
      *
      * @example
@@ -429,7 +450,59 @@ class Column<T>(
      */
     @Pure
     @PythonName("plot_histogram")
-    fun plotHistogram() -> plot: Image
+    fun plotHistogram(
+        @PythonName("number_of_bins") numberOfBins: Int = 10
+    ) -> plot: Image
+
+    /**
+     * Create a plot comparing the numerical values of columns using IDs as the x-axis.
+     *
+     * @param columnList A list of time columns to be plotted.
+     *
+     * @result plot A plot with all the Columns plotted by the ID on the x-axis.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // col1 =Column("target", [4, 5, 6, 7, 8, 9, 10, 11, 12, 13])
+     *     // col2 =Column("target", [42, 51, 63, 71, 83, 91, 10, 11, 12, 13])
+     *     // image = col1.plot_compare_columns([col2])
+     * }
+     */
+    @Pure
+    @PythonName("plot_compare_columns")
+    fun plotCompareColumns(
+        @PythonName("column_list") columnList: List<Column<Any>>
+    ) -> plot: Image
+
+    /**
+     * Plot a lagplot for the given column.
+     *
+     * @param lag The amount of lag used to plot
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Column("values", [1,2,3,4,3,2])
+     *     // image = table.plot_lagplot(2)
+     * }
+     */
+    @Pure
+    @PythonName("plot_lagplot")
+    fun plotLagplot(
+        lag: Int
+    ) -> plot: Image
+
+    /**
+     * Create a table that contains only this column.
+     *
+     * @result table The table with this column.
+     */
+    @Pure
+    @PythonName("to_table")
+    fun toTable() -> table: Table
 
     /**
      * Return an HTML representation of the column.

@@ -1,10 +1,11 @@
 package safeds.ml.nn
 
+from safeds.data.image.containers import ImageList
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.containers import Table
-from safeds.data.tabular.containers import TimeSeries
 
 /**
  * The output conversion for a neural network, defines the output parameters for the neural network.
  */
-class OutputConversion<IT sub union<Table, TimeSeries>, OT sub union<TabularDataset, TimeSeries>>
+class OutputConversion<IT sub union<ImageList, Table, TimeSeriesDataset>, OT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>>

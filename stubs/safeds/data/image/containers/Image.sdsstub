@@ -1,8 +1,8 @@
 package safeds.data.image.containers
 
 from pathlib import Path
+from safeds.data.image.typing import ImageSize
 from torch import Tensor
-from torch.types import Device
 
 /**
  * A container for image data.
@@ -10,8 +10,7 @@ from torch.types import Device
  * @param imageTensor The image data as tensor.
  */
 class Image(
-    @PythonName("image_tensor") imageTensor: Tensor,
-    device: Device = null
+    @PythonName("image_tensor") imageTensor: Tensor
 ) {
     /**
      * Get the width of the image in pixels.
@@ -26,38 +25,34 @@ class Image(
      */
     attr channel: Int
     /**
-     * Get the device where the image is saved on.
+     * Get the `ImageSize` of the image.
      */
-    attr device: Device
+    attr size: ImageSize
 
     /**
      * Create an image from a file.
      *
      * @param path The path to the image file.
-     * @param device The device where the tensor will be saved on. Defaults to the default device
      *
      * @result image The image.
      */
     @Pure
     @PythonName("from_file")
     static fun fromFile(
-        path: union<Path, String>,
-        device: Device = null
+        path: union<Path, String>
     ) -> image: Image
 
     /**
      * Create an image from bytes.
      *
      * @param data The data of the image.
-     * @param device The device where the tensor will be saved on. Defaults to the default device
      *
      * @result image The image.
      */
     @Pure
     @PythonName("from_bytes")
     static fun fromBytes(
-        data: bytes,
-        device: Device = null
+        data: bytes
     ) -> image: Image
 
     /**

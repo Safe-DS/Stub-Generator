@@ -1,0 +1,15 @@
+package safeds.ml.nn
+
+from safeds.ml.nn.Pooling2dLayer import Pooling2DLayer
+
+/**
+ * @param kernelSize the size of the kernel
+ * @param stride the stride of the pooling
+ * @param padding the padding of the pooling
+ */
+// TODO Safe-DS does not support required but name only parameter assignments.
+class MaxPooling2DLayer(
+    @PythonName("kernel_size") kernelSize: Int,
+    stride: Int,
+    padding: Int = 0
+) sub _Pooling2DLayer

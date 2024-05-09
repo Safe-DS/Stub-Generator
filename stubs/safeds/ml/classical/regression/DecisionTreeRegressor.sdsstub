@@ -1,13 +1,29 @@
 package safeds.ml.classical.regression
 
+from safeds.data.labeled.containers import ExperimentalTabularDataset
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import ExperimentalTable
 from safeds.data.tabular.containers import Table
 from safeds.ml.classical.regression import Regressor
 
 /**
  * Decision tree regression.
+ *
+ * @param maximumDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
+ * @param minimumNumberOfSamplesInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
-class DecisionTreeRegressor() sub Regressor {
+class DecisionTreeRegressor(
+    @PythonName("maximum_depth") maximumDepth: Int? = null,
+    @PythonName("minimum_number_of_samples_in_leaves") minimumNumberOfSamplesInLeaves: Int = 5
+) sub Regressor {
+    /**
+     * The maximum depth of the tree.
+     */
+    @PythonName("maximum_depth") attr maximumDepth: Int?
+    /**
+     * The minimum number of samples that must remain in the leaves of the tree.
+     */
+    @PythonName("minimum_number_of_samples_in_leaves") attr minimumNumberOfSamplesInLeaves: Int
     /**
      * Whether the regressor is fitted.
      */
@@ -24,7 +40,7 @@ class DecisionTreeRegressor() sub Regressor {
      */
     @Pure
     fun fit(
-        @PythonName("training_set") trainingSet: TabularDataset
+        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> fittedRegressor: DecisionTreeRegressor
 
     /**
@@ -36,6 +52,6 @@ class DecisionTreeRegressor() sub Regressor {
      */
     @Pure
     fun predict(
-        dataset: Table
+        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
     ) -> table: TabularDataset
 }

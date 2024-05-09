@@ -1,0 +1,5 @@
+package safeds.ml.nn
+
+from safeds.ml.nn.OutputConversionImage import OutputConversionImage
+
+class OutputConversionImageToTable() sub _OutputConversionImage
