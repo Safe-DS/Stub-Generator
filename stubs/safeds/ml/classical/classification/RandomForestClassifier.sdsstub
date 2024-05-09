@@ -1,0 +1,49 @@
+package safeds.ml.classical.classification
+
+from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import Table
+from safeds.ml.classical.classification import Classifier
+
+/**
+ * Random forest classification.
+ *
+ * @param numberOfTrees The number of trees to be used in the random forest. Has to be greater than 0.
+ */
+class RandomForestClassifier(
+    @PythonName("number_of_trees") numberOfTrees: Int = 100
+) sub Classifier {
+    /**
+     * Get the number of trees used in the random forest.
+     */
+    @PythonName("number_of_trees") attr numberOfTrees: Int
+    /**
+     * Whether the classifier is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+
+    /**
+     * Create a copy of this classifier and fit it with the given training data.
+     *
+     * This classifier is not modified.
+     *
+     * @param trainingSet The training data containing the feature and target vectors.
+     *
+     * @result fittedClassifier The fitted classifier.
+     */
+    @Pure
+    fun fit(
+        @PythonName("training_set") trainingSet: TabularDataset
+    ) -> fittedClassifier: RandomForestClassifier
+
+    /**
+     * Predict a target vector using a dataset containing feature vectors. The model has to be trained first.
+     *
+     * @param dataset The dataset containing the feature vectors.
+     *
+     * @result table A dataset containing the given feature vectors and the predicted target vector.
+     */
+    @Pure
+    fun predict(
+        dataset: Table
+    ) -> table: TabularDataset
+}

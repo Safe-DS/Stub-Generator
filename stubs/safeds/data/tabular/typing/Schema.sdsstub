@@ -1,0 +1,79 @@
+package safeds.data.tabular.typing
+
+from safeds.data.tabular.typing import ColumnType
+
+/**
+ * Store column names and corresponding data types for a `Table` or `Row`.
+ *
+ * @param schema Map from column names to data types.
+ *
+ * @example
+ * pipeline example {
+ *     // from safeds.data.tabular.typing import Integer, Schema, String
+ *     // schema = Schema({"A": Integer(), "B": String()})
+ * }
+ */
+class Schema(
+    `schema`: Map<String, ColumnType>
+) {
+    /**
+     * Return a list of all column names saved in this schema.
+     */
+    @PythonName("column_names") attr columnNames: List<String>
+
+    /**
+     * Return whether the schema contains a given column.
+     *
+     * @param columnName The name of the column.
+     *
+     * @result contains True if the schema contains the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.typing import Integer, Schema, String
+     *     // schema = Schema({"A": Integer(), "B": String()})
+     *     // schema.has_column("A")
+     * }
+     */
+    @Pure
+    @PythonName("has_column")
+    fun hasColumn(
+        @PythonName("column_name") columnName: String
+    ) -> contains: Boolean
+
+    /**
+     * Return the type of the given column.
+     *
+     * @param columnName The name of the column.
+     *
+     * @result type The type of the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.typing import Integer, Schema, String
+     *     // schema = Schema({"A": Integer(), "B": String()})
+     *     // schema.get_column_type("A")
+     * }
+     */
+    @Pure
+    @PythonName("get_column_type")
+    fun getColumnType(
+        @PythonName("column_name") columnName: String
+    ) -> type: ColumnType
+
+    /**
+     * Return a dictionary that maps column names to column types.
+     *
+     * @result data Dictionary representation of the schema.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.typing import Integer, Schema, String
+     *     // schema = Schema({"A": Integer(), "B": String()})
+     *     // schema.to_dict()
+     * }
+     */
+    @Pure
+    @PythonName("to_dict")
+    fun toDict() -> data: Map<String, ColumnType>
+}

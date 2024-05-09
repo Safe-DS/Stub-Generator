@@ -1,0 +1,13 @@
+package safeds.exceptions
+
+/**
+ * Abstract base class for (lower or upper) Bounds on a float value.
+ *
+ * @param value The value of the Bound.
+ */
+class Bound {
+    /**
+     * Get the concrete value of the Bound.
+     */
+    attr value: Float
+}

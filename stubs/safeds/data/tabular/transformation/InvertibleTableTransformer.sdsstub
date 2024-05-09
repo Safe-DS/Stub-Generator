@@ -1,0 +1,38 @@
+package safeds.data.tabular.transformation
+
+from safeds.data.tabular.containers import Table
+from safeds.data.tabular.transformation import TableTransformer
+
+/**
+ * A `TableTransformer` that can also undo the learned transformation after it has been applied.
+ */
+class InvertibleTableTransformer() sub TableTransformer {
+    /**
+     * Learn a transformation for a set of columns in a table.
+     *
+     * @param table The table used to fit the transformer.
+     * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all columns are used.
+     *
+     * @result fittedTransformer The fitted transformer.
+     */
+    @Pure
+    fun fit(
+        table: Table,
+        @PythonName("column_names") columnNames: List<String>?
+    ) -> fittedTransformer: InvertibleTableTransformer
+
+    /**
+     * Undo the learned transformation.
+     *
+     * The table is not modified.
+     *
+     * @param transformedTable The table to be transformed back to the original version.
+     *
+     * @result table The original table.
+     */
+    @Pure
+    @PythonName("inverse_transform")
+    fun inverseTransform(
+        @PythonName("transformed_table") transformedTable: Table
+    ) -> table: Table
+}

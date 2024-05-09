@@ -1,0 +1,1109 @@
+package safeds.data.tabular.containers
+
+from pathlib import Path
+from safeds.data.image.containers import Image
+from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import Row
+from safeds.data.tabular.containers import TimeSeries
+from safeds.data.tabular.transformation import InvertibleTableTransformer
+from safeds.data.tabular.transformation import TableTransformer
+from safeds.data.tabular.typing import ColumnType
+from safeds.data.tabular.typing import Schema
+
+/**
+ * A table is a two-dimensional collection of data. It can either be seen as a list of rows or as a list of columns.
+ *
+ * To create a `Table` call the constructor or use one of the following static methods:
+ *
+ * | Method                                                                       | Description                            |
+ * | ---------------------------------------------------------------------------- | -------------------------------------- |
+ * | [from_csv_file][safeds.data.tabular.containers._table.Table.from_csv_file]   | Create a table from a CSV file.        |
+ * | [from_json_file][safeds.data.tabular.containers._table.Table.from_json_file] | Create a table from a JSON file.       |
+ * | [from_dict][safeds.data.tabular.containers._table.Table.from_dict]           | Create a table from a dictionary.      |
+ * | [from_columns][safeds.data.tabular.containers._table.Table.from_columns]     | Create a table from a list of columns. |
+ * | [from_rows][safeds.data.tabular.containers._table.Table.from_rows]           | Create a table from a list of rows.    |
+ *
+ * Note: When removing the last column of the table, the `number_of_columns` property will be set to 0.
+ *
+ * @param data The data. If None, an empty table is created.
+ *
+ * @example
+ * pipeline example {
+ *     // from safeds.data.tabular.containers import Table
+ *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+ * }
+ */
+class Table(
+    data: Map<String, List<Any>>? = null
+) {
+    /**
+     * Return a list of all column names in this table.
+     *
+     * Alias for self.schema.column_names -> list[str].
+     */
+    @PythonName("column_names") attr columnNames: List<String>
+    /**
+     * Return the number of columns.
+     */
+    @PythonName("number_of_columns") attr numberOfColumns: Int
+    /**
+     * Return the number of rows.
+     */
+    @PythonName("number_of_rows") attr numberOfRows: Int
+    /**
+     * Return the schema of the table.
+     */
+    attr `schema`: Schema
+
+    /**
+     * Read data from a CSV file into a table.
+     *
+     * @param path The path to the CSV file.
+     *
+     * @result table The table created from the CSV file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // Table.from_csv_file('./src/resources/from_csv_file.csv')
+     * }
+     */
+    @Pure
+    @PythonName("from_csv_file")
+    static fun fromCsvFile(
+        path: union<Path, String>
+    ) -> table: Table
+
+    /**
+     * Read data from an Excel file into a table.
+     *
+     * Valid file extensions are `.xls`, '.xlsx', `.xlsm`, `.xlsb`, `.odf`, `.ods` and `.odt`.
+     *
+     * @param path The path to the Excel file.
+     *
+     * @result table The table created from the Excel file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // Table.from_excel_file('./src/resources/from_excel_file.xlsx')
+     * }
+     */
+    @Pure
+    @PythonName("from_excel_file")
+    static fun fromExcelFile(
+        path: union<Path, String>
+    ) -> table: Table
+
+    /**
+     * Read data from a JSON file into a table.
+     *
+     * @param path The path to the JSON file.
+     *
+     * @result table The table created from the JSON file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // Table.from_json_file('./src/resources/from_json_file.json')
+     * }
+     */
+    @Pure
+    @PythonName("from_json_file")
+    static fun fromJsonFile(
+        path: union<Path, String>
+    ) -> table: Table
+
+    /**
+     * Create a table from a dictionary that maps column names to column values.
+     *
+     * @param data The data.
+     *
+     * @result table The generated table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // d = {'a': [1, 2], 'b': [3, 4]}
+     *     // Table.from_dict(d)
+     * }
+     */
+    @Pure
+    @PythonName("from_dict")
+    static fun fromDict(
+        data: Map<String, List<Any>>
+    ) -> table: Table
+
+    /**
+     * Return a table created from a list of columns.
+     *
+     * @param columns The columns to be combined. They need to have the same size.
+     *
+     * @result table The generated table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column, Table
+     *     // col1 = Column("a", [1, 2, 3])
+     *     // col2 = Column("b", [4, 5, 6])
+     *     // Table.from_columns([col1, col2])
+     * }
+     */
+    @Pure
+    @PythonName("from_columns")
+    static fun fromColumns(
+        columns: List<Column<Any>>
+    ) -> table: Table
+
+    /**
+     * Return a table created from a list of rows.
+     *
+     * @param rows The rows to be combined. They need to have a matching schema.
+     *
+     * @result table The generated table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Row, Table
+     *     // row1 = Row({"a": 1, "b": 2})
+     *     // row2 = Row({"a": 3, "b": 4})
+     *     // Table.from_rows([row1, row2])
+     * }
+     */
+    @Pure
+    @PythonName("from_rows")
+    static fun fromRows(
+        rows: List<Row>
+    ) -> table: Table
+
+    /**
+     * Return a column with the data of the specified column.
+     *
+     * @param columnName The name of the column.
+     *
+     * @result column The column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // table.get_column("b")
+     * }
+     */
+    @Pure
+    @PythonName("get_column")
+    fun getColumn(
+        @PythonName("column_name") columnName: String
+    ) -> column: Column<Any>
+
+    /**
+     * Return whether the table contains a given column.
+     *
+     * Alias for self.schema.hasColumn(column_name: str) -> bool.
+     *
+     * @param columnName The name of the column.
+     *
+     * @result contains True if the column exists.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // table.has_column("b")
+     *     // table.has_column("c")
+     * }
+     */
+    @Pure
+    @PythonName("has_column")
+    fun hasColumn(
+        @PythonName("column_name") columnName: String
+    ) -> contains: Boolean
+
+    /**
+     * Return the type of the given column.
+     *
+     * Alias for self.schema.get_type_of_column(column_name: str) -> ColumnType.
+     *
+     * @param columnName The name of the column to be queried.
+     *
+     * @result type The type of the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1], "b": [2.5]})
+     *     // table.get_column_type("b")
+     * }
+     */
+    @Pure
+    @PythonName("get_column_type")
+    fun getColumnType(
+        @PythonName("column_name") columnName: String
+    ) -> type: ColumnType
+
+    /**
+     * Return the row at a specified index.
+     *
+     * @param index The index.
+     *
+     * @result row The row of the table at the index.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // table.get_row(0)
+     * }
+     */
+    @Pure
+    @PythonName("get_row")
+    fun getRow(
+        index: Int
+    ) -> row: Row
+
+    /**
+     * Return a table with a number of statistical key values.
+     *
+     * The original table is not modified.
+     *
+     * @result result The table with statistics.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // table.summarize_statistics()
+     * }
+     */
+    @Pure
+    @PythonName("summarize_statistics")
+    fun summarizeStatistics() -> result: Table
+
+    /**
+     * Return a new table with the provided column attached at the end.
+     *
+     * The original table is not modified.
+     *
+     * @result result The table with the column attached.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // col = Column("c", ["d", "e"])
+     *     // table.add_column(col)
+     * }
+     */
+    @Pure
+    @PythonName("add_column")
+    fun addColumn(
+        column: Column<Any>
+    ) -> result: Table
+
+    /**
+     * Return a new `Table` with multiple added columns.
+     *
+     * The original table is not modified.
+     *
+     * @param columns The columns to be added.
+     *
+     * @result result A new table combining the original table and the given columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column, Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // col1 = Column("c", ["d", "e"])
+     *     // col2 = Column("d", [3.5, 7.9])
+     *     // table.add_columns([col1, col2])
+     * }
+     */
+    @Pure
+    @PythonName("add_columns")
+    fun addColumns(
+        columns: union<List<Column<Any>>, Table>
+    ) -> result: Table
+
+    /**
+     * Return a new `Table` with an added Row attached.
+     *
+     * If the table happens to be empty beforehand, respective columns will be added automatically.
+     *
+     * The order of columns of the new row will be adjusted to the order of columns in the table.
+     * The new table will contain the merged schema.
+     *
+     * The original table is not modified.
+     *
+     * @param row The row to be added.
+     *
+     * @result table A new table with the added row at the end.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Row, Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // row = Row.from_dict({"a": 3, "b": 4})
+     *     // table.add_row(row)
+     * }
+     */
+    @Pure
+    @PythonName("add_row")
+    fun addRow(
+        row: Row
+    ) -> table: Table
+
+    /**
+     * Return a new `Table` with multiple added Rows attached.
+     *
+     * The order of columns of the new rows will be adjusted to the order of columns in the table.
+     * The new table will contain the merged schema.
+     *
+     * The original table is not modified.
+     *
+     * @param rows The rows to be added.
+     *
+     * @result result A new table which combines the original table and the given rows.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Row, Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // row1 = Row.from_dict({"a": 3, "b": 4})
+     *     // row2 = Row.from_dict({"a": 5, "b": 6})
+     *     // table.add_rows([row1, row2])
+     * }
+     */
+    @Pure
+    @PythonName("add_rows")
+    fun addRows(
+        rows: union<List<Row>, Table>
+    ) -> result: Table
+
+    /**
+     * Return a new table with rows filtered by Callable (e.g. lambda function).
+     *
+     * The original table is not modified.
+     *
+     * @param query A Callable that is applied to all rows.
+     *
+     * @result table A table containing only the rows filtered by the query.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // table.filter_rows(lambda x: x["a"] < 2)
+     * }
+     */
+    @Pure
+    @PythonName("filter_rows")
+    fun filterRows(
+        query: (param1: Row) -> result1: Boolean
+    ) -> table: Table
+
+    /**
+     * Return a dictionary with copies of the output tables as values and the keys from the key_selector.
+     *
+     * The original table is not modified.
+     *
+     * @param keySelector A Callable that is applied to all rows and returns the key of the group.
+     *
+     * @result dictionary A dictionary containing the new tables as values and the selected keys as keys.
+     */
+    @Pure
+    @PythonName("group_rows")
+    fun groupRows<T>(
+        @PythonName("key_selector") keySelector: (param1: Row) -> result1: T
+    ) -> dictionary: Map<T, Table>
+
+    /**
+     * Return a new table with only the given column(s).
+     *
+     * The original table is not modified.
+     *
+     * Note: When removing the last column of the table, the `number_of_columns` property will be set to 0.
+     *
+     * @param columnNames A list containing only the columns to be kept.
+     *
+     * @result table A table containing only the given column(s).
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // table.keep_only_columns(["b"])
+     * }
+     */
+    @Pure
+    @PythonName("keep_only_columns")
+    fun keepOnlyColumns(
+        @PythonName("column_names") columnNames: List<String>
+    ) -> table: Table
+
+    /**
+     * Return a new table without the given column(s).
+     *
+     * The original table is not modified.
+     *
+     * Note: When removing the last column of the table, the `number_of_columns` property will be set to 0.
+     *
+     * @param columnNames A list containing all columns to be dropped.
+     *
+     * @result table A table without the given columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3], "b": [2, 4]})
+     *     // table.remove_columns(["b"])
+     * }
+     */
+    @Pure
+    @PythonName("remove_columns")
+    fun removeColumns(
+        @PythonName("column_names") columnNames: List<String>
+    ) -> table: Table
+
+    /**
+     * Return a new table without the columns that contain missing values.
+     *
+     * The original table is not modified.
+     *
+     * Note: When removing the last column of the table, the `number_of_columns` property will be set to 0.
+     *
+     * @result table A table without the columns that contain missing values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 2], "b": [None, 2]})
+     *     // table.remove_columns_with_missing_values()
+     * }
+     */
+    @Pure
+    @PythonName("remove_columns_with_missing_values")
+    fun removeColumnsWithMissingValues() -> table: Table
+
+    /**
+     * Return a new table without the columns that contain non-numerical values.
+     *
+     * The original table is not modified.
+     *
+     * Note: When removing the last column of the table, the `number_of_columns` property will be set to 0.
+     *
+     * @result table A table without the columns that contain non-numerical values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 0], "b": ["test", 2]})
+     *     // table.remove_columns_with_non_numerical_values()
+     * }
+     */
+    @Pure
+    @PythonName("remove_columns_with_non_numerical_values")
+    fun removeColumnsWithNonNumericalValues() -> table: Table
+
+    /**
+     * Return a new table with every duplicate row removed.
+     *
+     * The original table is not modified.
+     *
+     * @result result The table with the duplicate rows removed.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3, 3], "b": [2, 4, 4]})
+     *     // table.remove_duplicate_rows()
+     * }
+     */
+    @Pure
+    @PythonName("remove_duplicate_rows")
+    fun removeDuplicateRows() -> result: Table
+
+    /**
+     * Return a new table without the rows that contain missing values.
+     *
+     * The original table is not modified.
+     *
+     * @result table A table without the rows that contain missing values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1.0, None, 3], "b": [2, 4.0, None]})
+     *     // table.remove_rows_with_missing_values()
+     * }
+     */
+    @Pure
+    @PythonName("remove_rows_with_missing_values")
+    fun removeRowsWithMissingValues() -> table: Table
+
+    /**
+     * Return a new table without those rows that contain at least one outlier.
+     *
+     * We define an outlier as a value that has a distance of more than 3 standard deviations from the column mean.
+     * Missing values are not considered outliers. They are also ignored during the calculation of the standard
+     * deviation.
+     *
+     * The original table is not modified.
+     *
+     * @result newTable A new table without rows containing outliers.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column, Table
+     *     // c1 = Column("a", [1, 3, 1, 0.1, 0, 0, 0, 0, 0, 0, 0, 0])
+     *     // c2 = Column("b", [1.5, 1, 0.5, 0.01, 0, 0, 0, 0, 0, 0, 0, 0])
+     *     // c3 = Column("c", [0.1, 0.00, 0.4, 0.2, 0, 0, 0, 0, 0, 0, 0, 0])
+     *     // c4 = Column("d", [-1000000, 1000000, -1000000, -1000000, -1000000, -1000000, -1000000, -1000000, -1000000, -1000000, -1000000, -1000000])
+     *     // table = Table.from_columns([c1, c2, c3, c4])
+     *     // table.remove_rows_with_outliers()
+     * }
+     */
+    @Pure
+    @PythonName("remove_rows_with_outliers")
+    fun removeRowsWithOutliers() -> newTable: Table
+
+    /**
+     * Return a new `Table` with a single column renamed.
+     *
+     * The original table is not modified.
+     *
+     * @param oldName The old name of the target column.
+     * @param newName The new name of the target column.
+     *
+     * @result table The Table with the renamed column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // table.rename_column("b", "c")
+     * }
+     */
+    @Pure
+    @PythonName("rename_column")
+    fun renameColumn(
+        @PythonName("old_name") oldName: String,
+        @PythonName("new_name") newName: String
+    ) -> table: Table
+
+    /**
+     * Return a new table with the specified old column replaced by a list of new columns.
+     *
+     * The order of columns is kept.
+     *
+     * The original table is not modified.
+     *
+     * @param oldColumnName The name of the column to be replaced.
+     * @param newColumns The list of new columns replacing the old column.
+     *
+     * @result result A table with the old column replaced by the new columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column, Table
+     *     // table = Table.from_dict({"a": [1], "b": [2]})
+     *     // new_col = Column("new", [3])
+     *     // table.replace_column("b", [new_col])
+     * }
+     */
+    @Pure
+    @PythonName("replace_column")
+    fun replaceColumn(
+        @PythonName("old_column_name") oldColumnName: String,
+        @PythonName("new_columns") newColumns: List<Column<Any>>
+    ) -> result: Table
+
+    /**
+     * Return a new `Table` with randomly shuffled rows of this `Table`.
+     *
+     * The original table is not modified.
+     *
+     * @result result The shuffled Table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // import numpy as np
+     *     // np.random.seed(123456)
+     *     // table = Table.from_dict({"a": [1, 3, 5], "b": [2, 4, 6]})
+     *     // table.shuffle_rows()
+     * }
+     */
+    @Pure
+    @PythonName("shuffle_rows")
+    fun shuffleRows() -> result: Table
+
+    /**
+     * Slice a part of the table into a new table.
+     *
+     * The original table is not modified.
+     *
+     * @param start The first index of the range to be copied into a new table, None by default.
+     * @param end The last index of the range to be copied into a new table, None by default.
+     * @param step The step size used to iterate through the table, 1 by default.
+     *
+     * @result result The resulting table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3, 5], "b": [2, 4, 6]})
+     *     // table.slice_rows(0, 2)
+     * }
+     */
+    @Pure
+    @PythonName("slice_rows")
+    fun sliceRows(
+        start: Int? = null,
+        end: Int? = null,
+        step: Int = 1
+    ) -> result: Table
+
+    /**
+     * Sort the columns of a `Table` with the given comparator and return a new `Table`.
+     *
+     * The comparator is a function that takes two columns `col1` and `col2` and
+     * returns an integer:
+     *
+     * * If `col1` should be ordered before `col2`, the function should return a negative number.
+     * * If `col1` should be ordered after `col2`, the function should return a positive number.
+     * * If the original order of `col1` and `col2` should be kept, the function should return 0.
+     *
+     * If no comparator is given, the columns will be sorted alphabetically by their name.
+     *
+     * The original table is not modified.
+     *
+     * @param comparator The function used to compare two columns.
+     *
+     * @result newTable A new table with sorted columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1], "b": [2] })
+     *     // table.sort_columns(lambda col1, col2: 1)
+     *     // table.sort_columns(lambda col1, col2: -1)
+     *     // table2 = Table.from_dict({"b": [2], "a": [1]})
+     *     // table2.sort_columns()
+     * }
+     */
+    @Pure
+    @PythonName("sort_columns")
+    fun sortColumns(
+        comparator: (param1: Column<Any>, param2: Column<Any>) -> result1: Int
+    ) -> newTable: Table
+
+    /**
+     * Sort the rows of a `Table` with the given comparator and return a new `Table`.
+     *
+     * The comparator is a function that takes two rows `row1` and `row2` and
+     * returns an integer:
+     *
+     * * If `row1` should be ordered before `row2`, the function should return a negative number.
+     * * If `row1` should be ordered after `row2`, the function should return a positive number.
+     * * If the original order of `row1` and `row2` should be kept, the function should return 0.
+     *
+     * The original table is not modified.
+     *
+     * @param comparator The function used to compare two rows.
+     *
+     * @result newTable A new table with sorted rows.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 3, 5], "b": [2, 4, 6] })
+     *     // table.sort_rows(lambda row1, row2: 1)
+     *     // table.sort_rows(lambda row1, row2: -1)
+     *     // table.sort_rows(lambda row1, row2: 0)
+     * }
+     */
+    @Pure
+    @PythonName("sort_rows")
+    fun sortRows(
+        comparator: (param1: Row, param2: Row) -> result1: Int
+    ) -> newTable: Table
+
+    /**
+     * Split the table into two new tables.
+     *
+     * The original table is not modified.
+     *
+     * @param percentageInFirst The desired size of the first table in percentage to the given table; must be between 0 and 1.
+     *
+     * @result result A tuple containing the two resulting tables. The first table has the specified size, the second table
+     * contains the rest of the data.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // slices = table.split_rows(0.4)
+     *     // slices[0]
+     *     // slices[1]
+     * }
+     */
+    @Pure
+    @PythonName("split_rows")
+    fun splitRows(
+        @PythonName("percentage_in_first") percentageInFirst: Float
+    ) -> (result1: Table, result2: Table)
+
+    /**
+     * Return a new `TimeSeries` with columns marked as a target and time column or feature columns.
+     *
+     * The original table is not modified.
+     *
+     * @param targetName Name of the target column.
+     * @param timeName Name of the time column.
+     * @param featureNames Names of the feature columns. If None, all columns except the target and time columns are used.
+     *
+     * @result timeSeries A new time series with the given target, time and feature names.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table, TimeSeries
+     *     // table = Table.from_dict({"time": ["01.01", "01.02", "01.03"], "price": [1.10, 1.19, 1.79], "amount_bought": [74, 72, 51]})
+     *     // tabular_dataset = table.time_columns(target_name="amount_bought",time_name = "time", feature_names=["price"])
+     * }
+     */
+    @Pure
+    @PythonName("time_columns")
+    fun timeColumns(
+        @PythonName("target_name") targetName: String,
+        @PythonName("time_name") timeName: String,
+        @PythonName("feature_names") featureNames: List<String>? = null
+    ) -> timeSeries: TimeSeries
+
+    /**
+     * Return a new `Table` with the provided column transformed by calling the provided transformer.
+     *
+     * The original table is not modified.
+     *
+     * @result result The table with the transformed column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"item": ["apple", "milk", "beer"], "price": [1.00, 1.19, 1.79]})
+     *     // table.transform_column("price", lambda row: row.get_value("price") * 100)
+     * }
+     */
+    @Pure
+    @PythonName("transform_column")
+    fun transformColumn(
+        name: String,
+        transformer: (param1: Row) -> result1: Any
+    ) -> result: Table
+
+    /**
+     * Return a new `Table` with a learned transformation applied to this table.
+     *
+     * The original table is not modified.
+     *
+     * @param transformer The transformer which transforms the given table.
+     *
+     * @result transformedTable The transformed table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.transformation import OneHotEncoder
+     *     // from safeds.data.tabular.containers import Table
+     *     // transformer = OneHotEncoder()
+     *     // table = Table.from_dict({"fruit": ["apple", "pear", "apple"], "pet": ["dog", "duck", "duck"]})
+     *     // transformer = transformer.fit(table, None)
+     *     // table.transform_table(transformer)
+     * }
+     */
+    @Pure
+    @PythonName("transform_table")
+    fun transformTable(
+        transformer: TableTransformer
+    ) -> transformedTable: Table
+
+    /**
+     * Return a new `Table` with the inverted transformation applied by the given transformer.
+     *
+     * The original table is not modified.
+     *
+     * @param transformer A transformer that was fitted with columns, which are all present in the table.
+     *
+     * @result table The original table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.transformation import OneHotEncoder
+     *     // from safeds.data.tabular.containers import Table
+     *     // transformer = OneHotEncoder()
+     *     // table = Table.from_dict({"a": ["j", "k", "k"], "b": ["x", "y", "x"]})
+     *     // transformer = transformer.fit(table, None)
+     *     // transformed_table = transformer.transform(table)
+     *     // transformed_table.inverse_transform_table(transformer)
+     *     // transformer.inverse_transform(transformed_table)
+     * }
+     */
+    @Pure
+    @PythonName("inverse_transform_table")
+    fun inverseTransformTable(
+        transformer: InvertibleTableTransformer
+    ) -> table: Table
+
+    /**
+     * Plot a correlation heatmap for all numerical columns of this `Table`.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // image = table.plot_correlation_heatmap()
+     * }
+     */
+    @Pure
+    @PythonName("plot_correlation_heatmap")
+    fun plotCorrelationHeatmap() -> plot: Image
+
+    /**
+     * Plot two columns against each other in a lineplot.
+     *
+     * If there are multiple x-values for a y-value, the resulting plot will consist of a line representing the mean
+     * and the lower-transparency area around the line representing the 95% confidence interval.
+     *
+     * @param xColumnName The column name of the column to be plotted on the x-Axis.
+     * @param yColumnName The column name of the column to be plotted on the y-Axis.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // image = table.plot_lineplot("temperature", "sales")
+     * }
+     */
+    @Pure
+    @PythonName("plot_lineplot")
+    fun plotLineplot(
+        @PythonName("x_column_name") xColumnName: String,
+        @PythonName("y_column_name") yColumnName: String
+    ) -> plot: Image
+
+    /**
+     * Plot two columns against each other in a scatterplot.
+     *
+     * @param xColumnName The column name of the column to be plotted on the x-Axis.
+     * @param yColumnName The column name of the column to be plotted on the y-Axis.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // image = table.plot_scatterplot("temperature", "sales")
+     * }
+     */
+    @Pure
+    @PythonName("plot_scatterplot")
+    fun plotScatterplot(
+        @PythonName("x_column_name") xColumnName: String,
+        @PythonName("y_column_name") yColumnName: String
+    ) -> plot: Image
+
+    /**
+     * Plot a boxplot for every numerical column.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a":[1, 2], "b": [3, 42]})
+     *     // image = table.plot_boxplots()
+     * }
+     */
+    @Pure
+    @PythonName("plot_boxplots")
+    fun plotBoxplots() -> plot: Image
+
+    /**
+     * Plot a histogram for every column.
+     *
+     * @param numberOfBins The number of bins to use in the histogram. Default is 10.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [2, 3, 5, 1], "b": [54, 74, 90, 2014]})
+     *     // image = table.plot_histograms()
+     * }
+     */
+    @Pure
+    @PythonName("plot_histograms")
+    fun plotHistograms(
+        @PythonName("number_of_bins") numberOfBins: Int = 10
+    ) -> plot: Image
+
+    /**
+     * Write the data from the table into a CSV file.
+     *
+     * If the file and/or the directories do not exist they will be created. If the file already exists it will be
+     * overwritten.
+     *
+     * @param path The path to the output file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.to_csv_file("./src/resources/to_csv_file.csv")
+     * }
+     */
+    @Pure
+    @PythonName("to_csv_file")
+    fun toCsvFile(
+        path: union<Path, String>
+    )
+
+    /**
+     * Write the data from the table into an Excel file.
+     *
+     * Valid file extensions are `.xls`, '.xlsx', `.xlsm`, `.xlsb`, `.odf`, `.ods` and `.odt`.
+     * If the file and/or the directories do not exist, they will be created. If the file already exists, it will be
+     * overwritten.
+     *
+     * @param path The path to the output file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.to_excel_file("./src/resources/to_excel_file.xlsx")
+     * }
+     */
+    @Pure
+    @PythonName("to_excel_file")
+    fun toExcelFile(
+        path: union<Path, String>
+    )
+
+    /**
+     * Write the data from the table into a JSON file.
+     *
+     * If the file and/or the directories do not exist, they will be created. If the file already exists it will be
+     * overwritten.
+     *
+     * @param path The path to the output file.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.to_json_file("./src/resources/to_json_file.json")
+     * }
+     */
+    @Pure
+    @PythonName("to_json_file")
+    fun toJsonFile(
+        path: union<Path, String>
+    )
+
+    /**
+     * Return a dictionary that maps column names to column values.
+     *
+     * @result data Dictionary representation of the table.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // row1 = Row({"a": 1, "b": 5})
+     *     // row2 = Row({"a": 2, "b": 6})
+     *     // table1 = Table.from_rows([row1, row2])
+     *     // table2 = Table.from_dict({"a": [1, 2], "b": [5, 6]})
+     *     // table1 == table2
+     * }
+     */
+    @Pure
+    @PythonName("to_dict")
+    fun toDict() -> data: Map<String, List<Any>>
+
+    /**
+     * Return an HTML representation of the table.
+     *
+     * @result output The generated HTML.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // html = table.to_html()
+     * }
+     */
+    @Pure
+    @PythonName("to_html")
+    fun toHtml() -> output: String
+
+    /**
+     * Return a list of the columns.
+     *
+     * @result columns List of columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a":[1, 2],"b":[20, 30]})
+     *     // table.to_columns()
+     * }
+     */
+    @Pure
+    @PythonName("to_columns")
+    fun toColumns() -> columns: List<Column<Any>>
+
+    /**
+     * Return a list of the rows.
+     *
+     * @result rows List of rows.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table.from_dict({"a":[1, 2],"b":[20, 30]})
+     *     // table.to_rows()
+     * }
+     */
+    @Pure
+    @PythonName("to_rows")
+    fun toRows() -> rows: List<Row>
+
+    /**
+     * Return a new `TabularDataset` with columns marked as a target column or feature columns.
+     *
+     * The original table is not modified.
+     *
+     * @param targetName Name of the target column.
+     * @param extraNames Names of the columns that are neither features nor target. If None, no extra columns are used, i.e. all but
+     * the target column are used as features.
+     *
+     * @result dataset A new tabular dataset with the given target and feature names.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"item": ["apple", "milk", "beer"], "price": [1.10, 1.19, 1.79], "amount_bought": [74, 72, 51]})
+     *     // dataset = table.to_tabular_dataset(target_name="amount_bought", extra_names=["item"])
+     * }
+     */
+    @Pure
+    @PythonName("to_tabular_dataset")
+    fun toTabularDataset(
+        @PythonName("target_name") targetName: String,
+        @PythonName("extra_names") extraNames: List<String>? = null
+    ) -> dataset: TabularDataset
+}

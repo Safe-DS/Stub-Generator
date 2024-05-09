@@ -1,0 +1,314 @@
+package safeds.data.image.containers
+
+from pathlib import Path
+from torch import Tensor
+from torch.types import Device
+
+/**
+ * A container for image data.
+ *
+ * @param imageTensor The image data as tensor.
+ */
+class Image(
+    @PythonName("image_tensor") imageTensor: Tensor,
+    device: Device = null
+) {
+    /**
+     * Get the width of the image in pixels.
+     */
+    attr width: Int
+    /**
+     * Get the height of the image in pixels.
+     */
+    attr height: Int
+    /**
+     * Get the number of channels of the image.
+     */
+    attr channel: Int
+    /**
+     * Get the device where the image is saved on.
+     */
+    attr device: Device
+
+    /**
+     * Create an image from a file.
+     *
+     * @param path The path to the image file.
+     * @param device The device where the tensor will be saved on. Defaults to the default device
+     *
+     * @result image The image.
+     */
+    @Pure
+    @PythonName("from_file")
+    static fun fromFile(
+        path: union<Path, String>,
+        device: Device = null
+    ) -> image: Image
+
+    /**
+     * Create an image from bytes.
+     *
+     * @param data The data of the image.
+     * @param device The device where the tensor will be saved on. Defaults to the default device
+     *
+     * @result image The image.
+     */
+    @Pure
+    @PythonName("from_bytes")
+    static fun fromBytes(
+        data: bytes,
+        device: Device = null
+    ) -> image: Image
+
+    /**
+     * Save the image as a JPEG file.
+     *
+     * @param path The path to the JPEG file.
+     */
+    @Pure
+    @PythonName("to_jpeg_file")
+    fun toJpegFile(
+        path: union<Path, String>
+    )
+
+    /**
+     * Save the image as a PNG file.
+     *
+     * @param path The path to the PNG file.
+     */
+    @Pure
+    @PythonName("to_png_file")
+    fun toPngFile(
+        path: union<Path, String>
+    )
+
+    /**
+     * Return a new `Image` that has the given number of channels.
+     *
+     * The original image is not modified.
+     *
+     * @param channel The new number of channels. 1 will result in a grayscale image.
+     *
+     * @result result The image with the given number of channels.
+     */
+    @Pure
+    @PythonName("change_channel")
+    fun changeChannel(
+        channel: Int
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` that has been resized to a given size.
+     *
+     * The original image is not modified.
+     *
+     * @param newWidth the new width of the image
+     * @param newHeight the new height of the image
+     *
+     * @result result The image with the given width and height.
+     */
+    @Pure
+    fun resize(
+        @PythonName("new_width") newWidth: Int,
+        @PythonName("new_height") newHeight: Int
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` that is converted to grayscale.
+     *
+     * The original image is not modified.
+     *
+     * @result result The grayscale image.
+     */
+    @Pure
+    @PythonName("convert_to_grayscale")
+    fun convertToGrayscale() -> result: Image
+
+    /**
+     * Return a new `Image` that has been cropped to a given bounding rectangle.
+     *
+     * The original image is not modified.
+     *
+     * @param x the x coordinate of the top-left corner of the bounding rectangle
+     * @param y the y coordinate of the top-left corner of the bounding rectangle
+     * @param width the width of the bounding rectangle
+     * @param height the height of the bounding rectangle
+     *
+     * @result result The cropped image.
+     */
+    @Pure
+    fun crop(
+        x: Int,
+        y: Int,
+        width: Int,
+        height: Int
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` that is flipped vertically (horizontal axis, flips up-down and vice versa).
+     *
+     * The original image is not modified.
+     *
+     * @result result The flipped image.
+     */
+    @Pure
+    @PythonName("flip_vertically")
+    fun flipVertically() -> result: Image
+
+    /**
+     * Return a new `Image` that is flipped horizontally (vertical axis, flips left-right and vice versa).
+     *
+     * The original image is not modified.
+     *
+     * @result result The flipped image.
+     */
+    @Pure
+    @PythonName("flip_horizontally")
+    fun flipHorizontally() -> result: Image
+
+    /**
+     * Return a new `Image` with an adjusted brightness.
+     *
+     * The original image is not modified.
+     *
+     * @param factor The brightness factor.
+     * 1.0 will not change the brightness.
+     * Below 1.0 will result in a darker image.
+     * Above 1.0 will resolut in a brighter image.
+     * Has to be bigger than or equal to 0 (black).
+     *
+     * @result result The Image with adjusted brightness.
+     */
+    @Pure
+    @PythonName("adjust_brightness")
+    fun adjustBrightness(
+        factor: Float
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` with noise added to the image.
+     *
+     * The original image is not modified.
+     *
+     * @param standardDeviation The standard deviation of the normal distribution. Has to be bigger than or equal to 0.
+     *
+     * @result result The image with added noise.
+     */
+    @Pure
+    @PythonName("add_noise")
+    fun addNoise(
+        @PythonName("standard_deviation") standardDeviation: Float
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` with adjusted contrast.
+     *
+     * The original image is not modified.
+     *
+     * @param factor If factor > 1, increase contrast of image.
+     * If factor = 1, no changes will be made.
+     * If factor < 1, make image greyer.
+     * Has to be bigger than or equal to 0 (gray).
+     *
+     * @result image New image with adjusted contrast.
+     */
+    @Pure
+    @PythonName("adjust_contrast")
+    fun adjustContrast(
+        factor: Float
+    ) -> image: Image
+
+    /**
+     * Return a new `Image` with adjusted color balance.
+     *
+     * The original image is not modified.
+     *
+     * @param factor Has to be bigger than or equal to 0.
+     * If 0 <= factor < 1, make image greyer.
+     * If factor = 1, no changes will be made.
+     * If factor > 1, increase color balance of image.
+     *
+     * @result image The new, adjusted image.
+     */
+    @Pure
+    @PythonName("adjust_color_balance")
+    fun adjustColorBalance(
+        factor: Float
+    ) -> image: Image
+
+    /**
+     * Return a blurred version of the image.
+     *
+     * The original image is not modified.
+     *
+     * @param radius  Radius is directly proportional to the blur value. The radius is equal to the amount of pixels united in
+     *  each direction. A radius of 1 will result in a united box of 9 pixels.
+     *
+     * @result result The blurred image.
+     */
+    @Pure
+    fun blur(
+        radius: Int
+    ) -> result: Image
+
+    /**
+     * Return a sharpened version of the image.
+     *
+     * The original image is not modified.
+     *
+     * @param factor If factor > 1, increase the sharpness of the image.
+     * If factor = 1, no changes will be made.
+     * If factor < 1, blur the image.
+     * Has to be bigger than or equal to 0 (blurred).
+     *
+     * @result result The image sharpened by the given factor.
+     */
+    @Pure
+    fun sharpen(
+        factor: Float
+    ) -> result: Image
+
+    /**
+     * Return a new `Image` with colors inverted.
+     *
+     * The original image is not modified.
+     *
+     * @result result The image with inverted colors.
+     */
+    @Pure
+    @PythonName("invert_colors")
+    fun invertColors() -> result: Image
+
+    /**
+     * Return a new `Image` that is rotated 90 degrees clockwise.
+     *
+     * The original image is not modified.
+     *
+     * @result result The image rotated 90 degrees clockwise.
+     */
+    @Pure
+    @PythonName("rotate_right")
+    fun rotateRight() -> result: Image
+
+    /**
+     * Return a new `Image` that is rotated 90 degrees counter-clockwise.
+     *
+     * The original image is not modified.
+     *
+     * @result result The image rotated 90 degrees counter-clockwise.
+     */
+    @Pure
+    @PythonName("rotate_left")
+    fun rotateLeft() -> result: Image
+
+    /**
+     * Return a grayscale version of the image with the edges highlighted.
+     *
+     * The original image is not modified.
+     *
+     * @result result The image with edges found.
+     */
+    @Pure
+    @PythonName("find_edges")
+    fun findEdges() -> result: Image
+}
