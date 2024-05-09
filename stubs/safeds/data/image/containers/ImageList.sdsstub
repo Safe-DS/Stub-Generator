@@ -2,6 +2,10 @@ package safeds.data.image.containers
 
 from pathlib import Path
 from safeds.data.image.containers import Image
+from safeds.data.image.containers.ImageList.ImageList import FromFileThreadPackage
+from safeds.data.image.typing import ImageSize
+from threading import Thread
+from torch import Tensor
 
 /**
  * An ImageList is a list of different images. It can hold different sizes of Images. The channel of all images is the same.
@@ -14,6 +18,22 @@ from safeds.data.image.containers import Image
  * | [from_files][safeds.data.image.containers._image_list.ImageList.from_files]   | Create an ImageList from a directory or a list of files. |
  */
 class ImageList() {
+    @PythonName("_FromFileThreadPackage")
+    class FromFileThreadPackage(
+        @PythonName("im_files") imFiles: List<String>,
+        @PythonName("im_channel") imChannel: Int,
+        @PythonName("to_channel") toChannel: Int,
+        @PythonName("im_width") imWidth: Int,
+        @PythonName("im_height") imHeight: Int,
+        tensor: Tensor,
+        @PythonName("start_index") startIndex: Int
+    )
+
+    @PythonName("_FromImageThread")
+    class FromImageThread(
+        packages: List<_FromFileThreadPackage>
+    ) sub Thread
+
     /**
      * Return the number of images in this image list.
      */
@@ -31,6 +51,10 @@ class ImageList() {
      */
     attr channel: Int
     /**
+     * Return the sizes of all images.
+     */
+    attr sizes: List<ImageSize>
+    /**
      * Return the number of different sizes of images in this image list.
      */
     @PythonName("number_of_sizes") attr numberOfSizes: Int
@@ -47,29 +71,6 @@ class ImageList() {
     static fun fromImages(
         images: List<Image>
     ) -> imageList: ImageList
-
-    /**
-     * Create an ImageList from a directory or a list of files.
-     *
-     * If you provide a path to a directory the images will be sorted alphabetically while inner directories will be sorted after image files.
-     *
-     * @param path the path to the directory or a list of files
-     *
-     * @result imageList the image list
-     */
-    @Pure
-    @PythonName("from_files")
-    static fun fromFiles(
-        path: union<List<union<Path, String>>, Path, String>
-    ) -> imageList: ImageList
-
-    /**
-     * Clone your ImageList to a new instance.
-     *
-     * @result imageList the cloned image list
-     */
-    @Pure
-    fun clone() -> imageList: ImageList
 
     /**
      * Return the image at the given index.

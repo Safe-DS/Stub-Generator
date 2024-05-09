@@ -1,6 +1,8 @@
 package safeds.ml.classical.regression
 
+from safeds.data.labeled.containers import ExperimentalTabularDataset
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import ExperimentalTable
 from safeds.data.tabular.containers import Table
 from safeds.ml.classical.regression import Regressor
 from safeds.ml.classical.regression.SupportVectorMachine import SupportVectorMachineKernel
@@ -56,7 +58,7 @@ class SupportVectorMachineRegressor(
      */
     @Pure
     fun fit(
-        @PythonName("training_set") trainingSet: TabularDataset
+        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> fittedRegressor: SupportVectorMachineRegressor
 
     /**
@@ -68,6 +70,6 @@ class SupportVectorMachineRegressor(
      */
     @Pure
     fun predict(
-        dataset: Table
+        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
     ) -> table: TabularDataset
 }

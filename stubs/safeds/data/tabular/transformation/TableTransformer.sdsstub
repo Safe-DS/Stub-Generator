@@ -71,17 +71,17 @@ class TableTransformer {
     /**
      * Learn a transformation for a set of columns in a table and apply the learned transformation to the same table.
      *
-     * The table is not modified. If you also need the fitted transformer, use `fit` and `transform` separately.
+     * Neither the transformer nor the table are modified.
      *
      * @param table The table used to fit the transformer. The transformer is then applied to this table.
      * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all columns are used.
      *
-     * @result transformedTable The transformed table.
+     * @result result1 The fitted transformer and the transformed table.:
      */
     @Pure
     @PythonName("fit_and_transform")
     fun fitAndTransform(
         table: Table,
         @PythonName("column_names") columnNames: List<String>? = null
-    ) -> transformedTable: Table
+    ) -> (result1: TableTransformer, result2: Table)
 }

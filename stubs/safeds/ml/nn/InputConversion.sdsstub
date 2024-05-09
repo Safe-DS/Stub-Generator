@@ -1,10 +1,11 @@
 package safeds.ml.nn
 
+from safeds.data.image.containers import ImageList
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.containers import Table
-from safeds.data.tabular.containers import TimeSeries
 
 /**
  * The input conversion for a neural network, defines the input parameters for the neural network.
  */
-class InputConversion<FT sub union<TabularDataset, TimeSeries>, PT sub union<Table, TimeSeries>>
+class InputConversion<FT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, PT sub union<ImageList, Table, TimeSeriesDataset>>

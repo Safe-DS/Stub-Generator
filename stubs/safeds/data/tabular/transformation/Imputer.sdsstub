@@ -2,12 +2,13 @@ package safeds.data.tabular.transformation
 
 from safeds.data.tabular.containers import Table
 from safeds.data.tabular.transformation import TableTransformer
-from safeds.data.tabular.typing import ImputerStrategy
+from safeds.data.tabular.transformation.Imputer.Imputer import Strategy
 
 /**
- * Replace missing values with the given strategy.
+ * Replace missing values using the given strategy.
  *
- * @param strategy The strategy used to impute missing values. Use the classes nested inside `Imputer.Strategy` to specify it.
+ * @param strategy How to replace missing values.
+ * @param valueToReplace The value that should be replaced.
  *
  * @example
  * pipeline example {
@@ -25,36 +26,50 @@ from safeds.data.tabular.typing import ImputerStrategy
  * }
  */
 class Imputer(
-    strategy: ImputerStrategy
+    strategy: Strategy,
+    @PythonName("value_to_replace") valueToReplace: union<Float, String, Nothing?> = null
 ) sub TableTransformer {
-    class Strategy() {
+    /**
+     * Various strategies to replace missing values. Use the static methods to create instances of this class.
+     */
+    class Strategy {
         /**
-         * An imputation strategy for imputing missing data with given constant values.
+         * Replace missing values with the given constant value.
          *
-         * @param value The given value to impute missing values.
+         * @param value The value to replace missing values.
          */
-        class Constant(
+        @Pure
+        static fun Constant(
             value: Any
-        ) sub ImputerStrategy
+        ) -> result1: Strategy
 
         /**
-         * An imputation strategy for imputing missing data with mean values.
+         * Replace missing values with the mean of each column.
          */
-        class Mean() sub ImputerStrategy
+        @Pure
+        static fun Mean() -> result1: Strategy
 
         /**
-         * An imputation strategy for imputing missing data with median values.
+         * Replace missing values with the median of each column.
          */
-        class Median() sub ImputerStrategy
+        @Pure
+        static fun Median() -> result1: Strategy
 
         /**
-         * An imputation strategy for imputing missing data with mode values.
-         *
-         * The lowest value will be used if there are multiple values with the same highest count.
+         * Replace missing values with the mode of each column.
          */
-        class Mode() sub ImputerStrategy
+        @Pure
+        static fun Mode() -> result1: Strategy
     }
 
+    /**
+     * The strategy used to replace missing values.
+     */
+    attr strategy: Strategy
+    /**
+     * The value that should be replaced.
+     */
+    @PythonName("value_to_replace") attr valueToReplace: Any
     /**
      * Whether the transformer is fitted.
      */

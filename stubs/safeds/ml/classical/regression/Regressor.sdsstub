@@ -1,6 +1,8 @@
 package safeds.ml.classical.regression
 
+from safeds.data.labeled.containers import ExperimentalTabularDataset
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import ExperimentalTable
 from safeds.data.tabular.containers import Table
 
 /**
@@ -23,7 +25,7 @@ class Regressor {
      */
     @Pure
     fun fit(
-        @PythonName("training_set") trainingSet: TabularDataset
+        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> fittedRegressor: Regressor
 
     /**
@@ -35,21 +37,21 @@ class Regressor {
      */
     @Pure
     fun predict(
-        dataset: Table
+        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
     ) -> table: TabularDataset
 
     /**
-     * Compute the mean squared error (MSE) on the given data.
+     * Summarize the regressor's metrics on the given data.
      *
      * @param validationOrTestSet The validation or test set.
      *
-     * @result meanSquaredError The calculated mean squared error (the average of the distance of each individual row squared).
+     * @result metrics A table containing the regressor's metrics.
      */
     @Pure
-    @PythonName("mean_squared_error")
-    fun meanSquaredError(
-        @PythonName("validation_or_test_set") validationOrTestSet: TabularDataset
-    ) -> meanSquaredError: Float
+    @PythonName("summarize_metrics")
+    fun summarizeMetrics(
+        @PythonName("validation_or_test_set") validationOrTestSet: union<ExperimentalTabularDataset, TabularDataset>
+    ) -> metrics: Table
 
     /**
      * Compute the mean absolute error (MAE) of the regressor on the given data.
@@ -61,6 +63,19 @@ class Regressor {
     @Pure
     @PythonName("mean_absolute_error")
     fun meanAbsoluteError(
-        @PythonName("validation_or_test_set") validationOrTestSet: TabularDataset
+        @PythonName("validation_or_test_set") validationOrTestSet: union<ExperimentalTabularDataset, TabularDataset>
     ) -> meanAbsoluteError: Float
+
+    /**
+     * Compute the mean squared error (MSE) on the given data.
+     *
+     * @param validationOrTestSet The validation or test set.
+     *
+     * @result meanSquaredError The calculated mean squared error (the average of the distance of each individual row squared).
+     */
+    @Pure
+    @PythonName("mean_squared_error")
+    fun meanSquaredError(
+        @PythonName("validation_or_test_set") validationOrTestSet: union<ExperimentalTabularDataset, TabularDataset>
+    ) -> meanSquaredError: Float
 }

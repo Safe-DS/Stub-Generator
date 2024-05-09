@@ -1,11 +1,19 @@
 package safeds.ml.nn
 
+from safeds.data.image.containers import ImageList
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.containers import Table
-from safeds.data.tabular.containers import TimeSeries
 from safeds.ml.nn import Layer
 
-class NeuralNetworkRegressor<IFT sub union<TabularDataset, TimeSeries>, IPT sub union<Table, TimeSeries>, OT sub union<TabularDataset, TimeSeries>, IFT, IPT, OT>(
+/**
+ * A NeuralNetworkRegressor is a neural network that is used for regression tasks.
+ *
+ * @param inputConversion to convert the input data for the neural network
+ * @param layers a list of layers for the neural network to learn
+ * @param outputConversion to convert the output data of the neural network back
+ */
+class NeuralNetworkRegressor<IFT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, IPT sub union<ImageList, Table, TimeSeriesDataset>, OT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, IFT, IPT, OT>(
     @PythonName("input_conversion") inputConversion: InputConversion<IFT, IPT>,
     layers: List<Layer>,
     @PythonName("output_conversion") outputConversion: OutputConversion<IPT, OT>
