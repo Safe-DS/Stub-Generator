@@ -1,0 +1,30 @@
+package safeds.data.tabular.typing
+
+from safeds.data.tabular.typing import ColumnType
+
+/**
+ * Type for a column that only contains booleans.
+ *
+ * @param isNullable Whether the type also allows null values.
+ */
+class Boolean(
+    @PythonName("is_nullable") isNullable: Boolean = false
+) sub ColumnType {
+    /**
+     * Return whether the given column type is nullable.
+     *
+     * @result isNullable True if the column is nullable.
+     */
+    @Pure
+    @PythonName("is_nullable")
+    fun isNullable() -> isNullable: Boolean
+
+    /**
+     * Return whether the given column type is numeric.
+     *
+     * @result isNumeric True if the column is numeric.
+     */
+    @Pure
+    @PythonName("is_numeric")
+    fun isNumeric() -> isNumeric: Boolean
+}

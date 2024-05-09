@@ -1,0 +1,449 @@
+package safeds.data.tabular.containers
+
+from safeds.data.image.containers import Image
+from safeds.data.tabular.typing import ColumnType
+
+/**
+ * A column is a named collection of values.
+ *
+ * @param name The name of the column.
+ * @param data The data.
+ *
+ * @example
+ * pipeline example {
+ *     // from safeds.data.tabular.containers import Column
+ *     // column = Column("test", [1, 2, 3])
+ * }
+ */
+class Column<T>(
+    name: String,
+    data: List<T>? = null
+) {
+    /**
+     * Return the name of the column.
+     */
+    attr name: String
+    /**
+     * Return the number of elements in the column.
+     */
+    @PythonName("number_of_rows") attr numberOfRows: Int
+    /**
+     * Return the type of the column.
+     */
+    attr type: ColumnType
+
+    /**
+     * Return a list of all unique values in the column.
+     *
+     * @result uniqueValues List of unique values in the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3, 2, 4, 3])
+     *     // column.get_unique_values()
+     * }
+     */
+    @Pure
+    @PythonName("get_unique_values")
+    fun getUniqueValues() -> uniqueValues: List<T>
+
+    /**
+     * Return column value at specified index, starting at 0.
+     *
+     * @param index Index of requested element.
+     *
+     * @result value Value at index in column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.get_value(1)
+     * }
+     */
+    @Pure
+    @PythonName("get_value")
+    fun getValue(
+        index: Int
+    ) -> value: T
+
+    /**
+     * Check if all values have a given property.
+     *
+     * @param predicate Callable that is used to find matches.
+     *
+     * @result result True if all match.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.all(lambda x: x < 4)
+     * }
+     */
+    @Pure
+    fun all(
+        predicate: (param1: T) -> result1: Boolean
+    ) -> result: Boolean
+
+    /**
+     * Check if any value has a given property.
+     *
+     * @param predicate Callable that is used to find matches.
+     *
+     * @result result True if any match.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.any(lambda x: x < 2)
+     * }
+     */
+    @Pure
+    fun any(
+        predicate: (param1: T) -> result1: Boolean
+    ) -> result: Boolean
+
+    /**
+     * Check if no values has a given property.
+     *
+     * @param predicate Callable that is used to find matches.
+     *
+     * @result result True if none match.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3])
+     *     // column1.none(lambda x: x < 1)
+     * }
+     */
+    @Pure
+    fun none(
+        predicate: (param1: T) -> result1: Boolean
+    ) -> result: Boolean
+
+    /**
+     * Return whether the column has missing values.
+     *
+     * @result missingValuesExist True if missing values exist.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3, None])
+     *     // column1.has_missing_values()
+     * }
+     */
+    @Pure
+    @PythonName("has_missing_values")
+    fun hasMissingValues() -> missingValuesExist: Boolean
+
+    /**
+     * Return a new column with a new name.
+     *
+     * The original column is not modified.
+     *
+     * @param newName The new name of the column.
+     *
+     * @result column A new column with the new name.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.rename("new name")
+     * }
+     */
+    @Pure
+    fun rename(
+        @PythonName("new_name") newName: String
+    ) -> column: Column<Any>
+
+    /**
+     * Apply a transform method to every data point.
+     *
+     * The original column is not modified.
+     *
+     * @param transformer Function that will be applied to all data points.
+     *
+     * @result transformedColumn The transformed column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // price = Column("price", [4.99, 5.99, 2.49])
+     *     // sale = price.transform(lambda amount: amount * 0.8)
+     * }
+     */
+    @Pure
+    fun transform<R>(
+        transformer: (param1: T) -> result1: R
+    ) -> transformedColumn: Column<R>
+
+    /**
+     * Calculate Pearson correlation between this and another column. Both columns have to be numerical.
+     *
+     * @result correlation Correlation between the two columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3])
+     *     // column2 = Column("test", [2, 4, 6])
+     *     // column1.correlation_with(column2)
+     * }
+     */
+    @Pure
+    @PythonName("correlation_with")
+    fun correlationWith(
+        @PythonName("other_column") otherColumn: Column<Any>
+    ) -> correlation: Float
+
+    /**
+     * Calculate the idness of this column.
+     *
+     * We define the idness as follows:
+     *
+     * $$
+     * \frac{\text{number of different values}}{\text{number of rows}}
+     * $$
+     *
+     * @result idness The idness of the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3])
+     *     // column1.idness()
+     * }
+     */
+    @Pure
+    fun idness() -> idness: Float
+
+    /**
+     * Return the maximum value of the column. The column has to be numerical.
+     *
+     * @result max The maximum value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.maximum()
+     * }
+     */
+    @Pure
+    fun maximum() -> max: Float
+
+    /**
+     * Return the mean value of the column. The column has to be numerical.
+     *
+     * @result mean The mean value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.mean()
+     * }
+     */
+    @Pure
+    fun mean() -> mean: Float
+
+    /**
+     * Return the median value of the column. The column has to be numerical.
+     *
+     * @result median The median value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3, 4])
+     *     // column.median()
+     * }
+     */
+    @Pure
+    fun median() -> median: Float
+
+    /**
+     * Return the minimum value of the column. The column has to be numerical.
+     *
+     * @result min The minimum value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3, 4])
+     *     // column.minimum()
+     * }
+     */
+    @Pure
+    fun minimum() -> min: Float
+
+    /**
+     * Return the number of missing values in the column.
+     *
+     * @result count The number of missing values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("col_1", [None, 'a', None])
+     *     // column.missing_value_count()
+     * }
+     */
+    @Pure
+    @PythonName("missing_value_count")
+    fun missingValueCount() -> count: Int
+
+    /**
+     * Return the ratio of missing values to the total number of elements in the column.
+     *
+     * @result ratio The ratio of missing values to the total number of elements in the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3, 4])
+     *     // column1.missing_value_ratio()
+     * }
+     */
+    @Pure
+    @PythonName("missing_value_ratio")
+    fun missingValueRatio() -> ratio: Float
+
+    /**
+     * Return the mode of the column.
+     *
+     * @result mode Returns a list with the most common values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3, 3, 4])
+     *     // column1.mode()
+     * }
+     */
+    @Pure
+    fun mode() -> mode: List<T>
+
+    /**
+     * Calculate the stability of this column.
+     *
+     * We define the stability as follows:
+     *
+     * $$
+     * \frac{\text{number of occurrences of most common non-null value}}{\text{number of non-null values}}
+     * $$
+     *
+     * The stability is not definded for a column with only null values.
+     *
+     * @result stability The stability of the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 1, 2, 3])
+     *     // column1.stability()
+     * }
+     */
+    @Pure
+    fun stability() -> stability: Float
+
+    /**
+     * Return the standard deviation of the column. The column has to be numerical.
+     *
+     * @result sum The standard deviation of all values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("test", [1, 2, 3])
+     *     // column1.standard_deviation()
+     * }
+     */
+    @Pure
+    @PythonName("standard_deviation")
+    fun standardDeviation() -> sum: Float
+
+    /**
+     * Return the sum of the column. The column has to be numerical.
+     *
+     * @result sum The sum of all values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // column.sum()
+     * }
+     */
+    @Pure
+    fun sum() -> sum: Float
+
+    /**
+     * Return the variance of the column. The column has to be numerical.
+     *
+     * @result sum The variance of all values.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3, 4, 5])
+     *     // column.variance()
+     * }
+     */
+    @Pure
+    fun variance() -> sum: Float
+
+    /**
+     * Plot this column in a boxplot. This function can only plot real numerical data.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // boxplot = column.plot_boxplot()
+     * }
+     */
+    @Pure
+    @PythonName("plot_boxplot")
+    fun plotBoxplot() -> plot: Image
+
+    /**
+     * Plot a column in a histogram.
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // histogram = column.plot_histogram()
+     * }
+     */
+    @Pure
+    @PythonName("plot_histogram")
+    fun plotHistogram() -> plot: Image
+
+    /**
+     * Return an HTML representation of the column.
+     *
+     * @result output The generated HTML.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, 2, 3])
+     *     // html = column.to_html()
+     * }
+     */
+    @Pure
+    @PythonName("to_html")
+    fun toHtml() -> output: String
+}

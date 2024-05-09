@@ -1,0 +1,11 @@
+package safeds.ml.hyperparameters
+
+/**
+ * A list of values to choose from in a hyperparameter search.
+ *
+ * @param args The values to choose from.
+ */
+// TODO Safe-DS does not support variadic parameters.
+class Choice<T>(
+    args: List<T>
+)

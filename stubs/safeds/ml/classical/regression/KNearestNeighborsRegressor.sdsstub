@@ -1,0 +1,50 @@
+package safeds.ml.classical.regression
+
+from safeds.data.labeled.containers import TabularDataset
+from safeds.data.tabular.containers import Table
+from safeds.ml.classical.regression import Regressor
+
+/**
+ * K-nearest-neighbors regression.
+ *
+ * @param numberOfNeighbors The number of neighbors to use for interpolation. Has to be greater than 0 (validated in the constructor) and
+ * less than or equal to the sample size (validated when calling `fit`).
+ */
+class KNearestNeighborsRegressor(
+    @PythonName("number_of_neighbors") numberOfNeighbors: Int
+) sub Regressor {
+    /**
+     * Get the number of neighbors used for interpolation.
+     */
+    @PythonName("number_of_neighbors") attr numberOfNeighbors: Int
+    /**
+     * Whether the regressor is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+
+    /**
+     * Create a copy of this regressor and fit it with the given training data.
+     *
+     * This regressor is not modified.
+     *
+     * @param trainingSet The training data containing the feature and target vectors.
+     *
+     * @result fittedRegressor The fitted regressor.
+     */
+    @Pure
+    fun fit(
+        @PythonName("training_set") trainingSet: TabularDataset
+    ) -> fittedRegressor: KNearestNeighborsRegressor
+
+    /**
+     * Predict a target vector using a dataset containing feature vectors. The model has to be trained first.
+     *
+     * @param dataset The dataset containing the feature vectors.
+     *
+     * @result table A dataset containing the given feature vectors and the predicted target vector.
+     */
+    @Pure
+    fun predict(
+        dataset: Table
+    ) -> table: TabularDataset
+}

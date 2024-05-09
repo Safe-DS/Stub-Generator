@@ -1,0 +1,6 @@
+package safeds.ml.nn
+
+class Layer {
+    @PythonName("input_size") attr inputSize: Int
+    @PythonName("output_size") attr outputSize: Int
+}
