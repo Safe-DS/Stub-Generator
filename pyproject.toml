@@ -34,8 +34,8 @@ mkdocs-material = "^9.4.7"
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
 
-[tool.pytest.ini_options]
-addopts = "--ignore=./tests/data"
-
 [tool.black]
 line-length = 120
+
+[tool.pytest.ini_options]
+addopts = "--ignore=./tests/data --tb=short"
