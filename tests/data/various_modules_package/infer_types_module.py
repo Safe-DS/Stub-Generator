@@ -59,7 +59,7 @@ class InferMyTypes:
             else:
                 infer_param_2 = 0
 
-        with open("no path", "r") as _:
+        with open("no path", "r", encoding="utf-8") as _:
             if infer_param_2:
                 return "Some String"
 

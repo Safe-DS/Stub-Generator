@@ -31,7 +31,7 @@ def test_main(snapshot: SnapshotAssertion) -> None:
 
     main()
 
-    with Path.open(_out_file_dir) as f:
+    with Path.open(_out_file_dir, encoding="utf-8") as f:
         json_data = json.load(f)
 
     assert json_data == snapshot

@@ -75,7 +75,7 @@ def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: Snapshot
     path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
     assert path.is_file()
 
-    with path.open("r") as f:
+    with path.open("r", encoding="utf-8") as f:
         assert f.read() == snapshot_sds_stub
 
 
