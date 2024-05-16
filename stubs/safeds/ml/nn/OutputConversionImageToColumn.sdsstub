@@ -1,5 +1,0 @@
-package safeds.ml.nn
-
-from safeds.ml.nn.OutputConversionImage import OutputConversionImage
-
-class OutputConversionImageToColumn() sub _OutputConversionImage

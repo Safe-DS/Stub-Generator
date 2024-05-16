@@ -1,9 +1,6 @@
 package safeds.ml.classical.classification
 
-from safeds.data.labeled.containers import ExperimentalTabularDataset
-from safeds.data.labeled.containers import TabularDataset
-from safeds.data.tabular.containers import ExperimentalTable
-from safeds.data.tabular.containers import Table
+from safeds.ml.classical.Bases import KNearestNeighborsBase
 from safeds.ml.classical.classification import Classifier
 
 /**
@@ -12,41 +9,7 @@ from safeds.ml.classical.classification import Classifier
  * @param numberOfNeighbors The number of neighbors to use for interpolation. Has to be greater than 0 (validated in the constructor) and
  * less than or equal to the sample size (validated when calling `fit`).
  */
+// TODO Safe-DS does not support multiple inheritance.
 class KNearestNeighborsClassifier(
     @PythonName("number_of_neighbors") numberOfNeighbors: Int
-) sub Classifier {
-    /**
-     * Get the number of neighbors used for interpolation.
-     */
-    @PythonName("number_of_neighbors") attr numberOfNeighbors: Int
-    /**
-     * Whether the classifier is fitted.
-     */
-    @PythonName("is_fitted") attr isFitted: Boolean
-
-    /**
-     * Create a copy of this classifier and fit it with the given training data.
-     *
-     * This classifier is not modified.
-     *
-     * @param trainingSet The training data containing the feature and target vectors.
-     *
-     * @result fittedClassifier The fitted classifier.
-     */
-    @Pure
-    fun fit(
-        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
-    ) -> fittedClassifier: KNearestNeighborsClassifier
-
-    /**
-     * Predict a target vector using a dataset containing feature vectors. The model has to be trained first.
-     *
-     * @param dataset The dataset containing the feature vectors.
-     *
-     * @result table A dataset containing the given feature vectors and the predicted target vector.
-     */
-    @Pure
-    fun predict(
-        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
-    ) -> table: TabularDataset
-}
+) sub Classifier, _KNearestNeighborsBase

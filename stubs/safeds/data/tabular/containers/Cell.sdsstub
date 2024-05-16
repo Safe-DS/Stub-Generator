@@ -1,0 +1,286 @@
+package safeds.data.tabular.containers
+
+/**
+ * A single value in a table.
+ *
+ * This class cannot be instantiated directly. It is only used for arguments of callbacks.
+ */
+class Cell<out TCo> {
+    /**
+     * Negate a boolean. This is equivalent to the `~` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [True, False])
+     *     // column.transform(lambda cell: cell.not_())
+     * }
+     */
+    @Pure
+    @PythonName("not_")
+    fun `not`() -> result1: Cell<Boolean>
+
+    /**
+     * Perform a boolean AND operation. This is equivalent to the `&` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [True, False])
+     *     // column.transform(lambda cell: cell.and_(False))
+     * }
+     */
+    @Pure
+    @PythonName("and_")
+    fun `and`(
+        other: union<Boolean, Cell<Boolean>>
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Perform a boolean OR operation. This is equivalent to the `|` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [True, False])
+     *     // column.transform(lambda cell: cell.or_(True))
+     * }
+     */
+    @Pure
+    @PythonName("or_")
+    fun `or`(
+        other: union<Boolean, Cell<Boolean>>
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Perform a boolean XOR operation. This is equivalent to the `^` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [True, False])
+     *     // column.transform(lambda cell: cell.xor(True))
+     * }
+     */
+    @Pure
+    fun xor(
+        other: union<Boolean, Cell<Boolean>>
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Get the absolute value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, -2])
+     *     // column.transform(lambda cell: cell.abs())
+     * }
+     */
+    @Pure
+    fun abs() -> result1: Cell<RCo>
+
+    /**
+     * Round up to the nearest integer.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1.1, 2.9])
+     *     // column.transform(lambda cell: cell.ceil())
+     * }
+     */
+    @Pure
+    fun ceil() -> result1: Cell<RCo>
+
+    /**
+     * Round down to the nearest integer.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1.1, 2.9])
+     *     // column.transform(lambda cell: cell.floor())
+     * }
+     */
+    @Pure
+    fun floor() -> result1: Cell<RCo>
+
+    /**
+     * Negate the value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, -2])
+     *     // column.transform(lambda cell: cell.neg())
+     * }
+     */
+    @Pure
+    fun neg() -> result1: Cell<RCo>
+
+    /**
+     * Add a value. This is equivalent to the `+` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.add(3))
+     * }
+     */
+    @Pure
+    fun add(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Perform a modulo operation. This is equivalent to the `%` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [5, 6])
+     *     // column.transform(lambda cell: cell.mod(3))
+     * }
+     */
+    @Pure
+    fun mod(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Multiply by a value. This is equivalent to the `*` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [2, 3])
+     *     // column.transform(lambda cell: cell.mul(4))
+     * }
+     */
+    @Pure
+    fun mul(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Raise to a power. This is equivalent to the `**` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [2, 3])
+     *     // column.transform(lambda cell: cell.pow(3))
+     * }
+     */
+    @Pure
+    fun pow<P>(
+        other: union<Cell<P>, Float>
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Subtract a value. This is equivalent to the `-` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [5, 6])
+     *     // column.transform(lambda cell: cell.sub(3))
+     * }
+     */
+    @Pure
+    fun `sub`(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Divide by a value. This is equivalent to the `/` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [6, 8])
+     *     // column.transform(lambda cell: cell.div(2))
+     * }
+     */
+    @Pure
+    fun div(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
+     * Check if equal to a value. This is equivalent to the `==` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.eq(2))
+     * }
+     */
+    @Pure
+    fun eq(
+        other: Any
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Check if greater than or equal to a value. This is equivalent to the `>=` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.ge(2))
+     * }
+     */
+    @Pure
+    fun ge(
+        other: Any
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Check if greater than a value. This is equivalent to the `>` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.gt(2))
+     * }
+     */
+    @Pure
+    fun gt(
+        other: Any
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Check if less than or equal to a value. This is equivalent to the `<=` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.le(2))
+     * }
+     */
+    @Pure
+    fun le(
+        other: Any
+    ) -> result1: Cell<Boolean>
+
+    /**
+     * Check if less than a value. This is equivalent to the `<` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [1, 2])
+     *     // column.transform(lambda cell: cell.lt(2))
+     * }
+     */
+    @Pure
+    fun lt(
+        other: Any
+    ) -> result1: Cell<Boolean>
+}

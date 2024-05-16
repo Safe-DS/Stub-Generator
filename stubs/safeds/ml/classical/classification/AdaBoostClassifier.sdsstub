@@ -1,9 +1,6 @@
 package safeds.ml.classical.classification
 
-from safeds.data.labeled.containers import ExperimentalTabularDataset
-from safeds.data.labeled.containers import TabularDataset
-from safeds.data.tabular.containers import ExperimentalTable
-from safeds.data.tabular.containers import Table
+from safeds.ml.classical.Bases import AdaBoostBase
 from safeds.ml.classical.classification import Classifier
 
 /**
@@ -15,51 +12,14 @@ from safeds.ml.classical.classification import Classifier
  * @param learningRate Weight applied to each classifier at each boosting iteration. A higher learning rate increases the contribution
  * of each classifier. Has to be greater than 0.
  */
+// TODO Safe-DS does not support multiple inheritance.
 class AdaBoostClassifier(
     learner: Classifier? = null,
     @PythonName("maximum_number_of_learners") maximumNumberOfLearners: Int = 50,
     @PythonName("learning_rate") learningRate: Float = 1.0
-) sub Classifier {
+) sub Classifier, _AdaBoostBase {
     /**
-     * Get the base learner used for training the ensemble.
+     * The base learner used for training the ensemble.
      */
     attr learner: Classifier?
-    /**
-     * Get the maximum number of learners in the ensemble.
-     */
-    @PythonName("maximum_number_of_learners") attr maximumNumberOfLearners: Int
-    /**
-     * Get the learning rate.
-     */
-    @PythonName("learning_rate") attr learningRate: Float
-    /**
-     * Whether the classifier is fitted.
-     */
-    @PythonName("is_fitted") attr isFitted: Boolean
-
-    /**
-     * Create a copy of this classifier and fit it with the given training data.
-     *
-     * This classifier is not modified.
-     *
-     * @param trainingSet The training data containing the feature and target vectors.
-     *
-     * @result fittedClassifier The fitted classifier.
-     */
-    @Pure
-    fun fit(
-        @PythonName("training_set") trainingSet: union<ExperimentalTabularDataset, TabularDataset>
-    ) -> fittedClassifier: AdaBoostClassifier
-
-    /**
-     * Predict a target vector using a dataset containing feature vectors. The model has to be trained first.
-     *
-     * @param dataset The dataset containing the feature vectors.
-     *
-     * @result table A dataset containing the given feature vectors and the predicted target vector.
-     */
-    @Pure
-    fun predict(
-        dataset: union<ExperimentalTable, ExperimentalTabularDataset, Table>
-    ) -> table: TabularDataset
 }

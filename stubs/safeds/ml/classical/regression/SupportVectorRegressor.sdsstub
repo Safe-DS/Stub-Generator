@@ -1,0 +1,22 @@
+package safeds.ml.classical.regression
+
+from safeds.ml.classical.Bases import SupportVectorMachineBase
+from safeds.ml.classical.Bases.SupportVectorMachineBase.SupportVectorMachineBase import Kernel
+from safeds.ml.classical.regression import Regressor
+
+/**
+ * Support vector machine for regression.
+ *
+ * @param c The strength of regularization. Must be greater than 0.
+ * @param kernel The type of kernel to be used. Defaults to a radial basis function kernel.
+ */
+// TODO Safe-DS does not support multiple inheritance.
+class SupportVectorRegressor(
+    c: Float = 1.0,
+    kernel: Kernel? = null
+) sub Regressor, _SupportVectorMachineBase {
+    /**
+     * The type of kernel used.
+     */
+    attr kernel: Kernel
+}

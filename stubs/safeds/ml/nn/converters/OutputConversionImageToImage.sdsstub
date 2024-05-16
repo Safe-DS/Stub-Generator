@@ -1,0 +1,5 @@
+package safeds.ml.nn.converters
+
+from safeds.ml.nn.converters.OutputConverterImage import OutputConversionImage
+
+class OutputConversionImageToImage() sub _OutputConversionImage

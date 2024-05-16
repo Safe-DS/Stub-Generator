@@ -1,171 +1,63 @@
 package safeds.data.tabular.containers
 
-from safeds.data.tabular.typing import ColumnType
+from safeds.data.tabular.typing import DataType
 from safeds.data.tabular.typing import Schema
 
 /**
- * A row is a collection of named values.
+ * A one-dimensional collection of named, heterogeneous values.
  *
- * @param data The data. If None, an empty row is created.
- *
- * @example
- * pipeline example {
- *     // from safeds.data.tabular.containers import Row
- *     // row = Row({"a": 1, "b": 2})
- * }
+ * This class cannot be instantiated directly. It is only used for arguments of callbacks.
  */
-class Row(
-    data: Map<String, Any>? = null
-) {
+class Row {
     /**
-     * Return a list of all column names in the row.
+     * The names of the columns in the row.
      */
     @PythonName("column_names") attr columnNames: List<String>
     /**
-     * Return the number of columns in this row.
+     * The number of columns in the row.
      */
     @PythonName("number_of_columns") attr numberOfColumns: Int
     /**
-     * Return the schema of the row.
+     * The schema of the row.
      */
     attr `schema`: Schema
 
     /**
-     * Create a row from a dictionary that maps column names to column values.
+     * Get the value of the specified column.
      *
-     * @param data The data.
+     * @param name The name of the column.
      *
-     * @result row The created row.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row.from_dict({"a": 1, "b": 2})
-     * }
-     */
-    @Pure
-    @PythonName("from_dict")
-    static fun fromDict(
-        data: Map<String, Any>
-    ) -> row: Row
-
-    /**
-     * Return the value of a specified column.
-     *
-     * @param columnName The column name.
-     *
-     * @result value The column value.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row({"a": 1, "b": 2})
-     *     // row.get_value("a")
-     * }
+     * @result value The value of the column.
      */
     @Pure
     @PythonName("get_value")
     fun getValue(
-        @PythonName("column_name") columnName: String
-    ) -> value: Any
+        name: String
+    ) -> value: Cell<Any>
 
     /**
-     * Check whether the row contains a given column.
+     * Get the type of the specified column.
      *
-     * @param columnName The column name.
-     *
-     * @result hasColumn True, if the row contains the column, False otherwise.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row({"a": 1, "b": 2})
-     *     // row.has_column("a")
-     * }
-     */
-    @Pure
-    @PythonName("has_column")
-    fun hasColumn(
-        @PythonName("column_name") columnName: String
-    ) -> hasColumn: Boolean
-
-    /**
-     * Return the type of the specified column.
-     *
-     * @param columnName The column name.
+     * @param name The name of the column.
      *
      * @result type The type of the column.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row({"a": 1, "b": 2})
-     *     // row.get_column_type("a")
-     * }
      */
     @Pure
     @PythonName("get_column_type")
     fun getColumnType(
-        @PythonName("column_name") columnName: String
-    ) -> type: ColumnType
+        name: String
+    ) -> type: DataType
 
     /**
-     * Sort the columns of a `Row` with the given comparator and return a new `Row`.
+     * Check if the row has a column with the specified name.
      *
-     * The original row is not modified. The comparator is a function with four parameters:
+     * @param name The name of the column.
      *
-     * * `name_1` is the name of the first column.
-     * * `value_1` is the value of the first column.
-     * * `name_2` is the name of the second column.
-     * * `value_2` is the value of the second column.
-     *
-     * It should return an integer, indicating the desired order of the columns:
-     *
-     * * If `col1` should be ordered before `col2`, the function should return a negative number.
-     * * If `col1` should be ordered after `col2`, the function should return a positive number.
-     * * If the original order of `col1` and `col2` should be kept, the function should return 0.
-     *
-     * If no comparator is given, the columns will be sorted alphabetically by their name.
-     *
-     * @param comparator The function used to compare two tuples of (ColumnName, Value).
-     *
-     * @result newRow A new row with sorted columns.
+     * @result hasColumn Whether the row has a column with the specified name.
      */
     @Pure
-    @PythonName("sort_columns")
-    fun sortColumns(
-        comparator: (param1: String, param2: Any, param3: String, param4: Any) -> result1: Int
-    ) -> newRow: Row
-
-    /**
-     * Return a dictionary that maps column names to column values.
-     *
-     * @result data Dictionary representation of the row.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row({"a": 1, "b": 2})
-     *     // row.to_dict()
-     * }
-     */
-    @Pure
-    @PythonName("to_dict")
-    fun toDict() -> data: Map<String, Any>
-
-    /**
-     * Return an HTML representation of the row.
-     *
-     * @result output The generated HTML.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Row
-     *     // row = Row({"a": 1, "b": 2})
-     *     // html = row.to_html()
-     * }
-     */
-    @Pure
-    @PythonName("to_html")
-    fun toHtml() -> output: String
+    @PythonName("has_column")
+    fun hasColumn(
+        name: String
+    ) -> hasColumn: Boolean
 }

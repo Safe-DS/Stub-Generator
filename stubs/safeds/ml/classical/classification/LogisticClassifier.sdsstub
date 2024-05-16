@@ -1,0 +1,8 @@
+package safeds.ml.classical.classification
+
+from safeds.ml.classical.classification import Classifier
+
+/**
+ * Regularized logistic regression for classification.
+ */
+class LogisticClassifier() sub Classifier
