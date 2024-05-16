@@ -1,0 +1,20 @@
+@PythonModule("safeds.ml.classical._bases")
+package safeds.ml.classical.Bases
+
+@PythonName("_AdaBoostBase")
+class AdaBoostBase
+
+@PythonName("_DecisionTreeBase")
+class DecisionTreeBase
+
+@PythonName("_GradientBoostingBase")
+class GradientBoostingBase
+
+@PythonName("_KNearestNeighborsBase")
+class KNearestNeighborsBase
+
+@PythonName("_RandomForestBase")
+class RandomForestBase
+
+@PythonName("_SupportVectorMachineBase")
+class SupportVectorMachineBase

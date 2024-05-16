@@ -1,0 +1,8 @@
+package safeds.ml.nn.layers
+
+from safeds.data.image.typing import ImageSize
+
+class Layer {
+    @PythonName("input_size") attr inputSize: union<ImageSize, Int>
+    @PythonName("output_size") attr outputSize: union<ImageSize, Int>
+}

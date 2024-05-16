@@ -1,65 +1,55 @@
 package safeds.data.tabular.typing
 
-from safeds.data.tabular.typing import ColumnType
+from safeds.data.tabular.typing import DataType
 
 /**
- * Store column names and corresponding data types for a `Table` or `Row`.
- *
- * @param schema Map from column names to data types.
- *
- * @example
- * pipeline example {
- *     // from safeds.data.tabular.typing import Integer, Schema, String
- *     // schema = Schema({"A": Integer(), "B": String()})
- * }
+ * The schema of a row or table.
  */
-class Schema(
-    `schema`: Map<String, ColumnType>
-) {
+class Schema {
     /**
-     * Return a list of all column names saved in this schema.
+     * Return a list of all column names contained in this schema.
      */
     @PythonName("column_names") attr columnNames: List<String>
 
     /**
-     * Return whether the schema contains a given column.
-     *
-     * @param columnName The name of the column.
-     *
-     * @result contains True if the schema contains the column.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.typing import Integer, Schema, String
-     *     // schema = Schema({"A": Integer(), "B": String()})
-     *     // schema.has_column("A")
-     * }
-     */
-    @Pure
-    @PythonName("has_column")
-    fun hasColumn(
-        @PythonName("column_name") columnName: String
-    ) -> contains: Boolean
-
-    /**
      * Return the type of the given column.
      *
-     * @param columnName The name of the column.
+     * @param name The name of the column.
      *
      * @result type The type of the column.
      *
      * @example
      * pipeline example {
-     *     // from safeds.data.tabular.typing import Integer, Schema, String
-     *     // schema = Schema({"A": Integer(), "B": String()})
-     *     // schema.get_column_type("A")
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"A": [1, 2, 3], "B": ["a", "b", "c"]})
+     *     // type_ = table.schema.get_column_type("A")
      * }
      */
     @Pure
     @PythonName("get_column_type")
     fun getColumnType(
-        @PythonName("column_name") columnName: String
-    ) -> type: ColumnType
+        name: String
+    ) -> type: DataType
+
+    /**
+     * Return whether the schema contains a given column.
+     *
+     * @param name The name of the column.
+     *
+     * @result contains True if the schema contains the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"A": [1, 2, 3], "B": ["a", "b", "c"]})
+     *     // table.schema.has_column("A")
+     * }
+     */
+    @Pure
+    @PythonName("has_column")
+    fun hasColumn(
+        name: String
+    ) -> contains: Boolean
 
     /**
      * Return a dictionary that maps column names to column types.
@@ -68,12 +58,12 @@ class Schema(
      *
      * @example
      * pipeline example {
-     *     // from safeds.data.tabular.typing import Integer, Schema, String
-     *     // schema = Schema({"A": Integer(), "B": String()})
-     *     // schema.to_dict()
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"A": [1, 2, 3], "B": ["a", "b", "c"]})
+     *     // dict_ = table.schema.to_dict()
      * }
      */
     @Pure
     @PythonName("to_dict")
-    fun toDict() -> data: Map<String, ColumnType>
+    fun toDict() -> data: Map<String, DataType>
 }
