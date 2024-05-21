@@ -6937,6 +6937,14 @@
     'id': 'tests/data/various_modules_package/another_path',
     'name': '__init__',
     'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.TYPE_CHECKING',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'another_module._YetAnotherPrivateClass',
+      }),
     ]),
     'wildcard_imports': list([
     ]),
@@ -7006,6 +7014,8 @@
   dict({
     'classes': list([
       'tests/data/various_modules_package/another_path/another_module/AnotherClass',
+      'tests/data/various_modules_package/another_path/another_module/_AnotherPrivateClass',
+      'tests/data/various_modules_package/another_path/another_module/_YetAnotherPrivateClass',
     ]),
     'docstring': '''
       Another Module Docstring.
@@ -7020,6 +7030,14 @@
     'id': 'tests/data/various_modules_package/another_path/another_module',
     'name': 'another_module',
     'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'abc.ABC',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'abc.abstractmethod',
+      }),
     ]),
     'wildcard_imports': list([
     ]),
@@ -7585,6 +7603,49 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Literal',
+      }),
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[yet_another_path/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/yet_another_path',
+    'name': '__init__',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[yet_another_path/another_class_module]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/yet_another_path/another_class_module/SuperclassClass',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/yet_another_path/another_class_module',
+    'name': 'another_class_module',
+    'qualified_imports': list([
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path.another_module._AnotherPrivateClass',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.another_path._YetAnotherPrivateClass',
       }),
     ]),
     'wildcard_imports': list([

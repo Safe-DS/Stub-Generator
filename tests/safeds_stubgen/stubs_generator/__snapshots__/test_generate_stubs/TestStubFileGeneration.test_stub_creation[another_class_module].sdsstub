@@ -1,0 +1,19 @@
+@PythonModule("tests.data.various_modules_package.yet_another_path.another_class_module")
+package tests.data.variousModulesPackage.yetAnotherPath.anotherClassModule
+
+// TODO Safe-DS does not support multiple inheritance.
+class SuperclassClass() {
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("another_method")
+    fun anotherMethod()
+
+    class AnotherNestedClass()
+
+    // TODO Result type information missing.
+    @Pure
+    @PythonName("yet_another_method")
+    fun yetAnotherMethod()
+
+    class YetAnotherNestedClass
+}
