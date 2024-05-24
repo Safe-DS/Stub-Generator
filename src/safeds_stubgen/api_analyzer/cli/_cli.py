@@ -88,7 +88,7 @@ def _run_stub_generator(
     docstring_style: DocstringStyle,
     is_test_run: bool,
     convert_identifiers: bool,
-    type_source_preference: TypeSourcePreference
+    type_source_preference: TypeSourcePreference,
 ) -> None:
     """
     Create API data of a package and Safe-DS stub files.
