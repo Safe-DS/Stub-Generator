@@ -71,7 +71,7 @@ def get_api(
     api = API(distribution=dist, package=package_name, version=dist_version)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
     callable_visitor = MyPyAstVisitor(
-        docstring_parser=docstring_parser, api=api, aliases=aliases, type_source_preference=type_source_preference
+        docstring_parser=docstring_parser, api=api, aliases=aliases, type_source_preference=type_source_preference,
     )
     walker = ASTWalker(handler=callable_visitor)
 

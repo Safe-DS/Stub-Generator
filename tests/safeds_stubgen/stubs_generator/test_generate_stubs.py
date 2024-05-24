@@ -144,7 +144,7 @@ def test_convert_name_to_convention(
         "restdoc-REST",
         "docstring_vs_typehints-CODE",
         "docstring_vs_typehints-DOCSTRING",
-    ]
+    ],
 )
 def test_stub_docstring_creation(
     filename: str,
@@ -156,7 +156,7 @@ def test_stub_docstring_creation(
         root=_docstring_package_dir,
         docstring_style=docstring_style,
         is_test_run=True,
-        type_source_preference=type_source_preference
+        type_source_preference=type_source_preference,
     )
     docstring_stubs_generator = StubsStringGenerator(api=docstring_api, convert_identifiers=True)
     docstring_stubs_data = generate_stub_data(stubs_generator=docstring_stubs_generator, out_path=_out_dir)

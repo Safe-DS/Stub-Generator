@@ -284,7 +284,7 @@ class MyPyAstVisitor:
                     default_value=argument.docstring.default_value,
                     assigned_by=argument.assigned_by,
                     docstring=argument.docstring,
-                    type=doc_type
+                    type=doc_type,
                 )
             elif arg_type is not None and doc_type is not None and arg_type != doc_type:
                 # Both but different - type hint and doc type
@@ -301,7 +301,7 @@ class MyPyAstVisitor:
                         default_value=argument.docstring.default_value,
                         assigned_by=argument.assigned_by,
                         docstring=argument.docstring,
-                        type=doc_type
+                        type=doc_type,
                     )
 
         # Create results and result docstrings
@@ -340,11 +340,7 @@ class MyPyAstVisitor:
             elif result_type is None and result_doc_type is not None:
                 # Add missing returns
                 result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
-                results.append(Result(
-                    type=result_doc_type,
-                    name=result_name,
-                    id=f"{function_id}/{result_name}"
-                ))
+                results.append(Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}"))
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)
