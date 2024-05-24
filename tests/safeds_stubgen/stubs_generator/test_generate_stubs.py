@@ -135,6 +135,7 @@ def test_convert_name_to_convention(
         ("restdoc", DocstringStyle.REST, TypeSourcePreference.CODE),
         ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.CODE),
         ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.DOCSTRING),
+        ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.THROW_WARNING),
     ],
     ids=[
         "full_docstring-PLAINTEXT",
@@ -144,6 +145,7 @@ def test_convert_name_to_convention(
         "restdoc-REST",
         "docstring_vs_typehints-CODE",
         "docstring_vs_typehints-DOCSTRING",
+        "docstring_vs_typehints-THROW_WARNING",
     ],
 )
 def test_stub_docstring_creation(
