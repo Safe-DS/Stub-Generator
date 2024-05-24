@@ -9,6 +9,7 @@ import mypy.main as mypy_main
 from mypy import nodes as mypy_nodes
 from mypy import types as mypy_types
 
+from safeds_stubgen.api_analyzer._type_source_preference import TypeSourcePreference
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API
@@ -24,6 +25,7 @@ def get_api(
     root: Path,
     docstring_style: DocstringStyle = DocstringStyle.PLAINTEXT,
     is_test_run: bool = False,
+    type_source_preference: TypeSourcePreference = TypeSourcePreference.THROW_WARNING,
 ) -> API:
     init_roots = _get_nearest_init_dirs(root)
     if len(init_roots) == 1:
@@ -68,7 +70,9 @@ def get_api(
     # Setup api walker
     api = API(distribution=dist, package=package_name, version=dist_version)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
-    callable_visitor = MyPyAstVisitor(docstring_parser=docstring_parser, api=api, aliases=aliases)
+    callable_visitor = MyPyAstVisitor(
+        docstring_parser=docstring_parser, api=api, aliases=aliases, type_source_preference=type_source_preference
+    )
     walker = ASTWalker(handler=callable_visitor)
 
     for tree in mypy_asts:

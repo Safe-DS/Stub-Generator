@@ -48,15 +48,15 @@ fun functionWithoutDocumentation()
 @PythonName("function_with_parameters")
 fun functionWithParameters(
     @PythonName("no_type_no_default") noTypeNoDefault,
-    @PythonName("type_no_default") typeNoDefault,
-    @PythonName("optional_unknown_default") optionalUnknownDefault,
-    @PythonName("with_default_syntax_1") withDefaultSyntax1,
-    @PythonName("with_default_syntax_2") withDefaultSyntax2,
-    @PythonName("with_default_syntax_3") withDefaultSyntax3,
-    @PythonName("grouped_parameter_1") groupedParameter1,
-    @PythonName("grouped_parameter_2") groupedParameter2,
-    args: List<Any>,
-    kwargs: Map<String, Any>
+    @PythonName("type_no_default") typeNoDefault: Int,
+    @PythonName("optional_unknown_default") optionalUnknownDefault: Int,
+    @PythonName("with_default_syntax_1") withDefaultSyntax1: Int = 1,
+    @PythonName("with_default_syntax_2") withDefaultSyntax2: Int = 2,
+    @PythonName("with_default_syntax_3") withDefaultSyntax3: Int = 3,
+    @PythonName("grouped_parameter_1") groupedParameter1: Int = 4,
+    @PythonName("grouped_parameter_2") groupedParameter2: Int = 4,
+    args: Int = List<Any>,
+    kwargs: Map<String, Int> = Map<Any>
 )
 
 /**
@@ -125,7 +125,6 @@ fun uninferableReturnDoc()
 @PythonName("infer_types")
 fun inferTypes() -> (firstResult: Boolean, secondResult: String)
 
-// TODO Some parameter have no type information.
 /**
  * property_method_with_docstring.
  *
@@ -139,11 +138,10 @@ fun inferTypes() -> (firstResult: Boolean, secondResult: String)
 @Pure
 @PythonName("infer_types2")
 fun inferTypes2(
-    a,
-    b
+    a: String,
+    b: Boolean
 ) -> funcResult: union<Boolean, Int, String>
 
-// TODO Some parameter have no type information.
 /**
  * property_method_with_docstring.
  *
@@ -158,9 +156,9 @@ fun inferTypes2(
 @Pure
 @PythonName("infer_types3")
 fun inferTypes3(
-    a,
-    b
-) -> result1: union<Boolean, Int, String>
+    a: String,
+    b: Boolean
+) -> (result1: union<Boolean, Int, String>, funcResult2: Int)
 
 /**
  * numpy_sequence_types.
@@ -213,11 +211,10 @@ class ClassWithoutDocumentation()
  * @param groupedParameter1 foo: grouped_parameter_1 and grouped_parameter_2
  * @param groupedParameter2 foo: grouped_parameter_1 and grouped_parameter_2
  */
-// TODO Some parameter have no type information.
 class ClassWithParameters(
-    p,
-    @PythonName("grouped_parameter_1") groupedParameter1,
-    @PythonName("grouped_parameter_2") groupedParameter2
+    p: Int = 1,
+    @PythonName("grouped_parameter_1") groupedParameter1: Int = 4,
+    @PythonName("grouped_parameter_2") groupedParameter2: Int = 4
 )
 
 /**
@@ -229,11 +226,10 @@ class ClassWithParameters(
  * @param y Lorem ipsum 2.
  * @param z Lorem ipsum 3.
  */
-// TODO Some parameter have no type information.
 class ClassAndConstructorWithParameters(
-    x,
-    y,
-    z
+    x: String,
+    y: String,
+    z: Int = 5
 )
 
 /**
@@ -263,9 +259,8 @@ class ClassAndConstructorWithAttributes() {
  *
  * @param x foo
  */
-// TODO Some parameter have no type information.
 class ClassWithParametersAndAttributes(
-    x
+    x: Int = 1
 ) {
     /**
      * foo
@@ -344,34 +339,38 @@ class ClassWithMethod() {
     ) -> namedResult: Boolean
 }
 
+// TODO List type has to many type arguments.
+// TODO Safe-DS does not support set types.
+// TODO Safe-DS does not support tuple types.
+// TODO Set type has to many type arguments.
 // TODO Some parameter have no type information.
 class ClassWithVariousParameterTypes(
     @PythonName("no_type") noType,
-    @PythonName("optional_type") optionalType,
-    @PythonName("none_type") noneType,
-    @PythonName("int_type") intType,
-    @PythonName("bool_type") boolType,
-    @PythonName("str_type") strType,
-    @PythonName("float_type") floatType,
-    @PythonName("multiple_types") multipleTypes,
-    @PythonName("list_type_1") listType1,
-    @PythonName("list_type_2") listType2,
-    @PythonName("list_type_3") listType3,
-    @PythonName("list_type_4") listType4,
+    @PythonName("optional_type") optionalType: Int,
+    @PythonName("none_type") noneType: Nothing?,
+    @PythonName("int_type") intType: Int,
+    @PythonName("bool_type") boolType: Boolean,
+    @PythonName("str_type") strType: String,
+    @PythonName("float_type") floatType: Float,
+    @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
+    @PythonName("list_type_1") listType1: List<Any>,
+    @PythonName("list_type_2") listType2: List<String>,
+    @PythonName("list_type_3") listType3: List<Int, Boolean>,
+    @PythonName("list_type_4") listType4: List<List<Int>>,
     @PythonName("list_type_5") listType5,
-    @PythonName("set_type_1") setType1,
-    @PythonName("set_type_2") setType2,
-    @PythonName("set_type_3") setType3,
-    @PythonName("set_type_4") setType4,
+    @PythonName("set_type_1") setType1: Set<Any>,
+    @PythonName("set_type_2") setType2: Set<String>,
+    @PythonName("set_type_3") setType3: Set<Int, Boolean>,
+    @PythonName("set_type_4") setType4: Set<List<Int>>,
     @PythonName("set_type_5") setType5,
-    @PythonName("tuple_type_1") tupleType1,
-    @PythonName("tuple_type_2") tupleType2,
-    @PythonName("tuple_type_3") tupleType3,
-    @PythonName("tuple_type_4") tupleType4,
+    @PythonName("tuple_type_1") tupleType1: Tuple<>,
+    @PythonName("tuple_type_2") tupleType2: Tuple<String>,
+    @PythonName("tuple_type_3") tupleType3: Tuple<Int, Boolean>,
+    @PythonName("tuple_type_4") tupleType4: Tuple<List<Int>>,
     @PythonName("any_type") anyType: Any,
     @PythonName("optional_type_2") optionalType2: Int?,
-    @PythonName("class_type") classType,
-    @PythonName("imported_type") importedType
+    @PythonName("class_type") classType: ClassWithAttributes,
+    @PythonName("imported_type") importedType: AnotherClass
 )
 
 class ClassWithVariousAttributeTypes() {

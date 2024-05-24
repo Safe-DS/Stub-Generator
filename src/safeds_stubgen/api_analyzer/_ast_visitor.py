@@ -10,6 +10,7 @@ import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
+from safeds_stubgen.api_analyzer._type_source_preference import TypeSourcePreference
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -47,8 +48,15 @@ if TYPE_CHECKING:
 
 
 class MyPyAstVisitor:
-    def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
+    def __init__(
+        self,
+        docstring_parser: AbstractDocstringParser,
+        api: API,
+        aliases: dict[str, set[str]],
+        type_source_preference: TypeSourcePreference,
+    ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
+        self.type_source_preference = type_source_preference
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -262,9 +270,81 @@ class MyPyAstVisitor:
                 # Sort for the snapshot tests
                 type_var_types.sort(key=lambda x: x.name)
 
+        # Check docstring parameter types vs code parameter type hint
+        for i, argument in enumerate(arguments):
+            arg_type = argument.type
+            doc_type = argument.docstring.type
+
+            if arg_type is None and doc_type is not None:
+                # No code type hint but docstring type
+                arguments[i] = Parameter(
+                    id=argument.id,
+                    name=argument.name,
+                    is_optional=argument.docstring.default_value != "",
+                    default_value=argument.docstring.default_value,
+                    assigned_by=argument.assigned_by,
+                    docstring=argument.docstring,
+                    type=doc_type
+                )
+            elif arg_type is not None and doc_type is not None and arg_type != doc_type:
+                # Both but different - type hint and doc type
+                if self.type_source_preference == TypeSourcePreference.THROW_WARNING:
+                    # Throw a warning but continue (prefering the code type per default)
+                    msg = f"Different type hint and docstring types for '{function_id}'."
+                    logging.warning(msg)
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    # Overwrite the code type with the docstring type
+                    arguments[i] = Parameter(
+                        id=argument.id,
+                        name=argument.name,
+                        is_optional=argument.is_optional,
+                        default_value=argument.docstring.default_value,
+                        assigned_by=argument.assigned_by,
+                        docstring=argument.docstring,
+                        type=doc_type
+                    )
+
         # Create results and result docstrings
         result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
         results = self._parse_results(node, function_id, result_docstrings)
+
+        # Check docstring return type vs code return type hint
+        result_count = len(results) if len(results) > len(result_docstrings) else len(result_docstrings)
+        for i in range(result_count):
+            try:
+                result = results[i]
+                result_type = result.type
+            except IndexError as _:
+                result_type = None
+
+            try:
+                result_doc = result_docstrings[i]
+                result_doc_type = result_doc.type
+            except IndexError as _:
+                # We don't need to check further, since type hint covered more than the docstring
+                break
+
+            if result_type is not None and result_type != result_doc_type:
+                # Difference in doc and type hint: Overwrite is preference is set
+                if self.type_source_preference == TypeSourcePreference.THROW_WARNING:
+                    # Throw a warning but continue (prefering the code type per default)
+                    msg = f"Different type hint and docstring types for '{function_id}'."
+                    logging.warning(msg)
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    # Overwrite the code type with the docstring type
+                    results[i] = Result(
+                        type=result_doc_type,
+                        id=results[i].id,
+                        name=results[i].name,
+                    )
+            elif result_type is None and result_doc_type is not None:
+                # Add missing returns
+                result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
+                results.append(Result(
+                    type=result_doc_type,
+                    name=result_name,
+                    id=f"{function_id}/{result_name}"
+                ))
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)

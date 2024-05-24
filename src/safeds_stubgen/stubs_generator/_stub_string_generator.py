@@ -547,7 +547,14 @@ class StubsStringGenerator:
                 # Default value
                 if parameter.is_optional:
                     if isinstance(param_default_value, str):
-                        default_value = f"{param_default_value}"
+                        if assigned_by == ParameterAssignment.POSITIONAL_VARARG and param_default_value == "()":
+                            # This is normally correct, since *args are tuples of a certain type, but Safe-DS does not
+                            #  support tuple type, which is why we have to change it to a list
+                            default_value = "List<Any>"
+                        elif assigned_by == ParameterAssignment.NAMED_VARARG and param_default_value == "{}":
+                            default_value = "Map<Any>"
+                        else:
+                            default_value = param_default_value
                     elif isinstance(param_default_value, bool):
                         # Bool values have to be written in lower case
                         default_value = "true" if param_default_value else "false"
@@ -559,7 +566,7 @@ class StubsStringGenerator:
 
                 # Mypy assignes *args parameters the tuple type, which is not supported in Safe-DS. Therefor we
                 # overwrite it and set the type to a list.
-                if assigned_by == ParameterAssignment.POSITIONAL_VARARG:
+                if assigned_by == ParameterAssignment.POSITIONAL_VARARG and parameter_type_data["kind"] == "TupleType":
                     parameter_type_data["kind"] = "ListType"
 
                 # Parameter type
