@@ -258,7 +258,7 @@ def test_get_function_documentation(
             ParameterDocstring(
                 type=DictType(
                     key_type=NamedType(name="str", qname="builtins.str"),
-                    value_type=NamedType(name="int", qname="builtins.int")
+                    value_type=NamedType(name="int", qname="builtins.int"),
                 ),
                 default_value="{}",
                 description="foo: **kwargs",
