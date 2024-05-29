@@ -1,0 +1,3 @@
+package safeds.ml.nn.converters
+
+class InputConversionImageToTable()

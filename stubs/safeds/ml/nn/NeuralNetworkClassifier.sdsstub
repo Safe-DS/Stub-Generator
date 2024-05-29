@@ -4,24 +4,38 @@ from safeds.data.image.containers import ImageList
 from safeds.data.labeled.containers import TabularDataset
 from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.containers import Table
-from safeds.ml.nn.layers import Layer
 
 /**
  * A NeuralNetworkClassifier is a neural network that is used for classification tasks.
  *
  * @param inputConversion to convert the input data for the neural network
  * @param layers a list of layers for the neural network to learn
- * @param outputConversion to convert the output data of the neural network back
  */
-class NeuralNetworkClassifier<IFT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, IPT sub union<ImageList, Table, TimeSeriesDataset>, OT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, IFT, IPT, OT>(
+class NeuralNetworkClassifier<IFT sub union<ImageDataset<Any>, TabularDataset, TimeSeriesDataset>, IPT sub union<ImageList, Table, TimeSeriesDataset>, IFT, IPT>(
     @PythonName("input_conversion") inputConversion: InputConversion<IFT, IPT>,
-    layers: List<Layer>,
-    @PythonName("output_conversion") outputConversion: OutputConversion<IPT, OT>
+    layers: List<Layer>
 ) {
     /**
      * Whether the model is fitted.
      */
     @PythonName("is_fitted") attr isFitted: Boolean
+    /**
+     * The input size of the model.
+     */
+    @PythonName("input_size") attr inputSize: union<Int, ModelImageSize, Nothing?>
+
+    /**
+     * Load a pretrained model from a [Huggingface repository](https://huggingface.co/models/).
+     *
+     * @param huggingfaceRepo the name of the huggingface repository
+     *
+     * @result pretrainedModel the pretrained model as a NeuralNetworkClassifier
+     */
+    @Pure
+    @PythonName("load_pretrained_model")
+    static fun loadPretrainedModel(
+        @PythonName("huggingface_repo") huggingfaceRepo: String
+    ) -> pretrainedModel: NeuralNetworkClassifier<Any, Any>
 
     /**
      * Train the neural network with given training data.
@@ -32,8 +46,10 @@ class NeuralNetworkClassifier<IFT sub union<ImageDataset<Any>, TabularDataset, T
      * @param epochSize The number of times the training cycle should be done.
      * @param batchSize The size of data batches that should be loaded at one time.
      * @param learningRate The learning rate of the neural network.
-     * @param callbackOnBatchCompletion Function used to view metrics while training. Gets called after a batch is completed with the index of the last batch and the overall loss average.
-     * @param callbackOnEpochCompletion Function used to view metrics while training. Gets called after an epoch is completed with the index of the last epoch and the overall loss average.
+     * @param callbackOnBatchCompletion Function used to view metrics while training. Gets called after a batch is completed with the index of the
+     * last batch and the overall loss average.
+     * @param callbackOnEpochCompletion Function used to view metrics while training. Gets called after an epoch is completed with the index of the
+     * last epoch and the overall loss average.
      *
      * @result trainedModel The trained Model
      */
@@ -45,7 +61,7 @@ class NeuralNetworkClassifier<IFT sub union<ImageDataset<Any>, TabularDataset, T
         @PythonName("learning_rate") learningRate: Float = 0.001,
         @PythonName("callback_on_batch_completion") callbackOnBatchCompletion: union<(param1: Int, param2: Float) -> (), Nothing?> = null,
         @PythonName("callback_on_epoch_completion") callbackOnEpochCompletion: union<(param1: Int, param2: Float) -> (), Nothing?> = null
-    ) -> trainedModel: NeuralNetworkClassifier<IFT, IPT, OT>
+    ) -> trainedModel: NeuralNetworkClassifier<IFT, IPT>
 
     /**
      * Make a prediction for the given test data.
@@ -59,5 +75,5 @@ class NeuralNetworkClassifier<IFT sub union<ImageDataset<Any>, TabularDataset, T
     @Pure
     fun predict(
         @PythonName("test_data") testData: IPT
-    ) -> prediction: OT
+    ) -> prediction: IFT
 }

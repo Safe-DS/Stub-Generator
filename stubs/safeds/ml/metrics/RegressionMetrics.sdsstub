@@ -6,7 +6,7 @@ from safeds.data.tabular.containers import Table
 /**
  * A collection of regression metrics.
  */
-class RegressionMetrics() {
+class RegressionMetrics {
     /**
      * Summarize regression metrics on the given data.
      *

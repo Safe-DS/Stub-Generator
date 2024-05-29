@@ -6,7 +6,7 @@ from safeds.data.tabular.containers import Table
 /**
  * A collection of classification metrics.
  */
-class ClassificationMetrics() {
+class ClassificationMetrics {
     /**
      * Summarize classification metrics on the given data.
      *

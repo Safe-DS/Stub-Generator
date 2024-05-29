@@ -1,15 +1,19 @@
 package safeds.ml.classical.classification
 
-from safeds.ml.classical.Bases import KNearestNeighborsBase
 from safeds.ml.classical.classification import Classifier
 
 /**
  * K-nearest-neighbors classification.
  *
- * @param numberOfNeighbors The number of neighbors to use for interpolation. Has to be greater than 0 (validated in the constructor) and
+ * @param neighborCount The number of neighbors to use for interpolation. Has to be greater than 0 (validated in the constructor) and
  * less than or equal to the sample size (validated when calling `fit`).
  */
 // TODO Safe-DS does not support multiple inheritance.
 class KNearestNeighborsClassifier(
-    @PythonName("number_of_neighbors") numberOfNeighbors: Int
-) sub Classifier, _KNearestNeighborsBase
+    @PythonName("neighbor_count") neighborCount: Int
+) sub Classifier {
+    /**
+     * The number of neighbors used for interpolation.
+     */
+    @PythonName("neighbor_count") attr neighborCount: Int
+}

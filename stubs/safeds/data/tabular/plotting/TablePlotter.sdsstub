@@ -42,7 +42,7 @@ class TablePlotter(
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
-     *     // table = Table.from_dict({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // table = Table({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
      *     // image = table.plot.correlation_heatmap()
      * }
      */
@@ -53,7 +53,7 @@ class TablePlotter(
     /**
      * Plot a histogram for every column.
      *
-     * @param maximumNumberOfBins The maximum number of bins to use in the histogram. Default is 10.
+     * @param maxBinCount The maximum number of bins to use in the histogram. Default is 10.
      *
      * @result plot The plot as an image.
      *
@@ -66,7 +66,7 @@ class TablePlotter(
      */
     @Pure
     fun histograms(
-        @PythonName("maximum_number_of_bins") maximumNumberOfBins: Int = 10
+        @PythonName("max_bin_count") maxBinCount: Int = 10
     ) -> plot: Image
 
     /**
@@ -75,7 +75,7 @@ class TablePlotter(
      * @param xName The name of the column to be plotted on the x-axis.
      * @param yName The name of the column to be plotted on the y-axis.
      *
-     * @result linePlot The plot as an image.
+     * @result plot The plot as an image.
      *
      * @example
      * pipeline example {
@@ -94,7 +94,7 @@ class TablePlotter(
     fun linePlot(
         @PythonName("x_name") xName: String,
         @PythonName("y_name") yName: String
-    ) -> linePlot: Image
+    ) -> plot: Image
 
     /**
      * Create a scatter plot for two columns in the table.
@@ -102,7 +102,7 @@ class TablePlotter(
      * @param xName The name of the column to be plotted on the x-axis.
      * @param yName The name of the column to be plotted on the y-axis.
      *
-     * @result scatterPlot The plot as an image.
+     * @result plot The plot as an image.
      *
      * @example
      * pipeline example {
@@ -121,5 +121,5 @@ class TablePlotter(
     fun scatterPlot(
         @PythonName("x_name") xName: String,
         @PythonName("y_name") yName: String
-    ) -> scatterPlot: Image
+    ) -> plot: Image
 }

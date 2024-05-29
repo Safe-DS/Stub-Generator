@@ -1,18 +1,26 @@
 package safeds.ml.classical.classification
 
-from safeds.ml.classical.Bases import GradientBoostingBase
 from safeds.ml.classical.classification import Classifier
 
 /**
  * Gradient boosting classification.
  *
- * @param numberOfTrees The number of boosting stages to perform. Gradient boosting is fairly robust to over-fitting so a large
+ * @param treeCount The number of boosting stages to perform. Gradient boosting is fairly robust to over-fitting so a large
  * number usually results in better performance.
  * @param learningRate The larger the value, the more the model is influenced by each additional tree. If the learning rate is too
  * low, the model might underfit. If the learning rate is too high, the model might overfit.
  */
 // TODO Safe-DS does not support multiple inheritance.
 class GradientBoostingClassifier(
-    @PythonName("number_of_trees") numberOfTrees: Int = 100,
+    @PythonName("tree_count") treeCount: Int = 100,
     @PythonName("learning_rate") learningRate: Float = 0.1
-) sub Classifier, _GradientBoostingBase
+) sub Classifier {
+    /**
+     * The number of trees (estimators) in the ensemble.
+     */
+    @PythonName("tree_count") attr treeCount: Int
+    /**
+     * The learning rate.
+     */
+    @PythonName("learning_rate") attr learningRate: Float
+}

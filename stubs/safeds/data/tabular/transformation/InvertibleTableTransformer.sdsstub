@@ -1,12 +1,12 @@
 package safeds.data.tabular.transformation
 
 from safeds.data.tabular.containers import Table
-from safeds.data.tabular.transformation import TableTransformer
 
 /**
  * A `TableTransformer` that can also undo the learned transformation after it has been applied.
  */
-class InvertibleTableTransformer() sub TableTransformer {
+// TODO Safe-DS does not support multiple inheritance.
+class InvertibleTableTransformer {
     /**
      * Undo the learned transformation as well as possible.
      *

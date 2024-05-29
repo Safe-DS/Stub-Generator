@@ -1,6 +1,5 @@
 package safeds.data.tabular.containers
 
-from safeds.data.tabular.containers import Table
 from safeds.data.tabular.plotting import ColumnPlotter
 from safeds.data.tabular.typing import DataType
 
@@ -35,7 +34,7 @@ class Column<out TCo, T_co>(
     /**
      * The number of rows in the column.
      */
-    @PythonName("number_of_rows") attr numberOfRows: Int
+    @PythonName("row_count") attr rowCount: Int
     /**
      * The plotter for the column.
      */
@@ -46,7 +45,7 @@ class Column<out TCo, T_co>(
     attr type: DataType
 
     /**
-     * Return the column value at specified index.
+     * Return the column value at specified index. Equivalent to the `[]` operator (indexed access).
      *
      * Nonnegative indices are counted from the beginning (starting at 0), negative indices from the end (starting at
      * -1).
@@ -71,7 +70,7 @@ class Column<out TCo, T_co>(
     /**
      * Return a new column with a new name.
      *
-     * The original column is not modified.
+     * **Note:** The original column is not modified.
      *
      * @param newName The new name of the column.
      *
@@ -92,7 +91,7 @@ class Column<out TCo, T_co>(
     /**
      * Return a new column with values transformed by the transformer.
      *
-     * The original column is not modified.
+     * **Note:** The original column is not modified.
      *
      * @param transformer The transformer to apply to each value.
      *
@@ -286,6 +285,13 @@ class Column<out TCo, T_co>(
      * may not be useful for analysis.
      *
      * @result missingValueRatio The ratio of missing values in the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("test", [1, None, 3, None])
+     *     // column.missing_value_ratio()
+     * }
      */
     @Pure
     @PythonName("missing_value_ratio")

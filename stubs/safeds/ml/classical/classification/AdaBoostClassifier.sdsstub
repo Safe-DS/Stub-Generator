@@ -1,13 +1,12 @@
 package safeds.ml.classical.classification
 
-from safeds.ml.classical.Bases import AdaBoostBase
 from safeds.ml.classical.classification import Classifier
 
 /**
  * Ada Boost classification.
  *
  * @param learner The learner from which the boosted ensemble is built.
- * @param maximumNumberOfLearners The maximum number of learners at which boosting is terminated. In case of perfect fit, the learning procedure
+ * @param maxLearnerCount The maximum number of learners at which boosting is terminated. In case of perfect fit, the learning procedure
  * is stopped early. Has to be greater than 0.
  * @param learningRate Weight applied to each classifier at each boosting iteration. A higher learning rate increases the contribution
  * of each classifier. Has to be greater than 0.
@@ -15,9 +14,18 @@ from safeds.ml.classical.classification import Classifier
 // TODO Safe-DS does not support multiple inheritance.
 class AdaBoostClassifier(
     learner: Classifier? = null,
-    @PythonName("maximum_number_of_learners") maximumNumberOfLearners: Int = 50,
+    @PythonName("max_learner_count") maxLearnerCount: Int = 50,
     @PythonName("learning_rate") learningRate: Float = 1.0
-) sub Classifier, _AdaBoostBase {
+) sub Classifier {
+    /**
+     * The maximum number of learners in the ensemble.
+     */
+    @PythonName("max_learner_count") attr maxLearnerCount: Int
+    /**
+     * The learning rate.
+     */
+    @PythonName("learning_rate") attr learningRate: Float
+
     /**
      * The base learner used for training the ensemble.
      */

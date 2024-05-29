@@ -20,7 +20,7 @@ class ColumnPlotter(
     /**
      * Create a box plot for the values in the column. This is only possible for numeric columns.
      *
-     * @result boxPlot The box plot as an image.
+     * @result plot The box plot as an image.
      *
      * @example
      * pipeline example {
@@ -31,14 +31,14 @@ class ColumnPlotter(
      */
     @Pure
     @PythonName("box_plot")
-    fun boxPlot() -> boxPlot: Image
+    fun boxPlot() -> plot: Image
 
     /**
      * Create a histogram for the values in the column.
      *
-     * @param maximumNumberOfBins The maximum number of bins to use in the histogram. Default is 10.
+     * @param maxBinCount The maximum number of bins to use in the histogram. Default is 10.
      *
-     * @result histogram The plot as an image.
+     * @result plot The plot as an image.
      *
      * @example
      * pipeline example {
@@ -49,15 +49,15 @@ class ColumnPlotter(
      */
     @Pure
     fun histogram(
-        @PythonName("maximum_number_of_bins") maximumNumberOfBins: Int = 10
-    ) -> histogram: Image
+        @PythonName("max_bin_count") maxBinCount: Int = 10
+    ) -> plot: Image
 
     /**
      * Create a lag plot for the values in the column.
      *
      * @param lag The amount of lag.
      *
-     * @result lagPlot The plot as an image.
+     * @result plot The plot as an image.
      *
      * @example
      * pipeline example {
@@ -70,5 +70,5 @@ class ColumnPlotter(
     @PythonName("lag_plot")
     fun lagPlot(
         lag: Int
-    ) -> lagPlot: Image
+    ) -> plot: Image
 }

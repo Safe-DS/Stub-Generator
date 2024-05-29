@@ -1,7 +1,5 @@
 package safeds.data.tabular.typing
 
-from safeds.data.tabular.typing import DataType
-
 /**
  * The schema of a row or table.
  */

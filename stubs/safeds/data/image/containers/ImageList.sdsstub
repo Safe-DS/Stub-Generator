@@ -1,8 +1,6 @@
 package safeds.data.image.containers
 
 from pathlib import Path
-from safeds.data.image.containers import Image
-from safeds.data.image.containers.ImageList.ImageList import FromFileThreadPackage
 from safeds.data.image.typing import ImageSize
 from threading import Thread
 from torch import Tensor
@@ -30,34 +28,35 @@ class ImageList() {
     )
 
     @PythonName("_FromImageThread")
-    class FromImageThread(
+        // TODO An internal class must not be used as a type in a public class.
+class FromImageThread(
         packages: List<_FromFileThreadPackage>
     ) sub Thread
 
     /**
-     * Return the number of images in this image list.
+     * The number of images in this image list.
      */
-    @PythonName("number_of_images") attr numberOfImages: Int
+    @PythonName("image_count") attr imageCount: Int
     /**
-     * Return a list of all widths in this image list.
+     * A list of all widths in this image list.
      */
     attr widths: List<Int>
     /**
-     * Return a list of all heights in this image list.
+     * A list of all heights in this image list.
      */
     attr heights: List<Int>
     /**
-     * Return the channel of all images.
+     * The channel of all images.
      */
     attr channel: Int
     /**
-     * Return the sizes of all images.
+     * The sizes of all images.
      */
     attr sizes: List<ImageSize>
     /**
-     * Return the number of different sizes of images in this image list.
+     * The number of different sizes of images in this image list.
      */
-    @PythonName("number_of_sizes") attr numberOfSizes: Int
+    @PythonName("size_count") attr sizeCount: Int
 
     /**
      * Create an ImageList from a list of images.

@@ -1,18 +1,30 @@
 package safeds.ml.classical.regression
 
-from safeds.ml.classical.Bases import RandomForestBase
 from safeds.ml.classical.regression import Regressor
 
 /**
  * Random forest regression.
  *
- * @param numberOfTrees The number of trees to be used in the random forest. Has to be greater than 0.
- * @param maximumDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
- * @param minimumNumberOfSamplesInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
+ * @param treeCount The number of trees to be used in the random forest. Has to be greater than 0.
+ * @param maxDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
+ * @param minSampleCountInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
 // TODO Safe-DS does not support multiple inheritance.
 class RandomForestRegressor(
-    @PythonName("number_of_trees") numberOfTrees: Int = 100,
-    @PythonName("maximum_depth") maximumDepth: Int? = null,
-    @PythonName("minimum_number_of_samples_in_leaves") minimumNumberOfSamplesInLeaves: Int = 5
-) sub Regressor, _RandomForestBase
+    @PythonName("tree_count") treeCount: Int = 100,
+    @PythonName("max_depth") maxDepth: Int? = null,
+    @PythonName("min_sample_count_in_leaves") minSampleCountInLeaves: Int = 5
+) sub Regressor {
+    /**
+     * The number of trees used in the random forest.
+     */
+    @PythonName("tree_count") attr treeCount: Int
+    /**
+     * The maximum depth of each tree.
+     */
+    @PythonName("max_depth") attr maxDepth: Int?
+    /**
+     * The minimum number of samples that must remain in the leaves of each tree.
+     */
+    @PythonName("min_sample_count_in_leaves") attr minSampleCountInLeaves: Int
+}

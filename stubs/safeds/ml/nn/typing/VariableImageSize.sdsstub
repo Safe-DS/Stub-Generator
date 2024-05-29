@@ -1,0 +1,8 @@
+package safeds.ml.nn.typing
+
+/**
+ * A container for variable image size in neural networks.
+ *
+ * With a `VariableImageSize`, all image sizes that are a multiple of `width` and `height` are valid.
+ */
+class VariableImageSize() sub ModelImageSize

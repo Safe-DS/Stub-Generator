@@ -3,7 +3,6 @@ package safeds.data.tabular.containers
 from pathlib import Path
 from safeds.data.labeled.containers import TabularDataset
 from safeds.data.labeled.containers import TimeSeriesDataset
-from safeds.data.tabular.containers import Row
 from safeds.data.tabular.plotting import TablePlotter
 from safeds.data.tabular.transformation import InvertibleTableTransformer
 from safeds.data.tabular.transformation import TableTransformer
@@ -41,13 +40,13 @@ class Table(
     /**
      * The number of columns in the table.
      */
-    @PythonName("number_of_columns") attr numberOfColumns: Int
+    @PythonName("column_count") attr columnCount: Int
     /**
      * The number of rows in the table.
      *
      * **Note:** This operation must fully load the data into memory, which can be expensive.
      */
-    @PythonName("number_of_rows") attr numberOfRows: Int
+    @PythonName("row_count") attr rowCount: Int
     /**
      * The plotter for the table.
      */
@@ -129,7 +128,7 @@ class Table(
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
-     *     // Table.from_json_file("./src/resources/from_json_file_2.json")
+     *     // Table.from_json_file("./src/resources/from_json_file.json")
      * }
      */
     @Pure
@@ -209,8 +208,6 @@ class Table(
 
     /**
      * Get a column from the table.
-     *
-     * **Note:** This operation must fully load the data into memory, which can be expensive.
      *
      * @param name The name of the column.
      *
@@ -745,7 +742,7 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // from safeds.data.tabular.transformation import RangeScaler
      *     // table = Table({"a": [1, 2, 3]})
-     *     // transformer, transformed_table = RangeScaler(min_=0, max_=1).fit_and_transform(table, ["a"])
+     *     // transformer, transformed_table = RangeScaler(min_=0, max_=1, column_names="a").fit_and_transform(table)
      *     // transformed_table.inverse_transform_table(transformer)
      * }
      */
@@ -772,7 +769,7 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // from safeds.data.tabular.transformation import RangeScaler
      *     // table = Table({"a": [1, 2, 3]})
-     *     // transformer = RangeScaler(min_=0, max_=1).fit(table, ["a"])
+     *     // transformer = RangeScaler(min_=0, max_=1, column_names="a").fit(table)
      *     // table.transform_table(transformer)
      * }
      */
@@ -868,7 +865,7 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
-     *     // table.to_json_file("./src/resources/to_json_file_2.json")
+     *     // table.to_json_file("./src/resources/to_json_file.json")
      * }
      */
     @Pure
@@ -910,7 +907,7 @@ class Table(
      * Feature columns are implicitly defined as all columns except the target and extra columns. If no extra columns
      * are specified, all columns except the target column are used as features.
      *
-     * @param targetName Name of the target column.
+     * @param targetName The name of the target column.
      * @param extraNames Names of the columns that are neither feature nor target. If None, no extra columns are used, i.e. all but
      * the target column are used as features.
      *
@@ -941,10 +938,12 @@ class Table(
      *
      * The original table is not modified.
      *
-     * @param targetName Name of the target column.
-     * @param timeName Name of the time column.
+     * @param targetName The name of the target column.
+     * @param timeName The name of the time column.
+     * @param windowSize The number of consecutive sample to use as input for prediction.
      * @param extraNames Names of the columns that are neither features nor target. If None, no extra columns are used, i.e. all but
      * the target column are used as features.
+     * @param forecastHorizon The number of time steps to predict into the future.
      *
      * @result dataset A new time series dataset with the given target and feature names.
      *
@@ -952,7 +951,7 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"day": [0, 1, 2], "price": [1.10, 1.19, 1.79], "amount_bought": [74, 72, 51]})
-     *     // dataset = table.to_time_series_dataset(target_name="amount_bought", time_name= "day")
+     *     // dataset = table.to_time_series_dataset(target_name="amount_bought", time_name= "day", window_size=2)
      * }
      */
     @Pure
@@ -960,6 +959,8 @@ class Table(
     fun toTimeSeriesDataset(
         @PythonName("target_name") targetName: String,
         @PythonName("time_name") timeName: String,
-        @PythonName("extra_names") extraNames: List<String>? = null
+        @PythonName("window_size") windowSize: Int,
+        @PythonName("extra_names") extraNames: List<String>? = null,
+        @PythonName("forecast_horizon") forecastHorizon: Int = 1
     ) -> dataset: TimeSeriesDataset
 }
