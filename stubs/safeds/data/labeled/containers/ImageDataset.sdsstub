@@ -2,8 +2,6 @@ package safeds.data.labeled.containers
 
 from safeds.data.image.containers import ImageList
 from safeds.data.image.typing import ImageSize
-from safeds.data.labeled.containers import Dataset
-from safeds.data.tabular.containers import Table
 
 /**
  * A Dataset for ImageLists as input and ImageLists, Tables or Columns as output.
@@ -13,12 +11,12 @@ from safeds.data.tabular.containers import Table
  * @param batchSize the batch size used for training
  * @param shuffle weather the data should be shuffled after each epoch of training
  */
-class ImageDataset<T sub union<Column<Any>, ImageList, Table>, T>(
+class ImageDataset<Out_co>(
     @PythonName("input_data") inputData: ImageList,
-    @PythonName("output_data") outputData: T,
+    @PythonName("output_data") outputData: OutCo,
     @PythonName("batch_size") batchSize: Int = 1,
     shuffle: Boolean = false
-) sub Dataset {
+) {
     /**
      * Get the input `ImageSize` of this dataset.
      */
@@ -44,7 +42,7 @@ class ImageDataset<T sub union<Column<Any>, ImageList, Table>, T>(
      */
     @Pure
     @PythonName("get_output")
-    fun getOutput() -> output: T
+    fun getOutput() -> output: OutCo
 
     /**
      * Return a new `ImageDataset` with shuffled data.
@@ -54,5 +52,5 @@ class ImageDataset<T sub union<Column<Any>, ImageList, Table>, T>(
      * @result imageDataset the shuffled `ImageDataset`
      */
     @Pure
-    fun shuffle() -> imageDataset: ImageDataset<T>
+    fun shuffle() -> imageDataset: ImageDataset<OutCo>
 }

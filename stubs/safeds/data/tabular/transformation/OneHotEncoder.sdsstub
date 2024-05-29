@@ -29,6 +29,7 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
  * The name "one-hot" comes from the fact that each row has exactly one 1 in it, and the rest of the values are 0s.
  * One-hot encoding is closely related to dummy variable / indicator variables, which are used in statistics.
  *
+ * @param columnNames The list of columns used to fit the transformer. If `None`, all non-numeric columns are used.
  * @param separator The separator used to separate the original column name from the value in the new column names.
  *
  * @example
@@ -37,26 +38,34 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
  *     // from safeds.data.tabular.transformation import OneHotEncoder
  *     // table = Table({"col1": ["a", "b", "c", "a"]})
  *     // transformer = OneHotEncoder()
- *     // transformer.fit_and_transform(table, ["col1"])[1]
+ *     // transformer.fit_and_transform(table)[1]
  * }
  */
 class OneHotEncoder(
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
     separator: String = "__"
 ) sub InvertibleTableTransformer {
+    /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+    /**
+     * The separator used to separate the original column name from the value in the new column names.
+     */
+    attr separator: String
+
     /**
      * Learn a transformation for a set of columns in a table.
      *
      * This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
-     * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all columns are used.
      *
      * @result fittedTransformer The fitted transformer.
      */
     @Pure
     fun fit(
-        table: Table,
-        @PythonName("column_names") columnNames: List<String>?
+        table: Table
     ) -> fittedTransformer: OneHotEncoder
 
     /**

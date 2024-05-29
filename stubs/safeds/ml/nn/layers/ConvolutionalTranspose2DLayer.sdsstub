@@ -1,9 +1,10 @@
 package safeds.ml.nn.layers
 
-from safeds.data.image.typing import ImageSize
-from safeds.ml.nn.layers import Convolutional2DLayer
+from safeds.ml.nn.typing import ModelImageSize
 
 /**
+ * A convolutional transpose 2D Layer.
+ *
  * @param outputChannel the amount of output channels
  * @param kernelSize the size of the kernel
  * @param stride the stride of the transposed convolution
@@ -17,5 +18,5 @@ class ConvolutionalTranspose2DLayer(
     padding: Int = 0,
     @PythonName("output_padding") outputPadding: Int = 0
 ) sub Convolutional2DLayer {
-    @PythonName("output_size") attr outputSize: ImageSize
+    @PythonName("output_size") attr outputSize: ModelImageSize
 }

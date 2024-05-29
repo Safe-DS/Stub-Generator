@@ -1,0 +1,53 @@
+package safeds.ml.nn.typing
+
+from safeds.data.image.containers import Image
+
+/**
+ * A container for image size in neural networks.
+ *
+ * @param width the width of the image
+ * @param height the height of the image
+ * @param channel the channel of the image
+ */
+class ModelImageSize {
+    /**
+     * Get the width of this `ImageSize` in pixels.
+     */
+    attr width: Int
+    /**
+     * Get the height of this `ImageSize` in pixels.
+     */
+    attr height: Int
+    /**
+     * Get the channel of this `ImageSize` in pixels.
+     */
+    attr channel: Int
+
+    // TODO Safe-DS does not support class methods.
+    /**
+     * Create a `ModelImageSize` of a given image.
+     *
+     * @param image the given image for the `ModelImageSize`
+     *
+     * @result imageSize the calculated `ModelImageSize`
+     */
+    @Pure
+    @PythonName("from_image")
+    static fun fromImage(
+        image: Image
+    ) -> imageSize: ModelImageSize
+
+    // TODO Safe-DS does not support class methods.
+    /**
+     * Create a `ModelImageSize` of a given image size.
+     *
+     * @param imageSize the given image size for the `ModelImageSize`
+     *
+     * @result imageSize the new `ModelImageSize`
+     */
+    @Pure
+    @PythonName("from_image_size")
+    static fun fromImageSize(
+        @PythonName("image_size") imageSize: ModelImageSize
+    ) -> imageSize: ModelImageSize
+}

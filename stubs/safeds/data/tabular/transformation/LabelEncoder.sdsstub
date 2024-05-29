@@ -6,26 +6,35 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
 /**
  * The LabelEncoder encodes one or more given columns into labels.
  *
+ * @param columnNames The list of columns used to fit the transformer. If `None`, all non-numeric columns are used.
  * @param partialOrder The partial order of the labels. The labels are encoded in the order of the given list. Additional values are
- * encoded as the next integer after the last value in the list in the order they appear in the data.
+ * assigned labels in the order they are encountered during fitting.
  */
 class LabelEncoder(
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
     @PythonName("partial_order") partialOrder: List<Any>? = null
 ) sub InvertibleTableTransformer {
+    /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+    /**
+     * The partial order of the labels.
+     */
+    @PythonName("partial_order") attr partialOrder: List<Any>
+
     /**
      * Learn a transformation for a set of columns in a table.
      *
      * This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
-     * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all non-numeric columns are used.
      *
      * @result fittedTransformer The fitted transformer.
      */
     @Pure
     fun fit(
-        table: Table,
-        @PythonName("column_names") columnNames: List<String>?
+        table: Table
     ) -> fittedTransformer: LabelEncoder
 
     /**

@@ -2,12 +2,12 @@ package safeds.data.tabular.transformation
 
 from safeds.data.tabular.containers import Table
 from safeds.data.tabular.transformation import TableTransformer
-from safeds.data.tabular.transformation.SimpleImputer.SimpleImputer import Strategy
 
 /**
  * Replace missing values using the given strategy.
  *
  * @param strategy How to replace missing values.
+ * @param columnNames The list of columns used to fit the transformer. If `None`, all columns are used.
  * @param valueToReplace The value that should be replaced.
  *
  * @example
@@ -27,6 +27,7 @@ from safeds.data.tabular.transformation.SimpleImputer.SimpleImputer import Strat
  */
 class SimpleImputer(
     strategy: Strategy,
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
     @PythonName("value_to_replace") valueToReplace: union<Float, String, Nothing?> = null
 ) sub TableTransformer {
     /**
@@ -65,6 +66,10 @@ class SimpleImputer(
     }
 
     /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+    /**
      * The strategy used to replace missing values.
      */
     attr strategy: Strategy
@@ -79,14 +84,12 @@ class SimpleImputer(
      * This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
-     * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all columns are used.
      *
      * @result fittedTransformer The fitted transformer.
      */
     @Pure
     fun fit(
-        table: Table,
-        @PythonName("column_names") columnNames: List<String>?
+        table: Table
     ) -> fittedTransformer: SimpleImputer
 
     /**

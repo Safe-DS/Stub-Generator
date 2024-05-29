@@ -1,8 +1,6 @@
 package safeds.ml.classical.classification
 
-from safeds.ml.classical.Bases import SupportVectorMachineBase
 from safeds.ml.classical.Bases.SupportVectorMachineBase.SupportVectorMachineBase import Kernel
-from safeds.ml.classical.classification import Classifier
 
 /**
  * Support vector machine for classification.
@@ -14,7 +12,19 @@ from safeds.ml.classical.classification import Classifier
 class SupportVectorClassifier(
     c: Float = 1.0,
     kernel: Kernel? = null
-) sub Classifier, _SupportVectorMachineBase {
+) sub Classifier {
+    /**
+     * The regularization strength.
+     */
+    attr c: Float
+
+    /**
+     * Possible kernels for the support vector machine.
+     *
+     * Use the static factory methods to create instances of this class.
+     */
+    class Kernel
+
     /**
      * The type of kernel used.
      */

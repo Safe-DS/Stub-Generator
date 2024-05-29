@@ -11,6 +11,8 @@ class Regressor {
     /**
      * Summarize the regressor's metrics on the given data.
      *
+     * **Note:** The model must be fitted.
+     *
      * @param validationOrTestSet The validation or test set.
      *
      * @result metrics A table containing the regressor's metrics.
@@ -37,7 +39,10 @@ class Regressor {
      * | 0.0        | The model is as good as predicting the mean of the target values. Try something else.      |
      * | (-∞, 0.0)  | The model is worse than predicting the mean of the target values. Something is very wrong. |
      *
-     * **Note:** Some other libraries call this metric `r2_score`.
+     * **Notes:**
+     *
+     * - The model must be fitted.
+     * - Some other libraries call this metric `r2_score`.
      *
      * @param validationOrTestSet The validation or test set.
      *
@@ -55,6 +60,8 @@ class Regressor {
      * The mean absolute error is the average of the absolute differences between the predicted and expected target
      * values. The **lower** the mean absolute error, the better the regressor. Results range from 0.0 to positive
      * infinity.
+     *
+     * **Note:** The model must be fitted.
      *
      * @param validationOrTestSet The validation or test set.
      *
@@ -77,6 +84,8 @@ class Regressor {
      * This metric is useful for time series data, where the order of the target values has a meaning. It is not useful
      * for other types of data. Because of this, it is not included in the `summarize_metrics` method.
      *
+     * **Note:** The model must be fitted.
+     *
      * @param validationOrTestSet The validation or test set.
      *
      * @result meanDirectionalAccuracy The mean directional accuracy of the regressor.
@@ -94,7 +103,10 @@ class Regressor {
      * values. The **lower** the mean squared error, the better the regressor. Results range from 0.0 to positive
      * infinity.
      *
-     * **Note:** To get the root mean squared error (RMSE), take the square root of the result.
+     * **NoteS:**
+     *
+     * - The model must be fitted.
+     * - To get the root mean squared error (RMSE), take the square root of the result.
      *
      * @param validationOrTestSet The validation or test set.
      *
@@ -112,6 +124,8 @@ class Regressor {
      * The median absolute deviation is the median of the absolute differences between the predicted and expected
      * target values. The **lower** the median absolute deviation, the better the regressor. Results range from 0.0 to
      * positive infinity.
+     *
+     * **Note:** The model must be fitted.
      *
      * @param validationOrTestSet The validation or test set.
      *

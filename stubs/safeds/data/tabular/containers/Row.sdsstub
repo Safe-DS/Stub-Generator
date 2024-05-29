@@ -16,18 +16,25 @@ class Row {
     /**
      * The number of columns in the row.
      */
-    @PythonName("number_of_columns") attr numberOfColumns: Int
+    @PythonName("column_count") attr columnCount: Int
     /**
      * The schema of the row.
      */
     attr `schema`: Schema
 
     /**
-     * Get the value of the specified column.
+     * Get the value of the specified column. This is equivalent to using the `[]` operator (indexed access).
      *
      * @param name The name of the column.
      *
      * @result value The value of the column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"col1": [1, 2], "col2": [3, 4]})
+     *     // table.remove_rows(lambda row: row.get_value("col1") == 1)
+     * }
      */
     @Pure
     @PythonName("get_value")

@@ -8,11 +8,17 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
  *
  * @param min The minimum of the new range after the transformation
  * @param max The maximum of the new range after the transformation
+ * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
  */
 class RangeScaler(
     @PythonName("min_") min: Float = 0.0,
-    @PythonName("max_") max: Float = 1.0
+    @PythonName("max_") max: Float = 1.0,
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null
 ) sub InvertibleTableTransformer {
+    /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
     /**
      * The minimum of the new range after the transformation.
      */
@@ -28,14 +34,12 @@ class RangeScaler(
      * This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
-     * @param columnNames The list of columns from the table used to fit the transformer. If None, all numeric columns are used.
      *
      * @result fittedTransformer The fitted transformer.
      */
     @Pure
     fun fit(
-        table: Table,
-        @PythonName("column_names") columnNames: List<String>?
+        table: Table
     ) -> fittedTransformer: RangeScaler
 
     /**

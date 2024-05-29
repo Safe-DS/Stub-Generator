@@ -7,6 +7,11 @@ package safeds.data.tabular.containers
  */
 class Cell<out TCo> {
     /**
+     * Namespace for operations on strings.
+     */
+    attr str: StringCell
+
+    /**
      * Negate a boolean. This is equivalent to the `~` operator.
      *
      * @example
@@ -135,6 +140,21 @@ class Cell<out TCo> {
     ) -> result1: Cell<RCo>
 
     /**
+     * Divide by a value. This is equivalent to the `/` operator.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("example", [6, 8])
+     *     // column.transform(lambda cell: cell.div(2))
+     * }
+     */
+    @Pure
+    fun div(
+        other: Any
+    ) -> result1: Cell<RCo>
+
+    /**
      * Perform a modulo operation. This is equivalent to the `%` operator.
      *
      * @example
@@ -175,8 +195,8 @@ class Cell<out TCo> {
      * }
      */
     @Pure
-    fun pow<P>(
-        other: union<Cell<P>, Float>
+    fun pow<PContra>(
+        other: union<Cell<PContra>, Float>
     ) -> result1: Cell<RCo>
 
     /**
@@ -191,21 +211,6 @@ class Cell<out TCo> {
      */
     @Pure
     fun `sub`(
-        other: Any
-    ) -> result1: Cell<RCo>
-
-    /**
-     * Divide by a value. This is equivalent to the `/` operator.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [6, 8])
-     *     // column.transform(lambda cell: cell.div(2))
-     * }
-     */
-    @Pure
-    fun div(
         other: Any
     ) -> result1: Cell<RCo>
 

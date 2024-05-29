@@ -6,12 +6,21 @@ from safeds.data.tabular.transformation import TableTransformer
 /**
  * The Discretizer bins continuous data into intervals.
  *
- * @param numberOfBins The number of bins to be created.
+ * @param binCount The number of bins to be created.
+ * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
  */
 class Discretizer(
-    @PythonName("number_of_bins") numberOfBins: Int = 5
+    @PythonName("bin_count") binCount: Int = 5,
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null
 ) sub TableTransformer {
-    @PythonName("number_of_bins") attr numberOfBins: Int
+    /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+    /**
+     * The number of bins to be created.
+     */
+    @PythonName("bin_count") attr binCount: Int
 
     /**
      * Learn a transformation for a set of columns in a table.
@@ -19,14 +28,12 @@ class Discretizer(
      * This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
-     * @param columnNames The list of columns from the table used to fit the transformer. If `None`, all columns are used.
      *
      * @result fittedTransformer The fitted transformer.
      */
     @Pure
     fun fit(
-        table: Table,
-        @PythonName("column_names") columnNames: List<String>?
+        table: Table
     ) -> fittedTransformer: Discretizer
 
     /**
