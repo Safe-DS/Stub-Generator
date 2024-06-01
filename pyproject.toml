@@ -27,7 +27,7 @@ syrupy = "^4.6.0"
 
 [tool.poetry.group.docs.dependencies]
 mkdocs = "^1.5.3"
-mkdocs-glightbox = "^0.3.1"
+mkdocs-glightbox = ">=0.3.1,<0.5.0"
 mkdocs-material = "^9.4.7"
 
 [build-system]
