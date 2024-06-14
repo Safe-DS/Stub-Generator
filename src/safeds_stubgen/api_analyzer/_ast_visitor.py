@@ -291,7 +291,6 @@ class MyPyAstVisitor:
             elif arg_type is not None and doc_type is not None and arg_type != doc_type:
                 # Both but different - type hint and doc type
                 if self.type_source_warning == TypeSourceWarning.WARN:
-                    # Throw a warning but continue (prefering the code type per default)
                     msg = f"Different type hint and docstring types for '{function_id}'."
                     logging.warning(msg)
 
@@ -330,7 +329,6 @@ class MyPyAstVisitor:
             if result_type is not None and result_type != result_doc_type:
                 # Difference in doc and type hint: Overwrite if preference is set
                 if self.type_source_warning == TypeSourceWarning.WARN:
-                    # Throw a warning but continue (prefering the code type per default)
                     msg = f"Different type hint and docstring types for '{function_id}'."
                     logging.warning(msg)
 
