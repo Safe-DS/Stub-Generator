@@ -56,9 +56,8 @@ class ASTWalker:
             child_nodes = [
                 _def
                 for _def in definitions
-                if _def.__class__.__name__ in {
-                    "AssignmentStmt", "FuncDef", "ClassDef", "Decorator", "OverloadedFuncDef"
-                }
+                if _def.__class__.__name__
+                in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator", "OverloadedFuncDef"}
             ]
         elif isinstance(node, FuncDef) and node.name == "__init__":
             definitions = get_funcdef_definitions(node)
