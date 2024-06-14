@@ -10,7 +10,7 @@ import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
-from safeds_stubgen.api_analyzer._type_source_preference import TypeSourcePreference
+from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -54,9 +54,11 @@ class MyPyAstVisitor:
         api: API,
         aliases: dict[str, set[str]],
         type_source_preference: TypeSourcePreference,
+        type_source_warning: TypeSourceWarning,
     ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.type_source_preference = type_source_preference
+        self.type_source_warning = type_source_warning
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -288,12 +290,13 @@ class MyPyAstVisitor:
                 )
             elif arg_type is not None and doc_type is not None and arg_type != doc_type:
                 # Both but different - type hint and doc type
-                if self.type_source_preference == TypeSourcePreference.THROW_WARNING:
+                if self.type_source_warning == TypeSourceWarning.WARN:
                     # Throw a warning but continue (prefering the code type per default)
                     msg = f"Different type hint and docstring types for '{function_id}'."
                     logging.warning(msg)
-                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
-                    # Overwrite the code type with the docstring type
+
+                # Overwrite the code type with the docstring type if preference is set, else prefer the code (default)
+                if self.type_source_preference == TypeSourcePreference.DOCSTRING:
                     arguments[i] = Parameter(
                         id=argument.id,
                         name=argument.name,
@@ -325,13 +328,14 @@ class MyPyAstVisitor:
                 break
 
             if result_type is not None and result_type != result_doc_type:
-                # Difference in doc and type hint: Overwrite is preference is set
-                if self.type_source_preference == TypeSourcePreference.THROW_WARNING:
+                # Difference in doc and type hint: Overwrite if preference is set
+                if self.type_source_warning == TypeSourceWarning.WARN:
                     # Throw a warning but continue (prefering the code type per default)
                     msg = f"Different type hint and docstring types for '{function_id}'."
                     logging.warning(msg)
-                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
-                    # Overwrite the code type with the docstring type
+
+                # Overwrite the code type with the docstring type if preference is set, else prefer the code (default)
+                if self.type_source_preference == TypeSourcePreference.DOCSTRING:
                     results[i] = Result(
                         type=result_doc_type,
                         id=results[i].id,
@@ -956,7 +960,7 @@ class MyPyAstVisitor:
                 for mod in self.api.reexport_map[reexport_name_forward]:
                     reexported_by.add(mod)
 
-            reexport_name_backward = ".".join(path[-i - 1 :])
+            reexport_name_backward = ".".join(path[-i - 1:])
             if reexport_name_backward in self.api.reexport_map:
                 for mod in self.api.reexport_map[reexport_name_backward]:
                     reexported_by.add(mod)

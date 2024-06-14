@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from safeds_stubgen.api_analyzer import TypeSourcePreference, get_api
+from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data
 
 if TYPE_CHECKING:
@@ -18,12 +18,13 @@ def cli() -> None:
         logging.basicConfig(level=logging.INFO)
 
     _run_stub_generator(
-        args.src.resolve(),
-        args.out.resolve(),
-        args.docstyle,
-        args.testrun,
-        args.naming_convert,
-        args.type_source_preference,
+        src_dir_path=args.src.resolve(),
+        out_dir_path=args.out.resolve(),
+        docstring_style=args.docstyle,
+        is_test_run=args.testrun,
+        convert_identifiers=args.naming_convert,
+        type_source_preference=args.type_source_preference,
+        type_source_warning=args.show_type_source_warning,
     )
 
 
@@ -76,7 +77,18 @@ def _get_args() -> argparse.Namespace:
         type=TypeSourcePreference.from_string,
         choices=list(TypeSourcePreference),
         required=False,
-        default=TypeSourcePreference.THROW_WARNING.name,
+        default=TypeSourcePreference.CODE.name,
+    )
+    parser.add_argument(
+        "-tsw",
+        "--show_type_source_warning",
+        help=(
+            "Preference if a warning message should be shown if type information from type hints and docstrings differ."
+        ),
+        type=TypeSourceWarning.from_string,
+        choices=list(TypeSourceWarning),
+        required=False,
+        default=TypeSourceWarning.WARN.name,
     )
 
     return parser.parse_args()
@@ -89,6 +101,7 @@ def _run_stub_generator(
     is_test_run: bool,
     convert_identifiers: bool,
     type_source_preference: TypeSourcePreference,
+    type_source_warning: TypeSourceWarning,
 ) -> None:
     """
     Create API data of a package and Safe-DS stub files.
@@ -108,6 +121,7 @@ def _run_stub_generator(
         docstring_style=docstring_style,
         is_test_run=is_test_run,
         type_source_preference=type_source_preference,
+        type_source_warning=type_source_warning,
     )
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")

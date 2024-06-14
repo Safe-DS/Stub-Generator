@@ -20,7 +20,7 @@ from ._ast_visitor import result_name_generator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 from ._package_metadata import distribution, distribution_version
-from ._type_source_preference import TypeSourcePreference
+from ._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from ._types import (
     AbstractType,
     BoundaryType,
@@ -70,6 +70,7 @@ __all__ = [
     "SetType",
     "TupleType",
     "TypeSourcePreference",
+    "TypeSourceWarning",
     "TypeVarType",
     "UnionType",
     "UnknownType",
