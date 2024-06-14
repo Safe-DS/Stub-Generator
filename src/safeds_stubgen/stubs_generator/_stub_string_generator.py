@@ -277,30 +277,26 @@ class StubsStringGenerator:
         superclasses = class_.superclasses
         superclass_info = ""
         superclass_methods_text = ""
+        superclass_names = []
         if superclasses and not class_.is_abstract:
-            superclass_names = []
             for superclass in superclasses:
                 superclass_name = superclass.split(".")[-1]
                 is_internal_superclass = is_internal(superclass_name)
 
                 if not is_internal_superclass:
                     self._add_to_imports(superclass)
-
-                if superclass not in self.module_imports and is_internal_superclass:
-                    # If the superclass was not added to the module_imports through the _add_to_imports method, it means
-                    # that the superclass is a class from the same module.
+                    superclass_names.append(superclass_name)
+                else:
                     # For internal superclasses, we have to add their public members to subclasses.
                     superclass_methods_text += self._create_internal_class_string(
                         superclass=superclass,
                         inner_indentations=inner_indentations,
                         already_defined_names=already_defined_names,
                     )
-                else:
-                    superclass_names.append(superclass_name)
 
             superclass_info = f" sub {', '.join(superclass_names)}" if superclass_names else ""
 
-        if len(superclasses) > 1:
+        if len(superclass_names) > 1:
             self._current_todo_msgs.add("multiple_inheritance")
 
         # Create the last "// TOD0... " for the superclass inheritance check
