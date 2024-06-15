@@ -58,7 +58,10 @@ class DocstringParser(AbstractDocstringParser):
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
                 elif docstring_section.kind == DocstringSectionKind.examples:
-                    example = docstring_section.value[0][1].strip("\n")
+                    examples = []
+                    for example_data in docstring_section.value:
+                        examples.append(example_data[1].strip("\n"))
+                    example = "\n".join(examples)
 
         return ClassDocstring(
             description=description,
@@ -77,7 +80,10 @@ class DocstringParser(AbstractDocstringParser):
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
                 elif docstring_section.kind == DocstringSectionKind.examples:
-                    example = docstring_section.value[0][1].strip("\n")
+                    examples = []
+                    for example_data in docstring_section.value:
+                        examples.append(example_data[1].strip("\n"))
+                    example = "\n".join(examples)
 
         return FunctionDocstring(
             description=description,

@@ -548,3 +548,29 @@ def numpy_named_result_without_type_inferred():
         this will be the return value
     """
     return "result"
+
+
+class ClassWithExample:
+    """
+    Examples
+    --------
+    >>> print(1+1)
+    2
+
+    >>> x = 2 - 1
+    >>> print(x)
+    1
+    """
+
+
+def function_with_example() -> None:
+    """
+    Examples
+    --------
+    >>> print(1+1)
+    2
+
+    >>> x = 2 - 1
+    >>> print(x)
+    1
+    """
