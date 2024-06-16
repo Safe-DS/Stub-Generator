@@ -837,8 +837,8 @@ class MyPyAstVisitor:
 
         return arguments
 
-    @staticmethod
     def _get_parameter_type_and_default_value(
+        self,
         initializer: mp_nodes.Expression,
     ) -> tuple[str | None | int | float, bool]:
         default_value: str | None | int | float = None
@@ -851,6 +851,15 @@ class MyPyAstVisitor:
             elif isinstance(initializer, mp_nodes.CallExpr):
                 # Safe-DS does not support call expressions as types
                 return default_value, default_is_none
+            elif isinstance(initializer, mp_nodes.UnaryExpr):
+                value, default_is_none = self._get_parameter_type_and_default_value(initializer.expr)
+                if isinstance(value, int):
+                    return int(f"{initializer.op}{value}"), default_is_none
+                else:  # pragma: no cover
+                    msg = (f"Received an parameter {value} with an unexpected operator {initializer.op}. This parameter "
+                           f"can't be parsed.")
+                    logging.warning(msg)
+                    return value, default_is_none
             elif isinstance(
                 initializer,
                 mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,

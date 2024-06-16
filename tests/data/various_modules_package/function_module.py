@@ -68,6 +68,7 @@ def params(
 
 def params_with_default_value(
     integer: int = 3,
+    negative_int: int = -1,
     boolean: bool = True,
     float_: float = 1.2,
     none: None = None,

@@ -49,6 +49,7 @@ fun params(
 @PythonName("params_with_default_value")
 fun paramsWithDefaultValue(
     integer: Int = 3,
+    @PythonName("negative_int") negativeInt: Int = -1,
     boolean: Boolean = true,
     @PythonName("float_") float: Float = 1.2,
     none: Nothing? = null,

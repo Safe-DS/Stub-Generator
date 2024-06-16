@@ -6297,6 +6297,7 @@
       'name': 'params_with_default_value',
       'parameters': list([
         'tests/data/various_modules_package/function_module/params_with_default_value/integer',
+        'tests/data/various_modules_package/function_module/params_with_default_value/negative_int',
         'tests/data/various_modules_package/function_module/params_with_default_value/boolean',
         'tests/data/various_modules_package/function_module/params_with_default_value/float_',
         'tests/data/various_modules_package/function_module/params_with_default_value/none',
