@@ -285,12 +285,13 @@ class StubsStringGenerator:
 
         # Inner classes
         for inner_class in class_.classes:
-            class_string = self._create_class_string(
-                class_=inner_class,
-                class_indentation=inner_indentations,
-                in_reexport_module=in_reexport_module,
-            )
-            class_text += f"\n{class_string}\n"
+            if inner_class.is_public:
+                class_string = self._create_class_string(
+                    class_=inner_class,
+                    class_indentation=inner_indentations,
+                    in_reexport_module=in_reexport_module,
+                )
+                class_text += f"\n{class_string}\n"
 
         # Superclass methods, if the superclass is an internal class
         class_text += superclass_methods_text
