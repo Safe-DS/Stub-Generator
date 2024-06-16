@@ -194,6 +194,15 @@ fun numpyNamedResultWithoutType() -> namedResult: String
 fun numpyNamedResultWithoutTypeInferred() -> namedResult: String
 
 /**
+ * numpy_named_result_without_type_inferred
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("numpy_named_result_with_more_hints_than_docstring_types")
+fun numpyNamedResultWithMoreHintsThanDocstringTypes() -> (namedResult: Int, result1: String)
+
+/**
  * ClassWithDocumentation. Code::
  *
  *     pass
