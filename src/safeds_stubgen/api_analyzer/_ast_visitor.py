@@ -856,8 +856,10 @@ class MyPyAstVisitor:
                 if isinstance(value, int):
                     return int(f"{initializer.op}{value}"), default_is_none
                 else:  # pragma: no cover
-                    msg = (f"Received an parameter {value} with an unexpected operator {initializer.op}. This parameter "
-                           f"can't be parsed.")
+                    msg = (
+                        f"Received an parameter {value} with an unexpected operator {initializer.op}. This parameter "
+                        f"can't be parsed."
+                    )
                     logging.warning(msg)
                     return value, default_is_none
             elif isinstance(
