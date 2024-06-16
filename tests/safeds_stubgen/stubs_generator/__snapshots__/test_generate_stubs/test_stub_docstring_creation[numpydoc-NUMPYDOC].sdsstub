@@ -197,6 +197,10 @@ fun numpyNamedResultWithoutTypeInferred() -> namedResult: String
  * @example
  * pipeline example {
  *     // print(1+1)
+ * }
+ *
+ * @example
+ * pipeline example {
  *     // x = 2 - 1
  *     // print(x)
  * }
@@ -480,6 +484,10 @@ class NumpyClassWithExamples() {
  * @example
  * pipeline example {
  *     // print(1+1)
+ * }
+ *
+ * @example
+ * pipeline example {
  *     // x = 2 - 1
  *     // print(x)
  * }

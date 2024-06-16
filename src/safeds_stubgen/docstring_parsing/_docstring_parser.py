@@ -50,7 +50,7 @@ class DocstringParser(AbstractDocstringParser):
 
         description = ""
         docstring = ""
-        example = ""
+        examples = []
         if griffe_node.docstring is not None:
             docstring = griffe_node.docstring.value.strip("\n")
 
@@ -58,21 +58,19 @@ class DocstringParser(AbstractDocstringParser):
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
                 elif docstring_section.kind == DocstringSectionKind.examples:
-                    examples = []
                     for example_data in docstring_section.value:
                         examples.append(example_data[1].strip("\n"))
-                    example = "\n".join(examples)
 
         return ClassDocstring(
             description=description,
             full_docstring=docstring,
-            example=example,
+            examples=examples,
         )
 
     def get_function_documentation(self, function_node: nodes.FuncDef) -> FunctionDocstring:
         docstring = ""
         description = ""
-        example = ""
+        examples = []
         griffe_docstring = self.__get_cached_docstring(function_node.fullname)
         if griffe_docstring is not None:
             docstring = griffe_docstring.value.strip("\n")
@@ -80,15 +78,13 @@ class DocstringParser(AbstractDocstringParser):
                 if docstring_section.kind == DocstringSectionKind.text:
                     description = docstring_section.value.strip("\n")
                 elif docstring_section.kind == DocstringSectionKind.examples:
-                    examples = []
                     for example_data in docstring_section.value:
                         examples.append(example_data[1].strip("\n"))
-                    example = "\n".join(examples)
 
         return FunctionDocstring(
             description=description,
             full_docstring=docstring,
-            example=example,
+            examples=examples,
         )
 
     def get_parameter_documentation(
