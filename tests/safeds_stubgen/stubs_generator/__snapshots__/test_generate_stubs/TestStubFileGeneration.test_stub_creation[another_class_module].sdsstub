@@ -1,0 +1,16 @@
+@PythonModule("tests.data.various_modules_package.yet_another_path.another_class_module")
+package tests.data.variousModulesPackage.yetAnotherPath.anotherClassModule
+
+class SuperclassClass() {
+    @Pure
+    @PythonName("another_method")
+    fun anotherMethod()
+
+    class AnotherNestedClass()
+
+    @Pure
+    @PythonName("yet_another_method")
+    fun yetAnotherMethod()
+
+    class YetAnotherNestedClass
+}
