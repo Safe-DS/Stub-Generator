@@ -1,4 +1,4 @@
-from typing import Self
+from typing import Self, overload
 
 from tests.data.main_package.another_path.another_module import yetAnotherClass
 
@@ -59,3 +59,29 @@ class SelfTypes2(SelfTypes1):
 
     def infer_self_result2(self):
         return self
+
+
+class ClassWithOverloadedFunction:
+    @overload
+    def overloaded_function(
+        self,
+        parameter_1: int,
+        *,
+        parameter_2: float = ...,
+    ) -> bool: ...
+
+    @overload
+    def overloaded_function(
+        self,
+        parameter_1: str,
+        *,
+        parameter_2: bool,
+    ) -> bool | None: ...
+
+    def overloaded_function(
+        self,
+        parameter_1: int,
+        *,
+        parameter_2: bool = True,
+    ) -> bool | None:
+        return None

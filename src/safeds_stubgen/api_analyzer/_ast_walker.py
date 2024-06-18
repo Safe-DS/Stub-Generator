@@ -3,7 +3,7 @@ from __future__ import annotations
 from collections.abc import Callable
 from typing import Any
 
-from mypy.nodes import AssignmentStmt, ClassDef, Decorator, FuncDef, MypyFile
+from mypy.nodes import AssignmentStmt, ClassDef, Decorator, FuncDef, MypyFile, OverloadedFuncDef
 
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
 
@@ -34,6 +34,8 @@ class ASTWalker:
         # function node too
         if isinstance(node, Decorator):
             node = node.func
+        elif isinstance(node, OverloadedFuncDef):
+            node = node.impl
 
         if node in visited_nodes:  # pragma: no cover
             raise AssertionError("Node visited twice")
@@ -54,7 +56,8 @@ class ASTWalker:
             child_nodes = [
                 _def
                 for _def in definitions
-                if _def.__class__.__name__ in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator"}
+                if _def.__class__.__name__
+                in {"AssignmentStmt", "FuncDef", "ClassDef", "Decorator", "OverloadedFuncDef"}
             ]
         elif isinstance(node, FuncDef) and node.name == "__init__":
             definitions = get_funcdef_definitions(node)

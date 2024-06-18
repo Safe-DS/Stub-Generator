@@ -7090,6 +7090,7 @@
       'tests/data/various_modules_package/class_module/InheritFromException2',
       'tests/data/various_modules_package/class_module/SelfTypes1',
       'tests/data/various_modules_package/class_module/SelfTypes2',
+      'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction',
     ]),
     'docstring': '',
     'enums': list([
@@ -7102,6 +7103,10 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Self',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.overload',
       }),
       dict({
         'alias': None,
