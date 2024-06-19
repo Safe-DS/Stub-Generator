@@ -41,3 +41,12 @@ class SelfTypes2() sub SelfTypes1 {
     @PythonName("infer_self_result2")
     fun inferSelfResult2() -> result1: SelfTypes2
 }
+
+class ClassWithOverloadedFunction() {
+    @Pure
+    @PythonName("overloaded_function")
+    fun overloadedFunction(
+        @PythonName("parameter_1") parameter1: Int,
+        @PythonName("parameter_2") parameter2: Boolean = true
+    ) -> result1: Boolean?
+}
