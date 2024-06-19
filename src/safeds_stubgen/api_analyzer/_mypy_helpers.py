@@ -100,6 +100,8 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         return sds_types.NamedType(name="str", qname="builtins.str")
     elif isinstance(expr, mp_nodes.TupleExpr):
         return sds_types.TupleType(types=[mypy_expression_to_sds_type(item) for item in expr.items])
+    elif isinstance(expr, mp_nodes.UnaryExpr):
+        return mypy_expression_to_sds_type(expr.expr)
 
     raise TypeError("Unexpected expression type.")  # pragma: no cover
 

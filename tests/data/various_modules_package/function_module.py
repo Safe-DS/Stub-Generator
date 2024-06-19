@@ -69,6 +69,7 @@ def params(
 def params_with_default_value(
     integer: int = 3,
     negative_int: int = -1,
+    negative_float: float = -2.3,
     boolean: bool = True,
     float_: float = 1.2,
     none: None = None,
@@ -107,6 +108,7 @@ def special_params(
     none_none_bool_none_union: None | None | bool | None,
     none_list_union_none_none: None | list[None | None] | None,
     none: None,
+    not_true=not 1
 ): ...
 
 

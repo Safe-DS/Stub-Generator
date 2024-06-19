@@ -18,6 +18,7 @@ from safeds_stubgen.api_analyzer import (
     ParameterAssignment,
     Result,
     UnionType,
+    UnknownType,
     VarianceKind,
     result_name_generator,
 )
@@ -585,6 +586,9 @@ class StubsStringGenerator:
                         default_value = "true" if param_default_value else "false"
                     elif param_default_value is None:
                         default_value = "null"
+                    elif isinstance(param_default_value, UnknownType):
+                        self._current_todo_msgs.add("unknown")
+                        default_value = "unknown"
                     else:
                         default_value = f"{param_default_value}"
                     param_value = f" = {default_value}"
