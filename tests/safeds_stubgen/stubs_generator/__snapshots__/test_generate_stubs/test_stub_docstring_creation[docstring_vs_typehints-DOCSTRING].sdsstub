@@ -38,7 +38,7 @@ fun docVsHintsFunctionWithContrastingParameterAndReturn(
  */
 @Pure
 @PythonName("doc_vs_hints_function_with_multiple_contrasting_return")
-fun docVsHintsFunctionWithMultipleContrastingReturn() -> (result1: Float, result2: Boolean)
+fun docVsHintsFunctionWithMultipleContrastingReturn() -> (firstResult: Float, secondResult: Boolean)
 
 /**
  * ClassWithParametersAndAttributes.
