@@ -574,3 +574,15 @@ def function_with_example() -> None:
     >>> print(x)
     1
     """
+
+
+def numpy_named_result_with_more_hints_than_docstring_types() -> tuple[int, str]:
+    """
+    numpy_named_result_without_type_inferred
+
+    Returns
+    -------
+    named_result : int
+        this will be the return value
+    """
+    ...

@@ -47,6 +47,7 @@ class StubsStringGenerator:
         self.module_id: str = ""
         self.class_generics: list = []
         self.module_imports: set[str] = set()
+        self.currently_creating_reexport_data: bool = False
 
         self.api = api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
@@ -54,7 +55,8 @@ class StubsStringGenerator:
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
 
     def __call__(self, module: Module) -> tuple[str, str]:
-        self.module_id = module.id
+        self._set_module_id(module.id)
+        self.reexport_module_id = ""
         self.class_generics = []
         self.module_imports = set()
 
@@ -64,6 +66,10 @@ class StubsStringGenerator:
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
         module_data = []
         for module_id in self.reexport_modules:
+            self.currently_creating_reexport_data = False
+            self._set_module_id(module_id)
+            self.currently_creating_reexport_data = True
+
             elements: list[Class | Function] = self.reexport_modules[module_id]
 
             # We sort for the snapshot tests
@@ -75,10 +81,10 @@ class StubsStringGenerator:
                 self.class_generics = []
 
                 module_name = element.name
-                self.module_id = f"{module_id}/{module_name}"
+                self._set_module_id(f"{module_id}/{module_name}")
 
                 # Create module header
-                package_info = ".".join(self.module_id.split("/")[:-1])
+                package_info = ".".join(self._get_module_id().split("/")[:-1])
                 package_info_camel_case = _convert_name_to_convention(package_info, self.naming_convention)
                 module_name_info = ""
                 if package_info != package_info_camel_case:
@@ -99,7 +105,7 @@ class StubsStringGenerator:
                 #  We have to create them last, since we have to check all used types in this module first
                 module_header += self._create_imports_string()
                 module_text = module_header + module_text
-                module_data.append((Path(out_path / self.module_id), module_name, module_text, True))
+                module_data.append((Path(out_path / self._get_module_id()), module_name, module_text, True))
 
         return module_data
 
@@ -205,32 +211,6 @@ class StubsStringGenerator:
 
             constructor_info = f"({parameter_info})"
 
-        # Superclasses
-        superclasses = class_.superclasses
-        superclass_info = ""
-        superclass_methods_text = ""
-        if superclasses and not class_.is_abstract:
-            superclass_names = []
-            for superclass in superclasses:
-                superclass_name = superclass.split(".")[-1]
-                self._add_to_imports(superclass)
-
-                if superclass not in self.module_imports and is_internal(superclass_name):
-                    # If the superclass was not added to the module_imports through the _add_to_imports method, it means
-                    # that the superclass is a class from the same module.
-                    # For internal superclasses, we have to add their public members to subclasses.
-                    superclass_methods_text += self._create_internal_class_methods_string(
-                        superclass=superclass,
-                        inner_indentations=inner_indentations,
-                    )
-                else:
-                    superclass_names.append(superclass_name)
-
-            superclass_info = f" sub {', '.join(superclass_names)}" if superclass_names else ""
-
-        if len(superclasses) > 1:
-            self._current_todo_msgs.add("multiple_inheritance")
-
         # Type parameters
         constraints_info = ""
         variance_info = ""
@@ -274,14 +254,11 @@ class StubsStringGenerator:
             python_name_info = f"{class_indentation}{_create_name_annotation(class_name)}\n"
         class_name_camel_case = _replace_if_safeds_keyword(class_name_camel_case)
 
-        # Class signature line
-        class_signature = (
-            f"{python_name_info}{class_indentation}{self._create_todo_msg(class_indentation)}class "
-            f"{class_name_camel_case}{variance_info}{constructor_info}{superclass_info}{constraints_info}"
-        )
+        # Create the first "// TOD0... " for the class before new TOD0s are added
+        class_signature_todo = self._create_todo_msg(class_indentation)
 
         # Attributes
-        class_text = self._create_class_attribute_string(class_.attributes, inner_indentations)
+        class_text, added_class_attributes = self._create_class_attribute_string(class_.attributes, inner_indentations)
 
         # Inner classes
         for inner_class in class_.classes:
@@ -292,11 +269,50 @@ class StubsStringGenerator:
             )
             class_text += f"\n{class_string}\n"
 
+        # Methods
+        class_method_text, added_class_methods = self._create_class_method_string(class_.methods, inner_indentations)
+
+        # Superclasses
+        already_defined_names: set[str] = added_class_attributes.union(added_class_methods)
+        superclasses = class_.superclasses
+        superclass_info = ""
+        superclass_methods_text = ""
+        superclass_names = []
+        if superclasses and not class_.is_abstract:
+            for superclass in superclasses:
+                superclass_name = superclass.split(".")[-1]
+                is_internal_superclass = is_internal(superclass_name)
+
+                if not is_internal_superclass:
+                    self._add_to_imports(superclass)
+                    superclass_names.append(superclass_name)
+                else:
+                    # For internal superclasses, we have to add their public members to subclasses.
+                    superclass_methods_text += self._create_internal_class_string(
+                        superclass=superclass,
+                        inner_indentations=inner_indentations,
+                        already_defined_names=already_defined_names,
+                    )
+
+            superclass_info = f" sub {', '.join(superclass_names)}" if superclass_names else ""
+
+        if len(superclass_names) > 1:
+            self._current_todo_msgs.add("multiple_inheritance")
+
+        # Create the last "// TOD0... " for the superclass inheritance check
+        class_inheritance_todo = self._create_todo_msg(class_indentation)
+
+        # Class signature line
+        class_signature = (
+            f"{python_name_info}{class_indentation}{class_signature_todo}{class_inheritance_todo}class "
+            f"{class_name_camel_case}{variance_info}{constructor_info}{superclass_info}{constraints_info}"
+        )
+
         # Superclass methods, if the superclass is an internal class
         class_text += superclass_methods_text
 
-        # Methods
-        class_text += self._create_class_method_string(class_.methods, inner_indentations)
+        # Add the methods text (so it's after the superclass methods text)
+        class_text += class_method_text
 
         # Docstring
         docstring = self._create_sds_docstring(class_.docstring, class_indentation, node=class_)
@@ -315,18 +331,28 @@ class StubsStringGenerator:
         methods: list[Function],
         inner_indentations: str,
         is_internal_class: bool = False,
-    ) -> str:
+        already_defined_names: set[str] | None = None,
+    ) -> tuple[str, set[str]]:
+        if already_defined_names is None:
+            already_defined_names = set()
         class_methods: list[str] = []
         class_property_methods: list[str] = []
+        all_method_names: set[str] = set()
         for method in methods:
             # Add methods of internal classes that are inherited if the methods themselfe are public
-            if not method.is_public and (not is_internal_class or (is_internal_class and is_internal(method.name))):
+            if (
+                not method.is_public
+                and (not is_internal_class or (is_internal_class and is_internal(method.name)))
+                or method.name in already_defined_names
+            ):
                 continue
             elif method.is_property:
+                all_method_names.add(method.name)
                 class_property_methods.append(
                     self._create_property_function_string(method, inner_indentations),
                 )
             else:
+                all_method_names.add(method.name)
                 class_methods.append(
                     self._create_function_string(function=method, indentations=inner_indentations, is_method=True),
                 )
@@ -340,10 +366,15 @@ class StubsStringGenerator:
             method_infos = "\n\n".join(class_methods)
             method_text += f"\n{method_infos}\n"
 
-        return method_text
+        return method_text, all_method_names
 
-    def _create_class_attribute_string(self, attributes: list[Attribute], inner_indentations: str) -> str:
+    def _create_class_attribute_string(
+        self,
+        attributes: list[Attribute],
+        inner_indentations: str,
+    ) -> tuple[str, set[str]]:
         class_attributes: list[str] = []
+        all_attr_names: set[str] = set()
         for attribute in attributes:
             if not attribute.is_public:
                 continue
@@ -360,6 +391,7 @@ class StubsStringGenerator:
 
             # Convert name to camelCase and add PythonName annotation
             attr_name = attribute.name
+            all_attr_names.add(attr_name)
             attr_name_camel_case = _convert_name_to_convention(attr_name, self.naming_convention)
             attr_name_annotation = ""
             if attr_name_camel_case != attr_name:
@@ -389,7 +421,7 @@ class StubsStringGenerator:
         if class_attributes:
             attribute_infos = "\n".join(class_attributes)
             attribute_text += f"\n{attribute_infos}\n"
-        return attribute_text
+        return attribute_text, all_attr_names
 
     def _create_function_string(
         self,
@@ -806,22 +838,41 @@ class StubsStringGenerator:
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
-    def _create_internal_class_methods_string(self, superclass: str, inner_indentations: str) -> str:
-        superclass_name = superclass.split(".")[-1]
+    def _create_internal_class_string(
+        self,
+        superclass: str,
+        inner_indentations: str,
+        already_defined_names: set[str],
+    ) -> str:
+        superclass_class = self._get_class_in_package(superclass)
 
-        superclass_class = self._get_class_in_module(superclass_name)
-        superclass_methods_text = self._create_class_method_string(
+        # Methods
+        superclass_methods_text, existing_names = self._create_class_method_string(
             superclass_class.methods,
             inner_indentations,
             is_internal_class=True,
+            already_defined_names=already_defined_names,
         )
+
+        # Inner classes
+        for inner_class in superclass_class.classes:
+            if not is_internal(inner_class.name):
+                class_string = self._create_class_string(
+                    class_=inner_class,
+                    class_indentation=inner_indentations,
+                    in_reexport_module=True,
+                )
+                superclass_methods_text += f"\n{class_string}\n"
+
+        already_defined_names = already_defined_names.union(existing_names)
 
         for superclass_superclass in superclass_class.superclasses:
             name = superclass_superclass.split(".")[-1]
             if is_internal(name):
-                superclass_methods_text += self._create_internal_class_methods_string(
+                superclass_methods_text += self._create_internal_class_string(
                     superclass_superclass,
                     inner_indentations,
+                    already_defined_names,
                 )
 
         return superclass_methods_text
@@ -922,14 +973,14 @@ class StubsStringGenerator:
 
     def _has_node_shorter_reexport(self, node: Class | Function) -> bool:
         # Check if this node is beeing reexported from a shorter path. If it is, we create it there, not in this module
-        shortest_reexport_module_id = self.module_id
+        shortest_reexport_module_id = self._get_module_id()
         shortest_reexport_module: Module | None = None
         for reexport_module in node.reexported_by:
             if len(reexport_module.id.split("/")) < len(shortest_reexport_module_id.split("/")):
                 shortest_reexport_module_id = reexport_module.id
                 shortest_reexport_module = reexport_module
 
-        if shortest_reexport_module_id != self.module_id and shortest_reexport_module is not None:
+        if shortest_reexport_module_id != self._get_module_id() and shortest_reexport_module is not None:
             # Get alias
             alias = None
             for qualified_import in shortest_reexport_module.qualified_imports:
@@ -977,7 +1028,7 @@ class StubsStringGenerator:
         if (qname_parts[0] == "builtins" and len(qname_parts) == 2) or import_qname == "typing.Any":
             return
 
-        module_id = self.module_id.replace("/", ".")
+        module_id = self._get_module_id(get_actual_id=True).replace("/", ".")
         if module_id not in import_qname:
             # We need the full path for an import from the same package, but we sometimes don't get enough information,
             # therefore we have to search for the class and get its id
@@ -1007,7 +1058,7 @@ class StubsStringGenerator:
             if not in_package:
                 self.classes_outside_package.add(qname)
 
-            if qname.replace(".", "/") != self.module_id:
+            if qname.replace(".", "/") != self._get_module_id():
                 self.module_imports.add(qname)
 
     def _create_todo_msg(self, indentations: str) -> str:
@@ -1041,16 +1092,24 @@ class StubsStringGenerator:
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
-    def _get_class_in_module(self, class_name: str) -> Class:
-        if f"{self.module_id}/{class_name}" in self.api.classes:
-            return self.api.classes[f"{self.module_id}/{class_name}"]
+    def _get_class_in_package(self, class_qname: str) -> Class:
+        class_qname = class_qname.replace(".", "/")
+        class_path = "/".join(class_qname.split("/")[:-1])
+        class_name = class_qname.split("/")[-1]
 
-        # If the class is a nested class
+        if class_qname in self.api.classes:
+            return self.api.classes[class_qname]
+
+        # If we found nothing, we try to search it through all classes
         for class_ in self.api.classes:
-            if class_.startswith(self.module_id) and class_.endswith(class_name):
+            if class_.endswith(class_qname) or (
+                class_.startswith(f"{class_path}/") and class_.endswith(f"/{class_name}")
+            ):
                 return self.api.classes[class_]
 
-        raise LookupError(f"Expected finding class '{class_name}' in module '{self.module_id}'.")  # pragma: no cover
+        raise LookupError(
+            f"Expected finding class '{class_name}' in module '{self._get_module_id(get_actual_id=True)}'.",
+        )  # pragma: no cover
 
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:
@@ -1068,3 +1127,14 @@ class StubsStringGenerator:
                 full_docstring += f"\n{indentations} *"
 
         return full_docstring + "\n"
+
+    def _get_module_id(self, get_actual_id: bool = False) -> str:
+        if get_actual_id or not self.currently_creating_reexport_data:
+            return self.module_id
+        return self.reexport_module_id
+
+    def _set_module_id(self, module_id: str) -> None:
+        if self.currently_creating_reexport_data:
+            self.reexport_module_id = module_id
+        else:
+            self.module_id = module_id

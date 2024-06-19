@@ -476,6 +476,19 @@ class MyPyAstVisitor:
                     name=f"{result_name}",
                 ),
             ]
+        elif len(return_results) == len(result_docstrings):
+            zipped = zip(return_results, result_docstrings, strict=True)
+
+            for type_, result_docstring in zipped:
+                result_name = result_docstring.name or next(name_generator)
+
+                all_results.append(
+                    Result(
+                        id=f"{function_id}/{result_name}",
+                        type=type_,
+                        name=f"{result_name}",
+                    ),
+                )
         else:
             for type_ in return_results:
                 result_docstring = ResultDocstring()
