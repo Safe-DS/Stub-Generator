@@ -34,7 +34,7 @@ class ClassModuleClassD:
         class _ClassModulePrivateDoubleNestedClassF:
             def _class_f_func(self): ...
 
-    class _PrivatNestedClass:
+    class _PrivateNestedClass:
         ...
 
 
