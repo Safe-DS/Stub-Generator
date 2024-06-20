@@ -4880,9 +4880,7 @@
     }),
     dict({
       'assigned_by': 'POSITION_OR_NAME',
-      'default_value': dict({
-        'kind': 'UnknownType',
-      }),
+      'default_value': 'UnknownValue',
       'docstring': dict({
         'default_value': '',
         'description': '',

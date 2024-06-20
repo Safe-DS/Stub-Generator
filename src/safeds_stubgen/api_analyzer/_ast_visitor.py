@@ -24,6 +24,7 @@ from ._api import (
     QualifiedImport,
     Result,
     TypeParameter,
+    UnknownValue,
     VarianceKind,
     WildcardImport,
 )
@@ -854,7 +855,7 @@ class MyPyAstVisitor:
         self,
         initializer: mp_nodes.Expression,
         function_id: str,
-    ) -> tuple[str | None | int | float | sds_types.UnknownType, bool]:
+    ) -> tuple[str | None | int | float | UnknownValue, bool]:
         default_value: str | None | int | float = None
         default_is_none = False
         if initializer is not None:
@@ -882,7 +883,7 @@ class MyPyAstVisitor:
                     f"{function_id}. This parameter could not be parsed."
                 )
                 logging.warning(msg)
-                return sds_types.UnknownType(), default_is_none
+                return UnknownValue(), default_is_none
             elif isinstance(
                 initializer,
                 mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,

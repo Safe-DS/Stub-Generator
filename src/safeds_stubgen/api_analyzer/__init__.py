@@ -13,6 +13,7 @@ from ._api import (
     ParameterAssignment,
     QualifiedImport,
     Result,
+    UnknownValue,
     VarianceKind,
     WildcardImport,
 )
@@ -71,6 +72,7 @@ __all__ = [
     "TypeVarType",
     "UnionType",
     "UnknownType",
+    "UnknownValue",
     "VarianceKind",
     "WildcardImport",
 ]

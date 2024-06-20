@@ -83,7 +83,7 @@ fun illegalParams(
 )
 
 // TODO Result type information missing.
-// TODO Unknown type - Type could not be parsed.
+// TODO Unknown value - Value could not be parsed.
 @Pure
 @PythonName("special_params")
 fun specialParams(
