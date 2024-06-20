@@ -262,12 +262,15 @@ class StubsStringGenerator:
 
         # Inner classes
         for inner_class in class_.classes:
-            class_string = self._create_class_string(
-                class_=inner_class,
-                class_indentation=inner_indentations,
-                in_reexport_module=in_reexport_module,
-            )
-            class_text += f"\n{class_string}\n"
+            if inner_class.is_public:
+                # We set in_reexport_module to True since nested classes alone can't be reexported and are bound to
+                # their parent class
+                class_string = self._create_class_string(
+                    class_=inner_class,
+                    class_indentation=inner_indentations,
+                    in_reexport_module=True,
+                )
+                class_text += f"\n{class_string}\n"
 
         # Methods
         class_method_text, added_class_methods = self._create_class_method_string(class_.methods, inner_indentations)
@@ -952,18 +955,23 @@ class StubsStringGenerator:
         full_docstring += full_result_docstring
 
         # Example
-        example = ""
-        if not isinstance(docstring, AttributeDocstring) and docstring.example:
-            example = f"{indentations} * @example\n{indentations} * pipeline example {{\n"
-            for example_part in docstring.example.split("\n"):
-                if example_part.startswith(">>>"):
-                    example += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
-                elif example_part.startswith("..."):
-                    example += f"{indentations} *     {example_part.replace('...', '//')}\n"
-            example += f"{indentations} * }}\n"
-        if full_docstring and example:
+        example_docstrings = []
+        if not isinstance(docstring, AttributeDocstring) and docstring.examples:
+            for example in docstring.examples:
+                example_text = f"{indentations} * @example\n{indentations} * pipeline example {{\n"
+                for example_part in example.split("\n"):
+                    if example_part.startswith(">>>"):
+                        example_text += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
+                    elif example_part.startswith("..."):
+                        example_text += f"{indentations} *     {example_part.replace('...', '//')}\n"
+                example_text += f"{indentations} * }}\n"
+                example_docstrings.append(example_text)
+
+        if full_docstring and example_docstrings:
             full_docstring += f"{indentations} *\n"
-        full_docstring += example
+
+        example_docstring = f"{indentations} *\n".join(example_docstrings)
+        full_docstring += example_docstring
 
         # Open and close the docstring
         if full_docstring:

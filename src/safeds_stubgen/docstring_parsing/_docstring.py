@@ -14,7 +14,7 @@ if TYPE_CHECKING:
 class ClassDocstring:
     description: str = ""
     full_docstring: str = ""
-    example: str = ""
+    examples: list[str] = dataclasses.field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)
@@ -24,7 +24,7 @@ class ClassDocstring:
 class FunctionDocstring:
     description: str = ""
     full_docstring: str = ""
-    example: str = ""
+    examples: list[str] = dataclasses.field(default_factory=list)
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)

@@ -192,6 +192,22 @@ fun numpyNamedResultWithoutType() -> namedResult: String
 fun numpyNamedResultWithoutTypeInferred() -> namedResult: String
 
 /**
+ * @example
+ * pipeline example {
+ *     // print(1+1)
+ * }
+ *
+ * @example
+ * pipeline example {
+ *     // x = 2 - 1
+ *     // print(x)
+ * }
+ */
+@Pure
+@PythonName("function_with_example")
+fun functionWithExample()
+
+/**
  * numpy_named_result_without_type_inferred
  *
  * @result namedResult this will be the return value
@@ -471,6 +487,20 @@ class NumpyClassWithExamples() {
     @PythonName("numpy_func_with_examples")
     fun numpyFuncWithExamples()
 }
+
+/**
+ * @example
+ * pipeline example {
+ *     // print(1+1)
+ * }
+ *
+ * @example
+ * pipeline example {
+ *     // x = 2 - 1
+ *     // print(x)
+ * }
+ */
+class ClassWithExample()
 
 /**
  * EnumDocstring.

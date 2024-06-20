@@ -550,6 +550,32 @@ def numpy_named_result_without_type_inferred():
     return "result"
 
 
+class ClassWithExample:
+    """
+    Examples
+    --------
+    >>> print(1+1)
+    2
+
+    >>> x = 2 - 1
+    >>> print(x)
+    1
+    """
+
+
+def function_with_example() -> None:
+    """
+    Examples
+    --------
+    >>> print(1+1)
+    2
+
+    >>> x = 2 - 1
+    >>> print(x)
+    1
+    """
+
+
 def numpy_named_result_with_more_hints_than_docstring_types() -> tuple[int, str]:
     """
     numpy_named_result_without_type_inferred
