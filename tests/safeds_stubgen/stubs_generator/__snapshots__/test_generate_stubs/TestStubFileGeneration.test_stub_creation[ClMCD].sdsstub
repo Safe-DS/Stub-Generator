@@ -9,9 +9,6 @@ class ClMCD() {
         @PythonName("nested_attr_1")
         static attr nestedAttr1: Nothing?
 
-        @PythonName("_ClassModulePrivateDoubleNestedClassF")
-        class ClassModulePrivateDoubleNestedClassF()
-
         // TODO Result type information missing.
         /**
          * Docstring of func of nested class E

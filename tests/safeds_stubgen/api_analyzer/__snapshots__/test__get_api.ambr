@@ -1103,7 +1103,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method',
@@ -1123,7 +1124,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_method_params',
@@ -1147,7 +1149,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_property_method',
@@ -1169,7 +1172,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method',
@@ -1188,7 +1192,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/abstract_static_method_params',
@@ -1213,7 +1218,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
@@ -1237,7 +1243,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassC/f1',
@@ -1265,7 +1272,8 @@
     dict({
       'docstring': dict({
         'description': 'Docstring of func of nested class E',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': 'Docstring of func of nested class E',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/class_e_func',
@@ -1289,7 +1297,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/CollectionTypeVar2/type_var_class_method2',
@@ -1315,7 +1324,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/CollectionTypeVar/type_var_class_method',
@@ -1341,7 +1351,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method',
@@ -1361,7 +1372,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/class_method_params',
@@ -1383,7 +1395,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/instance_method',
@@ -1405,7 +1418,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method',
@@ -1424,7 +1438,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/static_method_params',
@@ -1449,7 +1464,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModuleClassB/FunctionModuleClassC/nested_class_function',
@@ -1475,7 +1491,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function',
@@ -1495,7 +1512,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_infer',
@@ -1516,7 +1534,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/FunctionModulePropertiesClass/property_function_params',
@@ -1541,7 +1560,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/GenericTypeVar2/type_var_class_method2',
@@ -1567,7 +1587,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/GenericTypeVar/type_var_class_method',
@@ -1598,7 +1619,8 @@
           This function checks if the sum of x and y is less than the value 10
           and returns True if it is. (Google Style)
         ''',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '''
           Checks if the sum of two variables is over the value of 10. (Google Style).
           
@@ -1638,7 +1660,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/_',
@@ -1659,7 +1682,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_1',
@@ -1679,7 +1703,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_call_result_2',
@@ -1699,7 +1724,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function',
@@ -1723,7 +1749,8 @@
     dict({
       'docstring': dict({
         'description': 'Test for inferring results with just one possible result, and not a tuple of results.',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': 'Test for inferring results with just one possible result, and not a tuple of results.',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_function_2',
@@ -1744,7 +1771,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/infer_param_types',
@@ -1781,7 +1809,8 @@
           
           This function checks if the sum of `x` and `y` is less than the value 10 and returns True if it is. (Numpy)
         ''',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '''
           Checks if the sum of two variables is over the value of 10. (Numpy).
           
@@ -1824,7 +1853,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_1/ReexportClass/_private_class_method_of_reexported_class',
@@ -1851,7 +1881,8 @@
           This function checks if the sum of x and y is less than the value 10
           and returns True if it is. (ReST).
         ''',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '''
           This function checks if the sum of x and y is less than the value 10
           and returns True if it is. (ReST).
@@ -1888,7 +1919,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/SequenceTypeVar2/type_var_class_method2',
@@ -1914,7 +1946,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/type_var_module/SequenceTypeVar/type_var_class_method',
@@ -1940,7 +1973,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF/_class_f_func',
@@ -1968,7 +2002,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass/__init__',
@@ -1988,7 +2023,8 @@
     }),
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/abstract_module/AbstractModuleClass',
@@ -2020,7 +2056,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_2/AnotherUnreexportedClass',
@@ -2046,7 +2083,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/__init__',
@@ -2067,7 +2105,8 @@
     }),
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB',
@@ -2097,7 +2136,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassC',
@@ -2124,11 +2164,13 @@
     ]),
     'classes': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
+      'tests/data/various_modules_package/class_module/ClassModuleClassD/_PrivateNestedClass',
     ]),
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD',
@@ -2155,7 +2197,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleEmptyClassA',
@@ -2184,7 +2227,8 @@
     'constructor': None,
     'docstring': dict({
       'description': 'Docstring of the nested class E.',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': 'Docstring of the nested class E.',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE',
@@ -2211,7 +2255,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_4/FourthReexportClass',
@@ -2239,7 +2284,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/__init__',
@@ -2263,7 +2309,8 @@
         
         A class with a variety of different methods for calculations. (Google Style)
       ''',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '''
         A class that calculates stuff. (Google Style).
         
@@ -2308,7 +2355,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes/__init__',
@@ -2328,7 +2376,8 @@
     }),
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/infer_types_module/InferMyTypes',
@@ -2361,7 +2410,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/__init__',
@@ -2385,7 +2435,8 @@
         
         A class with a variety of different methods for calculations. (Numpy)
       ''',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '''
         A class that calculates stuff. (Numpy).
         
@@ -2426,7 +2477,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_1/ReexportClass',
@@ -2455,7 +2507,8 @@
     'constructor': dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/__init__',
@@ -2475,7 +2528,8 @@
     }),
     'docstring': dict({
       'description': 'A class with a variety of different methods for calculations. (ReST).',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '''
         A class with a variety of different methods for calculations. (ReST).
         
@@ -2509,7 +2563,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassAll',
@@ -2584,7 +2639,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyContravarianceNoBound',
@@ -2615,7 +2671,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyCovarianceNoBound',
@@ -2646,7 +2703,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/variance_module/VarianceClassOnlyVarianceNoBound',
@@ -2679,7 +2737,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG',
@@ -2705,7 +2764,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_ClassModulePrivateDoubleNestedClassF',
@@ -2732,7 +2792,8 @@
     'constructor': None,
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/_reexport_module_3/_ThirdReexportClass',
@@ -2807,7 +2868,8 @@
   dict({
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/enum_module/EnumTest2',
@@ -2821,7 +2883,8 @@
   dict({
     'docstring': dict({
       'description': '',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '',
     }),
     'id': 'tests/data/various_modules_package/enum_module/EnumTest3',
@@ -2839,7 +2902,8 @@
         
         Full Docstring Description
       ''',
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': '''
         Enum Docstring.
         
@@ -2865,7 +2929,8 @@
   dict({
     'docstring': dict({
       'description': "Nothing's here.",
-      'example': '',
+      'examples': list([
+      ]),
       'full_docstring': "Nothing's here.",
     }),
     'id': 'tests/data/various_modules_package/enum_module/_ReexportedEmptyEnum',
@@ -5607,7 +5672,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_1/reexported_function',
@@ -5631,7 +5697,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_2/reexported_function_2',
@@ -5656,7 +5723,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_3/reexported_function_3',
@@ -5682,7 +5750,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4',
@@ -5703,7 +5772,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_4/_reexported_function_4_alias',
@@ -5724,7 +5794,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_4/_two_times_reexported',
@@ -5745,7 +5816,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/_reexport_module_4/_unreexported_function',
@@ -5769,7 +5841,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/_private',
@@ -5789,7 +5862,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/any_results',
@@ -5809,7 +5883,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/arg',
@@ -5830,7 +5905,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/args_type',
@@ -5851,7 +5927,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/bool_result',
@@ -5871,7 +5948,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/callable_type',
@@ -5892,7 +5970,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/callexr_result_class',
@@ -5911,7 +5990,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/callexr_result_function',
@@ -5930,7 +6010,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results',
@@ -5950,7 +6031,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value',
@@ -5970,7 +6052,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/float_result',
@@ -5990,7 +6073,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results',
@@ -6010,7 +6094,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_list_results',
@@ -6030,7 +6115,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_params',
@@ -6054,7 +6140,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/illegal_set_results',
@@ -6074,7 +6161,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/int_result',
@@ -6094,7 +6182,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/list_results',
@@ -6114,7 +6203,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/literal_results',
@@ -6134,7 +6224,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/none_result',
@@ -6154,7 +6245,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/obj_result',
@@ -6174,7 +6266,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/opt_pos_only',
@@ -6195,7 +6288,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/optional_results',
@@ -6215,7 +6309,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/param_from_outside_the_package',
@@ -6236,7 +6331,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/param_position',
@@ -6261,7 +6357,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/params',
@@ -6305,7 +6402,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/params_with_default_value',
@@ -6343,7 +6441,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/public_no_params_no_result',
@@ -6362,7 +6461,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/req_name_only',
@@ -6383,7 +6483,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/result_from_outside_the_package',
@@ -6403,7 +6504,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/ret_conditional_statement',
@@ -6423,7 +6525,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/set_results',
@@ -6443,7 +6546,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/special_params',
@@ -6472,7 +6576,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/str_result',
@@ -6492,7 +6597,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/tuple_results',
@@ -6513,7 +6619,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/union_dictionary_results',
@@ -6533,7 +6640,8 @@
     dict({
       'docstring': dict({
         'description': '',
-        'example': '',
+        'examples': list([
+        ]),
         'full_docstring': '',
       }),
       'id': 'tests/data/various_modules_package/function_module/union_results',
