@@ -18,6 +18,7 @@ from safeds_stubgen.api_analyzer import (
     ParameterAssignment,
     Result,
     UnionType,
+    UnknownValue,
     VarianceKind,
     result_name_generator,
 )
@@ -588,6 +589,9 @@ class StubsStringGenerator:
                         default_value = "true" if param_default_value else "false"
                     elif param_default_value is None:
                         default_value = "null"
+                    elif isinstance(param_default_value, UnknownValue):
+                        self._current_todo_msgs.add("unknown value")
+                        default_value = "unknown"
                     else:
                         default_value = f"{param_default_value}"
                     param_value = f" = {default_value}"
@@ -1085,6 +1089,7 @@ class StubsStringGenerator:
                 "result without type": "Result type information missing.",
                 "internal class as type": "An internal class must not be used as a type in a public class.",
                 "unknown": "Unknown type - Type could not be parsed.",
+                "unknown value": "Unknown value - Value could not be parsed.",
             }[msg]
             for msg in self._current_todo_msgs
         ]

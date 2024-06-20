@@ -4878,6 +4878,23 @@
         ]),
       }),
     }),
+    dict({
+      'assigned_by': 'POSITION_OR_NAME',
+      'default_value': 'UnknownValue',
+      'docstring': dict({
+        'default_value': '',
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/function_module/special_params/not_true',
+      'is_optional': True,
+      'name': 'not_true',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'int',
+        'qname': 'builtins.int',
+      }),
+    }),
   ])
 # ---
 # name: test_function_parameters[static_method_params]
@@ -6395,6 +6412,8 @@
       'name': 'params_with_default_value',
       'parameters': list([
         'tests/data/various_modules_package/function_module/params_with_default_value/integer',
+        'tests/data/various_modules_package/function_module/params_with_default_value/negative_int',
+        'tests/data/various_modules_package/function_module/params_with_default_value/negative_float',
         'tests/data/various_modules_package/function_module/params_with_default_value/boolean',
         'tests/data/various_modules_package/function_module/params_with_default_value/float_',
         'tests/data/various_modules_package/function_module/params_with_default_value/none',
@@ -6545,6 +6564,7 @@
         'tests/data/various_modules_package/function_module/special_params/none_none_bool_none_union',
         'tests/data/various_modules_package/function_module/special_params/none_list_union_none_none',
         'tests/data/various_modules_package/function_module/special_params/none',
+        'tests/data/various_modules_package/function_module/special_params/not_true',
       ]),
       'reexported_by': list([
       ]),
