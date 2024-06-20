@@ -864,8 +864,10 @@ class MyPyAstVisitor:
                 # in the package we analyze with Safe-DS.
                 return default_value, default_is_none
             elif isinstance(initializer, mp_nodes.CallExpr):
-                msg = (f"Could not parse parameter type for function {function_id}: Safe-DS does not support call "
-                       f"expressions as types.")
+                msg = (
+                    f"Could not parse parameter type for function {function_id}: Safe-DS does not support call "
+                    f"expressions as types."
+                )
                 logging.warning(msg)
                 # Safe-DS does not support call expressions as types
                 return default_value, default_is_none
