@@ -948,18 +948,23 @@ class StubsStringGenerator:
         full_docstring += full_result_docstring
 
         # Example
-        example = ""
-        if not isinstance(docstring, AttributeDocstring) and docstring.example:
-            example = f"{indentations} * @example\n{indentations} * pipeline example {{\n"
-            for example_part in docstring.example.split("\n"):
-                if example_part.startswith(">>>"):
-                    example += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
-                elif example_part.startswith("..."):
-                    example += f"{indentations} *     {example_part.replace('...', '//')}\n"
-            example += f"{indentations} * }}\n"
-        if full_docstring and example:
+        example_docstrings = []
+        if not isinstance(docstring, AttributeDocstring) and docstring.examples:
+            for example in docstring.examples:
+                example_text = f"{indentations} * @example\n{indentations} * pipeline example {{\n"
+                for example_part in example.split("\n"):
+                    if example_part.startswith(">>>"):
+                        example_text += f"{indentations} *     {example_part.replace('>>>', '//')}\n"
+                    elif example_part.startswith("..."):
+                        example_text += f"{indentations} *     {example_part.replace('...', '//')}\n"
+                example_text += f"{indentations} * }}\n"
+                example_docstrings.append(example_text)
+
+        if full_docstring and example_docstrings:
             full_docstring += f"{indentations} *\n"
-        full_docstring += example
+
+        example_docstring = f"{indentations} *\n".join(example_docstrings)
+        full_docstring += example_docstring
 
         # Open and close the docstring
         if full_docstring:
