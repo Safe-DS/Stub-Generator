@@ -49,6 +49,8 @@ fun params(
 @PythonName("params_with_default_value")
 fun paramsWithDefaultValue(
     integer: Int = 3,
+    @PythonName("negative_int") negativeInt: Int = -1,
+    @PythonName("negative_float") negativeFloat: Float = -2.3,
     boolean: Boolean = true,
     @PythonName("float_") float: Float = 1.2,
     none: Nothing? = null,
@@ -81,6 +83,7 @@ fun illegalParams(
 )
 
 // TODO Result type information missing.
+// TODO Unknown value - Value could not be parsed.
 @Pure
 @PythonName("special_params")
 fun specialParams(
@@ -92,7 +95,8 @@ fun specialParams(
     @PythonName("none_bool_int_union") noneBoolIntUnion: union<Boolean, Int, Nothing?>,
     @PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
     @PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
-    none: Nothing?
+    none: Nothing?,
+    @PythonName("not_true") notTrue: Int = unknown
 )
 
 // TODO Result type information missing.

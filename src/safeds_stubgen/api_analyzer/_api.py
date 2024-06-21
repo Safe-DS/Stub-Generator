@@ -262,13 +262,17 @@ class Function:
         }
 
 
+class UnknownValue:
+    pass
+
+
 @dataclass(frozen=True)
 class Parameter:
     id: str
     name: str
     is_optional: bool
     # We do not support default values that aren't core classes or classes definied in the package we analyze.
-    default_value: str | bool | int | float | None
+    default_value: str | bool | int | float | None | UnknownValue
     assigned_by: ParameterAssignment
     docstring: ParameterDocstring
     type: AbstractType | None
@@ -290,7 +294,7 @@ class Parameter:
             "name": self.name,
             "docstring": self.docstring.to_dict(),
             "is_optional": self.is_optional,
-            "default_value": self.default_value,
+            "default_value": "UnknownValue" if isinstance(self.default_value, UnknownValue) else self.default_value,
             "assigned_by": self.assigned_by.name,
             "type": self.type.to_dict() if self.type is not None else None,
         }

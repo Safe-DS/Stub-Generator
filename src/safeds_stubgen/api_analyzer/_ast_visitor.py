@@ -25,6 +25,7 @@ from ._api import (
     QualifiedImport,
     Result,
     TypeParameter,
+    UnknownValue,
     VarianceKind,
     WildcardImport,
 )
@@ -895,7 +896,7 @@ class MyPyAstVisitor:
             # Get default value and infer type information
             initializer = argument.initializer
             if initializer is not None:
-                default_value, default_is_none = self._get_parameter_type_and_default_value(initializer)
+                default_value, default_is_none = self._get_parameter_type_and_default_value(initializer, function_id)
                 if arg_type is None and (default_is_none or default_value is not None):
                     arg_type = mypy_expression_to_sds_type(initializer)
 
@@ -928,10 +929,11 @@ class MyPyAstVisitor:
 
         return arguments
 
-    @staticmethod
     def _get_parameter_type_and_default_value(
+        self,
         initializer: mp_nodes.Expression,
-    ) -> tuple[str | None | int | float, bool]:
+        function_id: str,
+    ) -> tuple[str | None | int | float | UnknownValue, bool]:
         default_value: str | None | int | float = None
         default_is_none = False
         if initializer is not None:
@@ -940,8 +942,28 @@ class MyPyAstVisitor:
                 # in the package we analyze with Safe-DS.
                 return default_value, default_is_none
             elif isinstance(initializer, mp_nodes.CallExpr):
+                msg = (
+                    f"Could not parse parameter type for function {function_id}: Safe-DS does not support call "
+                    f"expressions as types."
+                )
+                logging.warning(msg)
                 # Safe-DS does not support call expressions as types
                 return default_value, default_is_none
+            elif isinstance(initializer, mp_nodes.UnaryExpr):
+                value, default_is_none = self._get_parameter_type_and_default_value(initializer.expr, function_id)
+                try:
+                    if isinstance(value, int):
+                        return int(f"{initializer.op}{value}"), default_is_none
+                    elif isinstance(value, float):
+                        return float(f"{initializer.op}{value}"), default_is_none
+                except ValueError:
+                    pass
+                msg = (
+                    f"Received the parameter {value} with an unexpected operator {initializer.op} for function "
+                    f"{function_id}. This parameter could not be parsed."
+                )
+                logging.warning(msg)
+                return UnknownValue(), default_is_none
             elif isinstance(
                 initializer,
                 mp_nodes.IntExpr | mp_nodes.FloatExpr | mp_nodes.StrExpr | mp_nodes.NameExpr,
