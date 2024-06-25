@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import dataclasses
 import logging
 from copy import deepcopy
+from itertools import zip_longest
 from types import NoneType
 from typing import TYPE_CHECKING
 
@@ -261,12 +263,12 @@ class MyPyAstVisitor:
         docstring = self.docstring_parser.get_function_documentation(node)
 
         # Function args & TypeVar
-        arguments: list[Parameter] = []
+        parameters: list[Parameter] = []
         type_var_types: list[sds_types.TypeVarType] = []
         # Reset the type_var_types list
         self.type_var_types = set()
         if getattr(node, "arguments", None) is not None:
-            arguments = self._parse_parameter_data(node, function_id)
+            parameters = self._parse_parameter_data(node, function_id)
 
             if self.type_var_types:
                 type_var_types = list(self.type_var_types)
@@ -274,76 +276,72 @@ class MyPyAstVisitor:
                 type_var_types.sort(key=lambda x: x.name)
 
         # Check docstring parameter types vs code parameter type hint
-        for i, argument in enumerate(arguments):
-            arg_type = argument.type
-            doc_type = argument.docstring.type
+        for i, parameter in enumerate(parameters):
+            code_type = parameter.type
+            doc_type = parameter.docstring.type
 
-            if arg_type is None and doc_type is not None:
-                # No code type hint but docstring type
-                arguments[i] = Parameter(
-                    id=argument.id,
-                    name=argument.name,
-                    is_optional=argument.docstring.default_value != "",
-                    default_value=argument.docstring.default_value,
-                    assigned_by=argument.assigned_by,
-                    docstring=argument.docstring,
+            if (
+                code_type is not None
+                and doc_type is not None
+                and code_type != doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for '{function_id}'."
+                logging.warning(msg)
+
+            if doc_type is not None and (
+                code_type is None
+                or self.type_source_preference == TypeSourcePreference.DOCSTRING
+            ):
+                parameters[i] = dataclasses.replace(
+                    parameter,
+                    is_optional=parameter.docstring.default_value != "",
+                    default_value=parameter.docstring.default_value,
                     type=doc_type,
                 )
-            elif arg_type is not None and doc_type is not None and arg_type != doc_type:
-                # Both but different - type hint and doc type
-                if self.type_source_warning == TypeSourceWarning.WARN:
-                    msg = f"Different type hint and docstring types for '{function_id}'."
-                    logging.warning(msg)
-
-                # Overwrite the code type with the docstring type if preference is set, else prefer the code (default)
-                if self.type_source_preference == TypeSourcePreference.DOCSTRING:
-                    arguments[i] = Parameter(
-                        id=argument.id,
-                        name=argument.name,
-                        is_optional=argument.is_optional,
-                        default_value=argument.docstring.default_value,
-                        assigned_by=argument.assigned_by,
-                        docstring=argument.docstring,
-                        type=doc_type,
-                    )
 
         # Create results and result docstrings
         result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
-        results = self._parse_results(node, function_id, result_docstrings)
+        results_code = self._parse_results(node, function_id, result_docstrings)
 
         # Check docstring return type vs code return type hint
-        result_count = len(results) if len(results) > len(result_docstrings) else len(result_docstrings)
-        for i in range(result_count):
-            try:
-                result = results[i]
-                result_type = result.type
-            except IndexError as _:
-                result_type = None
-
-            try:
-                result_doc = result_docstrings[i]
-                result_doc_type = result_doc.type
-            except IndexError as _:
-                # We don't need to check further, since type hint covered more than the docstring
+        i = 0
+        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None):
+            if result_doc is None:
                 break
 
-            if result_type is not None and result_type != result_doc_type:
-                # Difference in doc and type hint: Overwrite if preference is set
-                if self.type_source_warning == TypeSourceWarning.WARN:
-                    msg = f"Different type hint and docstring types for '{function_id}'."
-                    logging.warning(msg)
+            result_doc_type = result_doc.type
 
-                # Overwrite the code type with the docstring type if preference is set, else prefer the code (default)
-                if self.type_source_preference == TypeSourcePreference.DOCSTRING:
-                    results[i] = Result(
-                        type=result_doc_type,
-                        id=results[i].id,
-                        name=results[i].name,
-                    )
-            elif result_type is None and result_doc_type is not None:
-                # Add missing returns
-                result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
-                results.append(Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}"))
+            if (
+                result_type is not None
+                and result_doc_type is not None
+                and result_type != result_doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for the result of '{function_id}'."
+                logging.warning(msg)
+
+            if result_doc_type is not None:
+                if result_type is None:
+                    # Add missing returns
+                    result_name = result_doc.name if result_doc.name else f"result_{i}"
+                    new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
+
+                    if len(results_code) < i + 1:
+                        results_code.append(new_result)
+                    else:
+                        results_code[i] = new_result
+
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    if len(results_code) < i + 1:
+                        results_code.append(Result(
+                            type=result_doc_type, name=result_type.name, id=result_type.id
+                        ))
+                    else:
+                        # Overwrite the type with the docstring type if preference is set
+                        results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
+
+            i += 1
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)
@@ -359,9 +357,9 @@ class MyPyAstVisitor:
             is_static=is_static,
             is_class_method=node.is_class,
             is_property=node.is_property,
-            results=results,
+            results=results_code,
             reexported_by=reexported_by,
-            parameters=arguments,
+            parameters=parameters,
             type_var_types=type_var_types,
             result_docstrings=result_docstrings,
         )

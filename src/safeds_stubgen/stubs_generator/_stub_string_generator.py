@@ -586,9 +586,9 @@ class StubsStringGenerator:
                         if assigned_by == ParameterAssignment.POSITIONAL_VARARG and param_default_value == "()":
                             # This is normally correct, since *args are tuples of a certain type, but Safe-DS does not
                             #  support tuple type, which is why we have to change it to a list
-                            default_value = "List<Any>"
+                            default_value = "[]"
                         elif assigned_by == ParameterAssignment.NAMED_VARARG and param_default_value == "{}":
-                            default_value = "Map<Any>"
+                            default_value = "{}"
                         else:
                             default_value = param_default_value
                     elif isinstance(param_default_value, bool):

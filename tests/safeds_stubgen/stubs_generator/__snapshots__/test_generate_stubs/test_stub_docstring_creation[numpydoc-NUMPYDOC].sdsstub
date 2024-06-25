@@ -55,8 +55,8 @@ fun functionWithParameters(
     @PythonName("with_default_syntax_3") withDefaultSyntax3: Int = 3,
     @PythonName("grouped_parameter_1") groupedParameter1: Int = 4,
     @PythonName("grouped_parameter_2") groupedParameter2: Int = 4,
-    args: Int = List<Any>,
-    kwargs: Map<String, Int> = Map<Any>
+    args: Int = [],
+    kwargs: Map<String, Int> = {}
 )
 
 /**

@@ -45,8 +45,8 @@ fun functionWithParameters(
     @PythonName("optional_unknown_default") optionalUnknownDefault: Int?,
     @PythonName("type_no_default") typeNoDefault: Int,
     @PythonName("with_default") withDefault: Int,
-    args: Int = List<Any>,
-    kwargs: Map<String, Int> = Map<Any>
+    args: Int = [],
+    kwargs: Map<String, Int> = {}
 )
 
 /**
