@@ -325,18 +325,11 @@ class MyPyAstVisitor:
                     # Add missing returns
                     result_name = result_doc.name if result_doc.name else f"result_{i}"
                     new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
-
-                    if len(results_code) < i + 1:
-                        results_code.append(new_result)
-                    else:
-                        results_code[i] = new_result
+                    results_code.append(new_result)
 
                 elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
-                    if len(results_code) < i + 1:
-                        results_code.append(Result(type=result_doc_type, name=result_type.name, id=result_type.id))
-                    else:
-                        # Overwrite the type with the docstring type if preference is set
-                        results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
+                    # Overwrite the type with the docstring type if preference is set, else prefer the code (default)
+                    results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
 
             i += 1
 
