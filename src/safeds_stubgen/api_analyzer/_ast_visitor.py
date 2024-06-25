@@ -290,8 +290,7 @@ class MyPyAstVisitor:
                 logging.warning(msg)
 
             if doc_type is not None and (
-                code_type is None
-                or self.type_source_preference == TypeSourcePreference.DOCSTRING
+                code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
             ):
                 parameters[i] = dataclasses.replace(
                     parameter,
@@ -334,9 +333,7 @@ class MyPyAstVisitor:
 
                 elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
                     if len(results_code) < i + 1:
-                        results_code.append(Result(
-                            type=result_doc_type, name=result_type.name, id=result_type.id
-                        ))
+                        results_code.append(Result(type=result_doc_type, name=result_type.name, id=result_type.id))
                     else:
                         # Overwrite the type with the docstring type if preference is set
                         results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
