@@ -59,7 +59,7 @@ def function_with_parameters(no_type_no_default, optional_type, type_no_default,
         type_no_default (int): type but no default.
         with_default (int): foo. Defaults to 2.
         *args (int): foo: *args
-        **kwargs (int): foo: **kwargs
+        **kwargs (dict[str, int]): foo: **kwargs
     """
 
 

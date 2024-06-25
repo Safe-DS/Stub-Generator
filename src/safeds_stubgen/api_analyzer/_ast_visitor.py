@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import dataclasses
 import logging
 from copy import deepcopy
+from itertools import zip_longest
 from types import NoneType
 from typing import TYPE_CHECKING
 
@@ -10,6 +12,7 @@ import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
+from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -48,8 +51,17 @@ if TYPE_CHECKING:
 
 
 class MyPyAstVisitor:
-    def __init__(self, docstring_parser: AbstractDocstringParser, api: API, aliases: dict[str, set[str]]) -> None:
+    def __init__(
+        self,
+        docstring_parser: AbstractDocstringParser,
+        api: API,
+        aliases: dict[str, set[str]],
+        type_source_preference: TypeSourcePreference,
+        type_source_warning: TypeSourceWarning,
+    ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
+        self.type_source_preference = type_source_preference
+        self.type_source_warning = type_source_warning
         self.api: API = api
         self.__declaration_stack: list[Module | Class | Function | Enum | list[Attribute | EnumInstance]] = []
         self.aliases = aliases
@@ -251,21 +263,75 @@ class MyPyAstVisitor:
         docstring = self.docstring_parser.get_function_documentation(node)
 
         # Function args & TypeVar
-        arguments: list[Parameter] = []
+        parameters: list[Parameter] = []
         type_var_types: list[sds_types.TypeVarType] = []
         # Reset the type_var_types list
         self.type_var_types = set()
         if getattr(node, "arguments", None) is not None:
-            arguments = self._parse_parameter_data(node, function_id)
+            parameters = self._parse_parameter_data(node, function_id)
 
             if self.type_var_types:
                 type_var_types = list(self.type_var_types)
                 # Sort for the snapshot tests
                 type_var_types.sort(key=lambda x: x.name)
 
+        # Check docstring parameter types vs code parameter type hint
+        for i, parameter in enumerate(parameters):
+            code_type = parameter.type
+            doc_type = parameter.docstring.type
+
+            if (
+                code_type is not None
+                and doc_type is not None
+                and code_type != doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for '{function_id}'."
+                logging.warning(msg)
+
+            if doc_type is not None and (
+                code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
+            ):
+                parameters[i] = dataclasses.replace(
+                    parameter,
+                    is_optional=parameter.docstring.default_value != "",
+                    default_value=parameter.docstring.default_value,
+                    type=doc_type,
+                )
+
         # Create results and result docstrings
         result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
-        results = self._parse_results(node, function_id, result_docstrings)
+        results_code = self._parse_results(node, function_id, result_docstrings)
+
+        # Check docstring return type vs code return type hint
+        i = 0
+        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None):
+            if result_doc is None:
+                break
+
+            result_doc_type = result_doc.type
+
+            if (
+                result_type is not None
+                and result_doc_type is not None
+                and result_type != result_doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for the result of '{function_id}'."
+                logging.warning(msg)
+
+            if result_doc_type is not None:
+                if result_type is None:
+                    # Add missing returns
+                    result_name = result_doc.name if result_doc.name else f"result_{i}"
+                    new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
+                    results_code.append(new_result)
+
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    # Overwrite the type with the docstring type if preference is set, else prefer the code (default)
+                    results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
+
+            i += 1
 
         # Get reexported data
         reexported_by = self._get_reexported_by(node.fullname)
@@ -281,9 +347,9 @@ class MyPyAstVisitor:
             is_static=is_static,
             is_class_method=node.is_class,
             is_property=node.is_property,
-            results=results,
+            results=results_code,
             reexported_by=reexported_by,
-            parameters=arguments,
+            parameters=parameters,
             type_var_types=type_var_types,
             result_docstrings=result_docstrings,
         )

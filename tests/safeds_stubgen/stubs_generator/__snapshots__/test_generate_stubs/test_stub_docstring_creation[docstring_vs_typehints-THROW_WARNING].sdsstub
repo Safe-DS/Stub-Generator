@@ -1,0 +1,64 @@
+@PythonModule("tests.data.docstring_parser_package.docstring_vs_typehints")
+package tests.data.docstringParserPackage.docstringVsTypehints
+
+/**
+ * function_with_result_value_and_type.
+ *
+ * Dolor sit amet.
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("doc_vs_hints_function_with_parameters_and_return")
+fun docVsHintsFunctionWithParametersAndReturn(
+    x: Int = 1,
+    y: String = "Some String"
+) -> namedResult: Boolean
+
+/**
+ * function_with_result_value_and_type.
+ *
+ * Dolor sit amet.
+ *
+ * @result namedResult this will be the return value
+ */
+@Pure
+@PythonName("doc_vs_hints_function_with_contrasting_parameter_and_return")
+fun docVsHintsFunctionWithContrastingParameterAndReturn(
+    x: String = "Some String"
+) -> namedResult: Int
+
+/**
+ * function_with_result_value_and_type.
+ *
+ * Dolor sit amet.
+ *
+ * @result firstResult first float value instead of int
+ * @result secondResult second bool value instead of str
+ */
+@Pure
+@PythonName("doc_vs_hints_function_with_multiple_contrasting_return")
+fun docVsHintsFunctionWithMultipleContrastingReturn() -> (firstResult: Int, secondResult: String)
+
+/**
+ * ClassWithParametersAndAttributes.
+ *
+ * Dolor sit amet.
+ *
+ * @param x foo
+ */
+class DocVsHintsClassWithParameter(
+    x: Int = 1,
+    y: String = "Some String"
+)
+
+/**
+ * ClassWithParametersAndAttributes.
+ *
+ * Dolor sit amet.
+ *
+ * @param x foo
+ */
+class DocVsHintsClassWithContrastingParameter(
+    x: String = "Some String"
+)

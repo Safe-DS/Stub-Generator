@@ -5,7 +5,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data
 
 if TYPE_CHECKING:
@@ -17,7 +17,15 @@ def cli() -> None:
     if args.verbose:
         logging.basicConfig(level=logging.INFO)
 
-    _run_stub_generator(args.src.resolve(), args.out.resolve(), args.docstyle, args.testrun, args.naming_convert)
+    _run_stub_generator(
+        src_dir_path=args.src.resolve(),
+        out_dir_path=args.out.resolve(),
+        docstring_style=args.docstyle,
+        is_test_run=args.testrun,
+        convert_identifiers=args.naming_convert,
+        type_source_preference=args.type_source_preference,
+        type_source_warning=args.show_type_source_warning,
+    )
 
 
 def _get_args() -> argparse.Namespace:
@@ -60,6 +68,28 @@ def _get_args() -> argparse.Namespace:
         required=False,
         action="store_true",
     )
+    parser.add_argument(
+        "-tsp",
+        "--type_source_preference",
+        help=(
+            "Preference if the type should be taken from code type hints or docstrings if they state contrary types."
+        ),
+        type=TypeSourcePreference.from_string,
+        choices=list(TypeSourcePreference),
+        required=False,
+        default=TypeSourcePreference.CODE.name,
+    )
+    parser.add_argument(
+        "-tsw",
+        "--show_type_source_warning",
+        help=(
+            "Preference if a warning message should be shown if type information from type hints and docstrings differ."
+        ),
+        type=TypeSourceWarning.from_string,
+        choices=list(TypeSourceWarning),
+        required=False,
+        default=TypeSourceWarning.WARN.name,
+    )
 
     return parser.parse_args()
 
@@ -70,6 +100,8 @@ def _run_stub_generator(
     docstring_style: DocstringStyle,
     is_test_run: bool,
     convert_identifiers: bool,
+    type_source_preference: TypeSourcePreference,
+    type_source_warning: TypeSourceWarning,
 ) -> None:
     """
     Create API data of a package and Safe-DS stub files.
@@ -84,7 +116,13 @@ def _run_stub_generator(
         Set True if files in test directories should be parsed too.
     """
     # Generate the API data
-    api = get_api(root=src_dir_path, docstring_style=docstring_style, is_test_run=is_test_run)
+    api = get_api(
+        root=src_dir_path,
+        docstring_style=docstring_style,
+        is_test_run=is_test_run,
+        type_source_preference=type_source_preference,
+        type_source_warning=type_source_warning,
+    )
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)

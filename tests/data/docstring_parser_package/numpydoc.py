@@ -84,7 +84,7 @@ def function_with_parameters(
         foo: grouped_parameter_1 and grouped_parameter_2
     *args : int
         foo: *args
-    **kwargs : int
+    **kwargs : dict[str, int]
         foo: **kwargs
     """
 

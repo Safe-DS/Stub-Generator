@@ -4,7 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
-from safeds_stubgen.api_analyzer import get_api
+from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
 from safeds_stubgen.stubs_generator import NamingConvention, StubsStringGenerator, create_stub_files, generate_stub_data
 
@@ -126,24 +126,41 @@ def test_convert_name_to_convention(
 
 
 @pytest.mark.parametrize(
-    ("filename", "docstring_style"),
+    ("filename", "docstring_style", "type_source_preference", "type_source_warning"),
     [
-        ("full_docstring", DocstringStyle.PLAINTEXT),
-        ("googledoc", DocstringStyle.GOOGLE),
-        ("numpydoc", DocstringStyle.NUMPYDOC),
-        ("plaintext", DocstringStyle.PLAINTEXT),
-        ("restdoc", DocstringStyle.REST),
+        ("full_docstring", DocstringStyle.PLAINTEXT, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("googledoc", DocstringStyle.GOOGLE, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("numpydoc", DocstringStyle.NUMPYDOC, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("plaintext", DocstringStyle.PLAINTEXT, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("restdoc", DocstringStyle.REST, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.CODE, TypeSourceWarning.IGNORE),
+        ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.DOCSTRING, TypeSourceWarning.IGNORE),
+        ("docstring_vs_typehints", DocstringStyle.NUMPYDOC, TypeSourcePreference.CODE, TypeSourceWarning.WARN),
+    ],
+    ids=[
+        "full_docstring-PLAINTEXT",
+        "googledoc-GOOGLE",
+        "numpydoc-NUMPYDOC",
+        "plaintext-PLAINTEXT",
+        "restdoc-REST",
+        "docstring_vs_typehints-CODE",
+        "docstring_vs_typehints-DOCSTRING",
+        "docstring_vs_typehints-THROW_WARNING",
     ],
 )
 def test_stub_docstring_creation(
     filename: str,
     docstring_style: DocstringStyle,
+    type_source_preference: TypeSourcePreference,
+    type_source_warning: TypeSourceWarning,
     snapshot_sds_stub: SnapshotAssertion,
 ) -> None:
     docstring_api = get_api(
         root=_docstring_package_dir,
         docstring_style=docstring_style,
         is_test_run=True,
+        type_source_preference=type_source_preference,
+        type_source_warning=type_source_warning,
     )
     docstring_stubs_generator = StubsStringGenerator(api=docstring_api, convert_identifiers=True)
     docstring_stubs_data = generate_stub_data(stubs_generator=docstring_stubs_generator, out_path=_out_dir)
