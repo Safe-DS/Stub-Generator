@@ -18,7 +18,7 @@ safe-ds-stubgen = "safeds_stubgen.main:main"
 [tool.poetry.dependencies]
 python = "^3.11"
 mypy = "^1.6.1"
-griffe = ">=0.42,<0.46"
+griffe = ">=0.47.0,<0.48"
 
 [tool.poetry.group.dev.dependencies]
 pytest = ">=7.4.3,<9.0.0"
