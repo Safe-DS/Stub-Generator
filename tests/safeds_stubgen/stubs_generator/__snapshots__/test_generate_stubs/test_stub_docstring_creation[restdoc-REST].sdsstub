@@ -7,6 +7,8 @@
 @PythonModule("tests.data.docstring_parser_package.restdoc")
 package tests.data.docstringParserPackage.restdoc
 
+from tests.data.variousModulesPackage.anotherPath.anotherModule import AnotherClass
+
 /**
  * function_with_documentation. Code::
  *
@@ -40,11 +42,11 @@ fun functionWithoutDocumentation()
 @PythonName("function_with_parameters")
 fun functionWithParameters(
     @PythonName("no_type_no_default") noTypeNoDefault,
-    @PythonName("optional_unknown_default") optionalUnknownDefault,
-    @PythonName("type_no_default") typeNoDefault,
-    @PythonName("with_default") withDefault,
-    args: List<Any>,
-    kwargs: Map<String, Any>
+    @PythonName("optional_unknown_default") optionalUnknownDefault: Int?,
+    @PythonName("type_no_default") typeNoDefault: Int,
+    @PythonName("with_default") withDefault: Int,
+    args: Int = [],
+    kwargs: Map<String, Int> = {}
 )
 
 /**
@@ -101,7 +103,6 @@ fun functionWithoutReturnValue()
 @PythonName("infer_types")
 fun inferTypes() -> (result1: String, result2: Int)
 
-// TODO Some parameter have no type information.
 /**
  * property_method_with_docstring.
  *
@@ -115,8 +116,8 @@ fun inferTypes() -> (result1: String, result2: Int)
 @Pure
 @PythonName("infer_types2")
 fun inferTypes2(
-    a,
-    b
+    a: Int,
+    b: Boolean
 ) -> result1: union<Boolean, String>
 
 // TODO Result type information missing.
@@ -149,9 +150,8 @@ class ClassWithoutDocumentation()
  *
  * @param p foo defaults to 1
  */
-// TODO Some parameter have no type information.
 class ClassWithParameters(
-    p
+    p: Int
 )
 
 class ClassWithMethod() {
@@ -162,7 +162,6 @@ class ClassWithMethod() {
      */
     @PythonName("property_method_with_docstring") attr propertyMethodWithDocstring: Boolean
 
-    // TODO Some parameter have no type information.
     /**
      * method_with_docstring.
      *
@@ -175,38 +174,42 @@ class ClassWithMethod() {
     @Pure
     @PythonName("method_with_docstring")
     fun methodWithDocstring(
-        a
+        a: Int
     ) -> result1: Boolean
 }
 
+// TODO List type has to many type arguments.
+// TODO Safe-DS does not support set types.
+// TODO Safe-DS does not support tuple types.
+// TODO Set type has to many type arguments.
 // TODO Some parameter have no type information.
 class ClassWithVariousParameterTypes(
     @PythonName("no_type") noType,
-    @PythonName("optional_type") optionalType,
-    @PythonName("none_type") noneType,
-    @PythonName("int_type") intType,
-    @PythonName("bool_type") boolType,
-    @PythonName("str_type") strType,
-    @PythonName("float_type") floatType,
-    @PythonName("multiple_types") multipleTypes,
-    @PythonName("list_type_1") listType1,
-    @PythonName("list_type_2") listType2,
-    @PythonName("list_type_3") listType3,
-    @PythonName("list_type_4") listType4,
+    @PythonName("optional_type") optionalType: Int?,
+    @PythonName("none_type") noneType: Nothing?,
+    @PythonName("int_type") intType: Int,
+    @PythonName("bool_type") boolType: Boolean,
+    @PythonName("str_type") strType: String,
+    @PythonName("float_type") floatType: Float,
+    @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
+    @PythonName("list_type_1") listType1: List<Any>,
+    @PythonName("list_type_2") listType2: List<String>,
+    @PythonName("list_type_3") listType3: List<Int, Boolean>,
+    @PythonName("list_type_4") listType4: List<List<Int>>,
     @PythonName("list_type_5") listType5,
-    @PythonName("set_type_1") setType1,
-    @PythonName("set_type_2") setType2,
-    @PythonName("set_type_3") setType3,
-    @PythonName("set_type_4") setType4,
+    @PythonName("set_type_1") setType1: Set<Any>,
+    @PythonName("set_type_2") setType2: Set<String>,
+    @PythonName("set_type_3") setType3: Set<Int, Boolean>,
+    @PythonName("set_type_4") setType4: Set<List<Int>>,
     @PythonName("set_type_5") setType5,
-    @PythonName("tuple_type_1") tupleType1,
-    @PythonName("tuple_type_2") tupleType2,
-    @PythonName("tuple_type_3") tupleType3,
-    @PythonName("tuple_type_4") tupleType4,
+    @PythonName("tuple_type_1") tupleType1: Tuple<>,
+    @PythonName("tuple_type_2") tupleType2: Tuple<String>,
+    @PythonName("tuple_type_3") tupleType3: Tuple<Int, Boolean>,
+    @PythonName("tuple_type_4") tupleType4: Tuple<List<Int>>,
     @PythonName("any_type") anyType: Any,
     @PythonName("optional_type_2") optionalType2: Int?,
-    @PythonName("class_type") classType,
-    @PythonName("imported_type") importedType
+    @PythonName("class_type") classType: ClassWithMethod,
+    @PythonName("imported_type") importedType: AnotherClass
 )
 
 /**

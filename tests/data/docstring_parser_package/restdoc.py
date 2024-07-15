@@ -66,7 +66,7 @@ def function_with_parameters(no_type_no_default, optional_unknown_default, type_
     :param *args: foo: *args
     :type *args: int
     :param **kwargs: foo: **kwargs
-    :type **kwargs: int
+    :type **kwargs: dict[str, int]
     """
 
 

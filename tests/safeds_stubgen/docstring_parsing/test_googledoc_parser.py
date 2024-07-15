@@ -5,7 +5,15 @@ from pathlib import Path
 import pytest
 from griffe.enumerations import Parser
 from mypy import nodes
-from safeds_stubgen.api_analyzer import ListType, NamedType, SetType, TupleType, UnionType, get_classdef_definitions
+from safeds_stubgen.api_analyzer import (
+    DictType,
+    ListType,
+    NamedType,
+    SetType,
+    TupleType,
+    UnionType,
+    get_classdef_definitions,
+)
 
 # noinspection PyProtectedMember
 from safeds_stubgen.api_analyzer._get_api import _get_mypy_asts, _get_mypy_build
@@ -187,7 +195,10 @@ def test_get_function_documentation(
             False,
             "**kwargs",
             ParameterDocstring(
-                type=NamedType(name="int", qname="builtins.int"),
+                type=DictType(
+                    key_type=NamedType(name="str", qname="builtins.str"),
+                    value_type=NamedType(name="int", qname="builtins.int"),
+                ),
                 default_value="{}",
                 description="foo: **kwargs",
             ),
