@@ -124,6 +124,10 @@ def _create_outside_package_class(
     created_module_paths: set[str],
 ) -> set[str]:
     path_parts = class_path.split(".")
+
+    if len(path_parts) == 1:
+        return created_module_paths
+
     class_name = path_parts.pop(-1)
     module_name = path_parts[-1]
     module_path = "/".join(path_parts)

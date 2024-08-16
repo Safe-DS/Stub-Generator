@@ -202,8 +202,8 @@ class MyPyAstVisitor:
             ):
                 inherits_from_exception = True
 
-            if hasattr(superclass, "fullname"):
-                superclass_qname = superclass.fullname
+            if hasattr(superclass, "fullname") or hasattr(superclass, "name"):
+                superclass_qname = getattr(superclass, "fullname", "") or getattr(superclass, "name", "")
                 superclass_name = superclass_qname.split(".")[-1]
 
                 # Check if the superclass name is an alias and find the real name
@@ -323,7 +323,7 @@ class MyPyAstVisitor:
             if result_doc_type is not None:
                 if result_type is None:
                     # Add missing returns
-                    result_name = result_doc.name if result_doc.name else f"result_{i}"
+                    result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
                     new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
                     results_code.append(new_result)
 
@@ -408,6 +408,10 @@ class MyPyAstVisitor:
         assignments: list[Attribute | EnumInstance] = []
 
         for lvalue in node.lvalues:
+            if isinstance(lvalue, mp_nodes.IndexExpr):
+                # e.g.: `self.obj.ob_dict['index'] = "some value"`
+                continue
+
             if isinstance(parent, Class):
                 for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
                     assignments.append(assignment)
@@ -427,7 +431,7 @@ class MyPyAstVisitor:
                 else:
                     if not hasattr(lvalue, "name"):  # pragma: no cover
                         raise AttributeError("Expected lvalue to have attribtue 'name'.")
-                    names.append(lvalue.name)
+                    names.append(getattr(lvalue, "name", ""))
 
                 for name in names:
                     assignments.append(
@@ -577,7 +581,60 @@ class MyPyAstVisitor:
         return all_results
 
     @staticmethod
-    def _infer_type_from_return_stmts(func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
+    def _remove_assignments(func_defn: list, type_: AbstractType) -> AbstractType:
+        """
+        Check if the expression comes from an `AssignmentStmt`.
+
+        If the return value of a function consists of variables we have to check if those variables are defined
+        in the function itself (assignment). If this is not the case, we can assume that they are imported or from
+        outside the funciton.
+        """
+        actual_types: list[AbstractType] = []
+        if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
+            if isinstance(type_, sds_types.TupleType):
+                found_types = type_.types
+            else:
+                found_types = [type_]
+
+            for found_type in found_types:
+                if isinstance(found_type, sds_types.NamedType):
+                    is_assignment = False
+                    found_type_name = found_type.name
+
+                    for defn in func_defn:
+                        if not isinstance(defn, mp_nodes.AssignmentStmt):
+                            continue
+
+                        for lvalue in defn.lvalues:
+                            if isinstance(lvalue, mp_nodes.TupleExpr):
+                                name_expressions = lvalue.items
+                            else:
+                                name_expressions = [lvalue]
+
+                            for expr in name_expressions:
+                                if isinstance(expr, mp_nodes.NameExpr) and found_type_name == expr.name:
+                                    is_assignment = True
+                                    break
+                            if is_assignment:
+                                break
+
+                        if is_assignment:
+                            break
+
+                    if is_assignment:
+                        actual_types.append(sds_types.UnknownType())
+                    else:
+                        actual_types.append(found_type)
+
+            if len(actual_types) > 1:
+                type_ = sds_types.TupleType(types=actual_types)
+            elif len(actual_types) == 1:
+                type_ = actual_types[0]
+            else:
+                type_ = sds_types.UnknownType()
+        return type_
+
+    def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
         # To infer the type, we iterate through all return statements we find in the function
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_return_stmts_recursive(func_defn)
@@ -604,6 +661,8 @@ class MyPyAstVisitor:
                         types.add(sds_types.NamedType(name=expr_type.name, qname=expr_type.fullname))
                     else:
                         type_ = mypy_expression_to_sds_type(return_stmt.expr)
+                        type_ = self._remove_assignments(func_defn, type_)
+
                         if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
                             types.add(type_)
 
@@ -1197,12 +1256,14 @@ class MyPyAstVisitor:
 
         parent = self.__declaration_stack[-1]
 
-        if not isinstance(parent, Module | Class) and not (isinstance(parent, Function) and parent.name == "__init__"):
+        if not isinstance(parent, Module | Class | Enum) and not (
+            isinstance(parent, Function) and parent.name == "__init__"
+        ):
             raise TypeError(
                 f"Expected parent for {name} in module {self.mypy_file.fullname} to be a class or a module.",
             )  # pragma: no cover
 
-        if not isinstance(parent, Function):
+        if not isinstance(parent, Function | Enum):
             _check_publicity_with_reexports: bool | None = self._check_publicity_in_reexports(name, qname, parent)
 
             if _check_publicity_with_reexports is not None:
@@ -1326,7 +1387,7 @@ class MyPyAstVisitor:
 
 
 def result_name_generator() -> Generator:
-    """Generate a name for callable type parameters starting from 'a' until 'zz'."""
+    """Generate a name for callable type parameters starting from 'result_1' until 'result_1000'."""
     while True:
         for x in range(1, 1000):
             yield f"result_{x}"

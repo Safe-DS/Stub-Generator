@@ -213,3 +213,17 @@ class FunctionModulePropertiesClass:
 
 def ret_conditional_statement():
     return 1 if True else False
+
+
+def ignore_assignment(a: int, b: int):
+    def _f(x: int, y: int) -> int:
+        return x + y
+
+    g, f = _f(a, b)
+    Cxy = _f(g, f)**2
+    return Cxy, f
+
+
+def ignore_assignment2(a: int, b: int):
+    Cxy = 3**2
+    return Cxy

@@ -264,6 +264,22 @@ fun resultFromOutsideThePackage() -> result1: AnotherClass
 @PythonName("ret_conditional_statement")
 fun retConditionalStatement() -> result1: union<Boolean, Int>
 
+// TODO Unknown type - Type could not be parsed.
+@Pure
+@PythonName("ignore_assignment")
+fun ignoreAssignment(
+    a: Int,
+    b: Int
+) -> (result1: unknown, result2: unknown)
+
+// TODO Result type information missing.
+@Pure
+@PythonName("ignore_assignment2")
+fun ignoreAssignment2(
+    a: Int,
+    b: Int
+)
+
 class FunctionModuleClassA()
 
 // TODO Some parameter have no type information.

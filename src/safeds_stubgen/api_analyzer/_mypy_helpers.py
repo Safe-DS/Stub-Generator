@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import TYPE_CHECKING, Literal
 
 import mypy.types as mp_types
@@ -103,7 +104,11 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
     elif isinstance(expr, mp_nodes.UnaryExpr):
         return mypy_expression_to_sds_type(expr.expr)
 
-    raise TypeError("Unexpected expression type.")  # pragma: no cover
+    logging.warning(
+        "Could not parse a parameter or return type for a function: Safe-DS does not support "
+        "types such as call expressions. Added 'unknown' instead.",
+    )
+    return sds_types.UnknownType()
 
 
 def mypy_expression_to_python_value(

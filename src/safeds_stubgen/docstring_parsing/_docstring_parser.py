@@ -385,9 +385,6 @@ class DocstringParser(AbstractDocstringParser):
         node_qname_parts = qname.split(".")
         griffe_node = self.griffe_build
         for part in node_qname_parts:
-            if griffe_node.name == part:
-                continue
-
             if part in griffe_node.modules:
                 griffe_node = griffe_node.modules[part]
             elif part in griffe_node.classes:
@@ -398,11 +395,14 @@ class DocstringParser(AbstractDocstringParser):
                 griffe_node = griffe_node.attributes[part]
             elif part == "__init__" and griffe_node.is_class:
                 return None
+            elif griffe_node.name == part:
+                continue
             else:  # pragma: no cover
-                raise ValueError(
+                msg = (
                     f"Something went wrong while searching for the docstring for {qname}. Please make sure"
                     " that all directories with python files have an __init__.py file.",
                 )
+                logging.warning(msg)
 
         return griffe_node
 

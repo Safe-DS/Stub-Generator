@@ -185,8 +185,13 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                 else:
                     continue
 
+            # Try to find the original qname (fullname) of the alias
             if in_package:
-                if isinstance(type_value, mypy_types.CallableType) and hasattr(type_value.bound_args[0], "type"):
+                if (
+                    isinstance(type_value, mypy_types.CallableType)
+                    and type_value.bound_args
+                    and hasattr(type_value.bound_args[0], "type")
+                ):
                     fullname = type_value.bound_args[0].type.fullname  # type: ignore[union-attr]
                 elif isinstance(type_value, mypy_types.Instance):
                     fullname = type_value.type.fullname
@@ -195,7 +200,9 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                 elif isinstance(key, mypy_nodes.NameExpr) and isinstance(key.node, mypy_nodes.Var):
                     fullname = key.node.fullname
                 else:  # pragma: no cover
-                    raise TypeError("Received unexpected type while searching for aliases.")
+                    msg = f"Received unexpected type while searching for aliases. Skipping for '{name}'."
+                    logging.warning(msg)
+                    continue
 
                 aliases[name].add(fullname)
 

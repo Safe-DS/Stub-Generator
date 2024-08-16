@@ -2077,6 +2077,8 @@
 # name: test_classes[ClassModuleClassB]
   dict({
     'attributes': list([
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/b_attr_1',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/b_attr_2',
     ]),
     'classes': list([
     ]),
@@ -6075,6 +6077,52 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment/b',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment/result_2',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment2',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment2/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment2/b',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/illegal_dictionary_results',
       'is_class_method': False,
       'is_property': False,
@@ -7219,6 +7267,7 @@
       'tests/data/various_modules_package/class_module/SelfTypes1',
       'tests/data/various_modules_package/class_module/SelfTypes2',
       'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction',
+      'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction2',
     ]),
     'docstring': '',
     'enums': list([
@@ -7281,6 +7330,7 @@
       'tests/data/various_modules_package/enum_module/EnumTest2',
       'tests/data/various_modules_package/enum_module/EnumTest3',
       'tests/data/various_modules_package/enum_module/EmptyEnum',
+      'tests/data/various_modules_package/enum_module/EnumWithFunctions',
     ]),
     'functions': list([
     ]),
@@ -7542,6 +7592,8 @@
       'tests/data/various_modules_package/function_module/param_from_outside_the_package',
       'tests/data/various_modules_package/function_module/result_from_outside_the_package',
       'tests/data/various_modules_package/function_module/ret_conditional_statement',
+      'tests/data/various_modules_package/function_module/ignore_assignment',
+      'tests/data/various_modules_package/function_module/ignore_assignment2',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',

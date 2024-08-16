@@ -8,7 +8,11 @@ class ClassModuleEmptyClassA:
 
 
 class ClassModuleClassB(ClassModuleEmptyClassA):
-    def __init__(self, a: int, b: ClassModuleEmptyClassA | None): ...
+    b_attr_1: int
+    b_attr_2: dict = {}
+
+    def __init__(self, a: int, b: ClassModuleEmptyClassA | None):
+        self.b_attr_1 = self.b_attr_2['index'] = 0
 
     def f(self): ...
 
@@ -88,3 +92,13 @@ class ClassWithOverloadedFunction:
         parameter_2: bool = True,
     ) -> bool | None:
         return None
+
+
+class ClassWithOverloadedFunction2:
+    @property
+    def stale(self):
+        return self._stale
+
+    @stale.setter
+    def stale(self, val):
+        self._stale = val
