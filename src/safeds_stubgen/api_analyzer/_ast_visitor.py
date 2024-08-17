@@ -32,7 +32,7 @@ from ._api import (
     WildcardImport,
 )
 from ._mypy_helpers import (
-    find_return_stmts_recursive,
+    find_stmts_recursive,
     get_argument_kind,
     get_classdef_definitions,
     get_funcdef_definitions,
@@ -58,6 +58,7 @@ class MyPyAstVisitor:
         aliases: dict[str, set[str]],
         type_source_preference: TypeSourcePreference,
         type_source_warning: TypeSourceWarning,
+        is_test_run: bool = False,
     ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.type_source_preference = type_source_preference
@@ -68,6 +69,7 @@ class MyPyAstVisitor:
         self.mypy_file: mp_nodes.MypyFile | None = None
         # We gather type var types used as a parameter type in a function
         self.type_var_types: set[sds_types.TypeVarType] = set()
+        self.is_test_run = is_test_run
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -202,8 +204,14 @@ class MyPyAstVisitor:
             ):
                 inherits_from_exception = True
 
-            if hasattr(superclass, "fullname") or hasattr(superclass, "name"):
-                superclass_qname = getattr(superclass, "fullname", "") or getattr(superclass, "name", "")
+            if hasattr(superclass, "fullname"):
+                superclass_qname = superclass.fullname
+
+                if not superclass_qname and hasattr(superclass, "name"):
+                    superclass_qname = superclass.name
+                    if hasattr(superclass, "expr") and isinstance(superclass.expr, mp_nodes.NameExpr):
+                        superclass_qname = f"{superclass.expr.name}.{superclass_qname}"
+
                 superclass_name = superclass_qname.split(".")[-1]
 
                 # Check if the superclass name is an alias and find the real name
@@ -428,10 +436,10 @@ class MyPyAstVisitor:
                 if hasattr(lvalue, "items"):
                     for item in lvalue.items:
                         names.append(item.name)
-                else:
-                    if not hasattr(lvalue, "name"):  # pragma: no cover
-                        raise AttributeError("Expected lvalue to have attribtue 'name'.")
-                    names.append(getattr(lvalue, "name", ""))
+                elif hasattr(lvalue, "name"):
+                    names.append(lvalue.name)
+                else:  # pragma: no cover
+                    raise AttributeError("Expected lvalue to have attribtue 'name'.")
 
                 for name in names:
                     assignments.append(
@@ -589,91 +597,122 @@ class MyPyAstVisitor:
         in the function itself (assignment). If this is not the case, we can assume that they are imported or from
         outside the funciton.
         """
+        if not isinstance(type_, sds_types.NamedType | sds_types.TupleType):
+            return type_
+
+        found_types = type_.types if isinstance(type_, sds_types.TupleType) else [type_]
         actual_types: list[AbstractType] = []
-        if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
-            if isinstance(type_, sds_types.TupleType):
-                found_types = type_.types
-            else:
-                found_types = [type_]
+        assignment_stmts = find_stmts_recursive(stmt_type=mp_nodes.AssignmentStmt, stmts=func_defn)
 
-            for found_type in found_types:
-                if isinstance(found_type, sds_types.NamedType):
-                    is_assignment = False
-                    found_type_name = found_type.name
+        for found_type in found_types:
+            if not isinstance(found_type, sds_types.NamedType):  # pragma: no cover
+                continue
 
-                    for defn in func_defn:
-                        if not isinstance(defn, mp_nodes.AssignmentStmt):
-                            continue
+            is_assignment = False
+            found_type_name = found_type.name
 
-                        for lvalue in defn.lvalues:
-                            if isinstance(lvalue, mp_nodes.TupleExpr):
-                                name_expressions = lvalue.items
-                            else:
-                                name_expressions = [lvalue]
-
-                            for expr in name_expressions:
-                                if isinstance(expr, mp_nodes.NameExpr) and found_type_name == expr.name:
-                                    is_assignment = True
-                                    break
-                            if is_assignment:
-                                break
-
-                        if is_assignment:
-                            break
-
-                    if is_assignment:
-                        actual_types.append(sds_types.UnknownType())
-                    else:
-                        actual_types.append(found_type)
-
-            if len(actual_types) > 1:
-                type_ = sds_types.TupleType(types=actual_types)
-            elif len(actual_types) == 1:
-                type_ = actual_types[0]
-            else:
-                type_ = sds_types.UnknownType()
-        return type_
-
-    def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
-        # To infer the type, we iterate through all return statements we find in the function
-        func_defn = get_funcdef_definitions(func_node)
-        return_stmts = find_return_stmts_recursive(func_defn)
-        if return_stmts:
-            types = set()
-            for return_stmt in return_stmts:
-                if return_stmt.expr is None:  # pragma: no cover
+            for stmt in assignment_stmts:
+                if not isinstance(stmt, mp_nodes.AssignmentStmt):  # pragma: no cover
                     continue
 
-                if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
+                for lvalue in stmt.lvalues:
+                    name_expressions = lvalue.items if isinstance(lvalue, mp_nodes.TupleExpr) else [lvalue]
+
+                    for expr in name_expressions:
+                        if isinstance(expr, mp_nodes.NameExpr) and found_type_name == expr.name:
+                            is_assignment = True
+                            break
+                    if is_assignment:
+                        break
+
+                if is_assignment:
+                    break
+
+            if is_assignment:
+                actual_types.append(sds_types.UnknownType())
+            else:
+                actual_types.append(found_type)
+
+        if len(actual_types) > 1:
+            return sds_types.TupleType(types=actual_types)
+        elif len(actual_types) == 1:
+            return actual_types[0]
+        return sds_types.UnknownType()
+
+    def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
+        # To infer the possible result types, we iterate through all return statements we find in the function
+        func_defn = get_funcdef_definitions(func_node)
+        return_stmts = find_stmts_recursive(mp_nodes.ReturnStmt, func_defn)
+        if not return_stmts:
+            return None
+
+        types = []
+        for return_stmt in return_stmts:
+            if not isinstance(return_stmt, mp_nodes.ReturnStmt):  # pragma: no cover
+                continue
+
+            if return_stmt.expr is not None and hasattr(return_stmt.expr, "node"):
+                if isinstance(return_stmt.expr.node, mp_nodes.FuncDef | mp_nodes.Decorator):
+                    # In this case we have an inner function which the outer function returns.
+                    continue
+                if (
+                    isinstance(return_stmt.expr.node, mp_nodes.Var)
+                    and hasattr(return_stmt.expr, "name")
+                    and return_stmt.expr.name in func_node.arg_names
+                    and return_stmt.expr.node.type is not None
+                ):
+                    # In this case the return value is a parameter of the function
+                    type_ = self.mypy_type_to_abstract_type(return_stmt.expr.node.type)
+                    types.append(type_)
+                    continue
+
+            if not isinstance(return_stmt.expr, mp_nodes.CallExpr | mp_nodes.MemberExpr):
+                if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
                     # If the return statement is a conditional expression we parse the "if" and "else" branches
-                    if isinstance(return_stmt.expr, mp_nodes.ConditionalExpr):
-                        for conditional_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
-                            if conditional_branch is None:  # pragma: no cover
-                                continue
+                    for cond_branch in [return_stmt.expr.if_expr, return_stmt.expr.else_expr]:
+                        if cond_branch is None:  # pragma: no cover
+                            continue
 
-                            if not isinstance(conditional_branch, mp_nodes.CallExpr | mp_nodes.MemberExpr):
-                                type_ = mypy_expression_to_sds_type(conditional_branch)
-                                if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
-                                    types.add(type_)
-                    elif hasattr(return_stmt.expr, "node") and getattr(return_stmt.expr.node, "is_self", False):
-                        # The result type is an instance of the parent class
-                        expr_type = return_stmt.expr.node.type.type
-                        types.add(sds_types.NamedType(name=expr_type.name, qname=expr_type.fullname))
-                    else:
-                        type_ = mypy_expression_to_sds_type(return_stmt.expr)
-                        type_ = self._remove_assignments(func_defn, type_)
+                        if not isinstance(cond_branch, mp_nodes.CallExpr | mp_nodes.MemberExpr):
+                            if (
+                                hasattr(cond_branch, "node")
+                                and isinstance(cond_branch.node, mp_nodes.Var)
+                                and cond_branch.node.type is not None
+                            ):
+                                # In this case the return value is a parameter of the function
+                                type_ = self.mypy_type_to_abstract_type(cond_branch.node.type)
+                            else:
+                                type_ = mypy_expression_to_sds_type(cond_branch)
+                            types.append(type_)
+                elif (
+                    return_stmt.expr is not None
+                    and hasattr(return_stmt.expr, "node")
+                    and getattr(return_stmt.expr.node, "is_self", False)
+                ):
+                    # The result type is an instance of the parent class
+                    expr_type = return_stmt.expr.node.type.type
+                    types.append(sds_types.NamedType(name=expr_type.name, qname=expr_type.fullname))
+                elif isinstance(return_stmt.expr, mp_nodes.TupleExpr):
+                    all_types = []
+                    for item in return_stmt.expr.items:
+                        if hasattr(item, "node") and isinstance(item.node, mp_nodes.Var) and item.node.type is not None:
+                            # In this case the return value is a parameter of the function
+                            type_ = self.mypy_type_to_abstract_type(item.node.type)
+                        else:
+                            type_ = mypy_expression_to_sds_type(item)
+                            type_ = self._remove_assignments(func_defn, type_)
+                        all_types.append(type_)
+                    types.append(sds_types.TupleType(types=all_types))
+                else:
+                    # Lastly, we have a mypy expression object, which we have to parse
+                    if return_stmt.expr is None:  # pragma: no cover
+                        continue
 
-                        if isinstance(type_, sds_types.NamedType | sds_types.TupleType):
-                            types.add(type_)
+                    type_ = mypy_expression_to_sds_type(return_stmt.expr)
+                    type_ = self._remove_assignments(func_defn, type_)
+                    types.append(type_)
 
-            # We have to sort the list for the snapshot tests
-            return_stmt_types = list(types)
-            return_stmt_types.sort(
-                key=lambda x: (x.name if isinstance(x, sds_types.NamedType) else str(len(x.types))),
-            )
-
-            return sds_types.TupleType(types=return_stmt_types)
-        return None
+        return sds_types.TupleType(types=types)
 
     @staticmethod
     def _create_inferred_results(
@@ -705,12 +744,12 @@ class MyPyAstVisitor:
         result_array: list[list[AbstractType]] = []
         longest_inner_list = 1
         for type_ in results.types:
-            if isinstance(type_, sds_types.NamedType):
+            if not isinstance(type_, sds_types.TupleType):
                 if result_array:
                     result_array[0].append(type_)
                 else:
                     result_array.append([type_])
-            elif isinstance(type_, sds_types.TupleType):
+            else:
                 for i, type__ in enumerate(type_.types):
                     if len(result_array) > i:
                         if type__ not in result_array[i]:
@@ -720,8 +759,6 @@ class MyPyAstVisitor:
                                 longest_inner_list = len(result_array[i])
                     else:
                         result_array.append([type__])
-            else:  # pragma: no cover
-                raise TypeError(f"Expected NamedType or TupleType, received {type(type_)}")
 
         # If there are any arrays longer than others, these "others" are optional types and can be None
         none_element = sds_types.NamedType(name="None", qname="builtins.None")

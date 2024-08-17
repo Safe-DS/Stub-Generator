@@ -44,26 +44,29 @@ def get_argument_kind(arg: mp_nodes.Argument) -> ParameterAssignment:
         raise ValueError("Could not find an appropriate parameter assignment.")
 
 
-def find_return_stmts_recursive(stmts: list[mp_nodes.Statement] | list[mp_nodes.Block]) -> list[mp_nodes.ReturnStmt]:
-    return_stmts = []
+def find_stmts_recursive(
+    stmt_type: type[mp_nodes.Statement],
+    stmts: list[mp_nodes.Statement] | list[mp_nodes.Block],
+) -> list[mp_nodes.Statement]:
+    found_stmts = []
     for stmt in stmts:
-        if isinstance(stmt, mp_nodes.IfStmt):
-            return_stmts += find_return_stmts_recursive(stmt.body)
+        if isinstance(stmt, stmt_type):
+            found_stmts.append(stmt)
+        elif isinstance(stmt, mp_nodes.IfStmt):
+            found_stmts += find_stmts_recursive(stmt_type, stmt.body)
             if stmt.else_body:
-                return_stmts += find_return_stmts_recursive(stmt.else_body.body)
+                found_stmts += find_stmts_recursive(stmt_type, stmt.else_body.body)
         elif isinstance(stmt, mp_nodes.Block):
-            return_stmts += find_return_stmts_recursive(stmt.body)
+            found_stmts += find_stmts_recursive(stmt_type, stmt.body)
         elif isinstance(stmt, mp_nodes.TryStmt):
-            return_stmts += find_return_stmts_recursive([stmt.body])
-            return_stmts += find_return_stmts_recursive(stmt.handlers)
+            found_stmts += find_stmts_recursive(stmt_type, [stmt.body])
+            found_stmts += find_stmts_recursive(stmt_type, stmt.handlers)
         elif isinstance(stmt, mp_nodes.MatchStmt):
-            return_stmts += find_return_stmts_recursive(stmt.bodies)
+            found_stmts += find_stmts_recursive(stmt_type, stmt.bodies)
         elif isinstance(stmt, mp_nodes.WhileStmt | mp_nodes.WithStmt | mp_nodes.ForStmt):
-            return_stmts += find_return_stmts_recursive(stmt.body.body)
-        elif isinstance(stmt, mp_nodes.ReturnStmt):
-            return_stmts.append(stmt)
+            found_stmts += find_stmts_recursive(stmt_type, stmt.body.body)
 
-    return return_stmts
+    return found_stmts
 
 
 def mypy_variance_parser(mypy_variance_type: Literal[0, 1, 2]) -> VarianceKind:

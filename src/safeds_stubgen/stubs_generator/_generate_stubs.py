@@ -125,7 +125,11 @@ def _create_outside_package_class(
 ) -> set[str]:
     path_parts = class_path.split(".")
 
-    if len(path_parts) == 1:
+    # There are cases where we could not correctly parse or find the origin of a variable, which is then put into
+    #  the imports. But since these variables have no qname and only consist of a name we cannot create seperate files
+    #  for them.
+    #  E.g.: `x: numpy.some_class; ...; return x` would have the result type parsed as just "numpy"
+    if len(path_parts) == 1:  # pragma: no cover
         return created_module_paths
 
     class_name = path_parts.pop(-1)

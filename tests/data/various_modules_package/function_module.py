@@ -227,3 +227,37 @@ def ignore_assignment(a: int, b: int):
 def ignore_assignment2(a: int, b: int):
     Cxy = 3**2
     return Cxy
+
+
+def ignore_assignment3(xys, p):
+    return ((p - xys[0]) ** 2).sum(), xys[0], (0, 0)
+
+
+def ignore_assignment4(a, b, c):
+    return ignore_assignment3(a, a), (ignore_assignment2(b, a), ignore_assignment(c, a))
+
+
+def return_inner_function():
+    def return_me():
+        return 123
+
+    return return_me
+
+
+def return_param1(a):
+    return a
+
+
+def return_param2(a: int):
+    return a
+
+
+def return_param3(a: int, b, c: bool):
+    return a if b else c
+
+
+def return_param4(a: int, b, x):
+    if x == 0:
+        return a, b, a, b
+
+    return True

@@ -77,6 +77,7 @@ def get_api(
         aliases=aliases,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
+        is_test_run=is_test_run,
     )
     walker = ASTWalker(handler=callable_visitor)
 

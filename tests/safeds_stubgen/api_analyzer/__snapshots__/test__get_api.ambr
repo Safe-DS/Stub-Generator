@@ -1222,6 +1222,28 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '__enter__',
+      'parameters': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
       'is_class_method': False,
       'is_property': False,
@@ -2115,6 +2137,7 @@
     'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__',
       'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
     ]),
     'name': 'ClassModuleClassB',
@@ -5216,8 +5239,33 @@
           }),
           dict({
             'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': 'builtins.bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'InferMyTypes',
+            'qname': 'tests.data.various_modules_package.infer_types_module.InferMyTypes',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
             'name': 'float',
             'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
@@ -5236,28 +5284,8 @@
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'InferMyTypes',
-            'qname': 'tests.data.various_modules_package.infer_types_module.InferMyTypes',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'None',
-            'qname': 'builtins.None',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'bool',
-            'qname': 'builtins.bool',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'int',
             'qname': 'builtins.int',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'str',
-            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -5277,6 +5305,11 @@
             'kind': 'NamedType',
             'name': 'float',
             'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -6114,6 +6147,57 @@
       'reexported_by': list([
       ]),
       'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment2/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment3',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment3',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment3/xys',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/p',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_2',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_3',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment4',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment4',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment4/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/b',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/c',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment4/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/result_2',
       ]),
     }),
     dict({
@@ -6566,6 +6650,121 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/function_module/ret_conditional_statement/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_inner_function',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_inner_function',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param1',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param1',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param1/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param1/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param2',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param2/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param2/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param3',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param3',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param3/a',
+        'tests/data/various_modules_package/function_module/return_param3/b',
+        'tests/data/various_modules_package/function_module/return_param3/c',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param3/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param4',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param4',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param4/a',
+        'tests/data/various_modules_package/function_module/return_param4/b',
+        'tests/data/various_modules_package/function_module/return_param4/x',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param4/result_1',
+        'tests/data/various_modules_package/function_module/return_param4/result_2',
+        'tests/data/various_modules_package/function_module/return_param4/result_3',
+        'tests/data/various_modules_package/function_module/return_param4/result_4',
       ]),
     }),
     dict({
@@ -7268,6 +7467,7 @@
       'tests/data/various_modules_package/class_module/SelfTypes2',
       'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction',
       'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction2',
+      'tests/data/various_modules_package/class_module/ClassWithImportedSuperclasses',
     ]),
     'docstring': '',
     'enums': list([
@@ -7284,6 +7484,10 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.overload',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'unknown_source',
       }),
       dict({
         'alias': None,
@@ -7594,6 +7798,13 @@
       'tests/data/various_modules_package/function_module/ret_conditional_statement',
       'tests/data/various_modules_package/function_module/ignore_assignment',
       'tests/data/various_modules_package/function_module/ignore_assignment2',
+      'tests/data/various_modules_package/function_module/ignore_assignment3',
+      'tests/data/various_modules_package/function_module/ignore_assignment4',
+      'tests/data/various_modules_package/function_module/return_inner_function',
+      'tests/data/various_modules_package/function_module/return_param1',
+      'tests/data/various_modules_package/function_module/return_param2',
+      'tests/data/various_modules_package/function_module/return_param3',
+      'tests/data/various_modules_package/function_module/return_param4',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',

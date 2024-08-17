@@ -1,4 +1,5 @@
 from typing import Self, overload
+from . import unknown_source
 
 from tests.data.main_package.another_path.another_module import yetAnotherClass
 
@@ -13,6 +14,9 @@ class ClassModuleClassB(ClassModuleEmptyClassA):
 
     def __init__(self, a: int, b: ClassModuleEmptyClassA | None):
         self.b_attr_1 = self.b_attr_2['index'] = 0
+
+    def __enter__(self):
+        return self
 
     def f(self): ...
 
@@ -102,3 +106,7 @@ class ClassWithOverloadedFunction2:
     @stale.setter
     def stale(self, val):
         self._stale = val
+
+
+class ClassWithImportedSuperclasses(unknown_source.UnknownClass):
+    pass
