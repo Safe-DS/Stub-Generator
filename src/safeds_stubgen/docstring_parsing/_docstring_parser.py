@@ -32,6 +32,7 @@ if TYPE_CHECKING:
 class DocstringParser(AbstractDocstringParser):
     def __init__(self, parser: Parser, package_path: Path):
         while True:
+            # If a package has no __init__.py file Griffe can't parse it, therefore we check the parent
             try:
                 self.griffe_build = load(package_path, docstring_parser=parser)
                 break

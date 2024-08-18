@@ -123,6 +123,11 @@ def _create_outside_package_class(
     naming_convention: NamingConvention,
     created_module_paths: set[str],
 ) -> set[str]:
+    """Create imported classes from outside the package.
+
+    If classes of functions from outside the analyzed package are used, like e.g. `import math`, these classes and
+    functions will be created as stubs outside the actual package we analyze.
+    """
     path_parts = class_path.split(".")
 
     # There are cases where we could not correctly parse or find the origin of a variable, which is then put into

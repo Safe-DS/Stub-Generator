@@ -495,6 +495,7 @@ class MyPyAstVisitor:
         function_id: str,
         result_docstrings: list[ResultDocstring],
     ) -> list[Result]:
+        """Parse the results from given Mypy function nodes and return our own Result objects."""
         # __init__ functions aren't supposed to have returns, so we can ignore them
         if node.name == "__init__":
             return []
@@ -640,6 +641,7 @@ class MyPyAstVisitor:
         return sds_types.UnknownType()
 
     def _infer_type_from_return_stmts(self, func_node: mp_nodes.FuncDef) -> sds_types.TupleType | None:
+        """Infer the type of the return statements."""
         # To infer the possible result types, we iterate through all return statements we find in the function
         func_defn = get_funcdef_definitions(func_node)
         return_stmts = find_stmts_recursive(mp_nodes.ReturnStmt, func_defn)
@@ -823,6 +825,7 @@ class MyPyAstVisitor:
         unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
     ) -> list[Attribute]:
+        """Parse the attributes from given Mypy expressions and return our own Attribute objects."""
         assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
         attributes: list[Attribute] = []
 
@@ -850,6 +853,7 @@ class MyPyAstVisitor:
         return attributes
 
     def _is_attribute_already_defined(self, value_name: str) -> bool:
+        """Check our already created Attribute objects if we already defined the given attribute name."""
         # If node is None, it's possible that the attribute was already defined once
         parent = self.__declaration_stack[-1]
         if isinstance(parent, Function):
@@ -866,6 +870,7 @@ class MyPyAstVisitor:
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
     ) -> Attribute:
+        """Create an Attribute object from a Mypy expression."""
         # Get node information
         type_: sds_types.AbstractType | None = None
         node = None
@@ -950,6 +955,7 @@ class MyPyAstVisitor:
     # #### Parameter utilities
 
     def _parse_parameter_data(self, node: mp_nodes.FuncDef, function_id: str) -> list[Parameter]:
+        """Parse the parameter from a Mypy Function node and return our own Parameter objects."""
         arguments: list[Parameter] = []
 
         for argument in node.arguments:
@@ -1018,6 +1024,7 @@ class MyPyAstVisitor:
         initializer: mp_nodes.Expression,
         function_id: str,
     ) -> tuple[str | None | int | float | UnknownValue, bool]:
+        """Parse the parameter type and default value from a Mypy node expression."""
         default_value: str | None | int | float = None
         default_is_none = False
         if initializer is not None:
@@ -1067,6 +1074,7 @@ class MyPyAstVisitor:
     # #### Reexport utilities
 
     def _get_reexported_by(self, qname: str) -> list[Module]:
+        """Get all __init__ modules where a given function / class / enum was reexported."""
         path = qname.split(".")
 
         # Check if there is a reexport entry for each item in the path to the current module
@@ -1074,22 +1082,23 @@ class MyPyAstVisitor:
         for i in range(len(path)):
             reexport_name_forward = ".".join(path[: i + 1])
             if reexport_name_forward in self.api.reexport_map:
-                for mod in self.api.reexport_map[reexport_name_forward]:
-                    reexported_by.add(mod)
+                for module in self.api.reexport_map[reexport_name_forward]:
+                    reexported_by.add(module)
 
             reexport_name_backward = ".".join(path[-i - 1 :])
             if reexport_name_backward in self.api.reexport_map:
-                for mod in self.api.reexport_map[reexport_name_backward]:
-                    reexported_by.add(mod)
+                for module in self.api.reexport_map[reexport_name_backward]:
+                    reexported_by.add(module)
 
             reexport_name_backward_whitelist = f"{'.'.join(path[-2 - i:-1])}.*"
             if reexport_name_backward_whitelist in self.api.reexport_map:
-                for mod in self.api.reexport_map[reexport_name_backward_whitelist]:
-                    reexported_by.add(mod)
+                for module in self.api.reexport_map[reexport_name_backward_whitelist]:
+                    reexported_by.add(module)
 
         return list(reexported_by)
 
     def _add_reexports(self, module: Module) -> None:
+        """Add all reexports of an __init__ module to the reexport_map."""
         for qualified_import in module.qualified_imports:
             name = qualified_import.qualified_name
             self.api.reexport_map[name].add(module)
@@ -1104,7 +1113,7 @@ class MyPyAstVisitor:
         mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.Type,
         unanalyzed_type: mp_types.Type | None = None,
     ) -> AbstractType:
-
+        """Convert Mypy types to our AbstractType objects."""
         # Special cases where we need the unanalyzed_type to get the type information we need
         if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
             unanalyzed_type_name = unanalyzed_type.name
@@ -1242,6 +1251,7 @@ class MyPyAstVisitor:
         return sds_types.UnknownType()  # pragma: no cover
 
     def _find_alias(self, type_name: str) -> tuple[str, str]:
+        """Try to resolve the alias name by searching for it."""
         module = self.__declaration_stack[0]
 
         # At this point, the first item of the stack can only ever be a module
@@ -1280,6 +1290,7 @@ class MyPyAstVisitor:
         qualified_imports: list[QualifiedImport],
         alias_name: str,
     ) -> tuple[str, str]:
+        """Try to resolve the alias name by searching for it in the qualified imports."""
         for qualified_import in qualified_imports:
             if alias_name in {qualified_import.alias, qualified_import.qualified_name.split(".")[-1]}:
                 qname = qualified_import.qualified_name
@@ -1288,6 +1299,7 @@ class MyPyAstVisitor:
         return "", ""
 
     def _is_public(self, name: str, qname: str) -> bool:
+        """Check if a function / method / class / enum is public."""
         if self.mypy_file is None:  # pragma: no cover
             raise ValueError("A Mypy file (module) should be defined.")
 
@@ -1341,12 +1353,18 @@ class MyPyAstVisitor:
         return "/".join(segments)
 
     def _inherits_from_exception(self, node: mp_nodes.TypeInfo) -> bool:
+        """Check if a class inherits from the Exception class."""
         if node.fullname == "builtins.Exception":
             return True
 
         return any(self._inherits_from_exception(base.type) for base in node.bases)
 
     def _check_publicity_in_reexports(self, name: str, qname: str, parent: Module | Class) -> bool | None:
+        """Check if an internal function was made public.
+
+        This can happen if either the function was reexported with a public alias or by its internal parent being
+        reexported and being made public.
+        """
         not_internal = not is_internal(name)
         module_qname = getattr(self.mypy_file, "fullname", "")
         module_name = getattr(self.mypy_file, "name", "")
