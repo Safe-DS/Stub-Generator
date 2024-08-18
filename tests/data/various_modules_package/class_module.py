@@ -1,4 +1,4 @@
-from typing import Self, overload
+from typing import Self, overload, no_type_check
 from . import unknown_source
 
 from tests.data.main_package.another_path.another_module import yetAnotherClass
@@ -17,6 +17,10 @@ class ClassModuleClassB(ClassModuleEmptyClassA):
 
     def __enter__(self):
         return self
+
+    @no_type_check
+    def _apply(self, f, *args, **kwargs):
+        pass
 
     def f(self): ...
 

@@ -860,6 +860,9 @@ class StubsStringGenerator:
     ) -> str:
         superclass_class = self._get_class_in_package(superclass)
 
+        if superclass_class is None:  # pragma: no cover
+            return ""
+
         # Methods
         superclass_methods_text, existing_names = self._create_class_method_string(
             superclass_class.methods,
@@ -881,6 +884,10 @@ class StubsStringGenerator:
         already_defined_names = already_defined_names.union(existing_names)
 
         for superclass_superclass in superclass_class.superclasses:
+            if superclass_superclass == superclass:  # pragma: no cover
+                # If the class somehow has itself as a superclass
+                continue
+
             name = superclass_superclass.split(".")[-1]
             if is_internal(name):
                 superclass_methods_text += self._create_internal_class_string(
@@ -1107,7 +1114,7 @@ class StubsStringGenerator:
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
-    def _get_class_in_package(self, class_qname: str) -> Class:
+    def _get_class_in_package(self, class_qname: str) -> Class | None:
         class_qname = class_qname.replace(".", "/")
         class_path = "/".join(class_qname.split("/")[:-1])
         class_name = class_qname.split("/")[-1]
@@ -1122,9 +1129,9 @@ class StubsStringGenerator:
             ):
                 return self.api.classes[class_]
 
-        raise LookupError(
-            f"Expected finding class '{class_name}' in module '{self._get_module_id(get_actual_id=True)}'.",
-        )  # pragma: no cover
+        msg = f"Expected finding class '{class_name}' in module '{self._get_module_id(get_actual_id=True)}'."  # pragma: no cover
+        logging.warning(msg)  # pragma: no cover
+        return None  # pragma: no cover
 
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:

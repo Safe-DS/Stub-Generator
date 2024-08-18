@@ -55,12 +55,16 @@ class DocstringParser(AbstractDocstringParser):
         if griffe_node.docstring is not None:
             docstring = griffe_node.docstring.value.strip("\n")
 
-            for docstring_section in griffe_node.docstring.parsed:
-                if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value.strip("\n")
-                elif docstring_section.kind == DocstringSectionKind.examples:
-                    for example_data in docstring_section.value:
-                        examples.append(example_data[1].strip("\n"))
+            try:
+                for docstring_section in griffe_node.docstring.parsed:
+                    if docstring_section.kind == DocstringSectionKind.text:
+                        description = docstring_section.value.strip("\n")
+                    elif docstring_section.kind == DocstringSectionKind.examples:
+                        for example_data in docstring_section.value:
+                            examples.append(example_data[1].strip("\n"))
+            except IndexError as _:  # pragma: no cover
+                msg = f"There was an error while parsing the following docstring:\n{docstring}."
+                logging.warning(msg)
 
         return ClassDocstring(
             description=description,
@@ -75,12 +79,17 @@ class DocstringParser(AbstractDocstringParser):
         griffe_docstring = self.__get_cached_docstring(function_node.fullname)
         if griffe_docstring is not None:
             docstring = griffe_docstring.value.strip("\n")
-            for docstring_section in griffe_docstring.parsed:
-                if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value.strip("\n")
-                elif docstring_section.kind == DocstringSectionKind.examples:
-                    for example_data in docstring_section.value:
-                        examples.append(example_data[1].strip("\n"))
+
+            try:
+                for docstring_section in griffe_docstring.parsed:
+                    if docstring_section.kind == DocstringSectionKind.text:
+                        description = docstring_section.value.strip("\n")
+                    elif docstring_section.kind == DocstringSectionKind.examples:
+                        for example_data in docstring_section.value:
+                            examples.append(example_data[1].strip("\n"))
+            except IndexError as _:  # pragma: no cover
+                msg = f"There was an error while parsing the following docstring:\n{docstring}."
+                logging.warning(msg)
 
         return FunctionDocstring(
             description=description,
@@ -193,10 +202,15 @@ class DocstringParser(AbstractDocstringParser):
             return []
 
         all_returns = None
-        for docstring_section in griffe_docstring.parsed:
-            if docstring_section.kind == DocstringSectionKind.returns:
-                all_returns = docstring_section
-                break
+        try:
+            for docstring_section in griffe_docstring.parsed:
+                if docstring_section.kind == DocstringSectionKind.returns:
+                    all_returns = docstring_section
+                    break
+        except IndexError as _:  # pragma: no cover
+            msg = f"There was an error while parsing the following docstring:\n{griffe_docstring.value}."
+            logging.warning(msg)
+            return []
 
         if not all_returns:
             return []
@@ -240,13 +254,18 @@ class DocstringParser(AbstractDocstringParser):
         type_: Literal["attr", "param"],
     ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
-        for docstring_section in function_doc.parsed:
-            section_kind = docstring_section.kind
-            if (type_ == "attr" and section_kind == DocstringSectionKind.attributes) or (
-                type_ == "param" and section_kind == DocstringSectionKind.parameters
-            ):
-                all_docstrings = docstring_section
-                break
+        try:
+            for docstring_section in function_doc.parsed:
+                section_kind = docstring_section.kind
+                if (type_ == "attr" and section_kind == DocstringSectionKind.attributes) or (
+                    type_ == "param" and section_kind == DocstringSectionKind.parameters
+                ):
+                    all_docstrings = docstring_section
+                    break
+        except IndexError as _:  # pragma: no cover
+            msg = f"There was an error while parsing the following docstring:\n{function_doc.value}."
+            logging.warning(msg)
+            return []
 
         if all_docstrings:
             name = name.lstrip("*")

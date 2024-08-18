@@ -275,6 +275,27 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_int',
+      'is_public': True,
+      'is_static': True,
+      'name': 'final_int',
+      'type': dict({
+        'kind': 'FinalType',
+        'type': dict({
+          'kind': 'LiteralType',
+          'literals': list([
+            101,
+            32741,
+            2147483621,
+          ]),
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_union',
       'is_public': True,
       'is_static': True,
@@ -684,6 +705,17 @@
           }),
         ]),
       }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/no_final_type',
+      'is_public': True,
+      'is_static': True,
+      'name': 'no_final_type',
+      'type': None,
     }),
     dict({
       'docstring': dict({
@@ -1235,6 +1267,30 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': False,
+      'is_static': False,
+      'name': '_apply',
+      'parameters': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/f',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/args',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/kwargs',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
       ]),
     }),
     dict({
@@ -2138,6 +2194,7 @@
     'is_public': True,
     'methods': list([
       'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply',
       'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
     ]),
     'name': 'ClassModuleClassB',
@@ -7484,6 +7541,10 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.overload',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.no_type_check',
       }),
       dict({
         'alias': None,

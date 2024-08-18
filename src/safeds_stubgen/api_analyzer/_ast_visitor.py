@@ -174,7 +174,10 @@ class MyPyAstVisitor:
                 variance_type = mypy_variance_parser(generic_type.variance)
                 variance_values: sds_types.AbstractType | None = None
                 if variance_type == VarianceKind.INVARIANT:
-                    values = [self.mypy_type_to_abstract_type(value) for value in generic_type.values]
+                    values = []
+                    if hasattr(generic_type, "values"):
+                        values = [self.mypy_type_to_abstract_type(value) for value in generic_type.values]
+
                     if values:
                         variance_values = sds_types.UnionType(
                             [self.mypy_type_to_abstract_type(value) for value in generic_type.values],
@@ -840,10 +843,11 @@ class MyPyAstVisitor:
         elif hasattr(lvalue, "items"):
             lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
-                if not hasattr(lvalue_, "name"):  # pragma: no cover
-                    raise AttributeError("Expected value to have attribute 'name'.")
-
-                if self._is_attribute_already_defined(lvalue_.name):
+                if (
+                    hasattr(lvalue_, "name")
+                    and self._is_attribute_already_defined(lvalue_.name)
+                    or isinstance(lvalue_, mp_nodes.IndexExpr)
+                ):
                     continue
 
                 attributes.append(
@@ -920,7 +924,9 @@ class MyPyAstVisitor:
                 if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
                     attribute_type.args = unanalyzed_type.args
                 else:  # pragma: no cover
-                    raise AttributeError("Could not get argument information for attribute.")
+                    logging.warning("Could not get argument information for attribute.")
+                    attribute_type = None
+                    type_ = sds_types.UnknownType()
 
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if (
@@ -966,8 +972,10 @@ class MyPyAstVisitor:
             default_is_none = False
 
             # Get type information for parameter
-            if mypy_type is None:  # pragma: no cover
-                raise ValueError("Argument has no type.")
+            if mypy_type is None:
+                msg = f"Could not parse the type for parameter {argument.variable.name} of function {node.fullname}."
+                logging.warning(msg)
+                arg_type = sds_types.UnknownType()
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
                 pass
@@ -1122,8 +1130,24 @@ class MyPyAstVisitor:
                 types = [self.mypy_type_to_abstract_type(arg) for arg in getattr(unanalyzed_type, "args", [])]
                 if len(types) == 1:
                     return sds_types.FinalType(type_=types[0])
-                elif len(types) == 0:  # pragma: no cover
-                    raise ValueError("Final type has no type arguments.")
+                elif len(types) == 0:
+                    if hasattr(mypy_type, "items"):
+                        literals = [
+                            self.mypy_type_to_abstract_type(item.last_known_value)
+                            for item in mypy_type.items
+                            if isinstance(item.last_known_value, mp_types.LiteralType)
+                        ]
+
+                        if literals:
+                            all_literals = []
+                            for literal_type in literals:
+                                if isinstance(literal_type, sds_types.LiteralType):
+                                    all_literals += literal_type.literals
+
+                            return sds_types.FinalType(type_=sds_types.LiteralType(literals=all_literals))
+
+                    logging.warning("Final type has no type arguments.")  # pragma: no cover
+                    return sds_types.FinalType(type_=sds_types.UnknownType())  # pragma: no cover
                 return sds_types.FinalType(type_=sds_types.UnionType(types=types))
             elif unanalyzed_type_name in {"list", "set"}:
                 type_args = getattr(mypy_type, "args", [])
@@ -1168,6 +1192,10 @@ class MyPyAstVisitor:
             if mypy_type.type_of_any == mp_types.TypeOfAny.from_unimported_type:
                 # If the Any type is generated b/c of from_unimported_type, then we can parse the type
                 # from the import information
+                if mypy_type.missing_import_name is None:  # pragma: no cover
+                    logging.warning("Could not parse a type, added unknown type instead.")
+                    return sds_types.UnknownType()
+
                 missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
                 name, qname = self._find_alias(missing_import_name)
 
