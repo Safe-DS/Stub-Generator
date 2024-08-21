@@ -689,6 +689,8 @@ class MyPyAstVisitor:
                             else:
                                 type_ = mypy_expression_to_sds_type(cond_branch)
                             types.append(type_)
+                elif isinstance(return_stmt.expr, mp_nodes.UnaryExpr) and return_stmt.expr.op == "not":
+                    types.append(sds_types.NamedType(name="bool", qname="builtins.bool"))
                 elif (
                     return_stmt.expr is not None
                     and hasattr(return_stmt.expr, "node")

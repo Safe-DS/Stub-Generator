@@ -336,6 +336,10 @@ fun returnParam4(
     x
 ) -> (result1: union<Boolean, Int>, result2: Any, result3: Int, result4: Any)
 
+@Pure
+@PythonName("return_not_statement")
+fun returnNotStatement() -> result1: Boolean
+
 class FunctionModuleClassA()
 
 // TODO Some parameter have no type information.
