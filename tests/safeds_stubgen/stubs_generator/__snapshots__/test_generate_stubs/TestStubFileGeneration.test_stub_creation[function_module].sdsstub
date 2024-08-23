@@ -340,6 +340,10 @@ fun returnParam4(
 @PythonName("return_not_statement")
 fun returnNotStatement() -> result1: Boolean
 
+@Pure
+@PythonName("return_without_result")
+fun returnWithoutResult() -> result1: Nothing?
+
 class FunctionModuleClassA()
 
 // TODO Some parameter have no type information.

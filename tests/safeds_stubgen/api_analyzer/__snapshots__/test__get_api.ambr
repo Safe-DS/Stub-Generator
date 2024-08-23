@@ -6852,6 +6852,27 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/return_without_result',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_without_result',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_without_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/set_results',
       'is_class_method': False,
       'is_property': False,
@@ -7888,6 +7909,7 @@
       'tests/data/various_modules_package/function_module/return_param3',
       'tests/data/various_modules_package/function_module/return_param4',
       'tests/data/various_modules_package/function_module/return_not_statement',
+      'tests/data/various_modules_package/function_module/return_without_result',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',

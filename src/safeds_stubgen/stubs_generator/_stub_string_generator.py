@@ -405,13 +405,17 @@ class StubsStringGenerator:
             attr_name_camel_case = _replace_if_safeds_keyword(attr_name_camel_case)
 
             # Create type information
+            attr_docstring: AttributeDocstring = attribute.docstring
+            if attribute_type is None and attr_docstring and attr_docstring.type:
+                attribute_type = attr_docstring.type.to_dict()
+
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
             # Create docstring text
-            docstring = self._create_sds_docstring(attribute.docstring, inner_indentations)
+            docstring = self._create_sds_docstring(attr_docstring, inner_indentations)
 
             # Create attribute string
             class_attributes.append(

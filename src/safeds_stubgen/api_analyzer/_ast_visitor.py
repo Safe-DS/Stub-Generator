@@ -710,11 +710,10 @@ class MyPyAstVisitor:
                             type_ = self._remove_assignments(func_defn, type_)
                         all_types.append(type_)
                     types.append(sds_types.TupleType(types=all_types))
+                elif return_stmt.expr is None:
+                    types.append(sds_types.NamedType(name="None", qname="builtins.None"))
                 else:
                     # Lastly, we have a mypy expression object, which we have to parse
-                    if return_stmt.expr is None:  # pragma: no cover
-                        continue
-
                     type_ = mypy_expression_to_sds_type(return_stmt.expr)
                     type_ = self._remove_assignments(func_defn, type_)
                     types.append(type_)

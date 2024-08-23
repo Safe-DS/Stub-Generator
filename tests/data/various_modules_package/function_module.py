@@ -265,3 +265,10 @@ def return_param4(a: int, b, x):
 
 def return_not_statement():
     return not (0 or "...")
+
+
+def return_without_result():
+    if 1:
+        return
+    else:
+        return

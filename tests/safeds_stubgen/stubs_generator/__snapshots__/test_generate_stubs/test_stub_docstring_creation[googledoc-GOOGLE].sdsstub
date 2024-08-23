@@ -295,9 +295,8 @@ class ClassWithVariousAttributeTypes() {
     static attr classType: ClassWithAttributes
     @PythonName("imported_type")
     static attr importedType: AnotherClass
-    // TODO Attribute has no type information.
     @PythonName("callable_type")
-    static attr callableType
+    static attr callableType: (param1: Int) -> result1: String
     @PythonName("mapping_type")
     static attr mappingType: Map<Int, String>
     @PythonName("bool_op_type")
