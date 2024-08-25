@@ -424,7 +424,8 @@ class MyPyAstVisitor:
                 continue
 
             if isinstance(parent, Class):
-                for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=True):
+                is_type_var = hasattr(node, "rvalue") and hasattr(node.rvalue, "analyzed") and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
+                for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=True, is_type_var=is_type_var):
                     assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
                 grand_parent = self.__declaration_stack[-2]
@@ -828,6 +829,7 @@ class MyPyAstVisitor:
         lvalue: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
+        is_type_var: bool = False
     ) -> list[Attribute]:
         """Parse the attributes from given Mypy expressions and return our own Attribute objects."""
         assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
@@ -838,7 +840,7 @@ class MyPyAstVisitor:
                 return attributes
 
             attributes.append(
-                self._create_attribute(lvalue, unanalyzed_type, is_static),
+                self._create_attribute(lvalue, unanalyzed_type, is_static, is_type_var),
             )
 
         elif hasattr(lvalue, "items"):
@@ -852,7 +854,7 @@ class MyPyAstVisitor:
                     continue
 
                 attributes.append(
-                    self._create_attribute(lvalue_, unanalyzed_type, is_static),
+                    self._create_attribute(lvalue_, unanalyzed_type, is_static, is_type_var),
                 )
 
         return attributes
@@ -874,24 +876,23 @@ class MyPyAstVisitor:
         attribute: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
+        is_type_var: bool = False
     ) -> Attribute:
         """Create an Attribute object from a Mypy expression."""
         # Get node information
         type_: sds_types.AbstractType | None = None
         node = None
         if hasattr(attribute, "node"):
-            if not isinstance(attribute.node, mp_nodes.Var) and not isinstance(attribute, mp_nodes.MemberExpr):
-                # In this case we have a TypeVar attribute
-                attr_name = getattr(attribute, "name", "")
+            node = attribute.node
 
-                if not attr_name:  # pragma: no cover
-                    raise AttributeError("Expected TypeVar to have attribute 'name'.")
+        if is_type_var:
+            # In this case we have a TypeVar attribute
+            attr_name = getattr(attribute, "name", "")
 
-                type_ = sds_types.TypeVarType(attr_name)
-            else:
-                node = attribute.node
-        else:  # pragma: no cover
-            raise AttributeError("Expected attribute to have attribute 'node'.")
+            if not attr_name:  # pragma: no cover
+                raise AttributeError("Expected TypeVar to have attribute 'name'.")
+
+            type_ = sds_types.TypeVarType(attr_name)
 
         # Get name and qname
         name = getattr(attribute, "name", "")
@@ -904,7 +905,7 @@ class MyPyAstVisitor:
         attribute_type = None
 
         # MemberExpr are constructor (__init__) attributes
-        if isinstance(attribute, mp_nodes.MemberExpr):
+        if not is_type_var and isinstance(attribute, mp_nodes.MemberExpr):
             if node is not None:
                 attribute_type = node.type
                 if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
@@ -916,24 +917,29 @@ class MyPyAstVisitor:
                 type_ = sds_types.UnknownType()
 
         # NameExpr are class attributes
-        elif node is not None and isinstance(attribute, mp_nodes.NameExpr) and not node.explicit_self_type:
-            attribute_type = node.type
+        elif not is_type_var and isinstance(attribute, mp_nodes.NameExpr):
+            if node is not None and not node.explicit_self_type:
+                attribute_type = node.type
 
-            # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
-            # regarding list item types
-            if (
-                attribute_type is not None
-                and hasattr(attribute_type, "type")
-                and hasattr(attribute_type, "args")
-                and attribute_type.type.fullname == "builtins.list"
-                and not node.is_inferred
-            ):
-                if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
-                    attribute_type.args = unanalyzed_type.args
-                else:  # pragma: no cover
-                    logging.warning("Could not get argument information for attribute.")
-                    attribute_type = None
-                    type_ = sds_types.UnknownType()
+                # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
+                # regarding list item types
+                if (
+                    attribute_type is not None
+                    and hasattr(attribute_type, "type")
+                    and hasattr(attribute_type, "args")
+                    and attribute_type.type.fullname == "builtins.list"
+                    and not node.is_inferred
+                ):
+                    if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
+                        attribute_type.args = unanalyzed_type.args
+                    else:  # pragma: no cover
+                        logging.warning("Could not get argument information for attribute.")
+                        attribute_type = None
+                        type_ = sds_types.UnknownType()
+            elif not unanalyzed_type:  # pragma: no cover
+                type_ = sds_types.UnknownType()
+            else:  # pragma: no cover
+                type_ = self.mypy_type_to_abstract_type(unanalyzed_type)
 
         # Ignore types that are special mypy any types. The Any type "from_unimported_type" could appear for aliase
         if (
@@ -1096,7 +1102,8 @@ class MyPyAstVisitor:
         reexported_by = set()
         for i in range(len(path)):
             reexport_name_forward = ".".join(path[: i + 1])
-            if reexport_name_forward in self.api.reexport_map:
+            # We ignore i = 0, b/c some inner package could import the whole upper package
+            if i != 0 and reexport_name_forward in self.api.reexport_map:
                 for module in self.api.reexport_map[reexport_name_forward]:
                     reexported_by.add(module)
 
@@ -1127,7 +1134,7 @@ class MyPyAstVisitor:
         self,
         mypy_type: mp_types.Instance | mp_types.ProperType | mp_types.Type,
         unanalyzed_type: mp_types.Type | None = None,
-    ) -> AbstractType:
+    ) -> sds_types.AbstractType:
         """Convert Mypy types to our AbstractType objects."""
         # Special cases where we need the unanalyzed_type to get the type information we need
         if unanalyzed_type is not None and hasattr(unanalyzed_type, "name"):
@@ -1233,10 +1240,11 @@ class MyPyAstVisitor:
         elif isinstance(mypy_type, mp_types.LiteralType):
             return sds_types.LiteralType(literals=[mypy_type.value])
         elif isinstance(mypy_type, mp_types.UnboundType):
-            if mypy_type.name in {"list", "set"}:
+            if mypy_type.name in {"list", "set", "tuple"}:
                 return {
                     "list": sds_types.ListType,
                     "set": sds_types.SetType,
+                    "tuple": sds_types.TupleType,
                 }[
                     mypy_type.name
                 ](types=[self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
