@@ -1,4 +1,4 @@
-from typing import Callable, Optional, Literal, Any
+from typing import Callable, Optional, Literal, Any, Union
 from tests.data.main_package.another_path.another_module import AnotherClass
 
 
@@ -272,3 +272,8 @@ def return_without_result():
         return
     else:
         return
+
+
+ArrayLike = Union["ExtensionArray", Any]
+def type_alias_param(values: ArrayLike) -> ArrayLike:
+    ...

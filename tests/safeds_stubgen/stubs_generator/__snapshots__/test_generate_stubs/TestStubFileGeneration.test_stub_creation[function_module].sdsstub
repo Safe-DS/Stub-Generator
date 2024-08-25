@@ -344,6 +344,12 @@ fun returnNotStatement() -> result1: Boolean
 @PythonName("return_without_result")
 fun returnWithoutResult() -> result1: Nothing?
 
+@Pure
+@PythonName("type_alias_param")
+fun typeAliasParam(
+    values: ArrayLike
+) -> result1: ArrayLike
+
 class FunctionModuleClassA()
 
 // TODO Some parameter have no type information.

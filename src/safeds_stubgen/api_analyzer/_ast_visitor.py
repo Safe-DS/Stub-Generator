@@ -1171,6 +1171,10 @@ class MyPyAstVisitor:
             return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
         # Special Cases
+        elif isinstance(mypy_type, mp_types.TypeAliasType):
+            fullname = mypy_type.alias.fullname
+            name = getattr(mypy_type.alias, "name", fullname.split(".")[-1])
+            return sds_types.NamedType(name=name, qname=fullname)
         elif isinstance(mypy_type, mp_types.TypeVarType):
             upper_bound = mypy_type.upper_bound
             type_ = None

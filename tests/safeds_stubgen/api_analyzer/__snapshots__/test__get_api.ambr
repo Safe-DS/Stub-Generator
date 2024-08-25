@@ -6967,6 +6967,28 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/type_alias_param',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_alias_param',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/type_alias_param/values',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/type_alias_param/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/union_dictionary_results',
       'is_class_method': False,
       'is_property': False,
@@ -7910,6 +7932,7 @@
       'tests/data/various_modules_package/function_module/return_param4',
       'tests/data/various_modules_package/function_module/return_not_statement',
       'tests/data/various_modules_package/function_module/return_without_result',
+      'tests/data/various_modules_package/function_module/type_alias_param',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',
@@ -7929,6 +7952,10 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.Any',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.Union',
       }),
       dict({
         'alias': None,
