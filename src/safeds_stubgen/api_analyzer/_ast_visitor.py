@@ -880,7 +880,7 @@ class MyPyAstVisitor:
         type_: sds_types.AbstractType | None = None
         node = None
         if hasattr(attribute, "node"):
-            if not isinstance(attribute.node, mp_nodes.Var):
+            if not isinstance(attribute.node, mp_nodes.Var) and not isinstance(attribute, mp_nodes.MemberExpr):
                 # In this case we have a TypeVar attribute
                 attr_name = getattr(attribute, "name", "")
 
@@ -904,10 +904,16 @@ class MyPyAstVisitor:
         attribute_type = None
 
         # MemberExpr are constructor (__init__) attributes
-        if node is not None and isinstance(attribute, mp_nodes.MemberExpr):
-            attribute_type = node.type
-            if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
-                attribute_type = None
+        if isinstance(attribute, mp_nodes.MemberExpr):
+            if node is not None:
+                attribute_type = node.type
+                if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
+                    attribute_type = None
+            else:  # pragma: no cover
+                # There seems to be a case where MemberExpr objects don't have node information (e.g. the
+                #  SingleBlockManager.blocks attribute of the Pandas library (a7a14108)) but I couldn't recreate this
+                #  case
+                type_ = sds_types.UnknownType()
 
         # NameExpr are class attributes
         elif node is not None and isinstance(attribute, mp_nodes.NameExpr) and not node.explicit_self_type:
