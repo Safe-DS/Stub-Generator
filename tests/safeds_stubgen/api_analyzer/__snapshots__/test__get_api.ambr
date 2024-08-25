@@ -4973,8 +4973,8 @@
       'name': 'not_true',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
-        'qname': 'builtins.int',
+        'name': 'bool',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -6158,6 +6158,28 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/function_module/dictionary_results_no_key_no_value/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/different_result_operants',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'different_result_operants',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/different_result_operants/y',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/different_result_operants/result_1',
       ]),
     }),
     dict({
@@ -7955,6 +7977,7 @@
       'tests/data/various_modules_package/function_module/return_without_result',
       'tests/data/various_modules_package/function_module/type_alias_param',
       'tests/data/various_modules_package/function_module/alias_subclass_result_type',
+      'tests/data/various_modules_package/function_module/different_result_operants',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',

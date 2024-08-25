@@ -282,3 +282,19 @@ def type_alias_param(values: ArrayLike) -> ArrayLike:
 
 def alias_subclass_result_type() -> ArrayLike | np.ndarray:
     ...
+
+
+def different_result_operants(y):
+    if y:
+        return False
+    elif y - 1:
+        return y or y - 1
+    elif y - 2:
+        return y and y + 1
+    elif y - 3:
+        return y or y - 1 and y - 2
+    elif y - 4:
+        return y is not None
+    elif y - 5:
+        return y is None
+    return not y

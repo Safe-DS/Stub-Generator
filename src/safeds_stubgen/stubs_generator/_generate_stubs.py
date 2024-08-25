@@ -64,7 +64,7 @@ def generate_stub_data(
         shortest_path, alias = _get_shortest_public_reexport(
             reexport_map=api.reexport_map,
             name=module.name,
-            qname="",
+            qname=module.id,
             is_module=True,
         )
         if shortest_path:

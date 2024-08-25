@@ -97,7 +97,7 @@ fun specialParams(
     @PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
     @PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
     none: Nothing?,
-    @PythonName("not_true") notTrue: Int = unknown
+    @PythonName("not_true") notTrue: Boolean = unknown
 )
 
 // TODO Result type information missing.
@@ -354,6 +354,13 @@ fun typeAliasParam(
 @Pure
 @PythonName("alias_subclass_result_type")
 fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
+
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("different_result_operants")
+fun differentResultOperants(
+    y
+) -> result1: Boolean
 
 class FunctionModuleClassA()
 

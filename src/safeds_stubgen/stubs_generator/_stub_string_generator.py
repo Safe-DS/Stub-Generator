@@ -117,7 +117,7 @@ class StubsStringGenerator:
         package_info, _ = _get_shortest_public_reexport(
             reexport_map=self.api.reexport_map,
             name=module.name,
-            qname="",
+            qname=module.id,
             is_module=True,
         )
 

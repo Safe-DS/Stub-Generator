@@ -49,10 +49,10 @@ def _get_shortest_public_reexport(
     is_module: bool,
 ) -> tuple[str, str]:
     parent_name = ""
-    if not is_module and qname:
-        qname_parts = qname.split(".")
-        if len(qname_parts) > 2:
-            parent_name = qname_parts[-2]
+    qname = qname.replace("/", ".")
+    qname_parts = qname.split(".")
+    if not is_module and qname and len(qname_parts) > 2:
+        parent_name = qname_parts[-2]
 
     def _module_name_check(text: str, is_wildcard: bool = False) -> bool:
         if is_module:
@@ -66,7 +66,18 @@ def _get_shortest_public_reexport(
             or (parent_name != "" and text.endswith(f"{parent_name}.*"))
         )
 
-    keys = [reexport_key for reexport_key in reexport_map if _module_name_check(reexport_key)]
+    found_keys = [reexport_key for reexport_key in reexport_map if _module_name_check(reexport_key)]
+
+    # Make sure we didn't get similar modules
+    keys = []
+    for key in found_keys:
+        if key.split(".")[0] == qname_parts[0] and key.split(".")[-1] == qname_parts[-1]:
+            if qname == key:
+                keys.append(key)
+            else:
+                pass
+        else:
+            keys.append(key)
 
     module_ids = set()
     for key in keys:
