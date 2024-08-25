@@ -1168,6 +1168,13 @@ class MyPyAstVisitor:
         if isinstance(mypy_type, mp_types.TupleType):
             return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
         elif isinstance(mypy_type, mp_types.UnionType):
+            if hasattr(unanalyzed_type, "items") and unanalyzed_type and len(getattr(unanalyzed_type, "items", [])) == len(mypy_type.items):
+                return sds_types.UnionType(
+                    types=[
+                        self.mypy_type_to_abstract_type(mypy_type.items[i], unanalyzed_type.items[i])
+                        for i in range(len(mypy_type.items))
+                    ]
+                )
             return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
         # Special Cases
@@ -1203,6 +1210,10 @@ class MyPyAstVisitor:
 
                 missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
                 name, qname = self._find_alias(missing_import_name)
+
+                if unanalyzed_type and hasattr(unanalyzed_type, "name") and "." in unanalyzed_type.name and unanalyzed_type.name.startswith(missing_import_name):
+                    name = unanalyzed_type.name.split(".")[-1]
+                    qname = unanalyzed_type.name.replace(missing_import_name, qname)
 
                 if not qname:  # pragma: no cover
                     logging.warning("Could not parse a type, added unknown type instead.")

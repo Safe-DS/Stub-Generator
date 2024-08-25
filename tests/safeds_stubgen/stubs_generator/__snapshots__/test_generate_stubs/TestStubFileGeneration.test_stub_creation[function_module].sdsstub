@@ -1,6 +1,7 @@
 @PythonModule("tests.data.various_modules_package.function_module")
 package tests.data.variousModulesPackage.functionModule
 
+from numpy import ndarray
 from tests.data.mainPackage.anotherPath.anotherModule import AnotherClass
 
 // TODO Result type information missing.
@@ -349,6 +350,10 @@ fun returnWithoutResult() -> result1: Nothing?
 fun typeAliasParam(
     values: ArrayLike
 ) -> result1: ArrayLike
+
+@Pure
+@PythonName("alias_subclass_result_type")
+fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
 
 class FunctionModuleClassA()
 

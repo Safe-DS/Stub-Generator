@@ -1,5 +1,6 @@
 from typing import Callable, Optional, Literal, Any, Union
 from tests.data.main_package.another_path.another_module import AnotherClass
+import numpy as np
 
 
 class FunctionModuleClassA:
@@ -276,4 +277,8 @@ def return_without_result():
 
 ArrayLike = Union["ExtensionArray", Any]
 def type_alias_param(values: ArrayLike) -> ArrayLike:
+    ...
+
+
+def alias_subclass_result_type() -> ArrayLike | np.ndarray:
     ...
