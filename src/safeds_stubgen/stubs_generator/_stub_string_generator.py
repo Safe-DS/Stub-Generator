@@ -30,6 +30,7 @@ from ._helper import (
     _convert_name_to_convention,
     _create_name_annotation,
     _get_shortest_public_reexport,
+    _name_convention_and_keyword_check,
     _replace_if_safeds_keyword,
 )
 
@@ -174,13 +175,8 @@ class StubsStringGenerator:
             import_parts = import_.split(".")
 
             from_ = ".".join(import_parts[0:-1])
-            from_ = _convert_name_to_convention(from_, self.naming_convention)
-            from_ = _replace_if_safeds_keyword(from_)
-
-            name = import_parts[-1]
-            name = _convert_name_to_convention(name, self.naming_convention)
-            name = _replace_if_safeds_keyword(name)
-
+            from_ = _name_convention_and_keyword_check(from_, self.naming_convention)
+            name = _name_convention_and_keyword_check(import_parts[-1], self.naming_convention)
             import_strings.append(f"from {from_} import {name}")
 
         # We have to sort for the snapshot tests
@@ -231,8 +227,7 @@ class StubsStringGenerator:
                 }[variance.variance.name]
 
                 # Convert name to camelCase and check for keywords
-                variance_name_camel_case = _convert_name_to_convention(variance.name, self.naming_convention)
-                variance_name_camel_case = _replace_if_safeds_keyword(variance_name_camel_case)
+                variance_name_camel_case = _name_convention_and_keyword_check(variance.name, self.naming_convention)
 
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
                 if variance.type is not None:
@@ -465,8 +460,7 @@ class StubsStringGenerator:
         if function.type_var_types:
             type_var_names = []
             for type_var in function.type_var_types:
-                type_var_name = _convert_name_to_convention(type_var.name, self.naming_convention)
-                type_var_name = _replace_if_safeds_keyword(type_var_name)
+                type_var_name = _name_convention_and_keyword_check(type_var.name, self.naming_convention)
 
                 # We don't have to display generic types in methods if they were already displayed in the class
                 if not is_method or (is_method and type_var_name not in self.class_generics):
@@ -547,8 +541,7 @@ class StubsStringGenerator:
 
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
-            result_name = _convert_name_to_convention(result.name, self.naming_convention)
-            result_name = _replace_if_safeds_keyword(result_name)
+            result_name = _name_convention_and_keyword_check(result.name, self.naming_convention)
             if type_string:
                 results.append(
                     f"{result_name}{type_string}",
@@ -712,7 +705,7 @@ class StubsStringGenerator:
                     if name[0] == "_" and type_data["qname"] not in self.module_imports:
                         self._current_todo_msgs.add("internal class as type")
 
-                    return name
+                    return _name_convention_and_keyword_check(name, self.naming_convention)
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
@@ -851,8 +844,7 @@ class StubsStringGenerator:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
         elif kind == "TypeVarType":
-            name = _convert_name_to_convention(type_data["name"], self.naming_convention)
-            return _replace_if_safeds_keyword(name)
+            return _name_convention_and_keyword_check(type_data["name"], self.naming_convention)
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 

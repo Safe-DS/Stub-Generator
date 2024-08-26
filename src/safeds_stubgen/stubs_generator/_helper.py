@@ -148,3 +148,8 @@ def _replace_if_safeds_keyword(keyword: str) -> str:
     }:
         return f"`{keyword}`"
     return keyword
+
+
+def _name_convention_and_keyword_check(name: str, naming_convention: NamingConvention) -> str:
+    name = _convert_name_to_convention(name=name, naming_convention=naming_convention)
+    return _replace_if_safeds_keyword(keyword=name)
