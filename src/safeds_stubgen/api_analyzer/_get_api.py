@@ -217,7 +217,7 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                     fullname = key.node.fullname
                 else:  # pragma: no cover
                     msg = f"Received unexpected type while searching for aliases. Skipping for '{name}'."
-                    logging.warning(msg)
+                    logging.info(msg)
                     continue
 
                 aliases[name].add(fullname)

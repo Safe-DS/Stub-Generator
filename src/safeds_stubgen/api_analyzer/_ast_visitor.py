@@ -12,6 +12,7 @@ import mypy.types as mp_types
 
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
+from safeds_stubgen._helpers import get_reexported_by
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
@@ -42,7 +43,6 @@ from ._mypy_helpers import (
     mypy_expression_to_sds_type,
     mypy_variance_parser,
 )
-from safeds_stubgen._helpers import get_reexported_by
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -299,7 +299,7 @@ class MyPyAstVisitor:
                 and self.type_source_warning == TypeSourceWarning.WARN
             ):
                 msg = f"Different type hint and docstring types for '{function_id}'."
-                logging.warning(msg)
+                logging.info(msg)
 
             if doc_type is not None and (
                 code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
@@ -330,7 +330,7 @@ class MyPyAstVisitor:
                 and self.type_source_warning == TypeSourceWarning.WARN
             ):
                 msg = f"Different type hint and docstring types for the result of '{function_id}'."
-                logging.warning(msg)
+                logging.info(msg)
 
             if result_doc_type is not None:
                 if result_type is None:
@@ -425,8 +425,17 @@ class MyPyAstVisitor:
                 continue
 
             if isinstance(parent, Class):
-                is_type_var = hasattr(node, "rvalue") and hasattr(node.rvalue, "analyzed") and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
-                for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=True, is_type_var=is_type_var):
+                is_type_var = (
+                    hasattr(node, "rvalue")
+                    and hasattr(node.rvalue, "analyzed")
+                    and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
+                )
+                for assignment in self._parse_attributes(
+                    lvalue,
+                    node.unanalyzed_type,
+                    is_static=True,
+                    is_type_var=is_type_var,
+                ):
                     assignments.append(assignment)
             elif isinstance(parent, Function) and parent.name == "__init__":
                 grand_parent = self.__declaration_stack[-2]
@@ -835,7 +844,7 @@ class MyPyAstVisitor:
         lvalue: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool = True,
-        is_type_var: bool = False
+        is_type_var: bool = False,
     ) -> list[Attribute]:
         """Parse the attributes from given Mypy expressions and return our own Attribute objects."""
         assert isinstance(lvalue, mp_nodes.NameExpr | mp_nodes.MemberExpr | mp_nodes.TupleExpr)
@@ -882,7 +891,7 @@ class MyPyAstVisitor:
         attribute: mp_nodes.Expression,
         unanalyzed_type: mp_types.Type | None,
         is_static: bool,
-        is_type_var: bool = False
+        is_type_var: bool = False,
     ) -> Attribute:
         """Create an Attribute object from a Mypy expression."""
         # Get node information
@@ -914,7 +923,9 @@ class MyPyAstVisitor:
         if not is_type_var and isinstance(attribute, mp_nodes.MemberExpr):
             if node is not None:
                 attribute_type = node.type
-                if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(attribute_type.type_of_any):
+                if isinstance(attribute_type, mp_types.AnyType) and not has_correct_type_of_any(
+                    attribute_type.type_of_any,
+                ):
                     attribute_type = None
             else:  # pragma: no cover
                 # There seems to be a case where MemberExpr objects don't have node information (e.g. the
@@ -924,7 +935,9 @@ class MyPyAstVisitor:
 
         # NameExpr are class attributes
         elif not is_type_var and isinstance(attribute, mp_nodes.NameExpr):
-            if node is not None and not node.explicit_self_type:
+            if node is not None and not hasattr(node, "explicit_self_type"):  # pragma: no cover
+                pass
+            elif node is not None and not node.explicit_self_type:
                 attribute_type = node.type
 
                 # We need to get the unanalyzed_type for lists, since mypy is not able to check type hint information
@@ -939,7 +952,7 @@ class MyPyAstVisitor:
                     if unanalyzed_type is not None and hasattr(unanalyzed_type, "args"):
                         attribute_type.args = unanalyzed_type.args
                     else:  # pragma: no cover
-                        logging.warning("Could not get argument information for attribute.")
+                        logging.info("Could not get argument information for attribute.")
                         attribute_type = None
                         type_ = sds_types.UnknownType()
             elif not unanalyzed_type:  # pragma: no cover
@@ -993,7 +1006,7 @@ class MyPyAstVisitor:
             # Get type information for parameter
             if mypy_type is None:
                 msg = f"Could not parse the type for parameter {argument.variable.name} of function {node.fullname}."
-                logging.warning(msg)
+                logging.info(msg)
                 arg_type = sds_types.UnknownType()
             elif isinstance(mypy_type, mp_types.AnyType) and not has_correct_type_of_any(mypy_type.type_of_any):
                 # We try to infer the type through the default value later, if possible
@@ -1008,7 +1021,7 @@ class MyPyAstVisitor:
                 # way in Mypy.
                 arg_type = self.mypy_type_to_abstract_type(type_annotation)
             elif type_annotation is not None:
-                arg_type = self.mypy_type_to_abstract_type(mypy_type)
+                arg_type = self.mypy_type_to_abstract_type(mypy_type, type_annotation)
 
             # Get default value and infer type information
             initializer = argument.initializer
@@ -1030,6 +1043,10 @@ class MyPyAstVisitor:
 
             if isinstance(default_value, type):  # pragma: no cover
                 raise TypeError("default_value has the unexpected type 'type'.")
+
+            # Special case
+            if default_value == '"""':
+                default_value = '"\\""'
 
             # Create parameter object
             arguments.append(
@@ -1064,7 +1081,7 @@ class MyPyAstVisitor:
                     f"Could not parse parameter type for function {function_id}: Safe-DS does not support call "
                     f"expressions as types."
                 )
-                logging.warning(msg)
+                logging.info(msg)
                 # Safe-DS does not support call expressions as types
                 return default_value, default_is_none
             elif isinstance(initializer, mp_nodes.UnaryExpr):
@@ -1080,7 +1097,7 @@ class MyPyAstVisitor:
                     f"Received the parameter {value} with an unexpected operator {initializer.op} for function "
                     f"{function_id}. This parameter could not be parsed."
                 )
-                logging.warning(msg)
+                logging.info(msg)
                 return UnknownValue(), default_is_none
             elif isinstance(
                 initializer,
@@ -1141,7 +1158,7 @@ class MyPyAstVisitor:
 
                             return sds_types.FinalType(type_=sds_types.LiteralType(literals=all_literals))
 
-                    logging.warning("Final type has no type arguments.")  # pragma: no cover
+                    logging.info("Final type has no type arguments.")  # pragma: no cover
                     return sds_types.FinalType(type_=sds_types.UnknownType())  # pragma: no cover
                 return sds_types.FinalType(type_=sds_types.UnionType(types=types))
             elif unanalyzed_type_name in {"list", "set"}:
@@ -1162,18 +1179,23 @@ class MyPyAstVisitor:
         if isinstance(mypy_type, mp_types.TupleType):
             return sds_types.TupleType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
         elif isinstance(mypy_type, mp_types.UnionType):
-            if hasattr(unanalyzed_type, "items") and unanalyzed_type and len(getattr(unanalyzed_type, "items", [])) == len(mypy_type.items):
+            unanalyzed_type_items = getattr(unanalyzed_type, "items", [])
+            if (
+                hasattr(unanalyzed_type, "items")
+                and unanalyzed_type
+                and len(unanalyzed_type_items) == len(mypy_type.items)
+            ):
                 return sds_types.UnionType(
                     types=[
-                        self.mypy_type_to_abstract_type(mypy_type.items[i], unanalyzed_type.items[i])
+                        self.mypy_type_to_abstract_type(mypy_type.items[i], unanalyzed_type_items[i])
                         for i in range(len(mypy_type.items))
-                    ]
+                    ],
                 )
             return sds_types.UnionType(types=[self.mypy_type_to_abstract_type(item) for item in mypy_type.items])
 
         # Special Cases
         elif isinstance(mypy_type, mp_types.TypeAliasType):
-            fullname = mypy_type.alias.fullname
+            fullname = getattr(mypy_type.alias, "fullname", "")
             name = getattr(mypy_type.alias, "name", fullname.split(".")[-1])
             return sds_types.NamedType(name=name, qname=fullname)
         elif isinstance(mypy_type, mp_types.TypeVarType):
@@ -1199,18 +1221,23 @@ class MyPyAstVisitor:
                 # If the Any type is generated b/c of from_unimported_type, then we can parse the type
                 # from the import information
                 if mypy_type.missing_import_name is None:  # pragma: no cover
-                    logging.warning("Could not parse a type, added unknown type instead.")
+                    logging.info("Could not parse a type, added unknown type instead.")
                     return sds_types.UnknownType()
 
                 missing_import_name = mypy_type.missing_import_name.split(".")[-1]  # type: ignore[union-attr]
                 name, qname = self._find_alias(missing_import_name)
 
-                if unanalyzed_type and hasattr(unanalyzed_type, "name") and "." in unanalyzed_type.name and unanalyzed_type.name.startswith(missing_import_name):
+                if (
+                    unanalyzed_type
+                    and hasattr(unanalyzed_type, "name")
+                    and "." in unanalyzed_type.name
+                    and unanalyzed_type.name.startswith(missing_import_name)
+                ):
                     name = unanalyzed_type.name.split(".")[-1]
                     qname = unanalyzed_type.name.replace(missing_import_name, qname)
 
                 if not qname:  # pragma: no cover
-                    logging.warning("Could not parse a type, added unknown type instead.")
+                    logging.info("Could not parse a type, added unknown type instead.")
                     return sds_types.UnknownType()
 
                 return sds_types.NamedType(name=name, qname=qname)
@@ -1222,13 +1249,11 @@ class MyPyAstVisitor:
             return sds_types.LiteralType(literals=[mypy_type.value])
         elif isinstance(mypy_type, mp_types.UnboundType):
             if mypy_type.name in {"list", "set", "tuple"}:
-                return {
+                return {  # type: ignore[abstract]
                     "list": sds_types.ListType,
                     "set": sds_types.SetType,
                     "tuple": sds_types.TupleType,
-                }[
-                    mypy_type.name
-                ](types=[self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
+                }[mypy_type.name](types=[self.mypy_type_to_abstract_type(arg) for arg in mypy_type.args])
 
             # Get qname
             if mypy_type.name in {"Any", "str", "int", "bool", "float", "None"}:
@@ -1249,7 +1274,7 @@ class MyPyAstVisitor:
                 name, qname = self._find_alias(mypy_type.name)
 
                 if not qname:  # pragma: no cover
-                    logging.warning("Could not parse a type, added unknown type instead.")
+                    logging.info("Could not parse a type, added unknown type instead.")
                     return sds_types.UnknownType()
 
                 return sds_types.NamedType(name=name, qname=qname)
@@ -1286,7 +1311,7 @@ class MyPyAstVisitor:
                     return sds_types.NamedSequenceType(name=type_name, qname=mypy_type.type.fullname, types=types)
                 return sds_types.NamedType(name=type_name, qname=mypy_type.type.fullname)
 
-        logging.warning("Could not parse a type, added unknown type instead.")  # pragma: no cover
+        logging.info("Could not parse a type, added unknown type instead.")  # pragma: no cover
         return sds_types.UnknownType()  # pragma: no cover
 
     def _find_alias(self, type_name: str) -> tuple[str, str]:

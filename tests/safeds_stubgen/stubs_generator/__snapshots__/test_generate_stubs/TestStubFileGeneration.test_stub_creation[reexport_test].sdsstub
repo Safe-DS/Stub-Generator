@@ -1,0 +1,4 @@
+@PythonModule("tests.data.various_modules_package.reexport_test.reexport_test_2.reexport_test_3.reexport_test")
+package tests.data.variousModulesPackage.reexportTest.reexportTest2.reexportTest3.reexportTest
+
+class NotReexportedTest()

@@ -50,6 +50,7 @@ def test_file_creation() -> None:
         ),
         ("tests/data/various_modules_package/file_creation/module_1", "module_1"),
         ("tests/data/various_modules_package/file_creation/package_1/module_5", "module_5"),
+        ("tests/data/various_modules_package/file_creation/package_1/not_reexported", "not_reexported"),
         ("tests/data/various_modules_package/file_creation/public_reexported", "public_reexported"),
         ("tests/data/various_modules_package/file_creation", "reexported_from_another_package_3"),
         (

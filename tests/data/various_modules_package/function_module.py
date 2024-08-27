@@ -87,6 +87,7 @@ def params_with_default_value(
     tuple_: tuple[int, str, bool] = (1, "2", True),
     literal: Literal["Some String"] = "Some String",
     any_: Any = False,
+    single_quote: str = '"'
 ): ...
 
 
@@ -271,6 +272,10 @@ def type_alias_param(values: ArrayLike) -> ArrayLike:
 
 
 def alias_subclass_result_type() -> ArrayLike | np.ndarray:
+    ...
+
+
+def alias_subclass_param_type(x: ArrayLike | np.ndarray):
     ...
 
 

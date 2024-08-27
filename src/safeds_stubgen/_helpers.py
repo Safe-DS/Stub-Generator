@@ -38,7 +38,7 @@ def get_reexported_by(qname: str, reexport_map: dict[str, set[Module]]) -> list[
 
                 # Check if the module or the class/function itself are beeing reexported. If not, it means a
                 #  subpackage is beeing reexported.
-                if module.name == "__init__" and i < len(path)-1:
+                if module.name == "__init__" and i < len(path) - 1:
                     zipped = list(zip(module.id.split("/"), path, strict=False))
                     # Check if there is a part of the paths that differs
                     if not all(m == p for m, p in zipped):

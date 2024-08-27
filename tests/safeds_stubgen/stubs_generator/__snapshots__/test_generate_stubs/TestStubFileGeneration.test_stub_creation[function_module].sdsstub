@@ -67,7 +67,8 @@ fun paramsWithDefaultValue(
     optional: Int? = null,
     @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
     `literal`: literal<"Some String"> = "Some String",
-    @PythonName("any_") any: Any = false
+    @PythonName("any_") any: Any = false,
+    @PythonName("single_quote") singleQuote: String = "\""
 )
 
 // TODO List type has to many type arguments.
@@ -346,6 +347,13 @@ fun typeAliasParam(
 @Pure
 @PythonName("alias_subclass_result_type")
 fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
+
+// TODO Result type information missing.
+@Pure
+@PythonName("alias_subclass_param_type")
+fun aliasSubclassParamType(
+    x: union<ArrayLike, ndarray>
+)
 
 // TODO Some parameter have no type information.
 @Pure

@@ -118,11 +118,12 @@ def mypy_expression_to_sds_type(expr: mp_nodes.Expression) -> sds_types.Abstract
         if expr.op == "not":
             return sds_types.NamedType(name="bool", qname="builtins.bool")
         return mypy_expression_to_sds_type(expr.expr)
-    elif ((isinstance(expr, mp_nodes.OpExpr) and expr.op in {"or", "and"}) or
-            (isinstance(expr, mp_nodes.ComparisonExpr) and ("is not" in expr.operators or "is" in expr.operators))):
+    elif (isinstance(expr, mp_nodes.OpExpr) and expr.op in {"or", "and"}) or (
+        isinstance(expr, mp_nodes.ComparisonExpr) and ("is not" in expr.operators or "is" in expr.operators)
+    ):
         return sds_types.NamedType(name="bool", qname="builtins.bool")
 
-    logging.warning(
+    logging.info(
         "Could not parse a parameter or return type for a function: Safe-DS does not support "
         "types such as call expressions. Added 'unknown' instead.",
     )
