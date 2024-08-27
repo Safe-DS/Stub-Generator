@@ -4,5 +4,5 @@ from safeds.ml.nn.typing import ModelImageSize
 
 class Layer {
     @PythonName("input_size") attr inputSize: union<Int, ModelImageSize>
-    @PythonName("output_size") attr outputSize: union<Int, ModelImageSize>
+    @PythonName("output_size") attr outputSize: union<Choice<Int>, Int, ModelImageSize>
 }

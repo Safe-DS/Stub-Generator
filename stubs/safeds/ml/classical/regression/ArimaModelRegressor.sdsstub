@@ -2,6 +2,7 @@ package safeds.ml.classical.regression
 
 from safeds.data.image.containers import Image
 from safeds.data.labeled.containers import TimeSeriesDataset
+from safeds.data.tabular.containers import Table
 
 /**
  * Auto Regressive Integrated Moving Average Model.
@@ -36,7 +37,7 @@ class ArimaModelRegressor() {
     @Pure
     fun predict(
         @PythonName("time_series") timeSeries: TimeSeriesDataset
-    ) -> timeSeries: TimeSeriesDataset
+    ) -> timeSeries: Table
 
     /**
      * Plot the predictions of the trained model to the given target of the time series. So you can see the predictions and the actual values in one plot.

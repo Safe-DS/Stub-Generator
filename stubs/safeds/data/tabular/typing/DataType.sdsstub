@@ -9,7 +9,7 @@ class DataType {
      */
     @PythonName("is_numeric") attr isNumeric: Boolean
     /**
-     * Whether the column type is temporal.
+     * Whether the column type is operator.
      */
     @PythonName("is_temporal") attr isTemporal: Boolean
 }

@@ -1,0 +1,58 @@
+package safeds.data.tabular.transformation
+
+from safeds.data.tabular.containers import Table
+from safeds.data.tabular.transformation import TableTransformer
+
+/**
+ * Wraps a callable so that it conforms to the TableTransformer interface.
+ *
+ * @param transformer A callable that receives a table and returns a table.
+ */
+class FunctionalTableTransformer(
+    transformer: (param1: Table) -> result1: Table
+) sub TableTransformer {
+    /**
+     * FunctionalTableTransformer is always considered to be fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+
+    /**
+     * **Note:** For FunctionalTableTransformer this is a no-OP.
+     *
+     * @param table Required only to be consistent with other transformers.
+     *
+     * @result fittedTransformer Returns self, because this transformer is always fitted.
+     */
+    @Pure
+    fun fit(
+        table: Table
+    ) -> fittedTransformer: FunctionalTableTransformer
+
+    /**
+     * Apply the callable to a table.
+     *
+     * **Note:** The given table is not modified.
+     *
+     * @param table The table on which on which the callable is executed.
+     *
+     * @result transformedTable The transformed table.
+     */
+    @Pure
+    fun transform(
+        table: Table
+    ) -> transformedTable: Table
+
+    /**
+     * **Note:** For the FunctionalTableTransformer this is the same as transform().
+     *
+     * @param table The table on which the callable is to be executed.
+     *
+     * @result fittedTransformer Return self because the transformer is always fitted.
+     * @result transformedTable The transformed table.
+     */
+    @Pure
+    @PythonName("fit_and_transform")
+    fun fitAndTransform(
+        table: Table
+    ) -> (fittedTransformer: FunctionalTableTransformer, transformedTable: Table)
+}

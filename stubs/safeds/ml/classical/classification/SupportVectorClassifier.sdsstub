@@ -8,7 +8,6 @@ from safeds.ml.classical.Bases.SupportVectorMachineBase.SupportVectorMachineBase
  * @param c The strength of regularization. Must be greater than 0.
  * @param kernel The type of kernel to be used. Defaults to a radial basis function kernel.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class SupportVectorClassifier(
     c: Float = 1.0,
     kernel: Kernel? = null

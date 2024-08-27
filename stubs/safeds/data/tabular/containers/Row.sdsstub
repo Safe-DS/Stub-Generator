@@ -35,6 +35,15 @@ class Row {
      *     // table = Table({"col1": [1, 2], "col2": [3, 4]})
      *     // table.remove_rows(lambda row: row.get_value("col1") == 1)
      * }
+     *
+     * @example
+     * pipeline example {
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.remove_rows(lambda row: row["col1"] == 1)
+     * }
      */
     @Pure
     @PythonName("get_value")

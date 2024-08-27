@@ -64,6 +64,29 @@ class NeuralNetworkRegressor<IFT sub union<ImageDataset<Any>, TabularDataset, Ti
     ) -> trainedModel: NeuralNetworkRegressor<IFT, IPT>
 
     /**
+     * Use the hyperparameter choices to create multiple models and fit them.
+     *
+     * **Note:** This model is not modified.
+     *
+     * @param trainData The data the network should be trained on.
+     * @param optimizationMetric The metric that should be used for determining the performance of a model.
+     * @param epochSize The number of times the training cycle should be done.
+     * @param batchSize The size of data batches that should be loaded at one time.
+     * @param learningRate The learning rate of the neural network.
+     *
+     * @result bestModel The model that performed the best out of all possible models given the Choices of hyperparameters.
+     */
+    @Pure
+    @PythonName("fit_by_exhaustive_search")
+    fun fitByExhaustiveSearch(
+        @PythonName("train_data") trainData: IFT,
+        @PythonName("optimization_metric") optimizationMetric: literal<"mean_squared_error", "mean_absolute_error", "median_absolute_deviation", "coefficient_of_determination">,
+        @PythonName("epoch_size") epochSize: Int = 25,
+        @PythonName("batch_size") batchSize: Int = 1,
+        @PythonName("learning_rate") learningRate: Float = 0.001
+    ) -> bestModel: NeuralNetworkRegressor<IFT, IPT>
+
+    /**
      * Make a prediction for the given test data.
      *
      * The original Model is not modified.

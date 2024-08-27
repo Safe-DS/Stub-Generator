@@ -6,7 +6,6 @@ from safeds.data.tabular.containers import Table
 /**
  * A model for classification tasks.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class Classifier {
     /**
      * Summarize the classifier's metrics on the given data.

@@ -9,7 +9,6 @@ from safeds.ml.classical.classification import Classifier
  * @param maxDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
  * @param minSampleCountInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class RandomForestClassifier(
     @PythonName("tree_count") treeCount: Int = 100,
     @PythonName("max_depth") maxDepth: Int? = null,

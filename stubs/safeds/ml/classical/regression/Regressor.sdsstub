@@ -6,7 +6,6 @@ from safeds.data.tabular.containers import Table
 /**
  * A model for regression tasks.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class Regressor {
     /**
      * Summarize the regressor's metrics on the given data.

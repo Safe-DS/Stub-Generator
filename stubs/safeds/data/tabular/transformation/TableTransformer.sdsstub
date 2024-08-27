@@ -55,5 +55,5 @@ class TableTransformer {
     @PythonName("fit_and_transform")
     fun fitAndTransform(
         table: Table
-    ) -> (result1: TableTransformer, result2: Table)
+    ) -> (fittedTransformer: TableTransformer, transformedTable: Table)
 }

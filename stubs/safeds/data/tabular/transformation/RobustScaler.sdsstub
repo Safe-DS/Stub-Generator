@@ -4,34 +4,24 @@ from safeds.data.tabular.containers import Table
 from safeds.data.tabular.transformation import InvertibleTableTransformer
 
 /**
- * The RangeScaler transforms column values by scaling each value to a given range.
+ * The RobustScaler transforms column values to a range by removing the median and scaling to the interquartile range.
+ *
+ * Currently, for columns with high stability (IQR == 0), it will only substract the median and not scale to avoid dividing by zero.
  *
  * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
- * @param min The minimum of the new range after the transformation
- * @param max The maximum of the new range after the transformation
  */
-class RangeScaler(
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
-    @PythonName("min_") min: Float = 0.0,
-    @PythonName("max_") max: Float = 1.0
+class RobustScaler(
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null
 ) sub InvertibleTableTransformer {
     /**
      * Whether the transformer is fitted.
      */
     @PythonName("is_fitted") attr isFitted: Boolean
-    /**
-     * The minimum of the new range after the transformation.
-     */
-    attr min: Float
-    /**
-     * The maximum of the new range after the transformation.
-     */
-    attr max: Float
 
     /**
      * Learn a transformation for a set of columns in a table.
      *
-     * This transformer is not modified.
+     * **Note:** This transformer is not modified.
      *
      * @param table The table used to fit the transformer.
      *
@@ -40,12 +30,12 @@ class RangeScaler(
     @Pure
     fun fit(
         table: Table
-    ) -> fittedTransformer: RangeScaler
+    ) -> fittedTransformer: RobustScaler
 
     /**
      * Apply the learned transformation to a table.
      *
-     * The table is not modified.
+     * **Note:** The given table is not modified.
      *
      * @param table The table to which the learned transformation is applied.
      *
@@ -59,7 +49,7 @@ class RangeScaler(
     /**
      * Undo the learned transformation.
      *
-     * The table is not modified.
+     * **Note:** The given table is not modified.
      *
      * @param transformedTable The table to be transformed back to the original version.
      *

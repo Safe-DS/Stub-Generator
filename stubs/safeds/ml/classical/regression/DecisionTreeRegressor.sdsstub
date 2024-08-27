@@ -1,5 +1,6 @@
 package safeds.ml.classical.regression
 
+from safeds.data.image.containers import Image
 from safeds.ml.classical.regression import Regressor
 
 /**
@@ -8,7 +9,6 @@ from safeds.ml.classical.regression import Regressor
  * @param maxDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
  * @param minSampleCountInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class DecisionTreeRegressor(
     @PythonName("max_depth") maxDepth: Int? = null,
     @PythonName("min_sample_count_in_leaves") minSampleCountInLeaves: Int = 5
@@ -21,4 +21,12 @@ class DecisionTreeRegressor(
      * The minimum number of samples that must remain in the leaves of the tree.
      */
     @PythonName("min_sample_count_in_leaves") attr minSampleCountInLeaves: Int
+
+    /**
+     * Get the image of the decision tree.
+     *
+     * @result plot The decision tree figure as an image.
+     */
+    @Pure
+    fun plot() -> plot: Image
 }
