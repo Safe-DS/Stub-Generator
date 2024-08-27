@@ -83,7 +83,9 @@ class DocstringParser(AbstractDocstringParser):
             try:
                 for docstring_section in griffe_docstring.parsed:
                     if docstring_section.kind == DocstringSectionKind.text:
-                        description = docstring_section.value.strip("\n")
+                        if description:
+                            description += "\n\n"
+                        description += docstring_section.value.strip("\n")
                     elif docstring_section.kind == DocstringSectionKind.examples:
                         for example_data in docstring_section.value:
                             examples.append(example_data[1].strip("\n"))

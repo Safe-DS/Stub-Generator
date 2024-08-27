@@ -3,6 +3,8 @@ from __future__ import annotations
 from enum import IntEnum
 from typing import TYPE_CHECKING
 
+from safeds_stubgen._helpers import get_reexported_by
+
 if TYPE_CHECKING:
     from safeds_stubgen.api_analyzer import Module
 
@@ -42,7 +44,7 @@ def _convert_name_to_convention(
     return name_parts[0] + "".join(part[0].upper() + part[1:] for part in name_parts[1:] if part)
 
 
-def _get_shortest_public_reexport(
+def _get_shortest_public_reexport_and_alias(
     reexport_map: dict[str, set[Module]],
     name: str,
     qname: str,
@@ -54,7 +56,7 @@ def _get_shortest_public_reexport(
     if not is_module and qname and len(qname_parts) > 2:
         parent_name = qname_parts[-2]
 
-    def _module_name_check(text: str, is_wildcard: bool = False) -> bool:
+    def _import_check(text: str, is_wildcard: bool = False) -> bool:
         if is_module:
             return text.endswith(f".{name}") or text == name
         elif is_wildcard:
@@ -66,32 +68,19 @@ def _get_shortest_public_reexport(
             or (parent_name != "" and text.endswith(f"{parent_name}.*"))
         )
 
-    found_keys = [reexport_key for reexport_key in reexport_map if _module_name_check(reexport_key)]
-
-    # Make sure we didn't get similar modules
-    keys = []
-    for key in found_keys:
-        if key.split(".")[0] == qname_parts[0] and key.split(".")[-1] == qname_parts[-1]:
-            if qname == key:
-                keys.append(key)
-            else:
-                pass
-        else:
-            keys.append(key)
+    found_modules = get_reexported_by(qname=qname, reexport_map=reexport_map)
 
     module_ids = set()
-    for key in keys:
-        for module in reexport_map[key]:
+    for module in found_modules:
+        for qualified_import in module.qualified_imports:
+            if _import_check(qualified_import.qualified_name):
+                module_ids.add((module.id, qualified_import.alias))
+                break
 
-            for qualified_import in module.qualified_imports:
-                if _module_name_check(qualified_import.qualified_name):
-                    module_ids.add((module.id, qualified_import.alias))
-                    break
-
-            for wildcard_import in module.wildcard_imports:
-                if _module_name_check(wildcard_import.module_name, is_wildcard=True):
-                    module_ids.add((module.id, None))
-                    break
+        for wildcard_import in module.wildcard_imports:
+            if _import_check(wildcard_import.module_name, is_wildcard=True):
+                module_ids.add((module.id, None))
+                break
 
     shortest_id = None
     alias = None

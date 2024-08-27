@@ -8,7 +8,7 @@ from ._helper import (
     NamingConvention,
     _convert_name_to_convention,
     _create_name_annotation,
-    _get_shortest_public_reexport,
+    _get_shortest_public_reexport_and_alias,
     _replace_if_safeds_keyword,
 )
 
@@ -61,7 +61,7 @@ def generate_stub_data(
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        shortest_path, alias = _get_shortest_public_reexport(
+        shortest_path, alias = _get_shortest_public_reexport_and_alias(
             reexport_map=api.reexport_map,
             name=module.name,
             qname=module.id,

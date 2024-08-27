@@ -276,6 +276,26 @@ def uninferable_return_doc():
     """
 
 
+def google_multiple_text_parts(a, b):
+    """
+    Nihil possimus iusto autem aut. Laboriosam ut ipsum veritatis.
+    Excepturi voluptatem beatae nam voluptas.
+
+    Est aliquid numquam at error quis laborum et perferendis.
+
+    Args:
+        a: First arg
+        b: Second arg
+    Throws:
+        RuntimeError
+    Returns:
+        Nothing
+
+    Illum amet velit et qui.
+    """
+    ...
+
+
 def infer_types():
     """
     property_method_with_docstring.

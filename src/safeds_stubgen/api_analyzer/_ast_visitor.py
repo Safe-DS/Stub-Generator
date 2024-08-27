@@ -42,6 +42,7 @@ from ._mypy_helpers import (
     mypy_expression_to_sds_type,
     mypy_variance_parser,
 )
+from safeds_stubgen._helpers import get_reexported_by
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -225,7 +226,7 @@ class MyPyAstVisitor:
                 superclasses.append(superclass_qname)
 
         # Get reexported data
-        reexported_by = self._get_reexported_by(node.fullname)
+        reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
 
@@ -345,7 +346,7 @@ class MyPyAstVisitor:
             i += 1
 
         # Get reexported data
-        reexported_by = self._get_reexported_by(node.fullname)
+        reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
 
@@ -1093,31 +1094,6 @@ class MyPyAstVisitor:
         return default_value, default_is_none
 
     # #### Reexport utilities
-
-    def _get_reexported_by(self, qname: str) -> list[Module]:
-        """Get all __init__ modules where a given function / class / enum was reexported."""
-        path = qname.split(".")
-
-        # Check if there is a reexport entry for each item in the path to the current module
-        reexported_by = set()
-        for i in range(len(path)):
-            reexport_name_forward = ".".join(path[: i + 1])
-            # We ignore i = 0, b/c some inner package could import the whole upper package
-            if i != 0 and reexport_name_forward in self.api.reexport_map:
-                for module in self.api.reexport_map[reexport_name_forward]:
-                    reexported_by.add(module)
-
-            reexport_name_backward = ".".join(path[-i - 1 :])
-            if reexport_name_backward in self.api.reexport_map:
-                for module in self.api.reexport_map[reexport_name_backward]:
-                    reexported_by.add(module)
-
-            reexport_name_backward_whitelist = f"{'.'.join(path[-2 - i:-1])}.*"
-            if reexport_name_backward_whitelist in self.api.reexport_map:
-                for module in self.api.reexport_map[reexport_name_backward_whitelist]:
-                    reexported_by.add(module)
-
-        return list(reexported_by)
 
     def _add_reexports(self, module: Module) -> None:
         """Add all reexports of an __init__ module to the reexport_map."""

@@ -29,7 +29,7 @@ from ._helper import (
     NamingConvention,
     _convert_name_to_convention,
     _create_name_annotation,
-    _get_shortest_public_reexport,
+    _get_shortest_public_reexport_and_alias,
     _name_convention_and_keyword_check,
     _replace_if_safeds_keyword,
 )
@@ -115,7 +115,7 @@ class StubsStringGenerator:
         module_text = ""
 
         # Create package info
-        package_info, _ = _get_shortest_public_reexport(
+        package_info, _ = _get_shortest_public_reexport_and_alias(
             reexport_map=self.api.reexport_map,
             name=module.name,
             qname=module.id,
@@ -1057,7 +1057,7 @@ class StubsStringGenerator:
                     qname = class_id.replace("/", ".")
 
                     name = qname.split(".")[-1]
-                    shortest_qname, _ = _get_shortest_public_reexport(
+                    shortest_qname, _ = _get_shortest_public_reexport_and_alias(
                         reexport_map=self.api.reexport_map,
                         name=name,
                         qname=qname,
