@@ -140,9 +140,6 @@ def bool_result() -> bool: ...
 def float_result() -> float: ...
 
 
-def none_result() -> None: ...
-
-
 def obj_result() -> FunctionModuleClassA: ...
 
 
@@ -268,13 +265,6 @@ def return_not_statement():
     return not (0 or "...")
 
 
-def return_without_result():
-    if 1:
-        return
-    else:
-        return
-
-
 ArrayLike = Union["ExtensionArray", Any]
 def type_alias_param(values: ArrayLike) -> ArrayLike:
     ...
@@ -298,3 +288,16 @@ def different_result_operants(y):
     elif y - 5:
         return y is None
     return not y
+
+
+def none_result_1() -> None:
+    ...
+
+
+def none_result_2():
+    return
+
+
+def none_result_3():
+    return None
+

@@ -169,10 +169,6 @@ fun boolResult() -> result1: Boolean
 fun floatResult() -> result1: Float
 
 @Pure
-@PythonName("none_result")
-fun noneResult()
-
-@Pure
 @PythonName("obj_result")
 fun objResult() -> result1: FunctionModuleClassA
 
@@ -342,10 +338,6 @@ fun returnParam4(
 fun returnNotStatement() -> result1: Boolean
 
 @Pure
-@PythonName("return_without_result")
-fun returnWithoutResult() -> result1: Nothing?
-
-@Pure
 @PythonName("type_alias_param")
 fun typeAliasParam(
     values: ArrayLike
@@ -361,6 +353,18 @@ fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
 fun differentResultOperants(
     y
 ) -> result1: Boolean
+
+@Pure
+@PythonName("none_result_1")
+fun noneResult1()
+
+@Pure
+@PythonName("none_result_2")
+fun noneResult2()
+
+@Pure
+@PythonName("none_result_3")
+fun noneResult3()
 
 class FunctionModuleClassA()
 
