@@ -4,11 +4,11 @@ import logging
 from typing import TYPE_CHECKING, Literal
 
 from griffe import load
-from griffe.dataclasses import Docstring
-from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
-from griffe.docstrings.utils import parse_annotation
-from griffe.enumerations import DocstringSectionKind, Parser
-from griffe.expressions import Expr, ExprAttribute, ExprBinOp, ExprBoolOp, ExprList, ExprName, ExprSubscript, ExprTuple
+from griffe import Docstring
+from griffe import DocstringAttribute, DocstringParameter
+from griffe import parse_docstring_annotation
+from griffe import DocstringSectionKind, Parser
+from griffe import Expr, ExprAttribute, ExprBinOp, ExprBoolOp, ExprList, ExprName, ExprSubscript, ExprTuple
 
 # noinspection PyProtectedMember
 import safeds_stubgen.api_analyzer._types as sds_types
@@ -349,7 +349,7 @@ class DocstringParser(AbstractDocstringParser):
             return sds_types.TupleType(elements)
         elif isinstance(annotation, str):
             new_annotation = self._remove_default_from_griffe_annotation(annotation)
-            parsed_annotation = parse_annotation(new_annotation, docstring)
+            parsed_annotation = parse_docstring_annotation(new_annotation, docstring)
             if parsed_annotation in (new_annotation, annotation):
                 if parsed_annotation == "None":
                     return sds_types.NamedType(name="None", qname="builtins.None")
