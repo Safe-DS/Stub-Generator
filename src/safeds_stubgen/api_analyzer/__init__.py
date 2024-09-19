@@ -17,6 +17,8 @@ from ._api import (
     VarianceKind,
     WildcardImport,
 )
+from ._extract_boundary_values import extract_boundary
+from ._extract_valid_values import extract_valid_literals
 from ._ast_visitor import result_name_generator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
@@ -78,4 +80,6 @@ __all__ = [
     "UnknownValue",
     "VarianceKind",
     "WildcardImport",
+    "extract_boundary",
+    "extract_valid_literals",
 ]
