@@ -1,3 +1,5 @@
+"""Boundary Extractor."""
+
 from __future__ import annotations
 
 import re

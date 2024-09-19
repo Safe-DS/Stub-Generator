@@ -54,6 +54,8 @@ __all__ = [
     "distribution_version",
     "Enum",
     "EnumType",
+    "extract_boundary",
+    "extract_valid_literals",
     "FinalType",
     "Function",
     "get_api",
@@ -80,6 +82,4 @@ __all__ = [
     "UnknownValue",
     "VarianceKind",
     "WildcardImport",
-    "extract_boundary",
-    "extract_valid_literals",
 ]
