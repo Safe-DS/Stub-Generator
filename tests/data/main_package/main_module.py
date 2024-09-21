@@ -45,7 +45,10 @@ class ModuleClass(AcDoubleAlias):
     def _some_function(self, param_1: ac_alias, param_2: bool = False) -> ac_alias:
         """Function Docstring.
 
-        param_2: bool.
+        Parameters
+        ---------
+        param_2 : bool, optional.
+            Valid values are True and False.
         """
 
     class NestedClass(_AcImportAlias):

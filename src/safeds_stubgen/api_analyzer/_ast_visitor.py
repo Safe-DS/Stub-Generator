@@ -10,6 +10,9 @@ from typing import TYPE_CHECKING
 import mypy.nodes as mp_nodes
 import mypy.types as mp_types
 
+from ._extract_boundary_values import extract_boundary
+from ._extract_valid_values import extract_valid_literals
+
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
@@ -254,14 +257,13 @@ class MyPyAstVisitor:
 
     def enter_funcdef(self, node: mp_nodes.FuncDef) -> None:
         name = node.name
-        function_id = self._create_id_from_stack(name)
+        function_id = self._create_id_from_stack(name)  # pm: function id is path
 
         is_public = self._is_public(name, node.fullname)
         is_static = node.is_static
 
         # Get docstring
         docstring = self.docstring_parser.get_function_documentation(node)
-
         # Function args & TypeVar
         parameters: list[Parameter] = []
         type_var_types: list[sds_types.TypeVarType] = []
@@ -279,6 +281,8 @@ class MyPyAstVisitor:
         for i, parameter in enumerate(parameters):
             code_type = parameter.type
             doc_type = parameter.docstring.type
+            # boundaries = extract_boundary(description=parameter.docstring.description, type_string=parameter.docstring.type_string)
+            # valid_literals = extract_valid_literals(description=parameter.docstring.description, type_string=parameter.docstring.type_string)
 
             if (
                 code_type is not None

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from griffe.enumerations import Parser
+from griffe import Parser
 
 from ._docstring_parser import DocstringParser
 from ._docstring_style import DocstringStyle

@@ -3,7 +3,7 @@ from __future__ import annotations
 from pathlib import Path
 
 import pytest
-from griffe.enumerations import Parser
+from griffe import Parser
 from mypy import nodes
 from safeds_stubgen.api_analyzer import (
     DictType,
@@ -126,6 +126,7 @@ def test_get_function_documentation(
             "p",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="",
                 description="foo. Defaults to 1.",
             ),
@@ -136,6 +137,7 @@ def test_get_function_documentation(
             "missing",
             ParameterDocstring(
                 type=None,
+                type_string="",
                 default_value="",
                 description="",
             ),
@@ -146,6 +148,7 @@ def test_get_function_documentation(
             "no_type_no_default",
             ParameterDocstring(
                 type=None,
+                type_string="",
                 default_value="",
                 description="no type and no default.",
             ),
@@ -156,6 +159,7 @@ def test_get_function_documentation(
             "optional_type",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="",
                 description="optional type.",
             ),
@@ -166,6 +170,7 @@ def test_get_function_documentation(
             "type_no_default",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="",
                 description="type but no default.",
             ),
@@ -176,6 +181,7 @@ def test_get_function_documentation(
             "with_default",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="",
                 description="foo. Defaults to 2.",
             ),
@@ -186,6 +192,7 @@ def test_get_function_documentation(
             "*args",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="()",
                 description="foo: *args",
             ),
@@ -199,6 +206,7 @@ def test_get_function_documentation(
                     key_type=NamedType(name="str", qname="builtins.str"),
                     value_type=NamedType(name="int", qname="builtins.int"),
                 ),
+                type_string="dict",
                 default_value="{}",
                 description="foo: **kwargs",
             ),
@@ -207,7 +215,7 @@ def test_get_function_documentation(
             "function_with_parameters",
             False,
             "missing",
-            ParameterDocstring(type=None, default_value="", description=""),
+            ParameterDocstring(type=None, type_string="", default_value="", description=""),
         ),
         (
             "function_with_attributes_and_parameters",
@@ -215,6 +223,7 @@ def test_get_function_documentation(
             "q",
             ParameterDocstring(
                 type=NamedType(name="int", qname="builtins.int"),
+                type_string="int",
                 default_value="",
                 description="foo. Defaults to 2.",
             ),
@@ -225,6 +234,7 @@ def test_get_function_documentation(
             "p",
             ParameterDocstring(
                 type=None,
+                type_string="",
                 default_value="",
                 description="",
             ),
@@ -239,37 +249,37 @@ def test_get_function_documentation(
             "ClassWithVariousParameterTypes",
             True,
             "optional_type",
-            ParameterDocstring(type=NamedType(name="int", qname="builtins.int")),
+            ParameterDocstring(type=NamedType(name="int", qname="builtins.int"), type_string="int"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "none_type",
-            ParameterDocstring(type=NamedType(name="None", qname="builtins.None")),
+            ParameterDocstring(type=NamedType(name="None", qname="builtins.None"), type_string="None"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "int_type",
-            ParameterDocstring(type=NamedType(name="int", qname="builtins.int")),
+            ParameterDocstring(type=NamedType(name="int", qname="builtins.int"), type_string="int"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "bool_type",
-            ParameterDocstring(type=NamedType(name="bool", qname="builtins.bool")),
+            ParameterDocstring(type=NamedType(name="bool", qname="builtins.bool"), type_string="bool"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "str_type",
-            ParameterDocstring(type=NamedType(name="str", qname="builtins.str")),
+            ParameterDocstring(type=NamedType(name="str", qname="builtins.str"), type_string="str"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "float_type",
-            ParameterDocstring(type=NamedType(name="float", qname="builtins.float")),
+            ParameterDocstring(type=NamedType(name="float", qname="builtins.float"), type_string="float"),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -279,19 +289,20 @@ def test_get_function_documentation(
                 type=TupleType(
                     types=[NamedType(name="int", qname="builtins.int"), NamedType(name="bool", qname="builtins.bool")],
                 ),
+                type_string="(int, bool)",
             ),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "list_type_1",
-            ParameterDocstring(type=ListType(types=[])),
+            ParameterDocstring(type=ListType(types=[]), type_string="list"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "list_type_2",
-            ParameterDocstring(type=ListType(types=[NamedType(name="str", qname="builtins.str")])),
+            ParameterDocstring(type=ListType(types=[NamedType(name="str", qname="builtins.str")]), type_string="list"),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -304,25 +315,26 @@ def test_get_function_documentation(
                         NamedType(name="bool", qname="builtins.bool"),
                     ],
                 ),
+                type_string="list",
             ),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "list_type_4",
-            ParameterDocstring(type=ListType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+            ParameterDocstring(type=ListType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])]), type_string="list"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "set_type_1",
-            ParameterDocstring(type=SetType(types=[])),
+            ParameterDocstring(type=SetType(types=[]), type_string="set"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "set_type_2",
-            ParameterDocstring(type=SetType(types=[NamedType(name="str", qname="builtins.str")])),
+            ParameterDocstring(type=SetType(types=[NamedType(name="str", qname="builtins.str")]), type_string="set"),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -335,25 +347,26 @@ def test_get_function_documentation(
                         NamedType(name="bool", qname="builtins.bool"),
                     ],
                 ),
+                type_string="set"
             ),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "set_type_4",
-            ParameterDocstring(type=SetType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+            ParameterDocstring(type=SetType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])]), type_string="set"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "tuple_type_1",
-            ParameterDocstring(type=TupleType(types=[])),
+            ParameterDocstring(type=TupleType(types=[]), type_string="tuple"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "tuple_type_2",
-            ParameterDocstring(type=TupleType(types=[NamedType(name="str", qname="builtins.str")])),
+            ParameterDocstring(type=TupleType(types=[NamedType(name="str", qname="builtins.str")]), type_string="tuple"),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -366,19 +379,20 @@ def test_get_function_documentation(
                         NamedType(name="bool", qname="builtins.bool"),
                     ],
                 ),
+                type_string="tuple"
             ),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "tuple_type_4",
-            ParameterDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])])),
+            ParameterDocstring(type=TupleType(types=[ListType(types=[NamedType(name="int", qname="builtins.int")])]), type_string="tuple"),
         ),
         (
             "ClassWithVariousParameterTypes",
             True,
             "any_type",
-            ParameterDocstring(type=NamedType(name="Any", qname="typing.Any")),
+            ParameterDocstring(type=NamedType(name="Any", qname="typing.Any"), type_string="Any"),
         ),
         (
             "ClassWithVariousParameterTypes",
@@ -391,6 +405,7 @@ def test_get_function_documentation(
                         NamedType(name="None", qname="builtins.None"),
                     ],
                 ),
+                type_string="Optional"
             ),
         ),
         (
@@ -402,6 +417,7 @@ def test_get_function_documentation(
                     name="ClassWithAttributes",
                     qname="tests.data.docstring_parser_package.googledoc.ClassWithAttributes",
                 ),
+                type_string="ClassWithAttributes"
             ),
         ),
         (
@@ -413,6 +429,7 @@ def test_get_function_documentation(
                     name="AnotherClass",
                     qname="tests.data.various_modules_package.another_path.another_module.AnotherClass",
                 ),
+                type_string="AnotherClass"
             ),
         ),
     ],
