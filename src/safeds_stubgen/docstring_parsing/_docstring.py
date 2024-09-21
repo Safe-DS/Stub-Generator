@@ -34,6 +34,7 @@ class FunctionDocstring:
 class ParameterDocstring:
     type: AbstractType | None = None
     default_value: str = ""
+    type_string: str = ""
     description: str = ""
 
     def to_dict(self) -> dict[str, Any]:

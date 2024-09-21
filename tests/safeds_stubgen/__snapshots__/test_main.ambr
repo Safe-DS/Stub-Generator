@@ -429,14 +429,20 @@
           'description': '''
             Function Docstring.
             
-            param_2: bool.
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
           ''',
           'examples': list([
           ]),
           'full_docstring': '''
             Function Docstring.
             
-            param_2: bool.
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
           ''',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function',
@@ -669,6 +675,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
         'is_optional': False,
@@ -682,6 +689,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
@@ -699,6 +707,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
         'is_optional': False,
@@ -712,6 +721,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
         'is_optional': False,
@@ -725,6 +735,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/self',
         'is_optional': False,
@@ -738,6 +749,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
         'is_optional': False,
@@ -755,6 +767,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
         'is_optional': True,
@@ -772,6 +785,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/self',
         'is_optional': False,
@@ -785,6 +799,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/__init__/self',
         'is_optional': False,
@@ -798,6 +813,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
@@ -811,6 +827,7 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_1',
         'is_optional': True,
@@ -828,6 +845,956 @@
           'default_value': '',
           'description': '',
           'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/global_func/main_test_param_2',
+        'is_optional': True,
+        'name': 'main_test_param_2',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'AnotherClass',
+              'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'None',
+              'qname': 'builtins.None',
+            }),
+          ]),
+        }),
+      }),
+    ]),
+    'results': list([
+      dict({
+        'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+      dict({
+        'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'SetType',
+          'types': list([
+            dict({
+              'kind': 'UnionType',
+              'types': list([
+                dict({
+                  'kind': 'NamedType',
+                  'name': 'bool',
+                  'qname': 'builtins.bool',
+                }),
+                dict({
+                  'kind': 'NamedType',
+                  'name': 'None',
+                  'qname': 'builtins.None',
+                }),
+              ]),
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'AnotherClass',
+          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
+      dict({
+        'id': 'tests/data/main_package/main_module/_private_global_func/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'AnotherClass',
+              'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'AnotherClass',
+              'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'AnotherClass',
+              'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'id': 'tests/data/main_package/main_module/global_func/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'AnotherClass',
+          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
+    ]),
+    'schemaVersion': 1,
+    'version': '',
+  })
+# ---
+# name: test_main_numpydoc
+  dict({
+    'attributes': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/_init_attr_private',
+        'is_public': False,
+        'is_static': False,
+        'name': '_init_attr_private',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/attr_1',
+        'is_public': True,
+        'is_static': True,
+        'name': 'attr_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/init_attr',
+        'is_public': True,
+        'is_static': False,
+        'name': 'init_attr',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'bool',
+          'qname': 'builtins.bool',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
+        'is_public': False,
+        'is_static': True,
+        'name': 'nested_class_attr',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/public_attr_in_private_class',
+        'is_public': False,
+        'is_static': True,
+        'name': 'public_attr_in_private_class',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'type': None,
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
+        'is_public': False,
+        'is_static': False,
+        'name': 'public_init_attr_in_private_class',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+    ]),
+    'classes': list([
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/another_path/another_module/AnotherClass',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'AnotherClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+          'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function',
+        ]),
+        'name': 'yetAnotherClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+          'tests/data/main_package/main_module/ModuleClass/attr_1',
+          'tests/data/main_package/main_module/ModuleClass/init_attr',
+          'tests/data/main_package/main_module/ModuleClass/_init_attr_private',
+        ]),
+        'classes': list([
+          'tests/data/main_package/main_module/ModuleClass/NestedClass',
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '''
+              Summary of the init description.
+              
+              Full init description.
+            ''',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              Summary of the init description.
+              
+              Full init description.
+            ''',
+          }),
+          'id': 'tests/data/main_package/main_module/ModuleClass/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/main_package/main_module/ModuleClass/__init__/self',
+            'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            Summary of the description.
+            
+            Full description
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Summary of the description.
+            
+            Full description
+          ''',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+          'tests/data/main_package/main_module/ModuleClass/_some_function',
+        ]),
+        'name': 'ModuleClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+          'tests.data.main_package.another_path.another_module.AnotherClass',
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+          'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function',
+        ]),
+        'name': 'NestedClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+          'another_path.another_module.AnotherClass',
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+          'tests/data/main_package/main_module/_PrivateClass/public_attr_in_private_class',
+          'tests/data/main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
+        ]),
+        'classes': list([
+          'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass',
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '',
+          }),
+          'id': 'tests/data/main_package/main_module/_PrivateClass/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': False,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/main_package/main_module/_PrivateClass/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass',
+        'inherits_from_exception': False,
+        'is_public': False,
+        'methods': list([
+          'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class',
+        ]),
+        'name': '_PrivateClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+          'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
+        ]),
+        'classes': list([
+          'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass',
+        'inherits_from_exception': False,
+        'is_public': False,
+        'methods': list([
+          'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
+        ]),
+        'name': 'NestedPrivateClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+      dict({
+        'attributes': list([
+        ]),
+        'classes': list([
+        ]),
+        'constructor': None,
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/NestedNestedPrivateClass',
+        'inherits_from_exception': False,
+        'is_public': False,
+        'methods': list([
+        ]),
+        'name': 'NestedNestedPrivateClass',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+    ]),
+    'distribution': '',
+    'enum_instances': list([
+    ]),
+    'enums': list([
+    ]),
+    'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'another_function',
+        'parameters': list([
+          'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/result_1',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'nested_class_function',
+        'parameters': list([
+          'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
+          'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/result_1',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '''
+            Summary of the init description.
+            
+            Full init description.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Summary of the init description.
+            
+            Full init description.
+          ''',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/main_package/main_module/ModuleClass/__init__/self',
+          'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '''
+            Function Docstring.
+            
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Function Docstring.
+            
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
+          ''',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/_some_function',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': False,
+        'is_static': False,
+        'name': '_some_function',
+        'parameters': list([
+          'tests/data/main_package/main_module/ModuleClass/_some_function/self',
+          'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
+          'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/main_package/main_module/ModuleClass/_some_function/result_1',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/static_nested_private_class_function',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': False,
+        'is_static': True,
+        'name': 'static_nested_private_class_function',
+        'parameters': list([
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': False,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/main_package/main_module/_PrivateClass/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': False,
+        'is_static': False,
+        'name': 'public_func_in_private_class',
+        'parameters': list([
+          'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_private_global_func',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': False,
+        'is_static': False,
+        'name': '_private_global_func',
+        'parameters': list([
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/main_package/main_module/_private_global_func/result_1',
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': '''
+            Docstring 1.
+            
+            Docstring 2.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Docstring 1.
+            
+            Docstring 2.
+          ''',
+        }),
+        'id': 'tests/data/main_package/main_module/global_func',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'global_func',
+        'parameters': list([
+          'tests/data/main_package/main_module/global_func/main_test_param_1',
+          'tests/data/main_package/main_module/global_func/main_test_param_2',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/main_package/main_module/global_func/result_1',
+        ]),
+      }),
+    ]),
+    'modules': list([
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package/another_path',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+          'tests/data/main_package/another_path/another_module/AnotherClass',
+          'tests/data/main_package/another_path/another_module/yetAnotherClass',
+        ]),
+        'docstring': '''
+          Another Module Docstring.
+          
+          Full Docstring Description
+  
+        ''',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/main_package/another_path/another_module',
+        'name': 'another_module',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+          'tests/data/main_package/main_module/ModuleClass',
+          'tests/data/main_package/main_module/_PrivateClass',
+        ]),
+        'docstring': 'Docstring of the some_class.py module.',
+        'enums': list([
+        ]),
+        'functions': list([
+          'tests/data/main_package/main_module/global_func',
+          'tests/data/main_package/main_module/_private_global_func',
+        ]),
+        'id': 'tests/data/main_package/main_module',
+        'name': 'main_module',
+        'qualified_imports': list([
+          dict({
+            'alias': 'mathematics',
+            'qualified_name': 'math',
+          }),
+          dict({
+            'alias': None,
+            'qualified_name': 'mypy',
+          }),
+          dict({
+            'alias': None,
+            'qualified_name': 'another_path.another_module.AnotherClass',
+          }),
+          dict({
+            'alias': '_AcImportAlias',
+            'qualified_name': 'another_path.another_module.AnotherClass',
+          }),
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+    ]),
+    'package': 'main_package',
+    'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
+        'is_optional': False,
+        'name': 'param_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
+        'is_optional': False,
+        'name': 'init_param_1',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
+        'is_optional': False,
+        'name': 'param_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'AnotherClass',
+          'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': False,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
+        'is_optional': True,
+        'name': 'param_2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'bool',
+          'qname': 'builtins.bool',
+        }),
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '"first param"',
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
+        }),
+        'id': 'tests/data/main_package/main_module/global_func/main_test_param_1',
+        'is_optional': True,
+        'name': 'main_test_param_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': None,
+        'docstring': dict({
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'type_string': '',
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_2',
         'is_optional': True,

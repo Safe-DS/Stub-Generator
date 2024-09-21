@@ -4,14 +4,17 @@ from pathlib import Path
 
 import pytest
 from safeds_stubgen.main import main
-from syrupy import SnapshotAssertion
+from syrupy.assertion import SnapshotAssertion
 
 _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "main_package"
+_test_package_name_boundaries_valid_values = "boundary_enum_package"
 _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
+_test_package_dir_boundaries_valid_values = Path(_lib_dir / "tests" / "data" / _test_package_name_boundaries_valid_values)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 _out_file_dir = Path(_out_dir / f"{_test_package_name}__api.json")
+_out_file_dir_boundaries_valid_values = Path(_out_dir / f"{_test_package_name_boundaries_valid_values}__api.json")
 
 
 def test_main(snapshot: SnapshotAssertion) -> None:
@@ -36,6 +39,28 @@ def test_main(snapshot: SnapshotAssertion) -> None:
 
     assert json_data == snapshot
 
+def test_main_numpydoc(snapshot: SnapshotAssertion) -> None:
+    # Overwrite system arguments
+    sys.argv = [
+        str(_main_dir),
+        "-v",
+        "-s",
+        str(_test_package_dir_boundaries_valid_values),
+        "-o",
+        str(_out_dir),
+        "-tr",
+        "--docstyle",
+        "numpydoc",
+        "-nc",
+    ]
+
+    main()
+
+    with Path.open(_out_file_dir, encoding="utf-8") as f:
+        json_data = json.load(f)
+
+    assert json_data == snapshot
+
 
 def test_main_empty() -> None:
     # Overwrite system arguments
@@ -45,7 +70,7 @@ def test_main_empty() -> None:
         "-s",
         str(_test_package_dir),
         "-o",
-        str(_out_dir),
+        str(_out_file_dir_boundaries_valid_values),
         "--docstyle",
         "plaintext",
     ]

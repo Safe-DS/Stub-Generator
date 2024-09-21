@@ -100,7 +100,7 @@ class DocstringParser(AbstractDocstringParser):
             parent_qname = parent_class_qname.replace("/", ".")
             griffe_docstring = self.__get_cached_docstring(parent_qname)
         else:
-            griffe_docstring = self.__get_cached_docstring(function_qname)
+            griffe_docstring: Docstring | None = self.__get_cached_docstring(function_qname)
 
         # Find matching parameter docstrings
         matching_parameters = []
@@ -136,9 +136,15 @@ class DocstringParser(AbstractDocstringParser):
         if last_parameter.default:
             default_value = str(last_parameter.default)
 
+        type_string = ""
+        if isinstance(last_parameter.annotation, Expr):
+           type_string = last_parameter.annotation.canonical_name
+        if isinstance(last_parameter.annotation, str):
+            type_string = last_parameter.annotation
         return ParameterDocstring(
             type=type_,
             default_value=default_value,
+            type_string=type_string,
             description=last_parameter.description.strip("\n") or "",
         )
 
