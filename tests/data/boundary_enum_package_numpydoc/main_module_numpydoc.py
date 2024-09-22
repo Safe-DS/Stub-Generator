@@ -1,13 +1,7 @@
-"""Docstring of the some_class.py module."""
-# # noinspection PyUnresolvedReferences
-# import math as mathematics
-
-# # noinspection PyUnresolvedReferences
-# import mypy
-
+"""NumpyDoc Docstring of the some_class.py module."""
 
 # noinspection PyUnusedLocal
-def global_func1(param1, param2):
+def global_func1_numpy(param1, param2):
     """Lorem ipsum
 
     Parameters
