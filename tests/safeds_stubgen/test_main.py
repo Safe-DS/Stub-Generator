@@ -8,55 +8,69 @@ from syrupy.assertion import SnapshotAssertion
 
 _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "main_package"
-_test_package_name_boundaries_valid_values = "boundary_enum_package"
+_test_package_name_boundaries_valid_values_numpydoc = "boundary_enum_package_numpydoc"
+_test_package_name_boundaries_valid_values_googledoc = "boundary_enum_package_googledoc"
+_test_package_name_boundaries_valid_values_restdoc = "boundary_enum_package_restdoc"
 _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
-_test_package_dir_boundaries_valid_values = Path(_lib_dir / "tests" / "data" / _test_package_name_boundaries_valid_values)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 _out_file_dir = Path(_out_dir / f"{_test_package_name}__api.json")
-_out_file_dir_boundaries_valid_values = Path(_out_dir / f"{_test_package_name_boundaries_valid_values}__api.json")
 
-
-def test_main(snapshot: SnapshotAssertion) -> None:
-    # Overwrite system arguments
-    sys.argv = [
-        str(_main_dir),
-        "-v",
-        "-s",
-        str(_test_package_dir),
-        "-o",
-        str(_out_dir),
-        "-tr",
-        "--docstyle",
+@pytest.mark.parametrize(
+    ("test_package_name", "out_file_dir", "docstyle"),
+    [
+        (
+            _test_package_name,
+            Path(_out_dir / f"{_test_package_name}__api.json"),
+            "plaintext"
+        ),
+        (
+            _test_package_name_boundaries_valid_values_numpydoc,
+            Path(_out_dir / f"{_test_package_name_boundaries_valid_values_numpydoc}__api.json"),
+            "numpydoc"
+        ),
+        (
+            _test_package_name_boundaries_valid_values_googledoc,
+            Path(_out_dir / f"{_test_package_name_boundaries_valid_values_googledoc}__api.json"),
+            "google"
+        ),
+        (
+            _test_package_name_boundaries_valid_values_restdoc,
+            Path(_out_dir / f"{_test_package_name_boundaries_valid_values_restdoc}__api.json"),
+            "rest"
+        ),
+    ],
+    ids=[
         "plaintext",
-        "-nc",
-    ]
-
-    main()
-
-    with Path.open(_out_file_dir, encoding="utf-8") as f:
-        json_data = json.load(f)
-
-    assert json_data == snapshot
-
-def test_main_numpydoc(snapshot: SnapshotAssertion) -> None:
+        "numpydoc - boundary - enum",
+        "googledoc - boundary - enum",
+        "restdoc - boundary - enum",
+    ],
+)
+def test_main(
+    test_package_name: str,
+    out_file_dir: Path,
+    docstyle: str,
+    snapshot: SnapshotAssertion
+) -> None:
     # Overwrite system arguments
+
     sys.argv = [
         str(_main_dir),
         "-v",
         "-s",
-        str(_test_package_dir_boundaries_valid_values),
+        str(Path(_lib_dir / "tests" / "data" / test_package_name)),
         "-o",
         str(_out_dir),
         "-tr",
         "--docstyle",
-        "numpydoc",
+        docstyle,
         "-nc",
     ]
 
     main()
 
-    with Path.open(_out_file_dir, encoding="utf-8") as f:
+    with Path.open(out_file_dir, encoding="utf-8") as f:
         json_data = json.load(f)
 
     assert json_data == snapshot
@@ -70,7 +84,7 @@ def test_main_empty() -> None:
         "-s",
         str(_test_package_dir),
         "-o",
-        str(_out_file_dir_boundaries_valid_values),
+        str(_out_dir),
         "--docstyle",
         "plaintext",
     ]

@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 
 def create_docstring_parser(style: DocstringStyle, package_path: Path) -> AbstractDocstringParser:
+    # pm: Whats about EpyDoc?
     if style == DocstringStyle.GOOGLE:
         return DocstringParser(parser=Parser.google, package_path=package_path)
     elif style == DocstringStyle.NUMPYDOC:
