@@ -3,11 +3,11 @@ package safeds.ml.nn.layers
 from safeds.ml.nn.layers import Layer
 
 /**
- * A long short-term memory (LSTM) layer.
+ * A gated recurrent unit (GRU) layer.
  *
  * @param neuronCount The number of neurons in this layer
  */
-class LSTMLayer(
+class GRULayer(
     @PythonName("neuron_count") neuronCount: union<Choice<Int>, Int>
 ) sub Layer {
     /**

@@ -42,6 +42,11 @@ class Schema {
      *     // table = Table({"A": [1, 2, 3], "B": ["a", "b", "c"]})
      *     // table.schema.has_column("A")
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.schema.has_column("C")
+     * }
      */
     @Pure
     @PythonName("has_column")

@@ -9,10 +9,9 @@ from safeds.ml.nn.typing import ModelImageSize
  * @param stride the stride of the pooling
  * @param padding the padding of the pooling
  */
-// TODO Safe-DS does not support required but name only parameter assignments.
 class MaxPooling2DLayer(
     @PythonName("kernel_size") kernelSize: Int,
-    stride: Int,
+    stride: Int = -1,
     padding: Int = 0
 ) {
     /**

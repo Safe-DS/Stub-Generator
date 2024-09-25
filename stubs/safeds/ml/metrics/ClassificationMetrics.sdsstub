@@ -1,6 +1,7 @@
 package safeds.ml.metrics
 
 from safeds.data.labeled.containers import TabularDataset
+from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.containers import Table
 
 /**
@@ -18,8 +19,8 @@ class ClassificationMetrics {
      */
     @Pure
     static fun summarize(
-        predicted: union<Column<Any>, TabularDataset>,
-        expected: union<Column<Any>, TabularDataset>,
+        predicted: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
+        expected: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
         @PythonName("positive_class") positiveClass: Any
     ) -> metrics: Table
 
@@ -36,8 +37,8 @@ class ClassificationMetrics {
      */
     @Pure
     static fun accuracy(
-        predicted: union<Column<Any>, TabularDataset>,
-        expected: union<Column<Any>, TabularDataset>
+        predicted: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
+        expected: union<Column<Any>, TabularDataset, TimeSeriesDataset>
     ) -> accuracy: Float
 
     /**
@@ -55,8 +56,8 @@ class ClassificationMetrics {
     @Pure
     @PythonName("f1_score")
     static fun f1Score(
-        predicted: union<Column<Any>, TabularDataset>,
-        expected: union<Column<Any>, TabularDataset>,
+        predicted: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
+        expected: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
         @PythonName("positive_class") positiveClass: Any
     ) -> f1Score: Float
 
@@ -74,8 +75,8 @@ class ClassificationMetrics {
      */
     @Pure
     static fun precision(
-        predicted: union<Column<Any>, TabularDataset>,
-        expected: union<Column<Any>, TabularDataset>,
+        predicted: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
+        expected: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
         @PythonName("positive_class") positiveClass: Any
     ) -> precision: Float
 
@@ -93,8 +94,8 @@ class ClassificationMetrics {
      */
     @Pure
     static fun recall(
-        predicted: union<Column<Any>, TabularDataset>,
-        expected: union<Column<Any>, TabularDataset>,
+        predicted: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
+        expected: union<Column<Any>, TabularDataset, TimeSeriesDataset>,
         @PythonName("positive_class") positiveClass: Any
     ) -> recall: Float
 }

@@ -10,17 +10,16 @@ from safeds.ml.classical.classification import Classifier
  * @param learningRate The larger the value, the more the model is influenced by each additional tree. If the learning rate is too
  * low, the model might underfit. If the learning rate is too high, the model might overfit.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class GradientBoostingClassifier(
-    @PythonName("tree_count") treeCount: Int = 100,
-    @PythonName("learning_rate") learningRate: Float = 0.1
+    @PythonName("tree_count") treeCount: union<Choice<Int>, Int> = 100,
+    @PythonName("learning_rate") learningRate: union<Choice<Float>, Float> = 0.1
 ) sub Classifier {
     /**
      * The number of trees (estimators) in the ensemble.
      */
-    @PythonName("tree_count") attr treeCount: Int
+    @PythonName("tree_count") attr treeCount: union<Choice<Int>, Int>
     /**
      * The learning rate.
      */
-    @PythonName("learning_rate") attr learningRate: Float
+    @PythonName("learning_rate") attr learningRate: union<Choice<Float>, Float>
 }

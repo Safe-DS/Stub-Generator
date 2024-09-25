@@ -2,11 +2,11 @@ package safeds.ml.classical.regression
 
 from safeds.data.labeled.containers import TabularDataset
 from safeds.data.tabular.containers import Table
+from safeds.ml.metrics.RegressorMetric import RegressorMetric
 
 /**
  * A model for regression tasks.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class Regressor {
     /**
      * Summarize the regressor's metrics on the given data.
@@ -136,4 +136,21 @@ class Regressor {
     fun medianAbsoluteDeviation(
         @PythonName("validation_or_test_set") validationOrTestSet: union<Table, TabularDataset>
     ) -> medianAbsoluteDeviation: Float
+
+    /**
+     * Use the hyperparameter choices to create multiple models and fit them.
+     *
+     * **Note:** This model is not modified.
+     *
+     * @param trainingSet The training data containing the features and target.
+     * @param optimizationMetric The metric that should be used for determining the performance of a model.
+     *
+     * @result bestModel The model that performed the best out of all possible models given the Choices of hyperparameters.
+     */
+    @Pure
+    @PythonName("fit_by_exhaustive_search")
+    fun fitByExhaustiveSearch(
+        @PythonName("training_set") trainingSet: TabularDataset,
+        @PythonName("optimization_metric") optimizationMetric: RegressorMetric
+    ) -> bestModel: Regressor
 }

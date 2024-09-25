@@ -1,0 +1,4 @@
+@PythonModule("safeds.ml.metrics._regressor_metric")
+package safeds.ml.metrics.RegressorMetric
+
+class RegressorMetric

@@ -19,9 +19,11 @@ class TablePlotter(
     table: Table
 ) {
     /**
-     * Plot a boxplot for every numerical column.
+     * Create a box plot for every numerical column.
      *
-     * @result plot The plot as an image.
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The box plot(s) as an image.
      *
      * @example
      * pipeline example {
@@ -32,10 +34,34 @@ class TablePlotter(
      */
     @Pure
     @PythonName("box_plots")
-    fun boxPlots() -> plot: Image
+    fun boxPlots(
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
+
+    /**
+     * Create a violin plot for every numerical column.
+     *
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The violin plot(s) as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2], "b": [3, 42]})
+     *     // image = table.plot.violin_plots()
+     * }
+     */
+    @Pure
+    @PythonName("violin_plots")
+    fun violinPlots(
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
 
     /**
      * Plot a correlation heatmap for all numerical columns of this `Table`.
+     *
+     * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
      *
@@ -48,12 +74,15 @@ class TablePlotter(
      */
     @Pure
     @PythonName("correlation_heatmap")
-    fun correlationHeatmap() -> plot: Image
+    fun correlationHeatmap(
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
 
     /**
      * Plot a histogram for every column.
      *
      * @param maxBinCount The maximum number of bins to use in the histogram. Default is 10.
+     * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
      *
@@ -66,14 +95,17 @@ class TablePlotter(
      */
     @Pure
     fun histograms(
-        @PythonName("max_bin_count") maxBinCount: Int = 10
+        @PythonName("max_bin_count") maxBinCount: Int = 10,
+        theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 
     /**
      * Create a line plot for two columns in the table.
      *
      * @param xName The name of the column to be plotted on the x-axis.
-     * @param yName The name of the column to be plotted on the y-axis.
+     * @param yNames The name(s) of the column(s) to be plotted on the y-axis.
+     * @param showConfidenceInterval If the confidence interval is shown, per default True.
+     * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
      *
@@ -86,21 +118,24 @@ class TablePlotter(
      *     //         "b": [2, 3, 4, 5, 6],
      *     //     }
      *     // )
-     *     // image = table.plot.line_plot("a", "b")
+     *     // image = table.plot.line_plot("a", ["b"])
      * }
      */
     @Pure
     @PythonName("line_plot")
     fun linePlot(
         @PythonName("x_name") xName: String,
-        @PythonName("y_name") yName: String
+        @PythonName("y_names") yNames: List<String>,
+        @PythonName("show_confidence_interval") showConfidenceInterval: Boolean = true,
+        theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 
     /**
      * Create a scatter plot for two columns in the table.
      *
      * @param xName The name of the column to be plotted on the x-axis.
-     * @param yName The name of the column to be plotted on the y-axis.
+     * @param yNames The name(s) of the column(s) to be plotted on the y-axis.
+     * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
      *
@@ -113,13 +148,78 @@ class TablePlotter(
      *     //         "b": [2, 3, 4, 5, 6],
      *     //     }
      *     // )
-     *     // image = table.plot.scatter_plot("a", "b")
+     *     // image = table.plot.scatter_plot("a", ["b"])
      * }
      */
     @Pure
     @PythonName("scatter_plot")
     fun scatterPlot(
         @PythonName("x_name") xName: String,
-        @PythonName("y_name") yName: String
+        @PythonName("y_names") yNames: List<String>,
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
+
+    /**
+     * Create a moving average plot for the y column and plot it by the x column in the table.
+     *
+     * @param xName The name of the column to be plotted on the x-axis.
+     * @param yName The name of the column to be plotted on the y-axis.
+     * @param windowSize The size of the moving average window
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table(
+     *     //     {
+     *     //         "a": [1, 2, 3, 4, 5],
+     *     //         "b": [2, 3, 4, 5, 6],
+     *     //     }
+     *     // )
+     *     // image = table.plot.moving_average_plot("a", "b", window_size = 2)
+     * }
+     */
+    @Pure
+    @PythonName("moving_average_plot")
+    fun movingAveragePlot(
+        @PythonName("x_name") xName: String,
+        @PythonName("y_name") yName: String,
+        @PythonName("window_size") windowSize: Int,
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
+
+    /**
+     * Create a 2D histogram for two columns in the table.
+     *
+     * @param xName The name of the column to be plotted on the x-axis.
+     * @param yName The name of the column to be plotted on the y-axis.
+     * @param xMaxBinCount The maximum number of bins to use in the histogram for the x-axis. Default is 10.
+     * @param yMaxBinCount The maximum number of bins to use in the histogram for the y-axis. Default is 10.
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table(
+     *     //     {
+     *     //         "a": [1, 2, 3, 4, 5],
+     *     //         "b": [2, 3, 4, 5, 6],
+     *     //     }
+     *     // )
+     *     // image = table.plot.histogram_2d("a", "b")
+     * }
+     */
+    @Pure
+    @PythonName("histogram_2d")
+    fun histogram2d(
+        @PythonName("x_name") xName: String,
+        @PythonName("y_name") yName: String,
+        @PythonName("x_max_bin_count") xMaxBinCount: Int = 10,
+        @PythonName("y_max_bin_count") yMaxBinCount: Int = 10,
+        theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 }

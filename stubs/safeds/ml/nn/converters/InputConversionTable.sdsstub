@@ -2,10 +2,5 @@ package safeds.ml.nn.converters
 
 /**
  * The input conversion for a neural network, defines the input parameters for the neural network.
- *
- * prediction_name:
- *     The name of the new column where the prediction will be stored.
  */
-class InputConversionTable(
-    @PythonName("prediction_name") predictionName: String = "prediction"
-)
+class InputConversionTable()

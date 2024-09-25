@@ -219,6 +219,12 @@ class StringCell {
      *     // column1 = Column("example", ["1", "2", "3", "abc"])
      *     // column1.transform(lambda cell: cell.str.to_int())
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column2 = Column("example", ["1", "10", "11", "abc"])
+     *     // column2.transform(lambda cell: cell.str.to_int(base=2))
+     * }
      */
     @Pure
     @PythonName("to_int")

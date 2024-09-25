@@ -8,15 +8,14 @@ from safeds.ml.classical.Bases.SupportVectorMachineBase.SupportVectorMachineBase
  * @param c The strength of regularization. Must be greater than 0.
  * @param kernel The type of kernel to be used. Defaults to a radial basis function kernel.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class SupportVectorRegressor(
-    c: Float = 1.0,
-    kernel: Kernel? = null
+    c: union<Choice<Float>, Float> = 1.0,
+    kernel: union<Choice<Kernel?>, Kernel, Nothing?> = null
 ) sub Regressor {
     /**
      * The regularization strength.
      */
-    attr c: Float
+    attr c: union<Choice<Float>, Float>
 
     /**
      * Possible kernels for the support vector machine.
@@ -28,5 +27,5 @@ class SupportVectorRegressor(
     /**
      * The type of kernel used.
      */
-    attr kernel: Kernel
+    attr kernel: union<Choice<Kernel?>, Kernel>
 }

@@ -10,6 +10,24 @@ class Cell<out TCo> {
      * Namespace for operations on strings.
      */
     attr str: StringCell
+    /**
+     * Namespace for operations on date time values.
+     */
+    attr dt: TemporalCell
+
+    /**
+     * Return the first cell from the given list that is not None.
+     *
+     * @param cells The list of cells to be searched.
+     *
+     * @result cell Returns the contents of the first cell that is not None.
+     * If all cells in the list are None or the list is empty returns None.
+     */
+    @Pure
+    @PythonName("first_not_none")
+    static fun firstNotNone(
+        cells: List<Cell<Any>>
+    ) -> cell: Cell<Any>
 
     /**
      * Negate a boolean. This is equivalent to the `~` operator.
@@ -19,6 +37,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [True, False])
      *     // column.transform(lambda cell: cell.not_())
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: ~cell)
      * }
      */
     @Pure
@@ -33,6 +56,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [True, False])
      *     // column.transform(lambda cell: cell.and_(False))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell & False)
      * }
      */
     @Pure
@@ -50,6 +78,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [True, False])
      *     // column.transform(lambda cell: cell.or_(True))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell | True)
+     * }
      */
     @Pure
     @PythonName("or_")
@@ -65,6 +98,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [True, False])
      *     // column.transform(lambda cell: cell.xor(True))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell ^ True)
      * }
      */
     @Pure
@@ -133,6 +171,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.add(3))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell + 3)
+     * }
      */
     @Pure
     fun add(
@@ -147,6 +190,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [6, 8])
      *     // column.transform(lambda cell: cell.div(2))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell / 2)
      * }
      */
     @Pure
@@ -163,6 +211,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [5, 6])
      *     // column.transform(lambda cell: cell.mod(3))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell % 3)
+     * }
      */
     @Pure
     fun mod(
@@ -177,6 +230,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [2, 3])
      *     // column.transform(lambda cell: cell.mul(4))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell * 4)
      * }
      */
     @Pure
@@ -193,6 +251,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [2, 3])
      *     // column.transform(lambda cell: cell.pow(3))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell ** 3)
+     * }
      */
     @Pure
     fun pow<PContra>(
@@ -207,6 +270,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [5, 6])
      *     // column.transform(lambda cell: cell.sub(3))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell - 3)
      * }
      */
     @Pure
@@ -223,6 +291,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.eq(2))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell == 2)
+     * }
      */
     @Pure
     fun eq(
@@ -237,6 +310,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.ge(2))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell >= 2)
      * }
      */
     @Pure
@@ -253,6 +331,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.gt(2))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell > 2)
+     * }
      */
     @Pure
     fun gt(
@@ -268,6 +351,11 @@ class Cell<out TCo> {
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.le(2))
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell <= 2)
+     * }
      */
     @Pure
     fun le(
@@ -282,6 +370,11 @@ class Cell<out TCo> {
      *     // from safeds.data.tabular.containers import Column
      *     // column = Column("example", [1, 2])
      *     // column.transform(lambda cell: cell.lt(2))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell < 2)
      * }
      */
     @Pure

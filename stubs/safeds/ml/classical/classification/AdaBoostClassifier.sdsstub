@@ -11,23 +11,22 @@ from safeds.ml.classical.classification import Classifier
  * @param learningRate Weight applied to each classifier at each boosting iteration. A higher learning rate increases the contribution
  * of each classifier. Has to be greater than 0.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class AdaBoostClassifier(
-    learner: Classifier? = null,
-    @PythonName("max_learner_count") maxLearnerCount: Int = 50,
-    @PythonName("learning_rate") learningRate: Float = 1.0
+    learner: union<Choice<Classifier?>, Classifier, Nothing?> = null,
+    @PythonName("max_learner_count") maxLearnerCount: union<Choice<Int>, Int> = 50,
+    @PythonName("learning_rate") learningRate: union<Choice<Float>, Float> = 1.0
 ) sub Classifier {
     /**
      * The maximum number of learners in the ensemble.
      */
-    @PythonName("max_learner_count") attr maxLearnerCount: Int
+    @PythonName("max_learner_count") attr maxLearnerCount: union<Choice<Int>, Int>
     /**
      * The learning rate.
      */
-    @PythonName("learning_rate") attr learningRate: Float
+    @PythonName("learning_rate") attr learningRate: union<Choice<Float>, Float>
 
     /**
      * The base learner used for training the ensemble.
      */
-    attr learner: Classifier?
+    attr learner: union<Choice<Classifier?>, Classifier, Nothing?>
 }

@@ -1,0 +1,58 @@
+package safeds.data.tabular.transformation
+
+from safeds.data.tabular.containers import Table
+from safeds.data.tabular.transformation import TableTransformer
+
+/**
+ * The KNearestNeighborsImputer replaces missing values in given Columns with the mean value of the K-nearest neighbors.
+ *
+ * @param neighborCount The number of neighbors to consider when imputing missing values.
+ * @param columnNames The list of columns used to impute missing values. If 'None', all columns are used.
+ * @param valueToReplace The placeholder for the missing values. All occurrences of`missing_values` will be imputed.
+ */
+class KNearestNeighborsImputer(
+    @PythonName("neighbor_count") neighborCount: Int,
+    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
+    @PythonName("value_to_replace") valueToReplace: union<Float, String, Nothing?> = null
+) sub TableTransformer {
+    /**
+     * Whether the transformer is fitted.
+     */
+    @PythonName("is_fitted") attr isFitted: Boolean
+    /**
+     * The number of neighbors to consider when imputing missing values.
+     */
+    @PythonName("neighbor_count") attr neighborCount: Int
+    /**
+     * The value to replace.
+     */
+    @PythonName("value_to_replace") attr valueToReplace: union<Float, String, Nothing?>
+
+    /**
+     * Learn a transformation for a set of columns in a table.
+     *
+     * **Note:** This transformer is not modified.
+     *
+     * @param table The table used to fit the transformer.
+     *
+     * @result fittedTransformer The fitted transformer.
+     */
+    @Pure
+    fun fit(
+        table: Table
+    ) -> fittedTransformer: KNearestNeighborsImputer
+
+    /**
+     * Apply the learned transformation to a table.
+     *
+     * **Note:** The given table is not modified.
+     *
+     * @param table The table to wich the learned transformation is applied.
+     *
+     * @result transformedTable The transformed table.
+     */
+    @Pure
+    fun transform(
+        table: Table
+    ) -> transformedTable: Table
+}

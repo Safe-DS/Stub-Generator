@@ -8,12 +8,11 @@ from safeds.ml.classical.regression import Regressor
  * @param neighborCount The number of neighbors to use for interpolation. Has to be greater than 0 (validated in the constructor) and
  * less than or equal to the sample size (validated when calling `fit`).
  */
-// TODO Safe-DS does not support multiple inheritance.
 class KNearestNeighborsRegressor(
-    @PythonName("neighbor_count") neighborCount: Int
+    @PythonName("neighbor_count") neighborCount: union<Choice<Int>, Int>
 ) sub Regressor {
     /**
      * The number of neighbors used for interpolation.
      */
-    @PythonName("neighbor_count") attr neighborCount: Int
+    @PythonName("neighbor_count") attr neighborCount: union<Choice<Int>, Int>
 }

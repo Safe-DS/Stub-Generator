@@ -4,5 +4,53 @@ from safeds.ml.classical.regression import Regressor
 
 /**
  * Linear regression.
+ *
+ * @param penalty The type of penalty to be used. Defaults to a simple linear regression.
  */
-class LinearRegressor() sub Regressor
+class LinearRegressor(
+    penalty: union<Choice<Penalty?>, Penalty, Nothing?> = null
+) sub Regressor {
+    /**
+     * Possible penalties for the linear regressor.
+     *
+     * Use the static factory methods to create instances of this class.
+     */
+    class Penalty {
+        /**
+         * Create a linear penalty.
+         */
+        @Pure
+        static fun linear() -> result1: Penalty
+
+        /**
+         * Create a ridge penalty.
+         */
+        @Pure
+        static fun ridge(
+            alpha: union<Choice<Float>, Float> = 1.0
+        ) -> result1: Penalty
+
+        /**
+         * Create a lasso penalty.
+         */
+        @Pure
+        static fun lasso(
+            alpha: union<Choice<Float>, Float> = 1.0
+        ) -> result1: Penalty
+
+        /**
+         * Create an elastic net penalty.
+         */
+        @Pure
+        @PythonName("elastic_net")
+        static fun elasticNet(
+            alpha: union<Choice<Float>, Float> = 1.0,
+            @PythonName("lasso_ratio") lassoRatio: union<Choice<Float>, Float> = 0.5
+        ) -> result1: Penalty
+    }
+
+    /**
+     * The regularization of the model.
+     */
+    attr penalty: union<Choice<Penalty?>, Penalty>
+}

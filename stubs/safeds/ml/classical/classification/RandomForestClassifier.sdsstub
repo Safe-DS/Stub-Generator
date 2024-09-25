@@ -9,22 +9,21 @@ from safeds.ml.classical.classification import Classifier
  * @param maxDepth The maximum depth of each tree. If None, the depth is not limited. Has to be greater than 0.
  * @param minSampleCountInLeaves The minimum number of samples that must remain in the leaves of each tree. Has to be greater than 0.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class RandomForestClassifier(
-    @PythonName("tree_count") treeCount: Int = 100,
-    @PythonName("max_depth") maxDepth: Int? = null,
-    @PythonName("min_sample_count_in_leaves") minSampleCountInLeaves: Int = 1
+    @PythonName("tree_count") treeCount: union<Choice<Int>, Int> = 100,
+    @PythonName("max_depth") maxDepth: union<Choice<Int?>, Int, Nothing?> = null,
+    @PythonName("min_sample_count_in_leaves") minSampleCountInLeaves: union<Choice<Int>, Int> = 1
 ) sub Classifier {
     /**
      * The number of trees used in the random forest.
      */
-    @PythonName("tree_count") attr treeCount: Int
+    @PythonName("tree_count") attr treeCount: union<Choice<Int>, Int>
     /**
      * The maximum depth of each tree.
      */
-    @PythonName("max_depth") attr maxDepth: Int?
+    @PythonName("max_depth") attr maxDepth: union<Choice<Int?>, Int, Nothing?>
     /**
      * The minimum number of samples that must remain in the leaves of each tree.
      */
-    @PythonName("min_sample_count_in_leaves") attr minSampleCountInLeaves: Int
+    @PythonName("min_sample_count_in_leaves") attr minSampleCountInLeaves: union<Choice<Int>, Int>
 }

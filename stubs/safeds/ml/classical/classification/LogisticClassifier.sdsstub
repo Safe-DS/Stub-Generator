@@ -4,5 +4,14 @@ from safeds.ml.classical.classification import Classifier
 
 /**
  * Regularized logistic regression for classification.
+ *
+ * @param c The regularization strength. Lower values imply stronger regularization. Must be greater than 0.
  */
-class LogisticClassifier() sub Classifier
+class LogisticClassifier(
+    c: Float = 1.0
+) sub Classifier {
+    /**
+     * The regularization strength. Lower values imply stronger regularization.
+     */
+    attr c: Float
+}

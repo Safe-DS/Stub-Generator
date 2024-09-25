@@ -2,11 +2,11 @@ package safeds.ml.classical.classification
 
 from safeds.data.labeled.containers import TabularDataset
 from safeds.data.tabular.containers import Table
+from safeds.ml.metrics.ClassifierMetric import ClassifierMetric
 
 /**
  * A model for classification tasks.
  */
-// TODO Safe-DS does not support multiple inheritance.
 class Classifier {
     /**
      * Summarize the classifier's metrics on the given data.
@@ -99,4 +99,24 @@ class Classifier {
         @PythonName("validation_or_test_set") validationOrTestSet: union<Table, TabularDataset>,
         @PythonName("positive_class") positiveClass: Any
     ) -> recall: Float
+
+    /**
+     * Use the hyperparameter choices to create multiple models and fit them.
+     *
+     * **Note:** This model is not modified.
+     *
+     * @param trainingSet The training data containing the features and target.
+     * @param optimizationMetric The metric that should be used for determining the performance of a model.
+     * @param positiveClass The class to be considered positive. All other classes are considered negative.
+     * Needs to be provided when choosing precision, f1score or recall as optimization metric.
+     *
+     * @result bestModel The model that performed the best out of all possible models given the Choices of hyperparameters.
+     */
+    @Pure
+    @PythonName("fit_by_exhaustive_search")
+    fun fitByExhaustiveSearch(
+        @PythonName("training_set") trainingSet: TabularDataset,
+        @PythonName("optimization_metric") optimizationMetric: ClassifierMetric,
+        @PythonName("positive_class") positiveClass: Any = null
+    ) -> bestModel: Classifier
 }

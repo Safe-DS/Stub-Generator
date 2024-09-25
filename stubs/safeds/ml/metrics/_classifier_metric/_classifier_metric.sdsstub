@@ -1,0 +1,4 @@
+@PythonModule("safeds.ml.metrics._classifier_metric")
+package safeds.ml.metrics.ClassifierMetric
+
+class ClassifierMetric

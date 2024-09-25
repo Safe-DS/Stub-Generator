@@ -1,0 +1,12 @@
+@PythonModule("safeds.ml.metrics._classifier_metric")
+package safeds.ml.metrics.ClassifierMetric
+
+/**
+ * An Enum of possible Metrics for a Classifier.
+ */
+enum ClassifierMetric {
+    ACCURACY
+    PRECISION
+    RECALL
+    @PythonName("F1_SCORE") F1SCORE
+}

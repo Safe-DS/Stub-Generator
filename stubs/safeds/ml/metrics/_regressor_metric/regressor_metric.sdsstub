@@ -1,0 +1,12 @@
+@PythonModule("safeds.ml.metrics._regressor_metric")
+package safeds.ml.metrics.RegressorMetric
+
+/**
+ * An Enum of possible Metrics for a Regressor.
+ */
+enum RegressorMetric {
+    @PythonName("MEAN_SQUARED_ERROR") MEANSQUAREDERROR
+    @PythonName("MEAN_ABSOLUTE_ERROR") MEANABSOLUTEERROR
+    @PythonName("MEDIAN_ABSOLUTE_DEVIATION") MEDIANABSOLUTEDEVIATION
+    @PythonName("COEFFICIENT_OF_DETERMINATION") COEFFICIENTOFDETERMINATION
+}
