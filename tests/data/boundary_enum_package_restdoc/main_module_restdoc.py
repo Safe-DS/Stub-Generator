@@ -1,7 +1,7 @@
 """ReST Docstring of the some_class.py module."""
 
 # noinspection PyUnusedLocal
-def global_func1_rest(param1, param2, param3):
+def global_func1_rest(param1, param2, param3, param4):
     """Lorem ipsum
 
     :param param1: 
@@ -17,5 +17,11 @@ def global_func1_rest(param1, param2, param3):
         to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
         updating these values (messages).
     :type param3: float
+    :param param4:
+        If bootstrap is True, the number of samples to draw from X to train each base estimator.
+        If None (default), then draw X.shape[0] samples.
+        If int, then max_samples values in [0, 10].
+        If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+    :type param4: int or float
     """
     pass
