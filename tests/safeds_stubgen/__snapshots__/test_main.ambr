@@ -28,6 +28,10 @@
                 param3 (float): Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
                     to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
                     updating these values (messages).
+                param4 (int or float): If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                    If None (default), then draw X.shape[0] samples.
+                    If int, then max_samples values in [0, 10].
+                    If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google',
@@ -40,6 +44,7 @@
           'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param1',
           'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param2',
           'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param3',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param4',
         ]),
         'reexported_by': list([
         ]),
@@ -205,6 +210,74 @@
           'qname': 'builtins.float',
         }),
       }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            If bootstrap is True, the number of samples to draw from X to train each base estimator.
+            If None (default), then draw X.shape[0] samples.
+            If int, then max_samples values in [0, 10].
+            If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+          }),
+          'type_string': 'int or float',
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+          ]),
+        }),
+      }),
     ]),
     'results': list([
     ]),
@@ -246,7 +319,13 @@
             param3 : float
                 Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
                 to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
-                updating these values (messages)."
+                updating these values (messages).
+            
+            param4 : int or float
+                If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                If None (default), then draw X.shape[0] samples.
+                If int, then max_samples values in [0, 10].
+                If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy',
@@ -259,6 +338,7 @@
           'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param1',
           'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param2',
           'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param3',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param4',
         ]),
         'reexported_by': list([
         ]),
@@ -404,7 +484,7 @@
           'description': '''
             Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
             to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
-            updating these values (messages)."
+            updating these values (messages).
           ''',
           'type': dict({
             'kind': 'NamedType',
@@ -422,6 +502,74 @@
           'kind': 'NamedType',
           'name': 'float',
           'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            If bootstrap is True, the number of samples to draw from X to train each base estimator.
+            If None (default), then draw X.shape[0] samples.
+            If int, then max_samples values in [0, 10].
+            If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+          }),
+          'type_string': 'int or float',
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+          ]),
         }),
       }),
     ]),
@@ -1473,6 +1621,12 @@
                 to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
                 updating these values (messages).
             :type param3: float
+            :param param4:
+                If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                If None (default), then draw X.shape[0] samples.
+                If int, then max_samples values in [0, 10].
+                If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+            :type param4: int or float
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest',
@@ -1485,6 +1639,7 @@
           'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param1',
           'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param2',
           'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param3',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param4',
         ]),
         'reexported_by': list([
         ]),
@@ -1639,6 +1794,69 @@
           'kind': 'NamedType',
           'name': 'float',
           'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': 'If bootstrap is True, the number of samples to draw from X to train each base estimator. If None (default), then draw X.shape[0] samples. If int, then max_samples values in [0, 10]. If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+            ]),
+          }),
+          'type_string': 'int | float',
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+          ]),
         }),
       }),
     ]),

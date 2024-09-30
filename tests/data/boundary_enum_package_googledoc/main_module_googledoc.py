@@ -1,7 +1,7 @@
 """GoogleDoc Docstring of the some_class.py module."""
 
 # noinspection PyUnusedLocal
-def global_func1_google(param1, param2, param3):
+def global_func1_google(param1, param2, param3, param4):
     """Lorem ipsum
 
     Args:
@@ -13,6 +13,9 @@ def global_func1_google(param1, param2, param3):
         param3 (float): Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
             to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
             updating these values (messages).
-
+        param4 (int or float): If bootstrap is True, the number of samples to draw from X to train each base estimator.
+            If None (default), then draw X.shape[0] samples.
+            If int, then max_samples values in [0, 10].
+            If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
     """
     pass

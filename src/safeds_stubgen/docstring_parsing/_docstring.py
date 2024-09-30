@@ -59,7 +59,7 @@ class ParameterDocstring:
             "default_value": self.default_value,
             "type_string": self.type_string,
             "description": self.description,
-            "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: boundary_dict["min"])),
+            "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"])),
             "valid_values": valid_values
         }
 

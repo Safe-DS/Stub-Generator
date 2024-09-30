@@ -10,9 +10,6 @@ from typing import TYPE_CHECKING
 import mypy.nodes as mp_nodes
 import mypy.types as mp_types
 
-from ._extract_boundary_values import extract_boundary
-from ._extract_valid_values import extract_valid_literals
-
 import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
