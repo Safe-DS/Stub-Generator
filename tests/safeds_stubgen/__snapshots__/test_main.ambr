@@ -13,26 +13,21 @@
     'functions': list([
       dict({
         'docstring': dict({
-          'description': '''
-            param1 (str):   'If "mean", then replace missing values using the mean along each column. '
-                            'If "median", then replace missing values using the median along each column. '
-                            'If "most_frequent", then replace missing using the most frequent value along each column. '
-                            'If "constant", then replace missing values with fill_value.'
-            
-            param2 (str or bool): Valid values are [False, None, 'sparse matrix']
-          ''',
+          'description': 'Lorem ipsum',
           'examples': list([
           ]),
           'full_docstring': '''
             Lorem ipsum
             
             Args:
-            param1 (str):   'If "mean", then replace missing values using the mean along each column. '
-                            'If "median", then replace missing values using the median along each column. '
-                            'If "most_frequent", then replace missing using the most frequent value along each column. '
-                            'If "constant", then replace missing values with fill_value.'
-            
-            param2 (str or bool): Valid values are [False, None, 'sparse matrix']
+                param1 (str): If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+                param2 (str or bool): Valid values are [False, None, 'sparse matrix']
+                param3 (float): Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google',
@@ -44,6 +39,7 @@
         'parameters': list([
           'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param1',
           'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param2',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param3',
         ]),
         'reexported_by': list([
         ]),
@@ -88,31 +84,126 @@
     'parameters': list([
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': None,
+        'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
-          'description': '',
-          'type': None,
-          'type_string': '',
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'type_string': 'str',
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param1',
         'is_optional': False,
         'name': 'param1',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': None,
+        'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
-          'description': '',
-          'type': None,
-          'type_string': '',
+          'description': "Valid values are [False, None, 'sparse matrix']",
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'bool',
+                'qname': 'builtins.bool',
+              }),
+            ]),
+          }),
+          'type_string': 'str or bool',
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param2',
         'is_optional': False,
         'name': 'param2',
-        'type': None,
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'type_string': 'float',
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
       }),
     ]),
     'results': list([
@@ -144,13 +235,18 @@
             Parameters
             --------
             param1 : str
-                'If "mean", then replace missing values using the mean along each column. '
-                'If "median", then replace missing values using the median along each column. '
-                'If "most_frequent", then replace missing using the most frequent value along each column. '
-                'If "constant", then replace missing values with fill_value.'
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
             
             param2 : str or bool
                 Valid values are [False, None, 'sparse matrix']
+            
+            param3 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages)."
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy',
@@ -162,6 +258,7 @@
         'parameters': list([
           'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param1',
           'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param2',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param3',
         ]),
         'reexported_by': list([
         ]),
@@ -208,18 +305,27 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '''
-            'If "mean", then replace missing values using the mean along each column. '
-            'If "median", then replace missing values using the median along each column. '
-            'If "most_frequent", then replace missing using the most frequent value along each column. '
-            'If "constant", then replace missing values with fill_value.'
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
           ''',
           'type': dict({
+            'kind': 'NamedType',
             'name': 'str',
             'qname': 'builtins.str',
           }),
           'type_string': 'str',
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param1',
         'is_optional': False,
@@ -234,21 +340,32 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': "Valid values are [False, None, 'sparse matrix']",
           'type': dict({
+            'kind': 'UnionType',
             'types': list([
               dict({
+                'kind': 'NamedType',
                 'name': 'str',
                 'qname': 'builtins.str',
               }),
               dict({
+                'kind': 'NamedType',
                 'name': 'bool',
                 'qname': 'builtins.bool',
               }),
             ]),
           }),
           'type_string': 'str or bool',
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param2',
         'is_optional': False,
@@ -267,6 +384,44 @@
               'qname': 'builtins.bool',
             }),
           ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages)."
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'type_string': 'float',
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
         }),
       }),
     ]),
@@ -949,10 +1104,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
         'is_optional': False,
@@ -963,10 +1123,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
@@ -981,10 +1146,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
         'is_optional': False,
@@ -995,10 +1165,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
         'is_optional': False,
@@ -1009,10 +1184,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/self',
         'is_optional': False,
@@ -1023,10 +1203,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
         'is_optional': False,
@@ -1041,10 +1226,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': False,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
         'is_optional': True,
@@ -1059,10 +1249,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/self',
         'is_optional': False,
@@ -1073,10 +1268,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/__init__/self',
         'is_optional': False,
@@ -1087,10 +1287,15 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
@@ -1101,10 +1306,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '"first param"',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_1',
         'is_optional': True,
@@ -1119,10 +1329,15 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
-          'type': None,
+          'type': dict({
+          }),
           'type_string': '',
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_2',
         'is_optional': True,
@@ -1239,27 +1454,25 @@
     'functions': list([
       dict({
         'docstring': dict({
-          'description': '''
-            Lorem ipsum
-            
-            Parameters
-            --------
-          ''',
+          'description': 'Lorem ipsum',
           'examples': list([
           ]),
           'full_docstring': '''
             Lorem ipsum
             
-            Parameters
-            --------
-            :param param1 : 'If "mean", then replace missing values using the mean along each column. '
-                'If "median", then replace missing values using the median along each column. '
-                'If "most_frequent", then replace missing using the most frequent value along each column. '
-                'If "constant", then replace missing values with fill_value.'
-            :type param1 : int
-            
-            :param param2 : Valid values are [False, None, 'sparse matrix']
-            :type param2 : str or bool
+            :param param1: 
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type param1: int
+            :param param2: Valid values are [False, None, 'sparse matrix']
+            :type param2: str or bool
+            :param param3: 
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type param3: float
           ''',
         }),
         'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest',
@@ -1271,6 +1484,7 @@
         'parameters': list([
           'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param1',
           'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param2',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param3',
         ]),
         'reexported_by': list([
         ]),
@@ -1315,31 +1529,117 @@
     'parameters': list([
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': None,
+        'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
-          'description': '',
-          'type': None,
-          'type_string': '',
+          'description': 'If "mean", then replace missing values using the mean along each column.  If "median", then replace missing values using the median along each column.  If "most_frequent", then replace missing using the most frequent value along each column.  If "constant", then replace missing values with fill_value.',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          'type_string': 'int',
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param1',
         'is_optional': False,
         'name': 'param1',
-        'type': None,
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
       }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
-        'default_value': None,
+        'default_value': '',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
-          'description': '',
-          'type': None,
-          'type_string': '',
+          'description': "Valid values are [False, None, 'sparse matrix']",
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'bool',
+                'qname': 'builtins.bool',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+            ]),
+          }),
+          'type_string': 'str | bool',
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
         }),
         'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param2',
         'is_optional': False,
         'name': 'param2',
-        'type': None,
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': 'Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when updating these values (messages).',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'type_string': 'float',
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
       }),
     ]),
     'results': list([

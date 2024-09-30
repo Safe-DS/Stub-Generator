@@ -14,7 +14,6 @@ _test_package_name_boundaries_valid_values_restdoc = "boundary_enum_package_rest
 _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
-_out_file_dir = Path(_out_dir / f"{_test_package_name}__api.json")
 
 @pytest.mark.parametrize(
     ("test_package_name", "out_file_dir", "docstyle"),

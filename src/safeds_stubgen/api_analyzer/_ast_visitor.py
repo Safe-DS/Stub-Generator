@@ -281,8 +281,6 @@ class MyPyAstVisitor:
         for i, parameter in enumerate(parameters):
             code_type = parameter.type
             doc_type = parameter.docstring.type
-            # boundaries = extract_boundary(description=parameter.docstring.description, type_string=parameter.docstring.type_string)
-            # valid_literals = extract_valid_literals(description=parameter.docstring.description, type_string=parameter.docstring.type_string)
 
             if (
                 code_type is not None
