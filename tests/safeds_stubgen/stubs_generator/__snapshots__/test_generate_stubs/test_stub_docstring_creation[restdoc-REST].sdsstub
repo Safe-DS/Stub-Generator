@@ -117,7 +117,8 @@ fun inferTypes() -> (result1: String, result2: Int)
 @PythonName("infer_types2")
 fun inferTypes2(
     a: Int,
-    b: Boolean
+    b: Boolean,
+    // Valid values: False, True
 ) -> result1: union<Boolean, String>
 
 // TODO Result type information missing.
@@ -187,24 +188,31 @@ class ClassWithVariousParameterTypes(
     @PythonName("no_type") noType,
     @PythonName("optional_type") optionalType: Int?,
     @PythonName("none_type") noneType: Nothing?,
+    // Valid values: None,
     @PythonName("int_type") intType: Int,
     @PythonName("bool_type") boolType: Boolean,
+    // Valid values: False, True,
     @PythonName("str_type") strType: String,
+    // Valid values: unlistable_str,
     @PythonName("float_type") floatType: Float,
     @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
+    // Valid values: False, True,
     @PythonName("list_type_1") listType1: List<Any>,
     @PythonName("list_type_2") listType2: List<String>,
     @PythonName("list_type_3") listType3: List<Int, Boolean>,
+    // Valid values: False, True,
     @PythonName("list_type_4") listType4: List<List<Int>>,
     @PythonName("list_type_5") listType5,
     @PythonName("set_type_1") setType1: Set<Any>,
     @PythonName("set_type_2") setType2: Set<String>,
     @PythonName("set_type_3") setType3: Set<Int, Boolean>,
+    // Valid values: False, True,
     @PythonName("set_type_4") setType4: Set<List<Int>>,
     @PythonName("set_type_5") setType5,
     @PythonName("tuple_type_1") tupleType1: Tuple<>,
     @PythonName("tuple_type_2") tupleType2: Tuple<String>,
     @PythonName("tuple_type_3") tupleType3: Tuple<Int, Boolean>,
+    // Valid values: False, True,
     @PythonName("tuple_type_4") tupleType4: Tuple<List<Int>>,
     @PythonName("any_type") anyType: Any,
     @PythonName("optional_type_2") optionalType2: Int?,
