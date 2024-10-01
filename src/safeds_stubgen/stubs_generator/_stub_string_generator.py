@@ -4,7 +4,7 @@ import logging
 from collections import defaultdict
 from pathlib import Path
 from types import NoneType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from safeds_stubgen import is_internal
 from safeds_stubgen.api_analyzer import (
@@ -574,12 +574,18 @@ class StubsStringGenerator:
             assigned_by = parameter.assigned_by
             type_string = ""
             param_value = ""
+            parameter_boundaries: list[dict[str, Any]] = []
+            parameter_valid_values: list[str] = []
 
             # Parameter type
             if parameter.type is not None:
                 param_default_value = parameter.default_value
                 parameter_type_data = parameter.type.to_dict()
-
+                if parameter.docstring.boundaries is not None:
+                    parameter_boundaries = sorted(map(lambda boundary: boundary.to_dict(), parameter.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
+                if parameter.docstring.valid_values is not None:
+                    parameter_valid_values = sorted(parameter.docstring.valid_values)
+                
                 # Default value
                 if parameter.is_optional:
                     if isinstance(param_default_value, str):
@@ -644,6 +650,16 @@ class StubsStringGenerator:
             parameters_data.append(
                 f"{name_annotation}{camel_case_name}{type_string}{param_value}",
             )
+            
+            if len(parameter_valid_values) != 0:
+                parameters_data.append(
+                    "// Valid values: " + ", ".join(parameter_valid_values)
+                )
+            if len(parameter_boundaries) != 0:
+                parameters_data.append(
+                    "// Boundaries: " + repr(parameter_boundaries)
+                )
+
 
         inner_indentations = indentations + INDENTATION
         if parameters_data:
