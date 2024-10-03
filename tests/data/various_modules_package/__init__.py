@@ -11,6 +11,7 @@ from .enum_module import _ReexportedEmptyEnum
 from file_creation._module_3 import Reexported
 from .class_module import ClassModuleClassD as ClMCD
 from file_creation.module_1 import Lv2
+from tests.data.various_modules_package import reexport_test
 
 __all__ = [
     "reex_1",
