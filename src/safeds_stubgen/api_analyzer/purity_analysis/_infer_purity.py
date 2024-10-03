@@ -4,7 +4,6 @@ from pathlib import Path
 
 import astroid
 
-from library_analyzer.processing.api._file_filters import _is_test_file
 from safeds_stubgen.api_analyzer.purity_analysis import get_module_data
 from safeds_stubgen.api_analyzer.purity_analysis._resolve_references import resolve_references
 from safeds_stubgen.api_analyzer.purity_analysis.model import (
@@ -40,6 +39,8 @@ from safeds_stubgen.api_analyzer.purity_analysis.model import (
     UnknownFunctionCall,
 )
 
+def _is_test_file(posix_path: str) -> bool:
+    return "/test/" in posix_path or "/tests/" in posix_path
 
 class PurityAnalyzer:
     """
@@ -137,7 +138,11 @@ class PurityAnalyzer:
         if not isinstance(call, astroid.Call):
             raise TypeError(f"Expected astroid.Call, got {call.__class__.__name__}") from None
 
-        func_ref_node_func_name = call.func.attrname if isinstance(call.func, astroid.Attribute) else call.func.name
+        func_ref_node_func_name = ""
+        if isinstance(call.func, astroid.Attribute):
+            func_ref_node_func_name = call.func.attrname
+        elif hasattr(call.func, "name"):
+            func_ref_node_func_name = call.func.name
 
         # Check if the function is open
         if func_ref_node_func_name == "open":
@@ -158,11 +163,17 @@ class PurityAnalyzer:
 
             # Check if the file name is a variable or a string literal
             file_var = call.args[0].name if isinstance(call.args[0], astroid.Name) else None
-            file_str = call.args[0].value if not file_var and hasattr(call.args[0], "value") else None
+            file_str = call.args[0].value if not file_var and hasattr(call.args[0], "value") else None  # type: ignore # hasattr checks for value attribute
 
             # The file name is a variable
             if file_var:
                 open_mode = open_mode or OPEN_MODES[open_mode_str]
+                # if open_mode is OpenMode.READ:
+                #     return Impure(reasons={FileRead(source=ParameterAccess(file_var))})
+                # elif open_mode is OpenMode.WRITE:
+                #     return Impure(reasons={FileWrite(source=ParameterAccess(file_var))})
+                # else:
+                #     return Impure(reasons={FileRead(source=ParameterAccess(file_var)), FileWrite(source=ParameterAccess(file_var))})
                 return Impure(
                     (
                         {FileRead(source=ParameterAccess(file_var))}

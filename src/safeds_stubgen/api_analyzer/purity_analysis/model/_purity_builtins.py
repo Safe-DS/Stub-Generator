@@ -1,6 +1,6 @@
 import astroid
 
-from model import (
+from safeds_stubgen.api_analyzer.purity_analysis.model import (
     ClassScope,
     ClassVariable,
     FileRead,

@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING, Any
 
 import astroid
 
-from _module_data import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import (
     MemberAccessValue,
     NodeID,
     Reference,

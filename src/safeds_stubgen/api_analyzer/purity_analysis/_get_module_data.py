@@ -24,7 +24,7 @@ from safeds_stubgen.api_analyzer.purity_analysis.model import (
     Scope,
     Symbol,
 )
-from library_analyzer.utils import ASTWalker
+from ._astroid_ast_walker import ASTWalker
 
 _ComprehensionType = astroid.ListComp | astroid.DictComp | astroid.SetComp | astroid.GeneratorExp
 

@@ -7,8 +7,8 @@ import dataclasses
 import astroid
 from astroid.helpers import safe_infer
 
-from library_analyzer.processing.api.purity_analysis import build_call_graph, get_module_data
-from library_analyzer.processing.api.purity_analysis.model import (
+from safeds_stubgen.api_analyzer.purity_analysis import build_call_graph, get_module_data
+from safeds_stubgen.api_analyzer.purity_analysis.model import (
     Builtin,
     BuiltinOpen,
     ClassScope,
@@ -180,11 +180,10 @@ class ReferenceResolver:
             True if the parameters of the function match the arguments of the call, False otherwise.
         """
         if function.parameters:
-            argument_node: astroid.Arguments | None = (
-                next(iter(function.parameters.values())).node.parent
-                if (isinstance(next(iter(function.parameters.values())).node.parent, astroid.Arguments))
-                else None
-            )
+            argument_node: astroid.Arguments | None = None
+            temp = next(iter(function.parameters.values())).node.parent
+            if isinstance(temp, astroid.Arguments):
+                argument_node = temp
 
             # Get the parameters of the function and group them by kind.
             star_param = [
@@ -278,7 +277,7 @@ class ReferenceResolver:
             class_iterator = function.symbol.node
             klass = None
             while class_iterator:
-                if isinstance(class_iterator, astroid.ClassDef):
+                if isinstance(class_iterator, astroid.ClassDef) and class_iterator.name is not None:
                     klass = self.classes.get(class_iterator.name)
                     break
                 if isinstance(class_iterator, astroid.Module):
@@ -315,6 +314,8 @@ class ReferenceResolver:
             "close",
         ):
             # Construct an artificial FunctionDef node for the builtin function.
+            assert isinstance(call_reference.node, astroid.Call)  
+            # pm: fix pylance error, if call_reference is one of the built ins, it should be a Call
             builtin_function = astroid.FunctionDef(
                 name=(
                     (
@@ -353,9 +354,10 @@ class ReferenceResolver:
 
         # Find imported functions or classes that are called for ImportFrom nodes.
         if call_reference.name in self.imports:
+            assert isinstance(call_reference.node, astroid.Call)
             import_def = self.imports.get(call_reference.name)
-            inferred_node_def = safe_infer(call_reference.node.func)
-            if not inferred_node_def:
+            inferred_node_def = safe_infer(call_reference.node.func) # type: ignore  pm: can be ignored, because once safe_infer fails, it returns None
+            if not inferred_node_def and call_reference.node.func is not None:
                 with contextlib.suppress(astroid.InferenceError):
                     inferred_node_def = next(call_reference.node.func.infer())
             if not isinstance(inferred_node_def, astroid.FunctionDef | astroid.ClassDef):
@@ -415,7 +417,7 @@ class ReferenceResolver:
                 symbols = list(set(symbols) - set(missing_refined))
 
                 for symbol in missing_refined:
-                    if isinstance(symbol.node, MemberAccessTarget):
+                    if isinstance(symbol.node, MemberAccessTarget) and isinstance(value_reference.node, MemberAccessValue):
                         for klass in self.classes.values():
                             if klass.class_variables:
                                 if value_reference.node.member in klass.class_variables:
@@ -473,7 +475,7 @@ class ReferenceResolver:
                 pass
             else:
                 specified_import_def = dataclasses.replace(
-                    import_def,
+                    import_def, # type: ignore # import def is not None
                     inferred_node=inferred_node_def,  # type: ignore[type-var] # import def is not None.
                 )
                 specified_import_def.id.name = specified_import_def.id.name + "." + specified_import_def.name  # type: ignore[union-attr] # specified_import_def is not None.
@@ -518,9 +520,9 @@ class ReferenceResolver:
                     value_reference.node.receiver.func,
                     "name",
                 ):
-                    receiver_name = value_reference.node.receiver.func.name
+                    receiver_name = value_reference.node.receiver.func.name  # type: ignore # hasattr() ensures that func has .name
                 else:
-                    receiver_name = value_reference.node.receiver.name
+                    receiver_name = value_reference.node.receiver.name  # type: ignore # try catch ensures that there wont be an error
             except AttributeError:
                 receiver_name = "UNKNOWN"
 
@@ -534,7 +536,7 @@ class ReferenceResolver:
                 # In this case, there is no need to use astroid to determine the function or class.
                 was_found = False
                 if self.package_data_is_provided and receiver_name in self.classes:
-                    class_def = self.classes.get(receiver_name)
+                    class_def = self.classes.get(receiver_name)  # type: ignore # code above ensures that receiver_name is of type str
                     if class_def:
                         if value_reference.node.member in class_def.class_variables:
                             was_found = True
@@ -542,7 +544,7 @@ class ReferenceResolver:
                                 result_value_reference.referenced_symbols.append(symbol)
 
                 # Since the symbol is not part of the package, it needs to be inferred from the imported module.
-                import_def = self.imports.get(receiver_name)
+                import_def = self.imports.get(receiver_name)  # type: ignore # code above ensures that receiver_name is of type str
                 if import_def and value_reference.node.node is not None and not was_found:
                     # Use astroid to infer the symbol of the member from the module.
                     inferred_node_def = safe_infer(
@@ -643,8 +645,8 @@ class ReferenceResolver:
                             ):
                                 continue
                         # Do not add functions that are not of the current class (or superclass).
-                        if function.symbol.name not in klass.class_variables or not self.is_function_of_class(
-                            function.symbol.node,
+                        if isinstance(function.symbol.node, astroid.FunctionDef) and function.symbol.name not in klass.class_variables or not self.is_function_of_class(
+                            function.symbol.node,  # type: ignore # first condition of this if condition checks if node is of type FunctionDef
                             klass,
                         ):
                             # Collect all functions of superclasses for the current klass instance.

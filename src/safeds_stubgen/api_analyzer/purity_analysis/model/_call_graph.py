@@ -4,12 +4,12 @@ from dataclasses import dataclass, field
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from _module_data import (
+    from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import (
         Import,
         NodeID,
         Symbol,
     )
-    from _reference import Reasons
+    from safeds_stubgen.api_analyzer.purity_analysis.model._reference import Reasons
 
 
 @dataclass
