@@ -6,7 +6,7 @@ from typing import TYPE_CHECKING
 
 import astroid
 
-from _module_data import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import (
     ClassScope,
     FunctionScope,
     MemberAccessTarget,
@@ -19,7 +19,7 @@ from _module_data import (
 
 if TYPE_CHECKING:
 
-    from model import (
+    from safeds_stubgen.api_analyzer.purity_analysis.model import (
         CallGraphForest,
         NonLocalVariableRead,
         NonLocalVariableWrite,

@@ -1,12 +1,12 @@
 """Data model for purity analysis."""
 
-from _call_graph import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import (
     CallGraphForest,
     CallGraphNode,
     CombinedCallGraphNode,
     ImportedCallGraphNode,
 )
-from _module_data import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import (
     Builtin,
     BuiltinOpen,
     ClassScope,
@@ -30,7 +30,7 @@ from _module_data import (
     Symbol,
     UnknownSymbol,
 )
-from _purity import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import (
     APIPurity,
     CallOfParameter,
     Expression,
@@ -51,13 +51,13 @@ from _purity import (
     UnknownFunctionCall,
     UnknownProto,
 )
-from _purity_builtins import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity_builtins import (
     BUILTIN_CLASSSCOPES,
     BUILTIN_FUNCTIONS,
     BUILTIN_SPECIALS,
     OPEN_MODES,
 )
-from _reference import (
+from safeds_stubgen.api_analyzer.purity_analysis.model._reference import (
     ModuleAnalysisResult,
     Reasons,
     ReferenceNode,
