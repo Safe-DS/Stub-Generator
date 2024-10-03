@@ -203,14 +203,15 @@ class StubsStringGenerator:
         else:
             constructor = class_.constructor
             parameter_info = ""
+            boundaries = ""
             if constructor:
-                parameter_info = self._create_parameter_string(
+                parameter_info, boundaries = self._create_parameter_string(
                     constructor.parameters,
                     class_indentation,
                     is_instance_method=True,
                 )
 
-            constructor_info = f"({parameter_info})"
+            constructor_info = f"({parameter_info}){boundaries}"
 
         # Type parameters
         constraints_info = ""
@@ -450,7 +451,7 @@ class StubsStringGenerator:
                 self._current_todo_msgs.add("class_method")
 
         # Parameters
-        func_params = self._create_parameter_string(
+        func_params, boundaries = self._create_parameter_string(
             parameters=function.parameters,
             indentations=indentations,
             is_instance_method=not is_static and is_method,
@@ -496,7 +497,7 @@ class StubsStringGenerator:
             f"{indentations}@Pure\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}{type_var_info}"
-            f"({func_params}){result_string}"
+            f"({func_params}){result_string}{boundaries}"
         )
 
     def _create_property_function_string(self, function: Function, indentations: str = "") -> str:
@@ -562,8 +563,9 @@ class StubsStringGenerator:
         parameters: list[Parameter],
         indentations: str,
         is_instance_method: bool = False,
-    ) -> str:
+    ) -> tuple[str, str] :  # also returns the boundaries as second entry of the returned tuple
         parameters_data: list[str] = []
+        boundary_data: dict[str, list[dict[str, Any]]] = {}
         first_loop_skipped = False
         for parameter in parameters:
             # Skip self parameter for functions
@@ -646,26 +648,53 @@ class StubsStringGenerator:
             # Check if it's a Safe-DS keyword and escape it
             camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
+            # Check for boundaries and enums
+            if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
+                type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
+            if len(parameter_boundaries) != 0:
+                boundary_data[parameter.name] = parameter_boundaries
+
             # Create string and append to the list
             parameters_data.append(
                 f"{name_annotation}{camel_case_name}{type_string}{param_value}",
             )
             
-            if len(parameter_valid_values) != 0:
-                parameters_data.append(
-                    "// Valid values: " + ", ".join(parameter_valid_values)
-                )
-            if len(parameter_boundaries) != 0:
-                parameters_data.append(
-                    "// Boundaries: " + repr(parameter_boundaries)
-                )
-
-
         inner_indentations = indentations + INDENTATION
         if parameters_data:
+            boundaries = self._create_boundary_string(boundary_data, inner_indentations)
             inner_param_data = f",\n{inner_indentations}".join(parameters_data)
-            return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
-        return ""
+            return (f"\n{inner_indentations}{inner_param_data}\n{indentations}", boundaries)
+        return ("", "")
+    
+    def _create_boundary_string(self, boundary_data: dict[str, list[dict[str, Any]]], inner_indentations: str) -> str:
+        boundary_str = ""
+        for parameter_name in boundary_data:
+            boundaries = boundary_data[parameter_name]
+            boundary_str += inner_indentations
+            for i, boundary in enumerate(boundaries):
+                if str(boundary["min"]) == "NegativeInfinity":
+                    boundary_str += parameter_name + " <= " if boundary["max_inclusive"] else " < " + str(boundary["max"])
+                    continue
+                elif str(boundary["max"]) == "Infinity":
+                    boundary_str += parameter_name + " >= " if boundary["min_inclusive"] else " > " + str(boundary["min"])
+                    continue
+
+                if boundary["min_inclusive"]:  # []
+                    boundary_str += str(boundary["min"]) + " <= " + parameter_name + " and "
+                else:  # ()
+                    boundary_str += str(boundary["min"]) + " < " + parameter_name + " and "
+
+                if boundary["max_inclusive"]:
+                    boundary_str += parameter_name + " <= " + str(boundary["max"])
+                else:
+                    boundary_str += parameter_name + " < " + str(boundary["max"])
+                if i + 1 < len(boundaries):
+                    boundary_str += " or "
+            boundary_str += ",\n"
+
+        if len(boundary_str) == 0:
+            return ""
+        return f" where {{\n{boundary_str}}}"
 
     def _create_enum_string(self, enum_data: Enum) -> str:
         # Docstring

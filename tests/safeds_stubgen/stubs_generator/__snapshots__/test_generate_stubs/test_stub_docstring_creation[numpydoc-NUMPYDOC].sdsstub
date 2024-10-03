@@ -138,10 +138,8 @@ fun inferTypes() -> (firstResult: Boolean, secondResult: String)
 @Pure
 @PythonName("infer_types2")
 fun inferTypes2(
-    a: String,
-    // Valid values: unlistable_str,
-    b: Boolean,
-    // Valid values: False, True
+    a: literal<unlistable_str>,
+    b: literal<False, True>
 ) -> funcResult: union<Boolean, Int, String>
 
 /**
@@ -158,10 +156,8 @@ fun inferTypes2(
 @Pure
 @PythonName("infer_types3")
 fun inferTypes3(
-    a: String,
-    // Valid values: unlistable_str,
-    b: Boolean,
-    // Valid values: False, True
+    a: literal<unlistable_str>,
+    b: literal<False, True>
 ) -> (result1: union<Boolean, Int, String>, funcResult2: Int)
 
 /**
@@ -256,10 +252,8 @@ class ClassWithParameters(
  * @param z Lorem ipsum 3.
  */
 class ClassAndConstructorWithParameters(
-    x: String,
-    // Valid values: unlistable_str,
-    y: String,
-    // Valid values: unlistable_str,
+    x: literal<unlistable_str>,
+    y: literal<unlistable_str>,
     z: Int = 5
 )
 
@@ -379,15 +373,11 @@ class ClassWithVariousParameterTypes(
     @PythonName("no_type") noType,
     @PythonName("optional_type") optionalType: Int,
     @PythonName("none_type") noneType: Nothing?,
-    // Valid values: None,
     @PythonName("int_type") intType: Int,
-    @PythonName("bool_type") boolType: Boolean,
-    // Valid values: False, True,
-    @PythonName("str_type") strType: String,
-    // Valid values: unlistable_str,
+    @PythonName("bool_type") boolType: literal<False, True>,
+    @PythonName("str_type") strType: literal<unlistable_str>,
     @PythonName("float_type") floatType: Float,
-    @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
-    // Valid values: False, True,
+    @PythonName("multiple_types") multipleTypes: literal<False, True>,
     @PythonName("list_type_1") listType1: List<Any>,
     @PythonName("list_type_2") listType2: List<String>,
     @PythonName("list_type_3") listType3: List<Int, Boolean>,
