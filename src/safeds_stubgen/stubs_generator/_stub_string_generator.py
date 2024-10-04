@@ -50,8 +50,9 @@ class StubsStringGenerator:
         self.class_generics: list = []
         self.module_imports: set[str] = set()
         self.currently_creating_reexport_data: bool = False
+        self.import_index: dict[str, str] = {}
 
-        self.api = api
+        self.api: API = api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
@@ -1012,13 +1013,13 @@ class StubsStringGenerator:
         return False
 
     def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
-        if class_path.endswith(path):
+        if class_path.endswith(f".{path}") or class_path == path:
             return True
 
         name = path.split("/")[-1]
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
-            if reexport.endswith(name):
+            if reexport.endswith(f".{name}") or reexport == name:
                 for module in self.api.reexport_map[reexport]:
                     # Added "no cover" since I can't recreate this in the tests
                     if (
@@ -1047,28 +1048,47 @@ class StubsStringGenerator:
 
         module_id = self._get_module_id(get_actual_id=True).replace("/", ".")
         if module_id not in import_qname:
-            # We need the full path for an import from the same package, but we sometimes don't get enough information,
-            # therefore we have to search for the class and get its id
-            import_qname_path = import_qname.replace(".", "/")
-            in_package = False
             qname = ""
-            for class_id in self.api.classes:
-                if self._is_path_connected_to_class(import_qname_path, class_id):
-                    qname = class_id.replace("/", ".")
+            module_id_parts = module_id.split(".")
 
-                    name = qname.split(".")[-1]
-                    shortest_qname, _ = _get_shortest_public_reexport_and_alias(
-                        reexport_map=self.api.reexport_map,
-                        name=name,
-                        qname=qname,
-                        is_module=False,
-                    )
+            # First we hope that we already found and indexed the type we are searching
+            if import_qname in self.import_index:
+                qname = self.import_index[import_qname]
 
-                    if shortest_qname:
-                        qname = f"{shortest_qname}.{name}"
+            # To save performance we next try to build the possible paths the type could originate from
+            if not qname:
+                for i in range(1, len(module_id_parts)):
+                    test_id = ".".join(module_id_parts[:-i]) + "." + import_qname
+                    if test_id.replace(".", "/") in self.api.classes:
+                        qname = test_id
+                        break
 
-                    in_package = True
-                    break
+            # If the tries above did not work we have to use this performance heavy way.
+            # We need the full path for an import from the same package, but we sometimes don't get enough
+            # information, therefore we have to search for the class and get its id
+            if not qname:
+                import_qname_path = import_qname.replace(".", "/")
+                for class_id in self.api.classes:
+                    if self._is_path_connected_to_class(import_qname_path, class_id):
+                        qname = class_id.replace("/", ".")
+                        break
+
+            in_package = False
+            if qname:
+                self.import_index[import_qname] = qname
+
+                name = qname.split(".")[-1]
+                shortest_qname, _ = _get_shortest_public_reexport_and_alias(
+                    reexport_map=self.api.reexport_map,
+                    name=name,
+                    qname=qname,
+                    is_module=False,
+                )
+
+                if shortest_qname:
+                    qname = f"{shortest_qname}.{name}"
+
+                in_package = True
 
             qname = qname or import_qname
 
