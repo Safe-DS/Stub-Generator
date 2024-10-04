@@ -50,8 +50,9 @@ class StubsStringGenerator:
         self.class_generics: list = []
         self.module_imports: set[str] = set()
         self.currently_creating_reexport_data: bool = False
+        self.import_index: dict[str, str] = {}
 
-        self.api = api
+        self.api: API = api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
@@ -1057,7 +1058,11 @@ class StubsStringGenerator:
                     qname = test_id
                     break
 
-            # If the first try above did not work we have to use this performance heavy way.
+            # Next we hope that we already found and indexed the type we are searching
+            if import_qname in self.import_index:
+                qname = self.import_index[import_qname]
+
+            # If the tries above did not work we have to use this performance heavy way.
             # We need the full path for an import from the same package, but we sometimes don't get enough
             # information, therefore we have to search for the class and get its id
             if not qname:
@@ -1065,6 +1070,7 @@ class StubsStringGenerator:
                 for class_id in self.api.classes:
                     if self._is_path_connected_to_class(import_qname_path, class_id):
                         qname = class_id.replace("/", ".")
+                        self.import_index[import_qname] = qname
                         break
 
             in_package = False
