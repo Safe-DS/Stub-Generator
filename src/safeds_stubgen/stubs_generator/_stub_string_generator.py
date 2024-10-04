@@ -1047,28 +1047,40 @@ class StubsStringGenerator:
 
         module_id = self._get_module_id(get_actual_id=True).replace("/", ".")
         if module_id not in import_qname:
-            # We need the full path for an import from the same package, but we sometimes don't get enough information,
-            # therefore we have to search for the class and get its id
-            import_qname_path = import_qname.replace(".", "/")
-            in_package = False
+
             qname = ""
-            for class_id in self.api.classes:
-                if self._is_path_connected_to_class(import_qname_path, class_id):
-                    qname = class_id.replace("/", ".")
-
-                    name = qname.split(".")[-1]
-                    shortest_qname, _ = _get_shortest_public_reexport_and_alias(
-                        reexport_map=self.api.reexport_map,
-                        name=name,
-                        qname=qname,
-                        is_module=False,
-                    )
-
-                    if shortest_qname:
-                        qname = f"{shortest_qname}.{name}"
-
-                    in_package = True
+            module_id_parts = module_id.split(".")
+            # To save performance we first try to build the possible paths the type could originate from
+            for i in range(1, len(module_id_parts)):
+                test_id = ".".join(module_id_parts[:-i]) + "." + import_qname
+                if test_id.replace(".", "/") in self.api.classes:
+                    qname = test_id
                     break
+
+            # If the first try above did not work we have to use this performance heavy way.
+            # We need the full path for an import from the same package, but we sometimes don't get enough
+            # information, therefore we have to search for the class and get its id
+            if not qname:
+                import_qname_path = import_qname.replace(".", "/")
+                for class_id in self.api.classes:
+                    if self._is_path_connected_to_class(import_qname_path, class_id):
+                        qname = class_id.replace("/", ".")
+                        break
+
+            in_package = False
+            if qname:
+                name = qname.split(".")[-1]
+                shortest_qname, _ = _get_shortest_public_reexport_and_alias(
+                    reexport_map=self.api.reexport_map,
+                    name=name,
+                    qname=qname,
+                    is_module=False,
+                )
+
+                if shortest_qname:
+                    qname = f"{shortest_qname}.{name}"
+
+                in_package = True
 
             qname = qname or import_qname
 
