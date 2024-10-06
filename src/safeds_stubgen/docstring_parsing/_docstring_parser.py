@@ -404,6 +404,8 @@ class DocstringParser(AbstractDocstringParser):
                 griffe_node = griffe_node.attributes[part]
             elif part == "__init__" and griffe_node.is_class:
                 return None
+            elif part == "__mypy-post_init" and griffe_node.is_class:
+                return None
             else:  # pragma: no cover
                 raise ValueError(
                     f"Something went wrong while searching for the docstring for {qname}. Please make sure"
