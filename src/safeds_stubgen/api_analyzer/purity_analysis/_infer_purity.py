@@ -624,6 +624,7 @@ def infer_purity(
 
 def get_purity_results(
     src_dir_path: Path,
+    test_run: bool = False,
 ) -> APIPurity:
     """Get the purity results of a package.
 
@@ -648,7 +649,7 @@ def get_purity_results(
     for module in modules:
         posix_path = Path(module).as_posix()
 
-        if _is_test_file(posix_path):
+        if _is_test_file(posix_path) and not test_run:
             continue
 
         module_name = __module_name(src_dir_path, Path(module))

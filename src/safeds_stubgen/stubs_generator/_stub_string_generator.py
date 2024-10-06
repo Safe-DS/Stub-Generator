@@ -22,6 +22,7 @@ from safeds_stubgen.api_analyzer import (
     VarianceKind,
     result_name_generator,
 )
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure
 from safeds_stubgen.docstring_parsing import AttributeDocstring
 
 from ._helper import (
@@ -44,13 +45,14 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, api: API, convert_identifiers: bool) -> None:
+    def __init__(self, api: API, purity_api: APIPurity, convert_identifiers: bool) -> None:
         self.module_id: str = ""
         self.class_generics: list = []
         self.module_imports: set[str] = set()
         self.currently_creating_reexport_data: bool = False
 
         self.api = api
+        self.purity_api = purity_api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
@@ -136,6 +138,15 @@ class StubsStringGenerator:
         docstring = self._create_sds_docstring_description(module.docstring, "")
         if docstring:
             docstring += "\n"
+
+        # narrow purity dict TODO
+        purity_dict = self.purity_api.to_dict()
+        module_path = self.module_id.split("/")
+        package_name = self.api.package
+        index_to_split = module_path.index(package_name)
+        module_path = module_path[index_to_split:]
+        module_path = ".".join(module_path)
+        module_purity_data = purity_dict[module_path]
 
         # Create global functions and properties
         for function in module.global_functions:
@@ -490,11 +501,26 @@ class StubsStringGenerator:
 
         result_string = self._create_result_string(function.results)
 
+
+        # Purity
+        purity_str = "@Pure"
+        # how to get the nodeId?
+        purity_dict = self.purity_api.to_dict()
+        module_path = self.module_id.split("/")
+        package_name = self.api.package
+        index_to_split = module_path.index(package_name)
+        module_path = module_path[index_to_split:]
+        module_path = ".".join(module_path)
+
+        purity_result = purity_dict[module_path][function.id]
+        if isinstance(purity_result, Impure):
+            purity_str = "@Impure"
+
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
             f"{docstring}"
-            f"{indentations}@Pure\n"
+            f"{indentations}{purity_str}\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}{type_var_info}"
             f"({func_params}){result_string}{boundaries}"
