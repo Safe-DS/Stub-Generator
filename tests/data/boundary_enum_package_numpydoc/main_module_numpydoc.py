@@ -1,5 +1,7 @@
 """NumpyDoc Docstring of the some_class.py module."""
 
+test = 10
+
 # noinspection PyUnusedLocal
 def global_func1_numpy(param1, param2, param3, param4):
     """Lorem ipsum
@@ -26,4 +28,4 @@ def global_func1_numpy(param1, param2, param3, param4):
         If int, then max_samples values in [0, 10].
         If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
     """
-    pass
+    return test

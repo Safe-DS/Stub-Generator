@@ -128,7 +128,7 @@ def _run_stub_generator(
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
 
-    api_purity = get_purity_results(src_dir_path)
+    api_purity = get_purity_results(src_dir_path, test_run=is_test_run)
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
         out_file_api_purity,
@@ -136,7 +136,7 @@ def _run_stub_generator(
     )  # Shorten is set to True by default, therefore the results will only contain the count of each reason.
 
     # Generate the stub data
-    stubs_generator = StubsStringGenerator(api=api, convert_identifiers=convert_identifiers)
+    stubs_generator = StubsStringGenerator(api=api, purity_api=api_purity, convert_identifiers=convert_identifiers)
     stub_data = generate_stub_data(stubs_generator=stubs_generator, out_path=out_dir_path)
     # Create the stub files
     create_stub_files(stubs_generator=stubs_generator, stubs_data=stub_data, out_path=out_dir_path)
