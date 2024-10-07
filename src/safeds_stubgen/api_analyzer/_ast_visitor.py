@@ -340,6 +340,8 @@ class MyPyAstVisitor:
         # Create and add Function to stack
         function = Function(
             id=function_id,
+            line=node.line,
+            column=node.column,
             name=name,
             docstring=docstring,
             is_public=is_public,

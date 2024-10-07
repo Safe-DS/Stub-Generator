@@ -235,6 +235,8 @@ class Attribute:
 @dataclass
 class Function:
     id: str
+    line: int
+    column: int
     name: str
     docstring: FunctionDocstring
     is_public: bool
