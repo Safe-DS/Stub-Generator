@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
+from safeds_stubgen.api_analyzer.purity_analysis._infer_purity import get_purity_results
 from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
 from safeds_stubgen.stubs_generator import NamingConvention, StubsStringGenerator, create_stub_files, generate_stub_data
@@ -27,8 +28,10 @@ _out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
 _docstring_package_name = "docstring_parser_package"
 _docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
+purity_api = get_purity_results(_test_package_dir, test_run=True)
+
 api = get_api(_test_package_dir, is_test_run=True)
-stubs_generator = StubsStringGenerator(api=api, convert_identifiers=True)
+stubs_generator = StubsStringGenerator(api=api, purity_api=purity_api, convert_identifiers=True)
 stubs_data = generate_stub_data(stubs_generator=stubs_generator, out_path=_out_dir)
 
 
@@ -162,7 +165,8 @@ def test_stub_docstring_creation(
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
     )
-    docstring_stubs_generator = StubsStringGenerator(api=docstring_api, convert_identifiers=True)
+    purity_api = get_purity_results(_docstring_package_dir, test_run=True)
+    docstring_stubs_generator = StubsStringGenerator(api=docstring_api, purity_api=purity_api, convert_identifiers=True)
     docstring_stubs_data = generate_stub_data(stubs_generator=docstring_stubs_generator, out_path=_out_dir)
 
     for stub_text in docstring_stubs_data:

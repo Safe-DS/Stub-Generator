@@ -22,7 +22,7 @@ from safeds_stubgen.api_analyzer import (
     VarianceKind,
     result_name_generator,
 )
-from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, ImpurityReason, Unknown, PurityResult, UnknownCall
 from safeds_stubgen.docstring_parsing import AttributeDocstring
 
 from ._helper import (
@@ -57,14 +57,30 @@ class StubsStringGenerator:
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
 
+        self.purity_api = purity_api
+
     def __call__(self, module: Module) -> tuple[str, str]:
         self._set_module_id(module.id)
         self.reexport_module_id = ""
         self.class_generics = []
         self.module_imports = set()
 
+        # narrow purity dict TODO
+        purity_dict = self.purity_api.to_dict()
+        module_path = self.module_id.split("/")
+        package_name = self.api.package # error ?
+        index_to_split = module_path.index(package_name)
+        module_path = module_path[index_to_split:]
+        self.module_path = ".".join(module_path)
+        self.module_purity_data: dict[str, PurityResult] = purity_dict[self.module_path]
+
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
+
+    def _create_function_purity_id(self, function: Function):
+        id = function.id.split("/")
+        id = id[-1]
+        return f"{self.module_path}.{id}.{function.line}.{function.column}"
 
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
         module_data = []
@@ -98,7 +114,9 @@ class StubsStringGenerator:
                 if isinstance(element, Class):
                     module_text = f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
                 elif isinstance(element, Function):
-                    module_text = f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
+                    function_purity_id = self._create_function_purity_id(element)
+                    purity_result = self.module_purity_data[function_purity_id]
+                    module_text = f"\n{self._create_function_string(function=element, purity_result=purity_result, in_reexport_module=True)}\n"
                 else:  # pragma: no cover
                     msg = f"Could not create a module for {element.id}. Unsupported type {type(element)}."
                     logging.warning(msg)
@@ -150,9 +168,13 @@ class StubsStringGenerator:
 
         # Create global functions and properties
         for function in module.global_functions:
+            function_purity_id = self._create_function_purity_id(function)
+            results = self.purity_api.purity_results
+            purity_result = self.module_purity_data[function_purity_id]
             if function.is_public:
                 function_string = self._create_function_string(
                     function=function,
+                    purity_result=purity_result,
                     is_method=False,
                     in_reexport_module=in_reexport_module,
                 )
@@ -368,9 +390,14 @@ class StubsStringGenerator:
                     self._create_property_function_string(method, inner_indentations),
                 )
             else:
+                function_purity_id = self._create_function_purity_id(method)
+                try:
+                    purity_result = self.module_purity_data[function_purity_id]  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
+                except KeyError:
+                    print(function_purity_id, method.id, self.purity_api.purity_results)
                 all_method_names.add(method.name)
                 class_methods.append(
-                    self._create_function_string(function=method, indentations=inner_indentations, is_method=True),
+                    self._create_function_string(function=method, purity_result=purity_result, indentations=inner_indentations, is_method=True),
                 )
 
         method_text = ""
@@ -442,6 +469,7 @@ class StubsStringGenerator:
     def _create_function_string(
         self,
         function: Function,
+        purity_result: PurityResult,
         indentations: str = "",
         is_method: bool = False,
         in_reexport_module: bool = False,
@@ -502,19 +530,15 @@ class StubsStringGenerator:
         result_string = self._create_result_string(function.results)
 
 
-        # Purity
+        # Purity TODO implement Reasons and check why purity_result is dict
         purity_str = "@Pure"
-        # how to get the nodeId?
-        purity_dict = self.purity_api.to_dict()
-        module_path = self.module_id.split("/")
-        package_name = self.api.package
-        index_to_split = module_path.index(package_name)
-        module_path = module_path[index_to_split:]
-        module_path = ".".join(module_path)
-
-        purity_result = purity_dict[module_path][function.id]
-        if isinstance(purity_result, Impure):
-            purity_str = "@Impure"
+        if purity_result["purity"] == "Impure":  # type: ignore somehow isinstance doesnt work here as PurityReason is a dict here
+            # reasons_str = ""
+            # reasons = purity_result["reasons"]  # type: ignore PurityReason is a dict here
+            # for reason in reasons:
+            #     reasons_str += str(reason) + ","
+            # purity_str = f"@Impure([{reasons_str}])"
+            purity_str = "@Impure([ImpurityReason.Other])"
 
         # Create string and return
         return (
