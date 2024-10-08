@@ -76,33 +76,26 @@ class StubsStringGenerator:
 
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
+    
+    def _get_correct_module_id(self, function: Function) -> str:
+        package_name = self.api.package 
+        module_path_list = function.module_id_which_contains_def.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        return correct_module_path
 
-    def _create_function_purity_id(self, function: Function, is_module_wrong: bool = False):
+    def _create_function_purity_id(self, function: Function):
         full_id = function.id.split("/")
         id = full_id[-1]
-        if function.is_class_method or is_module_wrong:
-            package_name = self.api.package
-            index_to_split = full_id.index(package_name)
-            other_module_path = full_id[index_to_split:-2]  # assumption that only -2 is the part of the class
-            correct_other_module_path = ".".join(other_module_path)
-            return f"{correct_other_module_path}.{id}.{function.line}.{function.column}"
-        return f"{self.module_path}.{id}.{function.line}.{function.column}"
+        correct_module_id = self._get_correct_module_id(function)
+        return f"{correct_module_id}.{id}.{function.line}.{function.column}"
     
-    def _get_purity_result(self, function: Function, is_module_wrong: bool = False) -> PurityResult:
+    def _get_purity_result(self, function: Function) -> PurityResult:
         function_id = self._create_function_purity_id(function)
-        print(self.module_imports)
         purity_dict = self.purity_api.to_dict()
-        full_id = function.id.split("/")
-        package_name = self.api.package 
-        index_to_split = full_id.index(package_name)
-        module_path = full_id[index_to_split:-2]
-        correct_module_path = ".".join(module_path)
-        if self.module_path in function_id:
-            print("ok", self.module_path, function_id, purity_data)
-            purity_data = purity_dict[self.module_path]
-        else:
-            purity_data = purity_dict[correct_module_path]
-            print("NOT ok", self.module_path, function_id, purity_data)
+        correct_module_id = self._get_correct_module_id(function)
+        purity_data = purity_dict[correct_module_id]
         return purity_data[function_id]
 
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
@@ -137,12 +130,8 @@ class StubsStringGenerator:
                 if isinstance(element, Class):
                     module_text = f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
                 elif isinstance(element, Function):
-                    # try:
                     purity_result = self._get_purity_result(element)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
                     module_text = f"\n{self._create_function_string(function=element, purity_result=purity_result, in_reexport_module=True)}\n"
-                    # except KeyError:
-                    #     purity_result = self._get_purity_result(element, is_module_wrong=True)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
-                    #     module_text = f"\n{self._create_function_string(function=element, purity_result=purity_result, in_reexport_module=True)}\n"
                 else:  # pragma: no cover
                     msg = f"Could not create a module for {element.id}. Unsupported type {type(element)}."
                     logging.warning(msg)
@@ -183,19 +172,9 @@ class StubsStringGenerator:
         if docstring:
             docstring += "\n"
 
-        # narrow purity dict TODO
-        purity_dict = self.purity_api.to_dict()
-        module_path = self.module_id.split("/")
-        package_name = self.api.package
-        index_to_split = module_path.index(package_name)
-        module_path = module_path[index_to_split:]
-        module_path = ".".join(module_path)
-        module_purity_data = purity_dict[module_path]
-
         # Create global functions and properties
         for function in module.global_functions:
             if function.is_public:
-                # try:
                 purity_result = self._get_purity_result(function)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
                 function_string = self._create_function_string(
                     function=function,
@@ -205,16 +184,6 @@ class StubsStringGenerator:
                 )
                 if function_string:
                     module_text += f"\n{function_string}\n"
-                # except KeyError:
-                #     purity_result = self._get_purity_result(function, is_module_wrong=True)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
-                #     function_string = self._create_function_string(
-                #         function=function,
-                #         purity_result=purity_result,
-                #         is_method=False,
-                #         in_reexport_module=in_reexport_module,
-                #     )
-                #     if function_string:
-                #         module_text += f"\n{function_string}\n"
 
         # Create classes, class attr. & class methods
         for class_ in module.classes:
@@ -425,18 +394,11 @@ class StubsStringGenerator:
                     self._create_property_function_string(method, inner_indentations),
                 )
             else:
-                # try:
                 purity_result = self._get_purity_result(method)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
                 all_method_names.add(method.name)
                 class_methods.append(
                     self._create_function_string(function=method, purity_result=purity_result, indentations=inner_indentations, is_method=True),
                 )
-                # except KeyError:
-                #     purity_result = self._get_purity_result(method, is_module_wrong=True)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
-                #     all_method_names.add(method.name)
-                #     class_methods.append(
-                #         self._create_function_string(function=method, purity_result=purity_result, indentations=inner_indentations, is_method=True),
-                #     )
 
         method_text = ""
         if class_property_methods:

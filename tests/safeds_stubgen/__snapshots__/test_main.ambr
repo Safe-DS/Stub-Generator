@@ -49,6 +49,7 @@
         'reexported_by': list([
         ]),
         'results': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/result_1',
         ]),
       }),
     ]),
@@ -280,6 +281,15 @@
       }),
     ]),
     'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_googledoc.main_module_googledoc.test',
+        }),
+      }),
     ]),
     'schemaVersion': 1,
     'version': '',
@@ -343,6 +353,7 @@
         'reexported_by': list([
         ]),
         'results': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/result_1',
         ]),
       }),
     ]),
@@ -574,6 +585,15 @@
       }),
     ]),
     'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_numpydoc.main_module_numpydoc.test',
+        }),
+      }),
     ]),
     'schemaVersion': 1,
     'version': '',
@@ -1644,6 +1664,7 @@
         'reexported_by': list([
         ]),
         'results': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/result_1',
         ]),
       }),
     ]),
@@ -1861,6 +1882,15 @@
       }),
     ]),
     'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_restdoc.main_module_restdoc.test',
+        }),
+      }),
     ]),
     'schemaVersion': 1,
     'version': '',

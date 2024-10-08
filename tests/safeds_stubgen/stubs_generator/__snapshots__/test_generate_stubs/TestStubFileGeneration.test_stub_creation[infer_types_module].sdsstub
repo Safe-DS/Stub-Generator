@@ -46,7 +46,7 @@ class InferMyTypes(
         @PythonName("tuple_") tuple
     )
 
-    @Pure
+    @Impure([ImpurityReason.Other])
     @PythonName("infer_function")
     static fun inferFunction(
         @PythonName("infer_param") inferParam: Int = 1,

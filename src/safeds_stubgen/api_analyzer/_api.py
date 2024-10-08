@@ -235,6 +235,7 @@ class Attribute:
 @dataclass
 class Function:
     id: str
+    module_id_which_contains_def: str
     line: int
     column: int
     name: str

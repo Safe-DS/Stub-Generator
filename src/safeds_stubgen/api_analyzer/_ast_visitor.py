@@ -68,6 +68,7 @@ class MyPyAstVisitor:
         self.mypy_file: mp_nodes.MypyFile | None = None
         # We gather type var types used as a parameter type in a function
         self.type_var_types: set[sds_types.TypeVarType] = set()
+        self.current_module_id = ""
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -121,6 +122,7 @@ class MyPyAstVisitor:
         name = "__init__" if is_package else node.name
 
         # Remember module, so we can later add classes and global functions
+        self.current_module_id = node.fullname
         module = Module(
             id_=id_,
             name=name,
@@ -138,7 +140,7 @@ class MyPyAstVisitor:
         module = self.__declaration_stack.pop()
         if not isinstance(module, Module):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
+        self.current_module_id = ""
         self.api.add_module(module)
 
     def enter_classdef(self, node: mp_nodes.ClassDef) -> None:
@@ -340,6 +342,7 @@ class MyPyAstVisitor:
         # Create and add Function to stack
         function = Function(
             id=function_id,
+            module_id_which_contains_def=self.current_module_id,
             line=node.line,
             column=node.column,
             name=name,
