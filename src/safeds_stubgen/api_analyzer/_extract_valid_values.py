@@ -515,6 +515,7 @@ def extract_valid_literals(description: str, type_string: str) -> set[str]:
     for label, match_span in type_matches:
         if label == "ENUM_STR" and match_span.text != "of str":
             is_enum_str = True
+            break
 
     if is_enum_str and not extracted_set.difference(none_and_bool):
         extracted_set.add("unlistable_str")

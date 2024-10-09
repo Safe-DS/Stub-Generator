@@ -700,6 +700,11 @@ class StubsStringGenerator:
 
             # Check for boundaries and enums
             if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
+                for i, valid_value in enumerate(parameter_valid_values):
+                    if valid_value == "None":
+                        parameter_valid_values[i] = "null"
+                    elif valid_value in ["True", "False"]:
+                        parameter_valid_values[i] = valid_value.lower()
                 type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
             if len(parameter_boundaries) != 0:
                 boundary_data[parameter.name] = parameter_boundaries
@@ -730,9 +735,9 @@ class StubsStringGenerator:
                     continue
 
                 if boundary["min_inclusive"]:  # []
-                    boundary_str += str(boundary["min"]) + " <= " + parameter_name + " and "
+                    boundary_str += parameter_name + " <= " + str(boundary["min"]) + " and "
                 else:  # ()
-                    boundary_str += str(boundary["min"]) + " < " + parameter_name + " and "
+                    boundary_str += parameter_name + " < " + str(boundary["min"]) + " and "
 
                 if boundary["max_inclusive"]:
                     boundary_str += parameter_name + " <= " + str(boundary["max"])
