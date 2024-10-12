@@ -735,9 +735,9 @@ class StubsStringGenerator:
                     continue
 
                 if boundary["min_inclusive"]:  # []
-                    boundary_str += parameter_name + " <= " + str(boundary["min"]) + " and "
+                    boundary_str += parameter_name + " >= " + str(boundary["min"]) + " and "
                 else:  # ()
-                    boundary_str += parameter_name + " < " + str(boundary["min"]) + " and "
+                    boundary_str += parameter_name + " > " + str(boundary["min"]) + " and "
 
                 if boundary["max_inclusive"]:
                     boundary_str += parameter_name + " <= " + str(boundary["max"])
