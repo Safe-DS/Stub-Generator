@@ -128,7 +128,7 @@ def _run_stub_generator(
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
 
-    api_purity = get_purity_results(src_dir_path, test_run=is_test_run)
+    api_purity = get_purity_results(src_dir_path, api_data=api, test_run=is_test_run)
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
         out_file_api_purity,

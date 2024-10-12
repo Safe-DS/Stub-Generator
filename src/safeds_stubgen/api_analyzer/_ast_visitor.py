@@ -339,6 +339,9 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
 
+        # use mypy to get the body of the functions and the types of expressions so that I can use them 
+        # during the reference resolving step 
+        test_body = node.body
         # Create and add Function to stack
         function = Function(
             id=function_id,

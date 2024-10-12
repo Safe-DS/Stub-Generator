@@ -29,3 +29,34 @@ def global_func1_numpy(param1, param2, param3, param4):
         If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
     """
     return test
+
+
+class SuperClass:
+    def __init__(self):
+        pass
+
+    def same_name():
+        x = 20
+        return x
+    
+class ChildClassPure(SuperClass):
+    def same_name():
+        return 30
+    
+
+class ChildClassImpure(SuperClass):
+    def same_name():
+        return test
+    
+
+def global_func_pure():
+    super_class_instance = SuperClass()
+    child_class_instance = ChildClassPure()
+    result = super_class_instance.same_name() + child_class_instance.same_name()
+    return result
+
+def global_func_impure():
+    super_class_instance = SuperClass()
+    child_class_instance = ChildClassImpure()
+    result = super_class_instance.same_name() + child_class_instance.same_name()  # call reference to impure function
+    return result

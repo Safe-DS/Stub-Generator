@@ -264,6 +264,10 @@ class Function:
             "parameters": [parameter.id for parameter in self.parameters],
         }
 
+@dataclass
+class FunctionBody:
+    pass
+
 
 class UnknownValue:
     pass
