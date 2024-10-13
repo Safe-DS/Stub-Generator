@@ -28,9 +28,8 @@ _out_dir_stubs = Path(_out_dir / "tests/data" / _test_package_name)
 _docstring_package_name = "docstring_parser_package"
 _docstring_package_dir = Path(_lib_dir / "data" / _docstring_package_name)
 
-purity_api = get_purity_results(_test_package_dir, test_run=True)
-
 api = get_api(_test_package_dir, is_test_run=True)
+purity_api = get_purity_results(_test_package_dir, api_data=api, test_run=True)
 stubs_generator = StubsStringGenerator(api=api, purity_api=purity_api, convert_identifiers=True)
 stubs_data = generate_stub_data(stubs_generator=stubs_generator, out_path=_out_dir)
 
@@ -165,7 +164,7 @@ def test_stub_docstring_creation(
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
     )
-    purity_api = get_purity_results(_docstring_package_dir, test_run=True)
+    purity_api = get_purity_results(_docstring_package_dir, api_data=docstring_api, test_run=True)
     docstring_stubs_generator = StubsStringGenerator(api=docstring_api, purity_api=purity_api, convert_identifiers=True)
     docstring_stubs_data = generate_stub_data(stubs_generator=docstring_stubs_generator, out_path=_out_dir)
 

@@ -97,7 +97,7 @@ class PurityAnalyzer:
 
     def __init__(
         self,
-        api_data: API,
+        api_data: API | None,
         code: str | None,
         module_name: str = "",
         path: str | None = None,
@@ -121,7 +121,7 @@ class PurityAnalyzer:
         self.current_purity_results: dict[NodeID, dict[NodeID, PurityResult]] = {self.module_id: {}}
         self.separated_nodes: dict[NodeID, CallGraphNode] = {}
         self.cached_module_results: dict[NodeID, dict[NodeID, PurityResult]] = results if results else {}
-        self.api_data: API = api_data
+        self.api_data = api_data
 
         self._analyze_purity()
 
@@ -589,7 +589,7 @@ class PurityAnalyzer:
 
 def infer_purity(
     code: str | None,
-    api_data: API,
+    api_data: API | None = None,
     module_name: str = "",
     path: str | None = None,
     results: dict[NodeID, dict[NodeID, PurityResult]] | None = None,

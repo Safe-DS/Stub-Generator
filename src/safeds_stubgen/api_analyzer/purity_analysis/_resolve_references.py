@@ -77,11 +77,11 @@ class ReferenceResolver:
     imports: dict[str, Import]
     module_analysis_result: ModuleAnalysisResult = ModuleAnalysisResult()
     package_data_is_provided: bool = False
-    api_data: API
+    api_data: API | None
 
     def __init__(
         self,
-        api_data: API,
+        api_data: API | None,
         code: str,
         module_name: str = "",
         path: str | None = None,
@@ -284,8 +284,9 @@ class ReferenceResolver:
             # function_symbols contains all functions that have the same name, now we need the type of the parent class if there is one, to narrow down the possibilities
             # and also contains info about class, so we need info about the receiver of that call (receiver.call())
             # for that, I need to use mypy and get the types of the receiver
-        	# self.api_data.functions["test"].body["nameOfExpressionOrId"].type
-            
+        	# self.api_data.functions[function.id].body.call_references[call_reference.name].receiver.type
+            # TODO (pm): write function that gets the type from receiver of the call reference and compares the type to the parent of the functionScope if its a classScope     
+
             # "None" is not iterable, but it is checked before
             class_iterator = function.symbol.node
             klass = None
@@ -883,7 +884,7 @@ class ReferenceResolver:
 
 def resolve_references(
     code: str,
-    api_data: API,
+    api_data: API | None = None,
     module_name: str = "",
     path: str | None = None,
     package_data: PackageData | None = None,

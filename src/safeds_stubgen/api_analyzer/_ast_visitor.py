@@ -362,6 +362,36 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
+    def extract_body_info(self, body_block: mp_nodes.Block):
+        statements = body_block.body
+        for statement in statements:
+            if isinstance(statement, mp_nodes.ExpressionStmt):
+                pass
+            elif isinstance(statement, mp_nodes.AssignmentStmt):
+                pass
+            elif isinstance(statement, mp_nodes.OperatorAssignmentStmt):
+                pass
+            elif isinstance(statement, mp_nodes.WhileStmt):  # recursion
+                pass
+            elif isinstance(statement, mp_nodes.ForStmt):  # recursion
+                pass
+            elif isinstance(statement, mp_nodes.ReturnStmt):
+                pass
+            elif isinstance(statement, mp_nodes.AssertStmt):
+                pass
+            elif isinstance(statement, mp_nodes.DelStmt):
+                pass
+            elif isinstance(statement, mp_nodes.IfStmt):  # recursion
+                pass
+            elif isinstance(statement, mp_nodes.RaiseStmt):
+                pass
+            elif isinstance(statement, mp_nodes.TryStmt):  # recursion
+                pass
+            elif isinstance(statement, mp_nodes.WithStmt):  # recursion 
+                pass
+            elif isinstance(statement, mp_nodes.MatchStmt): # multiple recursion as there is a list of bodies
+                pass
+
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
         function = self.__declaration_stack.pop()
         if not isinstance(function, Function):  # pragma: no cover

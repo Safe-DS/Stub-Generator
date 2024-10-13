@@ -2,6 +2,18 @@
 
 test = 10
 
+def global_func_pure() -> int:
+    super_class_instance = SuperClass()
+    child_class_instance = ChildClassPure()
+    result = super_class_instance.same_name() + child_class_instance.same_name()
+    return result
+
+def global_func_impure() -> int:
+    super_class_instance = SuperClass()
+    child_class_instance = ChildClassImpure()
+    result = super_class_instance.same_name() + child_class_instance.same_name()  # call reference to impure function
+    return result
+
 # noinspection PyUnusedLocal
 def global_func1_numpy(param1, param2, param3, param4):
     """Lorem ipsum
@@ -32,31 +44,18 @@ def global_func1_numpy(param1, param2, param3, param4):
 
 
 class SuperClass:
-    def __init__(self):
+    def __init__(self) -> None:
         pass
 
-    def same_name():
+    def same_name(self) -> int:
         x = 20
         return x
     
 class ChildClassPure(SuperClass):
-    def same_name():
+    def same_name(self) -> int:
         return 30
     
 
 class ChildClassImpure(SuperClass):
-    def same_name():
+    def same_name(self) -> int:
         return test
-    
-
-def global_func_pure():
-    super_class_instance = SuperClass()
-    child_class_instance = ChildClassPure()
-    result = super_class_instance.same_name() + child_class_instance.same_name()
-    return result
-
-def global_func_impure():
-    super_class_instance = SuperClass()
-    child_class_instance = ChildClassImpure()
-    result = super_class_instance.same_name() + child_class_instance.same_name()  # call reference to impure function
-    return result
