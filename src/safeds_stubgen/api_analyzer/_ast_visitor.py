@@ -22,6 +22,7 @@ from ._api import (
     Enum,
     EnumInstance,
     Function,
+    FunctionBody,
     Module,
     Parameter,
     QualifiedImport,
@@ -362,35 +363,82 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def extract_body_info(self, body_block: mp_nodes.Block):
+    def extract_body_info(self, body_block: mp_nodes.Block) -> FunctionBody:
         statements = body_block.body
+        call_references = []
         for statement in statements:
             if isinstance(statement, mp_nodes.ExpressionStmt):
+                self.extract_expression_info(statement.expr)
                 pass
             elif isinstance(statement, mp_nodes.AssignmentStmt):
+                statement.type
+                statement.rvalue
                 pass
             elif isinstance(statement, mp_nodes.OperatorAssignmentStmt):
+                statement.rvalue
                 pass
             elif isinstance(statement, mp_nodes.WhileStmt):  # recursion
+                self.extract_expression_info(statement.expr)
+                self.extract_body_info(statement.body)
+                self.extract_body_info(statement.else_body)
                 pass
             elif isinstance(statement, mp_nodes.ForStmt):  # recursion
+                self.extract_expression_info(statement.expr)
+                statement.index
+                self.extract_body_info(statement.body)
+                self.extract_body_info(statement.else_body)
                 pass
             elif isinstance(statement, mp_nodes.ReturnStmt):
+                self.extract_expression_info(statement.expr)
                 pass
             elif isinstance(statement, mp_nodes.AssertStmt):
+                self.extract_expression_info(statement.expr)
+                statement.msg
                 pass
             elif isinstance(statement, mp_nodes.DelStmt):
+                self.extract_expression_info(statement.expr)
                 pass
             elif isinstance(statement, mp_nodes.IfStmt):  # recursion
+                for expression in statement.expr:  # list of expression
+                    self.extract_expression_info(expression)
+                self.extract_body_info(statement.body)
+                self.extract_body_info(statement.else_body)
                 pass
             elif isinstance(statement, mp_nodes.RaiseStmt):
+                self.extract_expression_info(statement.expr)
+                statement.from_expr
                 pass
-            elif isinstance(statement, mp_nodes.TryStmt):  # recursion
+            elif isinstance(statement, mp_nodes.TryStmt):  # multiple recursion
+                statement.types
+                self.extract_body_info(statement.body)
+                self.extract_body_info(statement.else_body)
+                self.extract_body_info(statement.finally_body)
+                for handler in statement.handlers:
+                    self.extract_body_info(handler)
                 pass
-            elif isinstance(statement, mp_nodes.WithStmt):  # recursion 
+            elif isinstance(statement, mp_nodes.WithStmt):  # recursion
+                statement.target  # list of lvalue
+                self.extract_expression_info(statement.expr) 
+                self.extract_body_info(statement.body)
                 pass
             elif isinstance(statement, mp_nodes.MatchStmt): # multiple recursion as there is a list of bodies
+                statement.guards  # list of expression
+                statement.patterns
+                statement.subject
+                self.extract_body_info(statement.bodies)
                 pass
+
+    def extract_expression_info(self, expr: mp_nodes.Expression):
+        if isinstance(expr, mp_nodes.RefExpr):
+            if isinstance(expr, mp_nodes.MemberExpr):
+                if isinstance(expr.expr, mp_nodes.CallExpr):
+                    print("found call_reference through member access")
+                    # we need info about the class and if there are subclasses, 
+                    # with the definition of a func with same name, 
+                    # we need to consider this one as well and if the class doesnt has a function def of that name,
+                    # we need to consider the super class
+        return
+
 
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
         function = self.__declaration_stack.pop()

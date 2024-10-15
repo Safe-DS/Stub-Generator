@@ -266,8 +266,19 @@ class Function:
 
 @dataclass
 class FunctionBody:
+    call_references: list[CallReference] = field(default_factory=list)
     pass
 
+@dataclass
+class CallReference:
+    receiver: CallReceiver | None
+    return_type: None
+    line: int
+    column: int
+
+class CallReceiver:
+    class_name: str | None
+    type: str | None
 
 class UnknownValue:
     pass
