@@ -43,6 +43,8 @@ class API:
         self.modules: dict[str, Module] = {}
         self.classes: dict[str, Class] = {}
         self.functions: dict[str, Function] = {}
+        # temporary
+        self.functions2: dict[str, Function] = {}
         self.results: dict[str, Result] = {}
         self.enums: dict[str, Enum] = {}
         self.enum_instances: dict[str, EnumInstance] = {}
@@ -56,8 +58,25 @@ class API:
     def add_class(self, class_: Class) -> None:
         self.classes[class_.id] = class_
 
+    def create_astroid_module_path(self, path_str: str) -> str:
+        package_name = self.package 
+        module_path_list = path_str.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        return correct_module_path
+    
+    def create_astroid_id(self, function: Function) -> str:
+        correct_module_path = self.create_astroid_module_path(function.module_id_which_contains_def)
+        full_id = function.id.split("/")
+        id = full_id[-1]
+        return f"{correct_module_path}.{id}.{function.line}.{function.column}"
+
     def add_function(self, function: Function) -> None:
         self.functions[function.id] = function
+        # temporary
+        
+        self.functions2[self.create_astroid_id(function)] = function
 
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
@@ -240,6 +259,7 @@ class Function:
     column: int
     name: str
     docstring: FunctionDocstring
+    body: Body | None
     is_public: bool
     is_static: bool
     is_class_method: bool
@@ -265,20 +285,24 @@ class Function:
         }
 
 @dataclass
-class FunctionBody:
-    call_references: list[CallReference] = field(default_factory=list)
-    pass
+class Body:
+    line: int
+    column: int
+    end_line: int | None
+    end_column: int | None
+    call_references: dict[str, CallReference] = field(default_factory=dict)
 
 @dataclass
 class CallReference:
-    receiver: CallReceiver | None
-    return_type: None
+    receiver: CallReceiver
+    function_name: str
     line: int
     column: int
 
+@dataclass
 class CallReceiver:
-    class_name: str | None
-    type: str | None
+    type: Any
+    full_name: str
 
 class UnknownValue:
     pass

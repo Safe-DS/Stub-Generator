@@ -247,7 +247,29 @@ class ReferenceResolver:
         else:
             return True
 
-    def _find_call_references(
+    def reduce_found_functions_by_type(
+        self, 
+        func: FunctionScope, 
+        call_reference: Reference, 
+        possible_functions: list[FunctionScope]
+    ) -> list[FunctionScope]:
+        node_id = func.symbol.id
+        function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
+        if self.api_data is None or self.api_data.functions2[function_id].body is None:
+            return possible_functions
+        
+        call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
+        type = self.api_data.functions2[function_id].body.call_references[call_reference_id].receiver.type
+        result = []
+        for functionScope in possible_functions:
+            if isinstance(functionScope.parent, ClassScope):
+                functionScope.parent.symbol.name
+                if (True):  # compare types but if subtype, then add subtype function too 
+                    # and if supertype and type of receiver doesnt have the function, add supertype function
+                    result += functionScope
+        return result
+
+    def _find_referenced_functions(
         self,
         call_reference: Reference,
         function: FunctionScope,
@@ -280,11 +302,12 @@ class ReferenceResolver:
         if call_reference.name in self.functions:
             function_def = self.functions.get(call_reference.name)
             function_def = [function_d for function_d in function_def if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
+            function_def = self.reduce_found_functions_by_type(function, call_reference, function_def)
             function_symbols = [func.symbol for func in function_def if function_def]  # type: ignore[union-attr]
             # function_symbols contains all functions that have the same name, now we need the type of the parent class if there is one, to narrow down the possibilities
             # and also contains info about class, so we need info about the receiver of that call (receiver.call())
             # for that, I need to use mypy and get the types of the receiver
-            self.api_data.functions[function.id].body.call_references[call_reference.name].receiver.type
+            # self.api_data.functions[function.id].body.call_references[call_reference.name].receiver.type
             # TODO (pm): write function that gets the type from receiver of the call reference and compares the type to the parent of the functionScope if its a classScope     
 
             # "None" is not iterable, but it is checked before
@@ -746,7 +769,7 @@ class ReferenceResolver:
                     for call_list in function.call_references.values():
                         for call_reference in call_list:
                             call_references_result: ReferenceNode
-                            call_references_result = self._find_call_references(
+                            call_references_result = self._find_referenced_functions(
                                 call_reference,
                                 function,  # this is the function in which a reference is made
                             )

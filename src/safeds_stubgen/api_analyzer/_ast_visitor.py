@@ -18,11 +18,13 @@ from safeds_stubgen.docstring_parsing import ResultDocstring
 from ._api import (
     API,
     Attribute,
+    Body,
+    CallReceiver,
+    CallReference,
     Class,
     Enum,
     EnumInstance,
     Function,
-    FunctionBody,
     Module,
     Parameter,
     QualifiedImport,
@@ -340,9 +342,8 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
 
-        # use mypy to get the body of the functions and the types of expressions so that I can use them 
-        # during the reference resolving step 
-        test_body = node.body
+        function_body = self.extract_body_info(node.body, {})
+
         # Create and add Function to stack
         function = Function(
             id=function_id,
@@ -351,6 +352,7 @@ class MyPyAstVisitor:
             column=node.column,
             name=name,
             docstring=docstring,
+            body=function_body,
             is_public=is_public,
             is_static=is_static,
             is_class_method=node.is_class,
@@ -363,81 +365,54 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def extract_body_info(self, body_block: mp_nodes.Block) -> FunctionBody:
+    def extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body | None:
+        if body_block is None: 
+            return None
+            
         statements = body_block.body
-        call_references = []
         for statement in statements:
-            if isinstance(statement, mp_nodes.ExpressionStmt):
-                self.extract_expression_info(statement.expr)
-                pass
-            elif isinstance(statement, mp_nodes.AssignmentStmt):
-                statement.type
-                statement.rvalue
-                pass
-            elif isinstance(statement, mp_nodes.OperatorAssignmentStmt):
-                statement.rvalue
-                pass
-            elif isinstance(statement, mp_nodes.WhileStmt):  # recursion
-                self.extract_expression_info(statement.expr)
-                self.extract_body_info(statement.body)
-                self.extract_body_info(statement.else_body)
-                pass
-            elif isinstance(statement, mp_nodes.ForStmt):  # recursion
-                self.extract_expression_info(statement.expr)
-                statement.index
-                self.extract_body_info(statement.body)
-                self.extract_body_info(statement.else_body)
-                pass
-            elif isinstance(statement, mp_nodes.ReturnStmt):
-                self.extract_expression_info(statement.expr)
-                pass
-            elif isinstance(statement, mp_nodes.AssertStmt):
-                self.extract_expression_info(statement.expr)
-                statement.msg
-                pass
-            elif isinstance(statement, mp_nodes.DelStmt):
-                self.extract_expression_info(statement.expr)
-                pass
-            elif isinstance(statement, mp_nodes.IfStmt):  # recursion
-                for expression in statement.expr:  # list of expression
-                    self.extract_expression_info(expression)
-                self.extract_body_info(statement.body)
-                self.extract_body_info(statement.else_body)
-                pass
-            elif isinstance(statement, mp_nodes.RaiseStmt):
-                self.extract_expression_info(statement.expr)
-                statement.from_expr
-                pass
-            elif isinstance(statement, mp_nodes.TryStmt):  # multiple recursion
-                statement.types
-                self.extract_body_info(statement.body)
-                self.extract_body_info(statement.else_body)
-                self.extract_body_info(statement.finally_body)
-                for handler in statement.handlers:
-                    self.extract_body_info(handler)
-                pass
-            elif isinstance(statement, mp_nodes.WithStmt):  # recursion
-                statement.target  # list of lvalue
-                self.extract_expression_info(statement.expr) 
-                self.extract_body_info(statement.body)
-                pass
-            elif isinstance(statement, mp_nodes.MatchStmt): # multiple recursion as there is a list of bodies
-                statement.guards  # list of expression
-                statement.patterns
-                statement.subject
-                self.extract_body_info(statement.bodies)
-                pass
+            for member_name in dir(statement):
+                if not member_name.startswith("__"):
+                    member = getattr(statement, member_name)
+                    # what about patterns?
+                    if isinstance(member, mp_nodes.Block):
+                        self.extract_body_info(member, call_references)
+                    if isinstance(member, mp_nodes.Expression | mp_nodes.Lvalue):
+                        self.extract_expression_info(member, call_references)
+                    if isinstance(member, list) and len(member) != 0:
+                        if isinstance(member[0], mp_nodes.Block):
+                            for body in member:
+                                self.extract_body_info(body, call_references)
+                        if isinstance(member[0], mp_nodes.Expression | mp_nodes.Lvalue):
+                            for expr in member:
+                                self.extract_expression_info(expr, call_references)
 
-    def extract_expression_info(self, expr: mp_nodes.Expression):
-        if isinstance(expr, mp_nodes.RefExpr):
-            if isinstance(expr, mp_nodes.MemberExpr):
-                if isinstance(expr.expr, mp_nodes.CallExpr):
-                    print("found call_reference through member access")
-                    # we need info about the class and if there are subclasses, 
-                    # with the definition of a func with same name, 
-                    # we need to consider this one as well and if the class doesnt has a function def of that name,
-                    # we need to consider the super class
-        return
+        return Body(
+            line=body_block.line,
+            end_line=body_block.end_line,
+            column=body_block.column,
+            end_column=body_block.end_column,
+            call_references=call_references
+        )
+
+    def extract_expression_info(self, expr: mp_nodes.Expression | None, call_references: dict[str, CallReference]):
+        # extract call_reference with receiver
+        if isinstance(expr, mp_nodes.CallExpr):
+            if isinstance(expr.callee, mp_nodes.MemberExpr):
+                if isinstance(expr.callee.expr, mp_nodes.NameExpr):
+                    if isinstance(expr.callee.expr.node, mp_nodes.Var):
+                        expr.callee.expr.node.type
+                        call_receiver = CallReceiver(full_name=expr.callee.expr.node.type.type.fullname, type=expr.callee.expr.node.type)
+                        call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.callee.name)
+                        id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
+                        if call_references.get(id) is None:  # unnecessary
+                            call_references[id] = call_reference
+
+        for member_name in dir(expr):
+            if not member_name.startswith("__"):
+                member = getattr(expr, member_name)
+                if isinstance(member, mp_nodes.Expression):
+                    self.extract_expression_info(member, call_references)
 
 
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
