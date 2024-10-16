@@ -29,7 +29,8 @@ from ._helper import (
     NamingConvention,
     _convert_name_to_convention,
     _create_name_annotation,
-    _get_shortest_public_reexport,
+    _get_shortest_public_reexport_and_alias,
+    _name_convention_and_keyword_check,
     _replace_if_safeds_keyword,
 )
 
@@ -49,8 +50,9 @@ class StubsStringGenerator:
         self.class_generics: list = []
         self.module_imports: set[str] = set()
         self.currently_creating_reexport_data: bool = False
+        self.import_index: dict[str, str] = {}
 
-        self.api = api
+        self.api: API = api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
@@ -114,10 +116,10 @@ class StubsStringGenerator:
         module_text = ""
 
         # Create package info
-        package_info, _ = _get_shortest_public_reexport(
+        package_info, _ = _get_shortest_public_reexport_and_alias(
             reexport_map=self.api.reexport_map,
             name=module.name,
-            qname="",
+            qname=module.id,
             is_module=True,
         )
 
@@ -174,13 +176,8 @@ class StubsStringGenerator:
             import_parts = import_.split(".")
 
             from_ = ".".join(import_parts[0:-1])
-            from_ = _convert_name_to_convention(from_, self.naming_convention)
-            from_ = _replace_if_safeds_keyword(from_)
-
-            name = import_parts[-1]
-            name = _convert_name_to_convention(name, self.naming_convention)
-            name = _replace_if_safeds_keyword(name)
-
+            from_ = _name_convention_and_keyword_check(from_, self.naming_convention)
+            name = _name_convention_and_keyword_check(import_parts[-1], self.naming_convention)
             import_strings.append(f"from {from_} import {name}")
 
         # We have to sort for the snapshot tests
@@ -231,8 +228,7 @@ class StubsStringGenerator:
                 }[variance.variance.name]
 
                 # Convert name to camelCase and check for keywords
-                variance_name_camel_case = _convert_name_to_convention(variance.name, self.naming_convention)
-                variance_name_camel_case = _replace_if_safeds_keyword(variance_name_camel_case)
+                variance_name_camel_case = _name_convention_and_keyword_check(variance.name, self.naming_convention)
 
                 variance_item = f"{variance_direction}{variance_name_camel_case}"
                 if variance.type is not None:
@@ -405,13 +401,17 @@ class StubsStringGenerator:
             attr_name_camel_case = _replace_if_safeds_keyword(attr_name_camel_case)
 
             # Create type information
+            attr_docstring: AttributeDocstring = attribute.docstring
+            if attribute_type is None and attr_docstring and attr_docstring.type:
+                attribute_type = attr_docstring.type.to_dict()
+
             attr_type = self._create_type_string(attribute_type)
             type_string = f": {attr_type}" if attr_type else ""
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
             # Create docstring text
-            docstring = self._create_sds_docstring(attribute.docstring, inner_indentations)
+            docstring = self._create_sds_docstring(attr_docstring, inner_indentations)
 
             # Create attribute string
             class_attributes.append(
@@ -461,8 +461,7 @@ class StubsStringGenerator:
         if function.type_var_types:
             type_var_names = []
             for type_var in function.type_var_types:
-                type_var_name = _convert_name_to_convention(type_var.name, self.naming_convention)
-                type_var_name = _replace_if_safeds_keyword(type_var_name)
+                type_var_name = _name_convention_and_keyword_check(type_var.name, self.naming_convention)
 
                 # We don't have to display generic types in methods if they were already displayed in the class
                 if not is_method or (is_method and type_var_name not in self.class_generics):
@@ -543,8 +542,7 @@ class StubsStringGenerator:
 
             ret_type = self._create_type_string(result_type)
             type_string = f": {ret_type}" if ret_type else ""
-            result_name = _convert_name_to_convention(result.name, self.naming_convention)
-            result_name = _replace_if_safeds_keyword(result_name)
+            result_name = _name_convention_and_keyword_check(result.name, self.naming_convention)
             if type_string:
                 results.append(
                     f"{result_name}{type_string}",
@@ -708,7 +706,7 @@ class StubsStringGenerator:
                     if name[0] == "_" and type_data["qname"] not in self.module_imports:
                         self._current_todo_msgs.add("internal class as type")
 
-                    return name
+                    return _name_convention_and_keyword_check(name, self.naming_convention)
         elif kind == "FinalType":
             return self._create_type_string(type_data["type"])
         elif kind == "CallableType":
@@ -847,8 +845,7 @@ class StubsStringGenerator:
                     types.append(f"{literal_type}")
             return f"literal<{', '.join(types)}>"
         elif kind == "TypeVarType":
-            name = _convert_name_to_convention(type_data["name"], self.naming_convention)
-            return _replace_if_safeds_keyword(name)
+            return _name_convention_and_keyword_check(type_data["name"], self.naming_convention)
 
         raise ValueError(f"Unexpected type: {kind}")  # pragma: no cover
 
@@ -859,6 +856,9 @@ class StubsStringGenerator:
         already_defined_names: set[str],
     ) -> str:
         superclass_class = self._get_class_in_package(superclass)
+
+        if superclass_class is None:  # pragma: no cover
+            return ""
 
         # Methods
         superclass_methods_text, existing_names = self._create_class_method_string(
@@ -881,6 +881,10 @@ class StubsStringGenerator:
         already_defined_names = already_defined_names.union(existing_names)
 
         for superclass_superclass in superclass_class.superclasses:
+            if superclass_superclass == superclass:  # pragma: no cover
+                # If the class somehow has itself as a superclass
+                continue
+
             name = superclass_superclass.split(".")[-1]
             if is_internal(name):
                 superclass_methods_text += self._create_internal_class_string(
@@ -1009,13 +1013,13 @@ class StubsStringGenerator:
         return False
 
     def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
-        if class_path.endswith(path):
+        if class_path.endswith(f".{path}") or class_path == path:
             return True
 
         name = path.split("/")[-1]
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
-            if reexport.endswith(name):
+            if reexport.endswith(f".{name}") or reexport == name:
                 for module in self.api.reexport_map[reexport]:
                     # Added "no cover" since I can't recreate this in the tests
                     if (
@@ -1044,28 +1048,47 @@ class StubsStringGenerator:
 
         module_id = self._get_module_id(get_actual_id=True).replace("/", ".")
         if module_id not in import_qname:
-            # We need the full path for an import from the same package, but we sometimes don't get enough information,
-            # therefore we have to search for the class and get its id
-            import_qname_path = import_qname.replace(".", "/")
-            in_package = False
             qname = ""
-            for class_id in self.api.classes:
-                if self._is_path_connected_to_class(import_qname_path, class_id):
-                    qname = class_id.replace("/", ".")
+            module_id_parts = module_id.split(".")
 
-                    name = qname.split(".")[-1]
-                    shortest_qname, _ = _get_shortest_public_reexport(
-                        reexport_map=self.api.reexport_map,
-                        name=name,
-                        qname=qname,
-                        is_module=False,
-                    )
+            # First we hope that we already found and indexed the type we are searching
+            if import_qname in self.import_index:
+                qname = self.import_index[import_qname]
 
-                    if shortest_qname:
-                        qname = f"{shortest_qname}.{name}"
+            # To save performance we next try to build the possible paths the type could originate from
+            if not qname:
+                for i in range(1, len(module_id_parts)):
+                    test_id = ".".join(module_id_parts[:-i]) + "." + import_qname
+                    if test_id.replace(".", "/") in self.api.classes:
+                        qname = test_id
+                        break
 
-                    in_package = True
-                    break
+            # If the tries above did not work we have to use this performance heavy way.
+            # We need the full path for an import from the same package, but we sometimes don't get enough
+            # information, therefore we have to search for the class and get its id
+            if not qname:
+                import_qname_path = import_qname.replace(".", "/")
+                for class_id in self.api.classes:
+                    if self._is_path_connected_to_class(import_qname_path, class_id):
+                        qname = class_id.replace("/", ".")
+                        break
+
+            in_package = False
+            if qname:
+                self.import_index[import_qname] = qname
+
+                name = qname.split(".")[-1]
+                shortest_qname, _ = _get_shortest_public_reexport_and_alias(
+                    reexport_map=self.api.reexport_map,
+                    name=name,
+                    qname=qname,
+                    is_module=False,
+                )
+
+                if shortest_qname:
+                    qname = f"{shortest_qname}.{name}"
+
+                in_package = True
 
             qname = qname or import_qname
 
@@ -1107,7 +1130,7 @@ class StubsStringGenerator:
 
         return indentations + f"\n{indentations}".join(todo_msgs) + "\n"
 
-    def _get_class_in_package(self, class_qname: str) -> Class:
+    def _get_class_in_package(self, class_qname: str) -> Class | None:
         class_qname = class_qname.replace(".", "/")
         class_path = "/".join(class_qname.split("/")[:-1])
         class_name = class_qname.split("/")[-1]
@@ -1122,9 +1145,9 @@ class StubsStringGenerator:
             ):
                 return self.api.classes[class_]
 
-        raise LookupError(
-            f"Expected finding class '{class_name}' in module '{self._get_module_id(get_actual_id=True)}'.",
-        )  # pragma: no cover
+        msg = f"Expected finding class '{class_name}' in module '{self._get_module_id(get_actual_id=True)}'."  # pragma: no cover
+        logging.warning(msg)  # pragma: no cover
+        return None  # pragma: no cover
 
     @staticmethod
     def _create_docstring_description_part(description: str, indentations: str) -> str:

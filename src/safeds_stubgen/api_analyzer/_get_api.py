@@ -28,6 +28,7 @@ def get_api(
     type_source_preference: TypeSourcePreference = TypeSourcePreference.CODE,
     type_source_warning: TypeSourceWarning = TypeSourceWarning.WARN,
 ) -> API:
+    """Parse a given code package with Mypy, walk the Mypy AST and create an API object."""
     init_roots = _get_nearest_init_dirs(root)
     if len(init_roots) == 1:
         root = init_roots[0]
@@ -77,6 +78,7 @@ def get_api(
         aliases=aliases,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
+        is_test_run=is_test_run,
     )
     walker = ASTWalker(handler=callable_visitor)
 
@@ -87,6 +89,11 @@ def get_api(
 
 
 def _get_nearest_init_dirs(root: Path) -> list[Path]:
+    """Check for the nearest directory with an __init__.py file.
+
+    For the Mypy parser we need to start at a directory with an __init__.py file. Directories without __init__.py files
+    will be skipped py Mypy.
+    """
     all_inits = list(root.glob("./**/__init__.py"))
     shortest_init_paths = []
     shortest_len = -1
@@ -124,6 +131,10 @@ def _get_mypy_asts(
     files: list[str],
     package_paths: list[str],
 ) -> list[mypy_nodes.MypyFile]:
+    """Get all module ASTs from Mypy.
+
+    We have to return the package ASTs first though, b/c we need to parse all reexports first.
+    """
     package_ast = []
     module_ast = []
     for graph_key in build_result.graph:
@@ -144,6 +155,11 @@ def _get_mypy_asts(
 
 
 def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
+    """Get the needed aliases from Mypy.
+
+    Mypy has a long list of all aliases it has found. We have to parse the list and get only the aliases we need for our
+    package we analyze.
+    """
     aliases: dict[str, set[str]] = defaultdict(set)
     for key in result_types:
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
@@ -185,8 +201,13 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                 else:
                     continue
 
+            # Try to find the original qname (fullname) of the alias
             if in_package:
-                if isinstance(type_value, mypy_types.CallableType) and hasattr(type_value.bound_args[0], "type"):
+                if (
+                    isinstance(type_value, mypy_types.CallableType)
+                    and type_value.bound_args
+                    and hasattr(type_value.bound_args[0], "type")
+                ):
                     fullname = type_value.bound_args[0].type.fullname  # type: ignore[union-attr]
                 elif isinstance(type_value, mypy_types.Instance):
                     fullname = type_value.type.fullname
@@ -195,7 +216,9 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
                 elif isinstance(key, mypy_nodes.NameExpr) and isinstance(key.node, mypy_nodes.Var):
                     fullname = key.node.fullname
                 else:  # pragma: no cover
-                    raise TypeError("Received unexpected type while searching for aliases.")
+                    msg = f"Received unexpected type while searching for aliases. Skipping for '{name}'."
+                    logging.info(msg)
+                    continue
 
                 aliases[name].add(fullname)
 

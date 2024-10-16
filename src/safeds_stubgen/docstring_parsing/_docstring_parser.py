@@ -3,8 +3,8 @@ from __future__ import annotations
 import logging
 from typing import TYPE_CHECKING, Literal
 
+from _griffe import models as griffe_models
 from griffe import load
-from griffe.dataclasses import Docstring
 from griffe.docstrings.dataclasses import DocstringAttribute, DocstringParameter
 from griffe.docstrings.utils import parse_annotation
 from griffe.enumerations import DocstringSectionKind, Parser
@@ -24,42 +24,61 @@ from ._docstring import (
 
 if TYPE_CHECKING:
     from pathlib import Path
-
-    from griffe.dataclasses import Object
     from mypy import nodes
 
 
 class DocstringParser(AbstractDocstringParser):
     def __init__(self, parser: Parser, package_path: Path):
+        self.parser = parser
+
         while True:
+            # If a package has no __init__.py file Griffe can't parse it, therefore we check the parent
             try:
-                self.griffe_build = load(package_path, docstring_parser=parser)
+                griffe_build = load(package_path, docstring_parser=parser)
                 break
             except KeyError:
                 package_path = package_path.parent
 
-        self.parser = parser
-        self.__cached_node: str | None = None
-        self.__cached_docstring: Docstring | None = None
+        self.griffe_index: dict[str, griffe_models.Object] = {}
+        self._recursive_griffe_indexer(griffe_build)
+
+    def _recursive_griffe_indexer(self, griffe_build: griffe_models.Object | griffe_models.Alias) -> None:
+        for member in griffe_build.all_members.values():
+            if isinstance(
+                member,
+                griffe_models.Class | griffe_models.Function | griffe_models.Attribute | griffe_models.Alias
+            ):
+                self.griffe_index[member.path] = member
+
+            if isinstance(member, griffe_models.Module | griffe_models.Class):
+                self._recursive_griffe_indexer(member)
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
-        griffe_node = self._get_griffe_node(class_node.fullname)
+        griffe_node = self.griffe_index[class_node.fullname] if class_node.fullname in self.griffe_index else None
 
         if griffe_node is None:  # pragma: no cover
-            raise TypeError(f"Expected a griffe node for {class_node.fullname}, got None.")
+            msg = (
+                f"Something went wrong while searching for the docstring for {class_node.fullname}. Please make sure"
+                " that all directories with python files have an __init__.py file.",
+            )
+            logging.warning(msg)
 
         description = ""
         docstring = ""
         examples = []
-        if griffe_node.docstring is not None:
+        if griffe_node is not None and griffe_node.docstring is not None:
             docstring = griffe_node.docstring.value.strip("\n")
 
-            for docstring_section in griffe_node.docstring.parsed:
-                if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value.strip("\n")
-                elif docstring_section.kind == DocstringSectionKind.examples:
-                    for example_data in docstring_section.value:
-                        examples.append(example_data[1].strip("\n"))
+            try:
+                for docstring_section in griffe_node.docstring.parsed:
+                    if docstring_section.kind == DocstringSectionKind.text:
+                        description = docstring_section.value.strip("\n")
+                    elif docstring_section.kind == DocstringSectionKind.examples:
+                        for example_data in docstring_section.value:
+                            examples.append(example_data[1].strip("\n"))
+            except IndexError as _:  # pragma: no cover
+                msg = f"There was an error while parsing the following docstring:\n{docstring}."
+                logging.warning(msg)
 
         return ClassDocstring(
             description=description,
@@ -71,15 +90,22 @@ class DocstringParser(AbstractDocstringParser):
         docstring = ""
         description = ""
         examples = []
-        griffe_docstring = self.__get_cached_docstring(function_node.fullname)
+        griffe_docstring = self._get_griffe_docstring(function_node.fullname)
         if griffe_docstring is not None:
             docstring = griffe_docstring.value.strip("\n")
-            for docstring_section in griffe_docstring.parsed:
-                if docstring_section.kind == DocstringSectionKind.text:
-                    description = docstring_section.value.strip("\n")
-                elif docstring_section.kind == DocstringSectionKind.examples:
-                    for example_data in docstring_section.value:
-                        examples.append(example_data[1].strip("\n"))
+
+            try:
+                for docstring_section in griffe_docstring.parsed:
+                    if docstring_section.kind == DocstringSectionKind.text:
+                        if description:
+                            description += "\n\n"
+                        description += docstring_section.value.strip("\n")
+                    elif docstring_section.kind == DocstringSectionKind.examples:
+                        for example_data in docstring_section.value:
+                            examples.append(example_data[1].strip("\n"))
+            except IndexError as _:  # pragma: no cover
+                msg = f"There was an error while parsing the following docstring:\n{docstring}."
+                logging.warning(msg)
 
         return FunctionDocstring(
             description=description,
@@ -98,9 +124,9 @@ class DocstringParser(AbstractDocstringParser):
         # For constructors (__init__ functions) the parameters are described on the class
         if function_name == "__init__" and parent_class_qname:
             parent_qname = parent_class_qname.replace("/", ".")
-            griffe_docstring = self.__get_cached_docstring(parent_qname)
+            griffe_docstring = self._get_griffe_docstring(parent_qname)
         else:
-            griffe_docstring = self.__get_cached_docstring(function_qname)
+            griffe_docstring = self._get_griffe_docstring(function_qname)
 
         # Find matching parameter docstrings
         matching_parameters = []
@@ -111,7 +137,7 @@ class DocstringParser(AbstractDocstringParser):
         # https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if self.parser == Parser.numpy and len(matching_parameters) == 0 and function_name == "__init__":
             # Get constructor docstring & find matching parameter docstrings
-            constructor_docstring = self.__get_cached_docstring(function_qname)
+            constructor_docstring = self._get_griffe_docstring(function_qname)
             if constructor_docstring is not None:
                 matching_parameters = self._get_matching_docstrings(constructor_docstring, parameter_name, "param")
 
@@ -124,7 +150,7 @@ class DocstringParser(AbstractDocstringParser):
             raise TypeError(f"Expected parameter docstring, got {type(last_parameter)}.")
 
         if griffe_docstring is None:  # pragma: no cover
-            griffe_docstring = Docstring("")
+            griffe_docstring = griffe_models.Docstring("")
 
         annotation = last_parameter.annotation
         if annotation is None:
@@ -142,19 +168,15 @@ class DocstringParser(AbstractDocstringParser):
             description=last_parameter.description.strip("\n") or "",
         )
 
-    def get_attribute_documentation(
-        self,
-        parent_class_qname: str,
-        attribute_name: str,
-    ) -> AttributeDocstring:
+    def get_attribute_documentation(self, parent_class_qname: str, attribute_name: str) -> AttributeDocstring:
         parent_class_qname = parent_class_qname.replace("/", ".")
 
         # Find matching attribute docstrings
         parent_qname = parent_class_qname
-        griffe_docstring = self.__get_cached_docstring(parent_qname)
+        griffe_docstring = self._get_griffe_docstring(parent_qname)
         if griffe_docstring is None:
             matching_attributes = []
-            griffe_docstring = Docstring("")
+            griffe_docstring = griffe_models.Docstring("")
         else:
             matching_attributes = self._get_matching_docstrings(griffe_docstring, attribute_name, "attr")
 
@@ -162,7 +184,7 @@ class DocstringParser(AbstractDocstringParser):
         # (see issue https://github.com/Safe-DS/Library-Analyzer/issues/10)
         if self.parser == Parser.numpy and len(matching_attributes) == 0:
             constructor_qname = f"{parent_class_qname}.__init__"
-            constructor_docstring = self.__get_cached_docstring(constructor_qname)
+            constructor_docstring = self._get_griffe_docstring(constructor_qname)
 
             # Find matching parameter docstrings
             if constructor_docstring is not None:
@@ -186,16 +208,21 @@ class DocstringParser(AbstractDocstringParser):
 
     def get_result_documentation(self, function_qname: str) -> list[ResultDocstring]:
         # Find matching parameter docstrings
-        griffe_docstring = self.__get_cached_docstring(function_qname)
+        griffe_docstring = self._get_griffe_docstring(function_qname)
 
         if griffe_docstring is None:
             return []
 
         all_returns = None
-        for docstring_section in griffe_docstring.parsed:
-            if docstring_section.kind == DocstringSectionKind.returns:
-                all_returns = docstring_section
-                break
+        try:
+            for docstring_section in griffe_docstring.parsed:
+                if docstring_section.kind == DocstringSectionKind.returns:
+                    all_returns = docstring_section
+                    break
+        except IndexError as _:  # pragma: no cover
+            msg = f"There was an error while parsing the following docstring:\n{griffe_docstring.value}."
+            logging.warning(msg)
+            return []
 
         if not all_returns:
             return []
@@ -234,18 +261,23 @@ class DocstringParser(AbstractDocstringParser):
 
     @staticmethod
     def _get_matching_docstrings(
-        function_doc: Docstring,
+        function_doc: griffe_models.Docstring,
         name: str,
         type_: Literal["attr", "param"],
     ) -> list[DocstringAttribute | DocstringParameter]:
         all_docstrings = None
-        for docstring_section in function_doc.parsed:
-            section_kind = docstring_section.kind
-            if (type_ == "attr" and section_kind == DocstringSectionKind.attributes) or (
-                type_ == "param" and section_kind == DocstringSectionKind.parameters
-            ):
-                all_docstrings = docstring_section
-                break
+        try:
+            for docstring_section in function_doc.parsed:
+                section_kind = docstring_section.kind
+                if (type_ == "attr" and section_kind == DocstringSectionKind.attributes) or (
+                    type_ == "param" and section_kind == DocstringSectionKind.parameters
+                ):
+                    all_docstrings = docstring_section
+                    break
+        except IndexError as _:  # pragma: no cover
+            msg = f"There was an error while parsing the following docstring:\n{function_doc.value}."
+            logging.warning(msg)
+            return []
 
         if all_docstrings:
             name = name.lstrip("*")
@@ -256,7 +288,7 @@ class DocstringParser(AbstractDocstringParser):
     def _griffe_annotation_to_api_type(
         self,
         annotation: Expr | str,
-        docstring: Docstring,
+        docstring: griffe_models.Docstring,
     ) -> sds_types.AbstractType | None:
         if isinstance(annotation, ExprName | ExprAttribute):
             if annotation.canonical_path == "typing.Any":
@@ -269,6 +301,8 @@ class DocstringParser(AbstractDocstringParser):
                 return sds_types.NamedType(name="float", qname="builtins.float")
             elif annotation.canonical_path == "str":
                 return sds_types.NamedType(name="str", qname="builtins.str")
+            elif annotation.canonical_path == "bytes":
+                return sds_types.NamedType(name="bytes", qname="builtins.bytes")
             elif annotation.canonical_path == "list":
                 return sds_types.ListType(types=[])
             elif annotation.canonical_path == "tuple":
@@ -381,49 +415,15 @@ class DocstringParser(AbstractDocstringParser):
             return annotation.split(", default")[0]
         return annotation
 
-    def _get_griffe_node(self, qname: str) -> Object | None:
-        node_qname_parts = qname.split(".")
-        griffe_node = self.griffe_build
-        for part in node_qname_parts:
-            if griffe_node.name == part:
-                continue
+    def _get_griffe_docstring(self, qname: str) -> griffe_models.Docstring | None:
+        griffe_node = self.griffe_index[qname] if qname in self.griffe_index else None
 
-            if part in griffe_node.modules:
-                griffe_node = griffe_node.modules[part]
-            elif part in griffe_node.classes:
-                griffe_node = griffe_node.classes[part]
-            elif part in griffe_node.functions:
-                griffe_node = griffe_node.functions[part]
-            elif part in griffe_node.attributes:
-                griffe_node = griffe_node.attributes[part]
-            elif part == "__init__" and griffe_node.is_class:
-                return None
-            else:  # pragma: no cover
-                raise ValueError(
-                    f"Something went wrong while searching for the docstring for {qname}. Please make sure"
-                    " that all directories with python files have an __init__.py file.",
-                )
+        if griffe_node is not None:
+            return griffe_node.docstring
 
-        return griffe_node
-
-    def __get_cached_docstring(self, qname: str) -> Docstring | None:
-        """
-        Return the Docstring for the given function node.
-
-        It is only recomputed when the function node differs from the previous one that was passed to this function.
-        This avoids reparsing the docstring for the function itself and all of its parameters.
-
-        On Lars's system this caused a significant performance improvement: Previously, 8.382s were spent inside the
-        function get_parameter_documentation when parsing sklearn. Afterward, it was only 2.113s.
-        """
-        if self.__cached_node != qname or qname.endswith("__init__"):
-            self.__cached_node = qname
-
-            griffe_node = self._get_griffe_node(qname)
-            if griffe_node is not None:
-                griffe_docstring = griffe_node.docstring
-                self.__cached_docstring = griffe_docstring
-            else:
-                self.__cached_docstring = None
-
-        return self.__cached_docstring
+        msg = (
+            f"Something went wrong while searching for the docstring for {qname}. Please make sure"
+            " that all directories with python files have an __init__.py file.",
+        )
+        logging.warning(msg)
+        return None
