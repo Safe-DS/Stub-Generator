@@ -83,8 +83,15 @@ def get_api(
     for tree in mypy_asts:
         walker.walk(tree=tree)
 
+    # needs to be done after tree traversion, as we need the full api to find all functions
+    # for each call reference of each function, get possible referenced functions
+
+
     return callable_visitor.api
 
+
+def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
+    
 
 def _get_nearest_init_dirs(root: Path) -> list[Path]:
     all_inits = list(root.glob("./**/__init__.py"))

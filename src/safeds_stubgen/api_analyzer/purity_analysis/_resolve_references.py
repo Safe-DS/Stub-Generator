@@ -260,10 +260,14 @@ class ReferenceResolver:
         
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
         type = self.api_data.functions2[function_id].body.call_references[call_reference_id].receiver.type
+        all_classes = self.api_data.classes
+        class_of_receiver = all_classes["/".join(type.type.fullname.split("."))]
+        # posibility 1: get possible functions directly after api generation
         result = []
         for functionScope in possible_functions:
             if isinstance(functionScope.parent, ClassScope):
                 functionScope.parent.symbol.name
+                # possibility 2: get possible functions by name and compare if there is a type relationship
                 if (True):  # compare types but if subtype, then add subtype function too 
                     # and if supertype and type of receiver doesnt have the function, add supertype function
                     result += functionScope
