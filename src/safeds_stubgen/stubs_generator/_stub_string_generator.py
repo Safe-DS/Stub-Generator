@@ -1068,8 +1068,10 @@ class StubsStringGenerator:
             # information, therefore we have to search for the class and get its id
             if not qname:
                 import_qname_path = import_qname.replace(".", "/")
+                import_path_name = import_qname_path.split("/")[-1]
                 for class_id in self.api.classes:
-                    if self._is_path_connected_to_class(import_qname_path, class_id):
+                    if (import_path_name == class_id.split("/")[-1] and
+                            self._is_path_connected_to_class(import_qname_path, class_id)):
                         qname = class_id.replace("/", ".")
                         break
 
