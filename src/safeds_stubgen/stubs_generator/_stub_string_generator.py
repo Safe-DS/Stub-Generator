@@ -77,7 +77,7 @@ class StubsStringGenerator:
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
     
-    def _get_correct_module_id(self, function: Function) -> str:
+    def _get_correct_module_id(self, function: Function) -> str:  # TODO pm add to helper
         package_name = self.api.package 
         module_path_list = function.module_id_which_contains_def.split(".")
         index_to_split = module_path_list.index(package_name)

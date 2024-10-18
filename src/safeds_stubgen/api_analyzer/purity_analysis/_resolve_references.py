@@ -7,7 +7,7 @@ import dataclasses
 import astroid
 from astroid.helpers import safe_infer
 
-from safeds_stubgen.api_analyzer._api import API
+from safeds_stubgen.api_analyzer._api import API, Function
 from safeds_stubgen.api_analyzer.purity_analysis import build_call_graph, get_module_data
 from safeds_stubgen.api_analyzer.purity_analysis.model import (
     Builtin,
@@ -247,31 +247,36 @@ class ReferenceResolver:
         else:
             return True
 
-    def reduce_found_functions_by_type(
+    def _get_function_scopes_by_call_reference(
         self, 
         func: FunctionScope, 
         call_reference: Reference, 
-        possible_functions: list[FunctionScope]
     ) -> list[FunctionScope]:
         node_id = func.symbol.id
         function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
+        function_defs = self.functions.get(call_reference.name)
+        if function_defs is None:
+            return []
         if self.api_data is None or self.api_data.functions2[function_id].body is None:
-            return possible_functions
+            function_defs = [function_d for function_d in function_defs if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
+            return function_defs
         
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
-        type = self.api_data.functions2[function_id].body.call_references[call_reference_id].receiver.type
-        all_classes = self.api_data.classes
-        class_of_receiver = all_classes["/".join(type.type.fullname.split("."))]
-        # posibility 1: get possible functions directly after api generation
-        result = []
-        for functionScope in possible_functions:
-            if isinstance(functionScope.parent, ClassScope):
-                functionScope.parent.symbol.name
-                # possibility 2: get possible functions by name and compare if there is a type relationship
-                if (True):  # compare types but if subtype, then add subtype function too 
-                    # and if supertype and type of receiver doesnt have the function, add supertype function
-                    result += functionScope
-        return result
+        temp = self.api_data.functions2[function_id].body.call_references[call_reference_id].possible_referenced_functions
+        list_of_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), temp))
+        function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_ids]
+        return function_defs
+
+    def _get_id_from_nodeId(self, nodeId: NodeID) -> str:  # TODO pm add to helper
+        return f"{nodeId.module}.{nodeId.name}.{nodeId.line}.{nodeId.col}"
+    
+    def _get_id_from_api_function(self, function: Function):  # TODO pm add to helper
+        package_name = self.api_data.package  # type: ignore as this will only be called if api is not none
+        module_path_list = function.module_id_which_contains_def.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        return f"{correct_module_path}.{function.name}.{function.line}.{function.column}"
 
     def _find_referenced_functions(
         self,
@@ -304,15 +309,11 @@ class ReferenceResolver:
     	
         # Find functions that are called.
         if call_reference.name in self.functions:
-            function_def = self.functions.get(call_reference.name)
-            function_def = [function_d for function_d in function_def if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
-            function_def = self.reduce_found_functions_by_type(function, call_reference, function_def)
+            function_def = self._get_function_scopes_by_call_reference(function, call_reference)
             function_symbols = [func.symbol for func in function_def if function_def]  # type: ignore[union-attr]
             # function_symbols contains all functions that have the same name, now we need the type of the parent class if there is one, to narrow down the possibilities
             # and also contains info about class, so we need info about the receiver of that call (receiver.call())
             # for that, I need to use mypy and get the types of the receiver
-            # self.api_data.functions[function.id].body.call_references[call_reference.name].receiver.type
-            # TODO (pm): write function that gets the type from receiver of the call reference and compares the type to the parent of the functionScope if its a classScope     
 
             # "None" is not iterable, but it is checked before
             class_iterator = function.symbol.node

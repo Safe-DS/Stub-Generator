@@ -12,7 +12,7 @@ from mypy import types as mypy_types
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
-from ._api import API
+from ._api import API, CallReference, Function
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version
@@ -83,15 +83,76 @@ def get_api(
     for tree in mypy_asts:
         walker.walk(tree=tree)
 
-    # needs to be done after tree traversion, as we need the full api to find all functions
-    # for each call reference of each function, get possible referenced functions
+    api = callable_visitor.api
+    _update_class_subclass_relation(api)
+    _find_all_referenced_functions_for_all_call_references(api)
 
+    return api
 
-    return callable_visitor.api
-
+def _update_class_subclass_relation(api: API) -> None:
+    # for each class, update each superclass by appending the id of the class to subclasses list of the superclass
+    for class_def in api.classes.values():
+        super_classes = [api.classes["/".join(x.split("."))] for x in class_def.superclasses]
+        for super_class in super_classes:
+            super_class.subclasses.append(class_def.id)
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
-    
+    for function in api.functions2.values():
+        for call_reference in function.body.call_references.values():
+            type = call_reference.receiver.type
+            class_of_receiver = api.classes["/".join(type.type.fullname.split("."))]
+            referenced_functions = []
+            _get_referenced_functions_from_class_and_subclasses(
+                api, 
+                call_reference,
+                class_of_receiver.id,
+                [],
+                referenced_functions
+            )
+
+            # find function in superclasses but only first appearance as python will also only call the first appearance
+            if len(referenced_functions) == 0:
+                super_classes = [api.classes["/".join(x.split("."))] for x in class_of_receiver.superclasses]
+                for super_class in super_classes:
+                    found_method = False
+                    for method in super_class.methods:
+                        if method.name == call_reference.function_name:
+                            referenced_functions.append(method)
+                            found_method = True
+                            break
+                    if found_method:
+                        break
+
+            call_reference.possible_referenced_functions = referenced_functions
+            
+
+def _get_referenced_functions_from_class_and_subclasses(
+    api: API, 
+    call_reference: CallReference, 
+    current_class_id: str, 
+    visited_classes: list[str], 
+    referenced_functions: list[Function]
+) -> None:
+    current_class = api.classes[current_class_id]
+    visited_classes.append(current_class_id)
+    methods = current_class.methods
+    for method in methods:
+        if method.name == call_reference.function_name:
+            referenced_functions.append(method)
+
+    # find all additional function defs with same name in sub classes as they could also be called
+    # for that i should add a subclasses attribute to Class so that i can recursively get the subclasses
+    # but keep track of already visited classes !!
+
+    if len(current_class.subclasses) != 0:
+        for subclass in current_class.subclasses:
+            _get_referenced_functions_from_class_and_subclasses(
+                api, 
+                call_reference,
+                subclass,
+                visited_classes,
+                referenced_functions
+            )
 
 def _get_nearest_init_dirs(root: Path) -> list[Path]:
     all_inits = list(root.glob("./**/__init__.py"))

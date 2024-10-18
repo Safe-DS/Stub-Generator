@@ -187,6 +187,7 @@ class Class:
     id: str
     name: str
     superclasses: list[str]
+    subclasses: list[str]
     is_public: bool
     docstring: ClassDocstring
     constructor: Function | None = None
@@ -259,7 +260,7 @@ class Function:
     column: int
     name: str
     docstring: FunctionDocstring
-    body: Body | None
+    body: Body
     is_public: bool
     is_static: bool
     is_class_method: bool
@@ -298,6 +299,7 @@ class CallReference:
     function_name: str
     line: int
     column: int
+    possible_referenced_functions: list[Function] = field(default_factory=list)
 
 @dataclass
 class CallReceiver:

@@ -236,6 +236,7 @@ class MyPyAstVisitor:
             id=id_,
             name=node.name,
             superclasses=superclasses,
+            subclasses=[],  # will be updated after api generation is completed
             is_public=self._is_public(node.name, node.fullname),
             docstring=docstring,
             reexported_by=reexported_by,
@@ -365,9 +366,15 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body | None:
+    def extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body:
         if body_block is None: 
-            return None
+            return Body(
+            line=-1,
+            end_line=-1,
+            column=-1,
+            end_column=-1,
+            call_references=call_references
+        )
             
         statements = body_block.body
         for statement in statements:

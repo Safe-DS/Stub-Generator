@@ -3,15 +3,15 @@
 test = 10
 
 def global_func_pure() -> int:
-    super_class_instance = SuperClass()
+    # super_class_instance = SuperClass()
     child_class_instance = ChildClassPure()
-    result = super_class_instance.same_name() + child_class_instance.same_name()
+    result = child_class_instance.same_name()
     return result
 
 def global_func_impure() -> int:
-    super_class_instance = SuperClass()
+    # super_class_instance = SuperClass()
     child_class_instance = ChildClassImpure()
-    result = super_class_instance.same_name() + child_class_instance.same_name()  # call reference to impure function
+    result = child_class_instance.same_name()  # call reference to impure function
     return result
 
 # noinspection PyUnusedLocal
