@@ -15,7 +15,10 @@ def global_func_same_name_impure() -> int:
     result = child_class_instance.same_name()  # call reference to impure function
     return result
 
-def global_func_only_in_T_pure() -> int:
+def global_func_only_in_T_pure() -> int:  
+    """improved purity analysis should reference function only_in_T() of ClassPure 
+    and not only_in_T() of ClassImpure as well
+    """
     instance = ClassPure()
     result = instance.only_in_T()
     return result
