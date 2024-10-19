@@ -12,7 +12,7 @@ from mypy import types as mypy_types
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
-from ._api import API, CallReference, Function
+from ._api import API, CallReference, Function, Class
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version
@@ -92,7 +92,12 @@ def get_api(
 def _update_class_subclass_relation(api: API) -> None:
     # for each class, update each superclass by appending the id of the class to subclasses list of the superclass
     for class_def in api.classes.values():
-        super_classes = [api.classes["/".join(x.split("."))] for x in class_def.superclasses]
+        super_classes: list[Class] = []
+        for super_class_id in class_def.superclasses:
+            class_to_append = api.classes.get(super_class_id)
+            if class_to_append is None:  # super class imported from outside of the analyzed package
+                continue
+            super_classes.append(class_to_append)
         for super_class in super_classes:
             super_class.subclasses.append(class_def.id)
 

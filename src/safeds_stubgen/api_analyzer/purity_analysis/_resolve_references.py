@@ -252,6 +252,9 @@ class ReferenceResolver:
         func: FunctionScope, 
         call_reference: Reference, 
     ) -> list[FunctionScope]:
+        """ TODO pm ADD docstring
+        and refactor this mess
+        """
         node_id = func.symbol.id
         function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
         function_defs = self.functions.get(call_reference.name)
@@ -261,9 +264,19 @@ class ReferenceResolver:
             function_defs = [function_d for function_d in function_defs if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
             return function_defs
         
+        function_api = self.api_data.functions2.get(function_id)
+        if function_api is None or self.api_data.functions2[function_id].body is None:
+            function_defs = [function_d for function_d in function_defs if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
+            return function_defs
+        
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
-        temp = self.api_data.functions2[function_id].body.call_references[call_reference_id].possible_referenced_functions
-        list_of_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), temp))
+        call_reference_api = function_api.body.call_references.get(call_reference_id)
+        if call_reference_api is None:  # then this call reference is no method
+            function_defs = [function_d for function_d in function_defs if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
+            return function_defs
+
+        possible_referenced_functions = call_reference_api.possible_referenced_functions
+        list_of_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possible_referenced_functions))
         function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_ids]
         return function_defs
 

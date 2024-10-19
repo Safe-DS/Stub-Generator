@@ -1,18 +1,6 @@
-"""NumpyDoc Docstring of the some_class.py module."""
+"""NumpyDoc Docstring of the main_module_numpydoc.py module."""
 
 test = 10
-
-def global_func_pure() -> int:
-    # super_class_instance = SuperClass()
-    child_class_instance = ChildClassPure()
-    result = child_class_instance.same_name()
-    return result
-
-def global_func_impure() -> int:
-    # super_class_instance = SuperClass()
-    child_class_instance = ChildClassImpure()
-    result = child_class_instance.same_name()  # call reference to impure function
-    return result
 
 # noinspection PyUnusedLocal
 def global_func1_numpy(param1, param2, param3, param4):
@@ -41,21 +29,3 @@ def global_func1_numpy(param1, param2, param3, param4):
         If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
     """
     return test
-
-
-class SuperClass:
-    def __init__(self) -> None:
-        pass
-
-    def same_name(self) -> int:
-        x = 20
-        return x
-    
-class ChildClassPure(SuperClass):
-    def same_name(self) -> int:
-        return 30
-    
-
-class ChildClassImpure(SuperClass):
-    def same_name(self) -> int:
-        return test

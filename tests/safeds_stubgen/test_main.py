@@ -11,6 +11,7 @@ _test_package_name = "main_package"
 _test_package_name_boundaries_valid_values_numpydoc = "boundary_enum_package_numpydoc"
 _test_package_name_boundaries_valid_values_googledoc = "boundary_enum_package_googledoc"
 _test_package_name_boundaries_valid_values_restdoc = "boundary_enum_package_restdoc"
+_test_package_purity = "purity_package"
 _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
@@ -38,12 +39,18 @@ _out_dir = Path(_lib_dir / "tests" / "data" / "out")
             Path(_out_dir / f"{_test_package_name_boundaries_valid_values_restdoc}__api.json"),
             "rest"
         ),
+        (
+            _test_package_purity,
+            Path(_out_dir / f"{_test_package_purity}__api_purity.json"),
+            "plaintext"
+        ),
     ],
     ids=[
         "plaintext",
         "numpydoc - boundary - enum",
         "googledoc - boundary - enum",
         "restdoc - boundary - enum",
+        "purity"
     ],
 )
 def test_main(
@@ -73,49 +80,6 @@ def test_main(
         json_data = json.load(f)
 
     assert json_data == snapshot
-
-# @pytest.mark.parametrize(
-#     ("test_package_name", "path", "out_file_dir", "docstyle"),
-#     [
-#         (
-#             "analyzer",
-#             Path(_lib_dir / "src"),
-#             Path(_out_dir / f"{_test_package_name}__api.json"),
-#             "numpydoc"
-#         ),
-#     ],
-#     ids=[
-#         "end_to_end",
-#     ],
-# )
-# def test_main_end_to_end(
-#     test_package_name: str,
-#     path: Path,
-#     out_file_dir: Path,
-#     docstyle: str,
-#     snapshot: SnapshotAssertion
-# ) -> None:
-#         # Overwrite system arguments
-
-#     sys.argv = [
-#         str(_main_dir),
-#         "-v",
-#         "-s",
-#         str(path),
-#         "-o",
-#         str(_out_dir),
-#         "-tr",
-#         "--docstyle",
-#         docstyle,
-#         "-nc",
-#     ]
-
-#     main()
-
-#     with Path.open(out_file_dir, encoding="utf-8") as f:
-#         json_data = json.load(f)
-
-#     assert json_data == snapshot
 
 
 def test_main_empty() -> None:

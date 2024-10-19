@@ -1,4 +1,4 @@
-"""ReST Docstring of the some_class.py module."""
+"""ReST Docstring of the main_module_restdoc.py module."""
 
 test = 10
 

@@ -1,4 +1,4 @@
-"""GoogleDoc Docstring of the some_class.py module."""
+"""GoogleDoc Docstring of the main_module_googledoc.py module."""
 
 test = 10
 
