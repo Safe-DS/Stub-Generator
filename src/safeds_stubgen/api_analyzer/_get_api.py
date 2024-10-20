@@ -118,18 +118,38 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
             # find function in superclasses but only first appearance as python will also only call the first appearance
             if len(referenced_functions) == 0:
                 super_classes = [api.classes["/".join(x.split("."))] for x in class_of_receiver.superclasses]
-                for super_class in super_classes:
-                    found_method = False
-                    for method in super_class.methods:
-                        if method.name == call_reference.function_name:
-                            referenced_functions.append(method)
-                            found_method = True
-                            break
-                    if found_method:
-                        break
+                _get_referenced_function_from_super_classes(
+                    api,
+                    call_reference,
+                    super_classes,
+                    referenced_functions
+                )
 
             call_reference.possible_referenced_functions = referenced_functions
             
+def _get_referenced_function_from_super_classes(
+    api: API, 
+    call_reference: CallReference, 
+    super_classes: list[Class], 
+    referenced_functions: list[Function]
+) -> None:
+    for super_class in super_classes:
+        found_method = False
+        for method in super_class.methods:
+            if method.name == call_reference.function_name:
+                referenced_functions.append(method)
+                found_method = True
+                break
+        if found_method:
+            break
+        else: 
+            next_super_classes = [api.classes["/".join(x.split("."))] for x in super_class.superclasses]
+            _get_referenced_function_from_super_classes(
+                api,
+                call_reference,
+                next_super_classes,
+                referenced_functions
+            )
 
 def _get_referenced_functions_from_class_and_subclasses(
     api: API, 
