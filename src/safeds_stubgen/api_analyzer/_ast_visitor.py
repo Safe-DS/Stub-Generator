@@ -124,8 +124,13 @@ class MyPyAstVisitor:
         # the __init__.py file we set the name to __init__
         name = "__init__" if is_package else node.name
 
+        package_name = self.api.package
+        module_path_list = node.fullname.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        self.current_module_id = correct_module_path
         # Remember module, so we can later add classes and global functions
-        self.current_module_id = node.fullname
         module = Module(
             id_=id_,
             name=name,

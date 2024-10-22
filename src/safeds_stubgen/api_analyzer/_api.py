@@ -43,8 +43,6 @@ class API:
         self.modules: dict[str, Module] = {}
         self.classes: dict[str, Class] = {}
         self.functions: dict[str, Function] = {}
-        # temporary
-        self.functions2: dict[str, Function] = {}
         self.results: dict[str, Result] = {}
         self.enums: dict[str, Enum] = {}
         self.enum_instances: dict[str, EnumInstance] = {}
@@ -73,10 +71,7 @@ class API:
         return f"{correct_module_path}.{id}.{function.line}.{function.column}"
 
     def add_function(self, function: Function) -> None:
-        self.functions[function.id] = function
-        # temporary
-        
-        self.functions2[self.create_astroid_id(function)] = function
+        self.functions[self.create_astroid_id(function)] = function
 
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum

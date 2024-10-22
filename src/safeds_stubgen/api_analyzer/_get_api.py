@@ -102,11 +102,11 @@ def _update_class_subclass_relation(api: API) -> None:
             super_class.subclasses.append(class_def.id)
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
-    for function in api.functions2.values():
+    for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
             class_of_receiver = api.classes["/".join(type.type.fullname.split("."))]
-            referenced_functions = []
+            referenced_functions: list[Function] = []
             _get_referenced_functions_from_class_and_subclasses(
                 api, 
                 call_reference,
@@ -126,7 +126,7 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 )
 
             call_reference.possibly_referenced_functions = referenced_functions
-            
+
 def _get_referenced_function_from_super_classes(
     api: API, 
     call_reference: CallReference, 
@@ -160,6 +160,8 @@ def _get_referenced_functions_from_class_and_subclasses(
     referenced_functions: list[Function]
 ) -> None:
     # find all additional function defs with same name in sub classes as they could also be called
+    if current_class_id in visited_classes:
+        return
     current_class = api.classes[current_class_id]
     visited_classes.append(current_class_id)
     methods = current_class.methods
