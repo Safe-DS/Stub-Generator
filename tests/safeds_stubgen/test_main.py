@@ -42,7 +42,7 @@ _out_dir = Path(_lib_dir / "tests" / "data" / "out")
         (
             _test_package_purity,
             Path(_out_dir / f"{_test_package_purity}__api_purity.json"),
-            "plaintext"
+            "numpydoc"
         ),
     ],
     ids=[

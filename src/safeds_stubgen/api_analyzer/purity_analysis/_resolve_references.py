@@ -167,7 +167,7 @@ class ReferenceResolver:
         return d3
 
     @staticmethod
-    def compare_parameters(function: FunctionScope, call: astroid.Call) -> bool:
+    def compare_parameters(function: FunctionScope, call: astroid.Call) -> bool:  # TODO pm check if name of function makes sense and adjust whether it only checks amount of params or also types of params
         """Compare the parameters of a function with the arguments of a call.
 
         To precisely determine the referenced symbols of a call,
@@ -275,8 +275,8 @@ class ReferenceResolver:
             function_defs = [function_d for function_d in function_defs if self.compare_parameters(function_d, call_reference.node)]  # type: ignore[union-attr]
             return function_defs
 
-        possible_referenced_functions = call_reference_api.possible_referenced_functions
-        list_of_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possible_referenced_functions))
+        possibly_referenced_functions = call_reference_api.possibly_referenced_functions
+        list_of_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
         function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_ids]
         return function_defs
 
@@ -322,11 +322,9 @@ class ReferenceResolver:
     	
         # Find functions that are called.
         if call_reference.name in self.functions:
+            # TODO (pm) old vs new evaluation, add parameters for all possible stuff of evaluation
             function_def = self._get_function_scopes_by_call_reference(function, call_reference)
             function_symbols = [func.symbol for func in function_def if function_def]  # type: ignore[union-attr]
-            # function_symbols contains all functions that have the same name, now we need the type of the parent class if there is one, to narrow down the possibilities
-            # and also contains info about class, so we need info about the receiver of that call (receiver.call())
-            # for that, I need to use mypy and get the types of the receiver
 
             # "None" is not iterable, but it is checked before
             class_iterator = function.symbol.node

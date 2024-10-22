@@ -5,7 +5,7 @@ import logging
 from copy import deepcopy
 from itertools import zip_longest
 from types import NoneType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import mypy.nodes as mp_nodes
 import mypy.types as mp_types
@@ -343,7 +343,7 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
 
-        function_body = self.extract_body_info(node.body, {})
+        function_body = self._extract_body_info(node.body, {})
 
         # Create and add Function to stack
         function = Function(
@@ -366,7 +366,7 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body:
+    def _extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body:
         if body_block is None: 
             return Body(
             line=-1,
@@ -375,7 +375,8 @@ class MyPyAstVisitor:
             end_column=-1,
             call_references=call_references
         )
-            
+
+        # TODO pm check whether I can use body_block.accept
         statements = body_block.body
         for statement in statements:
             for member_name in dir(statement):
@@ -383,13 +384,13 @@ class MyPyAstVisitor:
                     member = getattr(statement, member_name)
                     # what about patterns?
                     if isinstance(member, mp_nodes.Block):
-                        self.extract_body_info(member, call_references)
+                        self._extract_body_info(member, call_references)
                     if isinstance(member, mp_nodes.Expression | mp_nodes.Lvalue):
                         self.extract_expression_info(member, call_references)
                     if isinstance(member, list) and len(member) != 0:
                         if isinstance(member[0], mp_nodes.Block):
                             for body in member:
-                                self.extract_body_info(body, call_references)
+                                self._extract_body_info(body, call_references)
                         if isinstance(member[0], mp_nodes.Expression | mp_nodes.Lvalue):
                             for expr in member:
                                 self.extract_expression_info(expr, call_references)
@@ -408,12 +409,19 @@ class MyPyAstVisitor:
             if isinstance(expr.callee, mp_nodes.MemberExpr):
                 if isinstance(expr.callee.expr, mp_nodes.NameExpr):
                     if isinstance(expr.callee.expr.node, mp_nodes.Var):
-                        expr.callee.expr.node.type
-                        call_receiver = CallReceiver(full_name=expr.callee.expr.node.type.type.fullname, type=expr.callee.expr.node.type)
-                        call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.callee.name)
-                        id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
-                        if call_references.get(id) is None:  # unnecessary
-                            call_references[id] = call_reference
+                        try:
+                            call_receiver = CallReceiver(full_name=expr.callee.expr.node.type.type.fullname, type=expr.callee.expr.node.type)
+                            call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.callee.name)
+                            id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
+                            if call_references.get(id) is None:
+                                call_references[id] = call_reference
+                        except AttributeError as err:
+                            print(err, f"{expr.callee.expr.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
+                            # TODO pm
+                            # maybe pass parameters down and get type from them if 
+                            # check if memberExpr is from parameter
+                            # if true get type from parameter class
+                            pass
 
         for member_name in dir(expr):
             if not member_name.startswith("__"):

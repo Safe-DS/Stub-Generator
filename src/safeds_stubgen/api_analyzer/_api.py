@@ -299,7 +299,7 @@ class CallReference:
     function_name: str
     line: int
     column: int
-    possible_referenced_functions: list[Function] = field(default_factory=list)
+    possibly_referenced_functions: list[Function] = field(default_factory=list)
 
 @dataclass
 class CallReceiver:

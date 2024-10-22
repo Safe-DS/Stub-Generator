@@ -114,9 +114,9 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 [],
                 referenced_functions
             )
-
+            # TODO pm we can only search for superclass if T doesnt have the function def
+            if len(referenced_functions) == 0:  # else we already found one 
             # find function in superclasses but only first appearance as python will also only call the first appearance
-            if len(referenced_functions) == 0:
                 super_classes = [api.classes["/".join(x.split("."))] for x in class_of_receiver.superclasses]
                 _get_referenced_function_from_super_classes(
                     api,
@@ -125,7 +125,7 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                     referenced_functions
                 )
 
-            call_reference.possible_referenced_functions = referenced_functions
+            call_reference.possibly_referenced_functions = referenced_functions
             
 def _get_referenced_function_from_super_classes(
     api: API, 
@@ -133,6 +133,7 @@ def _get_referenced_function_from_super_classes(
     super_classes: list[Class], 
     referenced_functions: list[Function]
 ) -> None:
+    # find the first referenced function in super classes
     for super_class in super_classes:
         found_method = False
         for method in super_class.methods:
@@ -158,6 +159,7 @@ def _get_referenced_functions_from_class_and_subclasses(
     visited_classes: list[str], 
     referenced_functions: list[Function]
 ) -> None:
+    # find all additional function defs with same name in sub classes as they could also be called
     current_class = api.classes[current_class_id]
     visited_classes.append(current_class_id)
     methods = current_class.methods
@@ -165,12 +167,9 @@ def _get_referenced_functions_from_class_and_subclasses(
         if method.name == call_reference.function_name:
             referenced_functions.append(method)
 
-    # find all additional function defs with same name in sub classes as they could also be called
-    # for that i should add a subclasses attribute to Class so that i can recursively get the subclasses
-    # but keep track of already visited classes !!
-
     if len(current_class.subclasses) != 0:
         for subclass in current_class.subclasses:
+            # TODO (pm) check for visited classes
             _get_referenced_functions_from_class_and_subclasses(
                 api, 
                 call_reference,
