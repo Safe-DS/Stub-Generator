@@ -94,7 +94,7 @@ def _update_class_subclass_relation(api: API) -> None:
     for class_def in api.classes.values():
         super_classes: list[Class] = []
         for super_class_id in class_def.superclasses:
-            class_to_append = api.classes.get(super_class_id)
+            class_to_append = api.classes.get("/".join(super_class_id.split(".")))
             if class_to_append is None:  # super class imported from outside of the analyzed package
                 continue
             super_classes.append(class_to_append)
