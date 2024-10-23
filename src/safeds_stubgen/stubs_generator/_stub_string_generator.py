@@ -77,25 +77,15 @@ class StubsStringGenerator:
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
     
-    def _get_correct_module_id(self, function: Function) -> str:  # TODO pm add to helper
-        package_name = self.api.package 
-        module_path_list = function.module_id_which_contains_def.split(".")
-        index_to_split = module_path_list.index(package_name)
-        module_path = module_path_list[index_to_split:]
-        correct_module_path = ".".join(module_path)
-        return correct_module_path
-
     def _create_function_purity_id(self, function: Function):
         full_id = function.id.split("/")
         id = full_id[-1]
-        correct_module_id = self._get_correct_module_id(function)
-        return f"{correct_module_id}.{id}.{function.line}.{function.column}"
+        return f"{function.module_id_which_contains_def}.{id}.{function.line}.{function.column}"
     
     def _get_purity_result(self, function: Function) -> PurityResult:
         function_id = self._create_function_purity_id(function)
         purity_dict = self.purity_api.to_dict()
-        correct_module_id = self._get_correct_module_id(function)
-        purity_data = purity_dict[correct_module_id]
+        purity_data = purity_dict[function.module_id_which_contains_def]
         return purity_data[function_id]
 
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:

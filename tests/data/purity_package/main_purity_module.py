@@ -113,6 +113,20 @@ def global_func_in_child_and_child_of_child_from_child_of_child_impure() -> int:
     result = instance.in_child_and_child_of_child_impure() + instance.in_child_and_child_of_child_pure()
     return result
 
+def global_func_in_super_and_child_of_child_from_T_pure() -> int:
+    instance = ClassPure()
+    result = instance.in_super_and_child_of_child_pure()
+    return result
+
+def global_func_in_super_and_child_of_child_from_T_impure() -> int:
+    """ 
+        should be impure as ClassPure is a subtype of SuperClass and there in_super_and_child_of_child_impure is 
+        impure 
+    """
+    instance = ClassPure()
+    result = instance.in_super_and_child_of_child_impure()
+    return result
+
 def global_func_all_functions_pure() -> int:
     instance = ChildClassPure()
     if True:

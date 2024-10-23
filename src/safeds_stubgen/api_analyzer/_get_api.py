@@ -106,6 +106,16 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
             class_of_receiver = api.classes["/".join(type.type.fullname.split("."))]
+            
+            # check if specified class has method with name of callreference
+            specified_class_has_method = False
+            current_class = api.classes[class_of_receiver.id]
+            methods = current_class.methods
+            for method in methods:
+                if method.name == call_reference.function_name:
+                    specified_class_has_method = True
+                    break  # as there can only be one method of that name in a python class
+            
             referenced_functions: list[Function] = []
             _get_referenced_functions_from_class_and_subclasses(
                 api, 
@@ -114,8 +124,8 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 [],
                 referenced_functions
             )
-            # TODO pm we can only search for superclass if T doesnt have the function def
-            if len(referenced_functions) == 0:  # else we already found one 
+
+            if not specified_class_has_method:
             # find function in superclasses but only first appearance as python will also only call the first appearance
                 super_classes = [api.classes["/".join(x.split("."))] for x in class_of_receiver.superclasses]
                 _get_referenced_function_from_super_classes(
@@ -168,10 +178,10 @@ def _get_referenced_functions_from_class_and_subclasses(
     for method in methods:
         if method.name == call_reference.function_name:
             referenced_functions.append(method)
+            break  # as there can only be one method of that name in a python class
 
     if len(current_class.subclasses) != 0:
         for subclass in current_class.subclasses:
-            # TODO (pm) check for visited classes
             _get_referenced_functions_from_class_and_subclasses(
                 api, 
                 call_reference,

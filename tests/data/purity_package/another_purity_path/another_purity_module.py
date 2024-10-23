@@ -21,6 +21,12 @@ class SuperClass:
     def in_super_and_child_impure(self) -> int:
         return global_var
     
+    def in_super_and_child_of_child_pure(self) -> int:
+        return 10
+    
+    def in_super_and_child_of_child_impure(self) -> int:
+        return global_var
+    
 class ClassPure(SuperClass):
     """contains pure functions only
     """
@@ -75,6 +81,12 @@ class ChildClassPure(ClassPure):
     
     def in_child_and_child_of_child_impure(self) -> int:
         return 30
+    
+    def in_super_and_child_of_child_pure(self) -> int:
+        return 30
+    
+    def in_super_and_child_of_child_impure(self) -> int:
+        return 30
 
 class ChildClassImpure(ClassImpure):
     """contains impure functions only
@@ -86,4 +98,10 @@ class ChildClassImpure(ClassImpure):
         return global_var3
     
     def in_child_and_child_of_child_impure(self) -> int:
+        return global_var3
+    
+    def in_super_and_child_of_child_pure(self) -> int:
+        return global_var3
+    
+    def in_super_and_child_of_child_impure(self) -> int:
         return global_var3
