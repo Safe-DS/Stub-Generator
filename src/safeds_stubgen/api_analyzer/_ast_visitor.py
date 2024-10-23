@@ -380,8 +380,6 @@ class MyPyAstVisitor:
             end_column=-1,
             call_references=call_references
         )
-
-        # TODO pm check whether I can use body_block.accept
         statements = body_block.body
         for statement in statements:
             for member_name in dir(statement):
