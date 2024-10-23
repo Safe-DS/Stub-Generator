@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure
+from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
 # else they should be categorized as impure
@@ -158,7 +158,17 @@ def global_func_find_deeply_nested_function_impure() -> int:
                         else:
                             instance.only_in_T()
             break
-    return 10                
+    return 10
+
+def global_func_nested_class_pure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.memberWithPureMethods.only_in_T()
+    return result
+
+def global_func_nested_class_impure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.memberWithImpureMethods.only_in_T()
+    return result
 
 def global_func_from_parameter_same_name_pure(instance: ClassPure) -> int:
     result = instance.same_name()
@@ -166,6 +176,14 @@ def global_func_from_parameter_same_name_pure(instance: ClassPure) -> int:
 
 def global_func_from_parameter_same_name_impure(instance: ClassImpure) -> int:
     result = instance.same_name()
+    return result
+
+def global_func_from_parameter_same_name_nested_pure(instance: ClassWithNestedClassAsMember) -> int:
+    result = instance.memberWithPureMethods.same_name()
+    return result
+
+def global_func_from_parameter_same_name_nested_impure(instance: ClassWithNestedClassAsMember) -> int:
+    result = instance.memberWithImpureMethods.same_name()
     return result
 
 def global_func_from_docstring_same_name_pure(instance) -> int:
@@ -189,3 +207,5 @@ def global_func_from_docstring_same_name_impure(instance) -> int:
     """
     result = instance.same_name()
     return result
+
+# TODO add from docstring but nested

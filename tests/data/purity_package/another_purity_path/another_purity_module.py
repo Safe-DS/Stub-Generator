@@ -105,3 +105,9 @@ class ChildClassImpure(ClassImpure):
     
     def in_super_and_child_of_child_impure(self) -> int:
         return global_var3
+    
+
+class ClassWithNestedClassAsMember:
+    def __init__(self):
+        self.memberWithImpureMethods = ClassImpure()
+        self.memberWithPureMethods = ClassPure()

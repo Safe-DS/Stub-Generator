@@ -296,7 +296,7 @@ class MyPyAstVisitor:
                 and code_type != doc_type
                 and self.type_source_warning == TypeSourceWarning.WARN
             ):
-                msg = f"Different type hint and docstring types for '{function_id}'."
+                msg = f"Different type hint and docstring types for '{function_id}'. Type hint will be used."
                 logging.warning(msg)
 
             if doc_type is not None and (
@@ -347,7 +347,7 @@ class MyPyAstVisitor:
         reexported_by = self._get_reexported_by(node.fullname)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
-
+        self._current_parameters_of_function = parameters
         function_body = self._extract_body_info(node.body, {})
 
         # Create and add Function to stack
@@ -408,6 +408,7 @@ class MyPyAstVisitor:
 
     def extract_expression_info(self, expr: mp_nodes.Expression | None, call_references: dict[str, CallReference]):
         # extract call_reference with receiver
+        # TODO pm this is probably not finding all call references, callreferences from members of a class !!!
         if isinstance(expr, mp_nodes.CallExpr):
             if isinstance(expr.callee, mp_nodes.MemberExpr):
                 if isinstance(expr.callee.expr, mp_nodes.NameExpr):
@@ -419,11 +420,13 @@ class MyPyAstVisitor:
                             if call_references.get(id) is None:
                                 call_references[id] = call_reference
                         except AttributeError as err:
+                            parameters = self._current_parameters_of_function
                             print(err, f"{expr.callee.expr.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
                             # TODO pm
                             # maybe pass parameters down and get type from them if 
                             # check if memberExpr is from parameter
                             # if true get type from parameter class
+                            
                             pass
 
         for member_name in dir(expr):
