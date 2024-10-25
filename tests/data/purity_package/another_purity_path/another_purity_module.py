@@ -109,5 +109,15 @@ class ChildClassImpure(ClassImpure):
 
 class ClassWithNestedClassAsMember:
     def __init__(self):
-        self.memberWithImpureMethods = ClassImpure()
         self.memberWithPureMethods = ClassPure()
+        self.memberWithImpureMethods = ClassImpure()
+        self.listMemberWithPureMethods = [ClassPure()]
+        self.listMemberWithImpureMethods = [ClassImpure()]
+        self.dictMemberWithPureMethods = {"key": ClassPure()}
+        self.dictMemberWithImpureMethods = {"key": ClassImpure()}
+
+    def return_class_impure(self) -> ClassImpure:
+        return ClassImpure()
+    
+    def return_class_pure(self) -> ClassPure:
+        return ClassPure()

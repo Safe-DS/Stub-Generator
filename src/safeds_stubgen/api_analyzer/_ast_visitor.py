@@ -410,30 +410,104 @@ class MyPyAstVisitor:
         # extract call_reference with receiver
         # TODO pm this is probably not finding all call references, callreferences from members of a class !!!
         if isinstance(expr, mp_nodes.CallExpr):
-            if isinstance(expr.callee, mp_nodes.MemberExpr):
-                if isinstance(expr.callee.expr, mp_nodes.NameExpr):
-                    if isinstance(expr.callee.expr.node, mp_nodes.Var):
-                        try:
-                            call_receiver = CallReceiver(full_name=expr.callee.expr.node.type.type.fullname, type=expr.callee.expr.node.type)
-                            call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.callee.name)
-                            id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
-                            if call_references.get(id) is None:
-                                call_references[id] = call_reference
-                        except AttributeError as err:
-                            parameters = self._current_parameters_of_function
-                            print(err, f"{expr.callee.expr.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
-                            # TODO pm
-                            # maybe pass parameters down and get type from them if 
-                            # check if memberExpr is from parameter
-                            # if true get type from parameter class
+            self.extract_call_expression_info(expr, [], call_references)
+            return
+            # if isinstance(expr.callee, mp_nodes.MemberExpr):
+            #     if isinstance(expr.callee.expr, mp_nodes.NameExpr):
+            #         if isinstance(expr.callee.expr.node, mp_nodes.Var):
+            #             try:
+            #                 call_receiver = CallReceiver(full_name=expr.callee.expr.node.type.type.fullname, type=expr.callee.expr.node.type)
+            #                 call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.callee.name)
+            #                 id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
+            #                 if call_references.get(id) is None:
+            #                     call_references[id] = call_reference
+            #             except AttributeError as err:
+            #                 parameters = self._current_parameters_of_function
+            #                 print(err, f"{expr.callee.expr.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
+            #                 # TODO pm
+            #                 # maybe pass parameters down and get type from them if 
+            #                 # check if memberExpr is from parameter
+            #                 # if true get type from parameter class
                             
-                            pass
+            #                 pass
+
+        for member_name in dir(expr):
+            if not member_name.startswith("__"):
+                member = getattr(expr, member_name)
+                # what if member is list of expressions?
+                if isinstance(member, mp_nodes.Expression):
+                    self.extract_expression_info(member, call_references)
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
+                    for expr in member:
+                        self.extract_expression_info(expr, call_references)
+
+
+    def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], call_references: dict[str, CallReference]) -> None:
+        # we need to find the possibly referenced functions, so we need to go through the full expression
+        # it seems like we can only get the type of the last expression, so we need to store the path of 
+        # member, method accesses
+        # path.append(expr.callee)
+        
+        # start search for type
+        pathCopy = path.copy()
+        pathCopy.append("()")  # or add character that marks new call reference
+        self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, call_references)
+        if expr.analyzed is not None:
+            self.extract_expression_info(expr.analyzed, call_references)
+        for arg in expr.args:
+            self.extract_expression_info(arg, call_references)
+
+
+    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], call_references: dict[str, CallReference]) -> None:
+        pathCopy = path.copy()
+        if hasattr(expr, "name"):
+            pathCopy.append(expr.name) # type: ignore as ensured by hasattr
+
+        # termination conditions
+        # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+        if isinstance(expr, mp_nodes.MemberExpr):
+            if isinstance(expr.expr, mp_nodes.NameExpr):
+                if isinstance(expr.expr.node, mp_nodes.Var):
+                    try:
+                        # use path here
+                        pathCopy.append(expr.expr.name)
+                        # it could be that i have to just pass the path to call reference and use it later once we have all classes apis
+                        call_receiver = CallReceiver(full_name=expr.expr.node.type.type.fullname, type=expr.expr.node.type)
+                        call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.name)
+                        id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
+                        if call_references.get(id) is None:
+                            call_references[id] = call_reference
+                    except AttributeError as err:
+                        parameters = self._current_parameters_of_function
+                        print(err, f"{expr.expr.node.fullname}.{expr.name}.{expr.line}.{expr.column}")
+                        # TODO pm
+                        # maybe pass parameters down and get type from them if 
+                        # check if memberExpr is from parameter
+                        # if true get type from parameter class
+                        
+                        pass
+
+        # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+
+        # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
+        # here we can also have nested types that ultimately lead to Class being used
+
+        # condition 4 dict["key"].(...).call_reference()  # dict[str, Class] with Class having a member that leads to the call_reference
+        # here we can also have nested types that ultimately lead to Class being used
+        
+        # go deeper to find termination condition
+        if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example
+            self.extract_call_expression_info(expr, pathCopy, call_references)
+            return
 
         for member_name in dir(expr):
             if not member_name.startswith("__"):
                 member = getattr(expr, member_name)
                 if isinstance(member, mp_nodes.Expression):
-                    self.extract_expression_info(member, call_references)
+                    self.extract_expression_info_after_call_reference_found(member, pathCopy, call_references)
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
+                    for expr in member:
+                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, call_references)
 
 
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
