@@ -10,6 +10,7 @@ from mypy import nodes as mypy_nodes
 from mypy import types as mypy_types
 
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
+from safeds_stubgen.api_analyzer._types import NamedType
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API, CallReference, Function, Class
@@ -85,6 +86,7 @@ def get_api(
 
     api = callable_visitor.api
     _update_class_subclass_relation(api)
+    _find_correct_type_by_path_to_call_reference(api)
     _find_all_referenced_functions_for_all_call_references(api)
 
     return api
@@ -100,6 +102,55 @@ def _update_class_subclass_relation(api: API) -> None:
             super_classes.append(class_to_append)
         for super_class in super_classes:
             super_class.subclasses.append(class_def.id)
+
+def _find_correct_type_by_path_to_call_reference(api: API):
+    for function in api.functions.values():
+        for call_reference in function.body.call_references.values():
+            type = call_reference.receiver.type
+            class_of_receiver = api.classes["/".join(type.type.fullname.split("."))]
+
+            found_correct_class = False
+            correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
+            path_length = len(correct_path)  # path also contains "()" as last entry but can also contain multiple "()"
+            # TODO pm multiple "()" means there is a function which returns a function which is called 
+            for i, part in enumerate(correct_path): 
+                if i == 0:  # first part of path is variable name etc so we can skip 
+                    continue
+                try: 
+                    attributeName = part
+                    attribute = list(filter(lambda attribute: attribute.name == attributeName, class_of_receiver.attributes))
+                    if len(attribute) != 1:
+                        raise KeyError()
+                    attribute = attribute[0]
+                    # attribute can be object (class), list, tuple or dict
+                    type_of_attribute = attribute.type
+                    if type_of_attribute is None:
+                        print("missing type info!")
+                        break
+                    if isinstance(type_of_attribute, NamedType):  # TODO pm check what types are possible
+                        found_class = api.classes.get("/".join(type_of_attribute.qname.split(".")))
+                        if found_class is None:
+                            print(f"Class {type_of_attribute.name} not found")
+                            break
+                        class_of_receiver = found_class
+                        continue  # next class found, check next part of path
+
+                except KeyError:
+                    methodName = part
+                    method = list(filter(lambda method: method.name == methodName, class_of_receiver.methods))
+                    if correct_path[i + 1] == "()" and i + 2 == path_length:  # TODO pm here we need to check if ()()() is suffix or not
+                        found_correct_class = True
+                        break
+                    if len(method) != 1:
+                        raise KeyError(f"Method {methodName} and Attribute {attributeName} not found in class {class_of_receiver.name}!")
+                    method = method[0]
+
+                # TODO pm add error handling if for loop is breaked as there can be missing types, classes etc
+                if found_correct_class:
+                    pass
+                else:
+                    pass
+            
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     for function in api.functions.values():
@@ -125,7 +176,7 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 referenced_functions
             )
 
-            if not specified_class_has_method:
+            if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
             # find function in superclasses but only first appearance as python will also only call the first appearance
                 super_classes = [api.classes["/".join(x.split("."))] for x in class_of_receiver.superclasses]
                 _get_referenced_function_from_super_classes(

@@ -109,7 +109,7 @@ class ChildClassImpure(ClassImpure):
 
 class ClassWithNestedClassAsMember:
     def __init__(self):
-        self.memberWithPureMethods = ClassPure()
+        self.memberWithPureMethods: ClassPure = ClassPure()
         self.memberWithImpureMethods = ClassImpure()
         self.listMemberWithPureMethods = [ClassPure()]
         self.listMemberWithImpureMethods = [ClassImpure()]

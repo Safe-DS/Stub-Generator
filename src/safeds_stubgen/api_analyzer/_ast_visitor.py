@@ -472,7 +472,7 @@ class MyPyAstVisitor:
                         # use path here
                         pathCopy.append(expr.expr.name)
                         # it could be that i have to just pass the path to call reference and use it later once we have all classes apis
-                        call_receiver = CallReceiver(full_name=expr.expr.node.type.type.fullname, type=expr.expr.node.type)
+                        call_receiver = CallReceiver(full_name=expr.expr.node.type.type.fullname, type=expr.expr.node.type, path_to_call_reference=pathCopy)
                         call_reference = CallReference(column=expr.column, line=expr.line, receiver=call_receiver, function_name=expr.name)
                         id = f"{call_reference.function_name}.{expr.line}.{expr.column}"
                         if call_references.get(id) is None:

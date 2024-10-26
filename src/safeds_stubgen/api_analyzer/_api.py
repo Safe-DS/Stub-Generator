@@ -300,6 +300,7 @@ class CallReference:
 class CallReceiver:
     type: Any
     full_name: str
+    path_to_call_reference: list[str]
 
 class UnknownValue:
     pass
