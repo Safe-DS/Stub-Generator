@@ -1615,145 +1615,175 @@
     'purity_package.another_purity_path.__init__': dict({
     }),
     'purity_package.another_purity_path.another_purity_module': dict({
-      'purity_package.another_purity_path.another_purity_module.__init__.111.4': dict({
+      'purity_package.another_purity_path.another_purity_module.ClassWithNestedClassAsMember.113.0': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.__init__.5.4': dict({
+      'purity_package.another_purity_path.another_purity_module.__init__.114.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.100.4': dict({
+      'purity_package.another_purity_path.another_purity_module.__init__.8.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.double_function_impure.137.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.double_function_pure.134.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.103.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.48.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.51.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.70.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.73.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.82.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.85.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.45.4': dict({
-        'purity': 'Pure',
-      }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.67.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.100.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.79.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.48.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.97.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.70.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.21.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.82.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.24.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.42.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.45.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.64.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.67.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.106.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.109.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.27.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.30.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.88.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.91.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.103.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.106.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.24.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.27.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.85.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.88.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.18.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.21.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.39.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.42.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.61.4': dict({
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.64.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_T.36.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_T.39.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_T.58.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_T.61.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_child.76.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_child.79.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_child.94.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_child.97.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_super_impure.15.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_super_impure.18.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.another_purity_path.another_purity_module.only_in_super_pure.12.4': dict({
+      'purity_package.another_purity_path.another_purity_module.only_in_super_pure.15.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.same_name.33.4': dict({
+      'purity_package.another_purity_path.another_purity_module.recursive_function.131.4': dict({
         'purity': 'Pure',
       }),
-      'purity_package.another_purity_path.another_purity_module.same_name.55.4': dict({
+      'purity_package.another_purity_path.another_purity_module.return_class_impure.125.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.return_class_pure.128.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.11.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.36.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.58.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
-      }),
-      'purity_package.another_purity_path.another_purity_module.same_name.8.4': dict({
-        'purity': 'Pure',
       }),
     }),
     'purity_package.main_purity_module': dict({
       'purity_package.main_purity_module.global_func_all_functions_pure.130.0': dict({
         'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_double_function_impure.259.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_double_function_pure.251.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
       }),
       'purity_package.main_purity_module.global_func_find_deeply_nested_function_impure.145.0': dict({
         'purity': 'Impure',
@@ -1761,37 +1791,25 @@
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_from_docstring_same_name_impure.200.0': dict({
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_impure.179.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_from_docstring_same_name_pure.189.0': dict({
-        'purity': 'Impure',
-        'reasons': dict({
-          'NonLocalVariableRead': 1,
-        }),
-      }),
-      'purity_package.main_purity_module.global_func_from_parameter_same_name_impure.177.0': dict({
-        'purity': 'Impure',
-        'reasons': dict({
-          'NonLocalVariableRead': 1,
-        }),
-      }),
-      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_impure.185.0': dict({
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_impure.187.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 2,
         }),
       }),
-      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_pure.181.0': dict({
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_pure.183.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 2,
+          'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_from_parameter_same_name_pure.173.0': dict({
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_pure.175.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_func_in_child_and_child_of_child_from_T_impure.100.0': dict({
@@ -1836,16 +1854,84 @@
       'purity_package.main_purity_module.global_func_in_super_and_child_of_child_from_T_pure.116.0': dict({
         'purity': 'Pure',
       }),
-      'purity_package.main_purity_module.global_func_nested_class_impure.168.0': dict({
+      'purity_package.main_purity_module.global_func_multiple_nested_member_impure.226.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 3,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_member_pure.221.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 2,
         }),
       }),
-      'purity_package.main_purity_module.global_func_nested_class_pure.163.0': dict({
+      'purity_package.main_purity_module.global_func_multiple_nested_methods_impure.236.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_methods_pure.231.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_multiple_recursion_impure.246.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_recursion_pure.241.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_class_impure.170.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_class_pure.165.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_from_second_call_reference_impure.196.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_from_second_call_reference_pure.191.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_dict_impure.216.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_dict_pure.211.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_list_impure.206.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_list_pure.201.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableWrite': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_only_in_Child_impure.46.0': dict({
@@ -1893,6 +1979,12 @@
       'purity_package.main_purity_module.global_func_only_in_super_from_child_pure.61.0': dict({
         'purity': 'Pure',
       }),
+      'purity_package.main_purity_module.global_func_return_impure_class.274.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_return_pure_class.267.0': dict({
+        'purity': 'Pure',
+      }),
       'purity_package.main_purity_module.global_func_same_name_impure.12.0': dict({
         'purity': 'Impure',
         'reasons': dict({
@@ -1900,6 +1992,42 @@
         }),
       }),
       'purity_package.main_purity_module.global_func_same_name_pure.7.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_dict_impure.306.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_dict_pure.301.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_function_impure.277.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_function_pure.270.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_list_impure.286.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_list_pure.281.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_tuple_impure.296.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_tuple_pure.291.0': dict({
         'purity': 'Pure',
       }),
     }),

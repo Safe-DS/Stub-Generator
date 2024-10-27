@@ -1,3 +1,6 @@
+from typing import Callable
+
+
 global_var = 10
 global_var2 = 20
 global_var3 = 30
@@ -110,14 +113,26 @@ class ChildClassImpure(ClassImpure):
 class ClassWithNestedClassAsMember:
     def __init__(self):
         self.memberWithPureMethods: ClassPure = ClassPure()
-        self.memberWithImpureMethods = ClassImpure()
-        self.listMemberWithPureMethods = [ClassPure()]
-        self.listMemberWithImpureMethods = [ClassImpure()]
-        self.dictMemberWithPureMethods = {"key": ClassPure()}
-        self.dictMemberWithImpureMethods = {"key": ClassImpure()}
+        self.memberWithImpureMethods: ClassImpure = ClassImpure()
+        self.memberWithPureMethodsWithoutTypeHint = ClassPure()
+        self.memberWithImpureMethodsWithoutTypeHint = ClassImpure()
+        self.listMemberWithPureMethods: list[ClassPure] = [ClassPure()]
+        self.listMemberWithImpureMethods: list[ClassImpure] = [ClassImpure()]
+        self.dictMemberWithPureMethods: dict[str, ClassPure] = {"key": ClassPure()}
+        self.dictMemberWithImpureMethods: dict[str, ClassImpure] = {"key": ClassImpure()}
+        self.recursive: ClassWithNestedClassAsMember = ClassWithNestedClassAsMember()
 
     def return_class_impure(self) -> ClassImpure:
         return ClassImpure()
     
     def return_class_pure(self) -> ClassPure:
         return ClassPure()
+    
+    def recursive_function(self) -> ClassWithNestedClassAsMember: # type: ignore
+        return ClassWithNestedClassAsMember()
+    
+    def double_function_pure(self) -> Callable[[], int]:
+        return lambda: 10
+    
+    def double_function_impure(self) -> Callable[[], int]:
+        return lambda: global_var

@@ -275,7 +275,7 @@ class ReferenceResolver:
         function_defs = self.functions.get(call_reference.name)
         if function_defs is None:
             return []
-        if self.api_data is None or self.api_data.functions[function_id].body is None:
+        if self.api_data is None:
             return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
         
         function_api = self.api_data.functions.get(function_id)
@@ -289,6 +289,9 @@ class ReferenceResolver:
             return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
 
         possibly_referenced_functions = call_reference_api.possibly_referenced_functions
+        if len(possibly_referenced_functions) == 0:  # no found functions, due to missing types etc
+            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+
         list_of_function_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
         function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_function_ids]
         return function_defs
