@@ -92,7 +92,14 @@ def get_api(
     return api
 
 def _update_class_subclass_relation(api: API) -> None:
-    # for each class, update each superclass by appending the id of the class to subclasses list of the superclass
+    """
+        For each class, updates each superclass by appending the id of the class to subclasses list of the superclass
+
+        Parameters
+        ----------
+        api : API
+            Stores api data of analyzed package
+    """
     for class_def in api.classes.values():
         super_classes: list[Class] = []
         for super_class_id in class_def.superclasses:
@@ -104,6 +111,18 @@ def _update_class_subclass_relation(api: API) -> None:
             super_class.subclasses.append(class_def.id)
 
 def _get_named_type_from_nested_type(nested_type: AbstractType) -> NamedType | None:
+    """
+        Iterates through a nested type recursively, to find a NamedType
+
+        Parameters
+        ----------
+        nested_type : AbstractType
+            Abstract class for types
+        
+        Returns
+        ----------
+        type : NamedType | None
+    """
     if isinstance(nested_type, NamedType):
         return nested_type
     elif isinstance(nested_type, ListType):
@@ -135,6 +154,11 @@ def _find_correct_type_by_path_to_call_reference(api: API):
         current class. If there is no attribute with the string of the path as name, then it is assumed
         that the string is the name of a method. For either attribute or method, we try to find the next 
         class along the path, until the the end of the path to the call reference is reached.
+
+        Parameters:
+        ----------
+        api : API
+            Stores api data of analyzed package
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
@@ -217,6 +241,23 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
+    """
+        Once the correct receiver type was found in _find_correct_type_by_path_to_call_reference,
+        all possibly referenced functions for each call references need to be found by this function. 
+
+        For that, found class of each call reference is accessed, if its None, the possibly referenced
+        functions for this call reference will be empty. If they are empty, the purity analysis will 
+        fall back to using a list of all functions with the same name as possibly referenced functions.
+
+        The possibly referenced functions can also be functions of the subclasses or superclasses.
+        Therefore we also need to check the superclasses, if the type of the receiver doesnt have the 
+        function. If the type has subtypes, we need to search for the function in each subtype.
+
+        Parameters:
+        ----------
+        api : API
+            Stores api data of analyzed package
+    """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             # use found class of _find_correct_type_by_path_to_call_reference if not None
@@ -260,7 +301,20 @@ def _get_referenced_function_from_super_classes(
     super_classes: list[Class], 
     referenced_functions: list[Function]
 ) -> None:
-    # find the first referenced function in super classes
+    """
+        finds the first referenced function in super classes recursively
+
+        Parameters
+        ----------
+        api : API
+            Stores api data of analyzed package
+        call_reference : CallReference
+            The call reference
+        super_classes : list[Class]
+            The super classes of the type of the receiver of the super class or of those super classes
+        referenced_functions : list[Function]
+            Passed along recursion to store all possibly referenced functions
+    """
     for super_class in super_classes:
         found_method = False
         for method in super_class.methods:
@@ -286,6 +340,22 @@ def _get_referenced_functions_from_class_and_subclasses(
     visited_classes: list[str], 
     referenced_functions: list[Function]
 ) -> None:
+    """
+        Finds all additional function defs with same name in sub classes recursively, as they could also be called
+
+        Parameters
+        ----------
+        api : API
+            Stores api data of analyzed package
+        call_reference : CallReference
+            The call reference
+        current_class_id : str
+            The id of the current class, which has the sub classes
+        visited_classes : list[str]
+            Stores visited class ids, so that we dont visit classes twice, during recursion
+        referenced_functions : list[Function]
+            Passed along recursion to store all possibly referenced functions
+    """
     # find all additional function defs with same name in sub classes as they could also be called
     if current_class_id in visited_classes:
         return

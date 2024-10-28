@@ -266,7 +266,7 @@ class MyPyAstVisitor:
 
     def enter_funcdef(self, node: mp_nodes.FuncDef) -> None:
         name = node.name
-        function_id = self._create_id_from_stack(name)  # pm: function id is path
+        function_id = self._create_id_from_stack(name)  # function id is path
 
         is_public = self._is_public(name, node.fullname)
         is_static = node.is_static
