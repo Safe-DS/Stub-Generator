@@ -556,10 +556,7 @@ class MyPyAstVisitor:
                     except AttributeError as err:
                         parameters = self._current_parameters_of_function
                         print(err, f"{expr.expr.node.fullname}.{expr.name}.{expr.line}.{expr.column}")
-                        # TODO pm
-                        # maybe pass parameters down and get type from them if 
-                        # check if memberExpr is from parameter
-                        # if true get type from parameter class
+                        # TODO pm check parameter info
               
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         if isinstance(expr, mp_nodes.CallExpr):
@@ -587,10 +584,7 @@ class MyPyAstVisitor:
                     except AttributeError as err:
                         parameters = self._current_parameters_of_function
                         print(err, f"{expr.callee.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
-                        # TODO pm
-                        # maybe pass parameters down and get type from them if 
-                        # check if memberExpr is from parameter
-                        # if true get type from parameter class
+                        # TODO pm check parameter info
 
         # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
         # also for tuple and dict
@@ -621,17 +615,14 @@ class MyPyAstVisitor:
                         except AttributeError as err:
                             parameters = self._current_parameters_of_function
                             print(err, f"{expr.base.node.type.items[0].type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
-                            # TODO pm
-                            # maybe pass parameters down and get type from them if 
-                            # check if memberExpr is from parameter
-                            # if true get type from parameter class
+                            # TODO pm check parameter info
                     else:  # list and dict
                         try:
                             pathCopy.append(expr.base.name)
                             # the path is used in _get_api() to find the correct class of the receiver
                             function_name = list(filter(lambda part: part != "()" and part != "[]", pathCopy))[0]
                             
-                            # TODO pm this is not correct, as there can be more args than 2
+                            # TODO pm extract correct type from nested type
                             if len(expr.base.node.type.args) == 2:
                                 arg = expr.base.node.type.args[1]  # this is for dict
                             else:
@@ -642,7 +633,7 @@ class MyPyAstVisitor:
                                 type=arg,  # TODO pm check what happens if type is nested
                                 path_to_call_reference=pathCopy, 
                                 found_class=None
-                            )  # found_lass will later be found
+                            )  # found_class will later be found
                             call_reference = CallReference(
                                 column=expr.column, 
                                 line=expr.line, 
@@ -655,10 +646,7 @@ class MyPyAstVisitor:
                         except AttributeError as err:
                             parameters = self._current_parameters_of_function
                             print(err, f"{arg.type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
-                            # TODO pm
-                            # maybe pass parameters down and get type from them if 
-                            # check if memberExpr is from parameter
-                            # if true get type from parameter class
+                            # TODO pm check parameter info
         
         # go deeper to find termination condition
         if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example

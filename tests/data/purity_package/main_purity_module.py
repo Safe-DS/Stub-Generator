@@ -328,6 +328,32 @@ def global_func_start_with_dict_impure() -> int:
     result = instances["key"].only_in_T()
     return result
 
+# # TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types
+
+# def global_func_start_with_nested_type_pure() -> int:
+#     instances = {"key": [{"key2": ClassPure()}]}
+#     result = instances["key"][0]["key2"].only_in_T()
+#     return result
+
+# def global_func_start_with_nested_type_impure() -> int:
+#     instances = {"key": [{"key2": ClassImpure()}]}
+#     result = instances["key"][0]["key2"].only_in_T()
+#     return result
+
+# def global_helper_func_nested_type_with_function_pure() -> dict[str, list[dict[str, ClassPure]]]:
+#     return {"key": [{"key2": ClassPure()}]}
+
+# def global_func_start_with_nested_type_and_function_pure() -> int:
+#     result = global_helper_func_nested_type_with_function_pure()["key"][0]["key2"].only_in_T()
+#     return result
+
+# def global_helper_func_nested_type_with_function_impure() -> dict[str, list[dict[str, ClassImpure]]]:
+#     return {"key": [{"key2": ClassImpure()}]}
+
+# def global_func_start_with_nested_type_and_function_impure() -> int:
+#     result = global_helper_func_nested_type_with_function_impure()["key"][0]["key2"].only_in_T()
+#     return result
+
 # def global_func_from_docstring_same_name_pure(instance) -> int:
 #     """this function should be pure as same_name of ClassPure is pure
 
@@ -349,5 +375,3 @@ def global_func_start_with_dict_impure() -> int:
 #     """
 #     result = instance.same_name()
 #     return result
-
-# TODO pm add from docstring but nested
