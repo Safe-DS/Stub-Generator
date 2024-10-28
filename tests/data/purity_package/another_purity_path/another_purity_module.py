@@ -110,7 +110,18 @@ class ChildClassImpure(ClassImpure):
         return global_var3
     
 
-class ClassWithNestedClassAsMember:
+class SuperWithNestedClassAsMember:
+    def __init__(self) -> None:
+        self.super_member_pure: ClassPure = ClassPure()
+        self.super_member_impure: ClassImpure = ClassImpure()
+
+    def only_in_super_nested_call_pure(self) -> ClassPure:
+        return ClassPure()
+
+    def only_in_super_nested_call_impure(self) -> ClassImpure:
+        return ClassImpure()
+
+class ClassWithNestedClassAsMember(SuperWithNestedClassAsMember):
     def __init__(self):
         self.memberWithPureMethods: ClassPure = ClassPure()
         self.memberWithImpureMethods: ClassImpure = ClassImpure()

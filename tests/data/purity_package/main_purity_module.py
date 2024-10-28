@@ -238,6 +238,26 @@ def global_func_multiple_nested_methods_impure() -> int:
     result = instance.recursive_function().recursive_function().return_class_impure().only_in_T()
     return result
 
+def global_func_nested_method_from_super_pure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.only_in_super_nested_call_pure().only_in_T()
+    return result
+
+def global_func_nested_method_from_super_impure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.only_in_super_nested_call_impure().only_in_T()
+    return result
+
+def global_func_nested_member_from_super_pure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.super_member_pure.only_in_T()
+    return result
+
+def global_func_nested_member_from_super_impure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.super_member_impure.only_in_T()
+    return result
+
 def global_func_multiple_recursion_pure() -> int:
     instance = ClassWithNestedClassAsMember()
     result = instance.recursive_function().recursive.recursive_function().return_class_pure().only_in_T()
