@@ -374,7 +374,25 @@ class MyPyAstVisitor:
 
     def _extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body:
         """
-            TODO pm add docstring
+            Entry point of body extraction
+
+            Searches recursively for members of type mp_nodes.Block or mp_nodes.Expression
+            For Block, this function is called again and for expression, _extract_expression_info
+            is called.
+            A call_reference dictionary is passed along to store found call references.
+
+            Parameters
+            ----------
+            body_block : mp_nodes.Block
+                Holds info about the current block of code, at first, this is the whole function body
+            call_references : dict[str, CallReference]
+                Stores all found call references and is passed along the recursion
+
+            Returns
+            ----------
+            body
+                Contains info about the function body and especially the call references. This body info 
+                is then stored in Function class
         """
         if body_block is None: 
             return Body(
@@ -412,7 +430,19 @@ class MyPyAstVisitor:
 
     def extract_expression_info(self, expr: mp_nodes.Expression | None, call_references: dict[str, CallReference]):
         """
-            TODO pm add docstring
+            Entry point of expression extraction
+
+            Searches recursively for members of type mp_nodes.Expression.
+            Once a call expression is found, another recursion is started, in order to get the type of the 
+            receiver of the call reference.
+            A call_reference dictionary is passed along to store found call references.
+
+            Parameters
+            ----------
+            expr : mp_nodes.Expression
+                Holds info about the current examined expression
+            call_references : dict[str, CallReference]
+                Stores all found call references and is passed along the recursion
         """
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], call_references)
@@ -433,7 +463,26 @@ class MyPyAstVisitor:
 
     def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], call_references: dict[str, CallReference]) -> None:
         """
-            TODO pm add docstring
+            Entry point of call expression extraction, but also handles nested calls
+
+            A call reference has three attributes, that need to be examined. 
+            - expr.callee:  this represents the part of the call reference which comes before "()" so this is the "callee()"
+                            and to find the receiver of this call reference, we need to handle this case separately
+            - expr.analyzed: is of type Expression and therefore needs to be examined by extract_expression_info()
+            - expr.args: is of type list[Expression] and therefore needs to be examined by extract_expression_info() as well
+
+            Parameters
+            ----------
+            expr : mp_nodes.CallExpr
+                Holds info about the current examined call expression
+            path : list[str]
+                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+                the names of the attributes or methods, that lead to the call reference
+                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+                of the correct_receiver
+            call_references : dict[str, CallReference]
+                Stores all found call references and is passed along the recursion
         """
         # we need to find the possibly referenced functions, so we need to go through the full expression
         # it seems like we can only get the type of the last expression, so we need to store the path of 
@@ -452,7 +501,29 @@ class MyPyAstVisitor:
 
     def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], call_references: dict[str, CallReference]) -> None:
         """
-            TODO pm add docstring
+            A call reference was found and this function tries to retreive the type of the receiver of the call
+
+            There are different termination conditions, which this function tries to find.
+
+            condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+            condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+            condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
+            But there can also be nested combinations of those conditions.
+
+            If there is no condition to be found, then, all members are searched, whether they are of type expression
+
+            Parameters
+            ----------
+            expr : mp_nodes.Expression
+                Holds info about the current examined expression
+            path : list[str]
+                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+                the names of the attributes or methods, that lead to the call reference
+                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+                of the correct_receiver
+            call_references : dict[str, CallReference]
+                Stores all found call references and is passed along the recursion
         """
         pathCopy = path.copy()
         if hasattr(expr, "name"):
@@ -489,8 +560,7 @@ class MyPyAstVisitor:
                         # maybe pass parameters down and get type from them if 
                         # check if memberExpr is from parameter
                         # if true get type from parameter class
-
-        # TODO pm add further conditions                
+              
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         if isinstance(expr, mp_nodes.CallExpr):
             if isinstance(expr.callee, mp_nodes.NameExpr):  # TODO pm consider nested callreferences "call()()"
