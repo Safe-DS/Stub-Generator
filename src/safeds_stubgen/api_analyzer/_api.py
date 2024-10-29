@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from enum import Enum as PythonEnum
 from typing import TYPE_CHECKING, Any
 
+from safeds_stubgen.api_analyzer._types import NamedType
+
 if TYPE_CHECKING:
     from pathlib import Path
 
@@ -298,7 +300,7 @@ class CallReference:
 
 @dataclass
 class CallReceiver:
-    type: Any
+    type: Any | NamedType
     full_name: str
     path_to_call_reference: list[str]
     found_class: Class | None

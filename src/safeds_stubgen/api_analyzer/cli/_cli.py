@@ -132,7 +132,7 @@ def _run_stub_generator(
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
         out_file_api_purity,
-        shorten=True
+        shorten=False
     )  # Shorten is set to True by default, therefore the results will only contain the count of each reason.
 
     # Generate the stub data

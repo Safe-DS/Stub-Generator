@@ -348,8 +348,8 @@ class MyPyAstVisitor:
         reexported_by = self._get_reexported_by(node.fullname)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
-        self._current_parameters_of_function = parameters
-        function_body = self._extract_body_info(node.body, {})
+        parameter_dict = {parameter.name: parameter for parameter in parameters}
+        function_body = self._extract_body_info(node.body, parameter_dict, {})
         # TODO pm evaluation: count and categorize expressions
         
         # Create and add Function to stack
@@ -373,7 +373,7 @@ class MyPyAstVisitor:
         )
         self.__declaration_stack.append(function)
 
-    def _extract_body_info(self, body_block: mp_nodes.Block | None, call_references: dict[str, CallReference]) -> Body:
+    def _extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
         """
             Entry point of body extraction
 
@@ -386,6 +386,9 @@ class MyPyAstVisitor:
             ----------
             body_block : mp_nodes.Block
                 Holds info about the current block of code, at first, this is the whole function body
+            parameter_of_func : dict[str, Parameter]
+                Contains the parameter of the function which the body belongs to, can be used if mypy has no
+                type info about the parameter
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
 
@@ -410,16 +413,16 @@ class MyPyAstVisitor:
                     member = getattr(statement, member_name)
                     # what about patterns?
                     if isinstance(member, mp_nodes.Block):
-                        self._extract_body_info(member, call_references)
+                        self._extract_body_info(member, parameter_of_func, call_references)
                     if isinstance(member, mp_nodes.Expression | mp_nodes.Lvalue):
-                        self.extract_expression_info(member, call_references)
+                        self.extract_expression_info(member, parameter_of_func, call_references)
                     if isinstance(member, list) and len(member) != 0:
                         if isinstance(member[0], mp_nodes.Block):
                             for body in member:
-                                self._extract_body_info(body, call_references)
+                                self._extract_body_info(body, parameter_of_func, call_references)
                         if isinstance(member[0], mp_nodes.Expression | mp_nodes.Lvalue):
                             for expr in member:
-                                self.extract_expression_info(expr, call_references)
+                                self.extract_expression_info(expr, parameter_of_func, call_references)
 
         return Body(
             line=body_block.line,
@@ -429,7 +432,7 @@ class MyPyAstVisitor:
             call_references=call_references
         )
 
-    def extract_expression_info(self, expr: mp_nodes.Expression | None, call_references: dict[str, CallReference]):
+    def extract_expression_info(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
         """
             Entry point of expression extraction
 
@@ -442,11 +445,14 @@ class MyPyAstVisitor:
             ----------
             expr : mp_nodes.Expression
                 Holds info about the current examined expression
+            parameter_of_func : dict[str, Parameter]
+                Contains the parameter of the function which the body belongs to, can be used if mypy has no
+                type info about the parameter
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
         if isinstance(expr, mp_nodes.CallExpr):
-            self.extract_call_expression_info(expr, [], call_references)
+            self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
 
         for member_name in dir(expr):
@@ -454,15 +460,15 @@ class MyPyAstVisitor:
                 try: 
                     member = getattr(expr, member_name)
                     if isinstance(member, mp_nodes.Expression):
-                        self.extract_expression_info(member, call_references)
+                        self.extract_expression_info(member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                         for expr in member:
-                            self.extract_expression_info(expr, call_references)
+                            self.extract_expression_info(expr, parameter_of_func, call_references)
                 except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators'
                     print(err)  # TODO pm add to logging
 
 
-    def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], call_references: dict[str, CallReference]) -> None:
+    def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
             Entry point of call expression extraction, but also handles nested calls
 
@@ -482,6 +488,9 @@ class MyPyAstVisitor:
                 the names of the attributes or methods, that lead to the call reference
                 Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
                 of the correct_receiver
+            parameter_of_func : dict[str, Parameter]
+                Contains the parameter of the function which the body belongs to, can be used if mypy has no
+                type info about the parameter
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
@@ -493,14 +502,14 @@ class MyPyAstVisitor:
         # start search for type
         pathCopy = path.copy()
         pathCopy.append("()")
-        self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, call_references)
+        self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, parameter_of_func, call_references)
         if expr.analyzed is not None:
-            self.extract_expression_info(expr.analyzed, call_references)
+            self.extract_expression_info(expr.analyzed, parameter_of_func, call_references)
         for arg in expr.args:
-            self.extract_expression_info(arg, call_references)
+            self.extract_expression_info(arg, parameter_of_func, call_references)
 
 
-    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], call_references: dict[str, CallReference]) -> None:
+    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
             A call reference was found and this function tries to retreive the type of the receiver of the call
 
@@ -523,9 +532,13 @@ class MyPyAstVisitor:
                 the names of the attributes or methods, that lead to the call reference
                 Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
                 of the correct_receiver
+            parameter_of_func : dict[str, Parameter]
+                Contains the parameter of the function which the body belongs to, can be used if mypy has no
+                type info about the parameter
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
+        # TODO pm refactor
         pathCopy = path.copy()
         if hasattr(expr, "name"):
             pathCopy.append(expr.name) # type: ignore as ensured by hasattr
@@ -555,9 +568,27 @@ class MyPyAstVisitor:
                         if call_references.get(id) is None:
                             call_references[id] = call_reference
                     except AttributeError as err:
-                        parameters = self._current_parameters_of_function
-                        print(err, f"{expr.expr.node.fullname}.{expr.name}.{expr.line}.{expr.column}")
-                        # TODO pm check parameter info
+                        parameter = parameter_of_func.get(expr.expr.node.fullname)
+                        if parameter is not None:
+                            # TODO pm: narrow parameter.type
+                            function_name = list(filter(lambda part: part != "()" and part != "[]", pathCopy))[0]
+                            call_receiver = CallReceiver(
+                                full_name=parameter.type.qname, 
+                                type=parameter.type, 
+                                path_to_call_reference=pathCopy, 
+                                found_class=None
+                            )  # found Class will later be found
+                            call_reference = CallReference(
+                                column=expr.column, 
+                                line=expr.line, 
+                                receiver=call_receiver, 
+                                function_name=function_name
+                            )
+                            id = f"{function_name}.{expr.line}.{expr.column}"
+                            if call_references.get(id) is None:
+                                call_references[id] = call_reference
+                        else:
+                            print(err, f"{expr.expr.node.fullname}.{expr.name}.{expr.line}.{expr.column}")
               
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         if isinstance(expr, mp_nodes.CallExpr):
@@ -583,8 +614,27 @@ class MyPyAstVisitor:
                         if call_references.get(id) is None:
                             call_references[id] = call_reference
                     except AttributeError as err:
-                        parameters = self._current_parameters_of_function
-                        print(err, f"{expr.callee.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
+                        parameter = parameter_of_func.get(expr.callee.node.fullname)
+                        if parameter is not None:
+                            # TODO pm: narrow parameter.type
+                            function_name = list(filter(lambda part: part != "()" and part != "[]", pathCopy))[0]
+                            call_receiver = CallReceiver(
+                                full_name=parameter.type.qname, 
+                                type=parameter.type, 
+                                path_to_call_reference=pathCopy, 
+                                found_class=None
+                            )  # found Class will later be found
+                            call_reference = CallReference(
+                                column=expr.column, 
+                                line=expr.line, 
+                                receiver=call_receiver, 
+                                function_name=function_name
+                            )
+                            id = f"{function_name}.{expr.line}.{expr.column}"
+                            if call_references.get(id) is None:
+                                call_references[id] = call_reference
+                        else:
+                            print(err, f"{expr.callee.node.fullname}.{expr.callee.name}.{expr.line}.{expr.column}")
                         # TODO pm check parameter info
 
         # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
@@ -614,8 +664,27 @@ class MyPyAstVisitor:
                             if call_references.get(id) is None:
                                 call_references[id] = call_reference
                         except AttributeError as err:
-                            parameters = self._current_parameters_of_function
-                            print(err, f"{expr.base.node.type.items[0].type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
+                            parameter = parameter_of_func.get(expr.base.node.fullname)
+                            if parameter is not None:
+                                # TODO pm: narrow parameter.type
+                                function_name = list(filter(lambda part: part != "()" and part != "[]", pathCopy))[0]
+                                call_receiver = CallReceiver(
+                                    full_name=parameter.type.qname, 
+                                    type=parameter.type, 
+                                    path_to_call_reference=pathCopy, 
+                                    found_class=None
+                                )  # found Class will later be found
+                                call_reference = CallReference(
+                                    column=expr.column, 
+                                    line=expr.line, 
+                                    receiver=call_receiver, 
+                                    function_name=function_name
+                                )
+                                id = f"{function_name}.{expr.line}.{expr.column}"
+                                if call_references.get(id) is None:
+                                    call_references[id] = call_reference
+                            else:
+                                print(err, f"{expr.base.node.type.items[0].type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
                             # TODO pm check parameter info
                     else:  # list and dict
                         try:
@@ -645,23 +714,42 @@ class MyPyAstVisitor:
                             if call_references.get(id) is None:
                                 call_references[id] = call_reference
                         except AttributeError as err:
-                            parameters = self._current_parameters_of_function
-                            print(err, f"{arg.type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
+                            parameter = parameter_of_func.get(expr.base.node.fullname)
+                            if parameter is not None:
+                                # TODO pm: narrow parameter.type
+                                function_name = list(filter(lambda part: part != "()" and part != "[]", pathCopy))[0]
+                                call_receiver = CallReceiver(
+                                    full_name=parameter.type.qname, 
+                                    type=parameter.type, 
+                                    path_to_call_reference=pathCopy, 
+                                    found_class=None
+                                )  # found Class will later be found
+                                call_reference = CallReference(
+                                    column=expr.column, 
+                                    line=expr.line, 
+                                    receiver=call_receiver, 
+                                    function_name=function_name
+                                )
+                                id = f"{function_name}.{expr.line}.{expr.column}"
+                                if call_references.get(id) is None:
+                                    call_references[id] = call_reference
+                            else:
+                                print(err, f"{arg.type.fullname}.{expr.base.name}.{expr.line}.{expr.column}")
                             # TODO pm check parameter info
         
         # go deeper to find termination condition
         if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example
-            self.extract_call_expression_info(expr, pathCopy, call_references)
+            self.extract_call_expression_info(expr, pathCopy, parameter_of_func, call_references)
             return
 
         for member_name in dir(expr):
             if not member_name.startswith("__"):
                 member = getattr(expr, member_name)
                 if isinstance(member, mp_nodes.Expression):
-                    self.extract_expression_info_after_call_reference_found(member, pathCopy, call_references)
+                    self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                     for expr in member:
-                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, call_references)
+                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, parameter_of_func, call_references)
 
 
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:

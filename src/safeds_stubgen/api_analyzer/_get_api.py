@@ -193,7 +193,10 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
-            class_of_receiver = api.classes["/".join(type.type.fullname.split("."))]
+            if isinstance(type, NamedType):
+                class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
+            else:
+                class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
 
             found_correct_class = False
             correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
@@ -202,6 +205,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             # iterate through path and update class_of_receiver so that after iterating 
             # class_of_receiver is the class, that finally receives the call
             for i, part in enumerate(correct_path): 
+                if class_of_receiver is None:
+                    break
                 if i == 0:  # first part of path is a variable name etc so we can skip 
                     continue
                 if part == "()":
