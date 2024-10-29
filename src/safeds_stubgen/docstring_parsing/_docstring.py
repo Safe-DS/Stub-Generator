@@ -43,7 +43,7 @@ class ParameterDocstring:
     valid_values: frozenset[str] | None = None
 
     def __init__(self, type: AbstractType | None = None, default_value: str = "", type_string: str = "", description: str = ""):
-        self.type = type # from annotation
+        self.type = type
         self.default_value = default_value
         self.type_string = type_string
         self.description = description
@@ -51,27 +51,41 @@ class ParameterDocstring:
         self.valid_values = frozenset(extract_valid_literals(description, type_string))
 
     def to_dict(self) -> dict[str, Any]:  # custom to dict function, as sets are not JSON serializable
-        boundaries = list(self.boundaries) if self.boundaries is not None else []
-        valid_values = sorted(self.valid_values) if self.valid_values is not None else []
-        type = self.type.to_dict() if self.type is not None else {}
+        boundaries = list(self.boundaries) if self.boundaries is not None else None
+        valid_values = sorted(self.valid_values) if self.valid_values is not None else None
+        type = self.type.to_dict() if self.type is not None else None
         return {
             "type": type,
             "default_value": self.default_value,
-            "type_string": self.type_string,
             "description": self.description,
             "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"])),
             "valid_values": valid_values
         }
 
 
-@dataclass(frozen=True)
+@dataclass(unsafe_hash=True)
 class AttributeDocstring:
     type: AbstractType | None = None
+    type_string: str = ""
     description: str = ""
-    # TODO pm add boundaries and enums
 
-    def to_dict(self) -> dict[str, Any]:
-        return dataclasses.asdict(self)
+    def __init__(self, type: AbstractType | None = None, default_value: str = "", type_string: str = "", description: str = ""):
+        self.type = type
+        self.type_string = type_string
+        self.description = description
+        self.boundaries = frozenset(extract_boundary(description, type_string))
+        self.valid_values = frozenset(extract_valid_literals(description, type_string))
+
+    def to_dict(self) -> dict[str, Any]:  # custom to dict function, as sets are not JSON serializable
+        boundaries = list(self.boundaries) if self.boundaries is not None else None
+        valid_values = sorted(self.valid_values) if self.valid_values is not None else None
+        type = self.type.to_dict() if self.type is not None else None
+        return {
+            "type": type,
+            "description": self.description,
+            "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"])),
+            "valid_values": valid_values
+        }
 
 
 @dataclass(frozen=True)

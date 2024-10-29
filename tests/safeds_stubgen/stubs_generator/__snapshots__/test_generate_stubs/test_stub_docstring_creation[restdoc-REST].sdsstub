@@ -189,7 +189,7 @@ class ClassWithVariousParameterTypes(
     @PythonName("none_type") noneType: Nothing?,
     @PythonName("int_type") intType: Int,
     @PythonName("bool_type") boolType: literal<false, true>,
-    @PythonName("str_type") strType: literal<unlistable_str>,
+    @PythonName("str_type") strType: String,
     @PythonName("float_type") floatType: Float,
     @PythonName("multiple_types") multipleTypes: literal<false, true>,
     @PythonName("list_type_1") listType1: List<Any>,

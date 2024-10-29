@@ -230,15 +230,15 @@ class StubsStringGenerator:
         else:
             constructor = class_.constructor
             parameter_info = ""
-            boundaries = ""
+            parameter_boundaries = ""
             if constructor:
-                parameter_info, boundaries = self._create_parameter_string(
+                parameter_info, parameter_boundaries = self._create_parameter_string(
                     constructor.parameters,
                     class_indentation,
                     is_instance_method=True,
                 )
 
-            constructor_info = f"({parameter_info}){boundaries}"
+            constructor_info = f"({parameter_info}){parameter_boundaries}"
 
         # Type parameters
         constraints_info = ""
@@ -287,7 +287,7 @@ class StubsStringGenerator:
         class_signature_todo = self._create_todo_msg(class_indentation)
 
         # Attributes
-        class_text, added_class_attributes = self._create_class_attribute_string(class_.attributes, inner_indentations)
+        class_text, added_class_attributes, attribute_boundaries = self._create_class_attribute_string(class_.attributes, inner_indentations)
 
         # Inner classes
         for inner_class in class_.classes:
@@ -356,7 +356,7 @@ class StubsStringGenerator:
         # Close class
         class_text += f"{class_indentation}}}"
 
-        return f"{docstring}{class_signature} {{{class_text}"
+        return f"{docstring}{class_signature} {{{class_text}{attribute_boundaries}"
 
     def _create_class_method_string(
         self,
@@ -405,19 +405,26 @@ class StubsStringGenerator:
         self,
         attributes: list[Attribute],
         inner_indentations: str,
-    ) -> tuple[str, set[str]]:
+    ) -> tuple[str, set[str], str]:
         class_attributes: list[str] = []
         all_attr_names: set[str] = set()
+        boundary_data: dict[str, list[dict[str, Any]]] = {}
         for attribute in attributes:
             if not attribute.is_public:
                 continue
 
-            attribute_type = None
+            attribute_type_data = None
+            attribute_boundaries: list[dict[str, Any]] = []
+            attribute_valid_values: list[str] = []
             if attribute.type:
-                attribute_type = attribute.type.to_dict()
+                attribute_type_data = attribute.type.to_dict()
+                if attribute.docstring.boundaries is not None:
+                    attribute_boundaries = sorted(map(lambda boundary: boundary.to_dict(), attribute.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
+                if attribute.docstring.valid_values is not None:
+                    attribute_valid_values = sorted(attribute.docstring.valid_values)
 
                 # Don't create TypeVar attributes
-                if attribute_type["kind"] == "TypeVarType":
+                if attribute_type_data["kind"] == "TypeVarType":
                     continue
 
             static_string = "static " if attribute.is_static else ""
@@ -434,13 +441,27 @@ class StubsStringGenerator:
             attr_name_camel_case = _replace_if_safeds_keyword(attr_name_camel_case)
 
             # Create type information
-            attr_type = self._create_type_string(attribute_type)
+            attr_type = self._create_type_string(attribute_type_data)
             type_string = f": {attr_type}" if attr_type else ""
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
             # Create docstring text
             docstring = self._create_sds_docstring(attribute.docstring, inner_indentations)
+
+            # check for boundaries and enums of attribute
+            if len(attribute_valid_values) != 0 and not (len(attribute_valid_values) == 1 and attribute_valid_values[0] == "None"):
+                for i, valid_value in enumerate(attribute_valid_values):
+                    if valid_value == "None":
+                        attribute_valid_values[i] = "null"
+                    elif valid_value in ["True", "False"]:
+                        attribute_valid_values[i] = valid_value.lower()
+                if len(attribute_valid_values) == 1 and attribute_valid_values[0] == "unlistable_str":
+                    type_string = ": String"
+                else:
+                    type_string = ": literal<" + ", ".join(attribute_valid_values) + ">"
+            if len(attribute_boundaries) != 0:
+                boundary_data[attribute.name] = attribute_boundaries
 
             # Create attribute string
             class_attributes.append(
@@ -451,10 +472,12 @@ class StubsStringGenerator:
             )
 
         attribute_text = ""
+        boundaries = ""
         if class_attributes:
+            boundaries = self._create_boundary_string(boundary_data, inner_indentations)
             attribute_infos = "\n".join(class_attributes)
             attribute_text += f"\n{attribute_infos}\n"
-        return attribute_text, all_attr_names
+        return attribute_text, all_attr_names, boundaries
 
     def _create_function_string(
         self,
@@ -520,7 +543,7 @@ class StubsStringGenerator:
         result_string = self._create_result_string(function.results)
 
 
-        # Purity TODO implement Reasons and check why purity_result is dict
+        # TODO pm implement Reasons and check why purity_result is dict
         purity_str = "@Pure"
         if purity_result["purity"] == "Impure":  # type: ignore somehow isinstance doesnt work here as PurityReason is a dict here
             # reasons_str = ""
@@ -688,14 +711,18 @@ class StubsStringGenerator:
             # Check if it's a Safe-DS keyword and escape it
             camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
-            # Check for boundaries and enums
+            # Check for boundaries and enums 
+            # TODO pm extract into own function as this appears twice and needs to be improved with union type etc
             if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
                 for i, valid_value in enumerate(parameter_valid_values):
                     if valid_value == "None":
                         parameter_valid_values[i] = "null"
                     elif valid_value in ["True", "False"]:
                         parameter_valid_values[i] = valid_value.lower()
-                type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
+                if len(parameter_valid_values) == 1 and parameter_valid_values[0] == "unlistable_str":
+                    type_string = ": String"
+                else:
+                    type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
             if len(parameter_boundaries) != 0:
                 boundary_data[parameter.name] = parameter_boundaries
 

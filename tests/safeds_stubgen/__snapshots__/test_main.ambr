@@ -106,7 +106,6 @@
             'name': 'str',
             'qname': 'builtins.str',
           }),
-          'type_string': 'str',
           'valid_values': list([
             '"constant"',
             '"mean"',
@@ -146,7 +145,6 @@
               }),
             ]),
           }),
-          'type_string': 'str or bool',
           'valid_values': list([
             '"sparse matrix"',
             'False',
@@ -198,7 +196,6 @@
             'name': 'float',
             'qname': 'builtins.float',
           }),
-          'type_string': 'float',
           'valid_values': list([
           ]),
         }),
@@ -255,7 +252,6 @@
               }),
             ]),
           }),
-          'type_string': 'int or float',
           'valid_values': list([
             'None',
           ]),
@@ -410,7 +406,6 @@
             'name': 'str',
             'qname': 'builtins.str',
           }),
-          'type_string': 'str',
           'valid_values': list([
             '"constant"',
             '"mean"',
@@ -450,7 +445,6 @@
               }),
             ]),
           }),
-          'type_string': 'str or bool',
           'valid_values': list([
             '"sparse matrix"',
             'False',
@@ -502,7 +496,6 @@
             'name': 'float',
             'qname': 'builtins.float',
           }),
-          'type_string': 'float',
           'valid_values': list([
           ]),
         }),
@@ -559,7 +552,6 @@
               }),
             ]),
           }),
-          'type_string': 'int or float',
           'valid_values': list([
             'None',
           ]),
@@ -604,8 +596,12 @@
     'attributes': list([
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_init_attr_private',
         'is_public': False,
@@ -619,8 +615,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/attr_1',
         'is_public': True,
@@ -634,8 +634,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/init_attr',
         'is_public': True,
@@ -649,8 +653,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
         'is_public': False,
@@ -664,8 +672,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_attr_in_private_class',
         'is_public': False,
@@ -679,8 +691,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
         'is_public': False,
@@ -1276,9 +1292,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1295,9 +1309,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1318,9 +1330,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1337,9 +1347,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1356,9 +1364,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1375,9 +1381,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1398,9 +1402,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1421,9 +1423,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1440,9 +1440,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1459,9 +1457,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1478,9 +1474,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -1501,9 +1495,7 @@
           ]),
           'default_value': '',
           'description': '',
-          'type': dict({
-          }),
-          'type_string': '',
+          'type': None,
           'valid_values': list([
           ]),
         }),
@@ -2171,7 +2163,6 @@
             'name': 'int',
             'qname': 'builtins.int',
           }),
-          'type_string': 'int',
           'valid_values': list([
             '"constant"',
             '"mean"',
@@ -2211,7 +2202,6 @@
               }),
             ]),
           }),
-          'type_string': 'str | bool',
           'valid_values': list([
             '"sparse matrix"',
             'False',
@@ -2259,7 +2249,6 @@
             'name': 'float',
             'qname': 'builtins.float',
           }),
-          'type_string': 'float',
           'valid_values': list([
           ]),
         }),
@@ -2311,7 +2300,6 @@
               }),
             ]),
           }),
-          'type_string': 'int | float',
           'valid_values': list([
             'None',
           ]),

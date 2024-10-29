@@ -184,9 +184,15 @@ class DocstringParser(AbstractDocstringParser):
             type_ = None
         else:
             type_ = self._griffe_annotation_to_api_type(annotation, griffe_docstring)
-
+        
+        type_string = ""
+        if isinstance(last_attribute.annotation, Expr):
+           type_string = last_attribute.annotation.canonical_name
+        if isinstance(last_attribute.annotation, str):
+            type_string = last_attribute.annotation
         return AttributeDocstring(
             type=type_,
+            type_string=type_string,
             description=last_attribute.description.strip("\n"),
         )
 

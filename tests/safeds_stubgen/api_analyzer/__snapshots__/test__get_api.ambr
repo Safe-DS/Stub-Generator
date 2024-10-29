@@ -3,8 +3,12 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_ignore_me',
       'is_public': False,
@@ -18,8 +22,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_multi_attr_2_private',
       'is_public': False,
@@ -33,8 +41,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_multi_attr_4_private',
       'is_public': False,
@@ -53,8 +65,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_no_type_hint_private',
       'is_public': False,
@@ -68,8 +84,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/_type_hint_private',
       'is_public': False,
@@ -83,8 +103,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/attr_default_value_from_outside_package',
       'is_public': True,
@@ -98,8 +122,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/attr_type_from_outside_package',
       'is_public': True,
@@ -113,8 +141,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/bool_attr',
       'is_public': True,
@@ -128,8 +160,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/callexpr_attr_class',
       'is_public': True,
@@ -139,8 +175,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/callexpr_attr_function',
       'is_public': True,
@@ -150,8 +190,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/defined_three_times',
       'is_public': True,
@@ -165,8 +209,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_1',
       'is_public': True,
@@ -188,8 +236,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_2',
       'is_public': True,
@@ -211,8 +263,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/dict_attr_3',
       'is_public': True,
@@ -254,8 +310,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final',
       'is_public': True,
@@ -272,8 +332,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_union',
       'is_public': True,
@@ -300,8 +364,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/finals',
       'is_public': True,
@@ -328,8 +396,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/flaot_attr',
       'is_public': True,
@@ -343,8 +415,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/init_attr',
       'is_public': True,
@@ -358,8 +434,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/int_or_bool_attr',
       'is_public': True,
@@ -383,8 +463,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_1',
       'is_public': True,
@@ -398,8 +482,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_2',
       'is_public': True,
@@ -428,8 +516,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_3',
       'is_public': True,
@@ -453,8 +545,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/list_attr_4',
       'is_public': True,
@@ -488,8 +584,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/literal',
       'is_public': True,
@@ -504,8 +604,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/mixed_literal_union',
       'is_public': True,
@@ -553,8 +657,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_1',
       'is_public': True,
@@ -568,8 +676,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_3',
       'is_public': True,
@@ -588,8 +700,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_5',
       'is_public': True,
@@ -603,8 +719,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_6',
       'is_public': True,
@@ -618,8 +738,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_7',
       'is_public': True,
@@ -633,8 +757,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multi_attr_8',
       'is_public': True,
@@ -648,8 +776,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/multiple_literals',
       'is_public': True,
@@ -687,8 +819,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/no_type_hint_public',
       'is_public': True,
@@ -702,8 +838,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/none_attr',
       'is_public': True,
@@ -717,8 +857,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/object_attr',
       'is_public': True,
@@ -732,8 +876,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/optional',
       'is_public': True,
@@ -757,8 +905,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_1',
       'is_public': True,
@@ -772,8 +924,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_2',
       'is_public': True,
@@ -802,8 +958,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_3',
       'is_public': True,
@@ -827,8 +987,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/set_attr_4',
       'is_public': True,
@@ -862,8 +1026,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/str_attr_with_none_value',
       'is_public': True,
@@ -877,8 +1045,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_1',
       'is_public': True,
@@ -897,8 +1069,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_2',
       'is_public': True,
@@ -927,8 +1103,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/tuple_attr_3',
       'is_public': True,
@@ -952,8 +1132,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/type_hint_public',
       'is_public': True,
@@ -971,8 +1155,12 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/_nested_attr_2',
       'is_public': False,
@@ -986,8 +1174,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/class_module/ClassModuleClassD/ClassModuleNestedClassE/nested_attr_1',
       'is_public': True,
@@ -1005,11 +1197,17 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': 'Attribute of the calculator. (Google Style)',
         'type': dict({
+          'kind': 'NamedType',
           'name': 'str',
           'qname': 'builtins.str',
         }),
+        'valid_values': list([
+          'unlistable_str',
+        ]),
       }),
       'id': 'tests/data/various_modules_package/docstring_module/GoogleDocstringClass/attr_1',
       'is_public': True,
@@ -1027,11 +1225,17 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': 'Attribute of the calculator. (Numpy)',
         'type': dict({
+          'kind': 'NamedType',
           'name': 'str',
           'qname': 'builtins.str',
         }),
+        'valid_values': list([
+          'unlistable_str',
+        ]),
       }),
       'id': 'tests/data/various_modules_package/docstring_module/NumpyDocstringClass/attr_1',
       'is_public': True,
@@ -1049,8 +1253,12 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/docstring_module/RestDocstringClass/attr_1',
       'is_public': True,
@@ -1068,8 +1276,12 @@
   list([
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_1',
       'is_public': False,
@@ -1083,8 +1295,12 @@
     }),
     dict({
       'docstring': dict({
+        'boundaries': list([
+        ]),
         'description': '',
         'type': None,
+        'valid_values': list([
+        ]),
       }),
       'id': 'tests/data/various_modules_package/class_module/_ClassModulePrivateClassG/_attr_2',
       'is_public': False,
@@ -2949,9 +3165,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -2968,9 +3182,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -2991,9 +3203,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3014,9 +3224,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3037,9 +3245,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3060,9 +3266,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3083,9 +3287,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3106,9 +3308,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3129,9 +3329,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3156,9 +3354,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3175,9 +3371,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3198,9 +3392,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3226,9 +3418,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3261,9 +3451,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3308,9 +3496,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3331,9 +3517,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3350,9 +3534,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3382,7 +3564,6 @@
           'name': 'str',
           'qname': 'builtins.str',
         }),
-        'type_string': 'str',
         'valid_values': list([
           'unlistable_str',
         ]),
@@ -3404,9 +3585,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3427,9 +3606,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3451,7 +3628,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -3477,7 +3653,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -3502,9 +3677,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3525,9 +3698,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3556,9 +3727,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3589,9 +3758,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3627,9 +3794,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3674,9 +3839,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3697,9 +3860,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3724,9 +3885,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3747,9 +3906,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3775,7 +3932,6 @@
           'name': 'str',
           'qname': 'builtins.str',
         }),
-        'type_string': 'str',
         'valid_values': list([
           'unlistable_str',
         ]),
@@ -3797,9 +3953,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3820,9 +3974,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3844,7 +3996,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -3870,7 +4021,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -3895,9 +4045,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3918,9 +4066,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3941,9 +4087,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3964,9 +4108,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -3987,9 +4129,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4006,9 +4146,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4029,9 +4167,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4048,9 +4184,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4067,9 +4201,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4090,9 +4222,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4113,9 +4243,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4136,9 +4264,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4159,9 +4285,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4207,9 +4331,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4226,9 +4348,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4267,9 +4387,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4308,9 +4426,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4331,9 +4447,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4354,9 +4468,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4382,9 +4494,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4420,9 +4530,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4444,9 +4552,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4484,9 +4590,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4524,9 +4628,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4557,9 +4659,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4580,9 +4680,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4603,9 +4701,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4636,9 +4732,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4664,9 +4758,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4702,9 +4794,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4725,9 +4815,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4763,9 +4851,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4806,9 +4892,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4839,9 +4923,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4872,9 +4954,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4913,9 +4993,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4936,9 +5014,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -4964,7 +5040,6 @@
           'name': 'str',
           'qname': 'builtins.str',
         }),
-        'type_string': 'str',
         'valid_values': list([
           'unlistable_str',
         ]),
@@ -4986,9 +5061,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5009,9 +5082,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5033,7 +5104,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -5059,7 +5129,6 @@
           'name': 'int',
           'qname': 'builtins.int',
         }),
-        'type_string': 'int',
         'valid_values': list([
         ]),
       }),
@@ -5084,9 +5153,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5117,9 +5184,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5150,9 +5215,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5173,9 +5236,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5211,9 +5272,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5249,9 +5308,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5282,9 +5339,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5335,9 +5390,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5378,9 +5431,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5411,9 +5462,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5438,9 +5487,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),
@@ -5465,9 +5512,7 @@
         ]),
         'default_value': '',
         'description': '',
-        'type': dict({
-        }),
-        'type_string': '',
+        'type': None,
         'valid_values': list([
         ]),
       }),

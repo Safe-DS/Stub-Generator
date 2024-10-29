@@ -29,3 +29,5 @@ def global_func1_numpy(param1, param2, param3, param4):
         If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
     """
     return test
+
+# TODO pm add attribute test of stub generation

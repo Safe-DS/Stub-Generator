@@ -223,7 +223,7 @@ class ClassWithVariousParameterTypes(
     @PythonName("none_type") noneType: Nothing?,
     @PythonName("int_type") intType: Int,
     @PythonName("bool_type") boolType: literal<false, true>,
-    @PythonName("str_type") strType: literal<unlistable_str>,
+    @PythonName("str_type") strType: String,
     @PythonName("float_type") floatType: Float,
     @PythonName("multiple_types") multipleTypes: literal<false, true>,
     @PythonName("list_type_1") listType1: List<Any>,
@@ -256,13 +256,13 @@ class ClassWithVariousAttributeTypes() {
     @PythonName("int_type")
     static attr intType: String
     @PythonName("bool_type")
-    static attr boolType: String
+    static attr boolType: literal<false, true>
     @PythonName("str_type")
     static attr strType: String
     @PythonName("float_type")
     static attr floatType: String
     @PythonName("multiple_types")
-    static attr multipleTypes: String
+    static attr multipleTypes: literal<false, true>
     @PythonName("list_type_1")
     static attr listType1: String
     @PythonName("list_type_2")
@@ -301,7 +301,7 @@ class ClassWithVariousAttributeTypes() {
     @PythonName("mapping_type")
     static attr mappingType: Map<Int, String>
     @PythonName("bool_op_type")
-    static attr boolOpType: union<Boolean, Int, String>
+    static attr boolOpType: literal<false, true, unlistable_str>
     @PythonName("list_type_5")
     static attr listType5: List<Int>
 }
