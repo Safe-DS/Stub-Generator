@@ -30,4 +30,37 @@ def global_func1_numpy(param1, param2, param3, param4):
     """
     return test
 
-# TODO pm add attribute test of stub generation
+class ClassWithAttributes:
+    """
+    ClassAndConstructorWithParameters
+
+    Dolor sit amet.
+
+    Attributes
+    ----------
+    attribute1 : float
+        Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+        to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+        updating these values (messages).
+    attribute2 : str
+        If "mean", then replace missing values using the mean along each column. 
+        If "median", then replace missing values using the median along each column. 
+        If "most_frequent", then replace missing using the most frequent value along each column. 
+        If "constant", then replace missing values with fill_value.
+    """
+    def __init__(self) -> None:
+        """
+        Attributes
+        ----------
+        attribute1 : float
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+        attribute2 : str
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+        """
+        self.attribute1: float
+        self.attribute2: str

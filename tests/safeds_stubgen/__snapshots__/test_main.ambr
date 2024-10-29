@@ -2,8 +2,152 @@
 # name: test_main[googledoc - boundary - enum]
   dict({
     'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
     ]),
     'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              Attributes:
+                  attribute1 (float):
+                      Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                      to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                      updating these values (messages).
+                  attribute2 (str):
+                      If "mean", then replace missing values using the mean along each column. 
+                      If "median", then replace missing values using the median along each column. 
+                      If "most_frequent", then replace missing using the most frequent value along each column. 
+                      If "constant", then replace missing values with fill_value.
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            Attributes:
+                attribute1 (float):
+                    Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
+                attribute2 (str):
+                    If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
     ]),
     'distribution': '',
     'enum_instances': list([
@@ -11,6 +155,38 @@
     'enums': list([
     ]),
     'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Attributes:
+                attribute1 (float):
+                    Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
+                attribute2 (str):
+                    If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
       dict({
         'docstring': dict({
           'description': 'Lorem ipsum',
@@ -71,6 +247,7 @@
       }),
       dict({
         'classes': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes',
         ]),
         'docstring': 'GoogleDoc Docstring of the main_module_googledoc.py module.',
         'enums': list([
@@ -88,6 +265,23 @@
     ]),
     'package': 'boundary_enum_package_googledoc',
     'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '',
@@ -294,8 +488,154 @@
 # name: test_main[numpydoc - boundary - enum]
   dict({
     'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
     ]),
     'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              Attributes
+              ----------
+              attribute1 : float
+                  Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                  to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                  updating these values (messages).
+              attribute2 : str
+                  If "mean", then replace missing values using the mean along each column. 
+                  If "median", then replace missing values using the median along each column. 
+                  If "most_frequent", then replace missing using the most frequent value along each column. 
+                  If "constant", then replace missing values with fill_value.
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            Attributes
+            ----------
+            attribute1 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            attribute2 : str
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
     ]),
     'distribution': '',
     'enum_instances': list([
@@ -303,6 +643,39 @@
     'enums': list([
     ]),
     'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Attributes
+            ----------
+            attribute1 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            attribute2 : str
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
       dict({
         'docstring': dict({
           'description': 'Lorem ipsum',
@@ -371,6 +744,7 @@
       }),
       dict({
         'classes': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes',
         ]),
         'docstring': 'NumpyDoc Docstring of the main_module_numpydoc.py module.',
         'enums': list([
@@ -388,6 +762,23 @@
     ]),
     'package': 'boundary_enum_package_numpydoc',
     'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '',
@@ -2058,8 +2449,125 @@
 # name: test_main[restdoc - boundary - enum]
   dict({
     'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
     ]),
     'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              :param attribute1:
+                  Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                  to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                  updating these values (messages).
+              :type attribute1: float
+              :param attribute2:
+                  If "mean", then replace missing values using the mean along each column. 
+                  If "median", then replace missing values using the median along each column. 
+                  If "most_frequent", then replace missing using the most frequent value along each column. 
+                  If "constant", then replace missing values with fill_value.
+              :type attribute2: str
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            :param attribute1:
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type attribute1: float
+            :param attribute2:
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type attribute2: str
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
     ]),
     'distribution': '',
     'enum_instances': list([
@@ -2067,6 +2575,39 @@
     'enums': list([
     ]),
     'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            :param attribute1:
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type attribute1: float
+            :param attribute2:
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type attribute2: str
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
       dict({
         'docstring': dict({
           'description': 'Lorem ipsum',
@@ -2133,6 +2674,7 @@
       }),
       dict({
         'classes': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes',
         ]),
         'docstring': 'ReST Docstring of the main_module_restdoc.py module.',
         'enums': list([
@@ -2150,6 +2692,23 @@
     ]),
     'package': 'boundary_enum_package_restdoc',
     'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
       dict({
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '',
