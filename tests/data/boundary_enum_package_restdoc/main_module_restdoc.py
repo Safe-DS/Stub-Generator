@@ -28,7 +28,7 @@ def global_func1_rest(param1, param2, param3, param4):
     """
     return test
 
-# Todo Currently disabled, since Griffe can't analyze ReST (Sphinx) attributes (see issue #98)
+# TODO Currently disabled, since Griffe can't analyze ReST (Sphinx) attributes (see issue #98)
 # that is why the stub generator wont generate the class stub correctly
 class ClassWithAttributes:
     """
