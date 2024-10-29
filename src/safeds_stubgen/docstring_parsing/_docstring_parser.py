@@ -142,7 +142,7 @@ class DocstringParser(AbstractDocstringParser):
         if isinstance(last_parameter.annotation, str):
             type_string = last_parameter.annotation
         return ParameterDocstring(
-            type=type_,
+            type=type_,  # TODO pm check if this is from docstring or type hint
             default_value=default_value,
             type_string=type_string,
             description=last_parameter.description.strip("\n") or "",

@@ -350,7 +350,8 @@ class MyPyAstVisitor:
         reexported_by.sort(key=lambda x: x.id)
         self._current_parameters_of_function = parameters
         function_body = self._extract_body_info(node.body, {})
-
+        # TODO pm evaluation: count and categorize expressions
+        
         # Create and add Function to stack
         function = Function(
             id=function_id,

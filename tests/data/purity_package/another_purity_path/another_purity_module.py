@@ -147,3 +147,5 @@ class ClassWithNestedClassAsMember(SuperWithNestedClassAsMember):
     
     def double_function_impure(self) -> Callable[[], int]:
         return lambda: global_var
+    
+# TODO pm test self.method() calls

@@ -328,7 +328,7 @@ def global_func_start_with_dict_impure() -> int:
     result = instances["key"].only_in_T()
     return result
 
-# # TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types
+# # TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types, also add test cases, that have to use the boundary and enum type
 
 # def global_func_start_with_nested_type_pure() -> int:
 #     instances = {"key": [{"key2": ClassPure()}]}
