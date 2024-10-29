@@ -68,6 +68,7 @@ class ParameterDocstring:
 class AttributeDocstring:
     type: AbstractType | None = None
     description: str = ""
+    # TODO pm add boundaries and enums
 
     def to_dict(self) -> dict[str, Any]:
         return dataclasses.asdict(self)
