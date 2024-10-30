@@ -209,7 +209,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     break
                 if i == 0:  # first part of path is a variable name etc so we can skip 
                     continue
-                if part == "()":
+                if part == "()" or part == "[]":
                     continue
                 try:  # assume the part of the path is a name of a member 
                     attribute_name = part

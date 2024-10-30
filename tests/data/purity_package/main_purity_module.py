@@ -344,6 +344,7 @@ def global_helper_func_nested_type_with_function_pure() -> dict[str, list[dict[s
     return {"key": [{"key2": ClassPure()}]}
 
 def global_func_start_with_nested_type_and_function_pure() -> int:
+    # TODO pm why impure?
     result = global_helper_func_nested_type_with_function_pure()["key"][0]["key2"].only_in_T()
     return result
 
@@ -420,6 +421,28 @@ def global_func_from_docstring_as_tuple_same_name_impure(instances) -> int:
     result = instances[0].same_name()
     return result
 
+def global_func_from_parameter_as_multiple_tuple_same_name_pure(instances: tuple[str, ClassPure]) -> int:
+    """this function should be pure as same_name of ClassPure is pure
+
+    Parameters
+    --------
+    instances : tuple[str, ClassPure]
+        Lorem ipsum
+    """
+    result = instances[1].same_name()
+    return result
+
+def global_func_from_parameter_as_multiple_tuple_same_name_impure(instances: tuple[str, ClassImpure]) -> int:
+    """this function should be pure as same_name of ClassPure is pure
+
+    Parameters
+    --------
+    instances : tuple[str, ClassImpure]
+        Lorem ipsum
+    """
+    result = instances[1].same_name()
+    return result
+
 def global_func_from_docstring_as_multiple_tuple_same_name_pure(instances) -> int:
     """this function should be pure as same_name of ClassPure is pure
 
@@ -463,3 +486,5 @@ def global_func_from_docstring_as_dict_same_name_impure(instances) -> int:
     """
     result = instances["key"].same_name()
     return result
+
+# TODO pm add tests with union type parameter
