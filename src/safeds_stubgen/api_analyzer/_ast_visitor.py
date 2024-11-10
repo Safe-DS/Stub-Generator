@@ -59,7 +59,6 @@ class MyPyAstVisitor:
         aliases: dict[str, set[str]],
         type_source_preference: TypeSourcePreference,
         type_source_warning: TypeSourceWarning,
-        is_test_run: bool = False,
     ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.type_source_preference = type_source_preference
@@ -70,7 +69,6 @@ class MyPyAstVisitor:
         self.mypy_file: mp_nodes.MypyFile | None = None
         # We gather type var types used as a parameter type in a function
         self.type_var_types: set[sds_types.TypeVarType] = set()
-        self.is_test_run = is_test_run
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
