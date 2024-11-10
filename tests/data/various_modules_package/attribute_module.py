@@ -51,6 +51,8 @@ class AttributesClassB:
     str_attr_with_none_value: str = None
 
     optional: Optional[int]
+    final_int: Final = (101, 32741, 2147483621)
+    no_final_type: Final
     final: Final[str] = "Value"
     finals: Final[str, int] = "Value"
     final_union: Final[str | int] = "Value"
