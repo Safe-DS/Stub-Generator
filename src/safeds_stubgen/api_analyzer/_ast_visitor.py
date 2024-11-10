@@ -775,8 +775,7 @@ class MyPyAstVisitor:
                         if type__ not in result_array[i]:
                             result_array[i].append(type__)
 
-                            if len(result_array[i]) > longest_inner_list:
-                                longest_inner_list = len(result_array[i])
+                            longest_inner_list = max(len(result_array[i]), longest_inner_list)
                     else:
                         result_array.append([type__])
 
