@@ -535,6 +535,10 @@ class MyPyAstVisitor:
             return self._get_named_type_from_nested_type(nested_type.type_)
         elif isinstance(nested_type, sds_types.CallableType):
             return self._get_named_type_from_nested_type(nested_type.return_type)
+        elif isinstance(nested_type, sds_types.UnionType):
+            return [self._get_named_type_from_nested_type(type) for type in nested_type.types]
+        elif isinstance(nested_type, sds_types.TupleType):
+            return [self._get_named_type_from_nested_type(type) for type in nested_type.types]
 
         for member_name in dir(nested_type):  # TODO pm union type and tuple can have multiple types 
             if not member_name.startswith("__"):
@@ -551,7 +555,7 @@ class MyPyAstVisitor:
         
     def _set_call_reference(self, 
         expr: mp_nodes.Expression, 
-        type: Any | sds_types.NamedType, 
+        type: Any | sds_types.NamedType,  # can also be List of types for union type
         path: list[str], 
         call_references: dict[str, CallReference]
     ):
@@ -596,7 +600,7 @@ class MyPyAstVisitor:
 
     def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
-            A call reference was found and this function tries to retreive the type of the receiver of the call
+            A call reference was found and this function tries to retrieve the type of the receiver of the call
 
             There are different termination conditions, which this function tries to find.
 
@@ -629,6 +633,7 @@ class MyPyAstVisitor:
             pathCopy.append(expr.name) # type: ignore as ensured by hasattr
         if isinstance(expr, mp_nodes.IndexExpr):
             pathCopy.append("[]")
+
         # termination conditions
         # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
         if isinstance(expr, mp_nodes.MemberExpr):
@@ -641,8 +646,10 @@ class MyPyAstVisitor:
                     parameter = parameter_of_func.get(expr.expr.node.fullname)
                     if parameter is not None and parameter.type is not None:
                         extracted_type = self._get_named_type_from_nested_type(parameter.type)
-                        if extracted_type is not None:
+                        if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
+                        elif extracted_type is not None and len(extracted_type) >= 1:
+                            call_receiver_type = extracted_type
 
                     self._set_call_reference(
                         expr=expr,
@@ -662,8 +669,10 @@ class MyPyAstVisitor:
                     parameter = parameter_of_func.get(expr.callee.node.fullname)
                     if parameter is not None and parameter.type is not None:
                         extracted_type = self._get_named_type_from_nested_type(parameter.type)
-                        if extracted_type is not None:
+                        if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
+                        elif extracted_type is not None and len(extracted_type) >= 1:
+                            call_receiver_type = extracted_type
 
                     self._set_call_reference(
                         expr=expr,
@@ -684,14 +693,14 @@ class MyPyAstVisitor:
                         if isinstance(expr.index, mp_nodes.IntExpr):
                             index = expr.index.value
                         else:
-                            # TODO pm handle missing index for tuple
+                            # TODO pm handle missing index for tuple  or if tuple has undefined length but only one type
                             pass
                         call_receiver_type = expr.base.node.type.items[index]
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
                             extracted_type = self._get_named_type_from_nested_type(parameter.type)
                             if extracted_type is not None:
-                                call_receiver_type = extracted_type[0]
+                                call_receiver_type = extracted_type[index]
                             
                         self._set_call_reference(
                             expr=expr,
@@ -715,8 +724,10 @@ class MyPyAstVisitor:
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
                             extracted_type = self._get_named_type_from_nested_type(parameter.type)
-                            if extracted_type is not None:
+                            if extracted_type is not None and len(extracted_type) == 1:
                                 call_receiver_type = extracted_type[0]
+                            elif extracted_type is not None and len(extracted_type) >= 1:
+                                call_receiver_type = extracted_type
                             
                         self._set_call_reference(
                             expr=expr,

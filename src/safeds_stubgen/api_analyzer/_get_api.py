@@ -197,6 +197,10 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
             else:
                 class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
+            
+            if isinstance(type, ListType):
+                # TODO pm implement multiple types
+                pass
 
             found_correct_class = False
             correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
@@ -297,6 +301,8 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 continue
             else:
                 current_class = call_reference.receiver.found_class
+
+            # TODO pm implement multiple found_classes
             
             # check if specified class has method with name of callreference
             specified_class_has_method = False
