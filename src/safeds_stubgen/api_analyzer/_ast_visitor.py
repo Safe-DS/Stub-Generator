@@ -536,9 +536,21 @@ class MyPyAstVisitor:
         elif isinstance(nested_type, sds_types.CallableType):
             return self._get_named_type_from_nested_type(nested_type.return_type)
         elif isinstance(nested_type, sds_types.UnionType):
-            return [self._get_named_type_from_nested_type(type) for type in nested_type.types]
+            result = []
+            for type in nested_type.types:
+                extracted_types = self._get_named_type_from_nested_type(type)
+                if extracted_types is None:
+                    continue
+                result.extend(extracted_types)
+            return result
         elif isinstance(nested_type, sds_types.TupleType):
-            return [self._get_named_type_from_nested_type(type) for type in nested_type.types]
+            result = []
+            for type in nested_type.types:
+                extracted_types = self._get_named_type_from_nested_type(type)
+                if extracted_types is None:
+                    continue
+                result.extend(extracted_types)
+            return result
 
         for member_name in dir(nested_type):  # TODO pm union type and tuple can have multiple types 
             if not member_name.startswith("__"):
@@ -586,8 +598,9 @@ class MyPyAstVisitor:
             full_name=full_name, 
             type=type, 
             path_to_call_reference=path, 
-            found_class=None
-        )  # found Class will later be found
+            found_class=None,
+            found_classes=[]
+        )  # found Classes will later be found
         call_reference = CallReference(
             column=expr.column, 
             line=expr.line, 

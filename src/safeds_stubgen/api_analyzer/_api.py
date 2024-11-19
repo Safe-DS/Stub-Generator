@@ -304,6 +304,7 @@ class CallReceiver:
     full_name: str
     path_to_call_reference: list[str]
     found_class: Class | None
+    found_classes: list[Class]
 
 class UnknownValue:
     pass

@@ -193,71 +193,57 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
-            if isinstance(type, NamedType):
+            classes_of_receiver: list[Class] = []
+            if isinstance(type, list):
+                # TODO pm implement multiple types
+                for t in type:
+                    if isinstance(t, NamedType):
+                        class_of_receiver = api.classes.get("/".join(t.qname.split(".")))
+                    else:
+                        class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
+                    if class_of_receiver is None:
+                        continue
+                    classes_of_receiver.append(class_of_receiver)
+
+            elif isinstance(type, NamedType):
                 class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
+                if class_of_receiver is None:
+                    continue
+                classes_of_receiver.append(class_of_receiver)
             else:
                 class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
+                if class_of_receiver is None:
+                    continue
+                classes_of_receiver.append(class_of_receiver)
             
-            if isinstance(type, ListType):
-                # TODO pm implement multiple types
-                pass
 
             found_correct_class = False
             correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
             path_length = len(correct_path) 
 
-            # iterate through path and update class_of_receiver so that after iterating 
-            # class_of_receiver is the class, that finally receives the call
-            for i, part in enumerate(correct_path): 
-                if class_of_receiver is None:
-                    break
-                if i == 0:  # first part of path is a variable name etc so we can skip 
-                    continue
-                if part == "()" or part == "[]":
-                    continue
-                try:  # assume the part of the path is a name of a member 
-                    attribute_name = part
-                    attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, class_of_receiver)
-                    if attribute is None:
-                        raise KeyError()
-                    type_of_attribute = attribute.type
-                    if type_of_attribute is None:
-                        print("missing type info!")
+            for class_of_receiver in classes_of_receiver:
+                # for each class of the receiver we have to find the correct class that receives the call 
+                for i, part in enumerate(correct_path): 
+                    # iterate through path and update class_of_receiver so that after iterating 
+                    # class_of_receiver is the class, that finally receives the call
+                    if class_of_receiver is None:
                         break
-
-                    # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
-                    type = _get_named_type_from_nested_type(type_of_attribute)
-                    if type is None:
-                        print("NamedType not found")
-                        break
-
-                    found_class = api.classes.get("/".join(type.qname.split(".")))
-                    if found_class is None:
-                        print(f"Class {type.name} not found")
-                        break
-                    class_of_receiver = found_class
-                    continue  # next class found, check next part of path
-
-                except KeyError:  # current part of path was not a member so we assume its a method
-                    rest_of_path = correct_path[i + 1:]
-                    is_last_method = all(item == "()" for item in rest_of_path)  # maybe we need to check for [] as well
-                    if is_last_method and i + 2 <= path_length:  # here we have "method()" or "method()()"
-                        found_correct_class = True
-                        break
-                    else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
-                        method_name = part
-                        method = _find_method_in_class_and_super_classes(api, method_name, class_of_receiver)
-                        if method is None:
-                            print(f"Method {method_name} and Attribute {attribute_name} not found in class {class_of_receiver.name} and superclasses!")
+                    if i == 0:  # first part of path is a variable name etc so we can skip 
+                        continue
+                    if part == "()" or part == "[]":
+                        continue
+                    try:  # assume the part of the path is a name of a member 
+                        attribute_name = part
+                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, class_of_receiver)
+                        if attribute is None:
+                            raise KeyError()
+                        type_of_attribute = attribute.type
+                        if type_of_attribute is None:
+                            print("missing type info!")
                             break
 
-                        result = method.results[0]  # in this case there can only be one result
-                        if result.type is None:
-                            print(f"Result {result.name} has type None")
-                            break
-
-                        # get NamedType from result
-                        type = _get_named_type_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
+                        # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
+                        type = _get_named_type_from_nested_type(type_of_attribute)
                         if type is None:
                             print("NamedType not found")
                             break
@@ -269,11 +255,42 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         class_of_receiver = found_class
                         continue  # next class found, check next part of path
 
-            if found_correct_class:
-                call_reference.receiver.found_class = class_of_receiver
-            else:
-                log_msg = f"The class of the receiver could not be found. This is the path to the call reference {correct_path}. This can lead to functions being classified as impure even though they are pure"
-                logging.info(log_msg)
+                    except KeyError:  # current part of path was not a member so we assume its a method
+                        rest_of_path = correct_path[i + 1:]
+                        is_last_method = all(item == "()" for item in rest_of_path)  # maybe we need to check for [] as well
+                        if is_last_method and i + 2 <= path_length:  # here we have "method()" or "method()()"
+                            found_correct_class = True
+                            break
+                        else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
+                            method_name = part
+                            method = _find_method_in_class_and_super_classes(api, method_name, class_of_receiver)
+                            if method is None:
+                                print(f"Method {method_name} and Attribute {attribute_name} not found in class {class_of_receiver.name} and superclasses!")
+                                break
+
+                            result = method.results[0]  # in this case there can only be one result
+                            if result.type is None:
+                                print(f"Result {result.name} has type None")
+                                break
+
+                            # get NamedType from result
+                            type = _get_named_type_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
+                            if type is None:
+                                print("NamedType not found")
+                                break
+
+                            found_class = api.classes.get("/".join(type.qname.split(".")))
+                            if found_class is None:
+                                print(f"Class {type.name} not found")
+                                break
+                            class_of_receiver = found_class
+                            continue  # next class found, check next part of path
+
+                if found_correct_class and class_of_receiver is not None:
+                    call_reference.receiver.found_classes.append(class_of_receiver)
+                else:
+                    log_msg = f"The class of the receiver could not be found. This is the path to the call reference {correct_path}. This can lead to functions being classified as impure even though they are pure"
+                    logging.info(log_msg)
             
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
@@ -297,41 +314,42 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             # use found class of _find_correct_type_by_path_to_call_reference if not None
-            if call_reference.receiver.found_class is None:
+            if call_reference.receiver.found_classes is None or len(call_reference.receiver.found_classes) == 0:
                 continue
             else:
-                current_class = call_reference.receiver.found_class
+                current_classes = call_reference.receiver.found_classes
 
             # TODO pm implement multiple found_classes
-            
-            # check if specified class has method with name of callreference
-            specified_class_has_method = False
-            methods = current_class.methods
-            for method in methods:
-                if method.name == call_reference.function_name:
-                    specified_class_has_method = True
-                    break  # as there can only be one method of that name in a python class
-            
-            referenced_functions: list[Function] = []
-            _get_referenced_functions_from_class_and_subclasses(
-                api, 
-                call_reference,
-                current_class.id,
-                [],
-                referenced_functions
-            )
+            for current_class in current_classes:
 
-            if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
-            # find function in superclasses but only first appearance as python will also only call the first appearance
-                super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
-                _get_referenced_function_from_super_classes(
-                    api,
+                # check if specified class has method with name of callreference
+                specified_class_has_method = False
+                methods = current_class.methods
+                for method in methods:
+                    if method.name == call_reference.function_name:
+                        specified_class_has_method = True
+                        break  # as there can only be one method of that name in a python class
+                
+                referenced_functions: list[Function] = []
+                _get_referenced_functions_from_class_and_subclasses(
+                    api, 
                     call_reference,
-                    super_classes,
+                    current_class.id,
+                    [],
                     referenced_functions
                 )
 
-            call_reference.possibly_referenced_functions = referenced_functions
+                if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
+                # find function in superclasses but only first appearance as python will also only call the first appearance
+                    super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
+                    _get_referenced_function_from_super_classes(
+                        api,
+                        call_reference,
+                        super_classes,
+                        referenced_functions
+                    )
+
+                call_reference.possibly_referenced_functions.extend(referenced_functions)
 
 def _get_referenced_function_from_super_classes(
     api: API, 
