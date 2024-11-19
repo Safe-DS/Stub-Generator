@@ -26,6 +26,7 @@ def cli() -> None:
         convert_identifiers=args.naming_convert,
         type_source_preference=args.type_source_preference,
         type_source_warning=args.show_type_source_warning,
+        old_purity_analysis=args.old_purity_analysis
     )
 
 
@@ -91,6 +92,13 @@ def _get_args() -> argparse.Namespace:
         required=False,
         default=TypeSourceWarning.WARN.name,
     )
+    parser.add_argument(
+        "-old",
+        "--old_purity_analysis",
+        help="Set this flag to run the old purity analysis.",
+        required=False,
+        action="store_true",
+    )
 
     return parser.parse_args()
 
@@ -103,6 +111,7 @@ def _run_stub_generator(
     convert_identifiers: bool,
     type_source_preference: TypeSourcePreference,
     type_source_warning: TypeSourceWarning,
+    old_purity_analysis: bool = False
 ) -> None:
     """
     Create API data of a package and Safe-DS stub files.
@@ -128,11 +137,11 @@ def _run_stub_generator(
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
 
-    api_purity = get_purity_results(src_dir_path, api_data=api, test_run=is_test_run)
+    api_purity = get_purity_results(src_dir_path, api_data=api, test_run=is_test_run, old_purity_analysis=old_purity_analysis)
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
         out_file_api_purity,
-        shorten=False
+        shorten=True
     )  # Shorten is set to True by default, therefore the results will only contain the count of each reason.
 
     # Generate the stub data

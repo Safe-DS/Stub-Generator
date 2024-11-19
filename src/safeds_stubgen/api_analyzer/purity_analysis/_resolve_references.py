@@ -78,6 +78,7 @@ class ReferenceResolver:
     module_analysis_result: ModuleAnalysisResult = ModuleAnalysisResult()
     package_data_is_provided: bool = False
     api_data: API | None
+    old_purity_analysis: bool
 
     def __init__(
         self,
@@ -86,6 +87,7 @@ class ReferenceResolver:
         module_name: str = "",
         path: str | None = None,
         package_data: PackageData | None = None,
+        old_purity_analysis: bool = False,
     ):
         # Check if the module is part of a package and if the package data is given.
         if package_data and package_data.combined_module:
@@ -103,6 +105,7 @@ class ReferenceResolver:
         self.classes = module_data.classes
         self.imports = module_data.imports
         self.api_data = api_data
+        self.old_purity_analysis = old_purity_analysis
 
         # Resolve the references for the module.
         self.module_analysis_result.classes = self.classes
@@ -275,6 +278,8 @@ class ReferenceResolver:
         function_defs = self.functions.get(call_reference.name)
         if function_defs is None:
             return []
+        if self.old_purity_analysis:
+            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
         if self.api_data is None:
             return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
         
@@ -979,6 +984,7 @@ def resolve_references(
     module_name: str = "",
     path: str | None = None,
     package_data: PackageData | None = None,
+    old_purity_analysis: bool = False
 ) -> ModuleAnalysisResult:
     """Resolve all references in a module.
 
@@ -1000,4 +1006,4 @@ def resolve_references(
     ModuleAnalysisResult
         The result of the reference resolving.
     """
-    return ReferenceResolver(api_data, code, module_name, path, package_data).module_analysis_result
+    return ReferenceResolver(api_data, code, module_name, path, package_data, old_purity_analysis).module_analysis_result
