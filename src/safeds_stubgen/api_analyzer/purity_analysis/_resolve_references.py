@@ -379,7 +379,7 @@ class ReferenceResolver:
     	
         # Find functions that are called.
         if call_reference.name in self.functions:
-            # TODO (pm) old vs new evaluation, add parameters for all possible stuff of evaluation
+            # TODO pm add parameters for all possible stuff of evaluation
             function_def = self._get_function_scopes_by_call_reference(function, call_reference)
             function_symbols = [func.symbol for func in function_def if function_def]  # type: ignore[union-attr]
 

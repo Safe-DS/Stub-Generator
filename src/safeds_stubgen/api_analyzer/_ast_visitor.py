@@ -552,7 +552,7 @@ class MyPyAstVisitor:
                 result.extend(extracted_types)
             return result
 
-        for member_name in dir(nested_type):  # TODO pm union type and tuple can have multiple types 
+        for member_name in dir(nested_type):
             if not member_name.startswith("__"):
                 member = getattr(nested_type, member_name)
                 if isinstance(member, sds_types.AbstractType):
