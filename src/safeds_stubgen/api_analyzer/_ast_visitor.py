@@ -465,8 +465,7 @@ class MyPyAstVisitor:
                         for expr in member:
                             self.extract_expression_info(expr, parameter_of_func, call_references)
                 except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators'
-                    print(err)  # TODO pm add to logging
-
+                    logging.warning(f"Member not found with member name: {member_name}, expr: {expr}, error: {err}")
 
     def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
@@ -598,7 +597,6 @@ class MyPyAstVisitor:
             full_name=full_name, 
             type=type, 
             path_to_call_reference=path, 
-            found_class=None,
             found_classes=[]
         )  # found Classes will later be found
         call_reference = CallReference(
@@ -705,10 +703,11 @@ class MyPyAstVisitor:
                         index = 0
                         if isinstance(expr.index, mp_nodes.IntExpr):
                             index = expr.index.value
+                            call_receiver_type = expr.base.node.type.items[index]
                         else:
                             # TODO pm handle missing index for tuple  or if tuple has undefined length but only one type
-                            pass
-                        call_receiver_type = expr.base.node.type.items[index]
+                            call_receiver_type = expr.base.node.type.items
+
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
                             extracted_type = self._get_named_type_from_nested_type(parameter.type)
