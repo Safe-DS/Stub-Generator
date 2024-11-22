@@ -162,7 +162,11 @@ def global_func_find_deeply_nested_function_impure() -> int:
 
 # purity analysis seems to treat instanceVariable Read and write as impure
 
-def global_func_nested_class_pure() -> int:
+def global_func_nested_class_should_be_pure_but_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this
+        .memberWithPureMethods
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.memberWithPureMethods.only_in_T()
     return result
@@ -180,7 +184,11 @@ def global_func_from_parameter_same_name_impure(instance: ClassImpure) -> int:
     result = instance.same_name()
     return result
 
-def global_func_from_parameter_same_name_nested_pure(instance: ClassWithNestedClassAsMember) -> int:
+def global_func_from_parameter_same_name_nested_pure_but_impure(instance: ClassWithNestedClassAsMember) -> int:
+    """
+        member access is counted as impure in general and instance can be changed from outside the function
+        .memberWithPureMethods
+    """
     result = instance.memberWithPureMethods.same_name()
     return result
 
@@ -198,7 +206,11 @@ def global_func_nested_from_second_call_reference_impure() -> int:
     result = instance.return_class_impure().only_in_T()
     return result
 
-def global_func_nested_with_list_pure() -> int:
+def global_func_nested_with_list_should_be_pure_but_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this, as here instance is created and not changed
+        .listMemberWithPureMethods
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.listMemberWithPureMethods[0].only_in_T()
     return result
@@ -208,7 +220,11 @@ def global_func_nested_with_list_impure() -> int:
     result = instance.listMemberWithImpureMethods[0].only_in_T()
     return result
 
-def global_func_nested_with_dict_pure() -> int:
+def global_func_nested_with_dict_should_be_pure_but_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this, as here instance is created and not changed
+        .dictMemberWithPureMethods
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.dictMemberWithPureMethods["key"].only_in_T()
     return result
@@ -218,7 +234,11 @@ def global_func_nested_with_dict_impure() -> int:
     result = instance.dictMemberWithImpureMethods["key"].only_in_T()
     return result
 
-def global_func_multiple_nested_member_pure() -> int:
+def global_func_multiple_nested_member_should_be_pure_but_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this, as here instance is created and not changed
+        .recursive
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.recursive.recursive.memberWithPureMethods.only_in_T()
     return result
@@ -239,6 +259,9 @@ def global_func_multiple_nested_methods_impure() -> int:
     return result
 
 def global_func_nested_method_from_super_pure() -> int:
+    """
+        function access is counted as pure, as it is assumed that functions wont be changed during runtime
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.only_in_super_nested_call_pure().only_in_T()
     return result
@@ -248,27 +271,34 @@ def global_func_nested_method_from_super_impure() -> int:
     result = instance.only_in_super_nested_call_impure().only_in_T()
     return result
 
-def global_func_nested_member_from_super_pure() -> int:
+def global_func_nested_member_from_super_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this, as here instance is created and not changed
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.super_member_pure.only_in_T()
     return result
 
-def global_func_nested_member_from_super_impure() -> int:
+def global_func_nested_member_from_super_impure2() -> int:
     instance = ClassWithNestedClassAsMember()
     result = instance.super_member_impure.only_in_T()
     return result
 
-def global_func_multiple_recursion_pure() -> int:
+def global_func_multiple_recursion_impure() -> int:
+    """
+        member access is counted as impure in general, dataflow analysis could improve this, as here instance is created and not changed
+        .recursive. is the problem here
+    """
     instance = ClassWithNestedClassAsMember()
     result = instance.recursive_function().recursive.recursive_function().return_class_pure().only_in_T()
     return result
 
-def global_func_multiple_recursion_impure() -> int:
+def global_func_multiple_recursion_impure2() -> int:
     instance = ClassWithNestedClassAsMember()
     result = instance.recursive_function().recursive.recursive_function().return_class_impure().only_in_T()
     return result
 
-def global_func_double_function_pure() -> int:
+def global_func_double_function_impure() -> int:
     """
         purity analysis cant analyze ()() and returns UNKNOWNCALL, references are found correctly
     """
@@ -276,7 +306,7 @@ def global_func_double_function_pure() -> int:
     result = instance.double_function_pure()()
     return result
 
-def global_func_double_function_impure() -> int:
+def global_func_double_function_impure2() -> int:
     """
         purity analysis cant analyze ()() and returns UNKNOWNCALL, references are found correctly
     """
@@ -328,7 +358,7 @@ def global_func_start_with_dict_impure() -> int:
     result = instances["key"].only_in_T()
     return result
 
-# TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types, also add test cases, that have to use the boundary and enum type
+# # TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types, also add test cases, that have to use the boundary and enum type
 
 def global_func_start_with_nested_type_pure() -> int:
     instances = {"key": [{"key2": ClassPure()}]}
@@ -340,19 +370,18 @@ def global_func_start_with_nested_type_impure() -> int:
     result = instances["key"][0]["key2"].only_in_T()
     return result
 
-def global_helper_func_nested_type_with_function_pure() -> dict[str, list[dict[str, ClassPure]]]:
+def global_helper_func_nested_type_pure_with_list_and_dict() -> dict[str, list[dict[str, ClassPure]]]:
     return {"key": [{"key2": ClassPure()}]}
 
 def global_func_start_with_nested_type_and_function_pure() -> int:
-    # TODO pm why impure?
-    result = global_helper_func_nested_type_with_function_pure()["key"][0]["key2"].only_in_T()
+    result = global_helper_func_nested_type_pure_with_list_and_dict()["key"][0]["key2"].only_in_T()
     return result
 
-def global_helper_func_nested_type_with_function_impure() -> dict[str, list[dict[str, ClassImpure]]]:
+def global_helper_func_nested_type_impure_with_list_and_dict() -> dict[str, list[dict[str, ClassImpure]]]:
     return {"key": [{"key2": ClassImpure()}]}
 
 def global_func_start_with_nested_type_and_function_impure() -> int:
-    result = global_helper_func_nested_type_with_function_impure()["key"][0]["key2"].only_in_T()
+    result = global_helper_func_nested_type_impure_with_list_and_dict()["key"][0]["key2"].only_in_T()
     return result
 
 def global_func_from_docstring_same_name_pure(instance) -> int:
@@ -487,9 +516,7 @@ def global_func_from_docstring_as_dict_same_name_impure(instances) -> int:
     result = instances["key"].same_name()
     return result
 
-# TODO pm add tests with union type parameter
-
-def global_func_union_type_pure(instance: ClassPure | ChildClassPure) -> int:
+def global_func_union_type_pure(instance: ClassPure | ChildClassPure) -> int:  # TODO pm shouldnt be subtype
     result = instance.only_in_T()
     return result
 
@@ -518,3 +545,17 @@ def global_func_union_type_from_docstring_impure(instance) -> int:
     """
     result = instance.only_in_T()
     return result
+
+def global_func_call_reference_in_index_pure() -> int:
+    instance = ClassPure()
+    dictionary = {}
+    dictionary[instance.only_in_T()] = 10
+    return dictionary[instance.only_in_T()]
+
+def global_func_call_reference_in_index_impure() -> int:
+    instance = ClassImpure()
+    dictionary = {}
+    dictionary[instance.only_in_T()] = 10
+    return dictionary[instance.only_in_T()]
+
+# TODO pm add testcases where the index of a tuple is not known or where we have a path where union type is used

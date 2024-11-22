@@ -701,6 +701,7 @@ class MyPyAstVisitor:
                     if isinstance(expr.base.node.type, mp_types.TupleType):
                         pathCopy.append(expr.base.name)
                         index = 0
+                        # TODO pm this is already going along the path maybe change this so that it just returns the type
                         if isinstance(expr.index, mp_nodes.IntExpr):
                             index = expr.index.value
                             call_receiver_type = expr.base.node.type.items[index]
@@ -711,8 +712,10 @@ class MyPyAstVisitor:
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
                             extracted_type = self._get_named_type_from_nested_type(parameter.type)
-                            if extracted_type is not None:
+                            if extracted_type is not None and isinstance(expr.index, mp_nodes.IntExpr):
                                 call_receiver_type = extracted_type[index]
+                            elif extracted_type is not None and not isinstance(expr.index, mp_nodes.IntExpr):
+                                call_receiver_type = extracted_type
                             
                         self._set_call_reference(
                             expr=expr,
@@ -725,6 +728,8 @@ class MyPyAstVisitor:
                         
                         # if we get list and dict, we can only have one or two args, for dict, there is key and value 
                         # and for list, there is just the type
+
+                        # TODO pm this is already going along the path maybe change this so that it just returns the type
                         if hasattr(expr.base.node.type, "args"):
                             if len(expr.base.node.type.args) == 2: # type: ignore
                                 arg = expr.base.node.type.args[1]  # type: ignore # this is for dict

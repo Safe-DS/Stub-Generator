@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main
@@ -193,47 +193,98 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
-            classes_of_receiver: list[Class] = []
+            types_of_receiver: list[Class | Any] = []
             if isinstance(type, list):
-                for t in type:
-                    if isinstance(t, NamedType):
+                if isinstance(type[0], NamedType):
+                    for t in type:
                         class_of_receiver = api.classes.get("/".join(t.qname.split(".")))
-                    else:
+                        types_of_receiver.append(class_of_receiver)
+                elif api.classes.get("/".join(type[0].type.fullname.split("."))) is not None:
+                    for t in type:
                         class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
-                    if class_of_receiver is None:
-                        continue
-                    classes_of_receiver.append(class_of_receiver)
+                        types_of_receiver.append(class_of_receiver)
+                else:
+                    types_of_receiver.append(type)
+                # for t in type:
+                #     if isinstance(t, NamedType):
+                #         type_of_receiver = api.classes.get("/".join(t.qname.split(".")))
+                #     else:
+                #         type_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
+                #     if type_of_receiver is None:
+                #         # here t is a builtin
+                #         continue
+                #     types_of_receiver.append(type_of_receiver)
 
             elif isinstance(type, NamedType):
                 class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
                 if class_of_receiver is None:
                     continue
-                classes_of_receiver.append(class_of_receiver)
-            else:
+                types_of_receiver.append(class_of_receiver)
+            elif api.classes.get("/".join(type.type.fullname.split("."))) is not None:
                 class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
                 if class_of_receiver is None:
                     continue
-                classes_of_receiver.append(class_of_receiver)
+                types_of_receiver.append(class_of_receiver)
+            else:  # type is tuple or dict
+                types_of_receiver.append(type)
             
 
             found_correct_class = False
             correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
             path_length = len(correct_path) 
 
-            for class_of_receiver in classes_of_receiver:
+            for type_of_receiver in types_of_receiver:
                 # for each class of the receiver we have to find the correct class that receives the call 
                 for i, part in enumerate(correct_path): 
-                    # iterate through path and update class_of_receiver so that after iterating 
-                    # class_of_receiver is the class, that finally receives the call
-                    if class_of_receiver is None:
-                        break
+                    # iterate through path and update type_of_receiver so that after iterating 
+                    # type_of_receiver is the class, that finally receives the call
+                    if type_of_receiver is None:
+                        continue
                     if i == 0:  # first part of path is a variable name etc so we can skip 
                         continue
-                    if part == "()" or part == "[]":
+                    if part == "()":  # then type should be 
+                        # TODO pm for list tuple and dict, type_of_receiver can be a builtin
+                        # for each () and [] we need to update the type, so that the next type is the one that gets computed by [] or ()
+                        # for tuple: we need the index
+                        # for dict: usually index: 1 but if the callreference is inside of [] we need 0
+                        # for list: just take index 0
                         continue
+                    if part.startswith("[") and part.endswith("]"):
+                        if isinstance(type_of_receiver, tuple):
+                            key = part.removeprefix("[").removesuffix("]")
+                            # TODO pm try to receive the index as int 
+                            # if not possible, we need to consider every type
+                            type_of_receiver = type_of_receiver[0]
+                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore  list
+                            type_of_receiver = type_of_receiver.args[0]  # type: ignore
+                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore  dictionary
+                            type_of_receiver = type_of_receiver.args[1]  # type: ignore
+                        elif isinstance(type_of_receiver, list):
+                            type_of_receiver = type_of_receiver[0]
+                        elif isinstance(type_of_receiver, dict):
+                            type_of_receiver = type_of_receiver[1]
+                        # TODO pm type_of_receiver needs to be a class so after this we have to check 
+                        if not isinstance(type_of_receiver, Class):
+                            if isinstance(type_of_receiver, NamedType):
+                                class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
+                                if class_of_receiver is None:
+                                    continue
+                                type_of_receiver = class_of_receiver
+                            elif api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
+                                class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+                                if class_of_receiver is None:
+                                    continue
+                                type_of_receiver = class_of_receiver
+                            else:  # type is list, tuple or dict
+                                # TODO pm can be tuple or dict
+                                pass
+                        continue
+                    if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
+                        print("type_of_receiver was not of type class", type_of_receiver)
+                        break
                     try:  # assume the part of the path is a name of a member 
                         attribute_name = part
-                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, class_of_receiver)
+                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  # TODO pm cant find attribute if instance[] is of an other type than instance
                         if attribute is None:
                             raise KeyError()
                         type_of_attribute = attribute.type
@@ -251,7 +302,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         if found_class is None:
                             print(f"Class {type.name} not found")
                             break
-                        class_of_receiver = found_class
+                        type_of_receiver = found_class
                         continue  # next class found, check next part of path
 
                     except KeyError:  # current part of path was not a member so we assume its a method
@@ -262,9 +313,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             break
                         else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
                             method_name = part
-                            method = _find_method_in_class_and_super_classes(api, method_name, class_of_receiver)
+                            method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver)
                             if method is None:
-                                print(f"Method {method_name} and Attribute {attribute_name} not found in class {class_of_receiver.name} and superclasses!")
+                                print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
                                 break
 
                             result = method.results[0]  # in this case there can only be one result
@@ -282,11 +333,11 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             if found_class is None:
                                 print(f"Class {type.name} not found")
                                 break
-                            class_of_receiver = found_class
+                            type_of_receiver = found_class
                             continue  # next class found, check next part of path
 
-                if found_correct_class and class_of_receiver is not None:
-                    call_reference.receiver.found_classes.append(class_of_receiver)
+                if found_correct_class and type_of_receiver is not None and isinstance(type_of_receiver, Class):
+                    call_reference.receiver.found_classes.append(type_of_receiver)
                 else:
                     log_msg = f"The class of the receiver could not be found. This is the path to the call reference {correct_path}. This can lead to functions being classified as impure even though they are pure"
                     logging.info(log_msg)
