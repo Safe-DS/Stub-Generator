@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember
+from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
 # else they should be categorized as impure
@@ -516,8 +516,8 @@ def global_func_from_docstring_as_dict_same_name_impure(instances) -> int:
     result = instances["key"].same_name()
     return result
 
-def global_func_union_type_pure(instance: ClassPure | ChildClassPure) -> int:  # TODO pm shouldnt be subtype
-    result = instance.only_in_T()
+def global_func_union_type_pure(instance: ClassPure | AnotherPureClass) -> int:
+    result = instance.same_name()
     return result
 
 def global_func_union_type_impure(instance: ClassImpure | ClassPure) -> int:
@@ -529,7 +529,7 @@ def global_func_union_type_from_docstring_pure(instance) -> int:
 
     Parameters
     --------
-    instance : ClassPure | ChildClassPure
+    instance : ClassPure | AnotherPureClass
         Lorem ipsum
     """
     result = instance.only_in_T()
@@ -557,5 +557,20 @@ def global_func_call_reference_in_index_impure() -> int:
     dictionary = {}
     dictionary[instance.only_in_T()] = 10
     return dictionary[instance.only_in_T()]
+
+# TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
+#     module_name = path_parts[-1]
+# E   IndexError: list index out of range
+# def global_func_tuple_access_pure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure]):
+#     result = instance[1].same_name()
+#     return result
+
+# def global_func_tuple_access_impure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure]):
+#     result = instance[2].same_name()
+#     return result
+
+# def global_func_tuple_access_unknown_index_impure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure], index: int):
+#     result = instance[index].same_name()
+#     return result
 
 # TODO pm add testcases where the index of a tuple is not known or where we have a path where union type is used

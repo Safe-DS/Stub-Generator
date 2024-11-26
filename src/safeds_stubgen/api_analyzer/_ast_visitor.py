@@ -643,7 +643,11 @@ class MyPyAstVisitor:
         if hasattr(expr, "name"):
             pathCopy.append(expr.name) # type: ignore as ensured by hasattr
         if isinstance(expr, mp_nodes.IndexExpr):
-            pathCopy.append("[]")
+            if isinstance(expr.index, mp_nodes.IntExpr):
+                key = expr.index.value
+                pathCopy.append(f"[{str(key)}]")
+            else:
+                pathCopy.append("[]")
 
         # termination conditions
         # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference

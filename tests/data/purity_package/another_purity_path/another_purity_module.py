@@ -50,7 +50,6 @@ class ClassPure(SuperClass):
     
     def in_child_and_child_of_child_impure(self) -> int:
         return 20
-    
 
 class ClassImpure(SuperClass):
     """contains impure functions only
@@ -149,3 +148,10 @@ class ClassWithNestedClassAsMember(SuperWithNestedClassAsMember):
         return lambda: global_var
     
 # TODO pm test self.method() calls
+
+class AnotherPureClass:
+    def __init__(self):
+        pass
+
+    def same_name(self):
+        return 21
