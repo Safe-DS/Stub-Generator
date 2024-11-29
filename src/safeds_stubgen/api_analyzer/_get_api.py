@@ -110,7 +110,7 @@ def _update_class_subclass_relation(api: API) -> None:
         for super_class in super_classes:
             super_class.subclasses.append(class_def.id)
 
-def _get_named_type_from_nested_type(nested_type: AbstractType) -> NamedType | None:
+def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType] | None:
     # TODO pm implement extracting multiple types like in ast visitor
     """
         Iterates through a nested type recursively, to find a NamedType
@@ -122,26 +122,51 @@ def _get_named_type_from_nested_type(nested_type: AbstractType) -> NamedType | N
         
         Returns
         ----------
-        type : NamedType | None
+        type : list[NamedType] | None
     """
     if isinstance(nested_type, NamedType):
-        return nested_type
+        return [nested_type]
     elif isinstance(nested_type, ListType):
-        return _get_named_type_from_nested_type(nested_type.types[0])
+        return _get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
     elif isinstance(nested_type, NamedSequenceType):
-        return _get_named_type_from_nested_type(nested_type.types[0])
-    elif isinstance(nested_type, UnionType):
-        return _get_named_type_from_nested_type(nested_type.types[0])
+        return _get_named_types_from_nested_type(nested_type.types[0])  # can only have one type
     elif isinstance(nested_type, DictType):
-        return _get_named_type_from_nested_type(nested_type.value_type)
+        return _get_named_types_from_nested_type(nested_type.value_type)
     elif isinstance(nested_type, SetType):
-        return _get_named_type_from_nested_type(nested_type.types[0])
+        return _get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
     elif isinstance(nested_type, FinalType):
-        return _get_named_type_from_nested_type(nested_type.type_)
-    elif isinstance(nested_type, TupleType):
-        return _get_named_type_from_nested_type(nested_type.types[0])
+        return _get_named_types_from_nested_type(nested_type.type_)
     elif isinstance(nested_type, CallableType):
-        return _get_named_type_from_nested_type(nested_type.return_type)
+        return _get_named_types_from_nested_type(nested_type.return_type)
+    elif isinstance(nested_type, UnionType):
+        result = []
+        for type in nested_type.types:
+            extracted_types = _get_named_types_from_nested_type(type)
+            if extracted_types is None:
+                continue
+            result.extend(extracted_types)
+        return result
+    elif isinstance(nested_type, TupleType):
+        result = []
+        for type in nested_type.types:
+            extracted_types = _get_named_types_from_nested_type(type)
+            if extracted_types is None:
+                continue
+            result.extend(extracted_types)
+        return result
+
+    for member_name in dir(nested_type):
+        if not member_name.startswith("__"):
+            member = getattr(nested_type, member_name)
+            if isinstance(member, AbstractType):
+                return _get_named_types_from_nested_type(member)
+            elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], AbstractType):
+                types: list[NamedType] = []
+                for type in member:
+                    named_type = _get_named_types_from_nested_type(type)
+                    if named_type is not None:
+                        types.extend(named_type)
+                return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
 
 def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class) -> Attribute | None:
@@ -287,7 +312,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             break
 
                         # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
-                        type = _get_named_type_from_nested_type(type_of_attribute)
+                        type = _get_named_types_from_nested_type(type_of_attribute)
                         if type is None:
                             print("NamedType not found")
                             break
@@ -318,7 +343,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                                 break
 
                             # get NamedType from result
-                            type = _get_named_type_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
+                            type = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
                             if type is None:
                                 print("NamedType not found")
                                 break
@@ -336,6 +361,108 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     log_msg = f"The class of the receiver could not be found. This is the path to the call reference {correct_path}. This can lead to functions being classified as impure even though they are pure"
                     logging.info(log_msg)
             
+
+def _find_correct_types_by_path_to_call_reference_recursively(api: API, type_of_receiver: Class | Any, path: list[str]):
+    path_copy = path.copy()
+    part = path_copy.pop()
+    if type_of_receiver is None:
+        continue
+    if i == 0:  
+        # first part of path is a variable name etc so we can skip 
+        continue
+    if part == "()":  
+        # return type is found below in except KeyError block
+        continue
+    if part.startswith("[") and part.endswith("]"):
+        if isinstance(type_of_receiver, tuple):
+            key = part.removeprefix("[").removesuffix("]")
+            if key == "":
+                # TODO pm consider every type, can be done through refactoring
+                type_of_receiver = type_of_receiver[0]
+            else:
+                type_of_receiver = type_of_receiver[int(key)]
+        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
+            type_of_receiver = type_of_receiver.args[0]  # type: ignore
+        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore | dictionary
+            type_of_receiver = type_of_receiver.args[1]  # type: ignore
+        elif isinstance(type_of_receiver, list):
+            type_of_receiver = type_of_receiver[0]
+        elif isinstance(type_of_receiver, dict):
+            type_of_receiver = type_of_receiver[1]
+
+        if not isinstance(type_of_receiver, Class):
+            # here we get the correct class from namedType etc if possible
+            if isinstance(type_of_receiver, NamedType):
+                class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
+                if class_of_receiver is None:
+                    continue
+                type_of_receiver = class_of_receiver
+            elif api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
+                class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+                if class_of_receiver is None:
+                    continue
+                type_of_receiver = class_of_receiver
+            else:  # type_of_receiver is not a class 
+                pass
+        continue
+
+    if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
+        print("type_of_receiver was not of type class", type_of_receiver)
+        break
+
+    try:  # assume the part of the path is a name of a member 
+        attribute_name = part
+        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  
+        if attribute is None:
+            raise KeyError()
+        type_of_attribute = attribute.type
+        if type_of_attribute is None:
+            print("missing type info!")
+            break
+
+        # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
+        type = _get_named_types_from_nested_type(type_of_attribute)
+        if type is None:
+            print("NamedType not found")
+            break
+
+        found_class = api.classes.get("/".join(type.qname.split(".")))
+        if found_class is None:
+            print(f"Class {type.name} not found")
+            break
+        type_of_receiver = found_class
+        continue  # next class found, check next part of path
+
+    except KeyError:  # current part of path was not a member so we assume its a method
+        rest_of_path = correct_path[i + 1:]
+        is_last_method = all(item == "()" for item in rest_of_path)  # maybe we need to check for [] as well
+        if is_last_method and i + 2 <= path_length:  # here we have "method()" or "method()()"
+            found_correct_class = True
+            break
+        else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
+            method_name = part
+            method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver)
+            if method is None:
+                print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
+                break
+
+            result = method.results[0]  # in this case there can only be one result
+            if result.type is None:
+                print(f"Result {result.name} has type None")
+                break
+
+            # get NamedType from result
+            type = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
+            if type is None:
+                print("NamedType not found")
+                break
+
+            found_class = api.classes.get("/".join(type.qname.split(".")))
+            if found_class is None:
+                print(f"Class {type.name} not found")
+                break
+            type_of_receiver = found_class
+            continue  # next class found, check next part of path
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     """

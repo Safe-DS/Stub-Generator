@@ -507,7 +507,7 @@ class MyPyAstVisitor:
         for arg in expr.args:
             self.extract_expression_info(arg, parameter_of_func, call_references)
 
-    def _get_named_type_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType] | None:
+    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType] | None:
         """
             Iterates through a nested type recursively, to find all NamedTypes
 
@@ -518,26 +518,26 @@ class MyPyAstVisitor:
             
             Returns
             ----------
-            type : NamedType | None
+            type : list[NamedType] | None
         """
         if isinstance(nested_type, sds_types.NamedType):
             return [nested_type]
         elif isinstance(nested_type, sds_types.ListType):
-            return self._get_named_type_from_nested_type(nested_type.types[0])  # a list can only have one type
+            return self._get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
         elif isinstance(nested_type, sds_types.NamedSequenceType):
-            return self._get_named_type_from_nested_type(nested_type.types[0])  # can only have one type
+            return self._get_named_types_from_nested_type(nested_type.types[0])  # can only have one type
         elif isinstance(nested_type, sds_types.DictType):
-            return self._get_named_type_from_nested_type(nested_type.value_type)
+            return self._get_named_types_from_nested_type(nested_type.value_type)
         elif isinstance(nested_type, sds_types.SetType):
-            return self._get_named_type_from_nested_type(nested_type.types[0])  # a set can only have one type 
+            return self._get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
         elif isinstance(nested_type, sds_types.FinalType):
-            return self._get_named_type_from_nested_type(nested_type.type_)
+            return self._get_named_types_from_nested_type(nested_type.type_)
         elif isinstance(nested_type, sds_types.CallableType):
-            return self._get_named_type_from_nested_type(nested_type.return_type)
+            return self._get_named_types_from_nested_type(nested_type.return_type)
         elif isinstance(nested_type, sds_types.UnionType):
             result = []
             for type in nested_type.types:
-                extracted_types = self._get_named_type_from_nested_type(type)
+                extracted_types = self._get_named_types_from_nested_type(type)
                 if extracted_types is None:
                     continue
                 result.extend(extracted_types)
@@ -545,7 +545,7 @@ class MyPyAstVisitor:
         elif isinstance(nested_type, sds_types.TupleType):
             result = []
             for type in nested_type.types:
-                extracted_types = self._get_named_type_from_nested_type(type)
+                extracted_types = self._get_named_types_from_nested_type(type)
                 if extracted_types is None:
                     continue
                 result.extend(extracted_types)
@@ -555,11 +555,11 @@ class MyPyAstVisitor:
             if not member_name.startswith("__"):
                 member = getattr(nested_type, member_name)
                 if isinstance(member, sds_types.AbstractType):
-                    return self._get_named_type_from_nested_type(member)
+                    return self._get_named_types_from_nested_type(member)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], sds_types.AbstractType):
                     types: list[sds_types.NamedType] = []
                     for type in member:
-                        named_type = self._get_named_type_from_nested_type(type)
+                        named_type = self._get_named_types_from_nested_type(type)
                         if named_type is not None:
                             types.extend(named_type)
                     return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
@@ -660,7 +660,7 @@ class MyPyAstVisitor:
                     call_receiver_type = expr.expr.node.type
                     parameter = parameter_of_func.get(expr.expr.node.fullname)
                     if parameter is not None and parameter.type is not None:
-                        extracted_type = self._get_named_type_from_nested_type(parameter.type)
+                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
                         if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
                         elif extracted_type is not None and len(extracted_type) >= 1:
@@ -683,7 +683,7 @@ class MyPyAstVisitor:
                     call_receiver_type = expr.callee.node.type.ret_type
                     parameter = parameter_of_func.get(expr.callee.node.fullname)
                     if parameter is not None and parameter.type is not None:
-                        extracted_type = self._get_named_type_from_nested_type(parameter.type)
+                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
                         if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
                         elif extracted_type is not None and len(extracted_type) >= 1:
@@ -717,7 +717,7 @@ class MyPyAstVisitor:
 
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
-                            extracted_type = self._get_named_type_from_nested_type(parameter.type)
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
                             if extracted_type is not None and isinstance(expr.index, mp_nodes.IntExpr):
                                 call_receiver_type = extracted_type[index]
                             elif extracted_type is not None and not isinstance(expr.index, mp_nodes.IntExpr):
@@ -747,7 +747,7 @@ class MyPyAstVisitor:
                         call_receiver_type = arg
                         parameter = parameter_of_func.get(expr.base.node.fullname)
                         if parameter is not None and parameter.type is not None:
-                            extracted_type = self._get_named_type_from_nested_type(parameter.type)
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
                             if extracted_type is not None and len(extracted_type) == 1:
                                 call_receiver_type = extracted_type[0]
                             elif extracted_type is not None and len(extracted_type) >= 1:
