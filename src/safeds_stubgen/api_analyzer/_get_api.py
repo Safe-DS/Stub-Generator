@@ -111,6 +111,7 @@ def _update_class_subclass_relation(api: API) -> None:
             super_class.subclasses.append(class_def.id)
 
 def _get_named_type_from_nested_type(nested_type: AbstractType) -> NamedType | None:
+    # TODO pm implement extracting multiple types like in ast visitor
     """
         Iterates through a nested type recursively, to find a NamedType
 
@@ -205,15 +206,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         types_of_receiver.append(class_of_receiver)
                 else:
                     types_of_receiver.append(type)
-                # for t in type:
-                #     if isinstance(t, NamedType):
-                #         type_of_receiver = api.classes.get("/".join(t.qname.split(".")))
-                #     else:
-                #         type_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
-                #     if type_of_receiver is None:
-                #         # here t is a builtin
-                #         continue
-                #     types_of_receiver.append(type_of_receiver)
 
             elif isinstance(type, NamedType):
                 class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
@@ -233,6 +225,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
             path_length = len(correct_path) 
 
+            # TODO pm refactor this but recursively, so that i can consider multiple types during iteration
             for type_of_receiver in types_of_receiver:
                 # for each class of the receiver we have to find the correct class that receives the call 
                 for i, part in enumerate(correct_path): 
@@ -240,31 +233,31 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     # type_of_receiver is the class, that finally receives the call
                     if type_of_receiver is None:
                         continue
-                    if i == 0:  # first part of path is a variable name etc so we can skip 
+                    if i == 0:  
+                        # first part of path is a variable name etc so we can skip 
                         continue
-                    if part == "()":  # then type should be 
-                        # TODO pm for list tuple and dict, type_of_receiver can be a builtin
-                        # for each () and [] we need to update the type, so that the next type is the one that gets computed by [] or ()
-                        # for tuple: we need the index
-                        # for dict: usually index: 1 but if the callreference is inside of [] we need 0
-                        # for list: just take index 0
+                    if part == "()":  
+                        # return type is found below in except KeyError block
                         continue
                     if part.startswith("[") and part.endswith("]"):
                         if isinstance(type_of_receiver, tuple):
                             key = part.removeprefix("[").removesuffix("]")
-                            # TODO pm try to receive the index as int 
-                            # if not possible, we need to consider every type
-                            type_of_receiver = type_of_receiver[0]
-                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore  list
+                            if key == "":
+                                # TODO pm consider every type, can be done through refactoring
+                                type_of_receiver = type_of_receiver[0]
+                            else:
+                                type_of_receiver = type_of_receiver[int(key)]
+                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
                             type_of_receiver = type_of_receiver.args[0]  # type: ignore
-                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore  dictionary
+                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore | dictionary
                             type_of_receiver = type_of_receiver.args[1]  # type: ignore
                         elif isinstance(type_of_receiver, list):
                             type_of_receiver = type_of_receiver[0]
                         elif isinstance(type_of_receiver, dict):
                             type_of_receiver = type_of_receiver[1]
-                        # TODO pm type_of_receiver needs to be a class so after this we have to check 
+
                         if not isinstance(type_of_receiver, Class):
+                            # here we get the correct class from namedType etc if possible
                             if isinstance(type_of_receiver, NamedType):
                                 class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
                                 if class_of_receiver is None:
@@ -275,16 +268,17 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                                 if class_of_receiver is None:
                                     continue
                                 type_of_receiver = class_of_receiver
-                            else:  # type is list, tuple or dict
-                                # TODO pm can be tuple or dict
+                            else:  # type_of_receiver is not a class 
                                 pass
                         continue
+
                     if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
                         print("type_of_receiver was not of type class", type_of_receiver)
                         break
+
                     try:  # assume the part of the path is a name of a member 
                         attribute_name = part
-                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  # TODO pm cant find attribute if instance[] is of an other type than instance
+                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  
                         if attribute is None:
                             raise KeyError()
                         type_of_attribute = attribute.type

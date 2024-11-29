@@ -675,7 +675,7 @@ class MyPyAstVisitor:
               
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         if isinstance(expr, mp_nodes.CallExpr):
-            if isinstance(expr.callee, mp_nodes.NameExpr):  # TODO pm consider nested callreferences "call()()"
+            if isinstance(expr.callee, mp_nodes.NameExpr):
                 if isinstance(expr.callee.node, mp_nodes.FuncDef):
                     # the path is used in _get_api() to find the correct class of the receiver
                     pathCopy.append(expr.callee.name)
@@ -706,11 +706,13 @@ class MyPyAstVisitor:
                         pathCopy.append(expr.base.name)
                         index = 0
                         # TODO pm this is already going along the path maybe change this so that it just returns the type
+                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
                         if isinstance(expr.index, mp_nodes.IntExpr):
                             index = expr.index.value
                             call_receiver_type = expr.base.node.type.items[index]
                         else:
-                            # TODO pm handle missing index for tuple  or if tuple has undefined length but only one type
+                            # TODO pm handle missing index for tuple or if tuple has undefined length but only one type
+                            # this could be refactored so that finding the correct receiver is happening in _get_api.py
                             call_receiver_type = expr.base.node.type.items
 
                         parameter = parameter_of_func.get(expr.base.node.fullname)
@@ -734,6 +736,7 @@ class MyPyAstVisitor:
                         # and for list, there is just the type
 
                         # TODO pm this is already going along the path maybe change this so that it just returns the type
+                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
                         if hasattr(expr.base.node.type, "args"):
                             if len(expr.base.node.type.args) == 2: # type: ignore
                                 arg = expr.base.node.type.args[1]  # type: ignore # this is for dict
