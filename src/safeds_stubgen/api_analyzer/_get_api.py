@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, get_origin, Union
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main
@@ -219,166 +219,62 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
-            types_of_receiver: list[Class | Any] = []
-            if isinstance(type, list):
-                if isinstance(type[0], NamedType):
-                    for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.qname.split(".")))
-                        types_of_receiver.append(class_of_receiver)
-                elif api.classes.get("/".join(type[0].type.fullname.split("."))) is not None:
-                    for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
-                        types_of_receiver.append(class_of_receiver)
-                else:
-                    types_of_receiver.append(type)
+            _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, call_reference.receiver.path_to_call_reference, 0)
 
-            elif isinstance(type, NamedType):
-                class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
-                if class_of_receiver is None:
-                    continue
-                types_of_receiver.append(class_of_receiver)
-            elif api.classes.get("/".join(type.type.fullname.split("."))) is not None:
-                class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
-                if class_of_receiver is None:
-                    continue
-                types_of_receiver.append(class_of_receiver)
-            else:  # type is tuple or dict
-                types_of_receiver.append(type)
-            
-
-            found_correct_class = False
-            correct_path = call_reference.receiver.path_to_call_reference[::-1]  # use reverse list
-            path_length = len(correct_path) 
-
-            # TODO pm refactor this but recursively, so that i can consider multiple types during iteration
-            for type_of_receiver in types_of_receiver:
-                # for each class of the receiver we have to find the correct class that receives the call 
-                for i, part in enumerate(correct_path): 
-                    # iterate through path and update type_of_receiver so that after iterating 
-                    # type_of_receiver is the class, that finally receives the call
-                    if type_of_receiver is None:
-                        continue
-                    if i == 0:  
-                        # first part of path is a variable name etc so we can skip 
-                        continue
-                    if part == "()":  
-                        # return type is found below in except KeyError block
-                        continue
-                    if part.startswith("[") and part.endswith("]"):
-                        if isinstance(type_of_receiver, tuple):
-                            key = part.removeprefix("[").removesuffix("]")
-                            if key == "":
-                                # TODO pm consider every type, can be done through refactoring
-                                type_of_receiver = type_of_receiver[0]
-                            else:
-                                type_of_receiver = type_of_receiver[int(key)]
-                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
-                            type_of_receiver = type_of_receiver.args[0]  # type: ignore
-                        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore | dictionary
-                            type_of_receiver = type_of_receiver.args[1]  # type: ignore
-                        elif isinstance(type_of_receiver, list):
-                            type_of_receiver = type_of_receiver[0]
-                        elif isinstance(type_of_receiver, dict):
-                            type_of_receiver = type_of_receiver[1]
-
-                        if not isinstance(type_of_receiver, Class):
-                            # here we get the correct class from namedType etc if possible
-                            if isinstance(type_of_receiver, NamedType):
-                                class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
-                                if class_of_receiver is None:
-                                    continue
-                                type_of_receiver = class_of_receiver
-                            elif api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
-                                class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
-                                if class_of_receiver is None:
-                                    continue
-                                type_of_receiver = class_of_receiver
-                            else:  # type_of_receiver is not a class 
-                                pass
-                        continue
-
-                    if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
-                        print("type_of_receiver was not of type class", type_of_receiver)
-                        break
-
-                    try:  # assume the part of the path is a name of a member 
-                        attribute_name = part
-                        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  
-                        if attribute is None:
-                            raise KeyError()
-                        type_of_attribute = attribute.type
-                        if type_of_attribute is None:
-                            print("missing type info!")
-                            break
-
-                        # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
-                        type = _get_named_types_from_nested_type(type_of_attribute)
-                        if type is None:
-                            print("NamedType not found")
-                            break
-
-                        found_class = api.classes.get("/".join(type.qname.split(".")))
-                        if found_class is None:
-                            print(f"Class {type.name} not found")
-                            break
-                        type_of_receiver = found_class
-                        continue  # next class found, check next part of path
-
-                    except KeyError:  # current part of path was not a member so we assume its a method
-                        rest_of_path = correct_path[i + 1:]
-                        is_last_method = all(item == "()" for item in rest_of_path)  # maybe we need to check for [] as well
-                        if is_last_method and i + 2 <= path_length:  # here we have "method()" or "method()()"
-                            found_correct_class = True
-                            break
-                        else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
-                            method_name = part
-                            method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver)
-                            if method is None:
-                                print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
-                                break
-
-                            result = method.results[0]  # in this case there can only be one result
-                            if result.type is None:
-                                print(f"Result {result.name} has type None")
-                                break
-
-                            # get NamedType from result
-                            type = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
-                            if type is None:
-                                print("NamedType not found")
-                                break
-
-                            found_class = api.classes.get("/".join(type.qname.split(".")))
-                            if found_class is None:
-                                print(f"Class {type.name} not found")
-                                break
-                            type_of_receiver = found_class
-                            continue  # next class found, check next part of path
-
-                if found_correct_class and type_of_receiver is not None and isinstance(type_of_receiver, Class):
-                    call_reference.receiver.found_classes.append(type_of_receiver)
-                else:
-                    log_msg = f"The class of the receiver could not be found. This is the path to the call reference {correct_path}. This can lead to functions being classified as impure even though they are pure"
-                    logging.info(log_msg)
-            
-
-def _find_correct_types_by_path_to_call_reference_recursively(api: API, type_of_receiver: Class | Any, path: list[str]):
+def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
     path_copy = path.copy()
     part = path_copy.pop()
+
     if type_of_receiver is None:
-        continue
-    if i == 0:  
+        return
+    if depth == 0:  
         # first part of path is a variable name etc so we can skip 
-        continue
+        types = type_of_receiver
+        classes: list[Class | Any] | None = []
+        if isinstance(types, list):
+            if isinstance(types[0], NamedType):
+                for t in types:
+                    class_of_receiver = api.classes.get("/".join(t.qname.split(".")))
+                    if class_of_receiver is None:
+                        return
+                    classes.append(class_of_receiver)
+            elif api.classes.get("/".join(types[0].type.fullname.split("."))) is not None:
+                for t in types:
+                    class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
+                    if class_of_receiver is None:
+                        return
+                    classes.append(class_of_receiver)
+            else:
+                classes.append(types)
+
+        elif isinstance(types, NamedType):
+            class_of_receiver = api.classes.get("/".join(types.qname.split(".")))
+            if class_of_receiver is None:
+                return
+            classes.append(class_of_receiver)
+        elif api.classes.get("/".join(types.type.fullname.split("."))) is not None:
+            class_of_receiver = api.classes.get("/".join(types.type.fullname.split(".")))
+            if class_of_receiver is None:
+                return
+            classes.append(class_of_receiver)
+        else:  # type is tuple or dict
+            classes.append(types)
+        
+        if len(classes) == 0:
+            classes = None
+        _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classes, path_copy, depth + 1)
+        return 
     if part == "()":  
         # return type is found below in except KeyError block
-        continue
+        _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
+        return 
     if part.startswith("[") and part.endswith("]"):
         if isinstance(type_of_receiver, tuple):
             key = part.removeprefix("[").removesuffix("]")
             if key == "":
-                # TODO pm consider every type, can be done through refactoring
-                type_of_receiver = type_of_receiver[0]
+                for type in type_of_receiver:
+                    _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
+                return
             else:
                 type_of_receiver = type_of_receiver[int(key)]
         elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
@@ -394,21 +290,24 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, type_of_
             # here we get the correct class from namedType etc if possible
             if isinstance(type_of_receiver, NamedType):
                 class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
-                if class_of_receiver is None:
-                    continue
-                type_of_receiver = class_of_receiver
+                if class_of_receiver is not None:
+                    type_of_receiver = class_of_receiver
             elif api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
                 class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
-                if class_of_receiver is None:
-                    continue
-                type_of_receiver = class_of_receiver
+                if class_of_receiver is not None:
+                    type_of_receiver = class_of_receiver
             else:  # type_of_receiver is not a class 
                 pass
-        continue
+        _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
+        return
+
+    # TODO pm check for union type
+    if get_origin(type_of_receiver) is Union:
+        pass
 
     if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
         print("type_of_receiver was not of type class", type_of_receiver)
-        break
+        return
 
     try:  # assume the part of the path is a name of a member 
         attribute_name = part
@@ -418,51 +317,58 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, type_of_
         type_of_attribute = attribute.type
         if type_of_attribute is None:
             print("missing type info!")
-            break
+            return
 
         # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
-        type = _get_named_types_from_nested_type(type_of_attribute)
-        if type is None:
+        types = _get_named_types_from_nested_type(type_of_attribute)
+        if types is None:
             print("NamedType not found")
-            break
+            return
 
-        found_class = api.classes.get("/".join(type.qname.split(".")))
-        if found_class is None:
-            print(f"Class {type.name} not found")
-            break
-        type_of_receiver = found_class
-        continue  # next class found, check next part of path
+        for type in types:
+            found_class = api.classes.get("/".join(type.qname.split(".")))
+            if found_class is None:
+                print(f"Class {type.name} not found")
+                call_reference.receiver.found_classes = []
+                return
+            type_of_receiver = found_class
+            _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path_copy, depth + 1)
+        return  # next class found, check next part of path
 
     except KeyError:  # current part of path was not a member so we assume its a method
-        rest_of_path = correct_path[i + 1:]
-        is_last_method = all(item == "()" for item in rest_of_path)  # maybe we need to check for [] as well
-        if is_last_method and i + 2 <= path_length:  # here we have "method()" or "method()()"
-            found_correct_class = True
-            break
+        is_last_method = all(item == "()" for item in path_copy)  # maybe we need to check for [] as well
+        if is_last_method:  # here we have "method()" or "method()()"
+            if type_of_receiver is not None and isinstance(type_of_receiver, Class):
+                call_reference.receiver.found_classes.append(type_of_receiver)
+            return
         else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
             method_name = part
             method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver)
             if method is None:
                 print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
-                break
+                return
 
             result = method.results[0]  # in this case there can only be one result
             if result.type is None:
                 print(f"Result {result.name} has type None")
-                break
+                return
 
             # get NamedType from result
-            type = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
-            if type is None:
+            types = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
+            if types is None:
                 print("NamedType not found")
-                break
+                return
 
-            found_class = api.classes.get("/".join(type.qname.split(".")))
-            if found_class is None:
-                print(f"Class {type.name} not found")
-                break
-            type_of_receiver = found_class
-            continue  # next class found, check next part of path
+            for type in types:
+                found_class = api.classes.get("/".join(type.qname.split(".")))
+                if found_class is None:
+                    print(f"Class {type.name} not found")
+                    call_reference.receiver.found_classes = []
+                    return 
+                type_of_receiver = found_class
+                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path_copy, depth + 1)
+
+            return  # next class found, check next part of path
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     """
