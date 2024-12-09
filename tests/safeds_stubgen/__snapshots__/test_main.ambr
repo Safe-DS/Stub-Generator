@@ -2171,13 +2171,13 @@
       'purity_package.main_purity_module.global_func_all_functions_pure.130.0': dict({
         'purity': 'Pure',
       }),
-      'purity_package.main_purity_module.global_func_call_reference_in_index_impure.555.0': dict({
+      'purity_package.main_purity_module.global_func_call_reference_in_index_impure.577.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_call_reference_in_index_pure.549.0': dict({
+      'purity_package.main_purity_module.global_func_call_reference_in_index_pure.571.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_func_double_function_impure.301.0': dict({
@@ -2205,6 +2205,15 @@
         }),
       }),
       'purity_package.main_purity_module.global_func_from_docstring_as_dict_same_name_pure.497.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_with_union_same_name_impure.530.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_with_union_same_name_pure.519.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_func_from_docstring_as_list_same_name_impure.420.0': dict({
@@ -2530,22 +2539,22 @@
       'purity_package.main_purity_module.global_func_start_with_tuple_pure.341.0': dict({
         'purity': 'Pure',
       }),
-      'purity_package.main_purity_module.global_func_union_type_from_docstring_impure.538.0': dict({
+      'purity_package.main_purity_module.global_func_union_type_from_docstring_impure.560.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_union_type_from_docstring_pure.527.0': dict({
+      'purity_package.main_purity_module.global_func_union_type_from_docstring_pure.549.0': dict({
         'purity': 'Pure',
       }),
-      'purity_package.main_purity_module.global_func_union_type_impure.523.0': dict({
+      'purity_package.main_purity_module.global_func_union_type_impure.545.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
         }),
       }),
-      'purity_package.main_purity_module.global_func_union_type_pure.519.0': dict({
+      'purity_package.main_purity_module.global_func_union_type_pure.541.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_helper_func_nested_type_impure_with_list_and_dict.380.0': dict({

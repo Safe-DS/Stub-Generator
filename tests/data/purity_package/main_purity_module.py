@@ -516,6 +516,28 @@ def global_func_from_docstring_as_dict_same_name_impure(instances) -> int:
     result = instances["key"].same_name()
     return result
 
+def global_func_from_docstring_as_dict_with_union_same_name_pure(instances) -> int:
+    """this function should be pure as same_name of ClassPure is pure
+
+    Parameters
+    --------
+    instances : dict[str, ClassPure | AnotherPureClass]
+        Lorem ipsum
+    """
+    result = instances["key"].same_name()
+    return result
+
+def global_func_from_docstring_as_dict_with_union_same_name_impure(instances) -> int:
+    """this function should be pure as same_name of ClassPure is pure
+
+    Parameters
+    --------
+    instances : dict[str, ClassPure | ClassImpure]
+        Lorem ipsum
+    """
+    result = instances["key"].same_name()
+    return result
+
 def global_func_union_type_pure(instance: ClassPure | AnotherPureClass) -> int:
     result = instance.same_name()
     return result
@@ -569,8 +591,8 @@ def global_func_call_reference_in_index_impure() -> int:
 #     result = instance[2].same_name()
 #     return result
 
-# def global_func_tuple_access_unknown_index_impure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure], index: int):
-#     result = instance[index].same_name()
+# def global_func_tuple_access_unknown_index_impure(instance: tuple[ClassPure, ClassImpure], index: int):
+#     result = instance[0].same_name()
 #     return result
 
 # TODO pm add testcases where the index of a tuple is not known or where we have a path where union type is used
