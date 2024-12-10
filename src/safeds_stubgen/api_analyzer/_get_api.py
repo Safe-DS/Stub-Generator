@@ -314,7 +314,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             if class_of_receiver is not None:
                 type_of_receiver = class_of_receiver
         elif hasattr(type_of_receiver, "__origin__") and type_of_receiver.__origin__ is Union:
-            # TODO pm check for union type
             for type in get_args(type_of_receiver):
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
             return

@@ -721,8 +721,7 @@ class MyPyAstVisitor:
                             index = expr.index.value
                             call_receiver_type = expr.base.node.type.items[index]
                         else:
-                            # TODO pm handle missing index for tuple or if tuple has undefined length but only one type
-                            # this could be refactored so that finding the correct receiver is happening in _get_api.py
+                            # no index available, so we have to check every type in _get_api.py
                             call_receiver_type = expr.base.node.type.items
 
                         parameter = parameter_of_func.get(expr.base.node.fullname)
