@@ -52,6 +52,7 @@ def test_file_creation() -> None:
         ),
         ("tests/data/various_modules_package/file_creation/module_1", "module_1"),
         ("tests/data/various_modules_package/file_creation/package_1/module_5", "module_5"),
+        ("tests/data/various_modules_package/file_creation/package_1/not_reexported", "not_reexported"),
         ("tests/data/various_modules_package/file_creation/public_reexported", "public_reexported"),
         ("tests/data/various_modules_package/file_creation", "reexported_from_another_package_3"),
         (
@@ -72,9 +73,13 @@ def test_file_creation() -> None:
 
 
 def test_file_creation_limited_stubs_outside_package(snapshot_sds_stub: SnapshotAssertion) -> None:
+    path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
+
+    if path.exists():
+        path.unlink()
+
     create_stub_files(stubs_generator=stubs_generator, stubs_data=stubs_data, out_path=_out_dir)
 
-    path = Path(_out_dir / "tests/data/main_package/another_path/another_module/another_module.sdsstub")
     assert path.is_file()
 
     with path.open("r", encoding="utf-8") as f:

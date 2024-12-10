@@ -1,0 +1,4 @@
+@PythonModule("tests.data.various_modules_package.file_creation.package_1.not_reexported")
+package tests.data.variousModulesPackage.fileCreation.package1.notReexported
+
+class NotReexported()

@@ -31,3 +31,20 @@ class EnumTest3(IntEnum):
 
 class EmptyEnum(IntEnum):
     ...
+
+
+class EnumWithFunctions(str, Enum):
+    A = "a"
+    B = "b"
+    C = "c"
+
+    def __str__(self):
+        return self.value
+
+    @staticmethod
+    def enum_function():
+        return 1 + 2
+
+    @property
+    def _give_b(self):
+        return EnumWithFunctions.B

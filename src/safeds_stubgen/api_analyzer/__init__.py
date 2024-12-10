@@ -26,10 +26,8 @@ from ._package_metadata import distribution, distribution_version
 from ._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from ._types import (
     AbstractType,
-    BoundaryType,
     CallableType,
     DictType,
-    EnumType,
     FinalType,
     ListType,
     LiteralType,
@@ -46,7 +44,6 @@ __all__ = [
     "AbstractType",
     "API",
     "Attribute",
-    "BoundaryType",
     "CallableType",
     "Class",
     "DictType",

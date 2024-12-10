@@ -2,6 +2,7 @@
 package tests.data.variousModulesPackage.classModule
 
 from tests.data.mainPackage.anotherPath.anotherModule import yetAnotherClass
+from unknownSource import UnknownClass
 
 class ClassModuleEmptyClassA()
 
@@ -9,6 +10,15 @@ class ClassModuleClassB(
     a: Int,
     b: ClassModuleEmptyClassA?
 ) sub ClassModuleEmptyClassA {
+    @PythonName("b_attr_1")
+    static attr bAttr1: Int
+    @PythonName("b_attr_2")
+    static attr bAttr2: Map<Any, Any>
+
+    @Pure
+    @PythonName("__enter__")
+    fun enter() -> result1: ClassModuleClassB
+
     // TODO Result type information missing.
     @Pure
     fun f()
@@ -50,3 +60,16 @@ class ClassWithOverloadedFunction() {
         @PythonName("parameter_2") parameter2: Boolean = true
     ) -> result1: Boolean?
 }
+
+class ClassWithOverloadedFunction2() {
+    attr stale
+
+    // TODO Result type information missing.
+    // TODO Some parameter have no type information.
+    @Pure
+    fun stale(
+        `val`
+    )
+}
+
+class ClassWithImportedSuperclasses() sub UnknownClass
