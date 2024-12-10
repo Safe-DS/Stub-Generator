@@ -89,6 +89,10 @@ class ChildClassPure(ClassPure):
     
     def in_super_and_child_of_child_impure(self) -> int:
         return 30
+    
+    def only_in_child_self(self) -> int:
+        result = self.same_name()
+        return result
 
 class ChildClassImpure(ClassImpure):
     """contains impure functions only
@@ -107,6 +111,10 @@ class ChildClassImpure(ClassImpure):
     
     def in_super_and_child_of_child_impure(self) -> int:
         return global_var3
+    
+    def only_in_child_self(self) -> int:
+        result = self.same_name()
+        return result
     
 
 class SuperWithNestedClassAsMember:

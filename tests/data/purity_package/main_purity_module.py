@@ -580,6 +580,16 @@ def global_func_call_reference_in_index_impure() -> int:
     dictionary[instance.only_in_T()] = 10
     return dictionary[instance.only_in_T()]
 
+def global_func_self_pure() -> int:
+    instance = ChildClassPure()
+    result = instance.only_in_child_self()
+    return result
+
+def global_func_self_impure() -> int:
+    instance = ChildClassImpure()
+    result = instance.only_in_child_self()
+    return result
+
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]
 # E   IndexError: list index out of range
