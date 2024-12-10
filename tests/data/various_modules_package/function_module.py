@@ -1,5 +1,6 @@
-from typing import Callable, Optional, Literal, Any
+from typing import Callable, Optional, Literal, Any, Union
 from tests.data.main_package.another_path.another_module import AnotherClass
+import numpy as np
 
 
 class FunctionModuleClassA:
@@ -86,6 +87,7 @@ def params_with_default_value(
     tuple_: tuple[int, str, bool] = (1, "2", True),
     literal: Literal["Some String"] = "Some String",
     any_: Any = False,
+    single_quote: str = '"'
 ): ...
 
 
@@ -137,9 +139,6 @@ def bool_result() -> bool: ...
 
 
 def float_result() -> float: ...
-
-
-def none_result() -> None: ...
 
 
 def obj_result() -> FunctionModuleClassA: ...
@@ -213,3 +212,97 @@ class FunctionModulePropertiesClass:
 
 def ret_conditional_statement():
     return 1 if True else False
+
+
+def ignore_assignment(a: int, b: int):
+    def _f(x: int, y: int) -> int:
+        return x + y
+
+    g, f = _f(a, b)
+    Cxy = _f(g, f)**2
+    return Cxy, f
+
+
+def ignore_assignment2(a: int, b: int):
+    Cxy = 3**2
+    return Cxy
+
+
+def ignore_assignment3(xys, p):
+    return ((p - xys[0]) ** 2).sum(), xys[0], (0, 0)
+
+
+def ignore_assignment4(a, b, c):
+    return ignore_assignment3(a, a), (ignore_assignment2(b, a), ignore_assignment(c, a))
+
+
+def return_inner_function():
+    def return_me():
+        return 123
+
+    return return_me
+
+
+def return_param1(a):
+    return a
+
+
+def return_param2(a: int):
+    return a
+
+
+def return_param3(a: int, b, c: bool):
+    return a if b else c
+
+
+def return_param4(a: int, b, x):
+    if x == 0:
+        return a, b, a, b
+
+    return True
+
+
+def return_not_statement():
+    return not (0 or "...")
+
+
+ArrayLike = Union["ExtensionArray", Any]
+def type_alias_param(values: ArrayLike) -> ArrayLike:
+    ...
+
+
+def alias_subclass_result_type() -> ArrayLike | np.ndarray:
+    ...
+
+
+def alias_subclass_param_type(x: ArrayLike | np.ndarray):
+    ...
+
+
+def different_result_operants(y):
+    if y:
+        return False
+    elif y - 1:
+        return y or y - 1
+    elif y - 2:
+        return y and y + 1
+    elif y - 3:
+        return y or y - 1 and y - 2
+    elif y - 4:
+        return y is not None
+    elif y - 5:
+        return y is None
+    return not y
+
+
+def none_result_1() -> None:
+    ...
+
+
+def none_result_2():
+    return
+
+
+def none_result_3():
+    return None
+
