@@ -5,9 +5,12 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
+from safeds_stubgen.api_analyzer.cli._evaluation import ApiEvaluation, PurityEvaluation
 from safeds_stubgen.api_analyzer.purity_analysis._infer_purity import get_purity_results
 from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data
+
+
 
 if TYPE_CHECKING:
     from safeds_stubgen.docstring_parsing import DocstringStyle
@@ -127,7 +130,10 @@ def _run_stub_generator(
     """
     # TODO pm generate Evaluation object depending on cli parameters
     # track time for get_purity_results, track type data of all expressions in get_api or track time of get_api 
+    api_evaluator = ApiEvaluation()
+    purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path)
 
+    api_evaluator.start_timing()
     # Generate the API data
     api = get_api(
         root=src_dir_path,
@@ -136,11 +142,17 @@ def _run_stub_generator(
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
     )
+    api_evaluator.end_timing()
+
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
+    
+    purity_evaluator.start_timing()
+    api_purity = get_purity_results(src_dir_path, api_data=api, test_run=is_test_run, old_purity_analysis=purity_evaluator.old)
+    purity_evaluator.end_timing()
+    purity_evaluator.get_results(None, api_purity)
 
-    api_purity = get_purity_results(src_dir_path, api_data=api, test_run=is_test_run, old_purity_analysis=old_purity_analysis)
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
         out_file_api_purity,

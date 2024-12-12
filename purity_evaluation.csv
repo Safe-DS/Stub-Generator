@@ -1,0 +1,2 @@
+Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Date
+TestCases,0.22007322311401367,72,64,136,0,0,0,0,0,0,0,0,2024-12-12 12:46:02.862084

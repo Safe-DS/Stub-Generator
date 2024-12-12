@@ -316,7 +316,7 @@ class PurityAnalyzer:
             return Impure(impurity_reasons)
         return Pure()
 
-    def _process_imported_node(self, imported_node: ImportedCallGraphNode, old_purity_analysis: bool = False) -> PurityResult:
+    def _process_imported_node(self, imported_node: ImportedCallGraphNode) -> PurityResult:
         """Process an imported node.
 
         Since imported nodes are not part of the module, they need to be analyzed separately.
@@ -431,7 +431,7 @@ class PurityAnalyzer:
             module_name=imported_module.name,
             path=imported_module.path[0],
             results=self.cached_module_results,
-            old_purity_analysis=old_purity_analysis
+            old_purity_analysis=self.old_purity_analysis
         )
 
         # Update the cache with the purity results of the imported module.
@@ -468,7 +468,7 @@ class PurityAnalyzer:
                 },
             )
 
-    def _process_node(self, node: CallGraphNode, old_purity_analysis: bool = False) -> PurityResult:
+    def _process_node(self, node: CallGraphNode) -> PurityResult:
         """Process a node in the call graph.
 
         Process a node in the call graph to determine the purity of the function.
@@ -537,13 +537,13 @@ class PurityAnalyzer:
             for child in node.children.values():
                 # Check imported nodes separately.
                 if isinstance(child, ImportedCallGraphNode):
-                    purity_result_child = self._process_imported_node(child, old_purity_analysis=old_purity_analysis)
+                    purity_result_child = self._process_imported_node(child)
                 # Check combined nodes separately.
                 elif isinstance(child, CombinedCallGraphNode):
-                    purity_result_child = self._process_node(child, old_purity_analysis=old_purity_analysis)
+                    purity_result_child = self._process_node(child)
                     self.separated_nodes.update(child.separate())
                 else:
-                    purity_result_child = self._process_node(child, old_purity_analysis=old_purity_analysis)
+                    purity_result_child = self._process_node(child)
                 # Combine the reasons of all children.
                 purity_result_children = purity_result_children.update(purity_result_child)
 
@@ -572,12 +572,12 @@ class PurityAnalyzer:
         # The purity of the module is not determined yet, so all graphs in the forest need to be analyzed.
         for graph in self.call_graph_forest.graphs.values():
             if isinstance(graph, CombinedCallGraphNode):
-                self._process_node(graph, old_purity_analysis=self.old_purity_analysis)
+                self._process_node(graph)
                 self.separated_nodes.update(graph.separate())
             elif isinstance(graph, ImportedCallGraphNode):
                 pass
             elif isinstance(graph, CallGraphNode):
-                purity_result = self._process_node(graph, old_purity_analysis=self.old_purity_analysis)
+                purity_result = self._process_node(graph)
                 if isinstance(graph.symbol.node, astroid.ClassDef):
                     purity_result.is_class = True
 
@@ -639,7 +639,7 @@ def get_purity_results(
     src_dir_path: Path,
     api_data: API,
     test_run: bool = False,
-    old_purity_analysis: bool = False
+    old_purity_analysis: bool = False,
 ) -> APIPurity:
     """Get the purity results of a package.
 
@@ -681,7 +681,7 @@ def get_purity_results(
         api_data=api_data, 
         results=package_purity.purity_results, 
         package_data=package_data, 
-        old_purity_analysis=old_purity_analysis
+        old_purity_analysis=old_purity_analysis,
     )
 
     # Group the results by file name.

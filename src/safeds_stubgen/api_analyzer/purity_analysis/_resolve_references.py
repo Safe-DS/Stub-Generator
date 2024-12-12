@@ -984,7 +984,7 @@ def resolve_references(
     module_name: str = "",
     path: str | None = None,
     package_data: PackageData | None = None,
-    old_purity_analysis: bool = False
+    old_purity_analysis: bool = False,
 ) -> ModuleAnalysisResult:
     """Resolve all references in a module.
 
