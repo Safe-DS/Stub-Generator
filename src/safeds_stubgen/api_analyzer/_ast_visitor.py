@@ -15,6 +15,7 @@ import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen._helpers import get_reexported_by
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
+from safeds_stubgen.api_analyzer.cli._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -63,6 +64,7 @@ class MyPyAstVisitor:
         aliases: dict[str, set[str]],
         type_source_preference: TypeSourcePreference,
         type_source_warning: TypeSourceWarning,
+        evaluation: ApiEvaluation | None = None,
     ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.type_source_preference = type_source_preference
@@ -74,6 +76,8 @@ class MyPyAstVisitor:
         # We gather type var types used as a parameter type in a function
         self.type_var_types: set[sds_types.TypeVarType] = set()
         self.current_module_id = ""
+        
+        self.evaluation = evaluation
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -461,6 +465,8 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
+        if self.evaluation is not None and expr is not None:
+            self.evaluation.evaluate_expression(expr, "", "")
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
@@ -503,6 +509,8 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
+        if self.evaluation is not None:
+            self.evaluation.evaluate_expression(expr, "", "")
         # we need to find the possibly referenced functions, so we need to go through the full expression
         # it seems like we can only get the type of the last expression, so we need to store the path of 
         # member, method accesses

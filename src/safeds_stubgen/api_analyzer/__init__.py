@@ -38,6 +38,7 @@ from ._types import (
     TypeVarType,
     UnionType,
     UnknownType,
+    EnumType
 )
 
 __all__ = [

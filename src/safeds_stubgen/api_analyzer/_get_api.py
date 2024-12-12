@@ -11,6 +11,7 @@ from mypy import types as mypy_types
 
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.api_analyzer._types import AbstractType, CallableType, DictType, FinalType, ListType, NamedSequenceType, NamedType, SetType, TupleType, UnionType
+from safeds_stubgen.api_analyzer.cli._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API, Attribute, CallReference, Function, Class
@@ -28,6 +29,7 @@ def get_api(
     is_test_run: bool = False,
     type_source_preference: TypeSourcePreference = TypeSourcePreference.CODE,
     type_source_warning: TypeSourceWarning = TypeSourceWarning.WARN,
+    evaluation: ApiEvaluation | None = None
 ) -> API:
     """Parse a given code package with Mypy, walk the Mypy AST and create an API object."""
     init_roots = _get_nearest_init_dirs(root)
