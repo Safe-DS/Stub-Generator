@@ -15,7 +15,7 @@ import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen._helpers import get_reexported_by
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
-from safeds_stubgen.api_analyzer.cli._evaluation import ApiEvaluation
+from safeds_stubgen._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (

@@ -1,3 +1,6 @@
-Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Date
-TestCases,0.22007322311401367,72,64,136,0,0,0,0,0,0,0,0,2024-12-12 12:46:02.862084
-purity_package,0.17502880096435547,72,64,136,0,0,0,0,0,0,0,0,2024-12-12 19:28:38.199280
+Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Date
+Yes,purity_package,0.0988929271697998,72,64,136,0,0,0,0,0,0,0,0,2024-12-13 21:59:45.074148
+Yes,purity_package,0.8596527576446533,72,64,136,0,0,0,0,0,0,0,0,2024-12-13 22:51:15.437549
+Yes,purity_package,0.15046072006225586,72,64,136,0,0,0,0,0,0,0,0,2024-12-13 22:59:43.550376
+Yes,purity_package,0.1478557586669922,72,64,136,0,0,0,0,0,0,0,0,2024-12-13 23:06:33.714032
+Yes,purity_package,1.0231842994689941,72,64,136,0,0,0,0,0,0,0,0,2024-12-13 23:11:12.536478

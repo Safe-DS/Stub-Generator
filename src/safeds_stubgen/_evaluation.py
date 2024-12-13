@@ -72,7 +72,7 @@ class PurityEvaluation(Evaluation):
 
 		filename = "purity_evaluation.csv"
 		fieldnames = [
-			"Type-Aware?"
+			"Type-Aware?",
 			"Library", 
 			"Runtime [seconds]", 
 			"Classified as Pure", 
@@ -269,7 +269,12 @@ class ApiEvaluation(Evaluation):
 		amount_of_no_types = 0
 		test_dict: dict[str, int] = {}
 		for expr in self.expressions:
-			test_dict[expr.kind_of_expression] += 1
+			has_expression = test_dict.get(expr.kind_of_expression, -1) != -1
+			if has_expression:
+				test_dict[expr.kind_of_expression] += 1
+			else:
+				test_dict[expr.kind_of_expression] = 1
+
 			if expr.hasConflictedTypes:
 				amount_of_conflicted_types += 1
 			if expr.type_from_comment != "" and expr.type_from_type_hint != "":
@@ -287,13 +292,15 @@ class ApiEvaluation(Evaluation):
 		fieldnames = [
 			"Library", 
 			"Runtime [seconds]",
-			"Date"
+			"Date",
+			"Amount of Expressions",
 		]
 		fieldnames.extend(test_dict.keys())
 		entry: dict[str, str] = {
 			"Library": self._package_name, 
 			"Runtime [seconds]": str(self._runtime),
-			"Date": str(datetime.now())
+			"Date": str(datetime.now()),
+			"Amount of Expressions": str(len(self.expressions))
 		}
 
 		for key, value in test_dict.items():

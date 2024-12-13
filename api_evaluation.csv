@@ -1,0 +1,3 @@
+Library,Runtime [seconds],Date,Amount of Expressions,mp_nodes.RefExpr,mp_nodes.CallExpr,mp_nodes.StrExpr,mp_nodes.OpExpr,mp_nodes.IntExpr,mp_nodes.ListExp,mp_nodes.TupleExpr,mp_nodes.DictExpr,mp_nodes.IndexExpr,mp_nodes.LambdaExpr
+purity_package,3.942131280899048,2024-12-13 23:06:33.546384,697,267,352,30,4,22,4,2,10,4,2
+purity_package,131.9953489303589,2024-12-13 23:11:05.232656,697,267,352,30,4,22,4,2,10,4,2
