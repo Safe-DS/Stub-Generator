@@ -275,6 +275,27 @@
         'description': '',
         'type': None,
       }),
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_int',
+      'is_public': True,
+      'is_static': True,
+      'name': 'final_int',
+      'type': dict({
+        'kind': 'FinalType',
+        'type': dict({
+          'kind': 'LiteralType',
+          'literals': list([
+            101,
+            32741,
+            2147483621,
+          ]),
+        }),
+      }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': None,
+      }),
       'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/final_union',
       'is_public': True,
       'is_static': True,
@@ -684,6 +705,17 @@
           }),
         ]),
       }),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'type': None,
+      }),
+      'id': 'tests/data/various_modules_package/attribute_module/AttributesClassB/no_final_type',
+      'is_public': True,
+      'is_static': True,
+      'name': 'no_final_type',
+      'type': None,
     }),
     dict({
       'docstring': dict({
@@ -1215,6 +1247,52 @@
 # ---
 # name: test_class_methods[ClassModuleClassB]
   list([
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': '__enter__',
+      'parameters': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__/self',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': False,
+      'is_static': False,
+      'name': '_apply',
+      'parameters': list([
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/self',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/f',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/args',
+        'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply/kwargs',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
     dict({
       'docstring': dict({
         'description': '',
@@ -2077,6 +2155,8 @@
 # name: test_classes[ClassModuleClassB]
   dict({
     'attributes': list([
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/b_attr_1',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/b_attr_2',
     ]),
     'classes': list([
     ]),
@@ -2113,6 +2193,8 @@
     'inherits_from_exception': False,
     'is_public': True,
     'methods': list([
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/__enter__',
+      'tests/data/various_modules_package/class_module/ClassModuleClassB/_apply',
       'tests/data/various_modules_package/class_module/ClassModuleClassB/f',
     ]),
     'name': 'ClassModuleClassB',
@@ -4891,8 +4973,8 @@
       'name': 'not_true',
       'type': dict({
         'kind': 'NamedType',
-        'name': 'int',
-        'qname': 'builtins.int',
+        'name': 'bool',
+        'qname': 'builtins.bool',
       }),
     }),
   ])
@@ -5214,8 +5296,33 @@
           }),
           dict({
             'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'bool',
+            'qname': 'builtins.bool',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'InferMyTypes',
+            'qname': 'tests.data.various_modules_package.infer_types_module.InferMyTypes',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
+          }),
+          dict({
+            'kind': 'NamedType',
             'name': 'float',
             'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
           }),
           dict({
             'kind': 'NamedType',
@@ -5234,28 +5341,8 @@
           }),
           dict({
             'kind': 'NamedType',
-            'name': 'InferMyTypes',
-            'qname': 'tests.data.various_modules_package.infer_types_module.InferMyTypes',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'None',
-            'qname': 'builtins.None',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'bool',
-            'qname': 'builtins.bool',
-          }),
-          dict({
-            'kind': 'NamedType',
             'name': 'int',
             'qname': 'builtins.int',
-          }),
-          dict({
-            'kind': 'NamedType',
-            'name': 'str',
-            'qname': 'builtins.str',
           }),
         ]),
       }),
@@ -5275,6 +5362,11 @@
             'kind': 'NamedType',
             'name': 'float',
             'qname': 'builtins.float',
+          }),
+          dict({
+            'kind': 'NamedType',
+            'name': 'None',
+            'qname': 'builtins.None',
           }),
         ]),
       }),
@@ -5399,10 +5491,36 @@
     }),
   ])
 # ---
-# name: test_function_results[none_result]
+# name: test_function_results[none_result_1]
   list([
     dict({
-      'id': 'tests/data/various_modules_package/function_module/none_result/result_1',
+      'id': 'tests/data/various_modules_package/function_module/none_result_1/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+        'qname': 'builtins.None',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results[none_result_2]
+  list([
+    dict({
+      'id': 'tests/data/various_modules_package/function_module/none_result_2/result_1',
+      'name': 'result_1',
+      'type': dict({
+        'kind': 'NamedType',
+        'name': 'None',
+        'qname': 'builtins.None',
+      }),
+    }),
+  ])
+# ---
+# name: test_function_results[none_result_3]
+  list([
+    dict({
+      'id': 'tests/data/various_modules_package/function_module/none_result_3/result_1',
       'name': 'result_1',
       'type': dict({
         'kind': 'NamedType',
@@ -5864,6 +5982,48 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/alias_subclass_param_type',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'alias_subclass_param_type',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/alias_subclass_param_type/x',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/alias_subclass_result_type',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'alias_subclass_result_type',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/alias_subclass_result_type/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/any_results',
       'is_class_method': False,
       'is_property': False,
@@ -6054,6 +6214,28 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/different_result_operants',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'different_result_operants',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/different_result_operants/y',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/different_result_operants/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/float_result',
       'is_class_method': False,
       'is_property': False,
@@ -6066,6 +6248,103 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/function_module/float_result/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment/b',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment/result_2',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment2',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment2/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment2/b',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment2/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment3',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment3',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment3/xys',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/p',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_2',
+        'tests/data/various_modules_package/function_module/ignore_assignment3/result_3',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/ignore_assignment4',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'ignore_assignment4',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment4/a',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/b',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/c',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/ignore_assignment4/result_1',
+        'tests/data/various_modules_package/function_module/ignore_assignment4/result_2',
       ]),
     }),
     dict({
@@ -6226,18 +6505,60 @@
         ]),
         'full_docstring': '',
       }),
-      'id': 'tests/data/various_modules_package/function_module/none_result',
+      'id': 'tests/data/various_modules_package/function_module/none_result_1',
       'is_class_method': False,
       'is_property': False,
       'is_public': True,
       'is_static': False,
-      'name': 'none_result',
+      'name': 'none_result_1',
       'parameters': list([
       ]),
       'reexported_by': list([
       ]),
       'results': list([
-        'tests/data/various_modules_package/function_module/none_result/result_1',
+        'tests/data/various_modules_package/function_module/none_result_1/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/none_result_2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'none_result_2',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/none_result_2/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/none_result_3',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'none_result_3',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/none_result_3/result_1',
       ]),
     }),
     dict({
@@ -6430,6 +6751,7 @@
         'tests/data/various_modules_package/function_module/params_with_default_value/tuple_',
         'tests/data/various_modules_package/function_module/params_with_default_value/literal',
         'tests/data/various_modules_package/function_module/params_with_default_value/any_',
+        'tests/data/various_modules_package/function_module/params_with_default_value/single_quote',
       ]),
       'reexported_by': list([
       ]),
@@ -6518,6 +6840,142 @@
       ]),
       'results': list([
         'tests/data/various_modules_package/function_module/ret_conditional_statement/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_inner_function',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_inner_function',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_not_statement',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_not_statement',
+      'parameters': list([
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_not_statement/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param1',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param1',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param1/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param1/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param2',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param2',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param2/a',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param2/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param3',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param3',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param3/a',
+        'tests/data/various_modules_package/function_module/return_param3/b',
+        'tests/data/various_modules_package/function_module/return_param3/c',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param3/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
+      'id': 'tests/data/various_modules_package/function_module/return_param4',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'return_param4',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/return_param4/a',
+        'tests/data/various_modules_package/function_module/return_param4/b',
+        'tests/data/various_modules_package/function_module/return_param4/x',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/return_param4/result_1',
+        'tests/data/various_modules_package/function_module/return_param4/result_2',
+        'tests/data/various_modules_package/function_module/return_param4/result_3',
+        'tests/data/various_modules_package/function_module/return_param4/result_4',
       ]),
     }),
     dict({
@@ -6621,6 +7079,28 @@
         ]),
         'full_docstring': '',
       }),
+      'id': 'tests/data/various_modules_package/function_module/type_alias_param',
+      'is_class_method': False,
+      'is_property': False,
+      'is_public': True,
+      'is_static': False,
+      'name': 'type_alias_param',
+      'parameters': list([
+        'tests/data/various_modules_package/function_module/type_alias_param/values',
+      ]),
+      'reexported_by': list([
+      ]),
+      'results': list([
+        'tests/data/various_modules_package/function_module/type_alias_param/result_1',
+      ]),
+    }),
+    dict({
+      'docstring': dict({
+        'description': '',
+        'examples': list([
+        ]),
+        'full_docstring': '',
+      }),
       'id': 'tests/data/various_modules_package/function_module/union_dictionary_results',
       'is_class_method': False,
       'is_property': False,
@@ -6707,6 +7187,10 @@
     dict({
       'alias': None,
       'qualified_name': 'file_creation.module_1.Lv2',
+    }),
+    dict({
+      'alias': None,
+      'qualified_name': 'tests.data.various_modules_package.reexport_test',
     }),
   ])
 # ---
@@ -6828,6 +7312,10 @@
       dict({
         'alias': None,
         'qualified_name': 'file_creation.module_1.Lv2',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'tests.data.various_modules_package.reexport_test',
       }),
     ]),
     'wildcard_imports': list([
@@ -7071,10 +7559,17 @@
       }),
       dict({
         'alias': None,
+        'qualified_name': 'not_reexported',
+      }),
+      dict({
+        'alias': None,
         'qualified_name': 'another_module._YetAnotherPrivateClass',
       }),
     ]),
     'wildcard_imports': list([
+      dict({
+        'module_name': 'not_reexported',
+      }),
     ]),
   })
 # ---
@@ -7171,6 +7666,23 @@
     ]),
   })
 # ---
+# name: test_modules[another_path/not_reexported]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/another_path/not_reexported',
+    'name': 'not_reexported',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
 # name: test_modules[attribute_module]
   dict({
     'classes': list([
@@ -7219,6 +7731,8 @@
       'tests/data/various_modules_package/class_module/SelfTypes1',
       'tests/data/various_modules_package/class_module/SelfTypes2',
       'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction',
+      'tests/data/various_modules_package/class_module/ClassWithOverloadedFunction2',
+      'tests/data/various_modules_package/class_module/ClassWithImportedSuperclasses',
     ]),
     'docstring': '',
     'enums': list([
@@ -7235,6 +7749,14 @@
       dict({
         'alias': None,
         'qualified_name': 'typing.overload',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'typing.no_type_check',
+      }),
+      dict({
+        'alias': None,
+        'qualified_name': 'unknown_source',
       }),
       dict({
         'alias': None,
@@ -7281,6 +7803,7 @@
       'tests/data/various_modules_package/enum_module/EnumTest2',
       'tests/data/various_modules_package/enum_module/EnumTest3',
       'tests/data/various_modules_package/enum_module/EmptyEnum',
+      'tests/data/various_modules_package/enum_module/EnumWithFunctions',
     ]),
     'functions': list([
     ]),
@@ -7495,6 +8018,24 @@
     ]),
   })
 # ---
+# name: test_modules[file_creation/package_1/not_reexported]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/file_creation/package_1/not_reexported/NotReexported',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/file_creation/package_1/not_reexported',
+    'name': 'not_reexported',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
 # name: test_modules[function_module]
   dict({
     'classes': list([
@@ -7521,7 +8062,6 @@
       'tests/data/various_modules_package/function_module/str_result',
       'tests/data/various_modules_package/function_module/bool_result',
       'tests/data/various_modules_package/function_module/float_result',
-      'tests/data/various_modules_package/function_module/none_result',
       'tests/data/various_modules_package/function_module/obj_result',
       'tests/data/various_modules_package/function_module/callexr_result_class',
       'tests/data/various_modules_package/function_module/callexr_result_function',
@@ -7542,6 +8082,23 @@
       'tests/data/various_modules_package/function_module/param_from_outside_the_package',
       'tests/data/various_modules_package/function_module/result_from_outside_the_package',
       'tests/data/various_modules_package/function_module/ret_conditional_statement',
+      'tests/data/various_modules_package/function_module/ignore_assignment',
+      'tests/data/various_modules_package/function_module/ignore_assignment2',
+      'tests/data/various_modules_package/function_module/ignore_assignment3',
+      'tests/data/various_modules_package/function_module/ignore_assignment4',
+      'tests/data/various_modules_package/function_module/return_inner_function',
+      'tests/data/various_modules_package/function_module/return_param1',
+      'tests/data/various_modules_package/function_module/return_param2',
+      'tests/data/various_modules_package/function_module/return_param3',
+      'tests/data/various_modules_package/function_module/return_param4',
+      'tests/data/various_modules_package/function_module/return_not_statement',
+      'tests/data/various_modules_package/function_module/type_alias_param',
+      'tests/data/various_modules_package/function_module/alias_subclass_result_type',
+      'tests/data/various_modules_package/function_module/alias_subclass_param_type',
+      'tests/data/various_modules_package/function_module/different_result_operants',
+      'tests/data/various_modules_package/function_module/none_result_1',
+      'tests/data/various_modules_package/function_module/none_result_2',
+      'tests/data/various_modules_package/function_module/none_result_3',
     ]),
     'id': 'tests/data/various_modules_package/function_module',
     'name': 'function_module',
@@ -7564,7 +8121,15 @@
       }),
       dict({
         'alias': None,
+        'qualified_name': 'typing.Union',
+      }),
+      dict({
+        'alias': None,
         'qualified_name': 'tests.data.main_package.another_path.another_module.AnotherClass',
+      }),
+      dict({
+        'alias': 'np',
+        'qualified_name': 'numpy',
       }),
     ]),
     'wildcard_imports': list([
@@ -7649,6 +8214,75 @@
     ]),
     'id': 'tests/data/various_modules_package/inheritance_module',
     'name': 'inheritance_module',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[reexport_test/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/reexport_test',
+    'name': '__init__',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[reexport_test/reexport_test_2/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/reexport_test/reexport_test_2',
+    'name': '__init__',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[reexport_test/reexport_test_2/reexport_test_3/__init__]
+  dict({
+    'classes': list([
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/reexport_test/reexport_test_2/reexport_test_3',
+    'name': '__init__',
+    'qualified_imports': list([
+    ]),
+    'wildcard_imports': list([
+    ]),
+  })
+# ---
+# name: test_modules[reexport_test/reexport_test_2/reexport_test_3/reexport_test]
+  dict({
+    'classes': list([
+      'tests/data/various_modules_package/reexport_test/reexport_test_2/reexport_test_3/reexport_test/NotReexportedTest',
+    ]),
+    'docstring': '',
+    'enums': list([
+    ]),
+    'functions': list([
+    ]),
+    'id': 'tests/data/various_modules_package/reexport_test/reexport_test_2/reexport_test_3/reexport_test',
+    'name': 'reexport_test',
     'qualified_imports': list([
     ]),
     'wildcard_imports': list([

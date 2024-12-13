@@ -68,7 +68,15 @@ class ASTWalker:
             if getattr(child_node, "name", "") == "__mypy-replace":  # pragma: no cover
                 continue
 
-            self.__walk(child_node, visited_nodes)
+            # Overloaded Functions can either have one implementation (impl) or can have multiple (items)
+            if isinstance(child_node, OverloadedFuncDef):
+                if child_node.impl is not None:
+                    self.__walk(child_node.impl, visited_nodes)
+                else:
+                    for child_node_impl in child_node.items:
+                        self.__walk(child_node_impl, visited_nodes)
+            else:
+                self.__walk(child_node, visited_nodes)
         self.__leave(node)
 
     def __enter(self, node: MypyFile | ClassDef | FuncDef | AssignmentStmt) -> None:

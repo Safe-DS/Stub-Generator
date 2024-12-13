@@ -117,6 +117,31 @@ fun functionWithoutReturnValue()
 @PythonName("uninferable_return_doc")
 fun uninferableReturnDoc()
 
+// TODO Result type information missing.
+// TODO Some parameter have no type information.
+/**
+ * Nihil possimus iusto autem aut. Laboriosam ut ipsum veritatis.
+ * Excepturi voluptatem beatae nam voluptas.
+ *
+ * Est aliquid numquam at error quis laborum et perferendis.
+ *
+ * Throws:
+ *     RuntimeError
+ * Returns:
+ *     Nothing
+ *
+ * Illum amet velit et qui.
+ *
+ * @param a First arg
+ * @param b Second arg
+ */
+@Pure
+@PythonName("google_multiple_text_parts")
+fun googleMultipleTextParts(
+    a,
+    b
+)
+
 /**
  * property_method_with_docstring.
  *
@@ -295,9 +320,8 @@ class ClassWithVariousAttributeTypes() {
     static attr classType: ClassWithAttributes
     @PythonName("imported_type")
     static attr importedType: AnotherClass
-    // TODO Attribute has no type information.
     @PythonName("callable_type")
-    static attr callableType
+    static attr callableType: (param1: Int) -> result1: String
     @PythonName("mapping_type")
     static attr mappingType: Map<Int, String>
     @PythonName("bool_op_type")
