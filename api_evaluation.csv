@@ -1,3 +1,3 @@
-Library,Runtime [seconds],Date,Amount of Expressions,mp_nodes.RefExpr,mp_nodes.CallExpr,mp_nodes.StrExpr,mp_nodes.OpExpr,mp_nodes.IntExpr,mp_nodes.ListExp,mp_nodes.TupleExpr,mp_nodes.DictExpr,mp_nodes.IndexExpr,mp_nodes.LambdaExpr
-purity_package,3.942131280899048,2024-12-13 23:06:33.546384,697,267,352,30,4,22,4,2,10,4,2
-purity_package,131.9953489303589,2024-12-13 23:11:05.232656,697,267,352,30,4,22,4,2,10,4,2
+Library,Runtime [seconds],Expressions,Conflicted Types,Expressions without type info,Expressions with both type hint and docstring,Expressions with only type hint,Expressions with only comment type info,Expressions with inferred type info,mp_nodes.NameExpr,mp_nodes.CallExpr,mp_nodes.MemberExpr,mp_nodes.StrExpr,mp_nodes.OpExpr,mp_nodes.IntExpr,mp_nodes.IndexExpr,mp_nodes.ListExp,mp_nodes.TupleExpr,mp_nodes.DictExpr,mp_nodes.LambdaExpr,Date
+purity_package,140.8497018814087,831,22,372,2,18,22,417,421,165,107,46,4,40,30,4,2,10,2,2024-12-14 17:35:27.156668
+purity_package,6.459305286407471,831,10,228,2,18,22,561,421,165,107,46,4,40,30,4,2,10,2,2024-12-14 18:09:14.882583

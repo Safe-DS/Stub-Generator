@@ -314,7 +314,7 @@ class MyPyAstVisitor:
                 msg = f"Different type hint and docstring types for '{function_id}'."
                 logging.info(msg)
 
-            if doc_type is not None and (
+            if doc_type is not None and self.evaluation is None and (
                 code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
             ):
                 parameters[i] = dataclasses.replace(
@@ -466,7 +466,7 @@ class MyPyAstVisitor:
                 Stores all found call references and is passed along the recursion
         """
         if self.evaluation is not None and expr is not None:
-            self.evaluation.evaluate_expression(expr, "", "")
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
@@ -510,7 +510,8 @@ class MyPyAstVisitor:
                 Stores all found call references and is passed along the recursion
         """
         if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, "", "")
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
+
         # we need to find the possibly referenced functions, so we need to go through the full expression
         # it seems like we can only get the type of the last expression, so we need to store the path of 
         # member, method accesses
@@ -667,6 +668,9 @@ class MyPyAstVisitor:
             else:
                 pathCopy.append("[]")
 
+        if self.evaluation is not None:
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
+
         # termination conditions
         # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
         if isinstance(expr, mp_nodes.MemberExpr):
@@ -675,10 +679,14 @@ class MyPyAstVisitor:
                     # the path is used in _get_api() to find the correct class of the receiver
                     pathCopy.append(expr.expr.name)
 
+                    # TODO pm refactor this in seperate function?
                     call_receiver_type = expr.expr.node.type
                     parameter = parameter_of_func.get(expr.expr.node.fullname)
-                    if parameter is not None and parameter.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                        if parameter.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        elif parameter.docstring.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
                         if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
                         elif extracted_type is not None and len(extracted_type) >= 1:
@@ -700,8 +708,11 @@ class MyPyAstVisitor:
 
                     call_receiver_type = expr.callee.node.type.ret_type
                     parameter = parameter_of_func.get(expr.callee.node.fullname)
-                    if parameter is not None and parameter.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                        if parameter.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        elif parameter.docstring.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
                         if extracted_type is not None and len(extracted_type) == 1:
                             call_receiver_type = extracted_type[0]
                         elif extracted_type is not None and len(extracted_type) >= 1:
@@ -733,8 +744,11 @@ class MyPyAstVisitor:
                             call_receiver_type = expr.base.node.type.items
 
                         parameter = parameter_of_func.get(expr.base.node.fullname)
-                        if parameter is not None and parameter.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                            if parameter.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                            elif parameter.docstring.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
                             if extracted_type is not None and isinstance(expr.index, mp_nodes.IntExpr):
                                 call_receiver_type = extracted_type[index]
                             elif extracted_type is not None and not isinstance(expr.index, mp_nodes.IntExpr):
@@ -763,8 +777,11 @@ class MyPyAstVisitor:
                             arg = expr.base.node.type
                         call_receiver_type = arg
                         parameter = parameter_of_func.get(expr.base.node.fullname)
-                        if parameter is not None and parameter.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                            if parameter.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                            elif parameter.docstring.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
                             if extracted_type is not None and len(extracted_type) == 1:
                                 call_receiver_type = extracted_type[0]
                             elif extracted_type is not None and len(extracted_type) >= 1:

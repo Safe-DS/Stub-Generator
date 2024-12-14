@@ -5,7 +5,7 @@ from .another_purity_path.another_purity_module import SuperClass, ClassPure, Cl
 # check: tests\data\out\purity_package__api_purity.json after snapshot_update
 
 def global_func_same_name_pure() -> int:
-    child_class_instance = ChildClassPure()
+    child_class_instance: ChildClassPure = ChildClassPure()
     result = child_class_instance.same_name()
     return result
 
@@ -562,7 +562,7 @@ def global_func_union_type_from_docstring_impure(instance) -> int:
 
     Parameters
     --------
-    instance : ClassImpure | ClassImpure
+    instance : ClassPure | ClassImpure
         Lorem ipsum
     """
     result = instance.only_in_T()
