@@ -466,7 +466,7 @@ class MyPyAstVisitor:
                 Stores all found call references and is passed along the recursion
         """
         if self.evaluation is not None and expr is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
@@ -510,7 +510,7 @@ class MyPyAstVisitor:
                 Stores all found call references and is passed along the recursion
         """
         if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
 
         # we need to find the possibly referenced functions, so we need to go through the full expression
         # it seems like we can only get the type of the last expression, so we need to store the path of 
@@ -669,7 +669,7 @@ class MyPyAstVisitor:
                 pathCopy.append("[]")
 
         if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id)
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
 
         # termination conditions
         # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
@@ -706,7 +706,7 @@ class MyPyAstVisitor:
                     # the path is used in _get_api() to find the correct class of the receiver
                     pathCopy.append(expr.callee.name)
 
-                    call_receiver_type = expr.callee.node.type.ret_type
+                    call_receiver_type = expr.callee.node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
                     parameter = parameter_of_func.get(expr.callee.node.fullname)
                     if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                         if parameter.type is not None:

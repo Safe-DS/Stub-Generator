@@ -428,7 +428,7 @@ def global_func_from_docstring_as_list_same_name_impure(instances) -> int:
     result = instances[0].same_name()
     return result
 
-def global_func_from_docstring_as_tuple_same_name_pure(instances) -> int:
+def global_func_from_docstring_as_tuple_same_name_pure(instances: tuple[AnotherPureClass]) -> int:
     """this function should be pure as same_name of ClassPure is pure
 
     Parameters

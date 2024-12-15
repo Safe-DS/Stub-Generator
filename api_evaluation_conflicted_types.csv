@@ -1,0 +1,6 @@
+Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+purity_package,purity_package.main_purity_module,439,13,NameExpr,Tuple[AnotherPureClass],Tuple[ClassPure],Tuple[AnotherPureClass],2024-12-15 01:02:13.877646
+purity_package,purity_package.main_purity_module,439,13,CallExpr,Tuple[AnotherPureClass],Tuple[ClassPure],Tuple[AnotherPureClass],2024-12-15 01:07:51.085281
+purity_package,purity_package.main_purity_module,439,13,MemberExpr,Tuple[AnotherPureClass],Tuple[ClassPure],Tuple[AnotherPureClass],2024-12-15 01:07:51.087275
+purity_package,purity_package.main_purity_module,439,13,IndexExpr,Tuple[AnotherPureClass],Tuple[ClassPure],Tuple[AnotherPureClass],2024-12-15 01:07:51.089269
+purity_package,purity_package.main_purity_module,439,13,NameExpr,Tuple[AnotherPureClass],Tuple[ClassPure],Tuple[AnotherPureClass],2024-12-15 01:07:51.092530
