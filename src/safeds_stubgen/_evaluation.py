@@ -38,6 +38,92 @@ class PurityEvaluation(Evaluation):
 		self.old = old_purity_analysis
 		self._out_dir_path = out_dir_path
 		self._package_name = package_name
+		self._amount_of_call_references = 0
+		self._amount_of_callRef_improvements = 0
+		self._amount_of_no_type_data_for_call_reference = 0
+		self._amount_of_missing_api_function = 0
+		self._amount_of_callRefs_without_functions_in_package = 0
+		self._amount_of_call_refs_where_call_is_no_method = 0
+		self._amount_of_found_more_functions = 0
+
+	def evaluate_call_reference(self, 
+		module_id: str | None, 
+		function_name_of_call_ref: str,
+		line: int | None, 
+		column: int | None, 
+		improvement: bool, 
+		found_more_functions: bool,
+		no_type_data: bool,
+		missing_api_function: bool,
+		call_references_functions_outside_of_module: bool, 
+		call_is_no_method: bool
+	):
+		reason_for_no_improvement = ""
+		self._amount_of_call_references += 1
+		if improvement:
+			self._amount_of_callRef_improvements += 1
+		elif no_type_data:
+			reason_for_no_improvement = "Missing types or bug"
+			self._amount_of_no_type_data_for_call_reference += 1
+		elif missing_api_function:
+			reason_for_no_improvement = "Api analyzer bug"
+			self._amount_of_missing_api_function += 1
+		elif call_references_functions_outside_of_module:
+			reason_for_no_improvement = "Call references functions outside of package"
+			self._amount_of_callRefs_without_functions_in_package += 1
+		elif call_is_no_method:
+			reason_for_no_improvement = "Call is no method"
+			self._amount_of_call_refs_where_call_is_no_method += 1
+		elif found_more_functions:
+			reason_for_no_improvement = "Found more functions than old purity analysis"
+			self._amount_of_found_more_functions += 1
+		else:
+			reason_for_no_improvement = "Found same amount of functions"
+			# there is data but no improvement
+			pass
+
+		
+		filename = "purity_evaluation_call_refs.csv"
+		fieldnames = [
+			"Type-Aware?",
+			"Library",
+			"Module",
+			"Func Name",
+			"Line",
+			"Column",
+			"Improvement",
+			"Reason for no improvement",
+			"Date",
+		]
+		data = [
+			{
+				"Type-Aware?": "Yes" if not self.old else "No",
+				"Library": self._package_name,
+				"Module": module_id,
+				"Func Name": function_name_of_call_ref,
+				"Line": str(line),
+				"Column": str(column),
+				"Improvement": "Yes" if improvement else "No",
+				"Reason for no improvement": reason_for_no_improvement,
+				"Date": str(datetime.now())
+			},
+		]
+
+		file_exists = os.path.isfile(filename)
+
+		# Open the file in write mode
+		with open(filename, "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data)
 
 	def get_results(self, ground_truth: dict[NodeID, dict[NodeID, str]] | None, purity_results: APIPurity):
 		amount_of_classified_pure_functions = 0
@@ -91,6 +177,11 @@ class PurityEvaluation(Evaluation):
 			"Precision",
 			"Accuracy",
 			"Balanced Accuracy",
+			"Call References",
+			"Improved CallRef",
+			"No Data CallRef",
+			"Call refs func outside of package",
+			"No Method CallRef",
 			"Date"
 		]
 		data = [
@@ -109,6 +200,11 @@ class PurityEvaluation(Evaluation):
 				"Precision": precision,
 				"Accuracy": accuracy,
 				"Balanced Accuracy": balanced_accuracy,
+				"Call References": str(self._amount_of_call_references),
+				"Improved CallRef": str(self._amount_of_callRef_improvements),
+				"No Data CallRef": str(self._amount_of_no_type_data_for_call_reference),
+				"Call refs func outside of package": str(self._amount_of_callRefs_without_functions_in_package),
+				"No Method CallRef": str(self._amount_of_call_refs_where_call_is_no_method),
 				"Date": str(datetime.now())
 			},
 		]
@@ -130,11 +226,6 @@ class PurityEvaluation(Evaluation):
 			writer.writerows(data)
 
 class ApiEvaluation(Evaluation):
-	# def __new__(cls):
-	# 	if not hasattr(cls, "instance"):
-	# 		cls.instance = super(EvaluationDataCollector, cls).__new__(cls)
-	# 	return cls.instance
-	
 	def __init__(self, package_name: str):
 		self._start_time = 0
 		self._end_time = 0
@@ -148,7 +239,6 @@ class ApiEvaluation(Evaluation):
 		id_existed = self.expression_ids.get(id_str, -1) != -1
 		if id_existed:
 			return -1
-			raise ValueError(f"ID: '{id_str}' Existed")
 		else:
 			self.expression_ids[id_str] = True
 			return id_str
@@ -217,7 +307,7 @@ class ApiEvaluation(Evaluation):
 		types = []
 		for member_name in dir(mypy_expr):
 			if not member_name.startswith("__"):
-				member = getattr(mypy_expr, member_name)
+				member = getattr(mypy_expr, member_name, None)
 				if isinstance(member, mp_nodes.Expression):
 					type_str = self.extract_type_name_from_mypy_expr(member, mypy_type_to_api_type)
 					if type_str != "":
@@ -234,20 +324,6 @@ class ApiEvaluation(Evaluation):
 			return ""
 		abstract_type = mypy_type_to_api_type(mypy_type, None)
 		return self.extract_type_name_from_abstract_type(abstract_type)
-		# if mypy_type is None:
-		# 	return ""
-		# if isinstance(mypy_type, mp_types.TupleType):
-		# 	types = [self.extract_type_name_from_mypy_type(type) for type in mypy_type.items]
-		# 	types_str = ", ".join(types)
-		# 	return f"Tuple[{types_str}]"
-		# elif hasattr(mypy_type, "type"):
-		# 	return mypy_type.type.name
-		# elif hasattr(mypy_type, "args"):
-		# 	if len(mypy_type.args) == 2: # type: ignore
-		# 		return f"Dict[{self.extract_type_name_from_mypy_type(mypy_type.args[0])}, {self.extract_type_name_from_mypy_type(mypy_type.args[1])}]"  # type: ignore # this is for dict
-		# 	else:
-		# 		return f"List[{self.extract_type_name_from_mypy_type(mypy_type.args[0])}]"  # type: ignore # this is for list
-		# return ""
 		
 	def get_fullname(self, mypy_expr: mp_nodes.Expression) -> str:
 		"""
@@ -267,7 +343,7 @@ class ApiEvaluation(Evaluation):
 		# fullnames = []
 		for member_name in dir(mypy_expr):
 			if not member_name.startswith("__"):
-				member = getattr(mypy_expr, member_name)
+				member = getattr(mypy_expr, member_name, None)
 				if isinstance(member, mp_nodes.OpExpr):
 					pass
 				elif isinstance(member, mp_nodes.IntExpr):
@@ -410,10 +486,7 @@ class ApiEvaluation(Evaluation):
 		elif isinstance(mypy_expr, mp_nodes.NameExpr):
 			type = "mp_nodes.NameExpr"
 			id = self.get_id_from_expr(mypy_expr, type, module_id)
-			if isinstance(mypy_expr.node, mp_nodes.Var):
-				mypy_inferred_type = self.extract_type_name_from_mypy_type(mypy_expr.node.type, mypy_type_to_api_type)
-			if isinstance(mypy_expr.node, mp_nodes.TypeInfo):
-				mypy_inferred_type = mypy_expr.node.name
+			mypy_inferred_type = self.extract_type_name_from_mypy_expr(mypy_expr, mypy_type_to_api_type)
 		elif isinstance(mypy_expr, mp_nodes.StarExpr):
 			type = "mp_nodes.StarExp"
 			id = self.get_id_from_expr(mypy_expr, type, module_id)
@@ -458,13 +531,6 @@ class ApiEvaluation(Evaluation):
 			type = "mp_nodes.MemberExpr"
 			id = self.get_id_from_expr(mypy_expr, type, module_id)
 			mypy_inferred_type = self.extract_type_name_from_mypy_expr(mypy_expr, mypy_type_to_api_type)
-			# if isinstance(mypy_expr.node, mp_nodes.Var):
-			# 	mypy_inferred_type = self.extract_type_name_from_mypy_type(mypy_expr.node.type, mypy_type_to_api_type=)
-			# if isinstance(mypy_expr.expr, mp_nodes.NameExpr):  # TODO pm refactor this recursively
-			# 	if isinstance(mypy_expr.expr.node, mp_nodes.Var):
-			# 		mypy_inferred_type = self.extract_type_name_from_mypy_type(mypy_expr.expr.node.type, mypy_type_to_api_type)
-			# 	if isinstance(mypy_expr.expr.node, mp_nodes.TypeInfo):
-			# 		mypy_inferred_type = mypy_expr.expr.node.name
 		elif isinstance(mypy_expr, mp_nodes.RevealExpr):
 			type = "mp_nodes.RevealExpr"
 			id = self.get_id_from_expr(mypy_expr, type, module_id)

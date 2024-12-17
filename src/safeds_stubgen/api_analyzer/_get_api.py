@@ -73,7 +73,10 @@ def get_api(
     aliases = _get_aliases(result_types=build_result.types, package_name=package_name)
 
     # Setup api walker
-    api = API(distribution=dist, package=package_name, version=dist_version)
+    path_to_package = ""
+    if is_test_run and evaluation is not None:
+        path_to_package = f"tests/data/{dist}"
+    api = API(distribution=dist, package=package_name, version=dist_version, path_to_package=path_to_package)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
     callable_visitor = MyPyAstVisitor(
         docstring_parser=docstring_parser,
@@ -107,7 +110,7 @@ def _update_class_subclass_relation(api: API) -> None:
     for class_def in api.classes.values():
         super_classes: list[Class] = []
         for super_class_id in class_def.superclasses:
-            class_to_append = api.classes.get("/".join(super_class_id.split(".")))
+            class_to_append = api.classes.get("/".join(super_class_id.split(".")), None)
             if class_to_append is None:  # super class imported from outside of the analyzed package
                 continue
             super_classes.append(class_to_append)
@@ -435,7 +438,25 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
 
                 if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
                 # find function in superclasses but only first appearance as python will also only call the first appearance
-                    super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
+                    try:
+                        super_classes: list[Class] = []
+                        # for super_class_id in current_class.superclasses:
+                        #     api.classes
+                        #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
+                        for super_class_id in current_class.superclasses:
+                            correct_id = "/".join(super_class_id.split("."))
+                            if correct_id.startswith(api.path_to_package):
+                                super_class = api.classes.get(correct_id, None)
+                                if super_class is not None:
+                                    super_classes.append(super_class)
+                            else:
+                                correct_id = api.path_to_package + "/" + correct_id
+                                super_class = api.classes.get(correct_id, None)
+                                if super_class is not None:
+                                    super_classes.append(super_class)
+                        # super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
+                    except KeyError as error:
+                        print(error)
                     _get_referenced_function_from_super_classes(
                         api,
                         call_reference,
@@ -475,7 +496,26 @@ def _get_referenced_function_from_super_classes(
         if found_method:
             break
         else: 
-            next_super_classes = [api.classes["/".join(x.split("."))] for x in super_class.superclasses]
+            try:
+                next_super_classes: list[Class] = []
+                # for super_class_id in current_class.superclasses:
+                #     api.classes
+                #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
+                for next_super_class_id in super_class.superclasses:
+                    correct_id = "/".join(next_super_class_id.split("."))
+                    if correct_id.startswith(api.path_to_package):
+                        next_super_class = api.classes.get(correct_id, None)
+                        if next_super_class is not None:
+                            next_super_classes.append(next_super_class)
+                    else:
+                        correct_id = api.path_to_package + "/" + correct_id
+                        next_super_class = api.classes.get(correct_id, None)
+                        if next_super_class is not None:
+                            next_super_classes.append(next_super_class)
+                # super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
+            except KeyError as error:
+                print(error)
+            # next_super_classes = [api.classes["/".join(x.split("."))] for x in super_class.superclasses]
             _get_referenced_function_from_super_classes(
                 api,
                 call_reference,

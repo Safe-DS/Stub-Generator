@@ -38,7 +38,7 @@ def ensure_file_exists(file: Path) -> None:
 
 
 class API:
-    def __init__(self, distribution: str, package: str, version: str) -> None:
+    def __init__(self, distribution: str, package: str, version: str, path_to_package: str) -> None:
         self.distribution: str = distribution
         self.package: str = package
         self.version: str = version
@@ -51,6 +51,7 @@ class API:
         self.attributes_: dict[str, Attribute] = {}
         self.parameters_: dict[str, Parameter] = {}
         self.reexport_map: dict[str, set[Module]] = defaultdict(set)
+        self.path_to_package: str = path_to_package
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module

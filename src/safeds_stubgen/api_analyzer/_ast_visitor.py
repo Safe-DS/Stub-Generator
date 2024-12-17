@@ -234,7 +234,13 @@ class MyPyAstVisitor:
                 # Check if the superclass name is an alias and find the real name
                 if superclass_name in self.aliases:
                     _, superclass_alias_qname = self._find_alias(superclass_name)
-                    superclass_qname = superclass_alias_qname if superclass_alias_qname else superclass_qname
+                    if superclass_alias_qname:
+                        superclass_qname = superclass_alias_qname
+                    else:
+                        if superclass_qname:
+                            superclass_qname = superclass_qname
+                        else:
+                            superclass_qname = superclass_qname
 
                 superclasses.append(superclass_qname)
 
@@ -474,7 +480,7 @@ class MyPyAstVisitor:
         for member_name in dir(expr):
             if not member_name.startswith("__") and member_name != "expanded":  # expanded stores function itself which leads to infinite recursion
                 try: 
-                    member = getattr(expr, member_name)
+                    member = getattr(expr, member_name, None)
                     if isinstance(member, mp_nodes.Expression):
                         self.extract_expression_info(member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
@@ -801,7 +807,7 @@ class MyPyAstVisitor:
 
         for member_name in dir(expr):
             if not member_name.startswith("__"):
-                member = getattr(expr, member_name)
+                member = getattr(expr, member_name, None)
                 if isinstance(member, mp_nodes.Expression):
                     self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):

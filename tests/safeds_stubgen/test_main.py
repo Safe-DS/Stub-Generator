@@ -16,6 +16,9 @@ _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 
+_astroid_evaluation_dir = Path(_lib_dir / "tests" / "data" / "astroid")
+_safeds_v19_evaluation_dir = Path(_lib_dir / "tests" / "data" / "safeds")
+
 @pytest.mark.parametrize(
     ("test_package_name", "out_file_dir", "docstyle"),
     [
@@ -81,6 +84,52 @@ def test_main(
 
     assert json_data == snapshot
 
+@pytest.mark.parametrize(
+    ("package_path", "out_file_dir", "docstyle"),
+    [
+        (
+            _astroid_evaluation_dir,
+            Path(_out_dir / f"{'astroid'}__api_purity.json"),
+            "numpydoc"
+        ),
+        (
+            _safeds_v19_evaluation_dir,
+            Path(_out_dir / f"{'safedsV19'}__api_purity.json"),
+            "numpydoc"
+        ),
+
+    ],
+    ids=[
+        "astroid",
+        "safedsV19"
+    ],
+)
+def test_evaluation(
+    package_path: Path,
+    out_file_dir: Path,
+    docstyle: str,
+    snapshot: SnapshotAssertion
+) -> None:
+    # Overwrite system arguments
+
+    sys.argv = [
+        str(_main_dir),
+        "-v",
+        "-s",
+        str(package_path),
+        "-o",
+        str(_out_dir),
+        "-tr",
+        "--docstyle",
+        docstyle,
+        "-nc",
+        "--evaluate_purity",
+        # "--evaluate_api",
+        # "-old"
+    ]
+
+    main()
+    assert True
 
 def test_main_empty() -> None:
     # Overwrite system arguments
