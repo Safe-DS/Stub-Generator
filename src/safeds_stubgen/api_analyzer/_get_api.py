@@ -252,11 +252,20 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
+            elif isinstance(type, str):
+                class_of_receiver = api.classes.get("/".join(type.split(".")))
+                if class_of_receiver is None:
+                    continue
+                call_reference.receiver.found_classes.append(class_of_receiver)
+                # if call_reference.isSuperCallRef:
+                #     super_classes = class_of_receiver.superclasses
+                # classes.append(class_of_receiver)
             else:  # type is tuple or dict
                 classes.append(type)
             
-            for classs in classes:
-                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
+            if not call_reference.isSuperCallRef:
+                for classs in classes:
+                    _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
 
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
     path_copy = path.copy()
@@ -420,23 +429,24 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
 
             for current_class in current_classes:
                 # check if specified class has method with name of callreference
-                specified_class_has_method = False
-                methods = current_class.methods
-                for method in methods:
-                    if method.name == call_reference.function_name:
-                        specified_class_has_method = True
-                        break  # as there can only be one method of that name in a python class
-                
-                referenced_functions: list[Function] = []
-                _get_referenced_functions_from_class_and_subclasses(
-                    api, 
-                    call_reference,
-                    current_class.id,
-                    [],
-                    referenced_functions
-                )
+                if not call_reference.isSuperCallRef:
+                    specified_class_has_method = False
+                    methods = current_class.methods
+                    for method in methods:
+                        if method.name == call_reference.function_name:
+                            specified_class_has_method = True
+                            break  # as there can only be one method of that name in a python class
+                    
+                    referenced_functions: list[Function] = []
+                    _get_referenced_functions_from_class_and_subclasses(
+                        api, 
+                        call_reference,
+                        current_class.id,
+                        [],
+                        referenced_functions
+                    )
 
-                if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
+                if not specified_class_has_method or call_reference.isSuperCallRef:  # then python will look for method in super but so we have to do that as well
                 # find function in superclasses but only first appearance as python will also only call the first appearance
                     try:
                         super_classes: list[Class] = []

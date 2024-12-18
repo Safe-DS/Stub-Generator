@@ -298,6 +298,7 @@ class CallReference:
     line: int
     column: int
     possibly_referenced_functions: list[Function] = field(default_factory=list)
+    isSuperCallRef: bool = False
 
 @dataclass
 class CallReceiver:

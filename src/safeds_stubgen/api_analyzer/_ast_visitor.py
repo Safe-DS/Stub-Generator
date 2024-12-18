@@ -593,7 +593,8 @@ class MyPyAstVisitor:
         expr: mp_nodes.Expression, 
         type: Any | sds_types.NamedType,  # can also be List of types for union type
         path: list[str], 
-        call_references: dict[str, CallReference]
+        call_references: dict[str, CallReference],
+        is_super: bool = False
     ):
         """
             Helper function, to set a callreference into the call_references dictionary
@@ -617,6 +618,8 @@ class MyPyAstVisitor:
             full_name = type.qname
         elif hasattr(type, "type"):
             full_name = type.type.fullname
+        elif isinstance(type, str):
+            full_name = type
         
         call_receiver = CallReceiver(
             full_name=full_name, 
@@ -628,7 +631,8 @@ class MyPyAstVisitor:
             column=expr.column, 
             line=expr.line, 
             receiver=call_receiver, 
-            function_name=function_name
+            function_name=function_name,
+            isSuperCallRef=is_super
         )
         id = f"{function_name}.{expr.line}.{expr.column}"
         if call_references.get(id) is None:
@@ -681,11 +685,21 @@ class MyPyAstVisitor:
         # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
         if isinstance(expr, mp_nodes.MemberExpr):
             if isinstance(expr.expr, mp_nodes.NameExpr):
+                # TODO pm node can also be other stuff than Var !!!!!!!!!!!!!!!!!!!!!!!!
+                # it can also be a Module
+
+                # isinstance checks also change the type, DAMN 
+                # Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-17 00:14:08.994581
+                # this is of type object, so my analysis cant find functions that are referenced, but before line 109 there is an isinstance check
+                
+                # it can also be a Class like Table.__size_of__ 
+
+                # check dunder methods
                 if isinstance(expr.expr.node, mp_nodes.Var):
                     # the path is used in _get_api() to find the correct class of the receiver
                     pathCopy.append(expr.expr.name)
 
-                    # TODO pm refactor this in seperate function?
+                    # TODO pm refactor this in separate function?
                     call_receiver_type = expr.expr.node.type
                     parameter = parameter_of_func.get(expr.expr.node.fullname)
                     if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
@@ -704,7 +718,31 @@ class MyPyAstVisitor:
                         path=pathCopy,
                         call_references=call_references
                     )
-              
+
+        # condition: super().__init__() etc
+        if isinstance(expr, mp_nodes.SuperExpr):
+            if isinstance(expr.info, mp_nodes.TypeInfo):
+                call_receiver_type = expr.info.fullname
+                # for a super expression there cant be parameters
+                # parameter = parameter_of_func.get(call_receiver_type)
+                # if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                #     if parameter.type is not None:
+                #         extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                #     elif parameter.docstring.type is not None:
+                #         extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                #     if extracted_type is not None and len(extracted_type) == 1:
+                #         call_receiver_type = extracted_type[0]
+                #     elif extracted_type is not None and len(extracted_type) >= 1:
+                #         call_receiver_type = extracted_type
+
+                self._set_call_reference(
+                    expr=expr,
+                    type=call_receiver_type,
+                    path=pathCopy,
+                    call_references=call_references,
+                    is_super=True
+                )
+                      
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         if isinstance(expr, mp_nodes.CallExpr):
             if isinstance(expr.callee, mp_nodes.NameExpr):

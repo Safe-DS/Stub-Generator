@@ -303,7 +303,7 @@ class ReferenceResolver:
         # try to get call_reference from api
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
         call_reference_api = function_api.body.call_references.get(call_reference_id)
-        if call_reference_api is None:  # if call reference is none then this call reference is no method
+        if call_reference_api is None:  # if call reference is none then this call reference is no method or call reference could not be found
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True)
             return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
