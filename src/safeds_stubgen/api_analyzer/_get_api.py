@@ -239,6 +239,12 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
+                elif api.classes.get("/".join(type[0].fullname.split("."))) is not None:
+                    for t in type:
+                        class_of_receiver = api.classes.get("/".join(t.fullname.split(".")))
+                        if class_of_receiver is None:
+                            continue
+                        classes.append(class_of_receiver)
                 else:
                     classes.append(type)
 
@@ -252,7 +258,12 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
-            elif isinstance(type, str):
+            elif hasattr(type, "fullname") and api.classes.get("/".join(type.fullname.split("."))) is not None:
+                class_of_receiver = api.classes.get("/".join(type.fullname.split(".")))
+                if class_of_receiver is None:
+                    continue
+                classes.append(class_of_receiver)
+            elif isinstance(type, str):  # super() or static method
                 class_of_receiver = api.classes.get("/".join(type.split(".")))
                 if class_of_receiver is None:
                     continue
@@ -307,6 +318,10 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                     type_of_receiver = class_of_receiver
             elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
                 class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+                if class_of_receiver is not None:
+                    type_of_receiver = class_of_receiver
+            elif hasattr(type_of_receiver, "fullname") and api.classes.get("/".join(type_of_receiver.fullname.split("."))) is not None:
+                class_of_receiver = api.classes.get("/".join(type_of_receiver.fullname.split(".")))
                 if class_of_receiver is not None:
                     type_of_receiver = class_of_receiver
             else:  # type_of_receiver is not a class 

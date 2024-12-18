@@ -532,6 +532,331 @@ class MyPyAstVisitor:
         for arg in expr.args:
             self.extract_expression_info(arg, parameter_of_func, call_references)
 
+    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+        """
+            A call reference was found and this function tries to retrieve the type of the receiver of the call
+
+            There are different termination conditions, which this function tries to find.
+
+            condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+            condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+            condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
+            But there can also be nested combinations of those conditions.
+
+            If there is no condition to be found, then, all members are searched, whether they are of type expression
+
+            Parameters
+            ----------
+            expr : mp_nodes.Expression
+                Holds info about the current examined expression
+            path : list[str]
+                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+                the names of the attributes or methods, that lead to the call reference
+                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+                of the correct_receiver
+            parameter_of_func : dict[str, Parameter]
+                Contains the parameter of the function which the body belongs to, can be used if mypy has no
+                type info about the parameter
+            call_references : dict[str, CallReference]
+                Stores all found call references and is passed along the recursion
+        """
+        # TODO pm refactor
+        pathCopy = path.copy()
+        if hasattr(expr, "name"):
+            pathCopy.append(expr.name) # type: ignore as ensured by hasattr
+        if isinstance(expr, mp_nodes.IndexExpr):
+            if isinstance(expr.index, mp_nodes.IntExpr):
+                key = expr.index.value
+                pathCopy.append(f"[{str(key)}]")
+            else:
+                pathCopy.append("[]")
+
+        if self.evaluation is not None:
+            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
+        # TODO pm there needs to be a memberexpression during path!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        # termination conditions
+        # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+        if isinstance(expr, mp_nodes.MemberExpr):
+            if isinstance(expr.expr, mp_nodes.NameExpr):
+                if isinstance(expr.expr.node, mp_nodes.Var):
+                    # the path is used in _get_api() to find the correct class of the receiver
+                    pathCopy.append(expr.expr.name)
+
+                    # TODO pm refactor this in separate function?
+                    call_receiver_type = expr.expr.node.type
+                    parameter = parameter_of_func.get(expr.expr.node.fullname)
+                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                        if parameter.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        elif parameter.docstring.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                        if extracted_type is not None and len(extracted_type) == 1:
+                            call_receiver_type = extracted_type[0]
+                        elif extracted_type is not None and len(extracted_type) >= 1:
+                            call_receiver_type = extracted_type
+
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references
+                    )
+                    return
+                # TODO pm node can also be other stuff than Var !!!!!!!!!!!!!!!!!!!!!!!!
+                # it can also be a Module
+                
+                elif isinstance(expr.expr.node, mp_nodes.TypeInfo):
+                    call_receiver_type = expr.expr.node.fullname
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references,
+                    )
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.TypeAlias):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.FuncDef):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.Decorator):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.TypeVarLikeExpr):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.PlaceholderNode):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.OverloadedFuncDef):
+                    return
+                elif isinstance(expr.expr.node, mp_nodes.MypyFile):
+                    # what is the type of an imported file?
+                    return  # TODO pm what about mypy file?
+                else:
+                    pass
+                # isinstance checks also change the type, DAMN 
+                # Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-17 00:14:08.994581
+                # this is of type object, so my analysis cant find functions that are referenced, but before line 109 there is an isinstance check
+                
+                # it can also be a Class like Table.__size_of__ 
+
+                # check dunder methods
+                
+        # condition: super().__init__() etc
+        if isinstance(expr, mp_nodes.SuperExpr):
+            if isinstance(expr.info, mp_nodes.TypeInfo):
+                call_receiver_type = expr.info.fullname
+                # for a super expression there cant be parameters
+                # parameter = parameter_of_func.get(call_receiver_type)
+                # if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                #     if parameter.type is not None:
+                #         extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                #     elif parameter.docstring.type is not None:
+                #         extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                #     if extracted_type is not None and len(extracted_type) == 1:
+                #         call_receiver_type = extracted_type[0]
+                #     elif extracted_type is not None and len(extracted_type) >= 1:
+                #         call_receiver_type = extracted_type
+
+                self._set_call_reference(
+                    expr=expr,
+                    type=call_receiver_type,
+                    path=pathCopy,
+                    call_references=call_references,
+                    is_super=True
+                )
+                return
+            else:
+                pass
+                      
+        # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+        if isinstance(expr, mp_nodes.CallExpr):
+            if isinstance(expr.callee, mp_nodes.NameExpr):
+                if isinstance(expr.callee.node, mp_nodes.FuncDef):
+                    # the path is used in _get_api() to find the correct class of the receiver
+                    pathCopy.append("()")
+                    pathCopy.append(expr.callee.name)
+
+                    call_receiver_type = expr.callee.node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
+                    parameter = parameter_of_func.get(expr.callee.node.fullname)
+                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                        if parameter.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        elif parameter.docstring.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                        if extracted_type is not None and len(extracted_type) == 1:
+                            call_receiver_type = extracted_type[0]
+                        elif extracted_type is not None and len(extracted_type) >= 1:
+                            call_receiver_type = extracted_type
+
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references
+                    )
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.Var):
+                    # somehow we can have expr.callee.node.type.ret_type (maybe because this is a call expression)
+                    pathCopy.append("()")
+                    pathCopy.append(expr.callee.name)
+
+                    call_receiver_type = expr.callee.node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
+                    parameter = parameter_of_func.get(expr.callee.node.fullname)
+                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                        if parameter.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        elif parameter.docstring.type is not None:
+                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                        if extracted_type is not None and len(extracted_type) == 1:
+                            call_receiver_type = extracted_type[0]
+                        elif extracted_type is not None and len(extracted_type) >= 1:
+                            call_receiver_type = extracted_type
+
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references
+                    )
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.TypeAlias):
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.Decorator):
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.TypeVarLikeExpr):
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.PlaceholderNode):
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.OverloadedFuncDef):
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.TypeInfo):
+                    call_receiver_type = expr.callee.node.fullname
+                    pathCopy.append("()")
+                    pathCopy.append(expr.callee.name)
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references,
+                    )
+                    return
+                elif isinstance(expr.callee.node, mp_nodes.MypyFile):
+                    # what is the type of an imported file?
+                    return  # TODO pm what about mypy file?
+                else:
+                    pass
+
+        # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
+        # also for tuple and dict
+        # here we can also have nested types that ultimately lead to Class being used
+        if isinstance(expr, mp_nodes.IndexExpr):
+            if isinstance(expr.base, mp_nodes.NameExpr):
+                if isinstance(expr.base.node, mp_nodes.Var):
+                    if isinstance(expr.base.node.type, mp_types.TupleType):
+                        pathCopy.append(expr.base.name)
+                        index = 0
+                        # TODO pm this is already going along the path maybe change this so that it just returns the type
+                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
+                        if isinstance(expr.index, mp_nodes.IntExpr):
+                            index = expr.index.value
+                            call_receiver_type = expr.base.node.type.items[index]
+                        else:
+                            # no index available, so we have to check every type in _get_api.py
+                            call_receiver_type = expr.base.node.type.items
+
+                        parameter = parameter_of_func.get(expr.base.node.fullname)
+                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                            if parameter.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                            elif parameter.docstring.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                            if extracted_type is not None and isinstance(expr.index, mp_nodes.IntExpr):
+                                call_receiver_type = extracted_type[index]
+                            elif extracted_type is not None and not isinstance(expr.index, mp_nodes.IntExpr):
+                                call_receiver_type = extracted_type
+                            
+                        self._set_call_reference(
+                            expr=expr,
+                            type=call_receiver_type,
+                            path=pathCopy,
+                            call_references=call_references
+                        )
+                    else:  # list and dict
+                        pathCopy.append(expr.base.name)
+                        
+                        # if we get list and dict, we can only have one or two args, for dict, there is key and value 
+                        # and for list, there is just the type
+
+                        # TODO pm this is already going along the path maybe change this so that it just returns the type
+                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
+                        if hasattr(expr.base.node.type, "args"):
+                            if len(expr.base.node.type.args) == 2: # type: ignore
+                                arg = expr.base.node.type.args[1]  # type: ignore # this is for dict
+                            else:
+                                arg = expr.base.node.type.args[0] # type: ignore
+                        else:
+                            arg = expr.base.node.type
+                        call_receiver_type = arg
+                        parameter = parameter_of_func.get(expr.base.node.fullname)
+                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                            if parameter.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                            elif parameter.docstring.type is not None:
+                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                            if extracted_type is not None and len(extracted_type) == 1:
+                                call_receiver_type = extracted_type[0]
+                            elif extracted_type is not None and len(extracted_type) >= 1:
+                                call_receiver_type = extracted_type
+                            
+                        self._set_call_reference(
+                            expr=expr,
+                            type=call_receiver_type,
+                            path=pathCopy,
+                            call_references=call_references
+                        )
+                elif isinstance(expr.base.node, mp_nodes.TypeInfo):
+                    call_receiver_type = expr.base.node.fullname
+                    # TODO member expression!!!!!!
+                    pathCopy.append(expr.base.node.name)
+                    self._set_call_reference(
+                        expr=expr,
+                        type=call_receiver_type,
+                        path=pathCopy,
+                        call_references=call_references,
+                    )
+                    return
+                elif isinstance(expr.base.node, mp_nodes.TypeAlias):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.FuncDef):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.Decorator):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.TypeVarLikeExpr):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.PlaceholderNode):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.OverloadedFuncDef):
+                    return
+                elif isinstance(expr.base.node, mp_nodes.MypyFile):
+                    # what is the type of an imported file?
+                    return  # TODO pm what about mypy file?
+                else:
+                    pass
+                
+        # go deeper to find termination condition
+        if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example
+            newPath = []
+            self.extract_call_expression_info(expr, newPath, parameter_of_func, call_references)
+            return
+
+        for member_name in dir(expr):
+            if not member_name.startswith("__"):
+                member = getattr(expr, member_name, None)
+                if isinstance(member, mp_nodes.Expression):
+                    self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
+                    for expr in member:
+                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, parameter_of_func, call_references)
+
     def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType] | None:
         """
             Iterates through a nested type recursively, to find all NamedTypes
@@ -612,7 +937,11 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Dictionary of found call references
         """
-        function_name = list(filter(lambda part: part != "()" and part != "[]", path))[0]
+        try:
+            function_name = list(filter(lambda part: part != "()" and part != "[]", path))[0]
+        except IndexError as error:
+            print(error)
+            return
         full_name = ""
         if isinstance(type, sds_types.NamedType):
             full_name = type.qname
@@ -620,6 +949,8 @@ class MyPyAstVisitor:
             full_name = type.type.fullname
         elif isinstance(type, str):
             full_name = type
+        elif hasattr(type, "fullname"):
+            full_name = type.fullname
         
         call_receiver = CallReceiver(
             full_name=full_name, 
@@ -637,220 +968,6 @@ class MyPyAstVisitor:
         id = f"{function_name}.{expr.line}.{expr.column}"
         if call_references.get(id) is None:
             call_references[id] = call_reference
-
-    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
-        """
-            A call reference was found and this function tries to retrieve the type of the receiver of the call
-
-            There are different termination conditions, which this function tries to find.
-
-            condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
-            condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
-            condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
-            But there can also be nested combinations of those conditions.
-
-            If there is no condition to be found, then, all members are searched, whether they are of type expression
-
-            Parameters
-            ----------
-            expr : mp_nodes.Expression
-                Holds info about the current examined expression
-            path : list[str]
-                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
-                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
-                the names of the attributes or methods, that lead to the call reference
-                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
-                of the correct_receiver
-            parameter_of_func : dict[str, Parameter]
-                Contains the parameter of the function which the body belongs to, can be used if mypy has no
-                type info about the parameter
-            call_references : dict[str, CallReference]
-                Stores all found call references and is passed along the recursion
-        """
-        # TODO pm refactor
-        pathCopy = path.copy()
-        if hasattr(expr, "name"):
-            pathCopy.append(expr.name) # type: ignore as ensured by hasattr
-        if isinstance(expr, mp_nodes.IndexExpr):
-            if isinstance(expr.index, mp_nodes.IntExpr):
-                key = expr.index.value
-                pathCopy.append(f"[{str(key)}]")
-            else:
-                pathCopy.append("[]")
-
-        if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
-
-        # termination conditions
-        # condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
-        if isinstance(expr, mp_nodes.MemberExpr):
-            if isinstance(expr.expr, mp_nodes.NameExpr):
-                # TODO pm node can also be other stuff than Var !!!!!!!!!!!!!!!!!!!!!!!!
-                # it can also be a Module
-
-                # isinstance checks also change the type, DAMN 
-                # Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-17 00:14:08.994581
-                # this is of type object, so my analysis cant find functions that are referenced, but before line 109 there is an isinstance check
-                
-                # it can also be a Class like Table.__size_of__ 
-
-                # check dunder methods
-                if isinstance(expr.expr.node, mp_nodes.Var):
-                    # the path is used in _get_api() to find the correct class of the receiver
-                    pathCopy.append(expr.expr.name)
-
-                    # TODO pm refactor this in separate function?
-                    call_receiver_type = expr.expr.node.type
-                    parameter = parameter_of_func.get(expr.expr.node.fullname)
-                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                        if parameter.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                        elif parameter.docstring.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                        if extracted_type is not None and len(extracted_type) == 1:
-                            call_receiver_type = extracted_type[0]
-                        elif extracted_type is not None and len(extracted_type) >= 1:
-                            call_receiver_type = extracted_type
-
-                    self._set_call_reference(
-                        expr=expr,
-                        type=call_receiver_type,
-                        path=pathCopy,
-                        call_references=call_references
-                    )
-
-        # condition: super().__init__() etc
-        if isinstance(expr, mp_nodes.SuperExpr):
-            if isinstance(expr.info, mp_nodes.TypeInfo):
-                call_receiver_type = expr.info.fullname
-                # for a super expression there cant be parameters
-                # parameter = parameter_of_func.get(call_receiver_type)
-                # if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                #     if parameter.type is not None:
-                #         extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                #     elif parameter.docstring.type is not None:
-                #         extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                #     if extracted_type is not None and len(extracted_type) == 1:
-                #         call_receiver_type = extracted_type[0]
-                #     elif extracted_type is not None and len(extracted_type) >= 1:
-                #         call_receiver_type = extracted_type
-
-                self._set_call_reference(
-                    expr=expr,
-                    type=call_receiver_type,
-                    path=pathCopy,
-                    call_references=call_references,
-                    is_super=True
-                )
-                      
-        # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
-        if isinstance(expr, mp_nodes.CallExpr):
-            if isinstance(expr.callee, mp_nodes.NameExpr):
-                if isinstance(expr.callee.node, mp_nodes.FuncDef):
-                    # the path is used in _get_api() to find the correct class of the receiver
-                    pathCopy.append(expr.callee.name)
-
-                    call_receiver_type = expr.callee.node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
-                    parameter = parameter_of_func.get(expr.callee.node.fullname)
-                    if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                        if parameter.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                        elif parameter.docstring.type is not None:
-                            extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                        if extracted_type is not None and len(extracted_type) == 1:
-                            call_receiver_type = extracted_type[0]
-                        elif extracted_type is not None and len(extracted_type) >= 1:
-                            call_receiver_type = extracted_type
-
-                    self._set_call_reference(
-                        expr=expr,
-                        type=call_receiver_type,
-                        path=pathCopy,
-                        call_references=call_references
-                    )
-
-        # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
-        # also for tuple and dict
-        # here we can also have nested types that ultimately lead to Class being used
-        if isinstance(expr, mp_nodes.IndexExpr):
-            if isinstance(expr.base, mp_nodes.NameExpr):
-                if isinstance(expr.base.node, mp_nodes.Var):
-                    if isinstance(expr.base.node.type, mp_types.TupleType):
-                        pathCopy.append(expr.base.name)
-                        index = 0
-                        # TODO pm this is already going along the path maybe change this so that it just returns the type
-                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
-                        if isinstance(expr.index, mp_nodes.IntExpr):
-                            index = expr.index.value
-                            call_receiver_type = expr.base.node.type.items[index]
-                        else:
-                            # no index available, so we have to check every type in _get_api.py
-                            call_receiver_type = expr.base.node.type.items
-
-                        parameter = parameter_of_func.get(expr.base.node.fullname)
-                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                            if parameter.type is not None:
-                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                            elif parameter.docstring.type is not None:
-                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                            if extracted_type is not None and isinstance(expr.index, mp_nodes.IntExpr):
-                                call_receiver_type = extracted_type[index]
-                            elif extracted_type is not None and not isinstance(expr.index, mp_nodes.IntExpr):
-                                call_receiver_type = extracted_type
-                            
-                        self._set_call_reference(
-                            expr=expr,
-                            type=call_receiver_type,
-                            path=pathCopy,
-                            call_references=call_references
-                        )
-                    else:  # list and dict
-                        pathCopy.append(expr.base.name)
-                        
-                        # if we get list and dict, we can only have one or two args, for dict, there is key and value 
-                        # and for list, there is just the type
-
-                        # TODO pm this is already going along the path maybe change this so that it just returns the type
-                        # this could be refactored so that finding the correct receiver is happening in _get_api.py
-                        if hasattr(expr.base.node.type, "args"):
-                            if len(expr.base.node.type.args) == 2: # type: ignore
-                                arg = expr.base.node.type.args[1]  # type: ignore # this is for dict
-                            else:
-                                arg = expr.base.node.type.args[0] # type: ignore
-                        else:
-                            arg = expr.base.node.type
-                        call_receiver_type = arg
-                        parameter = parameter_of_func.get(expr.base.node.fullname)
-                        if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                            if parameter.type is not None:
-                                extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                            elif parameter.docstring.type is not None:
-                                extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                            if extracted_type is not None and len(extracted_type) == 1:
-                                call_receiver_type = extracted_type[0]
-                            elif extracted_type is not None and len(extracted_type) >= 1:
-                                call_receiver_type = extracted_type
-                            
-                        self._set_call_reference(
-                            expr=expr,
-                            type=call_receiver_type,
-                            path=pathCopy,
-                            call_references=call_references
-                        )
-        
-        # go deeper to find termination condition
-        if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example
-            self.extract_call_expression_info(expr, pathCopy, parameter_of_func, call_references)
-            return
-
-        for member_name in dir(expr):
-            if not member_name.startswith("__"):
-                member = getattr(expr, member_name, None)
-                if isinstance(member, mp_nodes.Expression):
-                    self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
-                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
-                    for expr in member:
-                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, parameter_of_func, call_references)
 
 
     def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:

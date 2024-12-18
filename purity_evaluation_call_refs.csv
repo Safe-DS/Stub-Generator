@@ -1,548 +1,548 @@
 Type-Aware?,Library,Module,Func Name,Line,Column,Improvement,Reason for no improvement,Date
-Yes,safeds,safeds.config._device,device,6,11,No,Missing types or bug,2024-12-17 00:14:06.554414
-Yes,safeds,safeds.config._device,device,6,66,No,Missing types or bug,2024-12-17 00:14:06.557830
-Yes,safeds,safeds.data.tabular.containers._column,rename,109,32,No,Missing types or bug,2024-12-17 00:14:08.835027
-Yes,safeds,safeds.data.tabular.containers._column,_data_type,111,33,No,Missing types or bug,2024-12-17 00:14:08.836049
-Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,130,31,No,Missing types or bug,2024-12-17 00:14:08.839058
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,424,31,No,Missing types or bug,2024-12-17 00:14:08.844410
-Yes,safeds,safeds.data.tabular.containers._tagged_table,__init__,150,8,No,Call is no method,2024-12-17 00:14:08.847402
-Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,165,32,No,Missing types or bug,2024-12-17 00:14:08.851274
-Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,166,31,No,Missing types or bug,2024-12-17 00:14:08.853317
-Yes,safeds,safeds.data.tabular.containers._time_series,__init__,183,8,No,Call is no method,2024-12-17 00:14:08.855841
-Yes,safeds,safeds.data.tabular.containers._time_series,get_column,188,29,No,Missing types or bug,2024-12-17 00:14:08.858030
-Yes,safeds,safeds.exceptions._data,__init__,31,8,No,Call is no method,2024-12-17 00:14:08.867869
-Yes,safeds,safeds.exceptions._data,__init__,39,8,No,Call is no method,2024-12-17 00:14:08.869946
-Yes,safeds,safeds.exceptions._data,__init__,50,8,No,Call is no method,2024-12-17 00:14:08.873065
-Yes,safeds,safeds.exceptions._data,__init__,67,8,No,Call is no method,2024-12-17 00:14:08.875131
-Yes,safeds,safeds.exceptions._data,__init__,82,12,No,Call is no method,2024-12-17 00:14:08.876957
-Yes,safeds,safeds.exceptions._data,__init__,84,12,No,Call is no method,2024-12-17 00:14:08.879396
-Yes,safeds,safeds.exceptions._data,__init__,100,8,No,Call is no method,2024-12-17 00:14:08.882471
-Yes,safeds,safeds.exceptions._data,__init__,107,8,No,Call is no method,2024-12-17 00:14:08.886049
-Yes,safeds,safeds.exceptions._data,__init__,114,8,No,Call is no method,2024-12-17 00:14:08.888216
-Yes,safeds,safeds.exceptions._data,__init__,123,8,No,Call is no method,2024-12-17 00:14:08.889270
-Yes,safeds,safeds.exceptions._data,__init__,133,8,No,Call is no method,2024-12-17 00:14:08.892922
-Yes,safeds,safeds.exceptions._data,__init__,143,8,No,Call is no method,2024-12-17 00:14:08.894917
-Yes,safeds,safeds.exceptions._data,__init__,150,8,No,Call is no method,2024-12-17 00:14:08.897909
-Yes,safeds,safeds.exceptions._data,__init__,157,8,No,Call is no method,2024-12-17 00:14:08.901088
-Yes,safeds,safeds.exceptions._data,__init__,164,8,No,Call is no method,2024-12-17 00:14:08.903659
-Yes,safeds,safeds.exceptions._generic,_check_lower_bound,77,13,No,Found same amount of functions,2024-12-17 00:14:08.910925
-Yes,safeds,safeds.exceptions._generic,_check_upper_bound,77,57,No,Found same amount of functions,2024-12-17 00:14:08.910925
-Yes,safeds,safeds.exceptions._generic,_str_lower_bound,81,47,No,Found same amount of functions,2024-12-17 00:14:08.913588
-Yes,safeds,safeds.exceptions._generic,_str_lower_bound,87,50,No,Found same amount of functions,2024-12-17 00:14:08.914586
-Yes,safeds,safeds.exceptions._generic,_str_upper_bound,81,82,No,Found same amount of functions,2024-12-17 00:14:08.918071
-Yes,safeds,safeds.exceptions._generic,_str_upper_bound,87,85,No,Found same amount of functions,2024-12-17 00:14:08.919653
-Yes,safeds,safeds.exceptions._generic,__init__,86,8,No,Call is no method,2024-12-17 00:14:08.920916
-Yes,safeds,safeds.exceptions._generic,__init__,185,8,No,Call is no method,2024-12-17 00:14:08.926011
-Yes,safeds,safeds.exceptions._generic,__init__,242,8,No,Call is no method,2024-12-17 00:14:08.928006
-Yes,safeds,safeds.exceptions._ml,__init__,12,8,No,Call is no method,2024-12-17 00:14:08.931995
-Yes,safeds,safeds.exceptions._ml,__init__,26,8,No,Call is no method,2024-12-17 00:14:08.935591
-Yes,safeds,safeds.exceptions._ml,__init__,33,8,No,Call is no method,2024-12-17 00:14:08.938207
-Yes,safeds,safeds.exceptions._ml,__init__,47,8,No,Call is no method,2024-12-17 00:14:08.942003
-Yes,safeds,safeds.exceptions._ml,__init__,54,8,No,Call is no method,2024-12-17 00:14:08.944388
-Yes,safeds,safeds.exceptions._ml,__init__,68,8,No,Call is no method,2024-12-17 00:14:08.947516
-Yes,safeds,safeds.exceptions._ml,__init__,75,8,No,Call is no method,2024-12-17 00:14:08.949901
-Yes,safeds,safeds.data.image.containers._image,all,109,16,No,Call is no method,2024-12-17 00:14:08.993362
-Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-17 00:14:08.994581
-Yes,safeds,safeds.data.tabular.containers._table,sort_columns,454,17,Yes,,2024-12-17 00:14:09.002701
-Yes,safeds,safeds.data.tabular.containers._table,sort_columns,455,17,No,Missing types or bug,2024-12-17 00:14:09.003723
-Yes,safeds,safeds.data.tabular.containers._tagged_table,__sizeof__,176,15,No,Missing types or bug,2024-12-17 00:14:09.012918
-Yes,safeds,safeds.data.tabular.containers._time_series,__sizeof__,198,15,No,Missing types or bug,2024-12-17 00:14:09.016847
-Yes,safeds,safeds.data.tabular.typing._schema,sum,112,15,No,Call is no method,2024-12-17 00:14:09.019332
-Yes,safeds,safeds.data.tabular.typing._schema,sum,112,62,No,Call is no method,2024-12-17 00:14:09.020929
-Yes,safeds,safeds.data.image.containers._image,crop,319,21,No,Missing types or bug,2024-12-17 00:14:09.417209
-Yes,safeds,safeds.data.image.containers._image,adjust_brightness,383,20,No,Missing types or bug,2024-12-17 00:14:09.421770
-Yes,safeds,safeds.data.image.containers._image,adjust_brightness,389,25,No,Missing types or bug,2024-12-17 00:14:09.423796
-Yes,safeds,safeds.data.image.containers._image,adjust_contrast,454,20,No,Missing types or bug,2024-12-17 00:14:09.429738
-Yes,safeds,safeds.data.image.containers._image,adjust_contrast,460,25,No,Missing types or bug,2024-12-17 00:14:09.430734
-Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,496,12,No,Found same amount of functions,2024-12-17 00:14:09.437266
-Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,625,16,No,Call is no method,2024-12-17 00:14:09.447119
-Yes,safeds,safeds.data.tabular.containers._column,_data_type,81,55,No,Missing types or bug,2024-12-17 00:14:09.455787
-Yes,safeds,safeds.data.tabular.containers._row,has_column,156,40,Yes,,2024-12-17 00:14:09.457835
-Yes,safeds,safeds.data.tabular.containers._column,rename,191,19,No,Missing types or bug,2024-12-17 00:14:09.458998
-Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,192,19,No,Call is no method,2024-12-17 00:14:09.460468
-Yes,safeds,safeds.data.tabular.containers._row,get_value,217,15,Yes,,2024-12-17 00:14:09.462704
-Yes,safeds,safeds.data.tabular.containers._table,__repr__,477,15,No,Missing types or bug,2024-12-17 00:14:09.466060
-Yes,safeds,safeds.data.tabular.containers._row,to_dict,305,71,No,Call is no method,2024-12-17 00:14:09.469899
-Yes,safeds,safeds.data.tabular.containers._row,to_dict,303,27,Yes,,2024-12-17 00:14:09.470922
-Yes,safeds,safeds.data.tabular.containers._table,__str__,492,15,No,Missing types or bug,2024-12-17 00:14:09.472362
-Yes,safeds,safeds.exceptions._generic,__str__,251,19,No,Call is no method,2024-12-17 00:14:09.474413
-Yes,safeds,safeds.data.tabular.containers._row,has_column,399,15,Yes,,2024-12-17 00:14:09.477482
-Yes,safeds,safeds.data.tabular.containers._column,all,418,15,No,Call is no method,2024-12-17 00:14:09.478498
-Yes,safeds,safeds.data.tabular.containers._column,any,444,15,No,Call is no method,2024-12-17 00:14:09.479334
-Yes,safeds,safeds.data.tabular.containers._column,all,471,15,No,Call is no method,2024-12-17 00:14:09.481201
-Yes,safeds,safeds.data.tabular.containers._column,any,493,15,No,Found same amount of functions,2024-12-17 00:14:09.482590
-Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,522,15,No,Call is no method,2024-12-17 00:14:09.520920
-Yes,safeds,safeds.data.tabular.containers._column,rename,522,42,No,Missing types or bug,2024-12-17 00:14:09.520920
-Yes,safeds,safeds.data.tabular.transformation._discretizer,is_numeric,139,19,No,Missing types or bug,2024-12-17 00:14:09.522820
-Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,139,19,No,Call is no method,2024-12-17 00:14:09.524193
-Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,140,67,No,Missing types or bug,2024-12-17 00:14:09.525411
-Yes,safeds,safeds.data.tabular.transformation._discretizer,transform,144,35,No,Missing types or bug,2024-12-17 00:14:09.526007
-Yes,safeds,safeds.data.tabular.transformation._discretizer,_from_pandas_dataframe,145,15,No,Missing types or bug,2024-12-17 00:14:09.528211
-Yes,safeds,safeds.data.tabular.transformation._imputer,transform,213,12,No,Missing types or bug,2024-12-17 00:14:09.532526
-Yes,safeds,safeds.data.tabular.transformation._imputer,_from_pandas_dataframe,216,15,No,Missing types or bug,2024-12-17 00:14:09.533523
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,transform,114,35,No,Missing types or bug,2024-12-17 00:14:09.537802
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,_from_pandas_dataframe,115,15,No,Missing types or bug,2024-12-17 00:14:09.538810
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_value,202,24,No,Missing types or bug,2024-12-17 00:14:09.542485
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,202,24,No,Call is no method,2024-12-17 00:14:09.543497
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,add_column,215,24,No,Missing types or bug,2024-12-17 00:14:09.544506
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,234,16,No,Missing types or bug,2024-12-17 00:14:09.545509
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,sort_columns,237,15,No,Missing types or bug,2024-12-17 00:14:09.546691
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,138,12,No,Missing types or bug,2024-12-17 00:14:09.551296
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,146,28,No,Missing types or bug,2024-12-17 00:14:09.552356
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,138,12,No,Call is no method,2024-12-17 00:14:09.554378
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,139,14,No,Missing types or bug,2024-12-17 00:14:09.555371
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,144,28,No,Missing types or bug,2024-12-17 00:14:09.555371
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,146,28,No,Call is no method,2024-12-17 00:14:09.556675
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,transform,156,35,No,Missing types or bug,2024-12-17 00:14:09.558261
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,_from_pandas_dataframe,157,15,No,Missing types or bug,2024-12-17 00:14:09.558261
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,120,12,No,Missing types or bug,2024-12-17 00:14:09.563218
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,128,28,No,Missing types or bug,2024-12-17 00:14:09.564264
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,120,12,No,Call is no method,2024-12-17 00:14:09.565271
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,121,14,No,Missing types or bug,2024-12-17 00:14:09.567423
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,126,28,No,Missing types or bug,2024-12-17 00:14:09.567423
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,128,28,No,Call is no method,2024-12-17 00:14:09.568436
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,transform,138,35,No,Missing types or bug,2024-12-17 00:14:09.570458
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,_from_pandas_dataframe,139,15,No,Missing types or bug,2024-12-17 00:14:09.570458
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,15,No,Missing types or bug,2024-12-17 00:14:09.574504
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,46,No,Missing types or bug,2024-12-17 00:14:09.574504
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,647,15,No,Missing types or bug,2024-12-17 00:14:09.576966
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,672,15,No,Missing types or bug,2024-12-17 00:14:09.579064
-Yes,safeds,safeds.data.tabular.containers._column,mean,674,15,No,Missing types or bug,2024-12-17 00:14:09.580232
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,702,15,No,Missing types or bug,2024-12-17 00:14:09.581242
-Yes,safeds,safeds.data.tabular.containers._column,median,704,15,No,Missing types or bug,2024-12-17 00:14:09.582291
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,727,15,No,Missing types or bug,2024-12-17 00:14:09.584581
-Yes,safeds,safeds.data.tabular.containers._column,_count_missing_values,758,15,No,Found same amount of functions,2024-12-17 00:14:09.585589
-Yes,safeds,safeds.data.tabular.containers._column,mode,780,15,No,Call is no method,2024-12-17 00:14:09.586999
-Yes,safeds,safeds.data.tabular.containers._column,all,818,11,No,Found same amount of functions,2024-12-17 00:14:09.588006
-Yes,safeds,safeds.data.tabular.containers._column,mode,821,41,No,Found same amount of functions,2024-12-17 00:14:09.589374
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,848,15,No,Missing types or bug,2024-12-17 00:14:09.589876
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,873,15,No,Missing types or bug,2024-12-17 00:14:09.591240
-Yes,safeds,safeds.data.tabular.containers._column,sum,875,15,No,Missing types or bug,2024-12-17 00:14:09.592255
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,898,15,No,Missing types or bug,2024-12-17 00:14:09.593412
-Yes,safeds,safeds.data.tabular.containers._column,is_numeric,927,15,No,Missing types or bug,2024-12-17 00:14:09.594829
-Yes,safeds,safeds.data.tabular.containers._column,from_bytes,941,15,No,Missing types or bug,2024-12-17 00:14:09.595983
-Yes,safeds,safeds.data.tabular.containers._column,from_bytes,973,15,No,Missing types or bug,2024-12-17 00:14:21.372729
-Yes,safeds,safeds.data.tabular.containers._column,to_html,998,15,No,Missing types or bug,2024-12-17 00:14:21.376790
-Yes,safeds,safeds.data.tabular.containers._row,to_html,528,15,No,Missing types or bug,2024-12-17 00:14:21.378818
-Yes,safeds,safeds.data.tabular.containers._table,to_html,2284,15,No,Missing types or bug,2024-12-17 00:14:21.378818
-Yes,safeds,safeds.data.tabular.containers._column,to_html,1023,15,No,Missing types or bug,2024-12-17 00:14:21.381169
-Yes,safeds,safeds.data.tabular.containers._row,to_html,543,15,No,Missing types or bug,2024-12-17 00:14:21.383175
-Yes,safeds,safeds.data.tabular.containers._table,to_html,2347,15,No,Missing types or bug,2024-12-17 00:14:21.384172
-Yes,safeds,safeds.data.tabular.containers._column,sum,1045,15,No,Missing types or bug,2024-12-17 00:14:21.385387
-Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,99,29,No,Missing types or bug,2024-12-17 00:14:21.386704
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,373,29,No,Missing types or bug,2024-12-17 00:14:21.388942
-Yes,safeds,safeds.data.tabular.typing._schema,_data_type,56,25,No,Missing types or bug,2024-12-17 00:14:21.391031
-Yes,safeds,safeds.data.tabular.containers._row,has_column,428,15,No,Missing types or bug,2024-12-17 00:14:21.394140
-Yes,safeds,safeds.data.tabular.containers._table,has_column,647,15,No,Missing types or bug,2024-12-17 00:14:21.395170
-Yes,safeds,safeds.data.tabular.containers._row,get_column_type,456,15,No,Missing types or bug,2024-12-17 00:14:21.397217
-Yes,safeds,safeds.data.tabular.containers._table,get_column_type,677,15,No,Missing types or bug,2024-12-17 00:14:21.398329
-Yes,safeds,safeds.data.tabular.typing._schema,has_column,211,15,Yes,,2024-12-17 00:14:21.400337
-Yes,safeds,safeds.data.tabular.containers._row,to_dict,488,38,No,Call is no method,2024-12-17 00:14:21.401458
-Yes,safeds,safeds.data.tabular.containers._row,from_dict,489,15,No,Call is no method,2024-12-17 00:14:21.402937
-Yes,safeds,safeds.data.tabular.containers._table,to_columns,1598,18,No,Found same amount of functions,2024-12-17 00:14:21.405270
-Yes,safeds,safeds.data.tabular.containers._table,from_columns,1600,15,No,Call is no method,2024-12-17 00:14:21.406267
-Yes,safeds,safeds.data.tabular.containers._tagged_table,sort_columns,787,23,No,Call is no method,2024-12-17 00:14:21.408814
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,788,15,No,Call is no method,2024-12-17 00:14:21.409822
-Yes,safeds,safeds.data.tabular.containers._time_series,sort_columns,823,23,No,Call is no method,2024-12-17 00:14:21.412232
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,824,15,No,Call is no method,2024-12-17 00:14:21.413256
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,825,12,No,Missing types or bug,2024-12-17 00:14:21.415432
-Yes,safeds,safeds.data.tabular.containers._row,get_value,511,29,No,Call is no method,2024-12-17 00:14:21.419079
-Yes,safeds,safeds.data.tabular.containers._table,get_column,2267,34,No,Call is no method,2024-12-17 00:14:21.420129
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,121,19,No,Call is no method,2024-12-17 00:14:21.423268
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,163,19,No,Call is no method,2024-12-17 00:14:21.870755
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,208,19,No,Call is no method,2024-12-17 00:14:22.100825
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,289,15,No,Call is no method,2024-12-17 00:14:22.358375
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,322,19,No,Call is no method,2024-12-17 00:14:22.361775
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,339,15,No,Call is no method,2024-12-17 00:14:22.362796
-Yes,safeds,safeds.data.tabular.containers._table,merge_multiple_schemas,337,17,No,Missing types or bug,2024-12-17 00:14:22.365803
-Yes,safeds,safeds.data.tabular.containers._table,has_column,613,15,Yes,,2024-12-17 00:14:22.369971
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,614,30,No,Found same amount of functions,2024-12-17 00:14:22.372808
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_series,617,15,No,Call is no method,2024-12-17 00:14:22.375230
-Yes,safeds,safeds.data.tabular.containers._table,get_column_type,619,12,Yes,,2024-12-17 00:14:22.376347
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,711,15,No,Call is no method,2024-12-17 00:14:22.378801
-Yes,safeds,safeds.data.tabular.containers._table,add_column,808,24,Yes,,2024-12-17 00:14:22.397360
-Yes,safeds,safeds.data.tabular.containers._table,to_columns,811,18,No,Found same amount of functions,2024-12-17 00:14:22.400513
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,841,15,No,Call is no method,2024-12-17 00:14:22.402562
-Yes,safeds,safeds.data.tabular.containers._tagged_table,from_columns,290,15,No,Missing types or bug,2024-12-17 00:14:22.408105
-Yes,safeds,safeds.data.tabular.containers._tagged_table,to_columns,290,34,No,Call is no method,2024-12-17 00:14:22.409156
-Yes,safeds,safeds.data.tabular.containers._time_series,from_columns,236,15,No,Missing types or bug,2024-12-17 00:14:22.411168
-Yes,safeds,safeds.data.tabular.containers._time_series,to_columns,236,34,No,Call is no method,2024-12-17 00:14:22.412164
-Yes,safeds,safeds.data.tabular.containers._table,has_column,889,11,Yes,,2024-12-17 00:14:22.414630
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,898,15,No,Call is no method,2024-12-17 00:14:22.416641
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,315,15,No,Call is no method,2024-12-17 00:14:22.420831
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_column,316,12,No,Call is no method,2024-12-17 00:14:22.420831
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,261,15,No,Call is no method,2024-12-17 00:14:22.424347
-Yes,safeds,safeds.data.tabular.containers._time_series,add_column,262,12,No,Call is no method,2024-12-17 00:14:22.425398
-Yes,safeds,safeds.data.tabular.containers._table,to_columns,935,22,No,Found same amount of functions,2024-12-17 00:14:22.427955
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,946,15,No,Call is no method,2024-12-17 00:14:22.430186
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,344,15,No,Call is no method,2024-12-17 00:14:22.434685
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_columns,345,12,No,Call is no method,2024-12-17 00:14:22.435894
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,345,15,No,Call is no method,2024-12-17 00:14:22.437980
-Yes,safeds,safeds.data.tabular.containers._time_series,add_columns,346,12,No,Call is no method,2024-12-17 00:14:22.439266
-Yes,safeds,safeds.data.tabular.containers._table,from_rows,987,19,No,Call is no method,2024-12-17 00:14:22.441763
-Yes,safeds,safeds.data.tabular.containers._table,merge_multiple_schemas,1001,17,No,Missing types or bug,2024-12-17 00:14:22.443789
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1002,17,No,Call is no method,2024-12-17 00:14:22.444842
-Yes,safeds,safeds.data.tabular.containers._table,replace_column,1005,21,Yes,,2024-12-17 00:14:22.445982
-Yes,safeds,safeds.data.tabular.containers._table,transform,1005,52,No,Missing types or bug,2024-12-17 00:14:22.447428
-Yes,safeds,safeds.data.tabular.containers._table,get_column,1005,52,No,Call is no method,2024-12-17 00:14:22.448877
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,371,15,No,Call is no method,2024-12-17 00:14:22.467441
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_row,371,39,No,Call is no method,2024-12-17 00:14:22.468831
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,371,15,No,Call is no method,2024-12-17 00:14:22.471434
-Yes,safeds,safeds.data.tabular.containers._time_series,add_row,371,45,No,Call is no method,2024-12-17 00:14:22.471980
-Yes,safeds,safeds.data.tabular.containers._table,to_rows,1046,19,No,Found same amount of functions,2024-12-17 00:14:22.474453
-Yes,safeds,safeds.data.tabular.containers._table,add_row,1064,21,Yes,,2024-12-17 00:14:22.476448
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,394,15,No,Call is no method,2024-12-17 00:14:22.478758
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_rows,394,39,No,Call is no method,2024-12-17 00:14:22.480085
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,394,15,No,Call is no method,2024-12-17 00:14:22.483115
-Yes,safeds,safeds.data.tabular.containers._time_series,add_rows,394,45,No,Call is no method,2024-12-17 00:14:22.484806
-Yes,safeds,safeds.data.tabular.containers._table,to_rows,1092,42,No,Call is no method,2024-12-17 00:14:22.486226
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1094,27,No,Call is no method,2024-12-17 00:14:22.487517
-Yes,safeds,safeds.data.tabular.containers._table,from_rows,1096,27,No,Found same amount of functions,2024-12-17 00:14:22.489526
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,412,15,No,Call is no method,2024-12-17 00:14:22.491637
-Yes,safeds,safeds.data.tabular.containers._tagged_table,filter_rows,413,12,No,Call is no method,2024-12-17 00:14:22.493094
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,412,15,No,Call is no method,2024-12-17 00:14:22.495542
-Yes,safeds,safeds.data.tabular.containers._time_series,filter_rows,413,12,No,Call is no method,2024-12-17 00:14:22.495542
-Yes,safeds,safeds.data.tabular.containers._table,to_rows,1118,19,No,Found same amount of functions,2024-12-17 00:14:22.498553
-Yes,safeds,safeds.data.tabular.containers._table,add_row,1120,48,Yes,,2024-12-17 00:14:22.500548
-Yes,safeds,safeds.data.tabular.containers._table,from_rows,1122,48,No,Call is no method,2024-12-17 00:14:22.501975
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1162,19,No,Missing types or bug,2024-12-17 00:14:22.504005
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1163,52,No,Found same amount of functions,2024-12-17 00:14:22.505023
-Yes,safeds,safeds.data.tabular.containers._table,remove_columns,1168,15,Yes,,2024-12-17 00:14:22.507064
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,445,15,No,Call is no method,2024-12-17 00:14:22.511310
-Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,446,12,No,Call is no method,2024-12-17 00:14:22.512327
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,446,15,No,Call is no method,2024-12-17 00:14:22.518334
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,447,12,No,Missing types or bug,2024-12-17 00:14:22.519354
-Yes,safeds,safeds.data.tabular.containers._time_series,keep_only_columns,448,16,No,Call is no method,2024-12-17 00:14:22.521410
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1207,19,No,Missing types or bug,2024-12-17 00:14:22.524969
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1208,52,No,Found same amount of functions,2024-12-17 00:14:22.525987
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1219,15,No,Call is no method,2024-12-17 00:14:22.527007
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,483,15,No,Call is no method,2024-12-17 00:14:22.531669
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns,484,12,No,Call is no method,2024-12-17 00:14:22.532682
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,491,15,No,Call is no method,2024-12-17 00:14:22.537828
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,492,12,No,Missing types or bug,2024-12-17 00:14:22.538847
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns,493,16,No,Call is no method,2024-12-17 00:14:22.539911
-Yes,safeds,safeds.data.tabular.containers._table,to_columns,1248,56,No,Call is no method,2024-12-17 00:14:22.543238
-Yes,safeds,safeds.data.tabular.containers._table,has_missing_values,1248,81,No,Call is no method,2024-12-17 00:14:22.544471
-Yes,safeds,safeds.data.tabular.containers._table,from_columns,1248,15,No,Call is no method,2024-12-17 00:14:22.544471
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns_with_missing_values,510,16,No,Call is no method,2024-12-17 00:14:22.547372
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,515,15,No,Call is no method,2024-12-17 00:14:22.549620
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns_with_missing_values,523,16,No,Call is no method,2024-12-17 00:14:22.552869
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,526,15,No,Call is no method,2024-12-17 00:14:22.553960
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,527,12,No,Missing types or bug,2024-12-17 00:14:22.556147
-Yes,safeds,safeds.data.tabular.containers._table,to_columns,1277,56,No,Call is no method,2024-12-17 00:14:22.558716
-Yes,safeds,safeds.data.tabular.containers._table,is_numeric,1277,77,No,Call is no method,2024-12-17 00:14:22.559735
-Yes,safeds,safeds.data.tabular.containers._table,from_columns,1277,15,No,Call is no method,2024-12-17 00:14:22.560746
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns_with_non_numerical_values,542,16,No,Call is no method,2024-12-17 00:14:22.563126
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,547,15,No,Call is no method,2024-12-17 00:14:22.565327
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns_with_non_numerical_values,558,16,No,Call is no method,2024-12-17 00:14:22.569176
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,561,15,No,Call is no method,2024-12-17 00:14:22.571395
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,562,12,No,Missing types or bug,2024-12-17 00:14:22.572391
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1301,15,No,Call is no method,2024-12-17 00:14:22.575908
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,567,15,No,Call is no method,2024-12-17 00:14:22.577977
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_duplicate_rows,568,12,No,Call is no method,2024-12-17 00:14:22.579189
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,584,15,No,Call is no method,2024-12-17 00:14:22.580604
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,585,12,No,Missing types or bug,2024-12-17 00:14:22.582076
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_duplicate_rows,586,16,No,Call is no method,2024-12-17 00:14:22.584092
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1323,15,No,Call is no method,2024-12-17 00:14:22.586651
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,584,15,No,Call is no method,2024-12-17 00:14:22.587704
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_rows_with_missing_values,585,12,No,Call is no method,2024-12-17 00:14:22.589104
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,604,15,No,Call is no method,2024-12-17 00:14:22.590279
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,605,12,No,Missing types or bug,2024-12-17 00:14:22.591740
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_rows_with_missing_values,606,16,No,Call is no method,2024-12-17 00:14:22.593780
-Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,1362,38,Yes,,2024-12-17 00:14:22.596293
-Yes,safeds,safeds.data.tabular.containers._table,all,1364,18,No,Call is no method,2024-12-17 00:14:22.597289
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1366,15,No,Call is no method,2024-12-17 00:14:22.600899
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,605,15,No,Call is no method,2024-12-17 00:14:39.991886
-Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_rows_with_outliers,606,12,No,Call is no method,2024-12-17 00:14:39.992892
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,628,15,No,Call is no method,2024-12-17 00:14:39.994779
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,629,12,No,Missing types or bug,2024-12-17 00:14:39.994779
-Yes,safeds,safeds.data.tabular.containers._time_series,remove_rows_with_outliers,630,16,No,Call is no method,2024-12-17 00:14:39.996294
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1402,30,No,Found same amount of functions,2024-12-17 00:14:39.997651
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1411,15,No,Call is no method,2024-12-17 00:14:40.000124
-Yes,safeds,safeds.data.tabular.containers._table,rename,1411,44,No,Missing types or bug,2024-12-17 00:14:40.000124
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,636,15,No,Call is no method,2024-12-17 00:14:40.002707
-Yes,safeds,safeds.data.tabular.containers._tagged_table,rename_column,637,12,No,Call is no method,2024-12-17 00:14:40.003719
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,662,15,No,Call is no method,2024-12-17 00:14:40.005912
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,663,12,No,Missing types or bug,2024-12-17 00:14:40.005912
-Yes,safeds,safeds.data.tabular.containers._time_series,rename_column,664,16,No,Call is no method,2024-12-17 00:14:40.007987
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1455,30,No,Found same amount of functions,2024-12-17 00:14:40.009258
-Yes,safeds,safeds.data.tabular.containers._table,get_column,1469,31,No,Found same amount of functions,2024-12-17 00:14:40.010662
-Yes,safeds,safeds.data.tabular.containers._table,from_columns,1471,15,No,Call is no method,2024-12-17 00:14:40.012107
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,687,23,No,Call is no method,2024-12-17 00:14:40.014704
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,693,19,No,Call is no method,2024-12-17 00:14:40.015713
-Yes,safeds,safeds.data.tabular.containers._tagged_table,replace_column,688,20,No,Call is no method,2024-12-17 00:14:40.016755
-Yes,safeds,safeds.data.tabular.containers._tagged_table,replace_column,694,16,No,Call is no method,2024-12-17 00:14:40.017952
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,717,23,No,Call is no method,2024-12-17 00:14:40.022052
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,731,23,No,Call is no method,2024-12-17 00:14:40.022052
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,740,19,No,Call is no method,2024-12-17 00:14:40.023517
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,718,20,No,Missing types or bug,2024-12-17 00:14:40.024523
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,732,20,No,Missing types or bug,2024-12-17 00:14:40.026548
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,741,16,No,Missing types or bug,2024-12-17 00:14:40.026548
-Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,719,24,No,Call is no method,2024-12-17 00:14:40.027617
-Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,733,24,No,Call is no method,2024-12-17 00:14:40.029185
-Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,742,20,No,Call is no method,2024-12-17 00:14:40.030199
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1498,15,No,Call is no method,2024-12-17 00:14:40.035033
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,716,15,No,Call is no method,2024-12-17 00:14:40.036076
-Yes,safeds,safeds.data.tabular.containers._tagged_table,shuffle_rows,717,12,No,Call is no method,2024-12-17 00:14:40.037576
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1552,15,No,Call is no method,2024-12-17 00:14:40.039624
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,752,15,No,Call is no method,2024-12-17 00:14:40.040886
-Yes,safeds,safeds.data.tabular.containers._tagged_table,slice_rows,753,12,No,Call is no method,2024-12-17 00:14:40.041892
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,785,15,No,Call is no method,2024-12-17 00:14:40.042926
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,786,12,No,Missing types or bug,2024-12-17 00:14:40.043937
-Yes,safeds,safeds.data.tabular.containers._time_series,slice_rows,787,16,No,Call is no method,2024-12-17 00:14:40.044946
-Yes,safeds,safeds.data.tabular.containers._table,to_rows,1645,15,No,Found same amount of functions,2024-12-17 00:14:40.047072
-Yes,safeds,safeds.data.tabular.containers._table,from_rows,1647,15,No,Call is no method,2024-12-17 00:14:40.048443
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,820,15,No,Call is no method,2024-12-17 00:14:40.051217
-Yes,safeds,safeds.data.tabular.containers._tagged_table,sort_rows,821,12,No,Call is no method,2024-12-17 00:14:40.052227
-Yes,safeds,safeds.data.tabular.containers._table,slice_rows,1691,12,Yes,,2024-12-17 00:14:40.053325
-Yes,safeds,safeds.data.tabular.containers._table,slice_rows,1692,12,Yes,,2024-12-17 00:14:40.054523
-Yes,safeds,safeds.data.tabular.containers._table,_from_table,1728,15,No,Call is no method,2024-12-17 00:14:40.056530
-Yes,safeds,safeds.data.tabular.containers._table,_from_table_to_time_series,1765,15,No,Call is no method,2024-12-17 00:14:40.057673
-Yes,safeds,safeds.data.tabular.containers._table,to_rows,1794,57,No,Call is no method,2024-12-17 00:14:40.058967
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1793,11,Yes,,2024-12-17 00:14:40.058967
-Yes,safeds,safeds.data.tabular.containers._table,replace_column,1796,19,Yes,,2024-12-17 00:14:40.059976
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1797,26,No,Found same amount of functions,2024-12-17 00:14:40.061307
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,842,15,No,Call is no method,2024-12-17 00:14:40.062313
-Yes,safeds,safeds.data.tabular.containers._tagged_table,transform_column,843,12,No,Call is no method,2024-12-17 00:14:40.063616
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,852,15,No,Call is no method,2024-12-17 00:14:40.065769
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,853,12,No,Missing types or bug,2024-12-17 00:14:40.066839
-Yes,safeds,safeds.data.tabular.containers._time_series,transform_column,854,16,No,Call is no method,2024-12-17 00:14:40.066839
-Yes,safeds,safeds.data.tabular.containers._table,transform,1836,15,No,Missing types or bug,2024-12-17 00:14:40.069364
-Yes,safeds,safeds.data.tabular.containers._table,inverse_transform,1878,15,No,Missing types or bug,2024-12-17 00:14:40.070801
-Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,1899,25,Yes,,2024-12-17 00:14:40.072849
-Yes,safeds,safeds.data.tabular.containers._table,from_bytes,1941,15,No,Missing types or bug,2024-12-17 00:14:40.074268
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1973,15,Yes,,2024-12-17 00:14:40.080354
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1973,53,Yes,,2024-12-17 00:14:40.081859
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1977,40,Yes,,2024-12-17 00:14:40.082869
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1978,42,Yes,,2024-12-17 00:14:40.083863
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1979,42,Yes,,2024-12-17 00:14:40.084953
-Yes,safeds,safeds.data.tabular.containers._table,has_column,1980,44,Yes,,2024-12-17 00:14:40.085950
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1974,32,No,Found same amount of functions,2024-12-17 00:14:40.087249
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1975,32,No,Found same amount of functions,2024-12-17 00:14:40.088275
-Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2002,15,No,Missing types or bug,2024-12-17 00:14:40.089280
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2031,15,Yes,,2024-12-17 00:14:40.092365
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2031,53,Yes,,2024-12-17 00:14:40.093407
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2035,40,Yes,,2024-12-17 00:14:40.094521
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2036,42,Yes,,2024-12-17 00:14:40.095764
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2037,42,Yes,,2024-12-17 00:14:40.097174
-Yes,safeds,safeds.data.tabular.containers._table,has_column,2038,44,Yes,,2024-12-17 00:14:40.097174
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,2032,32,No,Found same amount of functions,2024-12-17 00:14:40.098532
-Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,2033,32,No,Found same amount of functions,2024-12-17 00:14:40.099538
-Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2060,15,No,Missing types or bug,2024-12-17 00:14:40.100859
-Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,2082,26,Yes,,2024-12-17 00:14:40.103392
-Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2107,15,No,Missing types or bug,2024-12-17 00:14:40.104392
-Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2142,15,No,Missing types or bug,2024-12-17 00:14:40.148479
-Yes,safeds,safeds.data.tabular.containers._table,get_column,2302,16,No,Call is no method,2024-12-17 00:14:40.159571
-Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,2327,12,No,Call is no method,2024-12-17 00:14:40.160568
-Yes,safeds,safeds.data.tabular.containers._table,__dataframe__,2382,15,No,Missing types or bug,2024-12-17 00:14:40.162020
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_as_table,89,16,No,Missing types or bug,2024-12-17 00:14:40.163028
-Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,109,27,No,Missing types or bug,2024-12-17 00:14:40.164021
-Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,110,25,No,Missing types or bug,2024-12-17 00:14:40.165074
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,233,15,No,Call is no method,2024-12-17 00:14:40.167079
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_column,234,12,No,Call is no method,2024-12-17 00:14:40.168162
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,289,15,No,Call is no method,2024-12-17 00:14:40.169506
-Yes,safeds,safeds.data.tabular.containers._time_series,add_column_as_feature,290,12,No,Call is no method,2024-12-17 00:14:40.170517
-Yes,safeds,safeds.data.tabular.containers._tagged_table,to_columns,266,36,No,Call is no method,2024-12-17 00:14:40.171715
-Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,262,15,No,Call is no method,2024-12-17 00:14:40.171715
-Yes,safeds,safeds.data.tabular.containers._tagged_table,add_columns,263,12,No,Call is no method,2024-12-17 00:14:40.172719
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,317,15,No,Call is no method,2024-12-17 00:14:40.173881
-Yes,safeds,safeds.data.tabular.containers._time_series,add_columns_as_features,318,12,No,Call is no method,2024-12-17 00:14:40.174889
-Yes,safeds,safeds.data.tabular.containers._time_series,_as_table,58,16,No,Missing types or bug,2024-12-17 00:14:40.175899
-Yes,safeds,safeds.data.tabular.containers._time_series,get_column,70,23,No,Missing types or bug,2024-12-17 00:14:40.176908
-Yes,safeds,safeds.data.tabular.containers._time_series,get_column,72,25,No,Missing types or bug,2024-12-17 00:14:40.177965
-Yes,safeds,safeds.data.tabular.containers._time_series,keep_only_columns,71,27,No,Missing types or bug,2024-12-17 00:14:40.178974
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,126,23,No,Missing types or bug,2024-12-17 00:14:40.179984
-Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,128,15,No,Call is no method,2024-12-17 00:14:40.180992
-Yes,safeds,safeds.data.tabular.transformation._discretizer,is_numeric,82,23,No,Missing types or bug,2024-12-17 00:14:40.184349
-Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,82,23,No,Call is no method,2024-12-17 00:14:40.184349
-Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,83,71,No,Missing types or bug,2024-12-17 00:14:40.185356
-Yes,safeds,safeds.data.tabular.transformation._discretizer,fit,86,8,No,Missing types or bug,2024-12-17 00:14:40.675597
-Yes,safeds,safeds.data.tabular.transformation._imputer,remove_columns_with_non_numerical_values,131,93,No,Missing types or bug,2024-12-17 00:14:40.681290
-Yes,safeds,safeds.data.tabular.transformation._imputer,remove_columns_with_non_numerical_values,141,28,No,Missing types or bug,2024-12-17 00:14:40.682297
-Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,131,93,No,Call is no method,2024-12-17 00:14:40.683295
-Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,139,28,No,Missing types or bug,2024-12-17 00:14:40.684419
-Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,141,28,No,Call is no method,2024-12-17 00:14:40.685494
-Yes,safeds,safeds.data.tabular.transformation._imputer,mode,152,23,No,Missing types or bug,2024-12-17 00:14:40.686500
-Yes,safeds,safeds.data.tabular.transformation._imputer,mode,153,51,No,Missing types or bug,2024-12-17 00:14:40.686500
-Yes,safeds,safeds.data.tabular.transformation._imputer,get_column,152,23,No,Call is no method,2024-12-17 00:14:40.687584
-Yes,safeds,safeds.data.tabular.transformation._imputer,get_column,153,51,No,Call is no method,2024-12-17 00:14:40.688580
-Yes,safeds,safeds.data.tabular.transformation._imputer,_augment_imputer,164,8,No,Missing types or bug,2024-12-17 00:14:40.787506
-Yes,safeds,safeds.data.tabular.transformation._imputer,fit,165,8,No,Missing types or bug,2024-12-17 00:14:40.788547
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,57,11,No,Missing types or bug,2024-12-17 00:14:40.798025
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,60,20,No,Missing types or bug,2024-12-17 00:14:40.799217
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,57,11,No,Call is no method,2024-12-17 00:14:40.800495
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,60,20,No,Call is no method,2024-12-17 00:14:40.801686
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,fit,67,8,No,Missing types or bug,2024-12-17 00:14:40.802800
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,107,12,No,Missing types or bug,2024-12-17 00:14:40.812351
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,115,20,No,Missing types or bug,2024-12-17 00:14:40.812351
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,107,12,No,Call is no method,2024-12-17 00:14:40.813466
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,115,20,No,Call is no method,2024-12-17 00:14:40.814796
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,107,12,No,Call is no method,2024-12-17 00:14:40.816214
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,115,20,No,Call is no method,2024-12-17 00:14:40.816721
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_unique_values,137,27,No,Missing types or bug,2024-12-17 00:14:40.819387
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,137,27,No,Call is no method,2024-12-17 00:14:40.819387
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,73,12,No,Missing types or bug,2024-12-17 00:14:40.825056
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,81,28,No,Missing types or bug,2024-12-17 00:14:40.825056
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,73,12,No,Call is no method,2024-12-17 00:14:40.826062
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,74,14,No,Missing types or bug,2024-12-17 00:14:40.827291
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,79,28,No,Missing types or bug,2024-12-17 00:14:40.828552
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,81,28,No,Call is no method,2024-12-17 00:14:40.828552
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,fit,90,8,No,Missing types or bug,2024-12-17 00:14:41.113913
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,55,12,No,Missing types or bug,2024-12-17 00:14:41.121167
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,63,28,No,Missing types or bug,2024-12-17 00:14:41.122175
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,55,12,No,Call is no method,2024-12-17 00:14:41.122617
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,56,14,No,Missing types or bug,2024-12-17 00:14:41.123907
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,61,28,No,Missing types or bug,2024-12-17 00:14:41.123907
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,63,28,No,Call is no method,2024-12-17 00:14:41.124907
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,fit,72,8,No,Missing types or bug,2024-12-17 00:14:41.125934
-Yes,safeds,safeds.ml.classical._util_sklearn,fit,71,8,No,Missing types or bug,2024-12-17 00:14:41.131045
-Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_non_numerical_values,50,8,No,Missing types or bug,2024-12-17 00:14:41.133322
-Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_missing_values,61,8,No,Missing types or bug,2024-12-17 00:14:41.134712
-Yes,safeds,safeds.ml.classical.classification._ada_boost,_get_sklearn_classifier,131,29,Yes,,2024-12-17 00:14:41.137071
-Yes,safeds,safeds.ml.classical.classification._ada_boost,fit,132,8,No,Call is no method,2024-12-17 00:14:41.137071
-Yes,safeds,safeds.ml.classical.classification._decision_tree,_get_sklearn_classifier,55,29,Yes,,2024-12-17 00:14:41.139516
-Yes,safeds,safeds.ml.classical.classification._decision_tree,fit,56,8,No,Call is no method,2024-12-17 00:14:41.139516
-Yes,safeds,safeds.ml.classical.classification._gradient_boosting,_get_sklearn_classifier,106,29,Yes,,2024-12-17 00:14:41.141672
-Yes,safeds,safeds.ml.classical.classification._gradient_boosting,fit,107,8,No,Call is no method,2024-12-17 00:14:41.142673
-Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,_get_sklearn_classifier,99,29,Yes,,2024-12-17 00:14:41.144805
-Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,fit,100,8,No,Call is no method,2024-12-17 00:14:41.145814
-Yes,safeds,safeds.ml.classical.classification._logistic_regression,_get_sklearn_classifier,55,29,Yes,,2024-12-17 00:14:41.147829
-Yes,safeds,safeds.ml.classical.classification._logistic_regression,fit,56,8,No,Call is no method,2024-12-17 00:14:41.149017
-Yes,safeds,safeds.ml.classical.classification._random_forest,_get_sklearn_classifier,86,29,Yes,,2024-12-17 00:14:41.151319
-Yes,safeds,safeds.ml.classical.classification._random_forest,fit,87,8,No,Call is no method,2024-12-17 00:14:41.152335
-Yes,safeds,safeds.ml.classical.classification._support_vector_machine,_get_sklearn_classifier,194,29,Yes,,2024-12-17 00:14:41.153360
-Yes,safeds,safeds.ml.classical.classification._support_vector_machine,fit,195,8,No,Call is no method,2024-12-17 00:14:41.154369
-Yes,safeds,safeds.ml.classical.regression._ada_boost,_get_sklearn_regressor,131,28,Yes,,2024-12-17 00:14:41.156413
-Yes,safeds,safeds.ml.classical.regression._ada_boost,fit,132,8,No,Call is no method,2024-12-17 00:14:41.156413
-Yes,safeds,safeds.ml.classical.regression._decision_tree,_get_sklearn_regressor,55,28,Yes,,2024-12-17 00:14:41.158596
-Yes,safeds,safeds.ml.classical.regression._decision_tree,fit,56,8,No,Call is no method,2024-12-17 00:14:41.158596
-Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,_get_sklearn_regressor,136,28,Yes,,2024-12-17 00:14:41.161157
-Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,fit,137,8,No,Call is no method,2024-12-17 00:14:41.162171
-Yes,safeds,safeds.ml.classical.regression._gradient_boosting,_get_sklearn_regressor,106,28,Yes,,2024-12-17 00:14:41.163350
-Yes,safeds,safeds.ml.classical.regression._gradient_boosting,fit,107,8,No,Call is no method,2024-12-17 00:14:41.164388
-Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,_get_sklearn_regressor,100,28,Yes,,2024-12-17 00:14:41.167840
-Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,fit,101,8,No,Call is no method,2024-12-17 00:14:41.167840
-Yes,safeds,safeds.ml.classical.regression._lasso_regression,_get_sklearn_regressor,96,28,Yes,,2024-12-17 00:14:41.171729
-Yes,safeds,safeds.ml.classical.regression._lasso_regression,fit,97,8,No,Call is no method,2024-12-17 00:14:41.171729
-Yes,safeds,safeds.ml.classical.regression._linear_regression,_get_sklearn_regressor,55,28,Yes,,2024-12-17 00:14:41.173966
-Yes,safeds,safeds.ml.classical.regression._linear_regression,fit,56,8,No,Call is no method,2024-12-17 00:14:41.175297
-Yes,safeds,safeds.ml.classical.regression._random_forest,_get_sklearn_regressor,86,28,Yes,,2024-12-17 00:14:41.177743
-Yes,safeds,safeds.ml.classical.regression._random_forest,fit,87,8,No,Call is no method,2024-12-17 00:14:41.178740
-Yes,safeds,safeds.ml.classical.regression._ridge_regression,_get_sklearn_regressor,97,28,Yes,,2024-12-17 00:14:41.180983
-Yes,safeds,safeds.ml.classical.regression._ridge_regression,fit,98,8,No,Call is no method,2024-12-17 00:14:41.182231
-Yes,safeds,safeds.ml.classical.regression._support_vector_machine,_get_sklearn_regressor,194,28,Yes,,2024-12-17 00:14:41.185785
-Yes,safeds,safeds.ml.classical.regression._support_vector_machine,fit,195,8,No,Call is no method,2024-12-17 00:14:41.185785
-Yes,safeds,safeds.data.tabular.transformation._discretizer,is_fitted,172,15,Yes,,2024-12-17 00:14:41.189945
-Yes,safeds,safeds.data.tabular.transformation._imputer,is_fitted,243,15,Yes,,2024-12-17 00:14:41.191941
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,is_fitted,201,15,Yes,,2024-12-17 00:14:41.192947
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,is_fitted,246,15,Yes,,2024-12-17 00:14:41.193954
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,is_fitted,228,15,Yes,,2024-12-17 00:14:41.196066
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,is_fitted,386,15,Yes,,2024-12-17 00:14:41.197108
-Yes,safeds,safeds.data.tabular.transformation._discretizer,is_fitted,209,15,Yes,,2024-12-17 00:14:41.200248
-Yes,safeds,safeds.data.tabular.transformation._imputer,is_fitted,280,15,Yes,,2024-12-17 00:14:41.201284
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,is_fitted,238,15,Yes,,2024-12-17 00:14:41.202626
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,is_fitted,283,15,Yes,,2024-12-17 00:14:41.203848
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,is_fitted,265,15,Yes,,2024-12-17 00:14:41.204929
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,155,11,No,Missing types or bug,2024-12-17 00:14:41.207593
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,163,28,No,Missing types or bug,2024-12-17 00:14:41.207593
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,155,11,No,Call is no method,2024-12-17 00:14:41.208599
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,163,28,No,Call is no method,2024-12-17 00:14:41.208599
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,inverse_transform,173,35,No,Missing types or bug,2024-12-17 00:14:41.209777
-Yes,safeds,safeds.data.tabular.transformation._label_encoder,_from_pandas_dataframe,174,15,No,Missing types or bug,2024-12-17 00:14:41.210778
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,280,11,No,Missing types or bug,2024-12-17 00:14:41.215941
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,288,28,No,Missing types or bug,2024-12-17 00:14:41.217144
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,280,11,No,Call is no method,2024-12-17 00:14:41.218148
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,288,28,No,Call is no method,2024-12-17 00:14:41.219408
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,280,11,No,Call is no method,2024-12-17 00:14:41.220415
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,303,19,No,Missing types or bug,2024-12-17 00:14:41.221461
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,309,19,No,Missing types or bug,2024-12-17 00:14:41.221998
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,add_column,315,20,No,Missing types or bug,2024-12-17 00:14:41.221998
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,333,16,No,Missing types or bug,2024-12-17 00:14:41.224198
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,334,16,No,Missing types or bug,2024-12-17 00:14:41.224198
-Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,sort_columns,336,15,No,Missing types or bug,2024-12-17 00:14:41.225438
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,198,12,No,Missing types or bug,2024-12-17 00:14:41.230028
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,208,28,No,Missing types or bug,2024-12-17 00:14:41.230028
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,198,12,No,Call is no method,2024-12-17 00:14:41.232197
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,201,14,No,Missing types or bug,2024-12-17 00:14:41.232197
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,206,28,No,Missing types or bug,2024-12-17 00:14:41.233201
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,208,28,No,Call is no method,2024-12-17 00:14:41.234691
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,inverse_transform,218,35,No,Missing types or bug,2024-12-17 00:14:41.235939
-Yes,safeds,safeds.data.tabular.transformation._range_scaler,_from_pandas_dataframe,219,15,No,Missing types or bug,2024-12-17 00:14:41.236946
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,180,12,No,Missing types or bug,2024-12-17 00:14:41.242557
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,190,28,No,Missing types or bug,2024-12-17 00:14:41.242557
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,180,12,No,Call is no method,2024-12-17 00:14:41.243565
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,183,14,No,Missing types or bug,2024-12-17 00:14:41.244964
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,188,28,No,Missing types or bug,2024-12-17 00:14:41.245974
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,190,28,No,Call is no method,2024-12-17 00:14:41.245974
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,inverse_transform,200,35,No,Missing types or bug,2024-12-17 00:14:41.246980
-Yes,safeds,safeds.data.tabular.transformation._standard_scaler,_from_pandas_dataframe,201,15,No,Missing types or bug,2024-12-17 00:14:41.248252
-Yes,safeds,safeds.data.tabular.transformation._table_transformer,transform,133,15,Yes,,2024-12-17 00:14:41.253134
-Yes,safeds,safeds.data.tabular.transformation._table_transformer,fit,133,15,No,Call is no method,2024-12-17 00:14:41.253134
-Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,70,25,No,Call is no method,2024-12-17 00:14:41.263326
-Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,74,25,No,Call is no method,2024-12-17 00:14:41.264323
-Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,78,65,No,Call is no method,2024-12-17 00:14:41.265320
-Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,79,66,No,Call is no method,2024-12-17 00:14:41.266319
-Yes,safeds,safeds.data.tabular.typing._column_type,type,70,45,No,Call is no method,2024-12-17 00:14:41.267418
-Yes,safeds,safeds.data.tabular.typing._column_type,type,71,19,No,Call is no method,2024-12-17 00:14:41.269030
-Yes,safeds,safeds.data.tabular.typing._column_type,type,74,45,No,Call is no method,2024-12-17 00:14:41.269030
-Yes,safeds,safeds.data.tabular.typing._column_type,type,75,19,No,Call is no method,2024-12-17 00:14:41.270193
-Yes,safeds,safeds.data.tabular.typing._column_type,type,78,85,No,Call is no method,2024-12-17 00:14:41.271540
-Yes,safeds,safeds.data.tabular.typing._column_type,type,79,86,No,Call is no method,2024-12-17 00:14:41.271540
-Yes,safeds,safeds.data.tabular.typing._column_type,all,88,46,No,Call is no method,2024-12-17 00:14:41.273900
-Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,276,23,No,Missing types or bug,2024-12-17 00:14:41.278694
-Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,276,62,No,Missing types or bug,2024-12-17 00:14:41.278694
-Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,279,27,No,Missing types or bug,2024-12-17 00:14:41.279699
-Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,279,82,No,Missing types or bug,2024-12-17 00:14:41.281102
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,276,62,No,Call is no method,2024-12-17 00:14:41.282167
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,278,62,Yes,,2024-12-17 00:14:41.283170
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,279,27,No,Call is no method,2024-12-17 00:14:41.284551
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,280,57,Yes,,2024-12-17 00:14:41.285808
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,284,39,Yes,,2024-12-17 00:14:41.285808
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,287,39,Yes,,2024-12-17 00:14:41.286914
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,292,53,Yes,,2024-12-17 00:14:41.287965
-Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,294,34,Yes,,2024-12-17 00:14:41.287965
-Yes,safeds,safeds.data.tabular.typing._schema,type,278,57,No,Call is no method,2024-12-17 00:14:41.289091
-Yes,safeds,safeds.data.tabular.typing._schema,type,280,52,No,Call is no method,2024-12-17 00:14:41.290568
-Yes,safeds,safeds.data.tabular.typing._schema,type,292,48,No,Call is no method,2024-12-17 00:14:41.291991
-Yes,safeds,safeds.data.tabular.typing._schema,type,295,48,No,Call is no method,2024-12-17 00:14:41.291991
-Yes,safeds,safeds.ml.classical._util_sklearn,has_column,122,83,No,Call is no method,2024-12-17 00:14:41.297133
-Yes,safeds,safeds.ml.classical._util_sklearn,has_column,120,7,No,Missing types or bug,2024-12-17 00:14:41.297133
-Yes,safeds,safeds.ml.classical._util_sklearn,predict,161,38,No,Missing types or bug,2024-12-17 00:14:41.298139
-Yes,safeds,safeds.ml.classical._util_sklearn,tag_columns,163,15,No,Missing types or bug,2024-12-17 00:14:41.300382
-Yes,safeds,safeds.ml.classical._util_sklearn,_from_pandas_dataframe,163,15,No,Call is no method,2024-12-17 00:14:41.301544
-Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,131,37,No,Missing types or bug,2024-12-17 00:14:41.303660
-Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,132,8,No,Call is no method,2024-12-17 00:14:41.303660
-Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,142,39,No,Missing types or bug,2024-12-17 00:14:41.304670
-Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,143,8,No,Call is no method,2024-12-17 00:14:41.305815
-Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,152,17,No,Missing types or bug,2024-12-17 00:14:41.307026
-Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_non_numerical_values,132,8,No,Missing types or bug,2024-12-17 00:14:41.308076
-Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_missing_values,143,8,No,Missing types or bug,2024-12-17 00:14:41.309080
-Yes,safeds,safeds.ml.classical.classification._ada_boost,predict,176,15,No,Call is no method,2024-12-17 00:14:41.311787
-Yes,safeds,safeds.ml.classical.classification._decision_tree,predict,96,15,No,Call is no method,2024-12-17 00:14:41.313136
-Yes,safeds,safeds.ml.classical.classification._gradient_boosting,predict,147,15,No,Call is no method,2024-12-17 00:14:41.315238
-Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,predict,140,15,No,Call is no method,2024-12-17 00:14:41.316471
-Yes,safeds,safeds.ml.classical.classification._logistic_regression,predict,96,15,No,Call is no method,2024-12-17 00:14:41.318501
-Yes,safeds,safeds.ml.classical.classification._random_forest,predict,127,15,No,Call is no method,2024-12-17 00:14:41.319714
-Yes,safeds,safeds.ml.classical.classification._support_vector_machine,predict,235,15,No,Call is no method,2024-12-17 00:14:41.320723
-Yes,safeds,safeds.ml.classical.regression._ada_boost,predict,176,15,No,Call is no method,2024-12-17 00:14:41.321728
-Yes,safeds,safeds.ml.classical.regression._decision_tree,predict,96,15,No,Call is no method,2024-12-17 00:14:41.322766
-Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,predict,177,15,No,Call is no method,2024-12-17 00:14:41.323797
-Yes,safeds,safeds.ml.classical.regression._gradient_boosting,predict,147,15,No,Call is no method,2024-12-17 00:14:41.325479
-Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,predict,141,15,No,Call is no method,2024-12-17 00:14:41.326634
-Yes,safeds,safeds.ml.classical.regression._lasso_regression,predict,137,15,No,Call is no method,2024-12-17 00:14:41.327640
-Yes,safeds,safeds.ml.classical.regression._linear_regression,predict,96,15,No,Call is no method,2024-12-17 00:14:41.328646
-Yes,safeds,safeds.ml.classical.regression._random_forest,predict,127,15,No,Call is no method,2024-12-17 00:14:41.328646
-Yes,safeds,safeds.ml.classical.regression._ridge_regression,predict,138,15,No,Call is no method,2024-12-17 00:14:41.329939
-Yes,safeds,safeds.ml.classical.regression._support_vector_machine,predict,235,15,No,Call is no method,2024-12-17 00:14:41.331258
-Yes,safeds,safeds.ml.classical.classification._ada_boost,_get_sklearn_classifier,198,18,No,Missing types or bug,2024-12-17 00:14:41.333753
-Yes,safeds,safeds.ml.classical.classification._classifier,predict,116,27,Yes,,2024-12-17 00:14:45.891237
-Yes,safeds,safeds.ml.classical.classification._classifier,predict,141,27,Yes,,2024-12-17 00:14:46.086246
-Yes,safeds,safeds.ml.classical.classification._classifier,predict,178,27,Yes,,2024-12-17 00:14:46.089317
-Yes,safeds,safeds.ml.classical.classification._classifier,predict,215,27,Yes,,2024-12-17 00:14:46.092408
-Yes,safeds,safeds.ml.classical.regression._ada_boost,_get_sklearn_regressor,198,18,No,Missing types or bug,2024-12-17 00:14:46.097667
-Yes,safeds,safeds.ml.classical.regression._regressor,predict,114,20,Yes,,2024-12-17 00:14:46.721206
-Yes,safeds,safeds.ml.classical.regression._regressor,_check_metrics_preconditions,116,8,No,Call is no method,2024-12-17 00:14:46.725320
-Yes,safeds,safeds.ml.classical.regression._regressor,predict,142,20,Yes,,2024-12-17 00:14:46.884449
-Yes,safeds,safeds.ml.classical.regression._regressor,_check_metrics_preconditions,144,8,No,Call is no method,2024-12-17 00:14:46.886921
-Yes,safeds,safeds.ml.classical.regression._regressor,is_numeric,150,11,No,Missing types or bug,2024-12-17 00:14:46.890881
-Yes,safeds,safeds.ml.classical.regression._regressor,is_numeric,152,11,No,Missing types or bug,2024-12-17 00:14:46.892115
+Yes,safeds,safeds.config._device,device,6,11,No,Missing types or bug,2024-12-18 21:42:42.872702
+Yes,safeds,safeds.config._device,device,6,66,No,Missing types or bug,2024-12-18 21:42:42.873622
+Yes,safeds,safeds.data.tabular.containers._column,rename,109,32,No,Missing types or bug,2024-12-18 21:42:43.687978
+Yes,safeds,safeds.data.tabular.containers._column,_data_type,111,33,No,Missing types or bug,2024-12-18 21:42:43.687978
+Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,130,31,No,Missing types or bug,2024-12-18 21:42:43.688983
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,424,31,No,Missing types or bug,2024-12-18 21:42:43.693619
+Yes,safeds,safeds.data.tabular.containers._tagged_table,__init__,150,8,Yes,,2024-12-18 21:42:43.694616
+Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,165,32,No,Missing types or bug,2024-12-18 21:42:43.694616
+Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,166,31,No,Missing types or bug,2024-12-18 21:42:43.695613
+Yes,safeds,safeds.data.tabular.containers._time_series,__init__,183,8,Yes,,2024-12-18 21:42:43.695613
+Yes,safeds,safeds.data.tabular.containers._time_series,get_column,188,29,No,Missing types or bug,2024-12-18 21:42:43.696955
+Yes,safeds,safeds.exceptions._data,__init__,31,8,Yes,,2024-12-18 21:42:43.699443
+Yes,safeds,safeds.exceptions._data,__init__,39,8,Yes,,2024-12-18 21:42:43.700465
+Yes,safeds,safeds.exceptions._data,__init__,50,8,Yes,,2024-12-18 21:42:43.700465
+Yes,safeds,safeds.exceptions._data,__init__,67,8,Yes,,2024-12-18 21:42:43.701882
+Yes,safeds,safeds.exceptions._data,__init__,82,12,Yes,,2024-12-18 21:42:43.701882
+Yes,safeds,safeds.exceptions._data,__init__,84,12,Yes,,2024-12-18 21:42:43.702888
+Yes,safeds,safeds.exceptions._data,__init__,100,8,Yes,,2024-12-18 21:42:43.702888
+Yes,safeds,safeds.exceptions._data,__init__,107,8,Yes,,2024-12-18 21:42:43.703981
+Yes,safeds,safeds.exceptions._data,__init__,114,8,Yes,,2024-12-18 21:42:43.703981
+Yes,safeds,safeds.exceptions._data,__init__,123,8,Yes,,2024-12-18 21:42:43.705061
+Yes,safeds,safeds.exceptions._data,__init__,133,8,Yes,,2024-12-18 21:42:43.705061
+Yes,safeds,safeds.exceptions._data,__init__,143,8,Yes,,2024-12-18 21:42:43.706163
+Yes,safeds,safeds.exceptions._data,__init__,150,8,Yes,,2024-12-18 21:42:43.706163
+Yes,safeds,safeds.exceptions._data,__init__,157,8,Yes,,2024-12-18 21:42:43.707298
+Yes,safeds,safeds.exceptions._data,__init__,164,8,Yes,,2024-12-18 21:42:43.708304
+Yes,safeds,safeds.exceptions._generic,_check_lower_bound,77,13,No,Found same amount of functions,2024-12-18 21:42:43.710780
+Yes,safeds,safeds.exceptions._generic,_check_upper_bound,77,57,No,Found same amount of functions,2024-12-18 21:42:43.710780
+Yes,safeds,safeds.exceptions._generic,_str_lower_bound,81,47,No,Found same amount of functions,2024-12-18 21:42:43.710780
+Yes,safeds,safeds.exceptions._generic,_str_lower_bound,87,50,No,Found same amount of functions,2024-12-18 21:42:43.712171
+Yes,safeds,safeds.exceptions._generic,_str_upper_bound,81,82,No,Found same amount of functions,2024-12-18 21:42:43.712171
+Yes,safeds,safeds.exceptions._generic,_str_upper_bound,87,85,No,Found same amount of functions,2024-12-18 21:42:43.712171
+Yes,safeds,safeds.exceptions._generic,__init__,86,8,Yes,,2024-12-18 21:42:43.713005
+Yes,safeds,safeds.exceptions._generic,__init__,185,8,Yes,,2024-12-18 21:42:43.714171
+Yes,safeds,safeds.exceptions._generic,__init__,242,8,Yes,,2024-12-18 21:42:43.715170
+Yes,safeds,safeds.exceptions._ml,__init__,12,8,Yes,,2024-12-18 21:42:43.716167
+Yes,safeds,safeds.exceptions._ml,__init__,26,8,Yes,,2024-12-18 21:42:43.716167
+Yes,safeds,safeds.exceptions._ml,__init__,33,8,Yes,,2024-12-18 21:42:43.717164
+Yes,safeds,safeds.exceptions._ml,__init__,47,8,Yes,,2024-12-18 21:42:43.717164
+Yes,safeds,safeds.exceptions._ml,__init__,54,8,Yes,,2024-12-18 21:42:43.718162
+Yes,safeds,safeds.exceptions._ml,__init__,68,8,Yes,,2024-12-18 21:42:43.718162
+Yes,safeds,safeds.exceptions._ml,__init__,75,8,Yes,,2024-12-18 21:42:43.719159
+Yes,safeds,safeds.data.image.containers._image,all,109,16,No,Call is no method,2024-12-18 21:42:43.730130
+Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-18 21:42:43.731128
+Yes,safeds,safeds.data.tabular.containers._table,sort_columns,454,17,Yes,,2024-12-18 21:42:43.732448
+Yes,safeds,safeds.data.tabular.containers._table,sort_columns,455,17,No,Missing types or bug,2024-12-18 21:42:43.732448
+Yes,safeds,safeds.data.tabular.containers._tagged_table,__sizeof__,176,15,No,Missing types or bug,2024-12-18 21:42:43.734445
+Yes,safeds,safeds.data.tabular.containers._time_series,__sizeof__,198,15,No,Missing types or bug,2024-12-18 21:42:43.735443
+Yes,safeds,safeds.data.tabular.typing._schema,sum,112,15,No,Call is no method,2024-12-18 21:42:43.736440
+Yes,safeds,safeds.data.tabular.typing._schema,sum,112,62,No,Call is no method,2024-12-18 21:42:43.736440
+Yes,safeds,safeds.data.image.containers._image,crop,319,21,No,Missing types or bug,2024-12-18 21:42:43.923174
+Yes,safeds,safeds.data.image.containers._image,adjust_brightness,383,20,No,Missing types or bug,2024-12-18 21:42:43.925170
+Yes,safeds,safeds.data.image.containers._image,adjust_brightness,389,25,No,Missing types or bug,2024-12-18 21:42:43.926166
+Yes,safeds,safeds.data.image.containers._image,adjust_contrast,454,20,No,Missing types or bug,2024-12-18 21:42:43.929158
+Yes,safeds,safeds.data.image.containers._image,adjust_contrast,460,25,No,Missing types or bug,2024-12-18 21:42:43.929158
+Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,496,12,No,Found same amount of functions,2024-12-18 21:42:43.931269
+Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,625,16,No,Call is no method,2024-12-18 21:42:43.934260
+Yes,safeds,safeds.data.tabular.containers._column,_data_type,81,55,No,Missing types or bug,2024-12-18 21:42:43.936255
+Yes,safeds,safeds.data.tabular.containers._row,has_column,156,40,Yes,,2024-12-18 21:42:43.937253
+Yes,safeds,safeds.data.tabular.containers._column,rename,191,19,No,Missing types or bug,2024-12-18 21:42:43.937253
+Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,192,19,No,Found same amount of functions,2024-12-18 21:42:43.938250
+Yes,safeds,safeds.data.tabular.containers._row,get_value,217,15,Yes,,2024-12-18 21:42:43.938250
+Yes,safeds,safeds.data.tabular.containers._table,__repr__,477,15,No,Missing types or bug,2024-12-18 21:42:43.939503
+Yes,safeds,safeds.data.tabular.containers._row,to_dict,305,71,No,Call is no method,2024-12-18 21:42:43.940502
+Yes,safeds,safeds.data.tabular.containers._row,to_dict,303,27,Yes,,2024-12-18 21:42:43.942735
+Yes,safeds,safeds.data.tabular.containers._table,__str__,492,15,No,Missing types or bug,2024-12-18 21:42:43.943746
+Yes,safeds,safeds.exceptions._generic,__str__,251,19,Yes,,2024-12-18 21:42:43.945094
+Yes,safeds,safeds.data.tabular.containers._row,has_column,399,15,Yes,,2024-12-18 21:42:43.945094
+Yes,safeds,safeds.data.tabular.containers._column,all,418,15,No,Call is no method,2024-12-18 21:42:43.945094
+Yes,safeds,safeds.data.tabular.containers._column,any,444,15,No,Call is no method,2024-12-18 21:42:43.946588
+Yes,safeds,safeds.data.tabular.containers._column,all,471,15,No,Call is no method,2024-12-18 21:42:43.946588
+Yes,safeds,safeds.data.tabular.containers._column,any,493,15,No,Found same amount of functions,2024-12-18 21:42:43.947866
+Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,522,15,No,Found same amount of functions,2024-12-18 21:42:43.962828
+Yes,safeds,safeds.data.tabular.containers._column,rename,522,42,No,Missing types or bug,2024-12-18 21:42:43.962828
+Yes,safeds,safeds.data.tabular.transformation._discretizer,is_numeric,139,19,No,Missing types or bug,2024-12-18 21:42:43.964260
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,139,19,No,Call is no method,2024-12-18 21:42:43.964260
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,140,67,No,Missing types or bug,2024-12-18 21:42:43.964260
+Yes,safeds,safeds.data.tabular.transformation._discretizer,transform,144,35,No,Missing types or bug,2024-12-18 21:42:43.965697
+Yes,safeds,safeds.data.tabular.transformation._discretizer,_from_pandas_dataframe,145,15,No,Missing types or bug,2024-12-18 21:42:43.965697
+Yes,safeds,safeds.data.tabular.transformation._imputer,transform,213,12,No,Missing types or bug,2024-12-18 21:42:43.967645
+Yes,safeds,safeds.data.tabular.transformation._imputer,_from_pandas_dataframe,216,15,No,Missing types or bug,2024-12-18 21:42:43.967645
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,transform,114,35,No,Missing types or bug,2024-12-18 21:42:43.970212
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,_from_pandas_dataframe,115,15,No,Missing types or bug,2024-12-18 21:42:43.970212
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_value,202,24,No,Missing types or bug,2024-12-18 21:42:43.971245
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,202,24,No,Call is no method,2024-12-18 21:42:43.972263
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,add_column,215,24,No,Missing types or bug,2024-12-18 21:42:43.972263
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,234,16,No,Missing types or bug,2024-12-18 21:42:43.972263
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,sort_columns,237,15,No,Missing types or bug,2024-12-18 21:42:43.973266
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,138,12,No,Missing types or bug,2024-12-18 21:42:43.975471
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,146,28,No,Missing types or bug,2024-12-18 21:42:43.975471
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,138,12,No,Call is no method,2024-12-18 21:42:43.975471
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,139,14,No,Missing types or bug,2024-12-18 21:42:43.975471
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,144,28,No,Missing types or bug,2024-12-18 21:42:43.976960
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,146,28,No,Call is no method,2024-12-18 21:42:43.976960
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,transform,156,35,No,Missing types or bug,2024-12-18 21:42:43.977965
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,_from_pandas_dataframe,157,15,No,Missing types or bug,2024-12-18 21:42:43.977965
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,120,12,No,Missing types or bug,2024-12-18 21:42:43.980379
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,128,28,No,Missing types or bug,2024-12-18 21:42:43.980379
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,120,12,No,Call is no method,2024-12-18 21:42:43.980379
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,121,14,No,Missing types or bug,2024-12-18 21:42:43.981591
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,126,28,No,Missing types or bug,2024-12-18 21:42:43.981591
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,128,28,No,Call is no method,2024-12-18 21:42:43.981591
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,transform,138,35,No,Missing types or bug,2024-12-18 21:42:43.981591
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,_from_pandas_dataframe,139,15,No,Missing types or bug,2024-12-18 21:42:43.982594
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,15,No,Missing types or bug,2024-12-18 21:42:43.983792
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,46,No,Missing types or bug,2024-12-18 21:42:43.983792
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,647,15,No,Missing types or bug,2024-12-18 21:42:43.985042
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,672,15,No,Missing types or bug,2024-12-18 21:42:43.986053
+Yes,safeds,safeds.data.tabular.containers._column,mean,674,15,No,Missing types or bug,2024-12-18 21:42:43.986053
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,702,15,No,Missing types or bug,2024-12-18 21:42:43.986053
+Yes,safeds,safeds.data.tabular.containers._column,median,704,15,No,Missing types or bug,2024-12-18 21:42:43.987055
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,727,15,No,Missing types or bug,2024-12-18 21:42:43.987055
+Yes,safeds,safeds.data.tabular.containers._column,_count_missing_values,758,15,No,Found same amount of functions,2024-12-18 21:42:43.988064
+Yes,safeds,safeds.data.tabular.containers._column,mode,780,15,No,Call is no method,2024-12-18 21:42:43.988064
+Yes,safeds,safeds.data.tabular.containers._column,all,818,11,No,Found same amount of functions,2024-12-18 21:42:43.988064
+Yes,safeds,safeds.data.tabular.containers._column,mode,821,41,No,Found same amount of functions,2024-12-18 21:42:43.988064
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,848,15,No,Missing types or bug,2024-12-18 21:42:43.989333
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,873,15,No,Missing types or bug,2024-12-18 21:42:43.989333
+Yes,safeds,safeds.data.tabular.containers._column,sum,875,15,No,Missing types or bug,2024-12-18 21:42:43.990445
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,898,15,No,Missing types or bug,2024-12-18 21:42:43.990445
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,927,15,No,Missing types or bug,2024-12-18 21:42:43.991443
+Yes,safeds,safeds.data.tabular.containers._column,from_bytes,941,15,No,Missing types or bug,2024-12-18 21:42:43.992825
+Yes,safeds,safeds.data.tabular.containers._column,from_bytes,973,15,No,Missing types or bug,2024-12-18 21:42:48.503218
+Yes,safeds,safeds.data.tabular.containers._column,to_html,998,15,No,Missing types or bug,2024-12-18 21:42:48.505114
+Yes,safeds,safeds.data.tabular.containers._row,to_html,528,15,No,Missing types or bug,2024-12-18 21:42:48.506113
+Yes,safeds,safeds.data.tabular.containers._table,to_html,2284,15,No,Missing types or bug,2024-12-18 21:42:48.506113
+Yes,safeds,safeds.data.tabular.containers._column,to_html,1023,15,No,Missing types or bug,2024-12-18 21:42:48.507110
+Yes,safeds,safeds.data.tabular.containers._row,to_html,543,15,No,Missing types or bug,2024-12-18 21:42:48.507110
+Yes,safeds,safeds.data.tabular.containers._table,to_html,2347,15,No,Missing types or bug,2024-12-18 21:42:48.508109
+Yes,safeds,safeds.data.tabular.containers._column,sum,1045,15,No,Missing types or bug,2024-12-18 21:42:48.509114
+Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,99,29,No,Missing types or bug,2024-12-18 21:42:48.510102
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,373,29,No,Missing types or bug,2024-12-18 21:42:48.512097
+Yes,safeds,safeds.data.tabular.typing._schema,_data_type,56,25,No,Missing types or bug,2024-12-18 21:42:48.513102
+Yes,safeds,safeds.data.tabular.containers._row,has_column,428,15,No,Missing types or bug,2024-12-18 21:42:48.514092
+Yes,safeds,safeds.data.tabular.containers._table,has_column,647,15,No,Missing types or bug,2024-12-18 21:42:48.514092
+Yes,safeds,safeds.data.tabular.containers._row,get_column_type,456,15,No,Missing types or bug,2024-12-18 21:42:48.514970
+Yes,safeds,safeds.data.tabular.containers._table,get_column_type,677,15,No,Missing types or bug,2024-12-18 21:42:48.515751
+Yes,safeds,safeds.data.tabular.typing._schema,has_column,211,15,Yes,,2024-12-18 21:42:48.515751
+Yes,safeds,safeds.data.tabular.containers._row,to_dict,488,38,No,Call is no method,2024-12-18 21:42:48.516825
+Yes,safeds,safeds.data.tabular.containers._row,from_dict,489,15,Yes,,2024-12-18 21:42:48.516825
+Yes,safeds,safeds.data.tabular.containers._table,to_columns,1598,18,No,Found same amount of functions,2024-12-18 21:42:48.517838
+Yes,safeds,safeds.data.tabular.containers._table,from_columns,1600,15,No,Found same amount of functions,2024-12-18 21:42:48.517838
+Yes,safeds,safeds.data.tabular.containers._tagged_table,sort_columns,787,23,Yes,,2024-12-18 21:42:48.518837
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,788,15,No,Found same amount of functions,2024-12-18 21:42:48.518837
+Yes,safeds,safeds.data.tabular.containers._time_series,sort_columns,823,23,Yes,,2024-12-18 21:42:48.519834
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,824,15,No,Found same amount of functions,2024-12-18 21:42:48.519834
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,825,12,No,Missing types or bug,2024-12-18 21:42:48.519834
+Yes,safeds,safeds.data.tabular.containers._row,get_value,511,29,No,Call is no method,2024-12-18 21:42:48.520946
+Yes,safeds,safeds.data.tabular.containers._table,get_column,2267,34,No,Call is no method,2024-12-18 21:42:48.522068
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,121,19,Yes,,2024-12-18 21:42:48.522068
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,163,19,Yes,,2024-12-18 21:42:48.659346
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,208,19,Yes,,2024-12-18 21:42:48.732892
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,289,15,Yes,,2024-12-18 21:42:48.827400
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,322,19,Yes,,2024-12-18 21:42:48.829395
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,339,15,Yes,,2024-12-18 21:42:48.829395
+Yes,safeds,safeds.data.tabular.containers._table,merge_multiple_schemas,337,17,No,Missing types or bug,2024-12-18 21:42:48.829908
+Yes,safeds,safeds.data.tabular.containers._table,has_column,613,15,Yes,,2024-12-18 21:42:48.830913
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,614,30,No,Found same amount of functions,2024-12-18 21:42:48.831917
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_series,617,15,No,Found same amount of functions,2024-12-18 21:42:48.831917
+Yes,safeds,safeds.data.tabular.containers._table,get_column_type,619,12,Yes,,2024-12-18 21:42:48.832920
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,711,15,Yes,,2024-12-18 21:42:48.833502
+Yes,safeds,safeds.data.tabular.containers._table,add_column,808,24,Yes,,2024-12-18 21:42:48.838973
+Yes,safeds,safeds.data.tabular.containers._table,to_columns,811,18,No,Found same amount of functions,2024-12-18 21:42:48.838973
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,841,15,Yes,,2024-12-18 21:42:48.838973
+Yes,safeds,safeds.data.tabular.containers._tagged_table,from_columns,290,15,No,Missing types or bug,2024-12-18 21:42:48.842432
+Yes,safeds,safeds.data.tabular.containers._tagged_table,to_columns,290,34,Yes,,2024-12-18 21:42:48.843481
+Yes,safeds,safeds.data.tabular.containers._time_series,from_columns,236,15,No,Missing types or bug,2024-12-18 21:42:48.844540
+Yes,safeds,safeds.data.tabular.containers._time_series,to_columns,236,34,Yes,,2024-12-18 21:42:48.844540
+Yes,safeds,safeds.data.tabular.containers._table,has_column,889,11,Yes,,2024-12-18 21:42:48.845688
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,898,15,Yes,,2024-12-18 21:42:48.845688
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,315,15,No,Found same amount of functions,2024-12-18 21:42:48.846722
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_column,316,12,Yes,,2024-12-18 21:42:48.847744
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,261,15,No,Found same amount of functions,2024-12-18 21:42:48.847744
+Yes,safeds,safeds.data.tabular.containers._time_series,add_column,262,12,Yes,,2024-12-18 21:42:48.847744
+Yes,safeds,safeds.data.tabular.containers._table,to_columns,935,22,No,Found same amount of functions,2024-12-18 21:42:48.849110
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,946,15,Yes,,2024-12-18 21:42:48.849110
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,344,15,No,Found same amount of functions,2024-12-18 21:42:48.850109
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_columns,345,12,Yes,,2024-12-18 21:42:48.850109
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,345,15,No,Found same amount of functions,2024-12-18 21:42:48.850958
+Yes,safeds,safeds.data.tabular.containers._time_series,add_columns,346,12,Yes,,2024-12-18 21:42:48.850958
+Yes,safeds,safeds.data.tabular.containers._table,from_rows,987,19,No,Found same amount of functions,2024-12-18 21:42:48.850958
+Yes,safeds,safeds.data.tabular.containers._table,merge_multiple_schemas,1001,17,No,Missing types or bug,2024-12-18 21:42:48.852187
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1002,17,Yes,,2024-12-18 21:42:48.852187
+Yes,safeds,safeds.data.tabular.containers._table,replace_column,1005,21,Yes,,2024-12-18 21:42:48.852187
+Yes,safeds,safeds.data.tabular.containers._table,transform,1005,52,No,Missing types or bug,2024-12-18 21:42:48.852187
+Yes,safeds,safeds.data.tabular.containers._table,get_column,1005,52,No,Call is no method,2024-12-18 21:42:48.853564
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,371,15,No,Found same amount of functions,2024-12-18 21:42:48.859295
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_row,371,39,Yes,,2024-12-18 21:42:48.860296
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,371,15,No,Found same amount of functions,2024-12-18 21:42:48.861299
+Yes,safeds,safeds.data.tabular.containers._time_series,add_row,371,45,Yes,,2024-12-18 21:42:48.861299
+Yes,safeds,safeds.data.tabular.containers._table,to_rows,1046,19,No,Found same amount of functions,2024-12-18 21:42:48.861299
+Yes,safeds,safeds.data.tabular.containers._table,add_row,1064,21,Yes,,2024-12-18 21:42:48.862792
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,394,15,No,Found same amount of functions,2024-12-18 21:42:48.862792
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_rows,394,39,Yes,,2024-12-18 21:42:48.863875
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,394,15,No,Found same amount of functions,2024-12-18 21:42:48.863875
+Yes,safeds,safeds.data.tabular.containers._time_series,add_rows,394,45,Yes,,2024-12-18 21:42:48.863875
+Yes,safeds,safeds.data.tabular.containers._table,to_rows,1092,42,No,Call is no method,2024-12-18 21:42:48.864799
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1094,27,Yes,,2024-12-18 21:42:48.864799
+Yes,safeds,safeds.data.tabular.containers._table,from_rows,1096,27,No,Found same amount of functions,2024-12-18 21:42:48.864799
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,412,15,No,Found same amount of functions,2024-12-18 21:42:48.866050
+Yes,safeds,safeds.data.tabular.containers._tagged_table,filter_rows,413,12,Yes,,2024-12-18 21:42:48.866050
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,412,15,No,Found same amount of functions,2024-12-18 21:42:48.866050
+Yes,safeds,safeds.data.tabular.containers._time_series,filter_rows,413,12,Yes,,2024-12-18 21:42:48.867140
+Yes,safeds,safeds.data.tabular.containers._table,to_rows,1118,19,No,Found same amount of functions,2024-12-18 21:42:48.867140
+Yes,safeds,safeds.data.tabular.containers._table,add_row,1120,48,Yes,,2024-12-18 21:42:48.867140
+Yes,safeds,safeds.data.tabular.containers._table,from_rows,1122,48,No,Found same amount of functions,2024-12-18 21:42:48.867140
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1162,19,No,Missing types or bug,2024-12-18 21:42:48.868618
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1163,52,No,Found same amount of functions,2024-12-18 21:42:48.868618
+Yes,safeds,safeds.data.tabular.containers._table,remove_columns,1168,15,Yes,,2024-12-18 21:42:48.868618
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,445,15,No,Found same amount of functions,2024-12-18 21:42:48.870825
+Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,446,12,Yes,,2024-12-18 21:42:48.870825
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,446,15,No,Found same amount of functions,2024-12-18 21:42:48.872068
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,447,12,No,Missing types or bug,2024-12-18 21:42:48.872068
+Yes,safeds,safeds.data.tabular.containers._time_series,keep_only_columns,448,16,Yes,,2024-12-18 21:42:48.873070
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1207,19,No,Missing types or bug,2024-12-18 21:42:48.874074
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1208,52,No,Found same amount of functions,2024-12-18 21:42:48.875076
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1219,15,Yes,,2024-12-18 21:42:48.875076
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,483,15,No,Found same amount of functions,2024-12-18 21:42:48.877570
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns,484,12,Yes,,2024-12-18 21:42:48.877570
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,491,15,No,Found same amount of functions,2024-12-18 21:42:48.878573
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,492,12,No,Missing types or bug,2024-12-18 21:42:48.878573
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns,493,16,Yes,,2024-12-18 21:42:48.879575
+Yes,safeds,safeds.data.tabular.containers._table,to_columns,1248,56,No,Call is no method,2024-12-18 21:42:48.879575
+Yes,safeds,safeds.data.tabular.containers._table,has_missing_values,1248,81,No,Call is no method,2024-12-18 21:42:48.880590
+Yes,safeds,safeds.data.tabular.containers._table,from_columns,1248,15,No,Found same amount of functions,2024-12-18 21:42:48.880873
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns_with_missing_values,510,16,Yes,,2024-12-18 21:42:48.880873
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,515,15,No,Found same amount of functions,2024-12-18 21:42:48.881832
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns_with_missing_values,523,16,Yes,,2024-12-18 21:42:48.882835
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,526,15,No,Found same amount of functions,2024-12-18 21:42:48.882835
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,527,12,No,Missing types or bug,2024-12-18 21:42:48.882835
+Yes,safeds,safeds.data.tabular.containers._table,to_columns,1277,56,No,Call is no method,2024-12-18 21:42:48.883837
+Yes,safeds,safeds.data.tabular.containers._table,is_numeric,1277,77,No,Call is no method,2024-12-18 21:42:48.883837
+Yes,safeds,safeds.data.tabular.containers._table,from_columns,1277,15,No,Found same amount of functions,2024-12-18 21:42:48.884834
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_columns_with_non_numerical_values,542,16,Yes,,2024-12-18 21:42:48.884834
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,547,15,No,Found same amount of functions,2024-12-18 21:42:48.884834
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_columns_with_non_numerical_values,558,16,Yes,,2024-12-18 21:42:48.886216
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,561,15,No,Found same amount of functions,2024-12-18 21:42:48.886216
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,562,12,No,Missing types or bug,2024-12-18 21:42:48.887523
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1301,15,Yes,,2024-12-18 21:42:48.887523
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,567,15,No,Found same amount of functions,2024-12-18 21:42:48.888701
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_duplicate_rows,568,12,Yes,,2024-12-18 21:42:48.888701
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,584,15,No,Found same amount of functions,2024-12-18 21:42:48.889706
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,585,12,No,Missing types or bug,2024-12-18 21:42:48.889706
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_duplicate_rows,586,16,Yes,,2024-12-18 21:42:48.889706
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1323,15,Yes,,2024-12-18 21:42:48.891079
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,584,15,No,Found same amount of functions,2024-12-18 21:42:48.892159
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_rows_with_missing_values,585,12,Yes,,2024-12-18 21:42:48.892159
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,604,15,No,Found same amount of functions,2024-12-18 21:42:48.893658
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,605,12,No,Missing types or bug,2024-12-18 21:42:48.893658
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_rows_with_missing_values,606,16,Yes,,2024-12-18 21:42:48.893658
+Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,1362,38,Yes,,2024-12-18 21:42:48.894720
+Yes,safeds,safeds.data.tabular.containers._table,all,1364,18,No,Call is no method,2024-12-18 21:42:48.894720
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1366,15,Yes,,2024-12-18 21:42:48.895798
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,605,15,No,Found same amount of functions,2024-12-18 21:42:55.804285
+Yes,safeds,safeds.data.tabular.containers._tagged_table,remove_rows_with_outliers,606,12,Yes,,2024-12-18 21:42:55.804285
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,628,15,No,Found same amount of functions,2024-12-18 21:42:55.805841
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,629,12,No,Missing types or bug,2024-12-18 21:42:55.806818
+Yes,safeds,safeds.data.tabular.containers._time_series,remove_rows_with_outliers,630,16,Yes,,2024-12-18 21:42:55.806818
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1402,30,No,Found same amount of functions,2024-12-18 21:42:55.808235
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1411,15,Yes,,2024-12-18 21:42:55.809512
+Yes,safeds,safeds.data.tabular.containers._table,rename,1411,44,No,Missing types or bug,2024-12-18 21:42:55.809512
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,636,15,No,Found same amount of functions,2024-12-18 21:42:55.812028
+Yes,safeds,safeds.data.tabular.containers._tagged_table,rename_column,637,12,Yes,,2024-12-18 21:42:55.812028
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,662,15,No,Found same amount of functions,2024-12-18 21:42:55.813230
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,663,12,No,Missing types or bug,2024-12-18 21:42:55.813230
+Yes,safeds,safeds.data.tabular.containers._time_series,rename_column,664,16,Yes,,2024-12-18 21:42:55.814233
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1455,30,No,Found same amount of functions,2024-12-18 21:42:55.814233
+Yes,safeds,safeds.data.tabular.containers._table,get_column,1469,31,No,Found same amount of functions,2024-12-18 21:42:55.815256
+Yes,safeds,safeds.data.tabular.containers._table,from_columns,1471,15,No,Found same amount of functions,2024-12-18 21:42:55.815256
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,687,23,No,Found same amount of functions,2024-12-18 21:42:55.816259
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,693,19,No,Found same amount of functions,2024-12-18 21:42:55.817261
+Yes,safeds,safeds.data.tabular.containers._tagged_table,replace_column,688,20,Yes,,2024-12-18 21:42:55.817533
+Yes,safeds,safeds.data.tabular.containers._tagged_table,replace_column,694,16,Yes,,2024-12-18 21:42:55.817533
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,717,23,No,Found same amount of functions,2024-12-18 21:42:55.818462
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,731,23,No,Found same amount of functions,2024-12-18 21:42:55.819538
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,740,19,No,Found same amount of functions,2024-12-18 21:42:55.819538
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,718,20,No,Missing types or bug,2024-12-18 21:42:55.819538
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,732,20,No,Missing types or bug,2024-12-18 21:42:55.819538
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,741,16,No,Missing types or bug,2024-12-18 21:42:55.819538
+Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,719,24,Yes,,2024-12-18 21:42:55.820944
+Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,733,24,Yes,,2024-12-18 21:42:55.820944
+Yes,safeds,safeds.data.tabular.containers._time_series,replace_column,742,20,Yes,,2024-12-18 21:42:55.820944
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1498,15,Yes,,2024-12-18 21:42:55.823294
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,716,15,No,Found same amount of functions,2024-12-18 21:42:55.823294
+Yes,safeds,safeds.data.tabular.containers._tagged_table,shuffle_rows,717,12,Yes,,2024-12-18 21:42:55.824297
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,1552,15,Yes,,2024-12-18 21:42:55.825372
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,752,15,No,Found same amount of functions,2024-12-18 21:42:55.826414
+Yes,safeds,safeds.data.tabular.containers._tagged_table,slice_rows,753,12,Yes,,2024-12-18 21:42:55.827469
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,785,15,No,Found same amount of functions,2024-12-18 21:42:55.827469
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,786,12,No,Missing types or bug,2024-12-18 21:42:55.827469
+Yes,safeds,safeds.data.tabular.containers._time_series,slice_rows,787,16,Yes,,2024-12-18 21:42:55.829048
+Yes,safeds,safeds.data.tabular.containers._table,to_rows,1645,15,No,Found same amount of functions,2024-12-18 21:42:55.829048
+Yes,safeds,safeds.data.tabular.containers._table,from_rows,1647,15,No,Found same amount of functions,2024-12-18 21:42:55.830053
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,820,15,No,Found same amount of functions,2024-12-18 21:42:55.830053
+Yes,safeds,safeds.data.tabular.containers._tagged_table,sort_rows,821,12,Yes,,2024-12-18 21:42:55.830053
+Yes,safeds,safeds.data.tabular.containers._table,slice_rows,1691,12,Yes,,2024-12-18 21:42:55.831212
+Yes,safeds,safeds.data.tabular.containers._table,slice_rows,1692,12,Yes,,2024-12-18 21:42:55.831212
+Yes,safeds,safeds.data.tabular.containers._table,_from_table,1728,15,No,Found same amount of functions,2024-12-18 21:42:55.831212
+Yes,safeds,safeds.data.tabular.containers._table,_from_table_to_time_series,1765,15,No,Found same amount of functions,2024-12-18 21:42:55.832676
+Yes,safeds,safeds.data.tabular.containers._table,to_rows,1794,57,No,Call is no method,2024-12-18 21:42:55.832676
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1793,11,Yes,,2024-12-18 21:42:55.833681
+Yes,safeds,safeds.data.tabular.containers._table,replace_column,1796,19,Yes,,2024-12-18 21:42:55.833681
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1797,26,No,Found same amount of functions,2024-12-18 21:42:55.833681
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,842,15,No,Found same amount of functions,2024-12-18 21:42:55.833681
+Yes,safeds,safeds.data.tabular.containers._tagged_table,transform_column,843,12,Yes,,2024-12-18 21:42:55.834917
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,852,15,No,Found same amount of functions,2024-12-18 21:42:55.834917
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,853,12,No,Missing types or bug,2024-12-18 21:42:55.834917
+Yes,safeds,safeds.data.tabular.containers._time_series,transform_column,854,16,Yes,,2024-12-18 21:42:55.836228
+Yes,safeds,safeds.data.tabular.containers._table,transform,1836,15,No,Missing types or bug,2024-12-18 21:42:55.836228
+Yes,safeds,safeds.data.tabular.containers._table,inverse_transform,1878,15,No,Missing types or bug,2024-12-18 21:42:55.836228
+Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,1899,25,Yes,,2024-12-18 21:42:55.837308
+Yes,safeds,safeds.data.tabular.containers._table,from_bytes,1941,15,No,Missing types or bug,2024-12-18 21:42:55.837308
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1973,15,Yes,,2024-12-18 21:42:55.840827
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1973,53,Yes,,2024-12-18 21:42:55.840827
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1977,40,Yes,,2024-12-18 21:42:55.840827
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1978,42,Yes,,2024-12-18 21:42:55.841965
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1979,42,Yes,,2024-12-18 21:42:55.842978
+Yes,safeds,safeds.data.tabular.containers._table,has_column,1980,44,Yes,,2024-12-18 21:42:55.842978
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1974,32,No,Found same amount of functions,2024-12-18 21:42:55.844151
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,1975,32,No,Found same amount of functions,2024-12-18 21:42:55.844151
+Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2002,15,No,Missing types or bug,2024-12-18 21:42:55.844151
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2031,15,Yes,,2024-12-18 21:42:55.845411
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2031,53,Yes,,2024-12-18 21:42:55.846412
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2035,40,Yes,,2024-12-18 21:42:55.846696
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2036,42,Yes,,2024-12-18 21:42:55.846696
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2037,42,Yes,,2024-12-18 21:42:55.846696
+Yes,safeds,safeds.data.tabular.containers._table,has_column,2038,44,Yes,,2024-12-18 21:42:55.847698
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,2032,32,No,Found same amount of functions,2024-12-18 21:42:55.847698
+Yes,safeds,safeds.data.tabular.containers._table,_get_similar_columns,2033,32,No,Found same amount of functions,2024-12-18 21:42:55.847698
+Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2060,15,No,Missing types or bug,2024-12-18 21:42:55.848702
+Yes,safeds,safeds.data.tabular.containers._table,remove_columns_with_non_numerical_values,2082,26,Yes,,2024-12-18 21:42:55.848702
+Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2107,15,No,Missing types or bug,2024-12-18 21:42:55.850204
+Yes,safeds,safeds.data.tabular.containers._table,from_bytes,2142,15,No,Missing types or bug,2024-12-18 21:42:55.876961
+Yes,safeds,safeds.data.tabular.containers._table,get_column,2302,16,No,Call is no method,2024-12-18 21:42:55.884199
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,2327,12,No,Call is no method,2024-12-18 21:42:55.884199
+Yes,safeds,safeds.data.tabular.containers._table,__dataframe__,2382,15,No,Missing types or bug,2024-12-18 21:42:55.885531
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_as_table,89,16,No,Missing types or bug,2024-12-18 21:42:55.885531
+Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,109,27,No,Missing types or bug,2024-12-18 21:42:55.886537
+Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,110,25,No,Missing types or bug,2024-12-18 21:42:55.886537
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,233,15,No,Found same amount of functions,2024-12-18 21:42:55.887648
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_column,234,12,Yes,,2024-12-18 21:42:55.887648
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,289,15,No,Found same amount of functions,2024-12-18 21:42:55.889251
+Yes,safeds,safeds.data.tabular.containers._time_series,add_column_as_feature,290,12,Yes,,2024-12-18 21:42:55.889251
+Yes,safeds,safeds.data.tabular.containers._tagged_table,to_columns,266,36,No,Call is no method,2024-12-18 21:42:55.890386
+Yes,safeds,safeds.data.tabular.containers._tagged_table,_from_table,262,15,No,Found same amount of functions,2024-12-18 21:42:55.890386
+Yes,safeds,safeds.data.tabular.containers._tagged_table,add_columns,263,12,Yes,,2024-12-18 21:42:55.891386
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,317,15,No,Found same amount of functions,2024-12-18 21:42:55.892383
+Yes,safeds,safeds.data.tabular.containers._time_series,add_columns_as_features,318,12,Yes,,2024-12-18 21:42:55.892383
+Yes,safeds,safeds.data.tabular.containers._time_series,_as_table,58,16,No,Missing types or bug,2024-12-18 21:42:55.893381
+Yes,safeds,safeds.data.tabular.containers._time_series,get_column,70,23,No,Missing types or bug,2024-12-18 21:42:55.894398
+Yes,safeds,safeds.data.tabular.containers._time_series,get_column,72,25,No,Missing types or bug,2024-12-18 21:42:55.894590
+Yes,safeds,safeds.data.tabular.containers._time_series,keep_only_columns,71,27,No,Missing types or bug,2024-12-18 21:42:55.894590
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_table,126,23,No,Missing types or bug,2024-12-18 21:42:55.895438
+Yes,safeds,safeds.data.tabular.containers._time_series,_from_tagged_table,128,15,No,Found same amount of functions,2024-12-18 21:42:55.896441
+Yes,safeds,safeds.data.tabular.transformation._discretizer,is_numeric,82,23,No,Missing types or bug,2024-12-18 21:42:55.896441
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,82,23,No,Call is no method,2024-12-18 21:42:55.897445
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,83,71,No,Missing types or bug,2024-12-18 21:42:55.897445
+Yes,safeds,safeds.data.tabular.transformation._discretizer,fit,86,8,No,Missing types or bug,2024-12-18 21:42:56.159854
+Yes,safeds,safeds.data.tabular.transformation._imputer,remove_columns_with_non_numerical_values,131,93,No,Missing types or bug,2024-12-18 21:42:56.163311
+Yes,safeds,safeds.data.tabular.transformation._imputer,remove_columns_with_non_numerical_values,141,28,No,Missing types or bug,2024-12-18 21:42:56.163311
+Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,131,93,No,Call is no method,2024-12-18 21:42:56.164315
+Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,139,28,No,Missing types or bug,2024-12-18 21:42:56.164839
+Yes,safeds,safeds.data.tabular.transformation._imputer,keep_only_columns,141,28,No,Call is no method,2024-12-18 21:42:56.164839
+Yes,safeds,safeds.data.tabular.transformation._imputer,mode,152,23,No,Missing types or bug,2024-12-18 21:42:56.165634
+Yes,safeds,safeds.data.tabular.transformation._imputer,mode,153,51,No,Missing types or bug,2024-12-18 21:42:56.165634
+Yes,safeds,safeds.data.tabular.transformation._imputer,get_column,152,23,No,Call is no method,2024-12-18 21:42:56.166640
+Yes,safeds,safeds.data.tabular.transformation._imputer,get_column,153,51,No,Call is no method,2024-12-18 21:42:56.166640
+Yes,safeds,safeds.data.tabular.transformation._imputer,_augment_imputer,164,8,No,Missing types or bug,2024-12-18 21:42:56.221497
+Yes,safeds,safeds.data.tabular.transformation._imputer,fit,165,8,No,Missing types or bug,2024-12-18 21:42:56.222495
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,57,11,No,Missing types or bug,2024-12-18 21:42:56.227482
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,60,20,No,Missing types or bug,2024-12-18 21:42:56.227482
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,57,11,No,Call is no method,2024-12-18 21:42:56.227482
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,60,20,No,Call is no method,2024-12-18 21:42:56.228921
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,fit,67,8,No,Missing types or bug,2024-12-18 21:42:56.228921
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,107,12,No,Missing types or bug,2024-12-18 21:42:56.233081
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,115,20,No,Missing types or bug,2024-12-18 21:42:56.233081
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,107,12,No,Call is no method,2024-12-18 21:42:56.233081
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,115,20,No,Call is no method,2024-12-18 21:42:56.234085
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,107,12,No,Call is no method,2024-12-18 21:42:56.234636
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,115,20,No,Call is no method,2024-12-18 21:42:56.234636
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_unique_values,137,27,No,Missing types or bug,2024-12-18 21:42:56.235669
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,137,27,No,Call is no method,2024-12-18 21:42:56.235669
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,73,12,No,Missing types or bug,2024-12-18 21:42:56.237118
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,81,28,No,Missing types or bug,2024-12-18 21:42:56.238157
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,73,12,No,Call is no method,2024-12-18 21:42:56.238157
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,74,14,No,Missing types or bug,2024-12-18 21:42:56.238157
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,79,28,No,Missing types or bug,2024-12-18 21:42:56.239232
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,81,28,No,Call is no method,2024-12-18 21:42:56.239232
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,fit,90,8,No,Missing types or bug,2024-12-18 21:42:56.401379
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,55,12,No,Missing types or bug,2024-12-18 21:42:56.404452
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,63,28,No,Missing types or bug,2024-12-18 21:42:56.404452
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,55,12,No,Call is no method,2024-12-18 21:42:56.405539
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,56,14,No,Missing types or bug,2024-12-18 21:42:56.406342
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,61,28,No,Missing types or bug,2024-12-18 21:42:56.406342
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,63,28,No,Call is no method,2024-12-18 21:42:56.406342
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,fit,72,8,No,Missing types or bug,2024-12-18 21:42:56.407754
+Yes,safeds,safeds.ml.classical._util_sklearn,fit,71,8,No,Missing types or bug,2024-12-18 21:42:56.411054
+Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_non_numerical_values,50,8,No,Missing types or bug,2024-12-18 21:42:56.412089
+Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_missing_values,61,8,No,Missing types or bug,2024-12-18 21:42:56.413369
+Yes,safeds,safeds.ml.classical.classification._ada_boost,_get_sklearn_classifier,131,29,Yes,,2024-12-18 21:42:56.414412
+Yes,safeds,safeds.ml.classical.classification._ada_boost,fit,132,8,No,Call is no method,2024-12-18 21:42:56.414412
+Yes,safeds,safeds.ml.classical.classification._decision_tree,_get_sklearn_classifier,55,29,Yes,,2024-12-18 21:42:56.415835
+Yes,safeds,safeds.ml.classical.classification._decision_tree,fit,56,8,No,Call is no method,2024-12-18 21:42:56.415835
+Yes,safeds,safeds.ml.classical.classification._gradient_boosting,_get_sklearn_classifier,106,29,Yes,,2024-12-18 21:42:56.416859
+Yes,safeds,safeds.ml.classical.classification._gradient_boosting,fit,107,8,No,Call is no method,2024-12-18 21:42:56.416859
+Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,_get_sklearn_classifier,99,29,Yes,,2024-12-18 21:42:56.418236
+Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,fit,100,8,No,Call is no method,2024-12-18 21:42:56.418236
+Yes,safeds,safeds.ml.classical.classification._logistic_regression,_get_sklearn_classifier,55,29,Yes,,2024-12-18 21:42:56.419239
+Yes,safeds,safeds.ml.classical.classification._logistic_regression,fit,56,8,No,Call is no method,2024-12-18 21:42:56.419239
+Yes,safeds,safeds.ml.classical.classification._random_forest,_get_sklearn_classifier,86,29,Yes,,2024-12-18 21:42:56.420933
+Yes,safeds,safeds.ml.classical.classification._random_forest,fit,87,8,No,Call is no method,2024-12-18 21:42:56.420933
+Yes,safeds,safeds.ml.classical.classification._support_vector_machine,_get_sklearn_classifier,194,29,Yes,,2024-12-18 21:42:56.420933
+Yes,safeds,safeds.ml.classical.classification._support_vector_machine,fit,195,8,No,Call is no method,2024-12-18 21:42:56.422341
+Yes,safeds,safeds.ml.classical.regression._ada_boost,_get_sklearn_regressor,131,28,Yes,,2024-12-18 21:42:56.422341
+Yes,safeds,safeds.ml.classical.regression._ada_boost,fit,132,8,No,Call is no method,2024-12-18 21:42:56.427815
+Yes,safeds,safeds.ml.classical.regression._decision_tree,_get_sklearn_regressor,55,28,Yes,,2024-12-18 21:42:56.428513
+Yes,safeds,safeds.ml.classical.regression._decision_tree,fit,56,8,No,Call is no method,2024-12-18 21:42:56.429720
+Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,_get_sklearn_regressor,136,28,Yes,,2024-12-18 21:42:56.429720
+Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,fit,137,8,No,Call is no method,2024-12-18 21:42:56.430853
+Yes,safeds,safeds.ml.classical.regression._gradient_boosting,_get_sklearn_regressor,106,28,Yes,,2024-12-18 21:42:56.430853
+Yes,safeds,safeds.ml.classical.regression._gradient_boosting,fit,107,8,No,Call is no method,2024-12-18 21:42:56.430853
+Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,_get_sklearn_regressor,100,28,Yes,,2024-12-18 21:42:56.432355
+Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,fit,101,8,No,Call is no method,2024-12-18 21:42:56.432355
+Yes,safeds,safeds.ml.classical.regression._lasso_regression,_get_sklearn_regressor,96,28,Yes,,2024-12-18 21:42:56.433459
+Yes,safeds,safeds.ml.classical.regression._lasso_regression,fit,97,8,No,Call is no method,2024-12-18 21:42:56.434716
+Yes,safeds,safeds.ml.classical.regression._linear_regression,_get_sklearn_regressor,55,28,Yes,,2024-12-18 21:42:56.434716
+Yes,safeds,safeds.ml.classical.regression._linear_regression,fit,56,8,No,Call is no method,2024-12-18 21:42:56.435749
+Yes,safeds,safeds.ml.classical.regression._random_forest,_get_sklearn_regressor,86,28,Yes,,2024-12-18 21:42:56.435749
+Yes,safeds,safeds.ml.classical.regression._random_forest,fit,87,8,No,Call is no method,2024-12-18 21:42:56.435749
+Yes,safeds,safeds.ml.classical.regression._ridge_regression,_get_sklearn_regressor,97,28,Yes,,2024-12-18 21:42:56.437004
+Yes,safeds,safeds.ml.classical.regression._ridge_regression,fit,98,8,No,Call is no method,2024-12-18 21:42:56.437004
+Yes,safeds,safeds.ml.classical.regression._support_vector_machine,_get_sklearn_regressor,194,28,Yes,,2024-12-18 21:42:56.438276
+Yes,safeds,safeds.ml.classical.regression._support_vector_machine,fit,195,8,No,Call is no method,2024-12-18 21:42:56.438276
+Yes,safeds,safeds.data.tabular.transformation._discretizer,is_fitted,172,15,Yes,,2024-12-18 21:42:56.440387
+Yes,safeds,safeds.data.tabular.transformation._imputer,is_fitted,243,15,Yes,,2024-12-18 21:42:56.441637
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,is_fitted,201,15,Yes,,2024-12-18 21:42:56.442861
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,is_fitted,246,15,Yes,,2024-12-18 21:42:56.443868
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,is_fitted,228,15,Yes,,2024-12-18 21:42:56.444872
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,is_fitted,386,15,Yes,,2024-12-18 21:42:56.444872
+Yes,safeds,safeds.data.tabular.transformation._discretizer,is_fitted,209,15,Yes,,2024-12-18 21:42:56.445983
+Yes,safeds,safeds.data.tabular.transformation._imputer,is_fitted,280,15,Yes,,2024-12-18 21:42:56.445983
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,is_fitted,238,15,Yes,,2024-12-18 21:42:56.447359
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,is_fitted,283,15,Yes,,2024-12-18 21:42:56.447359
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,is_fitted,265,15,Yes,,2024-12-18 21:42:56.447359
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,155,11,No,Missing types or bug,2024-12-18 21:42:56.448794
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,remove_columns_with_non_numerical_values,163,28,No,Missing types or bug,2024-12-18 21:42:56.448794
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,155,11,No,Call is no method,2024-12-18 21:42:56.448794
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,keep_only_columns,163,28,No,Call is no method,2024-12-18 21:42:56.449952
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,inverse_transform,173,35,No,Missing types or bug,2024-12-18 21:42:56.449952
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,_from_pandas_dataframe,174,15,No,Missing types or bug,2024-12-18 21:42:56.449952
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,280,11,No,Missing types or bug,2024-12-18 21:42:56.452284
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns_with_non_numerical_values,288,28,No,Missing types or bug,2024-12-18 21:42:56.452284
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,280,11,No,Call is no method,2024-12-18 21:42:56.452284
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,keep_only_columns,288,28,No,Call is no method,2024-12-18 21:42:56.453584
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,_as_table,280,11,No,Call is no method,2024-12-18 21:42:56.453584
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,303,19,No,Missing types or bug,2024-12-18 21:42:56.453584
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,309,19,No,Missing types or bug,2024-12-18 21:42:56.453584
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,add_column,315,20,No,Missing types or bug,2024-12-18 21:42:56.453584
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,333,16,No,Missing types or bug,2024-12-18 21:42:56.454779
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,334,16,No,Missing types or bug,2024-12-18 21:42:56.454779
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,sort_columns,336,15,No,Missing types or bug,2024-12-18 21:42:56.454779
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,198,12,No,Missing types or bug,2024-12-18 21:42:56.456973
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,208,28,No,Missing types or bug,2024-12-18 21:42:56.458316
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,198,12,No,Call is no method,2024-12-18 21:42:56.459422
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,201,14,No,Missing types or bug,2024-12-18 21:42:56.459422
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,206,28,No,Missing types or bug,2024-12-18 21:42:56.460491
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,208,28,No,Call is no method,2024-12-18 21:42:56.460491
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,inverse_transform,218,35,No,Missing types or bug,2024-12-18 21:42:56.460491
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,_from_pandas_dataframe,219,15,No,Missing types or bug,2024-12-18 21:42:56.461532
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,180,12,No,Missing types or bug,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,190,28,No,Missing types or bug,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,180,12,No,Call is no method,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,183,14,No,Missing types or bug,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,188,28,No,Missing types or bug,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,190,28,No,Call is no method,2024-12-18 21:42:56.463531
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,inverse_transform,200,35,No,Missing types or bug,2024-12-18 21:42:56.464984
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,_from_pandas_dataframe,201,15,No,Missing types or bug,2024-12-18 21:42:56.464984
+Yes,safeds,safeds.data.tabular.transformation._table_transformer,transform,133,15,Yes,,2024-12-18 21:42:56.465989
+Yes,safeds,safeds.data.tabular.transformation._table_transformer,fit,133,15,No,Call is no method,2024-12-18 21:42:56.466990
+Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,70,25,No,Call is no method,2024-12-18 21:42:56.471443
+Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,74,25,No,Call is no method,2024-12-18 21:42:56.471443
+Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,78,65,No,Call is no method,2024-12-18 21:42:56.471443
+Yes,safeds,safeds.data.tabular.typing._column_type,column_type_of_type,79,66,No,Call is no method,2024-12-18 21:42:56.472779
+Yes,safeds,safeds.data.tabular.typing._column_type,type,70,45,No,Call is no method,2024-12-18 21:42:56.472779
+Yes,safeds,safeds.data.tabular.typing._column_type,type,71,19,No,Call is no method,2024-12-18 21:42:56.472779
+Yes,safeds,safeds.data.tabular.typing._column_type,type,74,45,No,Call is no method,2024-12-18 21:42:56.472779
+Yes,safeds,safeds.data.tabular.typing._column_type,type,75,19,No,Call is no method,2024-12-18 21:42:56.474065
+Yes,safeds,safeds.data.tabular.typing._column_type,type,78,85,No,Call is no method,2024-12-18 21:42:56.474065
+Yes,safeds,safeds.data.tabular.typing._column_type,type,79,86,No,Call is no method,2024-12-18 21:42:56.474065
+Yes,safeds,safeds.data.tabular.typing._column_type,all,88,46,No,Call is no method,2024-12-18 21:42:56.476246
+Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,276,23,No,Missing types or bug,2024-12-18 21:42:56.479252
+Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,276,62,No,Missing types or bug,2024-12-18 21:42:56.479252
+Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,279,27,No,Missing types or bug,2024-12-18 21:42:56.479252
+Yes,safeds,safeds.data.tabular.typing._schema,is_nullable,279,82,No,Missing types or bug,2024-12-18 21:42:56.480362
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,276,62,No,Call is no method,2024-12-18 21:42:56.480362
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,278,62,Yes,,2024-12-18 21:42:56.480362
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,279,27,No,Call is no method,2024-12-18 21:42:56.480362
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,280,57,Yes,,2024-12-18 21:42:56.481361
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,284,39,Yes,,2024-12-18 21:42:56.481361
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,287,39,Yes,,2024-12-18 21:42:56.481361
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,292,53,Yes,,2024-12-18 21:42:56.481361
+Yes,safeds,safeds.data.tabular.typing._schema,get_column_type,294,34,Yes,,2024-12-18 21:42:56.482535
+Yes,safeds,safeds.data.tabular.typing._schema,type,278,57,No,Call is no method,2024-12-18 21:42:56.482535
+Yes,safeds,safeds.data.tabular.typing._schema,type,280,52,No,Call is no method,2024-12-18 21:42:56.482535
+Yes,safeds,safeds.data.tabular.typing._schema,type,292,48,No,Call is no method,2024-12-18 21:42:56.483619
+Yes,safeds,safeds.data.tabular.typing._schema,type,295,48,No,Call is no method,2024-12-18 21:42:56.483619
+Yes,safeds,safeds.ml.classical._util_sklearn,has_column,122,83,No,Call is no method,2024-12-18 21:42:56.485646
+Yes,safeds,safeds.ml.classical._util_sklearn,has_column,120,7,No,Missing types or bug,2024-12-18 21:42:56.485646
+Yes,safeds,safeds.ml.classical._util_sklearn,predict,161,38,No,Missing types or bug,2024-12-18 21:42:56.485646
+Yes,safeds,safeds.ml.classical._util_sklearn,tag_columns,163,15,No,Missing types or bug,2024-12-18 21:42:56.486717
+Yes,safeds,safeds.ml.classical._util_sklearn,_from_pandas_dataframe,163,15,No,Call is no method,2024-12-18 21:42:56.486717
+Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,131,37,No,Missing types or bug,2024-12-18 21:42:56.487720
+Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,132,8,No,Call is no method,2024-12-18 21:42:56.487720
+Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,142,39,No,Missing types or bug,2024-12-18 21:42:56.487720
+Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,143,8,No,Call is no method,2024-12-18 21:42:56.488742
+Yes,safeds,safeds.ml.classical._util_sklearn,keep_only_columns,152,17,No,Missing types or bug,2024-12-18 21:42:56.488742
+Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_non_numerical_values,132,8,No,Missing types or bug,2024-12-18 21:42:56.488742
+Yes,safeds,safeds.ml.classical._util_sklearn,remove_columns_with_missing_values,143,8,No,Missing types or bug,2024-12-18 21:42:56.488742
+Yes,safeds,safeds.ml.classical.classification._ada_boost,predict,176,15,No,Call is no method,2024-12-18 21:42:56.490752
+Yes,safeds,safeds.ml.classical.classification._decision_tree,predict,96,15,No,Call is no method,2024-12-18 21:42:56.492913
+Yes,safeds,safeds.ml.classical.classification._gradient_boosting,predict,147,15,No,Call is no method,2024-12-18 21:42:56.493974
+Yes,safeds,safeds.ml.classical.classification._k_nearest_neighbors,predict,140,15,No,Call is no method,2024-12-18 21:42:56.493974
+Yes,safeds,safeds.ml.classical.classification._logistic_regression,predict,96,15,No,Call is no method,2024-12-18 21:42:56.495422
+Yes,safeds,safeds.ml.classical.classification._random_forest,predict,127,15,No,Call is no method,2024-12-18 21:42:56.495422
+Yes,safeds,safeds.ml.classical.classification._support_vector_machine,predict,235,15,No,Call is no method,2024-12-18 21:42:56.496784
+Yes,safeds,safeds.ml.classical.regression._ada_boost,predict,176,15,No,Call is no method,2024-12-18 21:42:56.496784
+Yes,safeds,safeds.ml.classical.regression._decision_tree,predict,96,15,No,Call is no method,2024-12-18 21:42:56.498198
+Yes,safeds,safeds.ml.classical.regression._elastic_net_regression,predict,177,15,No,Call is no method,2024-12-18 21:42:56.498198
+Yes,safeds,safeds.ml.classical.regression._gradient_boosting,predict,147,15,No,Call is no method,2024-12-18 21:42:56.499390
+Yes,safeds,safeds.ml.classical.regression._k_nearest_neighbors,predict,141,15,No,Call is no method,2024-12-18 21:42:56.499390
+Yes,safeds,safeds.ml.classical.regression._lasso_regression,predict,137,15,No,Call is no method,2024-12-18 21:42:56.500394
+Yes,safeds,safeds.ml.classical.regression._linear_regression,predict,96,15,No,Call is no method,2024-12-18 21:42:56.500394
+Yes,safeds,safeds.ml.classical.regression._random_forest,predict,127,15,No,Call is no method,2024-12-18 21:42:56.501533
+Yes,safeds,safeds.ml.classical.regression._ridge_regression,predict,138,15,No,Call is no method,2024-12-18 21:42:56.501533
+Yes,safeds,safeds.ml.classical.regression._support_vector_machine,predict,235,15,No,Call is no method,2024-12-18 21:42:56.502578
+Yes,safeds,safeds.ml.classical.classification._ada_boost,_get_sklearn_classifier,198,18,No,Missing types or bug,2024-12-18 21:42:56.502578
+Yes,safeds,safeds.ml.classical.classification._classifier,predict,116,27,Yes,,2024-12-18 21:42:58.314906
+Yes,safeds,safeds.ml.classical.classification._classifier,predict,141,27,Yes,,2024-12-18 21:42:58.403669
+Yes,safeds,safeds.ml.classical.classification._classifier,predict,178,27,Yes,,2024-12-18 21:42:58.405664
+Yes,safeds,safeds.ml.classical.classification._classifier,predict,215,27,Yes,,2024-12-18 21:42:58.406661
+Yes,safeds,safeds.ml.classical.regression._ada_boost,_get_sklearn_regressor,198,18,No,Missing types or bug,2024-12-18 21:42:58.410650
+Yes,safeds,safeds.ml.classical.regression._regressor,predict,114,20,Yes,,2024-12-18 21:42:58.692729
+Yes,safeds,safeds.ml.classical.regression._regressor,_check_metrics_preconditions,116,8,No,Call is no method,2024-12-18 21:42:58.693811
+Yes,safeds,safeds.ml.classical.regression._regressor,predict,142,20,Yes,,2024-12-18 21:42:58.735745
+Yes,safeds,safeds.ml.classical.regression._regressor,_check_metrics_preconditions,144,8,No,Call is no method,2024-12-18 21:42:58.735745
+Yes,safeds,safeds.ml.classical.regression._regressor,is_numeric,150,11,No,Missing types or bug,2024-12-18 21:42:58.736742
+Yes,safeds,safeds.ml.classical.regression._regressor,is_numeric,152,11,No,Missing types or bug,2024-12-18 21:42:58.737739
