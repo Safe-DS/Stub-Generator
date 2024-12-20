@@ -93,6 +93,10 @@ class ChildClassPure(ClassPure):
     def only_in_child_self(self) -> int:
         result = self.same_name()
         return result
+    
+    def super_same_name(self) -> int:
+        result = super().same_name()
+        return result
 
 class ChildClassImpure(ClassImpure):
     """contains impure functions only
@@ -114,6 +118,10 @@ class ChildClassImpure(ClassImpure):
     
     def only_in_child_self(self) -> int:
         result = self.same_name()
+        return result
+    
+    def super_same_name(self) -> int:
+        result = super().same_name()
         return result
     
 
@@ -155,7 +163,14 @@ class ClassWithNestedClassAsMember(SuperWithNestedClassAsMember):
     def double_function_impure(self) -> Callable[[], int]:
         return lambda: global_var
     
-# TODO pm test self.method() calls
+    def super_impure(self) -> int:
+        result = super().super_member_impure.same_name()
+        return result
+    
+    def super_pure(self) -> int:
+        result = super().super_member_pure.same_name()
+        return result
+
 
 class AnotherPureClass:
     def __init__(self):
@@ -163,3 +178,19 @@ class AnotherPureClass:
 
     def same_name(self):
         return 21
+
+class PureInitClass:
+    def __init__(self):
+        result = 10
+
+class ImpureInitClass:
+    def __init__(self):
+        self.test = global_var
+
+class PureSuperInit(PureInitClass):
+    def __init__(self):
+        super().__init__()
+
+class ImpureSuperInit(ImpureInitClass):
+    def __init__(self):
+        super().__init__()

@@ -74,7 +74,7 @@ def get_api(
 
     # Setup api walker
     path_to_package = ""
-    if is_test_run and evaluation is not None:
+    if is_test_run or evaluation is not None:
         path_to_package = f"tests/data/{dist}"
     api = API(distribution=dist, package=package_name, version=dist_version, path_to_package=path_to_package)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
@@ -229,19 +229,25 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             if isinstance(type, list):
                 if isinstance(type[0], NamedType):
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.qname.split(".")))
+                        class_of_receiver = api.classes.get("/".join(t.qname.split(".")), None)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
-                elif api.classes.get("/".join(type[0].type.fullname.split("."))) is not None:
+                elif hasattr(type[0], "type") and api.classes.get("/".join(type[0].type.fullname.split(".")), None) is not None:
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")))
+                        class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")), None)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
-                elif api.classes.get("/".join(type[0].fullname.split("."))) is not None:
+                elif hasattr(type[0], "fullname") and api.classes.get("/".join(type[0].fullname.split(".")), None) is not None:
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.fullname.split(".")))
+                        class_of_receiver = api.classes.get("/".join(t.fullname.split(".")), None)
+                        if class_of_receiver is None:
+                            continue
+                        classes.append(class_of_receiver)
+                elif isinstance(type[0], str):  # super() or static method
+                    for t in type:
+                        class_of_receiver = api.classes.get("/".join(t.split(".")), None)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
@@ -249,25 +255,25 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     classes.append(type)
 
             elif isinstance(type, NamedType):
-                class_of_receiver = api.classes.get("/".join(type.qname.split(".")))
+                class_of_receiver = api.classes.get("/".join(type.qname.split(".")), None)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
-            elif hasattr(type, "type") and api.classes.get("/".join(type.type.fullname.split("."))) is not None:
-                class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")))
+            elif hasattr(type, "type") and api.classes.get("/".join(type.type.fullname.split(".")), None) is not None:
+                class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")), None)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
-            elif hasattr(type, "fullname") and api.classes.get("/".join(type.fullname.split("."))) is not None:
-                class_of_receiver = api.classes.get("/".join(type.fullname.split(".")))
+            elif hasattr(type, "fullname") and api.classes.get("/".join(type.fullname.split(".")), None) is not None:
+                class_of_receiver = api.classes.get("/".join(type.fullname.split(".")), None)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
             elif isinstance(type, str):  # super() or static method
-                class_of_receiver = api.classes.get("/".join(type.split(".")))
+                class_of_receiver = api.classes.get("/".join(type.split(".")), None)
                 if class_of_receiver is None:
                     continue
-                call_reference.receiver.found_classes.append(class_of_receiver)
+                classes.append(class_of_receiver)
                 # if call_reference.isSuperCallRef:
                 #     super_classes = class_of_receiver.superclasses
                 # classes.append(class_of_receiver)
@@ -277,8 +283,36 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             if not call_reference.isSuperCallRef:
                 for classs in classes:
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
+            else:
+                # here we have a super() call so we need to get the super classes
+                super_classes: list[Class] = []
+                for super_class_id in classes[0].superclasses:
+                    class_name = super_class_id.split(".")[-1]
+                    correct_id = ""
+                    for key in api.reexport_map.keys():
+                        if key.endswith(class_name):
+                            api.reexport_map[key]
+                            correct_id = "/".join(super_class_id.split(".")[:-1] + key.split("."))
+                            break
+                    if correct_id.startswith(api.path_to_package):
+                        api.reexport_map
+                        super_class = api.classes.get(correct_id, None)
+                        if super_class is not None:
+                            super_classes.append(super_class)
+                    else:
+                        correct_id = api.path_to_package + correct_id
+                        super_class = api.classes.get(correct_id, None)
+                        if super_class is not None:
+                            super_classes.append(super_class)
+                for super_class in super_classes:
+                    prev_found_classes_length = len(call_reference.receiver.found_classes)
+                    _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, super_class, call_reference.receiver.path_to_call_reference, 0)
+                    if prev_found_classes_length < len(call_reference.receiver.found_classes):
+                        break # for super types we can only take the first class where we found correct types
 
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
+    if len(path) == 0:
+        return
     path_copy = path.copy()
     part = path_copy.pop()
 
@@ -436,6 +470,9 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
+            if call_reference.isSuperCallRef:
+                pass
+            # TODo pm find out why __init__ functions referenced functions are not found!!!!!
             # use found class of _find_correct_type_by_path_to_call_reference if not None
             if call_reference.receiver.found_classes is None or len(call_reference.receiver.found_classes) == 0:
                 continue
@@ -444,27 +481,26 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
 
             for current_class in current_classes:
                 # check if specified class has method with name of callreference
-                if not call_reference.isSuperCallRef:
-                    specified_class_has_method = False
-                    methods = current_class.methods
-                    for method in methods:
-                        if method.name == call_reference.function_name:
-                            specified_class_has_method = True
-                            break  # as there can only be one method of that name in a python class
-                    
-                    referenced_functions: list[Function] = []
-                    _get_referenced_functions_from_class_and_subclasses(
-                        api, 
-                        call_reference,
-                        current_class.id,
-                        [],
-                        referenced_functions
-                    )
+                specified_class_has_method = False
+                referenced_functions: list[Function] = []
+                methods = current_class.methods
+                for method in methods:
+                    if method.name == call_reference.function_name:
+                        specified_class_has_method = True
+                        break  # as there can only be one method of that name in a python class
+                
+                _get_referenced_functions_from_class_and_subclasses(
+                    api, 
+                    call_reference,
+                    current_class.id,
+                    [],
+                    referenced_functions
+                )
 
-                if not specified_class_has_method or call_reference.isSuperCallRef:  # then python will look for method in super but so we have to do that as well
+                if not specified_class_has_method:  # then python will look for method in super but so we have to do that as well
                 # find function in superclasses but only first appearance as python will also only call the first appearance
+                    super_classes: list[Class] = []
                     try:
-                        super_classes: list[Class] = []
                         # for super_class_id in current_class.superclasses:
                         #     api.classes
                         #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
@@ -513,6 +549,10 @@ def _get_referenced_function_from_super_classes(
     """
     for super_class in super_classes:
         found_method = False
+        if call_reference.function_name == "__init__" and super_class.constructor is not None:
+            referenced_functions.append(super_class.constructor)
+            found_method = True
+            break
         for method in super_class.methods:
             if method.name == call_reference.function_name:
                 referenced_functions.append(method)

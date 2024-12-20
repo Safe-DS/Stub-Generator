@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass
+from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
 # else they should be categorized as impure
@@ -589,6 +589,39 @@ def global_func_self_impure() -> int:
     instance = ChildClassImpure()
     result = instance.only_in_child_self()
     return result
+
+def global_func_super_init_pure():
+    instance = PureSuperInit().__init__()
+    return instance
+
+def global_func_super_init_impure():
+    instance = ImpureSuperInit().__init__()
+    return instance
+
+def global_func_super_method_pure() -> int:
+    instance = ChildClassPure()
+    result = instance.super_same_name()
+    return result
+
+def global_func_super_method_impure() -> int:
+    instance = ChildClassImpure()
+    result = instance.super_same_name()
+    return result
+
+def global_func_super_nested_method_should_be_pure_but_impure() -> int:
+    """
+        is impure as .super_pure() has a member variable read 
+    """
+    instance = ClassWithNestedClassAsMember()
+    result = instance.super_pure()
+    return result
+
+def global_func_super_nested_method_impure() -> int:
+    instance = ClassWithNestedClassAsMember()
+    result = instance.super_impure()
+    return result
+
+# TODO pm test super(), __init__()  astroid.nodes.node_classes line2011 (static methods)
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]

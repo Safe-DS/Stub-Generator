@@ -7,7 +7,7 @@ from functools import reduce
 
 from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
-from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import NodeID
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure
 
 import csv
@@ -45,10 +45,13 @@ class PurityEvaluation(Evaluation):
 		self._amount_of_callRefs_without_functions_in_package = 0
 		self._amount_of_call_refs_where_call_is_no_method = 0
 		self._amount_of_found_more_functions = 0
+		self._amount_of_found_same_amount = 0
 
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
 		function_name_of_call_ref: str,
+		reduced_functions: list[FunctionScope],
+		old_functions: list[FunctionScope],
 		line: int | None, 
 		column: int | None, 
 		improvement: bool, 
@@ -79,6 +82,7 @@ class PurityEvaluation(Evaluation):
 			self._amount_of_found_more_functions += 1
 		else:
 			reason_for_no_improvement = "Found same amount of functions"
+			self._amount_of_found_same_amount += 1
 			# there is data but no improvement
 			pass
 
@@ -92,6 +96,8 @@ class PurityEvaluation(Evaluation):
 			"Line",
 			"Column",
 			"Improvement",
+			"#New",
+			"#Old",
 			"Reason for no improvement",
 			"Date",
 		]
@@ -104,6 +110,8 @@ class PurityEvaluation(Evaluation):
 				"Line": str(line),
 				"Column": str(column),
 				"Improvement": "Yes" if improvement else "No",
+				"#New": len(reduced_functions),
+				"#Old": len(old_functions),
 				"Reason for no improvement": reason_for_no_improvement,
 				"Date": str(datetime.now())
 			},
@@ -179,9 +187,12 @@ class PurityEvaluation(Evaluation):
 			"Balanced Accuracy",
 			"Call References",
 			"Improved CallRef",
+			"Found more func",
+			"Found same amount",
 			"No Data CallRef",
 			"Call refs func outside of package",
 			"No Method CallRef",
+			"Api Analyzer bug",
 			"Date"
 		]
 		data = [
@@ -202,9 +213,12 @@ class PurityEvaluation(Evaluation):
 				"Balanced Accuracy": balanced_accuracy,
 				"Call References": str(self._amount_of_call_references),
 				"Improved CallRef": str(self._amount_of_callRef_improvements),
+				"Found more func": str(self._amount_of_found_more_functions),
+				"Found same amount": str(self._amount_of_found_same_amount),
 				"No Data CallRef": str(self._amount_of_no_type_data_for_call_reference),
 				"Call refs func outside of package": str(self._amount_of_callRefs_without_functions_in_package),
 				"No Method CallRef": str(self._amount_of_call_refs_where_call_is_no_method),
+				"Api Analyzer bug": str(self._amount_of_missing_api_function),
 				"Date": str(datetime.now())
 			},
 		]

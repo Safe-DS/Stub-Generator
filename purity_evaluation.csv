@@ -1,7 +1,5 @@
-Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Call References,Improved CallRef,No Data CallRef,Call refs func outside of package,No Method CallRef,Date
-Yes,astroid,594.3414266109467,214,1289,1503,0,0,0,0,0,0,0,0,2104,27,900,0,930,2024-12-16 00:01:11.166551
-Yes,safeds,188.65802311897278,118,448,566,0,0,0,0,0,0,0,0,547,74,183,0,261,2024-12-16 17:53:22.219243
-No,safeds,173.15014672279358,118,448,566,0,0,0,0,0,0,0,0,547,0,547,0,0,2024-12-16 17:58:48.466101
-Yes,safeds,401.3583915233612,118,448,566,0,0,0,0,0,0,0,0,547,74,183,0,261,2024-12-17 00:20:31.199888
-Yes,safeds,196.29633212089539,118,448,566,0,0,0,0,0,0,0,0,547,147,183,0,188,2024-12-18 21:20:40.691566
-Yes,safeds,169.3276879787445,118,448,566,0,0,0,0,0,0,0,0,547,167,183,0,112,2024-12-18 21:45:26.023908
+Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Call References,Improved CallRef,Found more func,Found same amount,No Data CallRef,Call refs func outside of package,No Method CallRef,Api Analyzer bug,Date
+Yes,safeds,175.93400263786316,118,448,566,0,0,0,0,0,0,0,0,547,168,0,87,183,0,109,0,2024-12-20 11:33:17.804022
+Yes,safeds,325.8364579677582,119,447,566,0,0,0,0,0,0,0,0,547,97,0,87,294,0,69,0,2024-12-20 17:00:11.552711
+Yes,safeds,183.48604464530945,119,447,566,0,0,0,0,0,0,0,0,547,97,0,87,294,0,69,0,2024-12-20 17:36:42.387059
+Yes,safeds,428.8915297985077,119,447,566,0,0,0,0,0,0,0,0,547,139,0,88,251,0,69,0,2024-12-20 23:29:52.896462

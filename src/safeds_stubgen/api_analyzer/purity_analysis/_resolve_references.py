@@ -282,52 +282,59 @@ class ReferenceResolver:
         function_defs = self.functions.get(call_reference.name)
         if function_defs is None:  # the call reference references functions out side of the package
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, False, False, True, False)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, True, False)
             return []
 
         if self.old_purity_analysis:
+            result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
-            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-        if self.api_data is None:  # api analyzer didnt provide any data at all, this shouldnt happen
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
+            return result
+        if self.api_data is None:  # api analyzer didn't provide any data at all, this shouldn't happen
+            result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
-            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
+            return result
         
         function_api = self.api_data.functions.get(function_id)
-        if function_api is None or self.api_data.functions[function_id].body is None:  # api_analyzer doesnt has function which contains the call ref, could be a bug of api analyzer
+        if function_api is None or self.api_data.functions[function_id].body is None:  # api_analyzer doesn't has function which contains the call ref, could be a bug of api analyzer
+            result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, False, True, False, False)
-            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, True, False, False)
+            return result
         
         # try to get call_reference from api
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
         call_reference_api = function_api.body.call_references.get(call_reference_id)
         if call_reference_api is None:  # if call reference is none then this call reference is no method or call reference could not be found
+            result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True)
-            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True)
+            return result
 
         possibly_referenced_functions = call_reference_api.possibly_referenced_functions
         if len(possibly_referenced_functions) == 0:  # no found functions, due to missing types etc, could be a bug of type aware purity analysis or there is actually no type available
+            result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
-            return self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
+            return result
 
         list_of_function_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
         reduced_function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_function_ids]
-        
+
         if self.evaluation is not None:
             function_defs_old = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+            if len(reduced_function_defs) == 0:
+                pass
             if len(reduced_function_defs) < len(function_defs_old):
                 # type aware purity analysis provided an improvement
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False)
             elif len(reduced_function_defs) > len(function_defs_old):
-                # found functions which old purity analysis couldnt find
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, True, False, False, False, False)
+                # found functions which old purity analysis couldn't find
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, True, False, False, False, False)
             else:
                 # type aware purity analysis found same amount of functions
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False)
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False)
         return reduced_function_defs
     
     def _reduce_function_defs_by_parameter_comparison(self, function_defs: list[FunctionScope], call_reference: Reference):

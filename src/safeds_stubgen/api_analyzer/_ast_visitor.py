@@ -608,6 +608,7 @@ class MyPyAstVisitor:
                 
                 elif isinstance(expr.expr.node, mp_nodes.TypeInfo):
                     call_receiver_type = expr.expr.node.fullname
+                    pathCopy.append(expr.expr.name)
                     self._set_call_reference(
                         expr=expr,
                         type=call_receiver_type,
@@ -643,22 +644,14 @@ class MyPyAstVisitor:
         # condition: super().__init__() etc
         if isinstance(expr, mp_nodes.SuperExpr):
             if isinstance(expr.info, mp_nodes.TypeInfo):
-                call_receiver_type = expr.info.fullname
-                # for a super expression there cant be parameters
-                # parameter = parameter_of_func.get(call_receiver_type)
-                # if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                #     if parameter.type is not None:
-                #         extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                #     elif parameter.docstring.type is not None:
-                #         extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                #     if extracted_type is not None and len(extracted_type) == 1:
-                #         call_receiver_type = extracted_type[0]
-                #     elif extracted_type is not None and len(extracted_type) >= 1:
-                #         call_receiver_type = extracted_type
+                class_that_calls_super = expr.info.fullname
+                # call_receiver_type = list(map(lambda base: base.type.fullname, expr.info.bases))
+                pathCopy.append("()")
+                pathCopy.append("super")
 
                 self._set_call_reference(
                     expr=expr,
-                    type=call_receiver_type,
+                    type=class_that_calls_super,
                     path=pathCopy,
                     call_references=call_references,
                     is_super=True
@@ -743,7 +736,14 @@ class MyPyAstVisitor:
                     # what is the type of an imported file?
                     return  # TODO pm what about mypy file?
                 else:
-                    pass
+                    return
+            # go deeper to find termination condition
+            # find final receiver
+            self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, parameter_of_func, call_references)
+            # start finding info of another call expr
+            newPath = []
+            self.extract_call_expression_info(expr, newPath, parameter_of_func, call_references)
+            return
 
         # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
         # also for tuple and dict
@@ -841,12 +841,6 @@ class MyPyAstVisitor:
                     return  # TODO pm what about mypy file?
                 else:
                     pass
-                
-        # go deeper to find termination condition
-        if isinstance(expr, mp_nodes.CallExpr):  # found another call reference instance.call_reference1().call_reference2() for example
-            newPath = []
-            self.extract_call_expression_info(expr, newPath, parameter_of_func, call_references)
-            return
 
         for member_name in dir(expr):
             if not member_name.startswith("__"):
