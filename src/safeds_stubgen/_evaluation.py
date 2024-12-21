@@ -47,6 +47,9 @@ class PurityEvaluation(Evaluation):
 		self._amount_of_found_more_functions = 0
 		self._amount_of_found_same_amount = 0
 
+		self.found_call_refs_by_purity_analysis = 0
+		self.found_call_refs_by_api_analysis = 0
+
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
 		function_name_of_call_ref: str,
@@ -66,7 +69,7 @@ class PurityEvaluation(Evaluation):
 		if improvement:
 			self._amount_of_callRef_improvements += 1
 		elif no_type_data:
-			reason_for_no_improvement = "Missing types or bug"
+			reason_for_no_improvement = "Found no referenced functions"
 			self._amount_of_no_type_data_for_call_reference += 1
 		elif missing_api_function:
 			reason_for_no_improvement = "Api analyzer bug"
@@ -75,7 +78,7 @@ class PurityEvaluation(Evaluation):
 			reason_for_no_improvement = "Call references functions outside of package"
 			self._amount_of_callRefs_without_functions_in_package += 1
 		elif call_is_no_method:
-			reason_for_no_improvement = "Call is no method"
+			reason_for_no_improvement = "No call reference"
 			self._amount_of_call_refs_where_call_is_no_method += 1
 		elif found_more_functions:
 			reason_for_no_improvement = "Found more functions than old purity analysis"
@@ -83,7 +86,6 @@ class PurityEvaluation(Evaluation):
 		else:
 			reason_for_no_improvement = "Found same amount of functions"
 			self._amount_of_found_same_amount += 1
-			# there is data but no improvement
 			pass
 
 		
@@ -189,10 +191,12 @@ class PurityEvaluation(Evaluation):
 			"Improved CallRef",
 			"Found more func",
 			"Found same amount",
-			"No Data CallRef",
+			"Found no referenced functions",
 			"Call refs func outside of package",
-			"No Method CallRef",
+			"Api callRef not found",
 			"Api Analyzer bug",
+			"Callrefs found by purity",
+			"Callrefs found by api",
 			"Date"
 		]
 		data = [
@@ -215,10 +219,12 @@ class PurityEvaluation(Evaluation):
 				"Improved CallRef": str(self._amount_of_callRef_improvements),
 				"Found more func": str(self._amount_of_found_more_functions),
 				"Found same amount": str(self._amount_of_found_same_amount),
-				"No Data CallRef": str(self._amount_of_no_type_data_for_call_reference),
+				"Found no referenced functions": str(self._amount_of_no_type_data_for_call_reference),
 				"Call refs func outside of package": str(self._amount_of_callRefs_without_functions_in_package),
-				"No Method CallRef": str(self._amount_of_call_refs_where_call_is_no_method),
+				"Api callRef not found": str(self._amount_of_call_refs_where_call_is_no_method),
 				"Api Analyzer bug": str(self._amount_of_missing_api_function),
+				"Callrefs found by purity": str(self.found_call_refs_by_purity_analysis),
+				"Callrefs found by api": str(self.found_call_refs_by_api_analysis),
 				"Date": str(datetime.now())
 			},
 		]

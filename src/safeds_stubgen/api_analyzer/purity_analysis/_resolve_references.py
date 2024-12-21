@@ -280,7 +280,7 @@ class ReferenceResolver:
         node_id = func.symbol.id
         function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
         function_defs = self.functions.get(call_reference.name)
-        if function_defs is None:  # the call reference references functions out side of the package
+        if function_defs is None:  # the call reference references functions out side of the package, can not happen, as before this function is called, this is checked
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, True, False)
             return []
@@ -290,14 +290,17 @@ class ReferenceResolver:
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
             return result
-        if self.api_data is None:  # api analyzer didn't provide any data at all, this shouldn't happen
+        
+        # api analyzer didn't provide any data at all, this shouldn't happen
+        if self.api_data is None:
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
             return result
         
         function_api = self.api_data.functions.get(function_id)
-        if function_api is None or self.api_data.functions[function_id].body is None:  # api_analyzer doesn't has function which contains the call ref, could be a bug of api analyzer
+        # api_analyzer doesn't has function which contains the call ref, could be a bug of api analyzer
+        if function_api is None or self.api_data.functions[function_id].body is None:  
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, True, False, False)
@@ -306,14 +309,17 @@ class ReferenceResolver:
         # try to get call_reference from api
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
         call_reference_api = function_api.body.call_references.get(call_reference_id)
-        if call_reference_api is None:  # if call reference is none then this call reference is no method or call reference could not be found
+        
+        # if call reference is none then this call reference is no method or call reference could not be found
+        if call_reference_api is None:  
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True)
             return result
 
         possibly_referenced_functions = call_reference_api.possibly_referenced_functions
-        if len(possibly_referenced_functions) == 0:  # no found functions, due to missing types etc, could be a bug of type aware purity analysis or there is actually no type available
+        # no found functions, due to missing types etc, could be a bug of type aware purity analysis or there is actually no type available
+        if len(possibly_referenced_functions) == 0:
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False)
@@ -413,7 +419,7 @@ class ReferenceResolver:
 
         result_value_reference = ValueReference(call_reference, function, [])
     	
-        # Find functions that are called.
+        # Find functions that are called. but only those which are defined in the package
         if call_reference.name in self.functions:
             # TODO pm add parameters for all possible stuff of evaluation
             function_def = self._get_function_scopes_by_call_reference(function, call_reference)
@@ -437,7 +443,7 @@ class ReferenceResolver:
                         for f in func:
                             if f.name == call_reference.name:
                                 res.append(f)
-
+                # seems to find builtins, for __init__
                 result_value_reference.referenced_symbols.extend(res)
             else:
                 result_value_reference.referenced_symbols.extend(function_symbols)
@@ -866,7 +872,7 @@ class ReferenceResolver:
         # In the future, it is possible to differentiate between calls with the same name.
         # This could be done by further specifying the call_references for a function (by analyzing the signature, etc.)
         # If it is analyzed with 100% certainty, it is possible to remove the list and use a single ValueReference.
-
+        amount_of_call_refs = 0
         for function_list in self.functions.values():  # functions are stored by dict, with the name as key 
             # iterate over all functions with the same name
             for function in function_list:  # here we iterate over the functions with same name
@@ -877,6 +883,7 @@ class ReferenceResolver:
                 if function.call_references:
                     for call_list in function.call_references.values():
                         for call_reference in call_list:
+                            amount_of_call_refs += 1
                             call_references_result: ReferenceNode
                             call_references_result = self._find_referenced_functions(
                                 call_reference,
@@ -1007,6 +1014,12 @@ class ReferenceResolver:
                                             raw_reasons[function.symbol.id].writes_to[referenced_symbol.id] = (
                                                 NonLocalVariableWrite(symbol=referenced_symbol, origin=function.symbol)
                                             )
+        
+        if self.evaluation is not None:
+            self.evaluation.found_call_refs_by_purity_analysis = amount_of_call_refs
+            if self.api_data is not None:
+                for function in self.api_data.functions.values():
+                    self.evaluation.found_call_refs_by_api_analysis += len(function.body.call_references)
 
         name_references: dict[str, list[ReferenceNode]] = self.merge_dicts(value_references, target_references)
         resolved_references: dict[str, list[ReferenceNode]] = self.merge_dicts(call_references, name_references)

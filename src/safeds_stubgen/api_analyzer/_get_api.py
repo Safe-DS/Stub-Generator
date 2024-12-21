@@ -327,14 +327,14 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
         return 
     if part.startswith("[") and part.endswith("]"):
-        if isinstance(type_of_receiver, tuple):
+        if isinstance(type_of_receiver, mypy_types.TupleType):  # TODO pm this typecheck didnt work
             key = part.removeprefix("[").removesuffix("]")
             if key == "":
-                for type in type_of_receiver:
+                for type in type_of_receiver.items:
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
                 return
             else:
-                type_of_receiver = type_of_receiver[int(key)]
+                type_of_receiver = type_of_receiver.items[int(key)]
         elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
             type_of_receiver = type_of_receiver.args[0]  # type: ignore
         elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore | dictionary
@@ -484,10 +484,13 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                 specified_class_has_method = False
                 referenced_functions: list[Function] = []
                 methods = current_class.methods
-                for method in methods:
-                    if method.name == call_reference.function_name:
-                        specified_class_has_method = True
-                        break  # as there can only be one method of that name in a python class
+                if call_reference.function_name == "__init__" and current_class.constructor is not None:
+                    specified_class_has_method = True
+                if not specified_class_has_method:    
+                    for method in methods:
+                        if method.name == call_reference.function_name:
+                            specified_class_has_method = True
+                            break  # as there can only be one method of that name in a python class
                 
                 _get_referenced_functions_from_class_and_subclasses(
                     api, 
@@ -617,10 +620,13 @@ def _get_referenced_functions_from_class_and_subclasses(
     current_class = api.classes[current_class_id]
     visited_classes.append(current_class_id)
     methods = current_class.methods
-    for method in methods:
-        if method.name == call_reference.function_name:
-            referenced_functions.append(method)
-            break  # as there can only be one method of that name in a python class
+    if call_reference.function_name == "__init__" and current_class.constructor is not None:
+        referenced_functions.append(current_class.constructor)
+    else:
+        for method in methods:
+            if method.name == call_reference.function_name:
+                referenced_functions.append(method)
+                break  # as there can only be one method of that name in a python class
 
     if len(current_class.subclasses) != 0:
         for subclass in current_class.subclasses:

@@ -621,6 +621,13 @@ def global_func_super_nested_method_impure() -> int:
     result = instance.super_impure()
     return result
 
+
+# TODO pm test all generator stuff
+def global_func_generator_pure() -> list[int]:
+    instance = ClassPure()
+    result = [instance.same_name() for _ in range(10)]
+    return result
+
 # TODO pm test super(), __init__()  astroid.nodes.node_classes line2011 (static methods)
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class

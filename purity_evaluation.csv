@@ -1,5 +1,5 @@
-Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Call References,Improved CallRef,Found more func,Found same amount,No Data CallRef,Call refs func outside of package,No Method CallRef,Api Analyzer bug,Date
-Yes,safeds,175.93400263786316,118,448,566,0,0,0,0,0,0,0,0,547,168,0,87,183,0,109,0,2024-12-20 11:33:17.804022
-Yes,safeds,325.8364579677582,119,447,566,0,0,0,0,0,0,0,0,547,97,0,87,294,0,69,0,2024-12-20 17:00:11.552711
-Yes,safeds,183.48604464530945,119,447,566,0,0,0,0,0,0,0,0,547,97,0,87,294,0,69,0,2024-12-20 17:36:42.387059
-Yes,safeds,428.8915297985077,119,447,566,0,0,0,0,0,0,0,0,547,139,0,88,251,0,69,0,2024-12-20 23:29:52.896462
+Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Call References,Improved CallRef,Found more func,Found same amount,No Data CallRef,Call refs func outside of package,No Method CallRef,Api Analyzer bug,Callrefs found by purity,Callrefs found by api,Date
+Yes,safeds,192.29668354988098,119,447,566,0,0,0,0,0,0,0,0,547,141,0,88,302,0,16,0,1710,1538,2024-12-21 15:04:53.406766
+Yes,safeds,217.02855348587036,119,447,566,0,0,0,0,0,0,0,0,547,141,0,88,302,0,16,0,1710,1538,2024-12-21 17:22:29.578880
+Yes,safeds,187.77286863327026,119,447,566,0,0,0,0,0,0,0,0,547,141,0,89,304,0,13,0,1710,1544,2024-12-21 21:35:27.705573
+Yes,safeds,197.10492873191833,119,447,566,0,0,0,0,0,0,0,0,547,141,0,89,304,0,13,0,1710,1544,2024-12-21 22:06:37.125666
