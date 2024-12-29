@@ -2230,6 +2230,33 @@
       'purity_package.main_purity_module.global_func_call_reference_in_index_pure.571.0': dict({
         'purity': 'Pure',
       }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_generator_impure.660.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_generator_pure.655.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_iterable_is_call_ref_impure.680.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_iterable_is_call_ref_pure.675.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_with_if_generator_impure.670.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_with_if_generator_pure.665.0': dict({
+        'purity': 'Pure',
+      }),
       'purity_package.main_purity_module.global_func_double_function_impure.301.0': dict({
         'purity': 'Impure',
         'reasons': dict({
@@ -2372,6 +2399,33 @@
         }),
       }),
       'purity_package.main_purity_module.global_func_in_super_and_child_of_child_from_T_pure.116.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_generator_impure.630.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_generator_pure.625.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_iterable_is_call_ref_impure.650.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_iterable_is_call_ref_pure.645.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_with_if_generator_impure.640.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_with_if_generator_pure.635.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_func_multiple_nested_member_impure.246.0': dict({
@@ -2520,6 +2574,12 @@
       'purity_package.main_purity_module.global_func_only_in_super_from_child_pure.61.0': dict({
         'purity': 'Pure',
       }),
+      'purity_package.main_purity_module.global_func_operator_expression_should_be_pure_but_impure.715.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
       'purity_package.main_purity_module.global_func_return_impure_class.324.0': dict({
         'purity': 'Pure',
       }),
@@ -2542,6 +2602,33 @@
         }),
       }),
       'purity_package.main_purity_module.global_func_self_pure.583.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_generator_impure.690.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_generator_pure.685.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_iterable_is_call_ref_impure.710.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_iterable_is_call_ref_pure.705.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_with_if_generator_impure.700.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_with_if_generator_pure.695.0': dict({
         'purity': 'Pure',
       }),
       'purity_package.main_purity_module.global_func_start_with_dict_impure.356.0': dict({

@@ -174,7 +174,6 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
                         types.extend(named_type)
                 return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
-
 def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class) -> Attribute | None:
     attribute = list(filter(lambda attribute: attribute.name == attribute_name, current_class.attributes))
     if len(attribute) != 1:
@@ -223,6 +222,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             Stores api data of analyzed package
     """
     for function in api.functions.values():
+        if function.name == "get_column_type" and function.line == 649:
+            pass
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
@@ -363,7 +364,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
         return
 
-
     if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
         if (isinstance(type_of_receiver, list)):
             for type in type_of_receiver:
@@ -373,10 +373,16 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
             if class_of_receiver is not None:
                 type_of_receiver = class_of_receiver
+            else:
+                print(f"Class not found {type_of_receiver.qname}")
+                return
         elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
             class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
             if class_of_receiver is not None:
                 type_of_receiver = class_of_receiver
+            else:
+                print(f"Class not found {type_of_receiver.qname}")
+                return
         elif hasattr(type_of_receiver, "__origin__") and type_of_receiver.__origin__ is Union:
             for type in get_args(type_of_receiver):
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
@@ -391,6 +397,8 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
     try:  # assume the part of the path is a name of a member 
         attribute_name = part
+        # if isinstance(type_of_receiver, NamedType):
+        #     pass
         attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  
         if attribute is None:
             raise KeyError()
@@ -406,8 +414,15 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             return
 
         for type in types:
-            found_class = api.classes.get("/".join(type.qname.split(".")))
+            class_id = "/".join(type.qname.split("."))
+            if not class_id.startswith(api.path_to_package):
+                class_id = api.path_to_package + class_id
+            found_class = api.classes.get(class_id, None)
+            # TODO id issue like the stuff with reexport, find the place where I already fixed this 
+            #tests/data/safeds/data/tabular/typing/Schema
+            #tests/data/safeds/data/tabular/typing/_schema/Schema
             if found_class is None:
+                # here we can find out if class is in package or not 
                 print(f"Class {type.name} not found")
                 call_reference.receiver.found_classes = []
                 return
@@ -440,8 +455,12 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 return
 
             for type in types:
-                found_class = api.classes.get("/".join(type.qname.split(".")))
+                class_id = "/".join(type.qname.split("."))
+                if not class_id.startswith(api.path_to_package):
+                    class_id = api.path_to_package + class_id
+                found_class = api.classes.get(class_id, None)
                 if found_class is None:
+                    # here we can find out if class is in package or not
                     print(f"Class {type.name} not found")
                     call_reference.receiver.found_classes = []
                     return 

@@ -369,8 +369,7 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
-        if name == "convert_to_grayscale":
-            pass
+        
         function_body = self._extract_body_info(node.body, parameter_dict, {})
         # TODO pm evaluation: count and categorize expressions
         
@@ -495,8 +494,8 @@ class MyPyAstVisitor:
                     if isinstance(member, mp_nodes.Expression):
                         self.extract_expression_info(member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
-                        for expr in member:
-                            self.extract_expression_info(expr, parameter_of_func, call_references)
+                        for expr_of_member in member:
+                            self.extract_expression_info(expr_of_member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                         # generator expression member condlist
                         for condlist in member:
@@ -639,6 +638,8 @@ class MyPyAstVisitor:
                 pathCopy.append(expr.callee.name)
                 self.extract_call_reference_data_from_node(expr, expr.callee.node, pathCopy, parameter_of_func, call_references)
                 # maybe add check if call reference could not be extracted
+                for arg in expr.args:
+                    self.extract_expression_info(arg, parameter_of_func, call_references)
                 return
             # go deeper to find termination condition
             # find final receiver
@@ -666,8 +667,8 @@ class MyPyAstVisitor:
                 if isinstance(member, mp_nodes.Expression):
                     self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
-                    for expr in member:
-                        self.extract_expression_info_after_call_reference_found(expr, pathCopy, parameter_of_func, call_references)
+                    for expr_of_member in member:
+                        self.extract_expression_info_after_call_reference_found(expr_of_member, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                     # generator expression member condlist
                     for condlist in member:
