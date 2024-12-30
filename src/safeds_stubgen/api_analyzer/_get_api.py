@@ -110,7 +110,7 @@ def _update_class_subclass_relation(api: API) -> None:
     for class_def in api.classes.values():
         super_classes: list[Class] = []
         for super_class_id in class_def.superclasses:
-            class_to_append = api.classes.get("/".join(super_class_id.split(".")), None)
+            class_to_append = _get_class_by_id(api, super_class_id)
             if class_to_append is None:  # super class imported from outside of the analyzed package
                 continue
             super_classes.append(class_to_append)
@@ -179,7 +179,7 @@ def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, cu
     if len(attribute) != 1:
         # look in superclass
         for super_class_name in current_class.superclasses:
-            super_class = api.classes.get("/".join(super_class_name.split(".")))
+            super_class = _get_class_by_id(api, super_class_name)
             if super_class is None:
                 continue
             attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, super_class)
@@ -191,10 +191,12 @@ def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, cu
 
 def _find_method_in_class_and_super_classes(api: API, method_name: str, current_class: Class) -> Function | None:
     method = list(filter(lambda method: method.name == method_name, current_class.methods))
+    if method_name == "__init__" and current_class.constructor is not None:
+        method = [current_class.constructor]
     if len(method) != 1:
         # look in superclass
         for super_class_name in current_class.superclasses:
-            super_class = api.classes.get("/".join(super_class_name.split(".")))
+            super_class = _get_class_by_id(api, super_class_name)
             if super_class is None:
                 continue
             method = _find_method_in_class_and_super_classes(api, method_name, super_class)
@@ -230,25 +232,29 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             if isinstance(type, list):
                 if isinstance(type[0], NamedType):
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.qname.split(".")), None)
+                        # class_of_receiver = api.classes.get("/".join(t.qname.split(".")), None)
+                        class_of_receiver = _get_class_by_id(api, t.qname)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
                 elif hasattr(type[0], "type") and api.classes.get("/".join(type[0].type.fullname.split(".")), None) is not None:
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")), None)
+                        # class_of_receiver = api.classes.get("/".join(t.type.fullname.split(".")), None)
+                        class_of_receiver = _get_class_by_id(api, t.type.fullname)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
                 elif hasattr(type[0], "fullname") and api.classes.get("/".join(type[0].fullname.split(".")), None) is not None:
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.fullname.split(".")), None)
+                        # class_of_receiver = api.classes.get("/".join(t.fullname.split(".")), None)
+                        class_of_receiver = _get_class_by_id(api, t.fullname)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
                 elif isinstance(type[0], str):  # super() or static method
                     for t in type:
-                        class_of_receiver = api.classes.get("/".join(t.split(".")), None)
+                        # class_of_receiver = api.classes.get("/".join(t.split(".")), None)
+                        class_of_receiver = _get_class_by_id(api, t)
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
@@ -256,22 +262,26 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     classes.append(type)
 
             elif isinstance(type, NamedType):
-                class_of_receiver = api.classes.get("/".join(type.qname.split(".")), None)
+                # class_of_receiver = api.classes.get("/".join(type.qname.split(".")), None)
+                class_of_receiver = _get_class_by_id(api, type.qname)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
             elif hasattr(type, "type") and api.classes.get("/".join(type.type.fullname.split(".")), None) is not None:
-                class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")), None)
+                # class_of_receiver = api.classes.get("/".join(type.type.fullname.split(".")), None)
+                class_of_receiver = _get_class_by_id(api, type.type.fullname)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
             elif hasattr(type, "fullname") and api.classes.get("/".join(type.fullname.split(".")), None) is not None:
-                class_of_receiver = api.classes.get("/".join(type.fullname.split(".")), None)
+                # class_of_receiver = api.classes.get("/".join(type.fullname.split(".")), None)
+                class_of_receiver = _get_class_by_id(api, type.fullname)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
             elif isinstance(type, str):  # super() or static method
-                class_of_receiver = api.classes.get("/".join(type.split(".")), None)
+                # class_of_receiver = api.classes.get("/".join(type.split(".")), None)
+                class_of_receiver = _get_class_by_id(api, type)
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
@@ -288,28 +298,58 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # here we have a super() call so we need to get the super classes
                 super_classes: list[Class] = []
                 for super_class_id in classes[0].superclasses:
-                    class_name = super_class_id.split(".")[-1]
-                    correct_id = ""
-                    for key in api.reexport_map.keys():
-                        if key.endswith(class_name):
-                            api.reexport_map[key]
-                            correct_id = "/".join(super_class_id.split(".")[:-1] + key.split("."))
-                            break
-                    if correct_id.startswith(api.path_to_package):
-                        api.reexport_map
-                        super_class = api.classes.get(correct_id, None)
-                        if super_class is not None:
-                            super_classes.append(super_class)
-                    else:
-                        correct_id = api.path_to_package + correct_id
-                        super_class = api.classes.get(correct_id, None)
-                        if super_class is not None:
-                            super_classes.append(super_class)
+                    found_class = _get_class_by_id(api, super_class_id)
+                    if found_class is not None:
+                        super_classes.append(found_class)
+                    # class_name = super_class_id.split(".")[-1]
+                    # correct_id = ""
+                    # for key in api.reexport_map.keys():
+                    #     if key.endswith(class_name):
+                    #         api.reexport_map[key]
+                    #         correct_id = "/".join(super_class_id.split(".")[:-1] + key.split("."))
+                    #         break
+                    # if correct_id.startswith(api.path_to_package):
+                    #     super_class = api.classes.get(correct_id, None)
+                    #     if super_class is not None:
+                    #         super_classes.append(super_class)
+                    # else:
+                    #     correct_id = api.path_to_package + correct_id
+                    #     super_class = api.classes.get(correct_id, None)
+                    #     if super_class is not None:
+                    #         super_classes.append(super_class)
                 for super_class in super_classes:
                     prev_found_classes_length = len(call_reference.receiver.found_classes)
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, super_class, call_reference.receiver.path_to_call_reference, 0)
                     if prev_found_classes_length < len(call_reference.receiver.found_classes):
                         break # for super types we can only take the first class where we found correct types
+
+def _get_class_by_id(api: API, class_id: str) -> Class | None:
+    class_name = class_id.split(".")[-1]
+    correct_id = "/".join(class_id.split("."))
+    result_class: Class | None = api.classes.get(correct_id, None)
+
+    if result_class is not None:
+        return result_class
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    if result_class is not None:
+        return result_class
+
+    correct_id = "/".join(class_id.split("."))
+    for key in api.reexport_map.keys():
+        if key.endswith(class_name):
+            api.reexport_map[key]
+            correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
+            break
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    return result_class
 
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
     if len(path) == 0:
@@ -348,15 +388,18 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         if not isinstance(type_of_receiver, Class):
             # here we get the correct class from namedType etc if possible
             if isinstance(type_of_receiver, NamedType):
-                class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
+                # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
+                class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
                 if class_of_receiver is not None:
                     type_of_receiver = class_of_receiver
             elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
-                class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+                # class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+                class_of_receiver = _get_class_by_id(api, type_of_receiver.type.fullname)
                 if class_of_receiver is not None:
                     type_of_receiver = class_of_receiver
             elif hasattr(type_of_receiver, "fullname") and api.classes.get("/".join(type_of_receiver.fullname.split("."))) is not None:
-                class_of_receiver = api.classes.get("/".join(type_of_receiver.fullname.split(".")))
+                # class_of_receiver = api.classes.get("/".join(type_of_receiver.fullname.split(".")))
+                class_of_receiver = _get_class_by_id(api, type_of_receiver.fullname)
                 if class_of_receiver is not None:
                     type_of_receiver = class_of_receiver
             else:  # type_of_receiver is not a class 
@@ -370,14 +413,16 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
             return
         elif isinstance(type_of_receiver, NamedType):
-            class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
+            class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
+            # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
             if class_of_receiver is not None:
                 type_of_receiver = class_of_receiver
             else:
                 print(f"Class not found {type_of_receiver.qname}")
                 return
         elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
-            class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+            # class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
+            class_of_receiver = _get_class_by_id(api, type_of_receiver.type.fullname)
             if class_of_receiver is not None:
                 type_of_receiver = class_of_receiver
             else:
@@ -421,6 +466,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             # TODO id issue like the stuff with reexport, find the place where I already fixed this 
             #tests/data/safeds/data/tabular/typing/Schema
             #tests/data/safeds/data/tabular/typing/_schema/Schema
+            found_class = _get_class_by_id(api, type.qname)
             if found_class is None:
                 # here we can find out if class is in package or not 
                 print(f"Class {type.name} not found")
@@ -459,6 +505,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 if not class_id.startswith(api.path_to_package):
                     class_id = api.path_to_package + class_id
                 found_class = api.classes.get(class_id, None)
+                found_class = _get_class_by_id(api, type.qname)
                 if found_class is None:
                     # here we can find out if class is in package or not
                     print(f"Class {type.name} not found")
@@ -527,16 +574,19 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                         #     api.classes
                         #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
                         for super_class_id in current_class.superclasses:
-                            correct_id = "/".join(super_class_id.split("."))
-                            if correct_id.startswith(api.path_to_package):
-                                super_class = api.classes.get(correct_id, None)
-                                if super_class is not None:
-                                    super_classes.append(super_class)
-                            else:
-                                correct_id = api.path_to_package + "/" + correct_id
-                                super_class = api.classes.get(correct_id, None)
-                                if super_class is not None:
-                                    super_classes.append(super_class)
+                            # correct_id = "/".join(super_class_id.split("."))
+                            # if correct_id.startswith(api.path_to_package):
+                            #     super_class = api.classes.get(correct_id, None)
+                            #     if super_class is not None:
+                            #         super_classes.append(super_class)
+                            # else:
+                            #     correct_id = api.path_to_package + "/" + correct_id
+                            #     super_class = api.classes.get(correct_id, None)
+                            #     if super_class is not None:
+                            #         super_classes.append(super_class)
+                            super_class = _get_class_by_id(api, super_class_id)
+                            if super_class is not None:
+                                super_classes.append(super_class)
                         # super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
                     except KeyError as error:
                         print(error)
@@ -589,16 +639,19 @@ def _get_referenced_function_from_super_classes(
                 #     api.classes
                 #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
                 for next_super_class_id in super_class.superclasses:
-                    correct_id = "/".join(next_super_class_id.split("."))
-                    if correct_id.startswith(api.path_to_package):
-                        next_super_class = api.classes.get(correct_id, None)
-                        if next_super_class is not None:
-                            next_super_classes.append(next_super_class)
-                    else:
-                        correct_id = api.path_to_package + "/" + correct_id
-                        next_super_class = api.classes.get(correct_id, None)
-                        if next_super_class is not None:
-                            next_super_classes.append(next_super_class)
+                    # correct_id = "/".join(next_super_class_id.split("."))
+                    # if correct_id.startswith(api.path_to_package):
+                    #     next_super_class = api.classes.get(correct_id, None)
+                    #     if next_super_class is not None:
+                    #         next_super_classes.append(next_super_class)
+                    # else:
+                    #     correct_id = api.path_to_package + "/" + correct_id
+                    #     next_super_class = api.classes.get(correct_id, None)
+                    #     if next_super_class is not None:
+                    #         next_super_classes.append(next_super_class)
+                    next_super_class = _get_class_by_id(api, next_super_class_id)
+                    if next_super_class is not None:
+                        next_super_classes.append(next_super_class)
                 # super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
             except KeyError as error:
                 print(error)
