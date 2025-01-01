@@ -369,7 +369,8 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
-        
+        if name == "_as_table" and node.line == 273:
+            pass
         function_body = self._extract_body_info(node.body, parameter_dict, {})
         # TODO pm evaluation: count and categorize expressions
         
@@ -712,6 +713,9 @@ class MyPyAstVisitor:
                     call_receiver_type = extracted_type[0]
                 elif extracted_type is not None and len(extracted_type) >= 1:
                     call_receiver_type = extracted_type
+            if isinstance(call_receiver_type, mp_types.AnyType):
+                # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
+                call_receiver_type = node.fullname
 
             self._set_call_reference(
                 expr=expr,

@@ -224,7 +224,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             Stores api data of analyzed package
     """
     for function in api.functions.values():
-        if function.name == "get_column_type" and function.line == 649:
+        if function.name == "_as_table" and function.line == 273:
             pass
         for call_reference in function.body.call_references.values():
             type = call_reference.receiver.type
@@ -459,6 +459,8 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             return
 
         for type in types:
+            if type.qname == "builtins.None":
+                continue
             class_id = "/".join(type.qname.split("."))
             if not class_id.startswith(api.path_to_package):
                 class_id = api.path_to_package + class_id
@@ -468,8 +470,11 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             #tests/data/safeds/data/tabular/typing/_schema/Schema
             found_class = _get_class_by_id(api, type.qname)
             if found_class is None:
+                # TODO pm add call_reference attribute that we can write here for evaluation, why we could not find class
+                # TODO pm what about builtins
                 # here we can find out if class is in package or not 
                 print(f"Class {type.name} not found")
+                # if one type cannot be found then this call ref should be impure as the function which could not be found could be impure
                 call_reference.receiver.found_classes = []
                 return
             type_of_receiver = found_class
@@ -501,6 +506,8 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 return
 
             for type in types:
+                if type.qname == "builtins.None":
+                    continue
                 class_id = "/".join(type.qname.split("."))
                 if not class_id.startswith(api.path_to_package):
                     class_id = api.path_to_package + class_id

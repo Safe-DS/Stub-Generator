@@ -2,7 +2,7 @@ from dataclasses import dataclass
 import os
 from time import time
 from abc import ABC, abstractmethod
-from typing import Callable
+from typing import Any, Callable
 from functools import reduce
 
 from safeds_stubgen.api_analyzer._api import Parameter
@@ -62,7 +62,9 @@ class PurityEvaluation(Evaluation):
 		no_type_data: bool,
 		missing_api_function: bool,
 		call_references_functions_outside_of_module: bool, 
-		call_is_no_method: bool
+		call_is_no_method: bool,
+		path: list[str],
+		receiver_type: Any | NamedType,
 	):
 		reason_for_no_improvement = ""
 		self._amount_of_call_references += 1
@@ -101,6 +103,8 @@ class PurityEvaluation(Evaluation):
 			"#New",
 			"#Old",
 			"Reason for no improvement",
+			"Path",
+			"Left-most receiver",
 			"Date",
 		]
 		data = [
@@ -115,6 +119,8 @@ class PurityEvaluation(Evaluation):
 				"#New": len(reduced_functions),
 				"#Old": len(old_functions),
 				"Reason for no improvement": reason_for_no_improvement,
+				"Path": ".".join(path[::-1]),
+				"Left-most receiver": str(receiver_type),
 				"Date": str(datetime.now())
 			},
 		]
