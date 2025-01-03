@@ -644,6 +644,7 @@ class MyPyAstVisitor:
                 return
             # go deeper to find termination condition
             # find final receiver
+            pathCopy.append("()")
             self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, parameter_of_func, call_references)
             # start finding info of another call expr
             newPath = []
@@ -783,7 +784,7 @@ class MyPyAstVisitor:
         else:
             return
 
-    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType] | None:
+    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType | sds_types.NamedSequenceType] | None:
         """
             Iterates through a nested type recursively, to find all NamedTypes
 
@@ -801,7 +802,7 @@ class MyPyAstVisitor:
         elif isinstance(nested_type, sds_types.ListType):
             return self._get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
         elif isinstance(nested_type, sds_types.NamedSequenceType):
-            return self._get_named_types_from_nested_type(nested_type.types[0])  # can only have one type
+            return [nested_type]
         elif isinstance(nested_type, sds_types.DictType):
             return self._get_named_types_from_nested_type(nested_type.value_type)
         elif isinstance(nested_type, sds_types.SetType):
@@ -833,7 +834,7 @@ class MyPyAstVisitor:
                 if isinstance(member, sds_types.AbstractType):
                     return self._get_named_types_from_nested_type(member)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], sds_types.AbstractType):
-                    types: list[sds_types.NamedType] = []
+                    types: list[sds_types.NamedType | sds_types.NamedSequenceType] = []
                     for type in member:
                         named_type = self._get_named_types_from_nested_type(type)
                         if named_type is not None:

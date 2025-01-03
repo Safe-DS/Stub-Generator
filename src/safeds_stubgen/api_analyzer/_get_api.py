@@ -117,7 +117,7 @@ def _update_class_subclass_relation(api: API) -> None:
         for super_class in super_classes:
             super_class.subclasses.append(class_def.id)
 
-def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType] | None:
+def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType | NamedSequenceType] | None:
     """
         Iterates through a nested type recursively, to find a NamedType
 
@@ -135,7 +135,7 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
     elif isinstance(nested_type, ListType):
         return _get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
     elif isinstance(nested_type, NamedSequenceType):
-        return _get_named_types_from_nested_type(nested_type.types[0])  # can only have one type
+        return [nested_type]
     elif isinstance(nested_type, DictType):
         return _get_named_types_from_nested_type(nested_type.value_type)
     elif isinstance(nested_type, SetType):
@@ -167,7 +167,7 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
             if isinstance(member, AbstractType):
                 return _get_named_types_from_nested_type(member)
             elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], AbstractType):
-                types: list[NamedType] = []
+                types: list[NamedType | NamedSequenceType] = []
                 for type in member:
                     named_type = _get_named_types_from_nested_type(type)
                     if named_type is not None:
@@ -224,13 +224,13 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             Stores api data of analyzed package
     """
     for function in api.functions.values():
-        if function.name == "_as_table" and function.line == 273:
-            pass
         for call_reference in function.body.call_references.values():
+            if function.name == "kaka" and function.line == 94 and call_reference.function_name == "is_numeric":
+                pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
             if isinstance(type, list):
-                if isinstance(type[0], NamedType):
+                if isinstance(type[0], NamedType) or isinstance(type[0], NamedSequenceType):
                     for t in type:
                         # class_of_receiver = api.classes.get("/".join(t.qname.split(".")), None)
                         class_of_receiver = _get_class_by_id(api, t.qname)
@@ -261,7 +261,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 else:
                     classes.append(type)
 
-            elif isinstance(type, NamedType):
+            elif isinstance(type, NamedType) or isinstance(type, NamedSequenceType):
                 # class_of_receiver = api.classes.get("/".join(type.qname.split(".")), None)
                 class_of_receiver = _get_class_by_id(api, type.qname)
                 if class_of_receiver is None:
@@ -327,7 +327,7 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
     class_name = class_id.split(".")[-1]
     correct_id = "/".join(class_id.split("."))
     result_class: Class | None = api.classes.get(correct_id, None)
-
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
     if result_class is not None:
         return result_class
     if correct_id.startswith(api.path_to_package):
@@ -339,11 +339,27 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
         return result_class
 
     correct_id = "/".join(class_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
     for key in api.reexport_map.keys():
-        if key.endswith(class_name):
-            api.reexport_map[key]
-            correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
-            break
+        if key.endswith(f".{class_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
+            # break
     if correct_id.startswith(api.path_to_package):
         result_class = api.classes.get(correct_id, None)
     else:
@@ -387,7 +403,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
         if not isinstance(type_of_receiver, Class):
             # here we get the correct class from namedType etc if possible
-            if isinstance(type_of_receiver, NamedType):
+            if isinstance(type_of_receiver, NamedType) or isinstance(type_of_receiver, NamedSequenceType):
                 # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
                 class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
                 if class_of_receiver is not None:
@@ -412,7 +428,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             for type in type_of_receiver:
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
             return
-        elif isinstance(type_of_receiver, NamedType):
+        elif isinstance(type_of_receiver, NamedType) or isinstance(type_of_receiver, NamedSequenceType):
             class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
             # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
             if class_of_receiver is not None:
@@ -434,7 +450,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             return
         elif isinstance(type_of_receiver, AbstractType):
             type_of_receiver = _get_named_types_from_nested_type(type_of_receiver)
-            for type in get_args(type_of_receiver):
+            for type in type_of_receiver:
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
             return
         else:
@@ -461,10 +477,10 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         for type in types:
             if type.qname == "builtins.None":
                 continue
-            class_id = "/".join(type.qname.split("."))
-            if not class_id.startswith(api.path_to_package):
-                class_id = api.path_to_package + class_id
-            found_class = api.classes.get(class_id, None)
+            # class_id = "/".join(type.qname.split("."))
+            # if not class_id.startswith(api.path_to_package):
+            #     class_id = api.path_to_package + class_id
+            # found_class = api.classes.get(class_id, None)
             # TODO id issue like the stuff with reexport, find the place where I already fixed this 
             #tests/data/safeds/data/tabular/typing/Schema
             #tests/data/safeds/data/tabular/typing/_schema/Schema
@@ -508,10 +524,10 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             for type in types:
                 if type.qname == "builtins.None":
                     continue
-                class_id = "/".join(type.qname.split("."))
-                if not class_id.startswith(api.path_to_package):
-                    class_id = api.path_to_package + class_id
-                found_class = api.classes.get(class_id, None)
+                # class_id = "/".join(type.qname.split("."))
+                # if not class_id.startswith(api.path_to_package):
+                #     class_id = api.path_to_package + class_id
+                # found_class = api.classes.get(class_id, None)
                 found_class = _get_class_by_id(api, type.qname)
                 if found_class is None:
                     # here we can find out if class is in package or not
