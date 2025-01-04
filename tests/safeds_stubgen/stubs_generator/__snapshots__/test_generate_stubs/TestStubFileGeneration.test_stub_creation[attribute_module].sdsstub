@@ -70,6 +70,11 @@ class AttributesClassB() {
     @PythonName("str_attr_with_none_value")
     static attr strAttrWithNoneValue: String
     static attr optional: Int?
+    @PythonName("final_int")
+    static attr finalInt: literal<101, 32741, 2147483621>
+    // TODO Attribute has no type information.
+    @PythonName("no_final_type")
+    static attr noFinalType
     static attr final: String
     static attr finals: union<Int, String>
     @PythonName("final_union")

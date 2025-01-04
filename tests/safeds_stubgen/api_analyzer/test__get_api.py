@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
+
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
 
@@ -470,7 +471,9 @@ def test_function_parameters(
         ("int_result", _function_module_name, "", "plaintext"),
         ("str_result", _function_module_name, "", "plaintext"),
         ("float_result", _function_module_name, "", "plaintext"),
-        ("none_result", _function_module_name, "", "plaintext"),
+        ("none_result_1", _function_module_name, "", "plaintext"),
+        ("none_result_2", _function_module_name, "", "plaintext"),
+        ("none_result_3", _function_module_name, "", "plaintext"),
         ("obj_result", _function_module_name, "", "plaintext"),
         ("callexr_result_class", _function_module_name, "", "plaintext"),
         ("callexr_result_function", _function_module_name, "", "plaintext"),
@@ -510,7 +513,9 @@ def test_function_parameters(
         "int_result",
         "str_result",
         "float_result",
-        "none_result",
+        "none_result_1",
+        "none_result_2",
+        "none_result_3",
         "obj_result",
         "callexr_result_class",
         "callexr_result_function",
