@@ -14,7 +14,7 @@ from safeds_stubgen.api_analyzer._types import AbstractType, CallableType, DictT
 from safeds_stubgen._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
-from ._api import API, Attribute, CallReference, Function, Class
+from ._api import API, Attribute, CallReference, Function, Class, Module, QualifiedImport
 from ._ast_visitor import MyPyAstVisitor
 from ._ast_walker import ASTWalker
 from ._package_metadata import distribution, distribution_version
@@ -206,6 +206,41 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
     method = method[0]
     return method
 
+def _get_imported_global_function(api: API, imported_function_name: str, function: Function):
+    # get module
+    module = _get_module_by_id(api, function.module_id_which_contains_def)
+    if module is None:
+        return None
+    
+    imports = module.qualified_imports
+    found_import: QualifiedImport | None = None
+    for qualified_import in imports:
+        alias = qualified_import.alias
+        qname = qualified_import.qualified_name
+        if imported_function_name == qname.split(".")[-1]:
+            found_import = qualified_import
+            break
+        if imported_function_name == alias:
+            found_import = qualified_import
+            break
+    if found_import is None:
+        return None
+    
+    imported_module = _get_module_by_id(api, ".".join(found_import.qualified_name.split(".")[:-1]))
+    if imported_module is None:
+        return None
+    
+    global_functions = imported_module.global_functions
+    found_global_function: Function | None = None
+    for global_function in global_functions:
+        if imported_function_name == global_function.name:
+            found_global_function = global_function
+            break
+    if found_global_function is None:
+        return None
+    
+    return found_global_function
+
 def _find_correct_type_by_path_to_call_reference(api: API):
     """
         Call references can be nested, for example: "instance.attribute.method()" or "instance.method().method2()" etc.
@@ -225,7 +260,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
-            if function.name == "kaka" and function.line == 94 and call_reference.function_name == "is_numeric":
+            if function.name == "fit" and function.line == 102 and call_reference.function_name == "fit":
+                type_str = ".".join(call_reference.receiver.full_name.split(".")[:-1] + ["AdaBoost"])
+                func = _get_imported_global_function(api, call_reference.receiver.full_name.split(".")[-1], function)
                 pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
@@ -279,12 +316,34 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 if class_of_receiver is None:
                     continue
                 classes.append(class_of_receiver)
-            elif isinstance(type, str):  # super() or static method
+            elif isinstance(type, str):  # super() or static method or imported global function
                 # class_of_receiver = api.classes.get("/".join(type.split(".")), None)
                 class_of_receiver = _get_class_by_id(api, type)
                 if class_of_receiver is None:
-                    continue
-                classes.append(class_of_receiver)
+                    # then check if we can get the class through imported global function
+                    global_func = _get_imported_global_function(api, type.split(".")[-1], function)
+                    if global_func is None:
+                        continue
+
+                    # !!!! here we only call the global function, so we can add this function directly to referenced functions !!!!
+                    if len(call_reference.receiver.path_to_call_reference) == 2:
+                        call_reference.possibly_referenced_functions.append(global_func)
+                        call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
+                        continue
+
+                    return_val = global_func.results[0]
+                    if return_val.type is None:
+                        continue
+                    named_types = _get_named_types_from_nested_type(return_val.type)
+                    if named_types is None:
+                        continue
+                    for named_type in named_types:
+                        class_of_receiver = _get_class_by_id(api, named_type.qname)
+                        if class_of_receiver is None:
+                            continue
+                        classes.append(class_of_receiver)
+                else:
+                    classes.append(class_of_receiver)
                 # if call_reference.isSuperCallRef:
                 #     super_classes = class_of_receiver.superclasses
                 # classes.append(class_of_receiver)
@@ -367,6 +426,50 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
         result_class = api.classes.get(correct_id, None)
     return result_class
 
+def _get_module_by_id(api: API, module_id: str) -> Module | None:
+    module_name = module_id.split(".")[-1]
+    correct_id = "/".join(module_id.split("."))
+    result_module: Module | None = api.modules.get(correct_id, None)
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
+    if result_module is not None:
+        return result_module
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    if result_module is not None:
+        return result_module
+
+    correct_id = "/".join(module_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
+    for key in api.reexport_map.keys():
+        if key.endswith(f".{module_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
+            # break
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    return result_module
+
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
     if len(path) == 0:
         return
@@ -375,6 +478,10 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
     if type_of_receiver is None:
         return
+    # if depth == 0 and path_copy.copy().pop() == "()":
+    #     # here the start of the path is a call ref and if that function is imported, call _get_imported_global_function
+    #     _get_imported_global_function
+    #     pass
     if depth == 0:  
         # first part of path is a variable name etc so we can skip 
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
@@ -559,13 +666,17 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
+            # if function.name == "fit" and function.line == 102 and call_reference.function_name == "fit":
+            #     type_str = ".".join(call_reference.receiver.full_name.split(".")[:-1] + ["AdaBoost"])
+            #     func = _get_imported_global_function(api, call_reference.receiver.full_name.split(".")[-1], function)
+            #     pass
             if call_reference.isSuperCallRef:
                 pass
-            # TODo pm find out why __init__ functions referenced functions are not found!!!!!
+            # TODO pm find out why __init__ functions referenced functions are not found!!!!!
             # use found class of _find_correct_type_by_path_to_call_reference if not None
             if call_reference.receiver.found_classes is None or len(call_reference.receiver.found_classes) == 0:
                 continue
-            else:
+            else:   
                 current_classes = call_reference.receiver.found_classes
 
             for current_class in current_classes:
