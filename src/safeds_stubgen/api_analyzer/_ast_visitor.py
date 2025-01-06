@@ -791,6 +791,8 @@ class MyPyAstVisitor:
                 # maybe add check if call reference could not be extracted
                 for arg in expr.args:
                     self.extract_expression_info(arg, parameter_of_func, call_references)
+                # this is another call ref that needs to be extracted
+                self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
                 return
             # go deeper to find termination condition
             # find final receiver

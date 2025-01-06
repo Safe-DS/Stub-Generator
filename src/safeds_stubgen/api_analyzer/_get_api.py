@@ -287,8 +287,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
-            if function.name == "_data_type" and function.line == 31 and call_reference.function_name == "column_type_of_type":
-                pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
             if isinstance(type, list):

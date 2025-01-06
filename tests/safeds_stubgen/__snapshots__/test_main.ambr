@@ -2443,13 +2443,13 @@
       'purity_package.main_purity_module.global_func_isinstance_check_impure.731.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_isinstance_check_should_be_pure_but_impure.723.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_list_comprehension_generator_impure.630.0': dict({
@@ -2628,7 +2628,7 @@
       'purity_package.main_purity_module.global_func_operator_expression_should_be_pure_but_impure.715.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_return_impure_class.324.0': dict({

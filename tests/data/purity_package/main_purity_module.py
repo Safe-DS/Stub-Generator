@@ -763,6 +763,9 @@ def global_func_call_another_global_func_pure():
 def global_func_call_another_global_func_impure():
     global_func_same_name_impure()
 
+# def global_func_builtin():
+#     return len([]).to_bytes()
+
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]
