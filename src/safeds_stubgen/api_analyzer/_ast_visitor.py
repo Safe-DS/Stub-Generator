@@ -401,22 +401,26 @@ class MyPyAstVisitor:
         closures: dict[str, Function] = {}
         statements = body_block.body
         for statement in statements:
-            for member_name in dir(statement):
-                if not member_name.startswith("__"):
-                    member = getattr(statement, member_name)
-                    if isinstance(member, mp_nodes.FuncDef):
-                        closure = self._extract_closure(member, parameter_of_func)
-                        closures[closure.name] = self._extract_closure(member, parameter_of_func)
-                    elif isinstance(member, mp_nodes.Block):
-                        closures.update(self._extract_closures(member, parameter_of_func))
-                    elif isinstance(member, list) and len(member) != 0:
-                        if isinstance(member[0], mp_nodes.Block):
-                            for body in member:
-                                closures.update(self._extract_closures(body, parameter_of_func))
+            if isinstance(statement, mp_nodes.FuncDef):
+                closure = self._extract_closure(statement, parameter_of_func)
+                closures[closure.name] = closure
+            else:
+                for member_name in dir(statement):
+                    if not member_name.startswith("__"):
+                        member = getattr(statement, member_name)
+                        if isinstance(member, mp_nodes.FuncDef):
+                            closure = self._extract_closure(member, parameter_of_func)
+                            closures[closure.name] = closure
+                        elif isinstance(member, mp_nodes.Block):
+                            closures.update(self._extract_closures(member, parameter_of_func))
+                        elif isinstance(member, list) and len(member) != 0:
+                            if isinstance(member[0], mp_nodes.Block):
+                                for body in member:
+                                    closures.update(self._extract_closures(body, parameter_of_func))
+                            else:
+                                pass
                         else:
                             pass
-                    else:
-                        pass
         return closures
     
     def _extract_closure(self, node: mp_nodes.FuncDef, parameter_of_func: dict[str, Parameter]) -> Function:
@@ -737,15 +741,15 @@ class MyPyAstVisitor:
 
         if self.evaluation is not None:
             self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
-        # TODO pm there needs to be a memberexpression during path!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
         # termination conditions
 
+        # condition: callref()
         if isinstance(expr, mp_nodes.NameExpr): # here we have no member expression just call ref
-            if not isinstance(expr.node, mp_nodes.FuncDef):
-                pass
             self.extract_call_reference_data_from_node(expr, expr.node, pathCopy, parameter_of_func, call_references)
             return
 
+        # condition: receiver.member()
         elif isinstance(expr, mp_nodes.MemberExpr):
             if isinstance(expr.expr, mp_nodes.NameExpr):
                 pathCopy.append(expr.expr.name)
