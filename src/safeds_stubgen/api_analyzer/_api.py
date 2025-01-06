@@ -268,6 +268,7 @@ class Function:
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
+    closures: dict[str, Function] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -281,6 +282,7 @@ class Function:
             "results": [result.id for result in self.results],
             "reexported_by": [module.id for module in self.reexported_by],
             "parameters": [parameter.id for parameter in self.parameters],
+            # "closures": [closure.to_dict for closure in self.closures],
         }
 
 @dataclass

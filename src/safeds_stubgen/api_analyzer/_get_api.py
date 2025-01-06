@@ -206,6 +206,33 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
     method = method[0]
     return method
 
+def _get_function(api: API, function_name: str, function: Function):
+    closure = function.closures.get(function_name, None)
+    if closure is not None:
+        return closure
+    global_function = _get_global_function(api, function_name, function)
+    return global_function
+
+def _get_global_function(api: API, function_name: str, function: Function):
+    # get module
+    module = _get_module_by_id(api, function.module_id_which_contains_def)
+    if module is None:
+        return None
+    
+    global_functions = module.global_functions
+    found_global_function: Function | None = None
+    for global_function in global_functions:
+        if function_name == global_function.name:
+            found_global_function = global_function
+            break
+    if found_global_function is None:
+        # there was no global function with given name in current module, so we look in imported modules
+        found_global_function = _get_imported_global_function(api, function_name, function)
+        if found_global_function is None:
+            return None
+    
+    return found_global_function
+
 def _get_imported_global_function(api: API, imported_function_name: str, function: Function):
     # get module
     module = _get_module_by_id(api, function.module_id_which_contains_def)
@@ -260,9 +287,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
-            if function.name == "fit" and function.line == 102 and call_reference.function_name == "fit":
-                type_str = ".".join(call_reference.receiver.full_name.split(".")[:-1] + ["AdaBoost"])
-                func = _get_imported_global_function(api, call_reference.receiver.full_name.split(".")[-1], function)
+            if function.name == "_data_type" and function.line == 31 and call_reference.function_name == "column_type_of_type":
                 pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
@@ -320,8 +345,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # class_of_receiver = api.classes.get("/".join(type.split(".")), None)
                 class_of_receiver = _get_class_by_id(api, type)
                 if class_of_receiver is None:
-                    # then check if we can get the class through imported global function
-                    global_func = _get_imported_global_function(api, type.split(".")[-1], function)
+                    # then check if we can get the class through (imported) global function
+                    global_func = _get_function(api, type.split(".")[-1], function)
                     if global_func is None:
                         continue
 
@@ -525,6 +550,12 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 class_of_receiver = _get_class_by_id(api, type_of_receiver.fullname)
                 if class_of_receiver is not None:
                     type_of_receiver = class_of_receiver
+            elif isinstance(type_of_receiver, mypy_types.AnyType):
+                missing_import_name = type_of_receiver.missing_import_name
+                if missing_import_name is not None:
+                    class_of_receiver = _get_class_by_id(api, missing_import_name)
+                    if class_of_receiver is not None:
+                        type_of_receiver = class_of_receiver
             else:  # type_of_receiver is not a class 
                 pass
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)

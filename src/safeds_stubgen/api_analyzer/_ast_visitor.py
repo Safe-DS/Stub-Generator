@@ -369,8 +369,9 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
-        if name == "_from_tagged_table" and node.line == 25:
+        if name == "_data_type" and node.line == 31:
             pass
+        closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         function_body = self._extract_body_info(node.body, parameter_dict, {})
         # TODO pm evaluation: count and categorize expressions
         
@@ -392,8 +393,151 @@ class MyPyAstVisitor:
             parameters=parameters,
             type_var_types=type_var_types,
             result_docstrings=result_docstrings,
+            closures=closures,
         )
         self.__declaration_stack.append(function)
+
+    def _extract_closures(self, body_block: mp_nodes.Block, parameter_of_func: dict[str, Parameter]) -> dict[str, Function]:
+        closures: dict[str, Function] = {}
+        statements = body_block.body
+        for statement in statements:
+            for member_name in dir(statement):
+                if not member_name.startswith("__"):
+                    member = getattr(statement, member_name)
+                    if isinstance(member, mp_nodes.FuncDef):
+                        closure = self._extract_closure(member, parameter_of_func)
+                        closures[closure.name] = self._extract_closure(member, parameter_of_func)
+                    elif isinstance(member, mp_nodes.Block):
+                        closures.update(self._extract_closures(member, parameter_of_func))
+                    elif isinstance(member, list) and len(member) != 0:
+                        if isinstance(member[0], mp_nodes.Block):
+                            for body in member:
+                                closures.update(self._extract_closures(body, parameter_of_func))
+                        else:
+                            pass
+                    else:
+                        pass
+        return closures
+    
+    def _extract_closure(self, node: mp_nodes.FuncDef, parameter_of_func: dict[str, Parameter]) -> Function:
+        name = node.name
+        function_id = self._create_id_from_stack(name)  # function id is path
+
+        is_public = self._is_public(name, node.fullname)
+        is_static = node.is_static
+
+        # Get docstring
+        docstring = self.docstring_parser.get_function_documentation(node)
+        # Function args & TypeVar
+        parameters: list[Parameter] = []
+        type_var_types: list[sds_types.TypeVarType] = []
+        # Reset the type_var_types list
+        self.type_var_types = set()
+        if getattr(node, "arguments", None) is not None:
+            parameters = self._parse_parameter_data(node, function_id)
+
+            if self.type_var_types:
+                type_var_types = list(self.type_var_types)
+                # Sort for the snapshot tests
+                type_var_types.sort(key=lambda x: x.name)
+
+        # Check docstring parameter types vs code parameter type hint
+        for i, parameter in enumerate(parameters):
+            code_type = parameter.type
+            doc_type = parameter.docstring.type
+
+            if (
+                code_type is not None
+                and doc_type is not None
+                and code_type != doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for '{function_id}'."
+                logging.info(msg)
+
+            if doc_type is not None and self.evaluation is None and (
+                code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
+            ):
+                parameters[i] = dataclasses.replace(
+                    parameter,
+                    is_optional=parameter.docstring.default_value != "",
+                    default_value=parameter.docstring.default_value,
+                    type=doc_type,
+                )
+
+        # Create results and result docstrings
+        result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
+        results_code = self._parse_results(node, function_id, result_docstrings)
+
+        # Check docstring return type vs code return type hint
+        i = 0
+        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None):
+            if result_doc is None:
+                break
+
+            result_doc_type = result_doc.type
+
+            if (
+                result_type is not None
+                and result_doc_type is not None
+                and result_type != result_doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for the result of '{function_id}'."
+                logging.info(msg)
+
+            if result_doc_type is not None:
+                if result_type is None:
+                    # Add missing returns
+                    result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
+                    new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
+                    results_code.append(new_result)
+
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    # Overwrite the type with the docstring type if preference is set, else prefer the code (default)
+                    results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
+
+            i += 1
+
+        # Get reexported data
+        reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
+        # Sort for snapshot tests
+        reexported_by.sort(key=lambda x: x.id)
+        parameter_dict = {parameter.name: parameter for parameter in parameters}
+        parameter_of_func.update(parameter_dict)
+
+        # closures: dict[str, Function] = self._extract_closures(node.body, parameter_of_func)
+        # function_body = self._extract_body_info(node.body, parameter_of_func, {})
+        
+        closures: dict[str, Function] = {}
+        function_body = Body(
+            line=-1,
+            end_line=-1,
+            column=-1,
+            end_column=-1,
+            call_references={}
+        )
+
+        function = Function(
+            id=function_id,
+            module_id_which_contains_def=self.current_module_id,
+            line=node.line,
+            column=node.column,
+            name=name,
+            docstring=docstring,
+            body=function_body,
+            is_public=is_public,
+            is_static=is_static,
+            is_class_method=node.is_class,
+            is_property=node.is_property,
+            results=results_code,
+            reexported_by=reexported_by,
+            parameters=parameters,
+            type_var_types=type_var_types,
+            result_docstrings=result_docstrings,
+            closures=closures,
+        )
+        return function
 
     def _extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
         """
@@ -422,12 +566,12 @@ class MyPyAstVisitor:
         """
         if body_block is None: 
             return Body(
-            line=-1,
-            end_line=-1,
-            column=-1,
-            end_column=-1,
-            call_references=call_references
-        )
+                line=-1,
+                end_line=-1,
+                column=-1,
+                end_column=-1,
+                call_references=call_references
+            )
         statements = body_block.body
         for statement in statements:
             for member_name in dir(statement):
@@ -596,7 +740,9 @@ class MyPyAstVisitor:
         # TODO pm there needs to be a memberexpression during path!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         # termination conditions
 
-        if isinstance(expr, mp_nodes.NameExpr):
+        if isinstance(expr, mp_nodes.NameExpr): # here we have no member expression just call ref
+            if not isinstance(expr.node, mp_nodes.FuncDef):
+                pass
             self.extract_call_reference_data_from_node(expr, expr.node, pathCopy, parameter_of_func, call_references)
             return
 
@@ -659,6 +805,7 @@ class MyPyAstVisitor:
                 # add [] to path is already done above
                 pathCopy.append(expr.base.name)
                 self.extract_call_reference_data_from_node(expr, expr.base.node, pathCopy, parameter_of_func, call_references)
+                self.extract_expression_info(expr.index, parameter_of_func, call_references)
                 return
         else:
             pass
@@ -682,8 +829,20 @@ class MyPyAstVisitor:
     def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
         if node is None:
             return
+        if isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
+            # here a global function is referenced that is in the same module
+            call_receiver_type = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type,
+                path=path,
+                call_references=call_references
+            )
+            return
         if isinstance(node, mp_nodes.FuncDef):
-            call_receiver_type = node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
+            call_receiver_type = None
+            if node.type is not None:
+                call_receiver_type = node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
             parameter = parameter_of_func.get(node.fullname)
             if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                 if parameter.type is not None:
@@ -694,6 +853,11 @@ class MyPyAstVisitor:
                     call_receiver_type = extracted_type[0]
                 elif extracted_type is not None and len(extracted_type) >= 1:
                     call_receiver_type = extracted_type
+            if isinstance(call_receiver_type, mp_types.AnyType):
+                if call_receiver_type.missing_import_name is not None:
+                    call_receiver_type = call_receiver_type.missing_import_name
+                else:
+                    call_receiver_type = node.fullname
 
             self._set_call_reference(
                 expr=expr,
@@ -717,7 +881,10 @@ class MyPyAstVisitor:
             if isinstance(call_receiver_type, mp_types.AnyType):
                 # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                 # TaggedTable line 165 166, somehow mypy cant infer the type here
-                call_receiver_type = node.fullname
+                if call_receiver_type.missing_import_name is not None:
+                    call_receiver_type = call_receiver_type.missing_import_name
+                else:
+                    call_receiver_type = node.fullname
 
             self._set_call_reference(
                 expr=expr,
@@ -728,6 +895,11 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.TypeAlias):
             call_receiver_type = node.target
+            if isinstance(call_receiver_type, mp_types.AnyType):
+                if call_receiver_type.missing_import_name is not None:
+                    call_receiver_type = call_receiver_type.missing_import_name
+                else:
+                    call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,

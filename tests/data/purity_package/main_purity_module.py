@@ -4,15 +4,15 @@ from .another_purity_path.another_purity_module import SuperClass, ClassPure, Cl
 # else they should be categorized as impure
 # check: tests\data\out\purity_package__api_purity.json after snapshot_update
 
-# def global_func_same_name_pure() -> int:
-#     child_class_instance: ChildClassPure = ChildClassPure()
-#     result = child_class_instance.same_name()
-#     return result
+def global_func_same_name_pure() -> int:
+    child_class_instance: ChildClassPure = ChildClassPure()
+    result = child_class_instance.same_name()
+    return result
 
-# def global_func_same_name_impure() -> int:
-#     child_class_instance = ChildClassImpure()
-#     result = child_class_instance.same_name()  # call reference to impure function
-#     return result
+def global_func_same_name_impure() -> int:
+    child_class_instance = ChildClassImpure()
+    result = child_class_instance.same_name()  # call reference to impure function
+    return result
 
 # def global_func_only_in_T_pure() -> int:  
 #     """
@@ -720,21 +720,40 @@ from .another_purity_path.another_purity_module import SuperClass, ClassPure, Cl
 #     result = (instance.same_name() + instance.same_name())
 #     return result
 
-def global_func_isinstance_check_should_be_pure_but_impure(instance: object):
-    """
-        isinstance checks dont update the ast correctly
-    """
-    if isinstance(instance, ClassPure):
-        result = instance.same_name()
-        return result
+# def global_func_isinstance_check_should_be_pure_but_impure(instance: object):
+#     """
+#         isinstance checks dont update the ast correctly
+#     """
+#     if isinstance(instance, ClassPure):
+#         result = instance.same_name()
+#         return result
 
-def global_func_isinstance_check_impure(instance: object):
-    """
-        isinstance checks dont update the ast correctly
-    """
-    if isinstance(instance, ClassImpure):
-        result = instance.same_name()
-        return result
+# def global_func_isinstance_check_impure(instance: object):
+#     """
+#         isinstance checks dont update the ast correctly
+#     """
+#     if isinstance(instance, ClassImpure):
+#         result = instance.same_name()
+#         return result
+    
+# def global_func_recursive_closure_pure():
+#     def recursive_closure():
+#         instance = ClassPure()
+#         instance.same_name()
+#     recursive_closure()
+
+# def global_func_recursive_closure_impure():
+#     def recursive_closure():
+#         instance = ClassImpure()
+#         instance.same_name()
+#     recursive_closure()
+
+def global_func_call_another_global_func_pure():
+    global_func_same_name_pure()
+
+def global_func_call_another_global_func_impure():
+    global_func_same_name_impure()
+
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]
