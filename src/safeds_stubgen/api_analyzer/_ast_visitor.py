@@ -821,26 +821,42 @@ class MyPyAstVisitor:
             return
         else:
             pass
-
+        
+        found_expression = False
         for member_name in dir(expr):
+            # TODO pm if no Expression was found, then this is the final expression and a call reference needs to be added!!!!!
             if not member_name.startswith("__"):
                 member = getattr(expr, member_name, None)
                 if isinstance(member, mp_nodes.Expression):
                     self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                     for expr_of_member in member:
                         self.extract_expression_info_after_call_reference_found(expr_of_member, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                     # generator expression member condlist
                     for condlist in member:
                         for cond in condlist:
                             self.extract_expression_info_after_call_reference_found(cond, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
                 else:
                     pass
+        if not found_expression:  # so expr is the final expression and the receiver of the call
+            pathCopy.append("not_implemented")  # TODO pm check which expressions dont have expressions and integrate them here so we can append something to the path
+            self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
 
-    def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
+    def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | str | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
         if node is None:
             return
+        if isinstance(node, str):
+            call_receiver_type = node
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type,
+                path=path,
+                call_references=call_references
+            )
         if isinstance(node, mp_types.Type):
             call_receiver_type = node
             if isinstance(call_receiver_type, mp_types.AnyType):

@@ -167,6 +167,9 @@ class PurityEvaluation(Evaluation):
 				flat_purity_results[id_str] = function_result
 
 		if len(ground_truth) > 0:
+			for id, result in flat_purity_results.items():
+				if ground_truth.get(id, None) is None and not result.is_class:
+					pass
 			for function_id, correct_purity in ground_truth.items():
 				purity_result = flat_purity_results.get(function_id, None)
 				if purity_result is None:
@@ -186,9 +189,9 @@ class PurityEvaluation(Evaluation):
 
 		for purity_result_of_module in purity_results.purity_results.values():
 			for purity_result in purity_result_of_module.values():
-				if isinstance(purity_result, Pure):
+				if isinstance(purity_result, Pure) and not purity_result.is_class:
 					amount_of_classified_pure_functions += 1
-				elif isinstance(purity_result, Impure):
+				elif isinstance(purity_result, Impure) and not purity_result.is_class:
 					amount_of_classified_impure_functions += 1
 
 		filename = "evaluation/purity_evaluation.csv"

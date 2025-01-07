@@ -898,7 +898,18 @@ class ReferenceResolver:
                 if function.call_references:
                     for call_list in function.call_references.values():
                         for call_reference in call_list:
+                            # TODO pm evaluation
                             amount_of_call_refs += 1
+                            # this tries to find the api call ref
+                            # if self.api_data is not None:
+                            #     function_id = f"{function.symbol.id.module}.{function.symbol.id.name}.{function.symbol.id.line}.{function.symbol.id.col}"
+                            #     api_function = self.api_data.functions.get(function_id)
+                            #     if api_function is not None:
+                            #         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
+                            #         call_reference_api = api_function.body.call_references.get(call_reference_id, None)
+                            #         if call_reference_api is None:
+                            #             pass
+
                             call_references_result: ReferenceNode
                             call_references_result = self._find_referenced_functions(
                                 call_reference,
