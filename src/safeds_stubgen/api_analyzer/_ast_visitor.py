@@ -813,6 +813,12 @@ class MyPyAstVisitor:
                 self.extract_call_reference_data_from_node(expr, expr.base.node, pathCopy, parameter_of_func, call_references)
                 self.extract_expression_info(expr.index, parameter_of_func, call_references)
                 return
+        elif isinstance(expr, mp_nodes.OpExpr):
+            pathCopy.append(f"${expr.op}$")
+            self.extract_call_reference_data_from_node(expr, expr.method_type, pathCopy, parameter_of_func, call_references)
+            self.extract_expression_info(expr.left, parameter_of_func, call_references)
+            self.extract_expression_info(expr.right, parameter_of_func, call_references)
+            return
         else:
             pass
 
@@ -832,8 +838,20 @@ class MyPyAstVisitor:
                 else:
                     pass
 
-    def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
+    def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
         if node is None:
+            return
+        if isinstance(node, mp_types.Type):
+            call_receiver_type = node
+            if isinstance(call_receiver_type, mp_types.AnyType):
+                if call_receiver_type.missing_import_name is not None:
+                    call_receiver_type = call_receiver_type.missing_import_name
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type,
+                path=path,
+                call_references=call_references
+            )
             return
         if isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
             # here a global function is referenced that is in the same module

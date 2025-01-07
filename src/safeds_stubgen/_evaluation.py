@@ -8,7 +8,7 @@ from functools import reduce
 from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
-from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
 
 import csv
 from pathlib import Path
@@ -91,7 +91,7 @@ class PurityEvaluation(Evaluation):
 			pass
 
 		
-		filename = "purity_evaluation_call_refs.csv"
+		filename = "evaluation/purity_evaluation_call_refs.csv"
 		fieldnames = [
 			"Type-Aware?",
 			"Library",
@@ -141,7 +141,14 @@ class PurityEvaluation(Evaluation):
 			# Write the data rows
 			writer.writerows(data)
 
-	def get_results(self, ground_truth: dict[NodeID, dict[NodeID, str]] | None, purity_results: APIPurity):
+	def get_results(self, purity_results: APIPurity):
+		ground_truth: dict[str, str] = {}
+		if self._package_name == "safeds":
+			with open('evaluation/SafeDS/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					ground_truth[row[0]] = row[1]
+
 		amount_of_classified_pure_functions = 0
 		amount_of_classified_impure_functions = 0
 		true_positives = 0
@@ -153,18 +160,25 @@ class PurityEvaluation(Evaluation):
 		accuracy = 0
 		balanced_accuracy = 0
 
-		if ground_truth is not None:
-			for module_id, module_data in ground_truth.items():
-				for function_id, purity in module_data.items():
-					purity_result = purity_results.purity_results[module_id][function_id]
-					if isinstance(purity_result, Pure) and purity == "pure":
-						true_positives += 1
-					if isinstance(purity_result, Impure) and purity == "impure":
-						true_negatives += 1
-					if isinstance(purity_result, Pure) and purity == "impure":
-						false_positives += 1
-					if isinstance(purity_result, Impure) and purity == "pure":
-						false_negatives += 1
+		flat_purity_results: dict[str, PurityResult] = {}
+		for module_result in purity_results.purity_results.values():
+			for function_id, function_result in module_result.items():
+				id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
+				flat_purity_results[id_str] = function_result
+
+		if len(ground_truth) > 0:
+			for function_id, correct_purity in ground_truth.items():
+				purity_result = flat_purity_results.get(function_id, None)
+				if purity_result is None:
+					continue
+				if isinstance(purity_result, Pure) and correct_purity == "Pure":
+					true_positives += 1
+				if isinstance(purity_result, Impure) and correct_purity == "Impure":
+					true_negatives += 1
+				if isinstance(purity_result, Pure) and correct_purity == "Impure":
+					false_positives += 1
+				if isinstance(purity_result, Impure) and correct_purity == "Pure":
+					false_negatives += 1
 			recall = true_positives / (true_positives + false_negatives)
 			precision = true_positives / (true_positives + false_positives)
 			accuracy = (true_positives + true_negatives) / (true_positives + true_negatives + false_negatives + false_positives)
@@ -177,7 +191,7 @@ class PurityEvaluation(Evaluation):
 				elif isinstance(purity_result, Impure):
 					amount_of_classified_impure_functions += 1
 
-		filename = "purity_evaluation.csv"
+		filename = "evaluation/purity_evaluation.csv"
 		fieldnames = [
 			"Type-Aware?",
 			"Library", 
@@ -644,7 +658,7 @@ class ApiEvaluation(Evaluation):
 		missing_types = (type_from_comment == "" and type_from_annotation == "" and (mypy_inferred_type == "" or mypy_inferred_type == "Any"))
 
 		if conflicted_types:
-			filename = "api_evaluation_conflicted_types.csv"
+			filename = "evaluation/api_evaluation_conflicted_types.csv"
 			fieldnames = [
 				"Library",
 				"Module",
@@ -685,7 +699,7 @@ class ApiEvaluation(Evaluation):
 				# Write the data rows
 				writer.writerows(data)
 		if missing_types:
-			filename = "api_evaluation_missing_types.csv"
+			filename = "evaluation/api_evaluation_missing_types.csv"
 			fieldnames = [
 				"Library",
 				"Module",
@@ -775,7 +789,7 @@ class ApiEvaluation(Evaluation):
 
 		type_coverage = (amount_of_expressions - expr_with_0_type_sources - amount_of_conflicted_types) / amount_of_expressions		
 
-		filename = "api_evaluation.csv"
+		filename = "evaluation/api_evaluation.csv"
 		fieldnames = [
 			"Library", 
 			"Runtime [seconds]",

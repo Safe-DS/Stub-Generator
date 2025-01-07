@@ -318,6 +318,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         if class_of_receiver is None:
                             continue
                         classes.append(class_of_receiver)
+                elif isinstance(type[0], mypy_types.AnyType):
+                    continue
                 else:
                     classes.append(type)
 
@@ -370,6 +372,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # if call_reference.isSuperCallRef:
                 #     super_classes = class_of_receiver.superclasses
                 # classes.append(class_of_receiver)
+            elif isinstance(type, mypy_types.AnyType):
+                continue
             else:  # type is tuple or dict
                 classes.append(type)
             
@@ -378,6 +382,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
             else:
                 # here we have a super() call so we need to get the super classes
+                # TODO pm builtin superclasses
                 super_classes: list[Class] = []
                 for super_class_id in classes[0].superclasses:
                     found_class = _get_class_by_id(api, super_class_id)

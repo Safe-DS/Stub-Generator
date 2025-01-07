@@ -189,7 +189,7 @@ def _run_stub_generator(
     )
     if purity_evaluation:
         purity_evaluator.end_timing()
-        purity_evaluator.get_results(None, api_purity)
+        purity_evaluator.get_results(api_purity)
 
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(

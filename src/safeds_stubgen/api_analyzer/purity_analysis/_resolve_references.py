@@ -279,7 +279,7 @@ class ReferenceResolver:
         """
         node_id = func.symbol.id
         function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
-        function_defs = self.functions.get(call_reference.name)
+        function_defs = self.functions.get(call_reference.name, None)
         if function_defs is None:  # the call reference references functions out side of the package, can not happen, as before this function is called, this is checked
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, True, False, [], None)
@@ -308,7 +308,7 @@ class ReferenceResolver:
         
         # try to get call_reference from api
         call_reference_id = f"{call_reference.name}.{call_reference.id.line}.{call_reference.id.col}"
-        call_reference_api = function_api.body.call_references.get(call_reference_id)
+        call_reference_api = function_api.body.call_references.get(call_reference_id, None)
         
         # if call reference is none then this call reference could not be found
         if call_reference_api is None:  
