@@ -287,6 +287,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
+            if function.name == "__init__" and function.line == 19 and call_reference.function_name == "__init__":
+                pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
             if isinstance(type, list):
@@ -388,6 +390,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     found_class = _get_class_by_id(api, super_class_id)
                     if found_class is not None:
                         super_classes.append(found_class)
+                    elif found_class is None and super_class_id.startswith("builtins."):
+                        # TODO pm handle builtin superclasses
+                        pass
                     # class_name = super_class_id.split(".")[-1]
                     # correct_id = ""
                     # for key in api.reexport_map.keys():
