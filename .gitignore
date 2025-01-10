@@ -9,7 +9,6 @@
 build/
 dist/
 out/
-evaluation_packages/
 
 #evaluation
 evaluation_packages/
