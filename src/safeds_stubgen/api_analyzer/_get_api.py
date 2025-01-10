@@ -74,8 +74,8 @@ def get_api(
 
     # Setup api walker
     path_to_package = ""
-    if is_test_run or evaluation is not None:
-        path_to_package = f"tests/data/{dist}"
+    # if is_test_run or evaluation is not None:
+    #     path_to_package = f"tests/data/{dist}"
     api = API(distribution=dist, package=package_name, version=dist_version, path_to_package=path_to_package)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
     callable_visitor = MyPyAstVisitor(

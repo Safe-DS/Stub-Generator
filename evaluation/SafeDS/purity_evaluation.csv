@@ -1,0 +1,4 @@
+Type-Aware?,Library,Runtime [seconds],Classified as Pure,Classified as Impure,Amount of functions,True Positive,True Negative,False Positive,False Negative,Recall,Precision,Accuracy,Balanced Accuracy,Call References,Improved CallRef,Found more func,Found same amount,Found no referenced functions,Call refs func outside of package,Api callRef not found,Api Analyzer bug,Callrefs found by purity,Callrefs found by api,Date
+Yes,safeds,189.86636924743652,80,412,492,80,372,0,40,0.6666666666666666,1.0,0.9186991869918699,0.8333333333333333,547,167,2,312,65,0,1,0,1710,1780,2025-01-10 14:11:59.564040
+Yes,safeds,161.54015707969666,80,412,492,80,372,0,40,0.6666666666666666,1.0,0.9186991869918699,0.8333333333333333,547,168,2,311,65,0,1,0,1710,1780,2025-01-10 14:19:01.803377
+Yes,safeds,166.96126914024353,80,412,492,80,372,0,40,0.6666666666666666,1.0,0.9186991869918699,0.8333333333333333,547,167,2,312,65,0,1,0,1710,1780,2025-01-10 14:34:20.069051

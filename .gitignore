@@ -10,6 +10,11 @@ build/
 dist/
 out/
 
+#evaluation
+evaluation_packages/
+tests/data/safeds/
+tests/data/astroid/
+
 # Node
 .npm/
 node_modules/

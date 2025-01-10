@@ -50,6 +50,8 @@ class PurityEvaluation(Evaluation):
 		self.found_call_refs_by_purity_analysis = 0
 		self.found_call_refs_by_api_analysis = 0
 
+		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '')
+
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
 		function_name_of_call_ref: str,
@@ -91,7 +93,18 @@ class PurityEvaluation(Evaluation):
 			pass
 
 		
-		filename = "evaluation/purity_evaluation_call_refs.csv"
+		filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "safeds":
+			filename = f"evaluation/safeds/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "Matplot":
+			filename = f"evaluation/Matplot/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "Pandas":
+			filename = f"evaluation/Pandas/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "SciKit":
+			filename = f"evaluation/SciKit/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "Seaborn":
+			filename = f"evaluation/Seaborn/purity_evaluation_call_refs_{self.date}.csv"
+
 		fieldnames = [
 			"Type-Aware?",
 			"Library",
@@ -143,8 +156,34 @@ class PurityEvaluation(Evaluation):
 
 	def get_results(self, purity_results: APIPurity):
 		ground_truth: dict[str, str] = {}
+		filename = "evaluation/purity_evaluation.csv"
 		if self._package_name == "safeds":
-			with open('evaluation/SafeDS/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+			filename = "evaluation/safeds/purity_evaluation.csv"
+			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					ground_truth[row[0]] = row[1]
+		if self._package_name == "Matplot":
+			filename = "evaluation/Matplot/purity_evaluation.csv"
+			with open('evaluation/Matplot/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					ground_truth[row[0]] = row[1]
+		if self._package_name == "Pandas":
+			filename = "evaluation/Pandas/purity_evaluation.csv"
+			with open('evaluation/Pandas/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					ground_truth[row[0]] = row[1]
+		if self._package_name == "SciKit":
+			filename = "evaluation/SciKit/purity_evaluation.csv"
+			with open('evaluation/SciKit/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					ground_truth[row[0]] = row[1]
+		if self._package_name == "Seaborn":
+			filename = "evaluation/Seaborn/purity_evaluation.csv"
+			with open('evaluation/Seaborn/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
@@ -194,7 +233,6 @@ class PurityEvaluation(Evaluation):
 				elif isinstance(purity_result, Impure) and not purity_result.is_class:
 					amount_of_classified_impure_functions += 1
 
-		filename = "evaluation/purity_evaluation.csv"
 		fieldnames = [
 			"Type-Aware?",
 			"Library", 

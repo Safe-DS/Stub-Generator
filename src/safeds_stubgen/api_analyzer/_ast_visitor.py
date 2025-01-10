@@ -909,6 +909,8 @@ class MyPyAstVisitor:
         elif isinstance(node, mp_nodes.Var):
             call_receiver_type = node.type  # TODO  pm refactor types with mypy_type_to_abstract_type 
             parameter = parameter_of_func.get(node.fullname)
+            if expr.line == 71:
+                pass
             if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                 if parameter.type is not None:
                     extracted_type = self._get_named_types_from_nested_type(parameter.type)
