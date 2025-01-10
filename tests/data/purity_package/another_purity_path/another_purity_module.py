@@ -194,3 +194,7 @@ class PureSuperInit(PureInitClass):
 class ImpureSuperInit(ImpureInitClass):
     def __init__(self):
         super().__init__()
+
+class PureSuperInitFromKeyError(KeyError):
+    def __init__(self):
+        super().__init__()

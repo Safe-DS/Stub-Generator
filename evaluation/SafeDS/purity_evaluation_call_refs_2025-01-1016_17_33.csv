@@ -1,0 +1,12 @@
+Type-Aware?,Library,Module,Func Name,Line,Column,Improvement,#New,#Old,Reason for no improvement,Path,Left-most receiver,Date
+Yes,safeds,safeds.config._device,device,6,11,No,0,0,Found no referenced functions,torch.device.(),safeds.config._device.torch,2025-01-10 16:18:59.991473
+Yes,safeds,safeds.config._device,device,6,66,No,0,0,Found no referenced functions,torch.device.(),safeds.config._device.torch,2025-01-10 16:18:59.993472
+Yes,safeds,safeds.data.tabular.containers._column,rename,109,32,No,0,1,Found no referenced functions,data.rename.(),"NamedType(name='None', qname='builtins.None')",2025-01-10 16:19:00.184205
+Yes,safeds,safeds.data.tabular.containers._column,_data_type,111,33,No,1,1,Found same amount of functions,ColumnType._data_type.(),safeds.data.tabular.typing._column_type.ColumnType,2025-01-10 16:19:00.185194
+Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,130,31,Yes,1,3,,Schema._from_pandas_dataframe.(),safeds.data.tabular.typing._schema.Schema,2025-01-10 16:19:12.136717
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,424,31,Yes,1,3,,Schema._from_pandas_dataframe.(),safeds.data.tabular.typing._schema.Schema,2025-01-10 16:19:14.457727
+Yes,safeds,safeds.data.tabular.containers._tagged_table,__init__,150,8,Yes,3,44,,super.().__init__.(),safeds.data.tabular.containers._tagged_table.TaggedTable,2025-01-10 16:19:14.461724
+Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,165,32,No,3,3,Found same amount of functions,_data.keep_only_columns.(),safeds.data.tabular.containers._table.Table,2025-01-10 16:19:14.464277
+Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,166,31,No,1,1,Found same amount of functions,_data.get_column.(),safeds.data.tabular.containers._table.Table,2025-01-10 16:19:14.464779
+Yes,safeds,safeds.data.tabular.containers._time_series,__init__,183,8,Yes,2,5,,super.().__init__.(),safeds.data.tabular.containers._time_series.TimeSeries,2025-01-10 16:19:14.468149
+Yes,safeds,safeds.data.tabular.containers._time_series,get_column,188,29,No,1,1,Found same amount of functions,_data.get_column.(),safeds.data.tabular.containers._table.Table,2025-01-10 16:19:14.469150

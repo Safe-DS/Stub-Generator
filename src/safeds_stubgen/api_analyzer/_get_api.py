@@ -286,9 +286,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             Stores api data of analyzed package
     """
     for function in api.functions.values():
+        if function.name == "_get_sklearn_regressor" and function.line == 109:
+            pass
         for call_reference in function.body.call_references.values():
-            if function.name == "__init__" and function.line == 19 and call_reference.function_name == "__init__":
-                pass
             type = call_reference.receiver.type
             classes: list[Class | Any] | None = []
             if isinstance(type, list):
@@ -392,7 +392,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         super_classes.append(found_class)
                     elif found_class is None and super_class_id.startswith("builtins."):
                         # TODO pm handle builtin superclasses
-                        pass
+                        call_reference.receiver.type = super_class_id
+                        call_reference.receiver.full_name = super_class_id
                     # class_name = super_class_id.split(".")[-1]
                     # correct_id = ""
                     # for key in api.reexport_map.keys():

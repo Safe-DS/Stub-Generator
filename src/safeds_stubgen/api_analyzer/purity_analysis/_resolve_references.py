@@ -319,6 +319,15 @@ class ReferenceResolver:
 
         possibly_referenced_functions = call_reference_api.possibly_referenced_functions
 
+        # here we reference a function of builtins through super(), so we access a builtin class and the purity of those is stored in a lookup table
+        if call_reference_api.isSuperCallRef and call_reference_api.receiver.full_name.startswith("builtins.") and len(possibly_referenced_functions) == 0:
+            # call_reference.name = call_reference_api.receiver.full_name.split(".")[-1]  # change the name so that later the purity analysis looks for the correct builtin 
+            if self.evaluation is not None:
+                result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
+                # type aware purity analysis provided an improvement as we got the type of the builtin
+                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
+            return ([], False)  # false so that the purity analysis finds the builtins
+
         # for builtins we dont need to find possibly referenced functions by name so we return []
         # builtins are handled later
         if call_reference_api.receiver.full_name.startswith("builtins.") and len(call_reference_api.receiver.path_to_call_reference) == 2 and len(possibly_referenced_functions) == 0:

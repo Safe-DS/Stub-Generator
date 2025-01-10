@@ -50,7 +50,7 @@ class PurityEvaluation(Evaluation):
 		self.found_call_refs_by_purity_analysis = 0
 		self.found_call_refs_by_api_analysis = 0
 
-		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '')
+		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '_')
 
 	def evaluate_call_reference(self, 
 		module_id: str | None, 

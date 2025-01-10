@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit
+from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
 # else they should be categorized as impure
@@ -621,6 +621,9 @@ def global_func_super_nested_method_impure() -> int:
     result = instance.super_impure()
     return result
 
+def global_func_super_from_builtin_keyError_pure() -> int:
+    instance = PureSuperInitFromKeyError()
+    return 10
 
 def global_func_list_comprehension_generator_pure() -> list[int]:
     instance = ClassPure()

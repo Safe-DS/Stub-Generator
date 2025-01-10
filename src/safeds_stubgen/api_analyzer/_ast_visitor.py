@@ -369,7 +369,7 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
-        if name == "_data_type" and node.line == 31:
+        if name == "_get_sklearn_regressor" and node.line == 109:
             pass
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         function_body = self._extract_body_info(node.body, parameter_dict, {})
