@@ -636,6 +636,8 @@ def infer_purity(
         The key is the NodeID of the module, the value is a dictionary of the purity results of the functions in the module.
     """
     purity_analyzer = PurityAnalyzer(api_data, code, module_name, path, results, package_data, old_purity_analysis, evaluation)
+    if evaluation is not None:
+        evaluation.evaluate_call_graph_forest(purity_analyzer.call_graph_forest)
     return purity_analyzer.current_purity_results
 
 

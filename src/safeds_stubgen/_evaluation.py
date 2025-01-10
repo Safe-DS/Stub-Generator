@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from io import TextIOWrapper
 import os
 from time import time
 from abc import ABC, abstractmethod
@@ -9,6 +10,7 @@ from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
+from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode
 
 import csv
 from pathlib import Path
@@ -153,6 +155,110 @@ class PurityEvaluation(Evaluation):
 
 			# Write the data rows
 			writer.writerows(data)
+
+	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
+		call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
+		metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "safeds":
+			call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		if self._package_name == "Matplot":
+			call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		if self._package_name == "Pandas":
+			call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		if self._package_name == "SciKit":
+			call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		if self._package_name == "Seaborn":
+			call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+
+		metric_fieldnames = [
+			"Type-Aware?",
+			"Library",
+			"NodeID",
+			"#Nodes",
+			"#Edges",
+			"#Leaves",
+			"Max Depth",
+			"Branching Factor",
+			"Percentage of Leaves",
+			"Date",
+		]
+		file_exists = os.path.isfile(metrics_filename)
+
+		call_graphs = call_graph_forest.graphs
+		for nodeID, call_graph in call_graphs.items():
+			self._amount_of_nodes = 0
+			self._amount_of_edges = 0
+			self._max_depth = 0
+			self._branching_factor = 0
+			self._percentage_of_leaves = 0
+			self._amount_of_leaves = 0
+			self._visited_nodes: list[NodeID] = []
+
+			# traverse call_graph
+			with open(call_graphs_filename, "a", newline="") as file:
+				file.write("\n" + "Call Graph of function: " +f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
+				self.call_graph_DFS_preorder(call_graph, 0, file)
+
+			self._branching_factor = self._amount_of_edges / self._amount_of_nodes
+			self._percentage_of_leaves = self._amount_of_leaves / self._amount_of_nodes
+
+			metric_data = [
+				{
+					"Type-Aware?": "Yes" if not self.old else "No",
+					"Library": self._package_name,
+					"NodeID": f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}",
+					"#Nodes": str(self._amount_of_nodes),
+					"#Edges": str(self._amount_of_edges),
+					"#Leaves": str(self._amount_of_leaves),
+					"Max Depth": str(self._max_depth),
+					"Branching Factor": str(self._branching_factor),
+					"Percentage of Leaves": str(self._percentage_of_leaves),
+					"Date": str(datetime.now())
+				},
+			]
+
+			# Open the file in write mode
+			with open(metrics_filename, "a", newline="") as csvfile:
+				# Define fieldnames (keys of the dictionary)
+
+				# Create a DictWriter object
+				writer = csv.DictWriter(csvfile, fieldnames=metric_fieldnames)
+
+				# Write the header
+				if not file_exists:
+					writer.writeheader()
+
+				# Write the data rows
+				writer.writerows(metric_data)
+
+	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper):
+		# print callgraph 
+		nodeID = call_graph.symbol.id
+		file.write("    " * depth + f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
+
+		self._amount_of_nodes += 1
+		if depth > self._max_depth:
+			self._max_depth = depth
+		
+		if len(call_graph.children) == 0:
+			self._amount_of_leaves += 1
+			return
+		else:
+			self._amount_of_edges += len(call_graph.children)
+			
+			pass
+		for child in call_graph.children.values():
+			self.call_graph_DFS_preorder(child, depth + 1, file)
+
+	def print_call_graph_to_file(self, call_graph: CallGraphNode, file, indent: int):
+		for nodeID, child in call_graph.children.items():
+			file.write("    " * indent + f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
+			self.print_call_graph_to_file(child, file, indent + 1)
 
 	def get_results(self, purity_results: APIPurity):
 		ground_truth: dict[str, str] = {}

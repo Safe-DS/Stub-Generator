@@ -163,7 +163,7 @@ def test_evaluation(
         # "-old"
     ]
 
-    # main()
+    main()
     assert True
 
 def test_main_empty() -> None:
