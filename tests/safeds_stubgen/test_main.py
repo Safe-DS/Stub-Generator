@@ -153,7 +153,7 @@ def test_evaluation(
         "-s",
         str(package_path),
         "-o",
-        str(_out_dir),
+        str(out_file_dir),
         "-tr",
         "--docstyle",
         docstyle,
