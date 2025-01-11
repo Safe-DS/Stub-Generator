@@ -6,11 +6,13 @@ from abc import ABC, abstractmethod
 from typing import Any, Callable
 from functools import reduce
 
+import astroid
+
 from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
-from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode
+from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode, ImportedCallGraphNode
 
 import csv
 from pathlib import Path
@@ -97,15 +99,15 @@ class PurityEvaluation(Evaluation):
 		
 		filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "safeds":
-			filename = f"evaluation/safeds/purity_evaluation_call_refs_{self.date}.csv"
+			filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "Matplot":
-			filename = f"evaluation/Matplot/purity_evaluation_call_refs_{self.date}.csv"
+			filename = f"evaluation/Matplot/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "Pandas":
-			filename = f"evaluation/Pandas/purity_evaluation_call_refs_{self.date}.csv"
+			filename = f"evaluation/Pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "SciKit":
-			filename = f"evaluation/SciKit/purity_evaluation_call_refs_{self.date}.csv"
+			filename = f"evaluation/SciKit/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "Seaborn":
-			filename = f"evaluation/Seaborn/purity_evaluation_call_refs_{self.date}.csv"
+			filename = f"evaluation/Seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 
 		fieldnames = [
 			"Type-Aware?",
@@ -187,10 +189,14 @@ class PurityEvaluation(Evaluation):
 			"Percentage of Leaves",
 			"Date",
 		]
-		file_exists = os.path.isfile(metrics_filename)
 
 		call_graphs = call_graph_forest.graphs
 		for nodeID, call_graph in call_graphs.items():
+			if isinstance(call_graph, ImportedCallGraphNode):
+				continue
+			if isinstance(call_graph.symbol.node, astroid.ClassDef):
+				continue
+			self._amount_of_internal_nodes = 0
 			self._amount_of_nodes = 0
 			self._amount_of_edges = 0
 			self._max_depth = 0
@@ -202,10 +208,11 @@ class PurityEvaluation(Evaluation):
 			# traverse call_graph
 			with open(call_graphs_filename, "a", newline="") as file:
 				file.write("\n" + "Call Graph of function: " +f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
-				self.call_graph_DFS_preorder(call_graph, 0, file)
+				self.call_graph_DFS_preorder(call_graph, 0, file, [])
 
+			self._amount_of_nodes = self._amount_of_internal_nodes + self._amount_of_leaves
 			self._branching_factor = self._amount_of_edges / self._amount_of_nodes
-			self._percentage_of_leaves = self._amount_of_leaves / self._amount_of_nodes
+			self._percentage_of_leaves = self._amount_of_leaves / (self._amount_of_nodes)
 
 			metric_data = [
 				{
@@ -221,6 +228,7 @@ class PurityEvaluation(Evaluation):
 					"Date": str(datetime.now())
 				},
 			]
+			file_exists = os.path.isfile(metrics_filename)
 
 			# Open the file in write mode
 			with open(metrics_filename, "a", newline="") as csvfile:
@@ -236,12 +244,18 @@ class PurityEvaluation(Evaluation):
 				# Write the data rows
 				writer.writerows(metric_data)
 
-	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper):
-		# print callgraph 
+	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]):
 		nodeID = call_graph.symbol.id
-		file.write("    " * depth + f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
+		nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
+		
+		# store visited nodes for each path, to prevent infinite recursion
+		path_copy = path_of_visited_nodes.copy()
+		path_copy.append(nodeID_str)
 
-		self._amount_of_nodes += 1
+		# print callgraph 
+		if not nodeID_str.startswith("BUILTIN"):
+			file.write("    " * depth + nodeID_str + "\n")
+
 		if depth > self._max_depth:
 			self._max_depth = depth
 		
@@ -249,11 +263,15 @@ class PurityEvaluation(Evaluation):
 			self._amount_of_leaves += 1
 			return
 		else:
+			self._amount_of_internal_nodes += 1
 			self._amount_of_edges += len(call_graph.children)
 			
-			pass
-		for child in call_graph.children.values():
-			self.call_graph_DFS_preorder(child, depth + 1, file)
+		for child_nodeID, child in call_graph.children.items():
+			child_nodeID_str = f"{child_nodeID.module}.{child_nodeID.name}.{child_nodeID.line}.{child_nodeID.col}"
+			if child_nodeID_str in path_copy:
+				file.write("    " * (depth + 1) + child_nodeID_str +  " cycle found " + "\n")
+				continue
+			self.call_graph_DFS_preorder(child, depth + 1, file, path_copy)
 
 	def print_call_graph_to_file(self, call_graph: CallGraphNode, file, indent: int):
 		for nodeID, child in call_graph.children.items():
@@ -264,32 +282,32 @@ class PurityEvaluation(Evaluation):
 		ground_truth: dict[str, str] = {}
 		filename = "evaluation/purity_evaluation.csv"
 		if self._package_name == "safeds":
-			filename = "evaluation/safeds/purity_evaluation.csv"
+			filename = "evaluation/safeds/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Matplot":
-			filename = "evaluation/Matplot/purity_evaluation.csv"
-			with open('evaluation/Matplot/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+			filename = "evaluation/Matplot/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Pandas":
-			filename = "evaluation/Pandas/purity_evaluation.csv"
-			with open('evaluation/Pandas/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+			filename = "evaluation/Pandas/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "SciKit":
-			filename = "evaluation/SciKit/purity_evaluation.csv"
-			with open('evaluation/SciKit/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+			filename = "evaluation/SciKit/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Seaborn":
-			filename = "evaluation/Seaborn/purity_evaluation.csv"
-			with open('evaluation/Seaborn/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+			filename = "evaluation/Seaborn/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for row in csv_reader:
 					ground_truth[row[0]] = row[1]
