@@ -12,7 +12,7 @@ from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
-from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode, ImportedCallGraphNode
+from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode, CombinedCallGraphNode, ImportedCallGraphNode
 
 import csv
 from pathlib import Path
@@ -161,21 +161,27 @@ class PurityEvaluation(Evaluation):
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
 		call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
 		metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		if self._package_name == "safeds":
 			call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		if self._package_name == "Matplot":
 			call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		if self._package_name == "Pandas":
 			call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		if self._package_name == "SciKit":
 			call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		if self._package_name == "Seaborn":
 			call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 
 		metric_fieldnames = [
 			"Type-Aware?",
@@ -190,12 +196,23 @@ class PurityEvaluation(Evaluation):
 			"Date",
 		]
 
+		call_graphs_copy = call_graph_forest.graphs.copy()
 		call_graphs = call_graph_forest.graphs
+		self._call_graph_csv_data: dict[str, dict[str, str]] = {}
+
+		for key in call_graphs_copy.keys():
+			# separate combined callgraphs so we can display each callgraph
+			call_graph = call_graphs_copy[key]
+			if isinstance(call_graph, CombinedCallGraphNode):
+				separated_graphs = call_graph.separate()
+				call_graphs.update(separated_graphs)
+				
 		for nodeID, call_graph in call_graphs.items():
 			if isinstance(call_graph, ImportedCallGraphNode):
 				continue
 			if isinstance(call_graph.symbol.node, astroid.ClassDef):
 				continue
+			
 			self._amount_of_internal_nodes = 0
 			self._amount_of_nodes = 0
 			self._amount_of_edges = 0
@@ -228,6 +245,9 @@ class PurityEvaluation(Evaluation):
 					"Date": str(datetime.now())
 				},
 			]
+
+			self._call_graph_csv_data[f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"] = metric_data[0]
+
 			file_exists = os.path.isfile(metrics_filename)
 
 			# Open the file in write mode
@@ -243,6 +263,128 @@ class PurityEvaluation(Evaluation):
 
 				# Write the data rows
 				writer.writerows(metric_data)
+
+		# if compare file exists, compare old call graph metrics with new call graph metrics
+		compare_csv_data: dict[str, dict[str, str]] = {}
+		file_exists = os.path.isfile('evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv')
+		if not file_exists or self.old:
+			return
+		
+		with open('evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv', newline='', mode="r") as csvfile:
+			csv_reader = csv.reader(csvfile)
+			for i, row in enumerate(csv_reader):
+				if i == 0:
+					continue
+				nodeID_str = row[2]
+				compare_csv_data[nodeID_str] = {metric_fieldnames[i]: cell for i, cell in enumerate(row)}
+		# for i, value in self._call_graph_csv_data.items():
+		# 	if compare_csv_data.get(i, None) is None:
+		# 		pass
+		# compare data
+		with open(compare_filename, "a", newline="") as file:
+			file.write(f"Call Graph comparison results (Type-aware vs Non Type-aware) at {self.date}\n")
+			file.write("Average results of the latest run:\n")
+			amount_of_call_graphs = len(self._call_graph_csv_data)
+			average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[3]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+
+			file.write(f"Amount of call graphs: {amount_of_call_graphs}\n")
+			file.write(f"Amount of call graphs: {round(amount_of_call_graphs, 2)}\n")
+			file.write(f"Mean amount of nodes: {round(average_amount_nodes, 2)}\n")
+			file.write(f"Mean amount of edges: {round(average_amount_edges, 2)}\n")
+			file.write(f"Mean amount of leaves: {round(average_amount_leaves, 2)}\n")
+			file.write(f"Mean max depth: {round(average_max_depth, 2)}\n")
+			file.write(f"Mean branching factor: {round(average_branching_factor*100, 2)}%\n")
+			file.write(f"Mean percentage of leaves: {round(average_precentage_leaves*100, 2)}%\n")
+
+			old_amount_of_call_graphs = len(compare_csv_data)
+			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[3]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()))) / old_amount_of_call_graphs
+
+			file.write("\nAverage results of the old purity analysis run:\n")
+			file.write(f"Amount of call graphs: {round(old_amount_of_call_graphs, 2)}\n")
+			file.write(f"Mean amount of nodes: {round(old_average_amount_nodes, 2)}\n")
+			file.write(f"Mean amount of edges: {round(old_average_amount_edges, 2)}\n")
+			file.write(f"Mean amount of leaves: {round(old_average_amount_leaves, 2)}\n")
+			file.write(f"Mean max depth: {round(old_average_max_depth, 2)}\n")
+			file.write(f"Mean branching factor: {round(old_average_branching_factor*100, 2)}%\n")
+			file.write(f"Mean percentage of leaves: {round(old_average_precentage_leaves*100, 2)}%\n")
+
+			# compute percentual gain or loss
+			if average_amount_nodes <= old_average_amount_nodes:
+				nodes_absolute_change = old_average_amount_nodes - average_amount_nodes
+				nodes_relative_change = 1 - average_amount_nodes / old_average_amount_nodes
+				file.write(f"\nMean amount of nodes decreased by: {nodes_absolute_change}\n")
+				file.write(f"This is an {round(nodes_relative_change*100, 2)}% decrease\n\n")
+			else:
+				nodes_absolute_change = average_amount_nodes - old_average_amount_nodes
+				nodes_relative_change = 1 - old_average_amount_nodes / average_amount_nodes
+				file.write(f"Mean amount of nodes increased by: {nodes_absolute_change}\n")
+				file.write(f"This is an {round(nodes_relative_change*100, 2)}% increase\n\n")
+			
+			if average_amount_edges <= old_average_amount_edges:
+				edges_absolute_change = old_average_amount_edges - average_amount_edges
+				edges_relative_change = 1 - average_amount_edges / old_average_amount_edges
+				file.write(f"Mean amount of edges decreased by: {edges_absolute_change}\n")
+				file.write(f"This is an {round(edges_relative_change*100, 2)}% decrease\n\n")
+			else:
+				edges_absolute_change = average_amount_edges - old_average_amount_edges
+				edges_relative_change = 1 - old_average_amount_edges / average_amount_edges
+				file.write(f"Mean amount of edges increased by: {edges_absolute_change}\n")
+				file.write(f"This is an {round(edges_relative_change*100, 2)}% increase\n\n")
+			
+			if average_amount_leaves <= old_average_amount_leaves:
+				leaves_absolute_change = old_average_amount_leaves - average_amount_leaves
+				leaves_relative_change = 1 - average_amount_leaves / old_average_amount_leaves
+				file.write(f"Mean amount of leaves decreased by: {leaves_absolute_change}\n")
+				file.write(f"This is an {round(leaves_relative_change*100, 2)}% decrease\n\n")
+			else:
+				leaves_absolute_change = average_amount_leaves - old_average_amount_leaves
+				leaves_relative_change = 1 - old_average_amount_leaves / average_amount_leaves
+				file.write(f"Mean amount of leaves increased by: {leaves_absolute_change}\n")
+				file.write(f"This is an {round(leaves_relative_change*100, 2)}% increase\n\n")
+			
+			if average_max_depth <= old_average_max_depth:
+				max_depth_absolute_change = old_average_max_depth - average_max_depth
+				max_depth_relative_change = 1 - average_max_depth / old_average_max_depth
+				file.write(f"Mean max depth decreased by: {max_depth_absolute_change}\n")
+				file.write(f"This is an {round(max_depth_relative_change*100, 2)}% decrease\n\n")
+			else:
+				max_depth_absolute_change = average_max_depth - old_average_max_depth
+				max_depth_relative_change = 1 - old_average_max_depth / average_max_depth
+				file.write(f"Mean max depth increased by: {max_depth_absolute_change}\n")
+				file.write(f"This is an {round(max_depth_relative_change*100, 2)}% increase\n\n")
+			
+			if average_branching_factor <= old_average_branching_factor:
+				branching_factor_absolute_change = old_average_branching_factor - average_branching_factor
+				branching_factor_relative_change = 1 -average_branching_factor / old_average_branching_factor
+				file.write(f"Mean branching factor decreased by: {branching_factor_absolute_change}\n")
+				file.write(f"This is an {round(branching_factor_relative_change*100, 2)}% decrease\n\n")
+			else:
+				branching_factor_absolute_change = average_branching_factor - old_average_branching_factor
+				branching_factor_relative_change = 1 - old_average_branching_factor / average_branching_factor
+				file.write(f"Mean branching factor increased by: {branching_factor_absolute_change}\n")
+				file.write(f"This is an {round(branching_factor_relative_change*100, 2)}% increase\n\n")
+			
+			if average_precentage_leaves <= old_average_precentage_leaves:
+				precentage_leaves_absolute_change = old_average_precentage_leaves - average_precentage_leaves
+				precentage_leaves_relative_change = 1 - average_precentage_leaves / old_average_precentage_leaves
+				file.write(f"Mean percentage of leaves decreased by: {precentage_leaves_absolute_change}\n")
+				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% decrease\n\n")
+			else:
+				precentage_leaves_absolute_change = average_precentage_leaves - old_average_precentage_leaves
+				precentage_leaves_relative_change = 1 - old_average_precentage_leaves / average_precentage_leaves
+				file.write(f"Mean percentage of leaves increased by: {precentage_leaves_absolute_change}\n")
+				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% increase\n\n")
+		
 
 	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]):
 		nodeID = call_graph.symbol.id

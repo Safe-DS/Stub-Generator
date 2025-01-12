@@ -1,0 +1,36 @@
+Call Graph comparison results (Type-aware vs Non Type-aware) at 2025-01-12_16_08_30
+Average results of the latest run:
+Amount of call graphs: 477
+Mean amount of nodes: 644.4381551362684
+Mean amount of edges: 643.5052410901468
+Mean amount of leaves: 431.74213836477986
+Mean max depth: 3.5953878406708597
+Mean branching factor: 55.23288454382601%
+Mean percentage of leaves: 75.59946266182354%
+
+Average results of the old purity analysis run:
+Amount of call graphs: 477
+Mean amount of nodes: 644.4381551362684
+Mean amount of edges: 643.5052410901468
+Mean amount of leaves: 431.74213836477986
+Mean max depth: 3.5953878406708597
+Mean branching factor: 55.23288454382601%
+Mean percentage of leaves: 75.59946266182354%
+
+Mean amount of nodes decreased by: 0.0
+This is an 100.0% decrease
+Mean amount of edges decreased by: 0.0
+This is an 100.0% decrease
+
+Mean amount of leaves decreased by: 0.0
+This is an 100.0% decrease
+
+Mean max depth decreased by: 0.0
+This is an 100.0% decrease
+
+Mean branching factor decreased by: 0.0
+This is an 100.0% decrease
+
+Mean percentage of leaves decreased by: 0.0
+This is an 100.0% decrease
+
