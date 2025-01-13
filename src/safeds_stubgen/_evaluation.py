@@ -56,6 +56,51 @@ class PurityEvaluation(Evaluation):
 
 		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '_')
 
+		self.ground_truth: dict[str, str] = {}
+		self.call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
+		self.metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		self.compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		if self._package_name == "safeds":
+			self.call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					self.ground_truth[row[0]] = row[1]
+		if self._package_name == "Matplot":
+			self.call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					self.ground_truth[row[0]] = row[1]
+		if self._package_name == "Pandas":
+			self.call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					self.ground_truth[row[0]] = row[1]
+		if self._package_name == "SciKit":
+			self.call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					self.ground_truth[row[0]] = row[1]
+		if self._package_name == "Seaborn":
+			self.call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for row in csv_reader:
+					self.ground_truth[row[0]] = row[1]
+
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
 		function_name_of_call_ref: str,
@@ -159,29 +204,51 @@ class PurityEvaluation(Evaluation):
 			writer.writerows(data)
 
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
-		call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
-		metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		if self._package_name == "safeds":
-			call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		if self._package_name == "Matplot":
-			call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		if self._package_name == "Pandas":
-			call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		if self._package_name == "SciKit":
-			call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		if self._package_name == "Seaborn":
-			call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# TODO pm refactor this into constructor
+		# ground_truth: dict[str, str] = {}
+		# call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
+		# metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		# compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# if self._package_name == "safeds":
+		# 	call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+		# 	metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		# 	compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# 	with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
+		# 		csv_reader = csv.reader(csvfile)
+		# 		for row in csv_reader:
+		# 			ground_truth[row[0]] = row[1]
+		# if self._package_name == "Matplot":
+		# 	call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+		# 	metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		# 	compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# 	with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
+		# 		csv_reader = csv.reader(csvfile)
+		# 		for row in csv_reader:
+		# 			ground_truth[row[0]] = row[1]
+		# if self._package_name == "Pandas":
+		# 	call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+		# 	metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		# 	compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# 	with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
+		# 		csv_reader = csv.reader(csvfile)
+		# 		for row in csv_reader:
+		# 			ground_truth[row[0]] = row[1]
+		# if self._package_name == "SciKit":
+		# 	call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+		# 	metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		# 	compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# 	with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
+		# 		csv_reader = csv.reader(csvfile)
+		# 		for row in csv_reader:
+		# 			ground_truth[row[0]] = row[1]
+		# if self._package_name == "Seaborn":
+		# 	call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+		# 	metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+		# 	compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		# 	with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
+		# 		csv_reader = csv.reader(csvfile)
+		# 		for row in csv_reader:
+		# 			ground_truth[row[0]] = row[1]
 
 		metric_fieldnames = [
 			"Type-Aware?",
@@ -196,18 +263,23 @@ class PurityEvaluation(Evaluation):
 			"Date",
 		]
 
-		call_graphs_copy = call_graph_forest.graphs.copy()
+		# call_graphs_copy = call_graph_forest.graphs.copy()
 		call_graphs = call_graph_forest.graphs
 		self._call_graph_csv_data: dict[str, dict[str, str]] = {}
 
-		for key in call_graphs_copy.keys():
-			# separate combined callgraphs so we can display each callgraph
-			call_graph = call_graphs_copy[key]
-			if isinstance(call_graph, CombinedCallGraphNode):
-				separated_graphs = call_graph.separate()
-				call_graphs.update(separated_graphs)
+		# for key in call_graphs_copy.keys():
+		# 	# separate combined callgraphs so we can display each callgraph
+		# 	call_graph = call_graphs_copy[key]
+		# 	if isinstance(call_graph, CombinedCallGraphNode):
+		# 		separated_graphs = call_graph.separate()
+		# 		call_graphs.update(separated_graphs)
 				
 		for nodeID, call_graph in call_graphs.items():
+			nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
+			if nodeID_str not in self.ground_truth.keys():
+				if isinstance(call_graph, CombinedCallGraphNode):
+					pass
+				continue
 			if isinstance(call_graph, ImportedCallGraphNode):
 				continue
 			if isinstance(call_graph.symbol.node, astroid.ClassDef):
@@ -223,8 +295,8 @@ class PurityEvaluation(Evaluation):
 			self._visited_nodes: list[NodeID] = []
 
 			# traverse call_graph
-			with open(call_graphs_filename, "a", newline="") as file:
-				file.write("\n" + "Call Graph of function: " +f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
+			with open(self.call_graphs_filename, "a", newline="") as file:
+				file.write("\n" + "Call Graph of function: " + nodeID_str + "\n")
 				self.call_graph_DFS_preorder(call_graph, 0, file, [])
 
 			self._amount_of_nodes = self._amount_of_internal_nodes + self._amount_of_leaves
@@ -235,7 +307,7 @@ class PurityEvaluation(Evaluation):
 				{
 					"Type-Aware?": "Yes" if not self.old else "No",
 					"Library": self._package_name,
-					"NodeID": f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}",
+					"NodeID": nodeID_str,
 					"#Nodes": str(self._amount_of_nodes),
 					"#Edges": str(self._amount_of_edges),
 					"#Leaves": str(self._amount_of_leaves),
@@ -246,12 +318,12 @@ class PurityEvaluation(Evaluation):
 				},
 			]
 
-			self._call_graph_csv_data[f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"] = metric_data[0]
+			self._call_graph_csv_data[nodeID_str] = metric_data[0]
 
-			file_exists = os.path.isfile(metrics_filename)
+			file_exists = os.path.isfile(self.metrics_filename)
 
 			# Open the file in write mode
-			with open(metrics_filename, "a", newline="") as csvfile:
+			with open(self.metrics_filename, "a", newline="") as csvfile:
 				# Define fieldnames (keys of the dictionary)
 
 				# Create a DictWriter object
@@ -281,7 +353,7 @@ class PurityEvaluation(Evaluation):
 		# 	if compare_csv_data.get(i, None) is None:
 		# 		pass
 		# compare data
-		with open(compare_filename, "a", newline="") as file:
+		with open(self.compare_filename, "a", newline="") as file:
 			file.write(f"Call Graph comparison results (Type-aware vs Non Type-aware) at {self.date}\n")
 			file.write("Average results of the latest run:\n")
 			amount_of_call_graphs = len(self._call_graph_csv_data)
@@ -293,7 +365,6 @@ class PurityEvaluation(Evaluation):
 			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
 
 			file.write(f"Amount of call graphs: {amount_of_call_graphs}\n")
-			file.write(f"Amount of call graphs: {round(amount_of_call_graphs, 2)}\n")
 			file.write(f"Mean amount of nodes: {round(average_amount_nodes, 2)}\n")
 			file.write(f"Mean amount of edges: {round(average_amount_edges, 2)}\n")
 			file.write(f"Mean amount of leaves: {round(average_amount_leaves, 2)}\n")
@@ -310,7 +381,7 @@ class PurityEvaluation(Evaluation):
 			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()))) / old_amount_of_call_graphs
 
 			file.write("\nAverage results of the old purity analysis run:\n")
-			file.write(f"Amount of call graphs: {round(old_amount_of_call_graphs, 2)}\n")
+			file.write(f"Amount of call graphs: {old_amount_of_call_graphs}\n")
 			file.write(f"Mean amount of nodes: {round(old_average_amount_nodes, 2)}\n")
 			file.write(f"Mean amount of edges: {round(old_average_amount_edges, 2)}\n")
 			file.write(f"Mean amount of leaves: {round(old_average_amount_leaves, 2)}\n")
