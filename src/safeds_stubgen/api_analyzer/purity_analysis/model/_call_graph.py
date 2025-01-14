@@ -105,6 +105,7 @@ class CallGraphNode:
     symbol: Symbol
     reasons: Reasons
     children: dict[NodeID, CallGraphNode] = field(default_factory=dict)
+    removed_children: dict[NodeID, CallGraphNode] = field(default_factory=dict)
 
     def __hash__(self) -> int:
         return hash(str(self))
@@ -158,7 +159,7 @@ class CallGraphNode:
         """
         return child_id in self.children
 
-    def delete_child(self, child_id: NodeID) -> None:
+    def delete_child(self, child_id: NodeID, store_it: bool = False) -> None:
         """Delete a child from the node.
 
         Parameters
@@ -166,6 +167,9 @@ class CallGraphNode:
         child_id :
             The NodeID of the child to delete.
         """
+        if store_it:
+            child_to_store = self.children[child_id]
+            self.removed_children[child_id] = child_to_store
         del self.children[child_id]
 
     def is_leaf(self) -> bool:

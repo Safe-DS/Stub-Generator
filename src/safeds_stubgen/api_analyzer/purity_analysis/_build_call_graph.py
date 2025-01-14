@@ -387,7 +387,7 @@ class CallGraphBuilder:
         for graph in self.call_graph_forest.graphs.values():
             for child in graph.children.copy().values():
                 if child.symbol.id in cycle:
-                    graph.delete_child(child.symbol.id)
+                    graph.delete_child(child.symbol.id, store_it=True)
                     graph.add_child(combined_node)
 
 

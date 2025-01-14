@@ -7,6 +7,7 @@ from typing import Any, Callable
 from functools import reduce
 
 import astroid
+import astroid.nodes
 
 from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
@@ -55,6 +56,8 @@ class PurityEvaluation(Evaluation):
 		self.found_call_refs_by_api_analysis = 0
 
 		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '_')
+
+		self._memo_cache: dict[NodeID, list[int]] = {}
 
 		self.ground_truth: dict[str, str] = {}
 		self.call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
@@ -213,6 +216,14 @@ class PurityEvaluation(Evaluation):
 			# Write the data rows
 			writer.writerows(data)
 
+	def reverse_combined_graph_pointers(self, combined_graph: CombinedCallGraphNode, call_graph_forest: CallGraphForest) -> CallGraphForest:
+		for graph in call_graph_forest.graphs.values():
+			for child in graph.children.copy().values():
+				if combined_graph.symbol.id == child.symbol.id:
+					graph.delete_child(child.symbol.id)
+					graph.children.update(graph.removed_children)
+		return call_graph_forest
+
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
 		metric_fieldnames = [
 			"Type-Aware?",
@@ -222,6 +233,7 @@ class PurityEvaluation(Evaluation):
 			"#Nodes",
 			"#Edges",
 			"#Leaves",
+			"#Cycles",
 			"Max Depth",
 			"Branching Factor",
 			"Percentage of Leaves",
@@ -229,35 +241,39 @@ class PurityEvaluation(Evaluation):
 			"Expected Purity",
 			"Date",
 		]
-
+		# TODO pm  refactor this into callgraphforest, so we can call the callgraphforest to return the forest without combined nodes
+		call_graphs_with_combined_with_nodeID_str = {f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}": call_graph for nodeID, call_graph in call_graph_forest.graphs.copy().items()}
+		combined_graph_nodes = list(filter(lambda call_graph: isinstance(call_graph, CombinedCallGraphNode), call_graphs_with_combined_with_nodeID_str.values()))
+		for combined_graph in combined_graph_nodes:
+			if not isinstance(combined_graph, CombinedCallGraphNode):
+				continue
+			call_graph_forest = self.reverse_combined_graph_pointers(combined_graph, call_graph_forest)
 		call_graphs_copy = call_graph_forest.graphs.copy()
 		call_graphs: dict[NodeID, CallGraphNode] = {}
-		self._call_graph_csv_data: dict[str, dict[str, str]] = {}
 		for id, graph in call_graphs_copy.items():
 			if isinstance(graph, CombinedCallGraphNode):
 				separated_graphs = graph.separate()
 				call_graphs.update(separated_graphs)
 			else:
-				call_graphs.update({id: graph})
-		
+				call_graphs[id] = graph
 		call_graphs_with_nodeID_str = {f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}": call_graph for nodeID, call_graph in call_graphs.items()}
-		call_graphs_with_combined_with_nodeID_str = {f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}": call_graph for nodeID, call_graph in call_graphs_copy.items()}
 
-		combined_graph_nodes = list(filter(lambda call_graph: isinstance(call_graph, CombinedCallGraphNode), call_graphs_with_combined_with_nodeID_str.values()))
 
 		helper_dict = {f"{graph.symbol.id.module}.{graph.symbol.id.name}.{graph.symbol.id.line}.{graph.symbol.id.col}": ([f"{key.module}.{key.name}.{key.line}.{key.col}" for key in graph.combines.keys()], graph) for graph in combined_graph_nodes}  # type: ignore
+		self._call_graph_csv_data: dict[str, dict[str, str]] = {}
 
 		for nodeID_str, expected_purity in self.ground_truth.items():
 			if nodeID_str == "":
 				continue
 			is_combined = False
-			call_graph_node = call_graphs_with_combined_with_nodeID_str.get(nodeID_str, None)
-			# for combined_nodeID, (child_nodeIDs, graph) in helper_dict.items():
-			# 	if not isinstance(graph, CombinedCallGraphNode):
-			# 		continue
-			# 	if nodeID_str in combined_nodeID:
-			# 		is_combined = True
-			# 		break
+			call_graph_node = call_graphs_with_nodeID_str.get(nodeID_str, None)
+			# TODO pm find out how to separate the call graphs correctly with no infinite recursion
+			for combined_nodeID, (child_nodeIDs, graph) in helper_dict.items():
+				if not isinstance(graph, CombinedCallGraphNode):
+					continue
+				if nodeID_str in combined_nodeID:
+					is_combined = True
+					break
 			if call_graph_node is None:
 				# check combined graphs
 				for combined_nodeID, (child_nodeIDs, graph) in helper_dict.items():
@@ -279,24 +295,6 @@ class PurityEvaluation(Evaluation):
 				if call_graph_node is None:
 					continue
 			
-		# for nodeID, call_graph in call_graphs.items():
-		# 	nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
-		# 	if nodeID_str not in self.ground_truth.keys():
-		# 		if isinstance(call_graph, CombinedCallGraphNode):
-		# 			found_graph = False
-		# 			for id, node in call_graph.combines.items():
-		# 				separated_nodeID_str = f"{id.module}.{id.name}.{id.line}.{id.col}"
-		# 				if separated_nodeID_str in self.ground_truth.keys():
-		# 					found_graph = True
-		# 			if not found_graph:
-		# 				continue
-		# 		else:
-		# 			continue
-		# 	if isinstance(call_graph, ImportedCallGraphNode):
-		# 		continue
-		# 	if isinstance(call_graph.symbol.node, astroid.ClassDef):
-		# 		continue
-			
 			self._amount_of_internal_nodes = 0
 			self._amount_of_nodes = 0
 			self._amount_of_edges = 0
@@ -304,7 +302,7 @@ class PurityEvaluation(Evaluation):
 			self._branching_factor = 0
 			self._percentage_of_leaves = 0
 			self._amount_of_leaves = 0
-			self._visited_nodes: list[NodeID] = []
+			self._amount_of_cycles = 0
 
 			# traverse call_graph
 			with open(self.call_graphs_filename, "a", newline="") as file:
@@ -312,8 +310,14 @@ class PurityEvaluation(Evaluation):
 					file.write("\n" + "Combined Call Graph that contains function: " + nodeID_str + "\n")
 				else:
 					file.write("\n" + "Call Graph of function: " + nodeID_str + "\n")
-				self.call_graph_DFS_preorder(call_graph_node, 0, file, [])
+				data = self.memo_dfs(call_graph_node, 0, file, [])
+				# self.call_graph_DFS_preorder(call_graph_node, 0, file, [])
 
+			self._amount_of_internal_nodes = data[0]
+			self._amount_of_edges = data[1]
+			self._amount_of_leaves = data[2]
+			self._max_depth = data[3]
+			self._amount_of_cycles = data[4]
 			self._amount_of_nodes = self._amount_of_internal_nodes + self._amount_of_leaves
 			self._branching_factor = self._amount_of_edges / self._amount_of_nodes
 			self._percentage_of_leaves = self._amount_of_leaves / (self._amount_of_nodes)
@@ -327,6 +331,7 @@ class PurityEvaluation(Evaluation):
 					"#Nodes": str(self._amount_of_nodes),
 					"#Edges": str(self._amount_of_edges),
 					"#Leaves": str(self._amount_of_leaves),
+					"#Cycles": str(self._amount_of_cycles),
 					"Max Depth": str(self._max_depth),
 					"Branching Factor": str(self._branching_factor),
 					"Percentage of Leaves": str(self._percentage_of_leaves),
@@ -367,46 +372,47 @@ class PurityEvaluation(Evaluation):
 					continue
 				nodeID_str = row[3]
 				compare_csv_data[nodeID_str] = {metric_fieldnames[i]: cell for i, cell in enumerate(row)}
-		# for i, value in self._call_graph_csv_data.items():
-		# 	if compare_csv_data.get(i, None) is None:
-		# 		pass
-		# compare data
+
 		with open(self.compare_filename, "a", newline="") as file:
 			file.write(f"Call Graph comparison results (Type-aware vs Non Type-aware) at {self.date}\n")
 			file.write("Average results of the latest run:\n")
 			amount_of_call_graphs = len(self._call_graph_csv_data)
 		
-			average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], self._call_graph_csv_data.values()), 0)) / amount_of_call_graphs
+			average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_amount_cycles = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[10]], self._call_graph_csv_data.values()), "0")) / amount_of_call_graphs
+			amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], self._call_graph_csv_data.values()), 0))
 
 			file.write(f"Amount of call graphs: {amount_of_call_graphs}\n")
 			file.write(f"Mean amount of nodes: {round(average_amount_nodes, 2)}\n")
 			file.write(f"Mean amount of edges: {round(average_amount_edges, 2)}\n")
 			file.write(f"Mean amount of leaves: {round(average_amount_leaves, 2)}\n")
+			file.write(f"Mean amount of cycles: {round(average_amount_cycles, 2)}\n")
 			file.write(f"Mean max depth: {round(average_max_depth, 2)}\n")
 			file.write(f"Mean branching factor: {round(average_branching_factor*100, 2)}%\n")
 			file.write(f"Mean percentage of leaves: {round(average_precentage_leaves*100, 2)}%\n")
 			file.write(f"Amount of combined graphs: {round(amount_of_combined_graphs, 2)}\n")
 
 			old_amount_of_call_graphs = len(compare_csv_data)
-			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], compare_csv_data.values()), 0)) / amount_of_call_graphs
+			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_amount_cycles = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[10]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
+			old_amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], compare_csv_data.values()), 0))
 
 			file.write("\nAverage results of the old purity analysis run:\n")
 			file.write(f"Amount of call graphs: {old_amount_of_call_graphs}\n")
 			file.write(f"Mean amount of nodes: {round(old_average_amount_nodes, 2)}\n")
 			file.write(f"Mean amount of edges: {round(old_average_amount_edges, 2)}\n")
 			file.write(f"Mean amount of leaves: {round(old_average_amount_leaves, 2)}\n")
+			file.write(f"Mean amount of cycles: {round(old_average_amount_cycles, 2)}\n")
 			file.write(f"Mean max depth: {round(old_average_max_depth, 2)}\n")
 			file.write(f"Mean branching factor: {round(old_average_branching_factor*100, 2)}%\n")
 			file.write(f"Mean percentage of leaves: {round(old_average_precentage_leaves*100, 2)}%\n")
@@ -444,6 +450,17 @@ class PurityEvaluation(Evaluation):
 				leaves_absolute_change = average_amount_leaves - old_average_amount_leaves
 				leaves_relative_change = 1 - old_average_amount_leaves / average_amount_leaves
 				file.write(f"Mean amount of leaves increased by: {leaves_absolute_change}\n")
+				file.write(f"This is an {round(leaves_relative_change*100, 2)}% increase\n\n")
+			
+			if average_amount_cycles <= old_average_amount_cycles:
+				leaves_absolute_change = old_average_amount_cycles - average_amount_cycles
+				leaves_relative_change = 1 - average_amount_cycles / old_average_amount_cycles
+				file.write(f"Mean amount of cycles decreased by: {leaves_absolute_change}\n")
+				file.write(f"This is an {round(leaves_relative_change*100, 2)}% decrease\n\n")
+			else:
+				leaves_absolute_change = average_amount_cycles - old_average_amount_cycles
+				leaves_relative_change = 1 - old_average_amount_cycles / average_amount_cycles
+				file.write(f"Mean amount of cycles increased by: {leaves_absolute_change}\n")
 				file.write(f"This is an {round(leaves_relative_change*100, 2)}% increase\n\n")
 			
 			if average_max_depth <= old_average_max_depth:
@@ -490,7 +507,6 @@ class PurityEvaluation(Evaluation):
 				file.write(f"Amount of combined call graphs increased by: {precentage_leaves_absolute_change}\n")
 				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% increase\n\n")
 		
-
 	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]):
 		nodeID = call_graph.symbol.id
 		nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
@@ -521,14 +537,71 @@ class PurityEvaluation(Evaluation):
 					has_cycle = True
 					break
 			if has_cycle:
+				self._amount_of_cycles += 1
 				file.write("    " * (depth + 1) + child_nodeID_str +  " cycle found " + "\n")
 				continue
 			self.call_graph_DFS_preorder(child, depth + 1, file, path_copy)
 
-	def print_call_graph_to_file(self, call_graph: CallGraphNode, file, indent: int):
-		for nodeID, child in call_graph.children.items():
-			file.write("    " * indent + f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}" + "\n")
-			self.print_call_graph_to_file(child, file, indent + 1)
+	def memoizable_call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]) -> list[int]:
+		return_tuple = [0, 0, 0, 0, 0]
+
+		# if isinstance(call_graph.symbol.node, astroid.nodes.ClassDef):
+		# 	return return_tuple  # dont count class references
+
+		nodeID = call_graph.symbol.id
+		nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
+		
+		# store visited nodes for each path, to prevent infinite recursion
+		path_copy = path_of_visited_nodes.copy()
+		path_copy.append(nodeID_str)
+
+		# print callgraph 
+		if not nodeID_str.startswith("BUILTIN"):
+			file.write("    " * depth + nodeID_str + "\n")
+		# else:
+		# 	return return_tuple  # dont count builtins
+		
+		if len(call_graph.children) == 0:
+			return [0, 0, 1, 0, 0]
+		else:
+			return_tuple[0] += 1  # increase internal nodes
+			return_tuple[1] += len(call_graph.children)  # increase amount of edges
+			
+		for child_nodeID, child in call_graph.children.items():
+			child_nodeID_str = f"{child_nodeID.module}.{child_nodeID.name}.{child_nodeID.line}.{child_nodeID.col}"
+			has_cycle = False
+			for part in path_copy:
+				if child_nodeID_str in part:
+					has_cycle = True
+					break
+			if has_cycle:
+				file.write("    " * (depth + 1) + child_nodeID_str +  " cycle found " + "\n")
+				continue
+			child_result = self.memo_dfs(child, depth + 1, file, path_copy)
+			return_tuple[0] += child_result[0]  # add all internal nodes 
+			return_tuple[1] += child_result[1]	# add all edges
+			return_tuple[2] += child_result[2]	# add all leaves
+			return_tuple[3] = child_result[3] if return_tuple[3] < child_result[3] else return_tuple[3]  # compare depths and set to greatest depth
+			return_tuple[4] += child_result[4]  # add amount of cycles 
+
+		if has_cycle:
+			return_tuple[4] += 1  # increase cycle by 1 if cycle found
+		return_tuple[3] += 1  # increase max depth by one for this node
+		return return_tuple
+
+	def memo_dfs(self, call_graph :CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]) -> list[int]:
+
+		call_graph_nodeID = call_graph.symbol.id
+		nodeID_str = f"{call_graph_nodeID.module}.{call_graph_nodeID.name}.{call_graph_nodeID.line}.{call_graph_nodeID.col}"
+
+		if call_graph_nodeID in self._memo_cache:
+			if not nodeID_str.startswith("BUILTIN"):
+				file.write("    " * depth + "MEMOIZED CALLGRAPH " + nodeID_str + "\n")
+			return self._memo_cache[call_graph_nodeID]
+		
+		computed_result = self.memoizable_call_graph_DFS_preorder(call_graph, depth, file, path_of_visited_nodes)
+		self._memo_cache[call_graph_nodeID] = computed_result
+		return computed_result
 
 	def get_results(self, purity_results: APIPurity):
 		ground_truth: dict[str, str] = {}
