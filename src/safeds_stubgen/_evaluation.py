@@ -66,7 +66,9 @@ class PurityEvaluation(Evaluation):
 			self.compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					self.ground_truth[row[0]] = row[1]
 		if self._package_name == "Matplot":
 			self.call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -74,7 +76,9 @@ class PurityEvaluation(Evaluation):
 			self.compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					self.ground_truth[row[0]] = row[1]
 		if self._package_name == "Pandas":
 			self.call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -82,7 +86,9 @@ class PurityEvaluation(Evaluation):
 			self.compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					self.ground_truth[row[0]] = row[1]
 		if self._package_name == "SciKit":
 			self.call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -90,7 +96,9 @@ class PurityEvaluation(Evaluation):
 			self.compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					self.ground_truth[row[0]] = row[1]
 		if self._package_name == "Seaborn":
 			self.call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -98,7 +106,9 @@ class PurityEvaluation(Evaluation):
 			self.compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					self.ground_truth[row[0]] = row[1]
 
 	def evaluate_call_reference(self, 
@@ -204,55 +214,10 @@ class PurityEvaluation(Evaluation):
 			writer.writerows(data)
 
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
-		# TODO pm refactor this into constructor
-		# ground_truth: dict[str, str] = {}
-		# call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
-		# metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		# compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# if self._package_name == "safeds":
-		# 	call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-		# 	metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-		# 	compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# 	with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
-		# 		csv_reader = csv.reader(csvfile)
-		# 		for row in csv_reader:
-		# 			ground_truth[row[0]] = row[1]
-		# if self._package_name == "Matplot":
-		# 	call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-		# 	metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-		# 	compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# 	with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
-		# 		csv_reader = csv.reader(csvfile)
-		# 		for row in csv_reader:
-		# 			ground_truth[row[0]] = row[1]
-		# if self._package_name == "Pandas":
-		# 	call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-		# 	metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-		# 	compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# 	with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
-		# 		csv_reader = csv.reader(csvfile)
-		# 		for row in csv_reader:
-		# 			ground_truth[row[0]] = row[1]
-		# if self._package_name == "SciKit":
-		# 	call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-		# 	metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-		# 	compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# 	with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
-		# 		csv_reader = csv.reader(csvfile)
-		# 		for row in csv_reader:
-		# 			ground_truth[row[0]] = row[1]
-		# if self._package_name == "Seaborn":
-		# 	call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-		# 	metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-		# 	compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-		# 	with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
-		# 		csv_reader = csv.reader(csvfile)
-		# 		for row in csv_reader:
-		# 			ground_truth[row[0]] = row[1]
-
 		metric_fieldnames = [
 			"Type-Aware?",
 			"Library",
+			"Combined Callgraph",
 			"NodeID",
 			"#Nodes",
 			"#Edges",
@@ -260,30 +225,77 @@ class PurityEvaluation(Evaluation):
 			"Max Depth",
 			"Branching Factor",
 			"Percentage of Leaves",
+			"Purity Result",
+			"Expected Purity",
 			"Date",
 		]
 
-		# call_graphs_copy = call_graph_forest.graphs.copy()
-		call_graphs = call_graph_forest.graphs
+		call_graphs_copy = call_graph_forest.graphs.copy()
+		call_graphs: dict[NodeID, CallGraphNode] = {}
 		self._call_graph_csv_data: dict[str, dict[str, str]] = {}
+		for id, graph in call_graphs_copy.items():
+			if isinstance(graph, CombinedCallGraphNode):
+				separated_graphs = graph.separate()
+				call_graphs.update(separated_graphs)
+			else:
+				call_graphs.update({id: graph})
+		
+		call_graphs_with_nodeID_str = {f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}": call_graph for nodeID, call_graph in call_graphs.items()}
+		call_graphs_with_combined_with_nodeID_str = {f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}": call_graph for nodeID, call_graph in call_graphs_copy.items()}
 
-		# for key in call_graphs_copy.keys():
-		# 	# separate combined callgraphs so we can display each callgraph
-		# 	call_graph = call_graphs_copy[key]
-		# 	if isinstance(call_graph, CombinedCallGraphNode):
-		# 		separated_graphs = call_graph.separate()
-		# 		call_graphs.update(separated_graphs)
-				
-		for nodeID, call_graph in call_graphs.items():
-			nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
-			if nodeID_str not in self.ground_truth.keys():
-				if isinstance(call_graph, CombinedCallGraphNode):
-					pass
+		combined_graph_nodes = list(filter(lambda call_graph: isinstance(call_graph, CombinedCallGraphNode), call_graphs_with_combined_with_nodeID_str.values()))
+
+		helper_dict = {f"{graph.symbol.id.module}.{graph.symbol.id.name}.{graph.symbol.id.line}.{graph.symbol.id.col}": ([f"{key.module}.{key.name}.{key.line}.{key.col}" for key in graph.combines.keys()], graph) for graph in combined_graph_nodes}  # type: ignore
+
+		for nodeID_str, expected_purity in self.ground_truth.items():
+			if nodeID_str == "":
 				continue
-			if isinstance(call_graph, ImportedCallGraphNode):
-				continue
-			if isinstance(call_graph.symbol.node, astroid.ClassDef):
-				continue
+			is_combined = False
+			call_graph_node = call_graphs_with_combined_with_nodeID_str.get(nodeID_str, None)
+			# for combined_nodeID, (child_nodeIDs, graph) in helper_dict.items():
+			# 	if not isinstance(graph, CombinedCallGraphNode):
+			# 		continue
+			# 	if nodeID_str in combined_nodeID:
+			# 		is_combined = True
+			# 		break
+			if call_graph_node is None:
+				# check combined graphs
+				for combined_nodeID, (child_nodeIDs, graph) in helper_dict.items():
+					if not isinstance(graph, CombinedCallGraphNode):
+						continue
+					if nodeID_str in combined_nodeID:
+						call_graph_node = graph
+						is_combined = True
+						break
+					# for child_nodeID in child_nodeIDs:
+					# 	if nodeID_str in child_nodeID:
+					# 		call_graph_node = graph
+					# 		is_combined = True
+					# 		break
+					# if nodeID_str in child_nodeIDs:
+					# 	call_graph_node = graph
+					# 	is_combined = True
+					# 	break
+				if call_graph_node is None:
+					continue
+			
+		# for nodeID, call_graph in call_graphs.items():
+		# 	nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
+		# 	if nodeID_str not in self.ground_truth.keys():
+		# 		if isinstance(call_graph, CombinedCallGraphNode):
+		# 			found_graph = False
+		# 			for id, node in call_graph.combines.items():
+		# 				separated_nodeID_str = f"{id.module}.{id.name}.{id.line}.{id.col}"
+		# 				if separated_nodeID_str in self.ground_truth.keys():
+		# 					found_graph = True
+		# 			if not found_graph:
+		# 				continue
+		# 		else:
+		# 			continue
+		# 	if isinstance(call_graph, ImportedCallGraphNode):
+		# 		continue
+		# 	if isinstance(call_graph.symbol.node, astroid.ClassDef):
+		# 		continue
 			
 			self._amount_of_internal_nodes = 0
 			self._amount_of_nodes = 0
@@ -296,8 +308,11 @@ class PurityEvaluation(Evaluation):
 
 			# traverse call_graph
 			with open(self.call_graphs_filename, "a", newline="") as file:
-				file.write("\n" + "Call Graph of function: " + nodeID_str + "\n")
-				self.call_graph_DFS_preorder(call_graph, 0, file, [])
+				if is_combined:
+					file.write("\n" + "Combined Call Graph that contains function: " + nodeID_str + "\n")
+				else:
+					file.write("\n" + "Call Graph of function: " + nodeID_str + "\n")
+				self.call_graph_DFS_preorder(call_graph_node, 0, file, [])
 
 			self._amount_of_nodes = self._amount_of_internal_nodes + self._amount_of_leaves
 			self._branching_factor = self._amount_of_edges / self._amount_of_nodes
@@ -307,6 +322,7 @@ class PurityEvaluation(Evaluation):
 				{
 					"Type-Aware?": "Yes" if not self.old else "No",
 					"Library": self._package_name,
+					"Combined Callgraph": "Yes" if is_combined else "No", 
 					"NodeID": nodeID_str,
 					"#Nodes": str(self._amount_of_nodes),
 					"#Edges": str(self._amount_of_edges),
@@ -314,6 +330,8 @@ class PurityEvaluation(Evaluation):
 					"Max Depth": str(self._max_depth),
 					"Branching Factor": str(self._branching_factor),
 					"Percentage of Leaves": str(self._percentage_of_leaves),
+					"Purity Result": "Pure" if isinstance(call_graph_node.reasons.result, Pure) else "Impure",
+					"Expected Purity": expected_purity,
 					"Date": str(datetime.now())
 				},
 			]
@@ -347,7 +365,7 @@ class PurityEvaluation(Evaluation):
 			for i, row in enumerate(csv_reader):
 				if i == 0:
 					continue
-				nodeID_str = row[2]
+				nodeID_str = row[3]
 				compare_csv_data[nodeID_str] = {metric_fieldnames[i]: cell for i, cell in enumerate(row)}
 		# for i, value in self._call_graph_csv_data.items():
 		# 	if compare_csv_data.get(i, None) is None:
@@ -357,12 +375,14 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Call Graph comparison results (Type-aware vs Non Type-aware) at {self.date}\n")
 			file.write("Average results of the latest run:\n")
 			amount_of_call_graphs = len(self._call_graph_csv_data)
-			average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[3]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
-			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+		
+			average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], self._call_graph_csv_data.values()))) / amount_of_call_graphs
+			amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], self._call_graph_csv_data.values()), 0)) / amount_of_call_graphs
 
 			file.write(f"Amount of call graphs: {amount_of_call_graphs}\n")
 			file.write(f"Mean amount of nodes: {round(average_amount_nodes, 2)}\n")
@@ -371,14 +391,16 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Mean max depth: {round(average_max_depth, 2)}\n")
 			file.write(f"Mean branching factor: {round(average_branching_factor*100, 2)}%\n")
 			file.write(f"Mean percentage of leaves: {round(average_precentage_leaves*100, 2)}%\n")
+			file.write(f"Amount of combined graphs: {round(amount_of_combined_graphs, 2)}\n")
 
 			old_amount_of_call_graphs = len(compare_csv_data)
-			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[3]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], compare_csv_data.values()))) / old_amount_of_call_graphs
-			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_amount_edges = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[5]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_amount_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[6]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_max_depth = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[7]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_branching_factor = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[8]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_average_precentage_leaves = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[9]], compare_csv_data.values()))) / old_amount_of_call_graphs
+			old_amount_of_combined_graphs = float(reduce(lambda acc, next: acc + 1 if next == "Yes" else acc, map(lambda graph_metrics: graph_metrics[metric_fieldnames[2]], compare_csv_data.values()), 0)) / amount_of_call_graphs
 
 			file.write("\nAverage results of the old purity analysis run:\n")
 			file.write(f"Amount of call graphs: {old_amount_of_call_graphs}\n")
@@ -388,6 +410,7 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Mean max depth: {round(old_average_max_depth, 2)}\n")
 			file.write(f"Mean branching factor: {round(old_average_branching_factor*100, 2)}%\n")
 			file.write(f"Mean percentage of leaves: {round(old_average_precentage_leaves*100, 2)}%\n")
+			file.write(f"Amount of combined graphs: {round(old_amount_of_combined_graphs, 2)}\n")
 
 			# compute percentual gain or loss
 			if average_amount_nodes <= old_average_amount_nodes:
@@ -455,6 +478,17 @@ class PurityEvaluation(Evaluation):
 				precentage_leaves_relative_change = 1 - old_average_precentage_leaves / average_precentage_leaves
 				file.write(f"Mean percentage of leaves increased by: {precentage_leaves_absolute_change}\n")
 				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% increase\n\n")
+			
+			if amount_of_combined_graphs <= old_amount_of_combined_graphs:
+				precentage_leaves_absolute_change = old_amount_of_combined_graphs - amount_of_combined_graphs
+				precentage_leaves_relative_change = 1 - amount_of_combined_graphs / old_amount_of_combined_graphs
+				file.write(f"Amount of combined call graphs decreased by: {precentage_leaves_absolute_change}\n")
+				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% decrease\n\n")
+			else:
+				precentage_leaves_absolute_change = amount_of_combined_graphs - old_amount_of_combined_graphs
+				precentage_leaves_relative_change = 1 - old_amount_of_combined_graphs / average_precentage_leaves
+				file.write(f"Amount of combined call graphs increased by: {precentage_leaves_absolute_change}\n")
+				file.write(f"This is an {round(precentage_leaves_relative_change*100, 2)}% increase\n\n")
 		
 
 	def call_graph_DFS_preorder(self, call_graph: CallGraphNode, depth: int, file: TextIOWrapper, path_of_visited_nodes: list[str]):
@@ -481,7 +515,12 @@ class PurityEvaluation(Evaluation):
 			
 		for child_nodeID, child in call_graph.children.items():
 			child_nodeID_str = f"{child_nodeID.module}.{child_nodeID.name}.{child_nodeID.line}.{child_nodeID.col}"
-			if child_nodeID_str in path_copy:
+			has_cycle = False
+			for part in path_copy:
+				if child_nodeID_str in part:
+					has_cycle = True
+					break
+			if has_cycle:
 				file.write("    " * (depth + 1) + child_nodeID_str +  " cycle found " + "\n")
 				continue
 			self.call_graph_DFS_preorder(child, depth + 1, file, path_copy)
@@ -498,31 +537,41 @@ class PurityEvaluation(Evaluation):
 			filename = "evaluation/safeds/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Matplot":
 			filename = "evaluation/Matplot/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Pandas":
 			filename = "evaluation/Pandas/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "SciKit":
 			filename = "evaluation/SciKit/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					ground_truth[row[0]] = row[1]
 		if self._package_name == "Seaborn":
 			filename = "evaluation/Seaborn/call_ref_results/purity_evaluation.csv"
 			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
-				for row in csv_reader:
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
 					ground_truth[row[0]] = row[1]
 
 		amount_of_classified_pure_functions = 0
