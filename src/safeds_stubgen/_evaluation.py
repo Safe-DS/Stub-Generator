@@ -67,47 +67,52 @@ class PurityEvaluation(Evaluation):
 			self.call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			self.metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			self.old_call_graph_metrics_filename = 'evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					self.ground_truth[row[0]] = row[1]
-		if self._package_name == "Matplot":
-			self.call_graphs_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			self.metrics_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			self.compare_filename = f"evaluation/Matplot/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "matplotlib":
+			self.call_graphs_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			self.old_call_graph_metrics_filename = 'evaluation/matplotlib/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			with open('evaluation/matplotlib/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					self.ground_truth[row[0]] = row[1]
-		if self._package_name == "Pandas":
-			self.call_graphs_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			self.metrics_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			self.compare_filename = f"evaluation/Pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "pandas":
+			self.call_graphs_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			self.old_call_graph_metrics_filename = 'evaluation/pandas/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			with open('evaluation/pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					self.ground_truth[row[0]] = row[1]
-		if self._package_name == "SciKit":
-			self.call_graphs_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			self.metrics_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			self.compare_filename = f"evaluation/SciKit/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "sklearn":
+			self.call_graphs_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			self.old_call_graph_metrics_filename = 'evaluation/sklearn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			with open('evaluation/sklearn/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					self.ground_truth[row[0]] = row[1]
-		if self._package_name == "Seaborn":
-			self.call_graphs_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
-			self.metrics_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
-			self.compare_filename = f"evaluation/Seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
-			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "seaborn":
+			self.call_graphs_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
+			self.metrics_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
+			self.compare_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
+			self.old_call_graph_metrics_filename = 'evaluation/seaborn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			with open('evaluation/seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
@@ -158,14 +163,14 @@ class PurityEvaluation(Evaluation):
 		filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "safeds":
 			filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "Matplot":
-			filename = f"evaluation/Matplot/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "Pandas":
-			filename = f"evaluation/Pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "SciKit":
-			filename = f"evaluation/SciKit/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "Seaborn":
-			filename = f"evaluation/Seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "matplotlib":
+			filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "pandas":
+			filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "sklearn":
+			filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "seaborn":
+			filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 
 		fieldnames = [
 			"Type-Aware?",
@@ -361,11 +366,11 @@ class PurityEvaluation(Evaluation):
 
 		# if compare file exists, compare old call graph metrics with new call graph metrics
 		compare_csv_data: dict[str, dict[str, str]] = {}
-		file_exists = os.path.isfile('evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv')
+		file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
 		if not file_exists or self.old:
 			return
 		
-		with open('evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv', newline='', mode="r") as csvfile:
+		with open(self.old_call_graph_metrics_filename, newline='', mode="r") as csvfile:
 			csv_reader = csv.reader(csvfile)
 			for i, row in enumerate(csv_reader):
 				if i == 0:
@@ -614,33 +619,33 @@ class PurityEvaluation(Evaluation):
 					if i == 0:
 						continue
 					ground_truth[row[0]] = row[1]
-		if self._package_name == "Matplot":
-			filename = "evaluation/Matplot/call_ref_results/purity_evaluation.csv"
-			with open('evaluation/Matplot/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "matplotlib":
+			filename = "evaluation/matplotlib/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/matplotlib/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					ground_truth[row[0]] = row[1]
-		if self._package_name == "Pandas":
-			filename = "evaluation/Pandas/call_ref_results/purity_evaluation.csv"
-			with open('evaluation/Pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "pandas":
+			filename = "evaluation/pandas/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					ground_truth[row[0]] = row[1]
-		if self._package_name == "SciKit":
-			filename = "evaluation/SciKit/call_ref_results/purity_evaluation.csv"
-			with open('evaluation/SciKit/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "sklearn":
+			filename = "evaluation/sklearn/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/sklearn/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					ground_truth[row[0]] = row[1]
-		if self._package_name == "Seaborn":
-			filename = "evaluation/Seaborn/call_ref_results/purity_evaluation.csv"
-			with open('evaluation/Seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
+		if self._package_name == "seaborn":
+			filename = "evaluation/seaborn/call_ref_results/purity_evaluation.csv"
+			with open('evaluation/seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:

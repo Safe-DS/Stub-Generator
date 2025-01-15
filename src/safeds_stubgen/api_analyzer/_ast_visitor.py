@@ -1015,12 +1015,16 @@ class MyPyAstVisitor:
         if isinstance(nested_type, sds_types.NamedType):
             return [nested_type]
         elif isinstance(nested_type, sds_types.ListType):
+            if len(nested_type.types) == 0:
+                return None
             return self._get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
         elif isinstance(nested_type, sds_types.NamedSequenceType):
             return [nested_type]
         elif isinstance(nested_type, sds_types.DictType):
             return self._get_named_types_from_nested_type(nested_type.value_type)
         elif isinstance(nested_type, sds_types.SetType):
+            if len(nested_type.types) == 0:
+                return None
             return self._get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
         elif isinstance(nested_type, sds_types.FinalType):
             return self._get_named_types_from_nested_type(nested_type.type_)

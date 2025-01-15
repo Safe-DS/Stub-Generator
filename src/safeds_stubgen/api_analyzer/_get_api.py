@@ -135,10 +135,14 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
     elif isinstance(nested_type, ListType):
         return _get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
     elif isinstance(nested_type, NamedSequenceType):
+        if len(nested_type.types) == 0:
+            return None
         return [nested_type]
     elif isinstance(nested_type, DictType):
         return _get_named_types_from_nested_type(nested_type.value_type)
     elif isinstance(nested_type, SetType):
+        if len(nested_type.types) == 0:
+            return None
         return _get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
     elif isinstance(nested_type, FinalType):
         return _get_named_types_from_nested_type(nested_type.type_)
@@ -657,6 +661,8 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
                 return
 
+            if len(method.results) == 0:
+                return
             result = method.results[0]  # in this case there can only be one result
             if result.type is None:
                 print(f"Result {result.name} has type None")
