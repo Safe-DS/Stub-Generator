@@ -309,6 +309,7 @@ class PurityEvaluation(Evaluation):
 			self._amount_of_leaves = 0
 			self._amount_of_cycles = 0
 
+			# TODO pm maybe limit max depth, as some graphs are way to large, outliers
 			# traverse call_graph
 			with open(self.call_graphs_filename, "a", newline="") as file:
 				if is_combined:
@@ -366,17 +367,16 @@ class PurityEvaluation(Evaluation):
 
 		# if compare file exists, compare old call graph metrics with new call graph metrics
 		compare_csv_data: dict[str, dict[str, str]] = {}
-		file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
-		if not file_exists or self.old:
-			return
 		
-		with open(self.old_call_graph_metrics_filename, newline='', mode="r") as csvfile:
-			csv_reader = csv.reader(csvfile)
-			for i, row in enumerate(csv_reader):
-				if i == 0:
-					continue
-				nodeID_str = row[3]
-				compare_csv_data[nodeID_str] = {metric_fieldnames[i]: cell for i, cell in enumerate(row)}
+		file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
+		if file_exists:
+			with open(self.old_call_graph_metrics_filename, newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
+					nodeID_str = row[3]
+					compare_csv_data[nodeID_str] = {metric_fieldnames[i]: cell for i, cell in enumerate(row)}
 
 		with open(self.compare_filename, "a", newline="") as file:
 			file.write(f"Call Graph comparison results (Type-aware vs Non Type-aware) at {self.date}\n")
@@ -401,6 +401,10 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Mean branching factor: {round(average_branching_factor*100, 2)}%\n")
 			file.write(f"Mean percentage of leaves: {round(average_precentage_leaves*100, 2)}%\n")
 			file.write(f"Amount of combined graphs: {round(amount_of_combined_graphs, 2)}\n")
+
+			file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
+			if not file_exists or self.old:
+				return
 
 			old_amount_of_call_graphs = len(compare_csv_data)
 			old_average_amount_nodes = float(reduce(lambda acc, next: str(float(acc) + float(next)), map(lambda graph_metrics: graph_metrics[metric_fieldnames[4]], compare_csv_data.values()), "0")) / old_amount_of_call_graphs
@@ -563,10 +567,8 @@ class PurityEvaluation(Evaluation):
 		# print callgraph 
 		if not nodeID_str.startswith("BUILTIN"):
 			file.write("    " * depth + nodeID_str + "\n")
-		# else:
-		# 	return return_tuple  # dont count builtins
 		
-		if len(call_graph.children) == 0:
+		if len(call_graph.children) == 0 or nodeID_str.startswith("BUILTIN") or isinstance(call_graph.symbol.node, astroid.nodes.ClassDef):
 			return [0, 0, 1, 0, 0]
 		else:
 			return_tuple[0] += 1  # increase internal nodes
@@ -651,6 +653,20 @@ class PurityEvaluation(Evaluation):
 					if i == 0:
 						continue
 					ground_truth[row[0]] = row[1]
+
+		call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "safeds":
+			call_refs_filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "matplotlib":
+			call_refs_filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "pandas":
+			call_refs_filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "sklearn":
+			call_refs_filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		if self._package_name == "seaborn":
+			call_refs_filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+
+		# TODO pm measure average reduction on all call refs, and on all call refs where a reduction was possible, track largest reduction, percentage of found same amount, percentage of found no functions
 
 		amount_of_classified_pure_functions = 0
 		amount_of_classified_impure_functions = 0

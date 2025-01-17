@@ -1019,6 +1019,8 @@ class MyPyAstVisitor:
                 return None
             return self._get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
         elif isinstance(nested_type, sds_types.NamedSequenceType):
+            if len(nested_type.types) == 0:
+                return None
             return [nested_type]
         elif isinstance(nested_type, sds_types.DictType):
             return self._get_named_types_from_nested_type(nested_type.value_type)
