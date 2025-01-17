@@ -63,11 +63,13 @@ class PurityEvaluation(Evaluation):
 		self.call_graphs_filename = f"evaluation/purity_evaluation_call_graphs_{self.date}.txt"
 		self.metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		self.compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
+		self.call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		if self._package_name == "safeds":
 			self.call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
 			self.metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.call_refs_filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
@@ -79,6 +81,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/matplotlib/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.call_refs_filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/matplotlib/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
@@ -90,6 +93,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/pandas/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.call_refs_filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
@@ -101,6 +105,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/sklearn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.call_refs_filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/sklearn/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
@@ -112,12 +117,59 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/seaborn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.call_refs_filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
 				for i, row in enumerate(csv_reader):
 					if i == 0:
 						continue
 					self.ground_truth[row[0]] = row[1]
+
+		self.call_refs_fieldnames = [
+			"Type-Aware?",
+			"Library",
+			"Module",
+			"Func Name",
+			"Line",
+			"Column",
+			"Improvement",
+			"#New",
+			"#Old",
+			"Reason for no improvement",
+			"Path",
+			"Left-most receiver",
+			"Date",
+		]
+		self.result_fieldnames = [
+			"Type-Aware?",
+			"Library", 
+			"Runtime [seconds]", 
+			"Classified as Pure", 
+			"Classified as Impure", 
+			"Amount of functions",
+			"True Positive",
+			"True Negative",
+			"False Positive", 
+			"False Negative",
+			"Recall",
+			"Precision",
+			"Accuracy",
+			"Balanced Accuracy",
+			"Call References",
+			"Improved CallRef",
+			"Found more func",
+			"Found same amount",
+			"Found no referenced functions",
+			"Call refs func outside of package",
+			"Api callRef not found",
+			"Api Analyzer bug",
+			"Mean reduction of referenced functions",
+			"Mean reduction of referenced functions if improved",
+			"Largest reduction",
+			"Callrefs found by purity",
+			"Callrefs found by api",
+			"Date"
+		]
 
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
@@ -159,34 +211,6 @@ class PurityEvaluation(Evaluation):
 			self._amount_of_found_same_amount += 1
 			pass
 
-		
-		filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "safeds":
-			filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "matplotlib":
-			filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "pandas":
-			filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "sklearn":
-			filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "seaborn":
-			filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-
-		fieldnames = [
-			"Type-Aware?",
-			"Library",
-			"Module",
-			"Func Name",
-			"Line",
-			"Column",
-			"Improvement",
-			"#New",
-			"#Old",
-			"Reason for no improvement",
-			"Path",
-			"Left-most receiver",
-			"Date",
-		]
 		data = [
 			{
 				"Type-Aware?": "Yes" if not self.old else "No",
@@ -205,14 +229,14 @@ class PurityEvaluation(Evaluation):
 			},
 		]
 
-		file_exists = os.path.isfile(filename)
+		file_exists = os.path.isfile(self.call_refs_filename)
 
 		# Open the file in write mode
-		with open(filename, "a", newline="") as csvfile:
+		with open(self.call_refs_filename, "a", newline="") as csvfile:
 			# Define fieldnames (keys of the dictionary)
 
 			# Create a DictWriter object
-			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+			writer = csv.DictWriter(csvfile, fieldnames=self.call_refs_fieldnames)
 
 			# Write the header
 			if not file_exists:
@@ -560,6 +584,11 @@ class PurityEvaluation(Evaluation):
 		nodeID = call_graph.symbol.id
 		nodeID_str = f"{nodeID.module}.{nodeID.name}.{nodeID.line}.{nodeID.col}"
 		
+		# limit depth as graphs can get extremely large
+		if depth >= 60:
+			file.write("    " * depth + "Maximum depth reached" + nodeID_str + "\n")
+			return [0, 0, 1, 0, 0]
+
 		# store visited nodes for each path, to prevent infinite recursion
 		path_copy = path_of_visited_nodes.copy()
 		path_copy.append(nodeID_str)
@@ -654,19 +683,35 @@ class PurityEvaluation(Evaluation):
 						continue
 					ground_truth[row[0]] = row[1]
 
-		call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "safeds":
-			call_refs_filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "matplotlib":
-			call_refs_filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "pandas":
-			call_refs_filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "sklearn":
-			call_refs_filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
-		if self._package_name == "seaborn":
-			call_refs_filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
+		# TODO pm percentage of found same amount, percentage of found no functions
+		call_reference_data: list[list[str]] = []
+		with open(self.call_refs_filename, newline='', mode="r") as csvfile:
+				csv_reader = csv.reader(csvfile)
+				for i, row in enumerate(csv_reader):
+					if i == 0:
+						continue
+					call_reference_data.append(row)
 
-		# TODO pm measure average reduction on all call refs, and on all call refs where a reduction was possible, track largest reduction, percentage of found same amount, percentage of found no functions
+
+		mean_reduction = 0
+		mean_reduction_on_improvement = 0
+		amount_of_improvements = 0
+		largest_reduction = 0
+		for call_ref in call_reference_data:
+			isImprovement = call_ref[6]
+			reduced_amount_of_found_functions = call_ref[7]
+			amount_of_found_functions = call_ref[8]
+
+			reduction = int(amount_of_found_functions) - int(reduced_amount_of_found_functions)
+			mean_reduction += reduction
+			amount_of_improvements += 1 if isImprovement == "Yes" else 0
+			mean_reduction_on_improvement += reduction if isImprovement else 0
+
+			if reduction > largest_reduction:
+				largest_reduction = reduction
+
+		mean_reduction = mean_reduction / len(call_reference_data)
+		mean_reduction_on_improvement = mean_reduction_on_improvement / amount_of_improvements
 
 		amount_of_classified_pure_functions = 0
 		amount_of_classified_impure_functions = 0
@@ -713,33 +758,6 @@ class PurityEvaluation(Evaluation):
 				elif isinstance(purity_result, Impure) and not purity_result.is_class:
 					amount_of_classified_impure_functions += 1
 
-		fieldnames = [
-			"Type-Aware?",
-			"Library", 
-			"Runtime [seconds]", 
-			"Classified as Pure", 
-			"Classified as Impure", 
-			"Amount of functions",
-			"True Positive",
-			"True Negative",
-			"False Positive", 
-			"False Negative",
-			"Recall",
-			"Precision",
-			"Accuracy",
-			"Balanced Accuracy",
-			"Call References",
-			"Improved CallRef",
-			"Found more func",
-			"Found same amount",
-			"Found no referenced functions",
-			"Call refs func outside of package",
-			"Api callRef not found",
-			"Api Analyzer bug",
-			"Callrefs found by purity",
-			"Callrefs found by api",
-			"Date"
-		]
 		data = [
 			{
 				"Type-Aware?": "Yes" if not self.old else "No",
@@ -764,6 +782,9 @@ class PurityEvaluation(Evaluation):
 				"Call refs func outside of package": str(self._amount_of_callRefs_without_functions_in_package),
 				"Api callRef not found": str(self._amount_of_call_refs_where_call_is_no_method),
 				"Api Analyzer bug": str(self._amount_of_missing_api_function),
+				"Mean reduction of referenced functions": str(mean_reduction),
+				"Mean reduction of referenced functions if improved": str(mean_reduction_on_improvement),
+				"Largest reduction": str(largest_reduction),
 				"Callrefs found by purity": str(self.found_call_refs_by_purity_analysis),
 				"Callrefs found by api": str(self.found_call_refs_by_api_analysis),
 				"Date": str(datetime.now())
@@ -777,7 +798,7 @@ class PurityEvaluation(Evaluation):
 			# Define fieldnames (keys of the dictionary)
 
 			# Create a DictWriter object
-			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+			writer = csv.DictWriter(csvfile, fieldnames=self.result_fieldnames)
 
 			# Write the header
 			if not file_exists:
