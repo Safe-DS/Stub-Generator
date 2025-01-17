@@ -169,14 +169,15 @@ def _run_stub_generator(
         is_test_run=is_test_run,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
-        evaluation=api_evaluator if not runtime_evaluation and api_evaluation else None
+        evaluation=api_evaluator if not runtime_evaluation and api_evaluation else None,
+        old_purity_analysis=old_purity_analysis
     )
     if api_evaluation:
         api_evaluator.end_timing()
         api_evaluator.get_results()
 
     # Create an API file
-    out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
+    out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}2__api.json")
     api.to_json_file(out_file_api)
     
     if purity_evaluation:

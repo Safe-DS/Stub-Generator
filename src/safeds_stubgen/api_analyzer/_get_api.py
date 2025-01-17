@@ -29,7 +29,8 @@ def get_api(
     is_test_run: bool = False,
     type_source_preference: TypeSourcePreference = TypeSourcePreference.CODE,
     type_source_warning: TypeSourceWarning = TypeSourceWarning.WARN,
-    evaluation: ApiEvaluation | None = None
+    evaluation: ApiEvaluation | None = None,
+    old_purity_analysis: bool = False
 ) -> API:
     """Parse a given code package with Mypy, walk the Mypy AST and create an API object."""
     init_roots = _get_nearest_init_dirs(root)
@@ -92,6 +93,7 @@ def get_api(
         walker.walk(tree=tree)
 
     api = callable_visitor.api
+    # if not old_purity_analysis:
     _update_class_subclass_relation(api)
     _find_correct_type_by_path_to_call_reference(api)
     _find_all_referenced_functions_for_all_call_references(api)
@@ -178,23 +180,27 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
                         types.extend(named_type)
                 return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
-def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class) -> Attribute | None:
+def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class, visited_classes: list[str]) -> Attribute | None:
     attribute = list(filter(lambda attribute: attribute.name == attribute_name, current_class.attributes))
+    visited_classes.append(current_class.id)
     if len(attribute) != 1:
         # look in superclass
         for super_class_name in current_class.superclasses:
             super_class = _get_class_by_id(api, super_class_name)
             if super_class is None:
                 continue
-            attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, super_class)
+            if super_class.id in visited_classes:
+                continue
+            attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, super_class, visited_classes)
             if attribute is not None:
                 return attribute
         return None
     attribute = attribute[0]
     return attribute
 
-def _find_method_in_class_and_super_classes(api: API, method_name: str, current_class: Class) -> Function | None:
+def _find_method_in_class_and_super_classes(api: API, method_name: str, current_class: Class, visited_classes: list[str]) -> Function | None:
     method = list(filter(lambda method: method.name == method_name, current_class.methods))
+    visited_classes.append(current_class.id)
     if method_name == "__init__" and current_class.constructor is not None:
         method = [current_class.constructor]
     if len(method) != 1:
@@ -203,7 +209,9 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
             super_class = _get_class_by_id(api, super_class_name)
             if super_class is None:
                 continue
-            method = _find_method_in_class_and_super_classes(api, method_name, super_class)
+            if super_class.id in visited_classes:
+                continue
+            method = _find_method_in_class_and_super_classes(api, method_name, super_class, visited_classes)
             if method is not None:
                 return method
         return None
@@ -362,6 +370,8 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
                         continue
 
+                    if len(global_func.results) == 0:
+                        continue
                     return_val = global_func.results[0]
                     if return_val.type is None:
                         continue
@@ -611,7 +621,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         attribute_name = part
         # if isinstance(type_of_receiver, NamedType):
         #     pass
-        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver)  
+        attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver, [])  
         if attribute is None:
             raise KeyError()
         type_of_attribute = attribute.type
@@ -656,7 +666,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             return
         else:  # here we have something like this "method1().method2()" or "method1().member.method2()" or "method()[0].member.method2()" or "method()()"
             method_name = part
-            method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver)
+            method = _find_method_in_class_and_super_classes(api, method_name, type_of_receiver, [])
             if method is None:
                 print(f"Method {method_name} and Attribute {attribute_name} not found in class {type_of_receiver.name} and superclasses!")
                 return
@@ -774,7 +784,8 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                         api,
                         call_reference,
                         super_classes,
-                        referenced_functions
+                        referenced_functions,
+                        []
                     )
 
                 call_reference.possibly_referenced_functions.extend(referenced_functions)
@@ -783,7 +794,8 @@ def _get_referenced_function_from_super_classes(
     api: API, 
     call_reference: CallReference, 
     super_classes: list[Class], 
-    referenced_functions: list[Function]
+    referenced_functions: list[Function],
+    visited_classes: list[str],
 ) -> None:
     """
         finds the first referenced function in super classes recursively
@@ -800,6 +812,9 @@ def _get_referenced_function_from_super_classes(
             Passed along recursion to store all possibly referenced functions
     """
     for super_class in super_classes:
+        if super_class.id in visited_classes:
+            continue
+        visited_classes.append(super_class.id)
         found_method = False
         if call_reference.function_name == "__init__" and super_class.constructor is not None:
             referenced_functions.append(super_class.constructor)
@@ -840,7 +855,8 @@ def _get_referenced_function_from_super_classes(
                 api,
                 call_reference,
                 next_super_classes,
-                referenced_functions
+                referenced_functions,
+                visited_classes
             )
 
 def _get_referenced_functions_from_class_and_subclasses(
