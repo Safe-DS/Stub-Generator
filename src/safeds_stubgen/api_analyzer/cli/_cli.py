@@ -177,7 +177,7 @@ def _run_stub_generator(
         api_evaluator.get_results()
 
     # Create an API file
-    out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}2__api.json")
+    out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
     
     if purity_evaluation:

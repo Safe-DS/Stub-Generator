@@ -20805,7 +20805,7 @@
       "type": {
         "kind": "NamedType",
         "name": "Series",
-        "qname": "pandas.Series"
+        "qname": "pandas.core.series.Series"
       }
     },
     {
@@ -20856,7 +20856,7 @@
       "type": {
         "kind": "NamedType",
         "name": "DataFrame",
-        "qname": "pandas.DataFrame"
+        "qname": "pandas.core.frame.DataFrame"
       }
     },
     {
@@ -20907,7 +20907,7 @@
       "type": {
         "kind": "NamedType",
         "name": "DataFrame",
-        "qname": "pandas.DataFrame"
+        "qname": "pandas.core.frame.DataFrame"
       }
     },
     {
@@ -21058,7 +21058,7 @@
           {
             "kind": "NamedType",
             "name": "KBinsDiscretizer",
-            "qname": "sklearn.preprocessing.KBinsDiscretizer"
+            "qname": "sklearn.preprocessing._discretization.KBinsDiscretizer"
           },
           {
             "kind": "NamedType",
@@ -21151,7 +21151,7 @@
           {
             "kind": "NamedType",
             "name": "SimpleImputer",
-            "qname": "sklearn.impute.SimpleImputer"
+            "qname": "sklearn.impute._base.SimpleImputer"
           },
           {
             "kind": "NamedType",
@@ -21210,7 +21210,7 @@
           {
             "kind": "NamedType",
             "name": "OrdinalEncoder",
-            "qname": "sklearn.preprocessing.OrdinalEncoder"
+            "qname": "sklearn.preprocessing._encoders.OrdinalEncoder"
           },
           {
             "kind": "NamedType",
@@ -21423,7 +21423,7 @@
           {
             "kind": "NamedType",
             "name": "MinMaxScaler",
-            "qname": "sklearn.preprocessing.MinMaxScaler"
+            "qname": "sklearn.preprocessing._data.MinMaxScaler"
           },
           {
             "kind": "NamedType",
@@ -21482,7 +21482,7 @@
           {
             "kind": "NamedType",
             "name": "StandardScaler",
-            "qname": "sklearn.preprocessing.StandardScaler"
+            "qname": "sklearn.preprocessing._data.StandardScaler"
           },
           {
             "kind": "NamedType",
@@ -21790,7 +21790,7 @@
           {
             "kind": "NamedType",
             "name": "AdaBoostClassifier",
-            "qname": "sklearn.ensemble.AdaBoostClassifier"
+            "qname": "sklearn.ensemble._weight_boosting.AdaBoostClassifier"
           },
           {
             "kind": "NamedType",
@@ -21876,7 +21876,7 @@
           {
             "kind": "NamedType",
             "name": "DecisionTreeClassifier",
-            "qname": "sklearn.tree.DecisionTreeClassifier"
+            "qname": "sklearn.tree._classes.DecisionTreeClassifier"
           },
           {
             "kind": "NamedType",
@@ -21996,7 +21996,7 @@
           {
             "kind": "NamedType",
             "name": "GradientBoostingClassifier",
-            "qname": "sklearn.ensemble.GradientBoostingClassifier"
+            "qname": "sklearn.ensemble._gb.GradientBoostingClassifier"
           },
           {
             "kind": "NamedType",
@@ -22099,7 +22099,7 @@
           {
             "kind": "NamedType",
             "name": "KNeighborsClassifier",
-            "qname": "sklearn.neighbors.KNeighborsClassifier"
+            "qname": "sklearn.neighbors._classification.KNeighborsClassifier"
           },
           {
             "kind": "NamedType",
@@ -22185,7 +22185,7 @@
           {
             "kind": "NamedType",
             "name": "LogisticRegression",
-            "qname": "sklearn.linear_model.LogisticRegression"
+            "qname": "sklearn.linear_model._logistic.LogisticRegression"
           },
           {
             "kind": "NamedType",
@@ -22288,7 +22288,7 @@
           {
             "kind": "NamedType",
             "name": "RandomForestClassifier",
-            "qname": "sklearn.ensemble.RandomForestClassifier"
+            "qname": "sklearn.ensemble._forest.RandomForestClassifier"
           },
           {
             "kind": "NamedType",
@@ -22435,7 +22435,7 @@
           {
             "kind": "NamedType",
             "name": "SVC",
-            "qname": "sklearn.svm.SVC"
+            "qname": "sklearn.svm._classes.SVC"
           },
           {
             "kind": "NamedType",
@@ -22582,7 +22582,7 @@
           {
             "kind": "NamedType",
             "name": "AdaBoostRegressor",
-            "qname": "sklearn.ensemble.AdaBoostRegressor"
+            "qname": "sklearn.ensemble._weight_boosting.AdaBoostRegressor"
           },
           {
             "kind": "NamedType",
@@ -22668,7 +22668,7 @@
           {
             "kind": "NamedType",
             "name": "DecisionTreeRegressor",
-            "qname": "sklearn.tree.DecisionTreeRegressor"
+            "qname": "sklearn.tree._classes.DecisionTreeRegressor"
           },
           {
             "kind": "NamedType",
@@ -22788,7 +22788,7 @@
           {
             "kind": "NamedType",
             "name": "ElasticNet",
-            "qname": "sklearn.linear_model.ElasticNet"
+            "qname": "sklearn.linear_model._coordinate_descent.ElasticNet"
           },
           {
             "kind": "NamedType",
@@ -22908,7 +22908,7 @@
           {
             "kind": "NamedType",
             "name": "GradientBoostingRegressor",
-            "qname": "sklearn.ensemble.GradientBoostingRegressor"
+            "qname": "sklearn.ensemble._gb.GradientBoostingRegressor"
           },
           {
             "kind": "NamedType",
@@ -23011,7 +23011,7 @@
           {
             "kind": "NamedType",
             "name": "KNeighborsRegressor",
-            "qname": "sklearn.neighbors.KNeighborsRegressor"
+            "qname": "sklearn.neighbors._regression.KNeighborsRegressor"
           },
           {
             "kind": "NamedType",
@@ -23114,7 +23114,7 @@
           {
             "kind": "NamedType",
             "name": "Lasso",
-            "qname": "sklearn.linear_model.Lasso"
+            "qname": "sklearn.linear_model._coordinate_descent.Lasso"
           },
           {
             "kind": "NamedType",
@@ -23200,7 +23200,7 @@
           {
             "kind": "NamedType",
             "name": "LinearRegression",
-            "qname": "sklearn.linear_model.LinearRegression"
+            "qname": "sklearn.linear_model._base.LinearRegression"
           },
           {
             "kind": "NamedType",
@@ -23303,7 +23303,7 @@
           {
             "kind": "NamedType",
             "name": "RandomForestRegressor",
-            "qname": "sklearn.ensemble.RandomForestRegressor"
+            "qname": "sklearn.ensemble._forest.RandomForestRegressor"
           },
           {
             "kind": "NamedType",
@@ -23406,7 +23406,7 @@
           {
             "kind": "NamedType",
             "name": "Ridge",
-            "qname": "sklearn.linear_model.Ridge"
+            "qname": "sklearn.linear_model._ridge.Ridge"
           },
           {
             "kind": "NamedType",
@@ -23553,7 +23553,7 @@
           {
             "kind": "NamedType",
             "name": "SVR",
-            "qname": "sklearn.svm.SVR"
+            "qname": "sklearn.svm._classes.SVR"
           },
           {
             "kind": "NamedType",
@@ -24726,7 +24726,7 @@
       "type": {
         "kind": "NamedType",
         "name": "Series",
-        "qname": "pandas.Series"
+        "qname": "pandas.core.series.Series"
       }
     },
     {
@@ -25588,7 +25588,7 @@
       "type": {
         "kind": "NamedType",
         "name": "DataFrame",
-        "qname": "pandas.DataFrame"
+        "qname": "pandas.core.frame.DataFrame"
       }
     },
     {
@@ -26122,7 +26122,7 @@
       "type": {
         "kind": "NamedType",
         "name": "DataFrame",
-        "qname": "pandas.DataFrame"
+        "qname": "pandas.core.frame.DataFrame"
       }
     },
     {
@@ -30487,7 +30487,7 @@
       "type": {
         "kind": "NamedType",
         "name": "SimpleImputer",
-        "qname": "sklearn.impute.SimpleImputer"
+        "qname": "sklearn.impute._base.SimpleImputer"
       }
     },
     {
@@ -30536,7 +30536,7 @@
       "type": {
         "kind": "NamedType",
         "name": "SimpleImputer",
-        "qname": "sklearn.impute.SimpleImputer"
+        "qname": "sklearn.impute._base.SimpleImputer"
       }
     },
     {
@@ -30585,7 +30585,7 @@
       "type": {
         "kind": "NamedType",
         "name": "SimpleImputer",
-        "qname": "sklearn.impute.SimpleImputer"
+        "qname": "sklearn.impute._base.SimpleImputer"
       }
     },
     {
@@ -30634,7 +30634,7 @@
       "type": {
         "kind": "NamedType",
         "name": "SimpleImputer",
-        "qname": "sklearn.impute.SimpleImputer"
+        "qname": "sklearn.impute._base.SimpleImputer"
       }
     },
     {
@@ -32270,7 +32270,7 @@
       "type": {
         "kind": "NamedType",
         "name": "Series",
-        "qname": "pandas.Series"
+        "qname": "pandas.core.series.Series"
       }
     },
     {
@@ -32616,7 +32616,7 @@
       "type": {
         "kind": "NamedType",
         "name": "SimpleImputer",
-        "qname": "sklearn.impute.SimpleImputer"
+        "qname": "sklearn.impute._base.SimpleImputer"
       }
     },
     {
@@ -32752,7 +32752,7 @@
       "type": {
         "kind": "NamedType",
         "name": "DataFrame",
-        "qname": "pandas.DataFrame"
+        "qname": "pandas.core.frame.DataFrame"
       }
     },
     {

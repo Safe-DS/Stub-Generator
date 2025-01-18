@@ -369,11 +369,30 @@ class MyPyAstVisitor:
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
-        if name == "_get_sklearn_regressor" and node.line == 109:
-            pass
+
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
-        function_body = self._extract_body_info(node.body, parameter_dict, {})
-        # TODO pm evaluation: count and categorize expressions
+        call_references = {}
+        try:
+            function_body = self._extract_body_info(node.body, parameter_dict, call_references)
+        except RecursionError as err:
+            with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+                file.write(f"Recursion Error: {str(err)} \n")
+            if node.body is not None:
+                return Body(
+                    line=node.body.line,
+                    end_line=node.body.end_line,
+                    column=node.body.column,
+                    end_column=node.body.end_column,
+                    call_references=call_references
+                )
+            else:
+                return Body(
+                    line=-1,
+                    end_line=-1,
+                    column=-1,
+                    end_column=-1,
+                    call_references=call_references
+                )
         
         # Create and add Function to stack
         function = Function(

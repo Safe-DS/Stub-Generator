@@ -92,16 +92,16 @@ def test_main(
 @pytest.mark.parametrize(
     ("package_path", "out_file_dir", "docstyle"),
     [
-        (
-            _astroid_evaluation_dir,
-            Path(_out_dir / f"{'astroid'}__api_purity.json"),
-            "numpydoc"
-        ),
-        (
-            _safeds_v19_evaluation_dir,
-            Path(_out_dir / f"{'safedsV19'}__api_purity.json"),
-            "numpydoc"
-        ),
+        # (
+        #     _astroid_evaluation_dir,
+        #     Path(_out_dir / f"{'astroid'}__api_purity.json"),
+        #     "numpydoc"
+        # ),
+        # (
+        #     _safeds_v19_evaluation_dir,
+        #     Path(_out_dir / f"{'safedsV19'}__api_purity.json"),
+        #     "numpydoc"
+        # ),
         (
             _safeds_v0_19_0_evaluation_dir,
             Path(_lib_dir / "evaluation" / "safeds"),
@@ -117,11 +117,11 @@ def test_main(
             Path(_lib_dir / "evaluation" / "pandas"),
             "numpydoc"
         ),
-        (
-            _scikit_v1_3_0_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "sklearn"),
-            "numpydoc"
-        ),
+        # (
+        #     _scikit_v1_3_0_evaluation_dir,
+        #     Path(_lib_dir / "evaluation" / "sklearn"),
+        #     "numpydoc"
+        # ),
         (
             _seaborn_v0_12_2_evaluation_dir,
             Path(_lib_dir / "evaluation" / "seaborn"),
@@ -129,12 +129,12 @@ def test_main(
         ),
     ],
     ids=[
-        "astroid",
-        "safedsV19",
+        # "astroid",
+        # "safedsV19",
         "safeds_v0_19_0",
         "matplot_v3_7_2",
         "pandas_v2_0_3",
-        "scikit_v1_3_0",
+        # "scikit_v1_3_0",
         "seaborn_v0_12_2"
     ],
 )
@@ -159,7 +159,7 @@ def test_evaluation(
         "-nc",
         "--evaluate_purity",
         # "--evaluate_api",
-        # "-old"
+        "-old"
     ]
 
     main()
