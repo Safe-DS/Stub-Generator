@@ -3,6 +3,7 @@ from __future__ import annotations
 import builtins
 import contextlib
 import dataclasses
+from datetime import datetime
 
 import astroid
 from astroid.helpers import safe_infer
@@ -113,12 +114,17 @@ class ReferenceResolver:
 
         # Resolve the references for the module.
         self.module_analysis_result.classes = self.classes
+        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+            file.write(f"start resolving references of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
         resolved_references, raw_reasons = self._resolve_references()
         self.module_analysis_result.resolved_references = resolved_references
         self.module_analysis_result.raw_reasons = raw_reasons
+        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+            file.write(f"start building forest of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
         self.module_analysis_result.call_graph_forest = build_call_graph(
             self.classes,
             self.module_analysis_result.raw_reasons,
+            module_name
         )
 
     @staticmethod
@@ -1065,7 +1071,7 @@ class ReferenceResolver:
 
         name_references: dict[str, list[ReferenceNode]] = self.merge_dicts(value_references, target_references)
         resolved_references: dict[str, list[ReferenceNode]] = self.merge_dicts(call_references, name_references)
-
+        
         return resolved_references, raw_reasons
 
 

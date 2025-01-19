@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import argparse
+from datetime import datetime
 import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
@@ -175,6 +176,9 @@ def _run_stub_generator(
     if api_evaluation:
         api_evaluator.end_timing()
         api_evaluator.get_results()
+
+    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+        file.write(f"Analyzing API finished {datetime.now()} \n")
 
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")

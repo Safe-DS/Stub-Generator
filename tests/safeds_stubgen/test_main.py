@@ -159,7 +159,7 @@ def test_evaluation(
         "-nc",
         "--evaluate_purity",
         # "--evaluate_api",
-        "-old"
+        # "-old"
     ]
 
     main()
