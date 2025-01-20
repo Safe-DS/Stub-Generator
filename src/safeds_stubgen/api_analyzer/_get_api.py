@@ -75,8 +75,8 @@ def get_api(
 
     # Setup api walker
     path_to_package = ""
-    # if is_test_run or evaluation is not None:
-    #     path_to_package = f"tests/data/{dist}"
+    if is_test_run and evaluation is None:
+        path_to_package = f"tests/data/{dist}"
     api = API(distribution=dist, package=package_name, version=dist_version, path_to_package=path_to_package)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
     callable_visitor = MyPyAstVisitor(
@@ -220,14 +220,14 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
     method = method[0]
     return method
 
-def _get_function(api: API, function_name: str, function: Function):
+def _get_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
     closure = function.closures.get(function_name, None)
     if closure is not None:
         return closure
-    global_function = _get_global_function(api, function_name, function)
+    global_function = _get_global_function(api, function_name, function, imported_module_name)
     return global_function
 
-def _get_global_function(api: API, function_name: str, function: Function):
+def _get_global_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
     # get module
     module = _get_module_by_id(api, function.module_id_which_contains_def)
     if module is None:
@@ -241,13 +241,13 @@ def _get_global_function(api: API, function_name: str, function: Function):
             break
     if found_global_function is None:
         # there was no global function with given name in current module, so we look in imported modules
-        found_global_function = _get_imported_global_function(api, function_name, function)
+        found_global_function = _get_imported_global_function(api, function_name, function, imported_module_name)
         if found_global_function is None:
             return None
     
     return found_global_function
 
-def _get_imported_global_function(api: API, imported_function_name: str, function: Function):
+def _get_imported_global_function(api: API, imported_function_name: str, function: Function, imported_module_name: str | None = None):
     # get module
     module = _get_module_by_id(api, function.module_id_which_contains_def)
     if module is None:
@@ -256,6 +256,7 @@ def _get_imported_global_function(api: API, imported_function_name: str, functio
     imports = module.qualified_imports
     found_import: QualifiedImport | None = None
     for qualified_import in imports:
+        # TODO pm already look for global functions here
         alias = qualified_import.alias
         qname = qualified_import.qualified_name
         if imported_function_name == qname.split(".")[-1]:
@@ -264,12 +265,24 @@ def _get_imported_global_function(api: API, imported_function_name: str, functio
         if imported_function_name == alias:
             found_import = qualified_import
             break
+        if imported_module_name is not None:
+            if imported_module_name.split(".")[-1] == qname.split(".")[-1]:
+                found_import = qualified_import
+                break
+            if imported_module_name.split(".")[-1] == alias:
+                found_import = qualified_import
+                break
+
     if found_import is None:
         return None
     
     imported_module = _get_module_by_id(api, ".".join(found_import.qualified_name.split(".")[:-1]))
     if imported_module is None:
-        return None
+        if imported_module_name is not None:
+            imported_module = _get_module_by_id(api, imported_module_name)
+        if imported_module is None:
+            return None
+        
     
     global_functions = imported_module.global_functions
     found_global_function: Function | None = None
@@ -361,16 +374,26 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # class_of_receiver = api.classes.get("/".join(type.split(".")), None)
                 class_of_receiver = _get_class_by_id(api, type)
                 if class_of_receiver is None:
+                    # TODO pm handle module import stuff like module.Class.staticMethod() or module.globalFUnc()
                     # then check if we can get the class through (imported) global function
                     global_func = _get_function(api, type.split(".")[-1], function)
                     if global_func is None:
-                        continue
+                        global_func = _get_function(api, call_reference.function_name, function, type)
+                        if global_func is None:
+                            continue
+                        else:
+                            if len(call_reference.receiver.path_to_call_reference) == 3:
+                                # here we found a member expression where the receiver is a imported module and the call ref a global function of that module
+                                call_reference.possibly_referenced_functions.append(global_func)
+                                call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
+                                continue
 
                     # !!!! here we only call the global function, so we can add this function directly to referenced functions !!!!
                     if len(call_reference.receiver.path_to_call_reference) == 2:
                         call_reference.possibly_referenced_functions.append(global_func)
                         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
                         continue
+
 
                     if len(global_func.results) == 0:
                         continue

@@ -1,4 +1,6 @@
 from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
+from . import another_purity_path
+
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
 # else they should be categorized as impure
@@ -769,6 +771,22 @@ def global_func_call_another_global_func_impure():
 # def global_func_builtin():
 #     return len([]).to_bytes()
 
+def global_func_call_ref_in_dict_generation_should_be_pure_but_impure():
+    """
+        mypy bug, as there is no type info in mypy ast for the call ref instance.same_name()
+    """
+    instance = ClassPure()
+    return {"foo": instance.same_name()}
+
+def global_func_call_ref_in_dict_generation_impure():
+    instance = ClassImpure()
+    return {"foo": instance.same_name()}
+
+def global_func_init_import_pure():
+    return another_purity_path.test_init_py_pure()
+
+def global_func_init_import_impure():
+    return another_purity_path.test_init_py_impure()
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]

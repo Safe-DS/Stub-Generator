@@ -117,11 +117,11 @@ def test_main(
             Path(_lib_dir / "evaluation" / "pandas"),
             "numpydoc"
         ),
-        # (
-        #     _scikit_v1_3_0_evaluation_dir,
-        #     Path(_lib_dir / "evaluation" / "sklearn"),
-        #     "numpydoc"
-        # ),
+        (
+            _scikit_v1_3_0_evaluation_dir,
+            Path(_lib_dir / "evaluation" / "sklearn"),
+            "numpydoc"
+        ),
         (
             _seaborn_v0_12_2_evaluation_dir,
             Path(_lib_dir / "evaluation" / "seaborn"),
@@ -134,7 +134,7 @@ def test_main(
         "safeds_v0_19_0",
         "matplot_v3_7_2",
         "pandas_v2_0_3",
-        # "scikit_v1_3_0",
+        "scikit_v1_3_0",
         "seaborn_v0_12_2"
     ],
 )

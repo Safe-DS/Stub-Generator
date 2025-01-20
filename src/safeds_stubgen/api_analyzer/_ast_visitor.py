@@ -378,7 +378,7 @@ class MyPyAstVisitor:
             with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
                 file.write(f"Recursion Error: {str(err)} \n")
             if node.body is not None:
-                return Body(
+                function_body = Body(
                     line=node.body.line,
                     end_line=node.body.end_line,
                     column=node.body.column,
@@ -386,7 +386,7 @@ class MyPyAstVisitor:
                     call_references=call_references
                 )
             else:
-                return Body(
+                function_body = Body(
                     line=-1,
                     end_line=-1,
                     column=-1,
@@ -664,6 +664,12 @@ class MyPyAstVisitor:
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                         for expr_of_member in member:
                             self.extract_expression_info(expr_of_member, parameter_of_func, call_references)
+                    elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
+                        for tuple_item in member:
+                            for tuple_expr in tuple_item:
+                                if tuple_expr is None:
+                                    continue
+                                self.extract_expression_info(tuple_expr, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                         # generator expression member condlist
                         for condlist in member:
@@ -853,6 +859,12 @@ class MyPyAstVisitor:
                     for expr_of_member in member:
                         self.extract_expression_info_after_call_reference_found(expr_of_member, pathCopy, parameter_of_func, call_references)
                     found_expression = True
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
+                    for tuple_item in member:
+                        for tuple_expr in tuple_item:
+                            if tuple_expr is None:
+                                continue
+                            self.extract_expression_info_after_call_reference_found(tuple_expr, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                     # generator expression member condlist
                     for condlist in member:
