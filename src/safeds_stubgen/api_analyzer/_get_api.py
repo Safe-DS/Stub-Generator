@@ -75,7 +75,7 @@ def get_api(
 
     # Setup api walker
     path_to_package = ""
-    if is_test_run and evaluation is None:
+    if is_test_run and package_name not in ["safeds", "matplotlib", "pandas", "sklearn", "seaborn"]:
         path_to_package = f"tests/data/{dist}"
     api = API(distribution=dist, package=package_name, version=dist_version, path_to_package=path_to_package)
     docstring_parser = create_docstring_parser(style=docstring_style, package_path=root)
@@ -387,13 +387,13 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                                 call_reference.possibly_referenced_functions.append(global_func)
                                 call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
                                 continue
+                            continue
 
                     # !!!! here we only call the global function, so we can add this function directly to referenced functions !!!!
                     if len(call_reference.receiver.path_to_call_reference) == 2:
                         call_reference.possibly_referenced_functions.append(global_func)
                         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
                         continue
-
 
                     if len(global_func.results) == 0:
                         continue
@@ -425,7 +425,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # here we have a super() call so we need to get the super classes
                 # TODO pm builtin superclasses
                 super_classes: list[Class] = []
-                for super_class_id in classes[0].superclasses:
+                for super_class_id in classes[0].superclasses:  # TODO pm why [0]
                     found_class = _get_class_by_id(api, super_class_id)
                     if found_class is not None:
                         super_classes.append(found_class)
