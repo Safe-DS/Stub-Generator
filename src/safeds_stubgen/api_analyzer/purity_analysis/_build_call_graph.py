@@ -1,3 +1,4 @@
+from datetime import datetime
 from safeds_stubgen.api_analyzer.purity_analysis.model import (
     Builtin,
     CallGraphForest,
@@ -391,7 +392,7 @@ class CallGraphBuilder:
                     graph.add_child(combined_node)
 
 
-def build_call_graph(classes: dict[str, ClassScope], raw_reasons: dict[NodeID, Reasons]) -> CallGraphForest:
+def build_call_graph(classes: dict[str, ClassScope], raw_reasons: dict[NodeID, Reasons], module_name: str = "") -> CallGraphForest:
     """Build the call graph forest for the given classes and reasons.
 
     Parameters
@@ -407,4 +408,7 @@ def build_call_graph(classes: dict[str, ClassScope], raw_reasons: dict[NodeID, R
     call_graph_forest :
         The call graph forest for the given functions.
     """
-    return CallGraphBuilder(classes, raw_reasons).call_graph_forest
+    forest = CallGraphBuilder(classes, raw_reasons).call_graph_forest
+    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+        file.write(f"Built call graph forest for {str(len(classes))} classes of module {module_name} at {datetime.now()} \n")
+    return forest
