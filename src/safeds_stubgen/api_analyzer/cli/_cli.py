@@ -177,6 +177,8 @@ def _run_stub_generator(
     )
     if api_evaluator is not None:
         api_evaluator.end_timing()
+        if runtime_evaluation:
+            api_evaluator.get_runtime_result()
         api_evaluator.get_results()
 
     with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
@@ -196,6 +198,8 @@ def _run_stub_generator(
     )
     if purity_evaluator is not None:
         purity_evaluator.end_timing()
+        if runtime_evaluation:
+            purity_evaluator.get_runtime_result()
         purity_evaluator.get_results(api_purity)
 
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")

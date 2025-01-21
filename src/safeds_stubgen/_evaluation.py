@@ -179,6 +179,9 @@ class PurityEvaluation(Evaluation):
 			"Date"
 		]
 
+	def get_runtime_result(self):
+		pass
+
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
 		function_name_of_call_ref: str,
@@ -835,28 +838,31 @@ class ApiEvaluation(Evaluation):
 		self.results_filename = "evaluation/api_evaluation.csv"
 		if self._package_name == "safeds":
 			self.conflicted_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
-			self.missing_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/safeds/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/safeds/api_results/api_evaluation.csv"
 			
 		if self._package_name == "matplotlib":
 			self.conflicted_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
-			self.missing_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/matplotlib/api_results/api_evaluation.csv"
 			
 		if self._package_name == "pandas":
 			self.conflicted_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
-			self.missing_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/pandas/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/pandas/api_results/api_evaluation.csv"
 			
 		if self._package_name == "sklearn":
 			self.conflicted_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
-			self.missing_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/sklearn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/sklearn/api_results/api_evaluation.csv"
 			
 		if self._package_name == "seaborn":
 			self.conflicted_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
-			self.missing_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/seaborn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/seaborn/api_results/api_evaluation.csv"
+
+	def get_runtime_result(self):
+		pass
 
 	def get_id_from_expr(self, mypy_expr: mp_nodes.Expression, expr_kind: str, module_id: str):
 		id_str = f"{module_id}.{mypy_expr.line}.{mypy_expr.column}.{expr_kind}"

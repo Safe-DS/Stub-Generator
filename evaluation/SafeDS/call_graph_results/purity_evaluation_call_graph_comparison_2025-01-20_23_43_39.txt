@@ -6,7 +6,7 @@ Mean amount of edges: 4093.93
 Mean amount of leaves: 3467.13
 Mean amount of cycles: 8.95
 Mean max depth: 3.65
-Mean branching factor: 55.71%
+Mean branching factor: 0.55
 Mean percentage of leaves: 82.79%
 Amount of combined graphs: 54.0
 
@@ -17,7 +17,7 @@ Mean amount of edges: 1183694604134.82
 Mean amount of leaves: 710724150597.07
 Mean amount of cycles: 59861475263.61
 Mean max depth: 8.22
-Mean branching factor: 62.06%
+Mean branching factor: 0.62
 Mean percentage of leaves: 74.19%
 Amount of combined graphs: 108.0
 
