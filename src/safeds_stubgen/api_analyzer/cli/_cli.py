@@ -156,12 +156,14 @@ def _run_stub_generator(
     """
     # TODO pm generate Evaluation object depending on cli parameters, add these cli parameters
     # track time for get_purity_results, track type data of all expressions in get_api or track time of get_api 
+    api_evaluator = None
+    purity_evaluator = None
     if api_evaluation:
         api_evaluator = ApiEvaluation(src_dir_path.stem)
     if purity_evaluation:
         purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path)
 
-    if api_evaluation:
+    if api_evaluator is not None:
         api_evaluator.start_timing()
     # Generate the API data
     api = get_api(
@@ -173,7 +175,7 @@ def _run_stub_generator(
         evaluation=api_evaluator if not runtime_evaluation else None,
         old_purity_analysis=old_purity_analysis
     )
-    if api_evaluation:
+    if api_evaluator is not None:
         api_evaluator.end_timing()
         api_evaluator.get_results()
 
@@ -184,7 +186,7 @@ def _run_stub_generator(
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
     
-    if purity_evaluation:
+    if purity_evaluator is not None:
         purity_evaluator.start_timing()
     api_purity = get_purity_results(
         src_dir_path, api_data=api,
@@ -192,7 +194,7 @@ def _run_stub_generator(
         old_purity_analysis=old_purity_analysis,
         evaluation=purity_evaluator if not runtime_evaluation else None
     )
-    if purity_evaluation:
+    if purity_evaluator is not None:
         purity_evaluator.end_timing()
         purity_evaluator.get_results(api_purity)
 

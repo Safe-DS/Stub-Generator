@@ -371,13 +371,54 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     continue
                 classes.append(class_of_receiver)
             elif isinstance(type, str):  # super() or static method or imported global function
-                # class_of_receiver = api.classes.get("/".join(type.split(".")), None)
                 class_of_receiver = _get_class_by_id(api, type)
+
+                # TODO pm test this code
+                # global_function_directly_imported = _get_function(api, type.split(".")[-1], function)
+                # global_function_through_module_import = _get_function(api, call_reference.function_name, function, type)
+                # imported_module = _get_module_by_id(api, type)
+
+                # if class_of_receiver is not None:
+                #     classes.append(class_of_receiver)
+
+                # if global_function_directly_imported is not None:
+                #     if len(call_reference.receiver.path_to_call_reference) == 2:
+                #         call_reference.possibly_referenced_functions.append(global_function_directly_imported)
+                #         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
+                #     else:
+                #         if len(global_function_directly_imported.results) != 0:
+                #             return_val = global_function_directly_imported.results[0]
+                #             if return_val.type is not None:
+                #                 named_types = _get_named_types_from_nested_type(return_val.type)
+                #                 if named_types is not None:
+                #                     for named_type in named_types:
+                #                         class_of_receiver = _get_class_by_id(api, named_type.qname)
+                #                         if class_of_receiver is not None:
+                #                             classes.append(class_of_receiver)
+
+                # if global_function_through_module_import is not None:
+                #     if len(call_reference.receiver.path_to_call_reference) == 3:
+                #         call_reference.possibly_referenced_functions.append(global_function_through_module_import)
+                #         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
+                #     else:
+                #         if len(global_function_through_module_import.results) != 0:
+                #             return_val = global_function_through_module_import.results[0]
+                #             if return_val.type is not None:
+                #                 named_types = _get_named_types_from_nested_type(return_val.type)
+                #                 if named_types is not None:
+                #                     for named_type in named_types:
+                #                         class_of_receiver = _get_class_by_id(api, named_type.qname)
+                #                         if class_of_receiver is not None:
+                #                             classes.append(class_of_receiver)
+
+                # if imported_module is not None:
+                #     classes.append(imported_module)
+
                 if class_of_receiver is None:
-                    # TODO pm handle module import stuff like module.Class.staticMethod() or module.globalFUnc()
-                    # then check if we can get the class through (imported) global function
+                    # check if we can get the class through (imported) global function
                     global_func = _get_function(api, type.split(".")[-1], function)
                     if global_func is None:
+                        # check if we can get the function through module.globalfunc()
                         global_func = _get_function(api, call_reference.function_name, function, type)
                         if global_func is None:
                             continue
@@ -389,7 +430,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                                 continue
                             continue
 
-                    # !!!! here we only call the global function, so we can add this function directly to referenced functions !!!!
+                    # here we only call the global function, so we can add this function directly to referenced functions
                     if len(call_reference.receiver.path_to_call_reference) == 2:
                         call_reference.possibly_referenced_functions.append(global_func)
                         call_reference.receiver.found_classes = []  # this ensures that in _find_all_referenced_functions_for_all_call_references the referenced functions wont be overridden
@@ -410,9 +451,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         classes.append(class_of_receiver)
                 else:
                     classes.append(class_of_receiver)
-                # if call_reference.isSuperCallRef:
-                #     super_classes = class_of_receiver.superclasses
-                # classes.append(class_of_receiver)
+
             elif isinstance(type, mypy_types.AnyType):
                 continue
             else:  # type is tuple or dict
@@ -423,14 +462,13 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
             else:
                 # here we have a super() call so we need to get the super classes
-                # TODO pm builtin superclasses
                 super_classes: list[Class] = []
                 for super_class_id in classes[0].superclasses:  # TODO pm why [0]
                     found_class = _get_class_by_id(api, super_class_id)
                     if found_class is not None:
                         super_classes.append(found_class)
                     elif found_class is None and super_class_id.startswith("builtins."):
-                        # TODO pm handle builtin superclasses
+                        # builtin superclasses are handled in resolve_references
                         call_reference.receiver.type = super_class_id
                         call_reference.receiver.full_name = super_class_id
                     # class_name = super_class_id.split(".")[-1]
@@ -454,94 +492,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, super_class, call_reference.receiver.path_to_call_reference, 0)
                     if prev_found_classes_length < len(call_reference.receiver.found_classes):
                         break # for super types we can only take the first class where we found correct types
-
-def _get_class_by_id(api: API, class_id: str) -> Class | None:
-    class_name = class_id.split(".")[-1]
-    correct_id = "/".join(class_id.split("."))
-    result_class: Class | None = api.classes.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
-    if result_class is not None:
-        return result_class
-    if correct_id.startswith(api.path_to_package):
-        result_class = api.classes.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_class = api.classes.get(correct_id, None)
-    if result_class is not None:
-        return result_class
-
-    correct_id = "/".join(class_id.split("."))
-    if not correct_id.startswith(api.path_to_package):
-        correct_id = api.path_to_package + correct_id
-    found_id = False
-    for key in api.reexport_map.keys():
-        if key.endswith(f".{class_name}"):
-            for module in api.reexport_map[key]:
-                module_id = module.id
-                if module_id in correct_id:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-                if len(api.reexport_map[key]) == 1:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-            if found_id:
-                break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
-            # break
-    if correct_id.startswith(api.path_to_package):
-        result_class = api.classes.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_class = api.classes.get(correct_id, None)
-    return result_class
-
-def _get_module_by_id(api: API, module_id: str) -> Module | None:
-    module_name = module_id.split(".")[-1]
-    correct_id = "/".join(module_id.split("."))
-    result_module: Module | None = api.modules.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
-    if result_module is not None:
-        return result_module
-    if correct_id.startswith(api.path_to_package):
-        result_module = api.modules.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_module = api.modules.get(correct_id, None)
-    if result_module is not None:
-        return result_module
-
-    correct_id = "/".join(module_id.split("."))
-    if not correct_id.startswith(api.path_to_package):
-        correct_id = api.path_to_package + correct_id
-    found_id = False
-    for key in api.reexport_map.keys():
-        if key.endswith(f".{module_name}"):
-            for module in api.reexport_map[key]:
-                module_id = module.id
-                if module_id in correct_id:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-                if len(api.reexport_map[key]) == 1:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-            if found_id:
-                break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
-            # break
-    if correct_id.startswith(api.path_to_package):
-        result_module = api.modules.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_module = api.modules.get(correct_id, None)
-    return result_module
 
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
     if len(path) == 0:
@@ -607,6 +557,14 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             else:  # type_of_receiver is not a class 
                 pass
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
+        return
+
+    if isinstance(type_of_receiver, Module):
+        # look for part in global functions and classes
+        global_function_name = part
+        class_name = part
+
+        # TODO pm write function _find_global_function_in_module or reuse get_global_function()
         return
 
     if not isinstance(type_of_receiver, Class):  # as from here on, type_of_receiver needs to be of type Class
@@ -814,6 +772,94 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
                     )
 
                 call_reference.possibly_referenced_functions.extend(referenced_functions)
+
+def _get_class_by_id(api: API, class_id: str) -> Class | None:
+    class_name = class_id.split(".")[-1]
+    correct_id = "/".join(class_id.split("."))
+    result_class: Class | None = api.classes.get(correct_id, None)
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
+    if result_class is not None:
+        return result_class
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    if result_class is not None:
+        return result_class
+
+    correct_id = "/".join(class_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
+    for key in api.reexport_map.keys():
+        if key.endswith(f".{class_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
+            # break
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    return result_class
+
+def _get_module_by_id(api: API, module_id: str) -> Module | None:
+    module_name = module_id.split(".")[-1]
+    correct_id = "/".join(module_id.split("."))
+    result_module: Module | None = api.modules.get(correct_id, None)
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
+    if result_module is not None:
+        return result_module
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    if result_module is not None:
+        return result_module
+
+    correct_id = "/".join(module_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
+    for key in api.reexport_map.keys():
+        if key.endswith(f".{module_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
+            # break
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    return result_module
 
 def _get_referenced_function_from_super_classes(
     api: API, 
