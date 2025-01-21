@@ -829,6 +829,34 @@ class ApiEvaluation(Evaluation):
 		self.expressions: list[EvaluationExpression] = []
 		self._package_name = package_name
 		self.expression_ids = {}
+		self.date = str(datetime.now()).split('.')[0].replace(':', '_').replace(' ', '_')
+		self.conflicted_types_filename = "evaluation/api_evaluation_conflicted_types.csv"
+		self.missing_types_filename = "evaluation/api_evaluation_missing_types.csv"
+		self.results_filename = "evaluation/api_evaluation.csv"
+		if self._package_name == "safeds":
+			self.conflicted_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.results_filename = "evaluation/safeds/api_results/api_evaluation.csv"
+			
+		if self._package_name == "matplotlib":
+			self.conflicted_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.results_filename = "evaluation/matplotlib/api_results/api_evaluation.csv"
+			
+		if self._package_name == "pandas":
+			self.conflicted_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.results_filename = "evaluation/pandas/api_results/api_evaluation.csv"
+			
+		if self._package_name == "sklearn":
+			self.conflicted_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.results_filename = "evaluation/sklearn/api_results/api_evaluation.csv"
+			
+		if self._package_name == "seaborn":
+			self.conflicted_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.missing_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
+			self.results_filename = "evaluation/seaborn/api_results/api_evaluation.csv"
 
 	def get_id_from_expr(self, mypy_expr: mp_nodes.Expression, expr_kind: str, module_id: str):
 		id_str = f"{module_id}.{mypy_expr.line}.{mypy_expr.column}.{expr_kind}"
@@ -1214,7 +1242,6 @@ class ApiEvaluation(Evaluation):
 		missing_types = (type_from_comment == "" and type_from_annotation == "" and (mypy_inferred_type == "" or mypy_inferred_type == "Any"))
 
 		if conflicted_types:
-			filename = "evaluation/api_evaluation_conflicted_types.csv"
 			fieldnames = [
 				"Library",
 				"Module",
@@ -1239,10 +1266,10 @@ class ApiEvaluation(Evaluation):
 			}
 			data = [entry]
 
-			file_exists = os.path.isfile(filename)
+			file_exists = os.path.isfile(self.conflicted_types_filename)
 
 			# Open the file in write mode
-			with open(filename, "a", newline="") as csvfile:
+			with open(self.conflicted_types_filename, "a", newline="") as csvfile:
 				# Define fieldnames (keys of the dictionary)
 
 				# Create a DictWriter object
@@ -1255,7 +1282,6 @@ class ApiEvaluation(Evaluation):
 				# Write the data rows
 				writer.writerows(data)
 		if missing_types:
-			filename = "evaluation/api_evaluation_missing_types.csv"
 			fieldnames = [
 				"Library",
 				"Module",
@@ -1280,10 +1306,10 @@ class ApiEvaluation(Evaluation):
 			}
 			data = [entry]
 
-			file_exists = os.path.isfile(filename)
+			file_exists = os.path.isfile(self.missing_types_filename)
 
 			# Open the file in write mode
-			with open(filename, "a", newline="") as csvfile:
+			with open(self.missing_types_filename, "a", newline="") as csvfile:
 				# Define fieldnames (keys of the dictionary)
 
 				# Create a DictWriter object
@@ -1345,7 +1371,6 @@ class ApiEvaluation(Evaluation):
 
 		type_coverage = (amount_of_expressions - expr_with_0_type_sources - amount_of_conflicted_types) / amount_of_expressions		
 
-		filename = "evaluation/api_evaluation.csv"
 		fieldnames = [
 			"Library", 
 			"Runtime [seconds]",
@@ -1385,10 +1410,10 @@ class ApiEvaluation(Evaluation):
 		entry["Date"] = str(datetime.now())
 		data = [entry]
 
-		file_exists = os.path.isfile(filename)
+		file_exists = os.path.isfile(self.results_filename)
 
 		# Open the file in write mode
-		with open(filename, "a", newline="") as csvfile:
+		with open(self.results_filename, "a", newline="") as csvfile:
 			# Define fieldnames (keys of the dictionary)
 
 			# Create a DictWriter object
