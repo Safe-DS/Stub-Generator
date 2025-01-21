@@ -434,7 +434,7 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Mean amount of leaves: {round(average_amount_leaves, 2)}\n")
 			file.write(f"Mean amount of cycles: {round(average_amount_cycles, 2)}\n")
 			file.write(f"Mean max depth: {round(average_max_depth, 2)}\n")
-			file.write(f"Mean branching factor: {round(average_branching_factor*100, 2)}%\n")
+			file.write(f"Mean branching factor: {round(average_branching_factor, 2)}\n")
 			file.write(f"Mean percentage of leaves: {round(average_precentage_leaves*100, 2)}%\n")
 			file.write(f"Amount of combined graphs: {round(amount_of_combined_graphs, 2)}\n")
 
@@ -459,7 +459,7 @@ class PurityEvaluation(Evaluation):
 			file.write(f"Mean amount of leaves: {round(old_average_amount_leaves, 2)}\n")
 			file.write(f"Mean amount of cycles: {round(old_average_amount_cycles, 2)}\n")
 			file.write(f"Mean max depth: {round(old_average_max_depth, 2)}\n")
-			file.write(f"Mean branching factor: {round(old_average_branching_factor*100, 2)}%\n")
+			file.write(f"Mean branching factor: {round(old_average_branching_factor, 2)}\n")
 			file.write(f"Mean percentage of leaves: {round(old_average_precentage_leaves*100, 2)}%\n")
 			file.write(f"Amount of combined graphs: {round(old_amount_of_combined_graphs, 2)}\n")
 

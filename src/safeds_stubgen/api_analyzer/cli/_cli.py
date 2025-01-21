@@ -121,7 +121,7 @@ def _get_args() -> argparse.Namespace:
     parser.add_argument(
         "-runtime",
         "--evaluate_runtime",
-        help="Set this flag to run only the runtime evaluation of Api.",
+        help="Set this flag to run only the runtime evaluation of Api or Purity.",
         required=False,
         action="store_true",
     )
@@ -170,7 +170,7 @@ def _run_stub_generator(
         is_test_run=is_test_run,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
-        evaluation=api_evaluator if not runtime_evaluation and api_evaluation else None,
+        evaluation=api_evaluator if not runtime_evaluation else None,
         old_purity_analysis=old_purity_analysis
     )
     if api_evaluation:
@@ -190,7 +190,7 @@ def _run_stub_generator(
         src_dir_path, api_data=api,
         test_run=is_test_run,
         old_purity_analysis=old_purity_analysis,
-        evaluation=purity_evaluator if not runtime_evaluation and purity_evaluation else None
+        evaluation=purity_evaluator if not runtime_evaluation else None
     )
     if purity_evaluation:
         purity_evaluator.end_timing()
