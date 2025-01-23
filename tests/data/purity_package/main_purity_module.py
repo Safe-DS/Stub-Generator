@@ -1,5 +1,6 @@
 from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
 from . import another_purity_path
+from . import test_init_py_pure
 
 
 # purity analysis should categorize functions as pure, when their name suffix is "pure"
@@ -787,6 +788,15 @@ def global_func_init_import_pure():
 
 def global_func_init_import_impure():
     return another_purity_path.test_init_py_impure()
+
+def global_func_import_global_func_impure():
+    return test_init_py_pure()
+
+def global_func_module_class_with_static_method_pure():
+    return another_purity_path.ClassWithPureStaticMethods.test()
+
+def global_func_module_class_with_static_method_impure():
+    return another_purity_path.ClassWithImpureStaticMethods.test()
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]
