@@ -93,10 +93,14 @@ def get_api(
         walker.walk(tree=tree)
 
     api = callable_visitor.api
+    if evaluation is not None and evaluation.is_runtime_evaluation:
+        evaluation.start_finding_referenced_functions_runtime()
     if not old_purity_analysis:
         _update_class_subclass_relation(api)
         _find_correct_type_by_path_to_call_reference(api)
         _find_all_referenced_functions_for_all_call_references(api)
+    if evaluation is not None and evaluation.is_runtime_evaluation:
+        evaluation.end_finding_referenced_functions_runtime()
 
     return api
 

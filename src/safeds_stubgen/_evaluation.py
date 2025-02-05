@@ -38,9 +38,9 @@ class Evaluation(ABC):
 	def get_results(self):
 		pass
 
-
 class PurityEvaluation(Evaluation):
-	def __init__(self, package_name: str, old_purity_analysis: bool, out_dir_path: Path):
+	def __init__(self, package_name: str, old_purity_analysis: bool, out_dir_path: Path, is_runtime: bool = False):
+		self.is_runtime = is_runtime
 		self._start_time = 0
 		self._end_time = 0
 		self._runtime = 0
@@ -68,7 +68,8 @@ class PurityEvaluation(Evaluation):
 		self.metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		self.compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		self.call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		self.evaluation_filename = f"evaluation/evaluation_tracking.txt"
+		self.evaluation_filename = "evaluation/evaluation_tracking.txt"
+		self.runtime_results_filename = "evaluation/purity_runtime_results.csv"
 		with open(self.evaluation_filename, newline='', mode="a") as file:
 			file.write(f"Purity Evaluation was initialized at {self.date} for package {self._package_name} \n")
 			
@@ -77,6 +78,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/safeds/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.runtime_results_filename = "evaluation/safeds/purity_runtime_results.csv"
 			self.call_refs_filename = f"evaluation/safeds/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/safeds/Expected_Purity_Safe-DS.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
@@ -89,6 +91,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/matplotlib/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/matplotlib/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.runtime_results_filename = "evaluation/matplotlib/purity_runtime_results.csv"
 			self.call_refs_filename = f"evaluation/matplotlib/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/matplotlib/Expected_Purity_Matplotlib.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
@@ -101,6 +104,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/pandas/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/pandas/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.runtime_results_filename = "evaluation/pandas/purity_runtime_results.csv"
 			self.call_refs_filename = f"evaluation/pandas/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/pandas/Expected_Purity_Pandas.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
@@ -113,6 +117,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/sklearn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/sklearn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.runtime_results_filename = "evaluation/sklearn/purity_runtime_results.csv"
 			self.call_refs_filename = f"evaluation/sklearn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/sklearn/Expected_Purity_SciKit.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
@@ -125,6 +130,7 @@ class PurityEvaluation(Evaluation):
 			self.metrics_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_metrics_{self.date}.csv"
 			self.compare_filename = f"evaluation/seaborn/call_graph_results/purity_evaluation_call_graph_comparison_{self.date}.txt"
 			self.old_call_graph_metrics_filename = 'evaluation/seaborn/call_graph_results/old_purity_evaluation_call_graph_metrics.csv'
+			self.runtime_results_filename = "evaluation/seaborn/purity_runtime_results.csv"
 			self.call_refs_filename = f"evaluation/seaborn/call_ref_results/purity_evaluation_call_refs_{self.date}.csv"
 			with open('evaluation/seaborn/Expected_Purity_Seaborn.csv', newline='', mode="r") as csvfile:
 				csv_reader = csv.reader(csvfile)
@@ -180,7 +186,36 @@ class PurityEvaluation(Evaluation):
 		]
 
 	def get_runtime_result(self):
-		pass
+		data = [
+			{
+				"Type-Aware?": "Yes" if not self.old else "No",
+				"Library": self._package_name,
+				"Runtime [s]": self._runtime,
+				"Date": str(datetime.now())
+			},
+		]
+		fieldNames = [
+			"Type-Aware?",
+			"Library",
+			"Runtime [s]",
+			"Date"
+		]
+
+		file_exists = os.path.isfile(self.runtime_results_filename)
+
+		# Open the file in write mode
+		with open(self.runtime_results_filename, "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldNames)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data)
 
 	def evaluate_call_reference(self, 
 		module_id: str | None, 
@@ -198,6 +233,8 @@ class PurityEvaluation(Evaluation):
 		path: list[str],
 		receiver_type: Any | NamedType,
 	):
+		if self.is_runtime:
+			return
 		reason_for_no_improvement = ""
 		self._amount_of_call_references += 1
 		if improvement:
@@ -265,6 +302,8 @@ class PurityEvaluation(Evaluation):
 		return call_graph_forest
 
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
+		if self.is_runtime:
+			return
 		with open(self.evaluation_filename, newline='', mode="a") as file:
 			file.write(f"Call Graph Evaluation started at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
 		metric_fieldnames = [
@@ -655,6 +694,8 @@ class PurityEvaluation(Evaluation):
 		return computed_result
 
 	def get_results(self, purity_results: APIPurity):
+		if self.is_runtime:
+			return
 		with open(self.evaluation_filename, newline='', mode="a") as file:
 			file.write(f"Started writing results at {str(datetime.now())} for package {self._package_name} \n")
 		ground_truth: dict[str, str] = {}
@@ -825,10 +866,13 @@ class PurityEvaluation(Evaluation):
 			writer.writerows(data)
 
 class ApiEvaluation(Evaluation):
-	def __init__(self, package_name: str):
+	def __init__(self, package_name: str, runtime_eval: bool = False):
 		self._start_time = 0
 		self._end_time = 0
+		self.is_runtime_evaluation = runtime_eval
 		self._runtime = 0
+		self._body_runtimes: dict[str, float] = {}
+		self._find_referenced_functions_runtime = 0
 		self.expressions: list[EvaluationExpression] = []
 		self._package_name = package_name
 		self.expression_ids = {}
@@ -836,33 +880,92 @@ class ApiEvaluation(Evaluation):
 		self.conflicted_types_filename = "evaluation/api_evaluation_conflicted_types.csv"
 		self.missing_types_filename = "evaluation/api_evaluation_missing_types.csv"
 		self.results_filename = "evaluation/api_evaluation.csv"
+		self.runtime_results_filename = "evaluation/api_runtime_results.csv"
 		if self._package_name == "safeds":
 			self.conflicted_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/safeds/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/safeds/api_results/api_evaluation.csv"
+			self.runtime_results_filename = "evaluation/safeds/api_runtime_results.csv"
 			
 		if self._package_name == "matplotlib":
 			self.conflicted_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/matplotlib/api_results/api_evaluation.csv"
+			self.runtime_results_filename = "evaluation/matplotlib/api_runtime_results.csv"
 			
 		if self._package_name == "pandas":
 			self.conflicted_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/pandas/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/pandas/api_results/api_evaluation.csv"
+			self.runtime_results_filename = "evaluation/pandas/api_runtime_results.csv"
 			
 		if self._package_name == "sklearn":
 			self.conflicted_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/sklearn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/sklearn/api_results/api_evaluation.csv"
+			self.runtime_results_filename = "evaluation/sklearn/api_runtime_results.csv"
 			
 		if self._package_name == "seaborn":
 			self.conflicted_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/seaborn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/seaborn/api_results/api_evaluation.csv"
+			self.runtime_results_filename = "evaluation/seaborn/api_runtime_results.csv"
+
+	def start_body_runtime(self):
+		self._start_time_body = time()
+
+	def end_body_runtime(self, id: str):
+		self._body_runtimes[id] = time() - self._start_time_body
+
+	def start_finding_referenced_functions_runtime(self):
+		self._start_time_referenced_functions = time()
+
+	def end_finding_referenced_functions_runtime(self):
+		self._find_referenced_functions_runtime = time() - self._start_time_referenced_functions
 
 	def get_runtime_result(self):
-		pass
+		if len(self._body_runtimes) == 0:
+			body_runtime_sum = 0
+			average_body_runtime = 0
+		else:
+			body_runtime_sum = round(reduce(lambda acc, x: acc + x, self._body_runtimes.values(), 0), 2)
+			average_body_runtime = round(body_runtime_sum / len(self._body_runtimes), 2)
+
+		# TODO pm print all runtimes of each body into a csv file
+		data = [
+			{
+				"Library": self._package_name,
+				"Full Api Analysis Runtime [s]": self._runtime,
+				"Function Body Anaylsis Runtime [s]": body_runtime_sum,
+				"Average function body analysis runtime [s]": average_body_runtime,
+				"Finding Referenced Functions runtime [s]": self._find_referenced_functions_runtime,
+				"Date": str(datetime.now()),
+			},
+		]
+		fieldNames = [
+			"Library",
+			"Full Api Analysis Runtime [s]",
+			"Function Body Anaylsis Runtime [s]",
+			"Average function body analysis runtime [s]",
+			"Finding Referenced Functions runtime [s]",
+			"Date",
+		]
+
+		file_exists = os.path.isfile(self.runtime_results_filename)
+
+		# Open the file in write mode
+		with open(self.runtime_results_filename, "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldNames)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data)
 
 	def get_id_from_expr(self, mypy_expr: mp_nodes.Expression, expr_kind: str, module_id: str):
 		id_str = f"{module_id}.{mypy_expr.line}.{mypy_expr.column}.{expr_kind}"
@@ -1332,6 +1435,8 @@ class ApiEvaluation(Evaluation):
 		self.expressions.append(new_expression)
 
 	def get_results(self):
+		if self.is_runtime_evaluation:
+			return
 		amount_of_expressions = len(self.expressions)
 		amount_of_conflicted_types = 0
 		amount_of_type_hint = 0
@@ -1375,7 +1480,10 @@ class ApiEvaluation(Evaluation):
 			elif type_sources == 0:
 				expr_with_0_type_sources += 1
 
-		type_coverage = (amount_of_expressions - expr_with_0_type_sources - amount_of_conflicted_types) / amount_of_expressions		
+		if not self.is_runtime_evaluation:
+			type_coverage = (amount_of_expressions - expr_with_0_type_sources - amount_of_conflicted_types) / amount_of_expressions		
+		else:
+			type_coverage = 0
 
 		fieldnames = [
 			"Library", 

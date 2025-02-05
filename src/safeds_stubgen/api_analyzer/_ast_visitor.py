@@ -370,12 +370,14 @@ class MyPyAstVisitor:
         reexported_by.sort(key=lambda x: x.id)
         parameter_dict = {parameter.name: parameter for parameter in parameters}
 
+        if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
+            self.evaluation.start_body_runtime()
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
-            with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+            with open("evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
                 file.write(f"Recursion Error: {str(err)} \n")
             if node.body is not None:
                 function_body = Body(
@@ -393,6 +395,9 @@ class MyPyAstVisitor:
                     end_column=-1,
                     call_references=call_references
                 )
+        finally:
+            if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
+                self.evaluation.end_body_runtime(function_id)
         
         # Create and add Function to stack
         function = Function(
@@ -529,6 +534,7 @@ class MyPyAstVisitor:
         parameter_dict = {parameter.name: parameter for parameter in parameters}
         parameter_of_func.update(parameter_dict)
 
+        # limited to depth 1
         # closures: dict[str, Function] = self._extract_closures(node.body, parameter_of_func)
         # function_body = self._extract_body_info(node.body, parameter_of_func, {})
         
