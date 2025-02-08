@@ -881,35 +881,41 @@ class ApiEvaluation(Evaluation):
 		self.missing_types_filename = "evaluation/api_evaluation_missing_types.csv"
 		self.results_filename = "evaluation/api_evaluation.csv"
 		self.runtime_results_filename = "evaluation/api_runtime_results.csv"
+		self.body_runtimes_results_filename = "evaluation/api_body_runtimes_results.csv"
 		if self._package_name == "safeds":
 			self.conflicted_types_filename = f"evaluation/safeds/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/safeds/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/safeds/api_results/api_evaluation.csv"
 			self.runtime_results_filename = "evaluation/safeds/api_runtime_results.csv"
+			self.body_runtimes_results_filename = f"evaluation/safeds/api_body_runtimes_results_{self.date}.csv"
 			
 		if self._package_name == "matplotlib":
 			self.conflicted_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/matplotlib/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/matplotlib/api_results/api_evaluation.csv"
 			self.runtime_results_filename = "evaluation/matplotlib/api_runtime_results.csv"
+			self.body_runtimes_results_filename = f"evaluation/matplotlib/api_body_runtimes_results_{self.date}.csv"
 			
 		if self._package_name == "pandas":
 			self.conflicted_types_filename = f"evaluation/pandas/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/pandas/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/pandas/api_results/api_evaluation.csv"
 			self.runtime_results_filename = "evaluation/pandas/api_runtime_results.csv"
+			self.body_runtimes_results_filename = f"evaluation/pandas/api_body_runtimes_results_{self.date}.csv"
 			
 		if self._package_name == "sklearn":
 			self.conflicted_types_filename = f"evaluation/sklearn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/sklearn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/sklearn/api_results/api_evaluation.csv"
 			self.runtime_results_filename = "evaluation/sklearn/api_runtime_results.csv"
+			self.body_runtimes_results_filename = f"evaluation/sklearn/api_body_runtimes_results_{self.date}.csv"
 			
 		if self._package_name == "seaborn":
 			self.conflicted_types_filename = f"evaluation/seaborn/api_results/api_evaluation_conflicted_types_{self.date}.csv"
 			self.missing_types_filename = f"evaluation/seaborn/api_results/api_evaluation_missing_types_{self.date}.csv"
 			self.results_filename = "evaluation/seaborn/api_results/api_evaluation.csv"
 			self.runtime_results_filename = "evaluation/seaborn/api_runtime_results.csv"
+			self.body_runtimes_results_filename = f"evaluation/seaborn/api_body_runtimes_results_{self.date}.csv"
 
 	def start_body_runtime(self):
 		self._start_time_body = time()
@@ -923,6 +929,39 @@ class ApiEvaluation(Evaluation):
 	def end_finding_referenced_functions_runtime(self):
 		self._find_referenced_functions_runtime = time() - self._start_time_referenced_functions
 
+	def body_runtime_results_to_csv(self):
+		fieldNames = [
+			"Library",
+			"FunctionId",
+			"Runtime of body analysis",
+			"Date",
+		]
+		data = []
+
+		for id, runtime in self._body_runtimes.items():
+			data.append({
+				"Library": self._package_name,
+				"FunctionId": id,
+				"Runtime of body analysis": runtime,
+				"Date": str(datetime.now()),
+			})
+		
+		file_exists = os.path.isfile(self.body_runtimes_results_filename)
+
+		# Open the file in write mode
+		with open(self.body_runtimes_results_filename, "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldNames)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data)
+
 	def get_runtime_result(self):
 		if len(self._body_runtimes) == 0:
 			body_runtime_sum = 0
@@ -932,6 +971,7 @@ class ApiEvaluation(Evaluation):
 			average_body_runtime = round(body_runtime_sum / len(self._body_runtimes), 2)
 
 		# TODO pm print all runtimes of each body into a csv file
+		self.body_runtime_results_to_csv()
 		data = [
 			{
 				"Library": self._package_name,
@@ -1162,6 +1202,8 @@ class ApiEvaluation(Evaluation):
 		return fullname
 
 	def evaluate_expression(self, mypy_expr: mp_nodes.Expression, parameters: dict[str, Parameter], module_id: str, mypy_type_to_api_type: Callable[[mp_types.Instance |  mp_types.ProperType | mp_types.Type, mp_types.Type | None], AbstractType]):
+		if self.is_runtime_evaluation:
+			return
 		type_from_annotation = ""
 		type_from_comment = ""
 		parameter = parameters.get(self.get_fullname(mypy_expr), None)

@@ -161,7 +161,7 @@ def _run_stub_generator(
     if api_evaluation:
         api_evaluator = ApiEvaluation(src_dir_path.stem, runtime_evaluation)
     if purity_evaluation:
-        purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path)
+        purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path, is_runtime=runtime_evaluation)
 
     if api_evaluator is not None:
         api_evaluator.start_timing()
@@ -172,7 +172,7 @@ def _run_stub_generator(
         is_test_run=is_test_run,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
-        evaluation=api_evaluator if not runtime_evaluation else None,
+        evaluation=api_evaluator,
         old_purity_analysis=old_purity_analysis
     )
     if api_evaluator is not None:
