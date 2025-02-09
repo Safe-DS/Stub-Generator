@@ -6,7 +6,7 @@ import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from safeds_stubgen._evaluation import ApiEvaluation, PurityEvaluation
+from evaluation._evaluation import ApiEvaluation, PurityEvaluation
 from safeds_stubgen.api_analyzer.purity_analysis._infer_purity import get_purity_results
 from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data

@@ -8,7 +8,7 @@ from datetime import datetime
 import astroid
 from astroid.helpers import safe_infer
 
-# from safeds_stubgen._evaluation import PurityEvaluation
+# from evaluation._evaluation import PurityEvaluation
 from safeds_stubgen.api_analyzer._api import API, Function
 from safeds_stubgen.api_analyzer.purity_analysis import build_call_graph, get_module_data
 from safeds_stubgen.api_analyzer.purity_analysis.model import (

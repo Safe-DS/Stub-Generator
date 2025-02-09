@@ -1,5 +1,5 @@
+from __future__ import annotations
 from typing import Callable
-
 
 global_var = 10
 global_var2 = 20
@@ -50,6 +50,9 @@ class ClassPure(SuperClass):
     
     def in_child_and_child_of_child_impure(self) -> int:
         return 20
+    
+    def __add__(self, other: ClassPure) -> ClassPure:
+        return other
 
 class ClassImpure(SuperClass):
     """contains impure functions only
@@ -71,6 +74,9 @@ class ClassImpure(SuperClass):
     
     def in_child_and_child_of_child_impure(self) -> int:
         return global_var2
+
+    def __add__(self, other: ClassImpure) -> ClassImpure:
+        return other
 
 class ChildClassPure(ClassPure):
     """contains pure functions only
@@ -198,3 +204,12 @@ class ImpureSuperInit(ImpureInitClass):
 class PureSuperInitFromKeyError(KeyError):
     def __init__(self):
         super().__init__()
+
+class ContextForWithTest:
+    def __enter__(self):
+        print("Entering the context")
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print("Exiting the context")
+        return False

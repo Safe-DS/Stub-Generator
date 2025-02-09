@@ -11,7 +11,7 @@ from mypy import types as mypy_types
 
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.api_analyzer._types import AbstractType, CallableType, DictType, FinalType, ListType, NamedSequenceType, NamedType, SetType, TupleType, UnionType
-from safeds_stubgen._evaluation import ApiEvaluation
+from evaluation._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API, Attribute, CallReference, Function, Class, Module, QualifiedImport

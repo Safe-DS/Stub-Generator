@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
+from .another_purity_path.another_purity_module import ContextForWithTest, SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
 from . import another_purity_path
 from . import test_init_py_pure
 
@@ -797,6 +797,47 @@ def global_func_module_class_with_static_method_pure():
 
 def global_func_module_class_with_static_method_impure():
     return another_purity_path.ClassWithImpureStaticMethods.test()
+
+def global_func_unreachable_code_pure():
+    if False:
+        instance = ClassPure()
+        return instance.same_name()
+
+def global_func_unreachable_code_impure():
+    if False:
+        instance = ClassImpure()
+        return instance.same_name()
+    
+def global_func_inside_of_lambda_with_map_pure():
+    instances = [ClassPure()]
+    test = map(lambda x: x.same_name(), instances)
+    return test
+
+def global_func_inside_of_lambda_with_map_impure():
+    instances = [ClassImpure()]
+    test = map(lambda x: x.same_name(), instances)
+    return test
+
+def global_func_operator_receiver_with_brackets_pure():
+    instance1 = ClassPure()
+    instance2 = ClassPure()
+    return (instance1 + instance2).same_name()
+
+def global_func_operator_receiver_with_brackets_impure():
+    instance1 = ClassImpure()
+    instance2 = ClassImpure()
+    return (instance1 + instance2).same_name()
+
+def global_func_with_keyword_pure():
+    with ContextForWithTest() as context:
+        instance = ClassPure()
+        return instance.same_name()
+
+def global_func_with_keyword_impure():
+    with ContextForWithTest() as context:
+        instance = ClassImpure()
+        return instance.same_name()
+        
 
 # TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
 #     module_name = path_parts[-1]

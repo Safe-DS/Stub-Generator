@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from io import TextIOWrapper
 import os
@@ -13,7 +15,7 @@ from safeds_stubgen.api_analyzer._api import Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
-from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode, CombinedCallGraphNode, ImportedCallGraphNode
+from safeds_stubgen.api_analyzer.purity_analysis.model._call_graph import CallGraphForest, CallGraphNode, CombinedCallGraphNode
 
 import csv
 from pathlib import Path
