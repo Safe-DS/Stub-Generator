@@ -154,6 +154,7 @@ class PurityEvaluation(Evaluation):
 			"Reason for no improvement",
 			"Path",
 			"Left-most receiver",
+			"Possible reason for no found functions",
 			"Date",
 		]
 		self.result_fieldnames = [
@@ -234,6 +235,7 @@ class PurityEvaluation(Evaluation):
 		call_is_no_method: bool,
 		path: list[str],
 		receiver_type: Any | NamedType,
+		possible_reason_for_no_found_function: str = ""
 	):
 		if self.is_runtime:
 			return
@@ -275,6 +277,7 @@ class PurityEvaluation(Evaluation):
 				"Reason for no improvement": reason_for_no_improvement,
 				"Path": ".".join(path[::-1]),
 				"Left-most receiver": str(receiver_type),
+				"Possible reason for no found functions": possible_reason_for_no_found_function,
 				"Date": str(datetime.now())
 			},
 		]

@@ -3,7 +3,7 @@
     "safeds.data.image.containers._image.from_file.46.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 37,
+        "NonLocalVariableRead": 38,
         "NonLocalVariableWrite": 10,
         "FileRead": 2,
         "UnknownCall": 28,
@@ -14,7 +14,7 @@
     "safeds.data.image.containers._image.from_bytes.65.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 10,
+        "NonLocalVariableRead": 11,
         "NonLocalVariableWrite": 2,
         "FileRead": 1,
         "FileWrite": 1,
@@ -151,7 +151,7 @@
     "safeds.data.image.containers._image.adjust_brightness.347.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
+        "NonLocalVariableRead": 35,
         "NonLocalVariableWrite": 7,
         "FileRead": 2,
         "FileWrite": 1,
@@ -171,7 +171,7 @@
     "safeds.data.image.containers._image.adjust_contrast.419.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
+        "NonLocalVariableRead": 35,
         "NonLocalVariableWrite": 7,
         "FileRead": 2,
         "FileWrite": 1,
@@ -183,7 +183,7 @@
     "safeds.data.image.containers._image.adjust_color_balance.462.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
+        "NonLocalVariableRead": 35,
         "NonLocalVariableWrite": 7,
         "FileRead": 2,
         "FileWrite": 1,
@@ -202,7 +202,7 @@
     "safeds.data.image.containers._image.sharpen.519.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
+        "NonLocalVariableRead": 35,
         "NonLocalVariableWrite": 7,
         "FileRead": 2,
         "FileWrite": 1,
@@ -478,25 +478,25 @@
     "safeds.data.tabular.containers._column.plot_boxplot.907.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 211,
-        "NonLocalVariableWrite": 132,
+        "NonLocalVariableRead": 198,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 388,
-        "NativeCall": 14,
-        "CallOfParameter": 13
+        "UnknownCall": 362,
+        "NativeCall": 13,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._column.plot_histogram.943.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 209,
-        "NonLocalVariableWrite": 132,
+        "NonLocalVariableRead": 196,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 392,
-        "NativeCall": 14,
-        "CallOfParameter": 13
+        "UnknownCall": 365,
+        "NativeCall": 13,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._column.to_html.979.4": {
@@ -525,13 +525,13 @@
     "safeds.data.tabular.containers._row.from_dict.40.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 210,
+        "UnknownCall": 213,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._row._from_pandas_dataframe.62.4": {
@@ -545,13 +545,13 @@
     "safeds.data.tabular.containers._row.__init__.109.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 208,
+        "UnknownCall": 211,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._row.__contains__.132.4": {
@@ -642,13 +642,13 @@
     "safeds.data.tabular.containers._row.sort_columns.462.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 211,
+        "UnknownCall": 214,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._row.to_dict.495.4": {
@@ -676,109 +676,109 @@
     "safeds.data.tabular.containers._table.from_csv_file.84.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 32,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 30,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 214,
+        "UnknownCall": 217,
         "NativeCall": 6,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.from_excel_file.126.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 32,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 30,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 213,
+        "UnknownCall": 216,
         "NativeCall": 6,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.from_json_file.170.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 32,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 30,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 214,
+        "UnknownCall": 217,
         "NativeCall": 6,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.from_dict.213.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 210,
+        "UnknownCall": 213,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.from_columns.244.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 89,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 95,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 210,
+        "UnknownCall": 213,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.from_rows.292.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 30,
+        "NonLocalVariableRead": 100,
+        "NonLocalVariableWrite": 28,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 211,
+        "UnknownCall": 214,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table._from_pandas_dataframe.342.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 89,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 95,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 210,
+        "UnknownCall": 213,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.__init__.385.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 209,
+        "UnknownCall": 212,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.__eq__.426.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.__repr__.460.4": {
@@ -868,13 +868,13 @@
     "safeds.data.tabular.containers._table.summarize_statistics.745.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table._as_table.847.4": {
@@ -883,56 +883,8 @@
     "safeds.data.tabular.containers._table.add_column.861.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 210,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.add_columns.900.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.add_row.948.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 218,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.add_rows.1009.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 220,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.filter_rows.1068.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 30,
+        "NonLocalVariableRead": 99,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
         "UnknownCall": 213,
@@ -940,11 +892,275 @@
         "CallOfParameter": 10
       }
     },
-    "safeds.data.tabular.containers._table.group_rows_by.1101.4": {
+    "safeds.data.tabular.containers._table.add_columns.900.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 99,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.add_row.948.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 221,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.add_rows.1009.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 223,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.filter_rows.1068.4": {
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 100,
+        "NonLocalVariableWrite": 28,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 216,
+        "NativeCall": 4,
+        "CallOfParameter": 11
+      }
+    },
+    "safeds.data.tabular.containers._table.group_rows_by.1101.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 223,
+        "NativeCall": 4,
+        "CallOfParameter": 11
+      }
+    },
+    "safeds.data.tabular.containers._table.keep_only_columns.1125.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_columns.1170.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_columns_with_missing_values.1221.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 11
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_columns_with_non_numerical_values.1250.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 98,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_duplicate_rows.1279.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_rows_with_missing_values.1303.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 95,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.remove_rows_with_outliers.1325.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 124,
         "NonLocalVariableWrite": 35,
+        "FileRead": 2,
+        "FileWrite": 1,
+        "UnknownCall": 249,
+        "NativeCall": 11,
+        "CallOfParameter": 11
+      }
+    },
+    "safeds.data.tabular.containers._table.rename_column.1368.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.replace_column.1413.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 98,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.shuffle_rows.1473.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.slice_rows.1500.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 98,
+        "NonLocalVariableWrite": 27,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 213,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.sort_columns.1554.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.sort_rows.1602.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 100,
+        "NonLocalVariableWrite": 28,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 217,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.split_rows.1649.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.tag_columns.1695.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.time_columns.1730.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.transform_column.1767.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 221,
+        "NativeCall": 4,
+        "CallOfParameter": 11
+      }
+    },
+    "safeds.data.tabular.containers._table.transform_table.1800.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 108,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
         "UnknownCall": 220,
@@ -952,292 +1168,76 @@
         "CallOfParameter": 10
       }
     },
-    "safeds.data.tabular.containers._table.keep_only_columns.1125.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_columns.1170.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_columns_with_missing_values.1221.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 10
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_columns_with_non_numerical_values.1250.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 92,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_duplicate_rows.1279.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 211,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_rows_with_missing_values.1303.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 89,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 211,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.remove_rows_with_outliers.1325.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 117,
-        "NonLocalVariableWrite": 37,
-        "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 238,
-        "NativeCall": 11,
-        "CallOfParameter": 10
-      }
-    },
-    "safeds.data.tabular.containers._table.rename_column.1368.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 211,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.replace_column.1413.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 92,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.shuffle_rows.1473.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 211,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.slice_rows.1500.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 92,
-        "NonLocalVariableWrite": 29,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 210,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.sort_columns.1554.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.sort_rows.1602.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 30,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 214,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.split_rows.1649.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.tag_columns.1695.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.time_columns.1730.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._table.transform_column.1767.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 218,
-        "NativeCall": 4,
-        "CallOfParameter": 10
-      }
-    },
-    "safeds.data.tabular.containers._table.transform_table.1800.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 35,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 217,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
     "safeds.data.tabular.containers._table.inverse_transform_table.1838.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 108,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.plot_correlation_heatmap.1884.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 218,
-        "NonLocalVariableWrite": 140,
+        "NonLocalVariableRead": 205,
+        "NonLocalVariableWrite": 131,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 400,
-        "NativeCall": 15,
-        "CallOfParameter": 13
+        "UnknownCall": 374,
+        "NativeCall": 14,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._table.plot_lineplot.1943.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 212,
-        "NonLocalVariableWrite": 132,
+        "NonLocalVariableRead": 199,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 393,
-        "NativeCall": 14,
-        "CallOfParameter": 13
+        "UnknownCall": 366,
+        "NativeCall": 13,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._table.plot_scatterplot.2004.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 212,
-        "NonLocalVariableWrite": 132,
+        "NonLocalVariableRead": 199,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 393,
-        "NativeCall": 14,
-        "CallOfParameter": 13
+        "UnknownCall": 366,
+        "NativeCall": 13,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._table.plot_boxplots.2062.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 218,
-        "NonLocalVariableWrite": 140,
+        "NonLocalVariableRead": 205,
+        "NonLocalVariableWrite": 131,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 401,
-        "NativeCall": 15,
-        "CallOfParameter": 13
+        "UnknownCall": 375,
+        "NativeCall": 14,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._table.plot_histograms.2109.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 211,
-        "NonLocalVariableWrite": 132,
+        "NonLocalVariableRead": 198,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 394,
-        "NativeCall": 14,
-        "CallOfParameter": 13
+        "UnknownCall": 367,
+        "NativeCall": 13,
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._table.to_csv_file.2148.4": {
@@ -1295,13 +1295,13 @@
     "safeds.data.tabular.containers._table.to_rows.2304.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 27,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 212,
+        "UnknownCall": 215,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table._repr_html_.2338.4": {
@@ -1323,37 +1323,37 @@
     "safeds.data.tabular.containers._tagged_table._from_table.52.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.__init__.118.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.__sizeof__.168.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 28,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 26,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 213,
+        "UnknownCall": 216,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.features.183.4": {
@@ -1371,92 +1371,8 @@
     "safeds.data.tabular.containers._tagged_table.add_column_as_feature.210.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.add_columns_as_features.239.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table._as_table.273.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 31,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.add_column.292.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.add_columns.321.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.add_row.350.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 218,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.add_rows.373.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 220,
-        "NativeCall": 4,
-        "CallOfParameter": 9
-      }
-    },
-    "safeds.data.tabular.containers._tagged_table.filter_rows.396.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
         "UnknownCall": 219,
@@ -1464,172 +1380,256 @@
         "CallOfParameter": 10
       }
     },
+    "safeds.data.tabular.containers._tagged_table.add_columns_as_features.239.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table._as_table.273.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table.add_column.292.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table.add_columns.321.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 219,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table.add_row.350.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 221,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table.add_rows.373.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 223,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._tagged_table.filter_rows.396.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 222,
+        "NativeCall": 4,
+        "CallOfParameter": 11
+      }
+    },
     "safeds.data.tabular.containers._tagged_table.keep_only_columns.418.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_columns.454.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_columns_with_missing_values.492.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_columns_with_non_numerical_values.524.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_duplicate_rows.556.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_rows_with_missing_values.573.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.remove_rows_with_outliers.590.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 117,
-        "NonLocalVariableWrite": 37,
+        "NonLocalVariableRead": 124,
+        "NonLocalVariableWrite": 35,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 238,
+        "UnknownCall": 249,
         "NativeCall": 11,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._tagged_table.rename_column.611.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.replace_column.648.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.shuffle_rows.705.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.slice_rows.722.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.sort_columns.758.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.sort_rows.797.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 220,
+        "UnknownCall": 223,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._tagged_table.transform_column.826.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     }
   },
@@ -1637,37 +1637,37 @@
     "safeds.data.tabular.containers._time_series._from_tagged_table.25.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series._from_table_to_time_series.76.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.__init__.134.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 31,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 29,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 212,
+        "UnknownCall": 215,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.__sizeof__.190.4": {
@@ -1688,241 +1688,241 @@
     "safeds.data.tabular.containers._time_series._as_table.219.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 31,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 29,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 212,
+        "UnknownCall": 215,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_column.238.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_column_as_feature.266.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_columns_as_features.294.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_columns.322.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_row.350.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.add_rows.373.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.filter_rows.396.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.keep_only_columns.417.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.remove_columns.458.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.remove_columns_with_missing_values.503.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.containers._time_series.remove_columns_with_non_numerical_values.538.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.remove_duplicate_rows.573.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.remove_rows_with_missing_values.593.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.remove_rows_with_outliers.613.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.rename_column.637.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.replace_column.678.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.slice_rows.755.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 96,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 102,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.sort_columns.794.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._time_series.transform_column.836.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     }
   },
@@ -1947,13 +1947,13 @@
     "safeds.data.tabular.transformation._discretizer.transform.94.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 32,
+        "NonLocalVariableRead": 101,
+        "NonLocalVariableWrite": 30,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 213,
+        "UnknownCall": 216,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._discretizer.is_fitted.147.4": {
@@ -2027,25 +2027,25 @@
     "safeds.data.tabular.transformation._imputer.fit.94.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 124,
-        "NonLocalVariableWrite": 40,
+        "NonLocalVariableRead": 126,
+        "NonLocalVariableWrite": 38,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 231,
+        "UnknownCall": 233,
         "NativeCall": 10,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.transformation._imputer.transform.174.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 30,
+        "NonLocalVariableRead": 99,
+        "NonLocalVariableWrite": 28,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 211,
+        "UnknownCall": 214,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._imputer.is_fitted.218.4": {
@@ -2083,37 +2083,37 @@
     "safeds.data.tabular.transformation._label_encoder.fit.22.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 122,
-        "NonLocalVariableWrite": 44,
+        "NonLocalVariableRead": 124,
+        "NonLocalVariableWrite": 42,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 230,
+        "UnknownCall": 232,
         "NativeCall": 10,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.transformation._label_encoder.transform.75.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 92,
-        "NonLocalVariableWrite": 30,
+        "NonLocalVariableRead": 98,
+        "NonLocalVariableWrite": 28,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 211,
+        "UnknownCall": 214,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._label_encoder.inverse_transform.117.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._label_encoder.is_fitted.176.4": {
@@ -2151,37 +2151,37 @@
     "safeds.data.tabular.transformation._one_hot_encoder.fit.71.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 122,
-        "NonLocalVariableWrite": 40,
+        "NonLocalVariableRead": 124,
+        "NonLocalVariableWrite": 38,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 230,
+        "UnknownCall": 232,
         "NativeCall": 10,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.transformation._one_hot_encoder.transform.154.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._one_hot_encoder.inverse_transform.240.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 101,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 107,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._one_hot_encoder.is_fitted.338.4": {
@@ -2219,37 +2219,37 @@
     "safeds.data.tabular.transformation._range_scaler.fit.35.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 37,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 35,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._range_scaler.transform.98.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._range_scaler.inverse_transform.159.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._range_scaler.is_fitted.221.4": {
@@ -2287,37 +2287,37 @@
     "safeds.data.tabular.transformation._standard_scaler.fit.17.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 98,
-        "NonLocalVariableWrite": 37,
+        "NonLocalVariableRead": 104,
+        "NonLocalVariableWrite": 35,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._standard_scaler.transform.80.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._standard_scaler.inverse_transform.141.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 216,
+        "UnknownCall": 219,
         "NativeCall": 4,
-        "CallOfParameter": 9
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.transformation._standard_scaler.is_fitted.203.4": {
@@ -2367,13 +2367,13 @@
     "safeds.data.tabular.transformation._table_transformer.fit_and_transform.115.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 132,
-        "NonLocalVariableWrite": 49,
+        "NonLocalVariableRead": 134,
+        "NonLocalVariableWrite": 47,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 234,
+        "UnknownCall": 236,
         "NativeCall": 10,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.data.tabular.transformation._table_transformer.fit.140.4": {
@@ -2812,25 +2812,25 @@
     "safeds.ml.classical.regression._ada_boost.fit.102.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 112,
+        "NonLocalVariableWrite": 59,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 219,
+        "UnknownCall": 222,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._ada_boost.predict.145.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._ada_boost.is_fitted.178.4": {
@@ -2864,49 +2864,49 @@
     "safeds.ml.classical.classification._classifier.accuracy.93.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 107,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 252,
+        "UnknownCall": 254,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._classifier.precision.120.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._classifier.recall.157.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._classifier.f1_score.194.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     }
   },
@@ -2920,25 +2920,25 @@
     "safeds.ml.classical.regression._decision_tree.fit.26.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 37,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 35,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._decision_tree.predict.65.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._decision_tree.is_fitted.98.4": {
@@ -2975,25 +2975,25 @@
     "safeds.ml.classical.regression._gradient_boosting.fit.77.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 41,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 39,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._gradient_boosting.predict.116.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._gradient_boosting.is_fitted.149.4": {
@@ -3028,25 +3028,25 @@
     "safeds.ml.classical.regression._k_nearest_neighbors.fit.59.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 99,
-        "NonLocalVariableWrite": 39,
+        "NonLocalVariableRead": 105,
+        "NonLocalVariableWrite": 37,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._k_nearest_neighbors.predict.110.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._k_nearest_neighbors.is_fitted.143.4": {
@@ -3073,25 +3073,25 @@
     "safeds.ml.classical.classification._logistic_regression.fit.26.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 49,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 47,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._logistic_regression.predict.65.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._logistic_regression.is_fitted.98.4": {
@@ -3125,25 +3125,25 @@
     "safeds.ml.classical.regression._random_forest.fit.57.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 99,
-        "NonLocalVariableWrite": 48,
+        "NonLocalVariableRead": 105,
+        "NonLocalVariableWrite": 46,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._random_forest.predict.96.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._random_forest.is_fitted.129.4": {
@@ -3214,25 +3214,25 @@
     "safeds.ml.classical.regression._support_vector_machine.fit.165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 38,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 36,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 219,
+        "UnknownCall": 222,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._support_vector_machine.predict.204.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._support_vector_machine.is_fitted.237.4": {
@@ -3253,7 +3253,7 @@
     "safeds.ml.classical.regression._elastic_net_regression.__init__.37.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
+        "NonLocalVariableRead": 32,
         "NonLocalVariableWrite": 10,
         "FileRead": 2,
         "FileWrite": 1,
@@ -3277,25 +3277,25 @@
     "safeds.ml.classical.regression._elastic_net_regression.fit.107.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 124,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 126,
+        "NonLocalVariableWrite": 51,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 231,
+        "UnknownCall": 233,
         "NativeCall": 10,
-        "CallOfParameter": 11
+        "CallOfParameter": 12
       }
     },
     "safeds.ml.classical.regression._elastic_net_regression.predict.146.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._elastic_net_regression.is_fitted.179.4": {
@@ -3316,7 +3316,7 @@
     "safeds.ml.classical.regression._lasso_regression.__init__.33.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
+        "NonLocalVariableRead": 24,
         "NonLocalVariableWrite": 8,
         "FileRead": 1,
         "UnknownCall": 15,
@@ -3333,25 +3333,25 @@
     "safeds.ml.classical.regression._lasso_regression.fit.67.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 118,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 125,
+        "NonLocalVariableWrite": 51,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 230,
+        "UnknownCall": 233,
         "NativeCall": 10,
-        "CallOfParameter": 11
+        "CallOfParameter": 12
       }
     },
     "safeds.ml.classical.regression._lasso_regression.predict.106.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._lasso_regression.is_fitted.139.4": {
@@ -3378,25 +3378,25 @@
     "safeds.ml.classical.regression._linear_regression.fit.26.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 37,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 35,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._linear_regression.predict.65.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._linear_regression.is_fitted.98.4": {
@@ -3425,25 +3425,25 @@
     "safeds.ml.classical.regression._regressor.mean_squared_error.92.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 108,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 109,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 237,
+        "UnknownCall": 240,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._regressor.mean_absolute_error.120.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 108,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 109,
+        "NonLocalVariableWrite": 33,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 236,
+        "UnknownCall": 239,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._regressor._check_metrics_preconditions.149.0": {
@@ -3457,7 +3457,7 @@
     "safeds.ml.classical.regression._ridge_regression.__init__.34.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
+        "NonLocalVariableRead": 32,
         "NonLocalVariableWrite": 10,
         "FileRead": 2,
         "FileWrite": 1,
@@ -3475,25 +3475,25 @@
     "safeds.ml.classical.regression._ridge_regression.fit.68.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 123,
-        "NonLocalVariableWrite": 44,
+        "NonLocalVariableRead": 125,
+        "NonLocalVariableWrite": 42,
         "FileRead": 2,
         "FileWrite": 1,
-        "UnknownCall": 231,
+        "UnknownCall": 233,
         "NativeCall": 10,
-        "CallOfParameter": 11
+        "CallOfParameter": 12
       }
     },
     "safeds.ml.classical.regression._ridge_regression.predict.107.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.regression._ridge_regression.is_fitted.140.4": {
@@ -3571,25 +3571,25 @@
     "safeds.ml.classical.classification._ada_boost.fit.102.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 104,
-        "NonLocalVariableWrite": 62,
+        "NonLocalVariableRead": 110,
+        "NonLocalVariableWrite": 60,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 219,
+        "UnknownCall": 222,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._ada_boost.predict.145.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._ada_boost.is_fitted.178.4": {
@@ -3617,25 +3617,25 @@
     "safeds.ml.classical.classification._decision_tree.fit.26.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 38,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 36,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._decision_tree.predict.65.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._decision_tree.is_fitted.98.4": {
@@ -3672,25 +3672,25 @@
     "safeds.ml.classical.classification._gradient_boosting.fit.77.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 42,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 40,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._gradient_boosting.predict.116.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._gradient_boosting.is_fitted.149.4": {
@@ -3725,25 +3725,25 @@
     "safeds.ml.classical.classification._k_nearest_neighbors.fit.59.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 99,
-        "NonLocalVariableWrite": 40,
+        "NonLocalVariableRead": 105,
+        "NonLocalVariableWrite": 38,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._k_nearest_neighbors.predict.109.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._k_nearest_neighbors.is_fitted.142.4": {
@@ -3778,25 +3778,25 @@
     "safeds.ml.classical.classification._random_forest.fit.57.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 99,
-        "NonLocalVariableWrite": 49,
+        "NonLocalVariableRead": 105,
+        "NonLocalVariableWrite": 47,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._random_forest.predict.96.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._random_forest.is_fitted.129.4": {
@@ -3867,25 +3867,25 @@
     "safeds.ml.classical.classification._support_vector_machine.fit.165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 39,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 37,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 219,
+        "UnknownCall": 222,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._support_vector_machine.predict.204.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical.classification._support_vector_machine.is_fitted.237.4": {
@@ -3906,25 +3906,25 @@
     "safeds.ml.classical._util_sklearn.fit.19.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 217,
+        "UnknownCall": 220,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     },
     "safeds.ml.classical._util_sklearn.predict.80.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 34,
+        "NonLocalVariableRead": 103,
+        "NonLocalVariableWrite": 32,
         "FileRead": 1,
         "FileWrite": 1,
-        "UnknownCall": 218,
+        "UnknownCall": 221,
         "NativeCall": 4,
-        "CallOfParameter": 10
+        "CallOfParameter": 11
       }
     }
   },
