@@ -1,0 +1,173 @@
+Type-Aware?,Library,Module,Func Name,Line,Column,Improvement,#New,#Old,Reason for no improvement,Path,Left-most receiver,Possible reason for no found functions,Date
+Yes,safeds,safeds.config._device,device,6,11,No,0,0,Found no referenced functions,torch.device.(),safeds.config._device.torch,"MemberExpr:6(
+  NameExpr(torch [safeds.config._device.torch])
+  device) Type is Any ",2025-02-10 01:49:45.029209
+Yes,safeds,safeds.config._device,device,6,66,No,0,0,Found no referenced functions,torch.device.(),safeds.config._device.torch,"MemberExpr:6(
+  NameExpr(torch [safeds.config._device.torch])
+  device) Type is Any ",2025-02-10 01:49:45.030207
+Yes,safeds,safeds.data.tabular.containers._column,rename,109,32,No,0,1,Found no referenced functions,data.rename.(),"NamedType(name='None', qname='builtins.None')","MemberExpr:109(
+  NameExpr(data [l])
+  rename) no class with qname: builtins.None ",2025-02-10 01:49:45.702962
+Yes,safeds,safeds.data.tabular.containers._column,_data_type,111,33,No,1,1,Found same amount of functions,ColumnType._data_type.(),safeds.data.tabular.typing._column_type.ColumnType,,2025-02-10 01:49:45.702962
+Yes,safeds,safeds.data.tabular.containers._row,_from_pandas_dataframe,130,31,Yes,1,3,,Schema._from_pandas_dataframe.(),safeds.data.tabular.typing._schema.Schema,,2025-02-10 01:49:45.704436
+Yes,safeds,safeds.data.tabular.containers._table,_from_pandas_dataframe,424,31,Yes,1,3,,Schema._from_pandas_dataframe.(),safeds.data.tabular.typing._schema.Schema,,2025-02-10 01:49:45.704436
+Yes,safeds,safeds.data.tabular.containers._tagged_table,__init__,150,8,Yes,3,44,,super.().__init__.(),safeds.data.tabular.containers._tagged_table.TaggedTable,,2025-02-10 01:49:45.705983
+Yes,safeds,safeds.data.tabular.containers._tagged_table,keep_only_columns,165,32,No,3,3,Found same amount of functions,_data.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:45.707044
+Yes,safeds,safeds.data.tabular.containers._tagged_table,get_column,166,31,No,1,1,Found same amount of functions,_data.get_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:45.707044
+Yes,safeds,safeds.data.tabular.containers._time_series,__init__,183,8,Yes,2,5,,super.().__init__.(),safeds.data.tabular.containers._time_series.TimeSeries,,2025-02-10 01:49:45.708993
+Yes,safeds,safeds.data.tabular.containers._time_series,get_column,188,29,No,1,1,Found same amount of functions,_data.get_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:45.709994
+Yes,safeds,safeds.exceptions._data,__init__,31,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.KeyError,,2025-02-10 01:49:45.712026
+Yes,safeds,safeds.exceptions._data,__init__,39,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.713024
+Yes,safeds,safeds.exceptions._data,__init__,50,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.714530
+Yes,safeds,safeds.exceptions._data,__init__,67,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.715541
+Yes,safeds,safeds.exceptions._data,__init__,82,12,No,0,0,Found same amount of functions,super.().__init__.(),builtins.IndexError,,2025-02-10 01:49:45.716545
+Yes,safeds,safeds.exceptions._data,__init__,84,12,No,0,0,Found same amount of functions,super.().__init__.(),builtins.IndexError,,2025-02-10 01:49:45.716545
+Yes,safeds,safeds.exceptions._data,__init__,100,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.717541
+Yes,safeds,safeds.exceptions._data,__init__,107,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.718578
+Yes,safeds,safeds.exceptions._data,__init__,114,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.719545
+Yes,safeds,safeds.exceptions._data,__init__,123,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.720540
+Yes,safeds,safeds.exceptions._data,__init__,133,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.720540
+Yes,safeds,safeds.exceptions._data,__init__,143,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.721540
+Yes,safeds,safeds.exceptions._data,__init__,150,8,Yes,3,44,,super.().__init__.(),safeds.exceptions._data.ColumnIsTargetError,,2025-02-10 01:49:45.722544
+Yes,safeds,safeds.exceptions._data,__init__,157,8,Yes,3,44,,super.().__init__.(),safeds.exceptions._data.ColumnIsTimeError,,2025-02-10 01:49:45.723540
+Yes,safeds,safeds.exceptions._data,__init__,164,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.723540
+Yes,safeds,safeds.exceptions._generic,_check_lower_bound,77,13,No,3,3,Found same amount of functions,_lower_bound._check_lower_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.726134
+Yes,safeds,safeds.exceptions._generic,_check_upper_bound,77,57,No,3,3,Found same amount of functions,_upper_bound._check_upper_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.726134
+Yes,safeds,safeds.exceptions._generic,_str_lower_bound,81,47,No,3,3,Found same amount of functions,_lower_bound._str_lower_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.727102
+Yes,safeds,safeds.exceptions._generic,_str_lower_bound,87,50,No,3,3,Found same amount of functions,_lower_bound._str_lower_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.728100
+Yes,safeds,safeds.exceptions._generic,_str_upper_bound,81,82,No,3,3,Found same amount of functions,_upper_bound._str_upper_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.728100
+Yes,safeds,safeds.exceptions._generic,_str_upper_bound,87,85,No,3,3,Found same amount of functions,_upper_bound._str_upper_bound.(),"NamedType(name='Bound', qname='safeds.exceptions._generic.Bound')",,2025-02-10 01:49:45.729100
+Yes,safeds,safeds.exceptions._generic,__init__,86,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.ValueError,,2025-02-10 01:49:45.730138
+Yes,safeds,safeds.exceptions._generic,__init__,185,8,Yes,3,44,,super.().__init__.(),safeds.exceptions._generic.ClosedBound,,2025-02-10 01:49:45.732097
+Yes,safeds,safeds.exceptions._generic,__init__,242,8,Yes,3,44,,super.().__init__.(),safeds.exceptions._generic.OpenBound,,2025-02-10 01:49:45.733099
+Yes,safeds,safeds.exceptions._ml,__init__,12,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.ValueError,,2025-02-10 01:49:45.734099
+Yes,safeds,safeds.exceptions._ml,__init__,26,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.ValueError,,2025-02-10 01:49:45.734099
+Yes,safeds,safeds.exceptions._ml,__init__,33,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.ValueError,,2025-02-10 01:49:45.735607
+Yes,safeds,safeds.exceptions._ml,__init__,47,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.736619
+Yes,safeds,safeds.exceptions._ml,__init__,54,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.736619
+Yes,safeds,safeds.exceptions._ml,__init__,68,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.737656
+Yes,safeds,safeds.exceptions._ml,__init__,75,8,No,0,0,Found same amount of functions,super.().__init__.(),builtins.Exception,,2025-02-10 01:49:45.738617
+Yes,safeds,safeds.data.image.containers._image,all,109,16,No,0,1,Found no referenced functions,torch.all.(),safeds.data.image.containers._image.torch,"MemberExpr:109(
+  NameExpr(torch [safeds.data.image.containers._image.torch])
+  all) Type is Any ",2025-02-10 01:49:45.753166
+Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,0,1,Found no referenced functions,other._set_device.(),"NamedType(name='object', qname='builtins.object')","MemberExpr:109(
+  NameExpr(other [l])
+  _set_device) no class with qname: builtins.object ",2025-02-10 01:49:45.754162
+Yes,safeds,safeds.data.tabular.containers._table,sort_columns,454,17,Yes,3,4,,self.sort_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:45.755130
+Yes,safeds,safeds.data.tabular.containers._table,sort_columns,455,17,No,0,4,Found no referenced functions,other.sort_columns.(),"NamedType(name='object', qname='builtins.object')","MemberExpr:455(
+  NameExpr(other [l])
+  sort_columns) no class with qname: builtins.object ",2025-02-10 01:49:45.756674
+Yes,safeds,safeds.data.tabular.containers._tagged_table,__sizeof__,176,15,No,3,0,Found more functions than old purity analysis,Table.__sizeof__.(),safeds.data.tabular.containers._table.Table,"MemberExpr:176(
+  NameExpr(Table [safeds.data.tabular.containers._table.Table])
+  __sizeof__) Mypy Node is a mp_nodes.TypeInfo ",2025-02-10 01:49:45.759686
+Yes,safeds,safeds.data.tabular.containers._time_series,__sizeof__,198,15,No,2,0,Found more functions than old purity analysis,TaggedTable.__sizeof__.(),safeds.data.tabular.containers._tagged_table.TaggedTable,"MemberExpr:198(
+  NameExpr(TaggedTable [safeds.data.tabular.containers._tagged_table.TaggedTable])
+  __sizeof__) Mypy Node is a mp_nodes.TypeInfo ",2025-02-10 01:49:45.760687
+Yes,safeds,safeds.data.tabular.typing._schema,sum,112,15,No,0,0,Found same amount of functions,sum.(),builtins.sum,,2025-02-10 01:49:45.760687
+Yes,safeds,safeds.data.tabular.typing._schema,sum,112,62,No,0,0,Found same amount of functions,sum.(),builtins.sum,,2025-02-10 01:49:45.761816
+Yes,safeds,safeds.data.image.containers._image,crop,319,21,No,0,0,Found no referenced functions,func2.crop.(),safeds.data.image.containers._image.func2,"MemberExpr:319(
+  NameExpr(func2 [safeds.data.image.containers._image.func2])
+  crop) Type is Any ",2025-02-10 01:49:45.914444
+Yes,safeds,safeds.data.image.containers._image,adjust_brightness,383,20,No,0,0,Found no referenced functions,func2.adjust_brightness.(),safeds.data.image.containers._image.func2,"MemberExpr:383(
+  NameExpr(func2 [safeds.data.image.containers._image.func2])
+  adjust_brightness) Type is Any ",2025-02-10 01:49:45.960846
+Yes,safeds,safeds.data.image.containers._image,adjust_brightness,389,25,No,0,0,Found no referenced functions,func2.adjust_brightness.(),safeds.data.image.containers._image.func2,"MemberExpr:389(
+  NameExpr(func2 [safeds.data.image.containers._image.func2])
+  adjust_brightness) Type is Any ",2025-02-10 01:49:45.961855
+Yes,safeds,safeds.data.image.containers._image,adjust_contrast,454,20,No,0,0,Found no referenced functions,func2.adjust_contrast.(),safeds.data.image.containers._image.func2,"MemberExpr:454(
+  NameExpr(func2 [safeds.data.image.containers._image.func2])
+  adjust_contrast) Type is Any ",2025-02-10 01:49:45.966856
+Yes,safeds,safeds.data.image.containers._image,adjust_contrast,460,25,No,0,0,Found no referenced functions,func2.adjust_contrast.(),safeds.data.image.containers._image.func2,"MemberExpr:460(
+  NameExpr(func2 [safeds.data.image.containers._image.func2])
+  adjust_contrast) Type is Any ",2025-02-10 01:49:45.967854
+Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,496,12,No,1,1,Found same amount of functions,self.convert_to_grayscale.(),"NamedType(name='Image', qname='safeds.data.image.containers._image.Image')",,2025-02-10 01:49:45.970856
+Yes,safeds,safeds.data.image.containers._image,convert_to_grayscale,625,16,No,1,1,Found same amount of functions,self.convert_to_grayscale.(),"NamedType(name='Image', qname='safeds.data.image.containers._image.Image')",,2025-02-10 01:49:45.979170
+Yes,safeds,safeds.data.tabular.containers._column,_data_type,81,55,No,1,1,Found same amount of functions,ColumnType._data_type.(),safeds.data.tabular.typing._column_type.ColumnType,,2025-02-10 01:49:45.982136
+Yes,safeds,safeds.data.tabular.containers._row,has_column,156,40,Yes,1,3,,self.has_column.(),"NamedType(name='Row', qname='safeds.data.tabular.containers._row.Row')",,2025-02-10 01:49:45.983356
+Yes,safeds,safeds.data.tabular.containers._column,rename,191,19,No,0,1,Found no referenced functions,self._data.[].reset_index.().rename.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:191(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:45.985859
+Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,192,19,No,1,1,Found same amount of functions,Column._from_pandas_series.(),safeds.data.tabular.containers._column.Column,,2025-02-10 01:49:45.986860
+Yes,safeds,safeds.data.tabular.containers._row,get_value,217,15,Yes,1,2,,self.get_value.(),"NamedType(name='Row', qname='safeds.data.tabular.containers._row.Row')",,2025-02-10 01:49:45.989859
+Yes,safeds,safeds.data.tabular.containers._table,__repr__,477,15,No,0,11,Found no referenced functions,tmp.__repr__.(),"NamedType(name='DataFrame', qname='pandas.core.frame.DataFrame')","MemberExpr:477(
+  NameExpr(tmp [l])
+  __repr__) no class with qname: pandas.core.frame.DataFrame ",2025-02-10 01:49:45.992856
+Yes,safeds,safeds.data.tabular.containers._row,to_dict,305,71,Yes,1,3,,self.to_dict.(),"NamedType(name='Row', qname='safeds.data.tabular.containers._row.Row')",,2025-02-10 01:49:45.995365
+Yes,safeds,safeds.data.tabular.containers._row,to_dict,303,27,Yes,1,3,,self.to_dict.(),"NamedType(name='Row', qname='safeds.data.tabular.containers._row.Row')",,2025-02-10 01:49:45.996373
+Yes,safeds,safeds.data.tabular.containers._table,__str__,492,15,No,0,10,Found no referenced functions,tmp.__str__.(),"NamedType(name='DataFrame', qname='pandas.core.frame.DataFrame')","MemberExpr:492(
+  NameExpr(tmp [l])
+  __str__) no class with qname: pandas.core.frame.DataFrame ",2025-02-10 01:49:45.997373
+Yes,safeds,safeds.exceptions._generic,__str__,251,19,Yes,2,10,,super.().__str__.(),safeds.exceptions._generic.OpenBound,,2025-02-10 01:49:45.998373
+Yes,safeds,safeds.data.tabular.containers._row,has_column,399,15,Yes,1,3,,self.has_column.(),"NamedType(name='Row', qname='safeds.data.tabular.containers._row.Row')",,2025-02-10 01:49:46.000636
+Yes,safeds,safeds.data.tabular.containers._column,all,418,15,Yes,0,1,,all.(),builtins.all,,2025-02-10 01:49:46.000636
+Yes,safeds,safeds.data.tabular.containers._column,any,444,15,Yes,0,1,,any.(),builtins.any,,2025-02-10 01:49:46.001600
+Yes,safeds,safeds.data.tabular.containers._column,all,471,15,Yes,0,1,,all.(),builtins.all,,2025-02-10 01:49:46.001600
+Yes,safeds,safeds.data.tabular.containers._column,any,493,15,No,1,1,Found same amount of functions,self.any.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.002604
+Yes,safeds,safeds.data.tabular.containers._column,_from_pandas_series,522,15,No,1,1,Found same amount of functions,Column._from_pandas_series.(),safeds.data.tabular.containers._column.Column,,2025-02-10 01:49:46.034289
+Yes,safeds,safeds.data.tabular.containers._column,rename,522,42,No,0,1,Found no referenced functions,self._data.rename.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:522(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:46.035291
+Yes,safeds,safeds.data.tabular.transformation._discretizer,is_numeric,139,19,No,7,7,Found same amount of functions,table.get_column.().type.is_numeric.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.036804
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,139,19,No,1,1,Found same amount of functions,table.get_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.036804
+Yes,safeds,safeds.data.tabular.transformation._discretizer,get_column,140,67,No,1,1,Found same amount of functions,table.get_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.036804
+Yes,safeds,safeds.data.tabular.transformation._discretizer,transform,144,35,No,0,8,Found no referenced functions,self._wrapped_transformer.transform.(),"NamedType(name='Discretizer', qname='safeds.data.tabular.transformation._discretizer.Discretizer')","MemberExpr:144(
+  NameExpr(self [l])
+  _wrapped_transformer) Class of attribute: KBinsDiscretizer not found, at path part _wrapped_transformer ",2025-02-10 01:49:46.037811
+Yes,safeds,safeds.data.tabular.transformation._discretizer,_from_pandas_dataframe,145,15,Yes,1,3,,Table._from_pandas_dataframe.(),safeds.data.tabular.containers._table.Table,,2025-02-10 01:49:46.037811
+Yes,safeds,safeds.data.tabular.transformation._imputer,transform,213,12,No,0,8,Found no referenced functions,self._wrapped_transformer.transform.(),"NamedType(name='Imputer', qname='safeds.data.tabular.transformation._imputer.Imputer')","MemberExpr:213(
+  NameExpr(self [l])
+  _wrapped_transformer) Class of attribute: SimpleImputer not found, at path part _wrapped_transformer ",2025-02-10 01:49:46.040810
+Yes,safeds,safeds.data.tabular.transformation._imputer,_from_pandas_dataframe,216,15,Yes,1,2,,Table._from_pandas_dataframe.(),safeds.data.tabular.containers._table.Table,,2025-02-10 01:49:46.041807
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,transform,114,35,No,0,8,Found no referenced functions,self._wrapped_transformer.transform.(),"NamedType(name='LabelEncoder', qname='safeds.data.tabular.transformation._label_encoder.LabelEncoder')","MemberExpr:114(
+  NameExpr(self [l])
+  _wrapped_transformer) Class of attribute: OrdinalEncoder not found, at path part _wrapped_transformer ",2025-02-10 01:49:46.043810
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,_from_pandas_dataframe,115,15,Yes,1,3,,Table._from_pandas_dataframe.(),safeds.data.tabular.containers._table.Table,,2025-02-10 01:49:46.044810
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_value,202,24,Yes,1,2,,table.get_column.().get_value.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.046349
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,get_column,202,24,No,1,1,Found same amount of functions,table.get_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.047387
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,add_column,215,24,No,3,3,Found same amount of functions,table.add_column.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.047387
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,remove_columns,234,16,No,3,3,Found same amount of functions,table.remove_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.048359
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,sort_columns,237,15,Yes,3,4,,table.sort_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.048359
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,138,12,No,3,3,Found same amount of functions,table.keep_only_columns.().remove_columns_with_non_numerical_values.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.050391
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,remove_columns_with_non_numerical_values,146,28,No,3,3,Found same amount of functions,table.keep_only_columns.().remove_columns_with_non_numerical_values.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.051414
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,138,12,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.051414
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,139,14,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.052406
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,144,28,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.052406
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,keep_only_columns,146,28,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.053408
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,transform,156,35,No,0,8,Found no referenced functions,self._wrapped_transformer.transform.(),"NamedType(name='RangeScaler', qname='safeds.data.tabular.transformation._range_scaler.RangeScaler')","MemberExpr:156(
+  NameExpr(self [l])
+  _wrapped_transformer) Class of attribute: MinMaxScaler not found, at path part _wrapped_transformer ",2025-02-10 01:49:46.053408
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,_from_pandas_dataframe,157,15,Yes,1,3,,Table._from_pandas_dataframe.(),safeds.data.tabular.containers._table.Table,,2025-02-10 01:49:46.054426
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,120,12,No,3,3,Found same amount of functions,table.keep_only_columns.().remove_columns_with_non_numerical_values.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.056920
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,remove_columns_with_non_numerical_values,128,28,No,3,3,Found same amount of functions,table.keep_only_columns.().remove_columns_with_non_numerical_values.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.056920
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,120,12,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.057927
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,121,14,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.057927
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,126,28,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.058923
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,keep_only_columns,128,28,No,3,3,Found same amount of functions,table.keep_only_columns.(),"NamedType(name='Table', qname='safeds.data.tabular.containers._table.Table')",,2025-02-10 01:49:46.058923
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,transform,138,35,Yes,1,8,,self._wrapped_transformer.transform.(),"NamedType(name='StandardScaler', qname='safeds.data.tabular.transformation._standard_scaler.StandardScaler')",,2025-02-10 01:49:46.059927
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,_from_pandas_dataframe,139,15,Yes,1,3,,Table._from_pandas_dataframe.(),safeds.data.tabular.containers._table.Table,,2025-02-10 01:49:46.059927
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,15,No,7,7,Found same amount of functions,self._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.061926
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,581,46,No,7,7,Found same amount of functions,other_column._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[NamedType(name='Any', qname='typing.Any')])",,2025-02-10 01:49:46.062926
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,647,15,No,7,7,Found same amount of functions,self._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.063927
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,672,15,No,7,7,Found same amount of functions,self._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.064927
+Yes,safeds,safeds.data.tabular.containers._column,mean,674,15,No,0,1,Found no referenced functions,self._data.mean.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:674(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:46.064927
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,702,15,No,7,7,Found same amount of functions,self._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.065926
+Yes,safeds,safeds.data.tabular.containers._column,median,704,15,No,0,1,Found no referenced functions,self._data.median.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:704(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:46.065926
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,727,15,No,7,7,Found same amount of functions,self._type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.066927
+Yes,safeds,safeds.data.tabular.containers._column,_count_missing_values,758,15,No,1,1,Found same amount of functions,self._count_missing_values.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.067442
+Yes,safeds,safeds.data.tabular.containers._column,mode,780,15,No,0,1,Found no referenced functions,self._data.mode.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:780(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:46.068448
+Yes,safeds,safeds.data.tabular.containers._column,all,818,11,No,1,1,Found same amount of functions,self.all.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.068448
+Yes,safeds,safeds.data.tabular.containers._column,mode,821,41,No,1,1,Found same amount of functions,self.mode.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.069444
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,848,15,No,7,7,Found same amount of functions,self.type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.069444
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,873,15,No,7,7,Found same amount of functions,self.type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.070448
+Yes,safeds,safeds.data.tabular.containers._column,sum,875,15,No,0,1,Found no referenced functions,self._data.sum.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])","MemberExpr:875(
+  NameExpr(self [l])
+  _data) Class of attribute: Series not found, at path part _data ",2025-02-10 01:49:46.071447
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,898,15,No,7,7,Found same amount of functions,self.type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.071447
+Yes,safeds,safeds.data.tabular.containers._column,is_numeric,927,15,No,7,7,Found same amount of functions,self.type.is_numeric.(),"NamedSequenceType(name='Column', qname='safeds.data.tabular.containers._column.Column', types=[TypeVarType(name='T', upper_bound=None)])",,2025-02-10 01:49:46.072482
+Yes,safeds,safeds.data.tabular.containers._column,from_bytes,941,15,No,1,1,Found same amount of functions,Image.from_bytes.(),safeds.data.image.containers._image.Image,,2025-02-10 01:49:46.073444

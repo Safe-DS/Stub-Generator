@@ -660,6 +660,10 @@ class MyPyAstVisitor:
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
+        
+        if isinstance(expr, mp_nodes.LambdaExpr):
+            # lambda expressions have a method called expr to get the body of the lamda function
+            self.extract_expression_info(expr.expr(), parameter_of_func, call_references)
 
         for member_name in dir(expr):
             if not member_name.startswith("__") and member_name != "expanded":  # expanded stores function itself which leads to infinite recursion
@@ -884,12 +888,20 @@ class MyPyAstVisitor:
             self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
 
     def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | str | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
+        possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
-            return
+            possible_reason_for_no_found_functions += "Type node is none "
+            call_receiver_type = node
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type,
+                path=path,
+                call_references=call_references
+            )
         if isinstance(node, str):
-            possible_reason_for_no_found_functions = "Mypy Node is a string "
+            possible_reason_for_no_found_functions += "Mypy Node is a string "
             if node == "None":
-                possible_reason_for_no_found_functions = f"There is no end condition for {str(expr)}  "
+                possible_reason_for_no_found_functions += f"There is no end condition for {str(expr)}  "
                 
             call_receiver_type = node
             self._set_call_reference(
@@ -900,8 +912,8 @@ class MyPyAstVisitor:
             )
         if isinstance(node, mp_types.Type):
             call_receiver_type = node
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_types.Type "
-
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_types.Type "
+            
             if isinstance(call_receiver_type, mp_types.AnyType):
                 possible_reason_for_no_found_functions += "Type is Any "
                 if call_receiver_type.missing_import_name is not None:
@@ -931,7 +943,7 @@ class MyPyAstVisitor:
             return
         if isinstance(node, mp_nodes.FuncDef):
             call_receiver_type = None
-            possible_reason_for_no_found_functions = ""
+            possible_reason_for_no_found_functions += ""
             if node.type is not None:
                 # types = self._get_named_types_from_nested_type(self._infer_type_from_return_stmts(node))
                 call_receiver_type = node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
@@ -945,7 +957,7 @@ class MyPyAstVisitor:
                         call_receiver_type = extracted_type[0]
                     elif extracted_type is not None and len(extracted_type) >= 1:
                         call_receiver_type = extracted_type
-                if isinstance(call_receiver_type, mp_types.AnyType):
+                elif isinstance(call_receiver_type, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
                     if call_receiver_type.missing_import_name is not None:
                         call_receiver_type = call_receiver_type.missing_import_name
@@ -965,7 +977,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.Var):
-            possible_reason_for_no_found_functions = ""
+            possible_reason_for_no_found_functions += ""
             if node.type is not None:
                 call_receiver_type = self._get_named_types_from_nested_type(self.mypy_type_to_abstract_type(node.type))  # TODO  pm refactor types with mypy_type_to_abstract_type 
                 if (call_receiver_type is not None and len(call_receiver_type) == 1):
@@ -981,7 +993,7 @@ class MyPyAstVisitor:
                         call_receiver_type = extracted_type[0]
                     elif extracted_type is not None and len(extracted_type) >= 1:
                         call_receiver_type = extracted_type
-                if isinstance(node.type, mp_types.AnyType):
+                elif isinstance(node.type, mp_types.AnyType):
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                     # TaggedTable line 165 166, somehow mypy cant infer the type here
                     possible_reason_for_no_found_functions += "Type is Any "
@@ -1003,7 +1015,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.TypeAlias):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.TypeAlias "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeAlias "
             call_receiver_type = node.target
             if isinstance(call_receiver_type, mp_types.AnyType):
                 if call_receiver_type.missing_import_name is not None:
@@ -1018,7 +1030,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.Decorator):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.Decorator "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.Decorator "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
@@ -1029,7 +1041,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.TypeVarLikeExpr):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.TypeVarLikeExpr "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeVarLikeExpr "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
@@ -1042,7 +1054,7 @@ class MyPyAstVisitor:
         elif isinstance(node, mp_nodes.PlaceholderNode):
             return
         elif isinstance(node, mp_nodes.OverloadedFuncDef):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.OverloadedFuncDef "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.OverloadedFuncDef "
 
             call_receiver_type = node.fullname
             self._set_call_reference(
@@ -1054,7 +1066,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.TypeInfo):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.TypeInfo "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeInfo "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
@@ -1065,7 +1077,7 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.MypyFile):
-            possible_reason_for_no_found_functions = "Mypy Node is a mp_nodes.MypyFile "
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.MypyFile "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,

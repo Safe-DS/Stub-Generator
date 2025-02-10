@@ -417,6 +417,7 @@ def global_func_from_docstring_as_list_same_name_pure(instances) -> int:
     instances : list[ClassPure]
         Lorem ipsum
     """
+    #fix
     result = instances[0].same_name()
     return result
 
@@ -798,17 +799,26 @@ def global_func_module_class_with_static_method_pure():
 def global_func_module_class_with_static_method_impure():
     return another_purity_path.ClassWithImpureStaticMethods.test()
 
-def global_func_unreachable_code_pure():
+def global_func_unreachable_code_should_be_pure_but_impure():
+    """
+        mypy doesnt track the type if code is unreachable
+    """
     if False:
         instance = ClassPure()
         return instance.same_name()
 
 def global_func_unreachable_code_impure():
+    """
+        mypy doesnt track the type if code is unreachable
+    """
     if False:
         instance = ClassImpure()
         return instance.same_name()
     
-def global_func_inside_of_lambda_with_map_pure():
+def global_func_inside_of_lambda_with_map_should_be_pure_but_impure():
+    """
+        mypy doesnt store the type inside of lambda bodies
+    """
     instances = [ClassPure()]
     test = map(lambda x: x.same_name(), instances)
     return test
@@ -818,17 +828,26 @@ def global_func_inside_of_lambda_with_map_impure():
     test = map(lambda x: x.same_name(), instances)
     return test
 
-def global_func_operator_receiver_with_brackets_pure():
+def global_func_operator_receiver_with_brackets_should_be_pure_but_impure():
+    """
+        Solution: look into the type of instance1 and retrieve the return type of __add__ which then is the receiver of .same_name()
+        but actually  mypy should have the type stored in method_type attribute of OpExpr
+    """
     instance1 = ClassPure()
     instance2 = ClassPure()
-    return (instance1 + instance2).same_name()
+    return ((instance1 + instance2)
+            .same_name())
 
 def global_func_operator_receiver_with_brackets_impure():
     instance1 = ClassImpure()
     instance2 = ClassImpure()
-    return (instance1 + instance2).same_name()
+    return ((instance1 + instance2)
+            .same_name())
 
-def global_func_with_keyword_pure():
+def global_func_with_keyword_should_be_pure_but_impure():
+    """
+        mypy doesnt track the type if code is in with block...
+    """
     with ContextForWithTest() as context:
         instance = ClassPure()
         return instance.same_name()
