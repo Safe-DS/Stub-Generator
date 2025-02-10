@@ -104,6 +104,144 @@ def get_api(
 
     return api
 
+def _get_nearest_init_dirs(root: Path) -> list[Path]:
+    """Check for the nearest directory with an __init__.py file.
+
+    For the Mypy parser we need to start at a directory with an __init__.py file. Directories without __init__.py files
+    will be skipped py Mypy.
+    """
+    all_inits = list(root.glob("./**/__init__.py"))
+    shortest_init_paths = []
+    shortest_len = -1
+    for init in all_inits:
+        path_len = len(init.parts)
+        if shortest_len == -1:
+            shortest_len = path_len
+            shortest_init_paths.append(init.parent)
+        elif path_len <= shortest_len:  # pragma: no cover
+            if path_len == shortest_len:
+                shortest_init_paths.append(init.parent)
+            else:
+                shortest_len = path_len
+                shortest_init_paths = [init.parent]
+
+    return shortest_init_paths
+
+
+def _get_mypy_build(files: list[str]) -> mypy_build.BuildResult:
+    """Build a mypy checker and return the build result."""
+    mypyfiles, opt = mypy_main.process_options(files)
+
+    # Disable the memory optimization of freeing ASTs when possible
+    opt.preserve_asts = True
+    # Only check parts of the code that have changed since the last check
+    opt.fine_grained_incremental = True
+    # Export inferred types for all expressions
+    opt.export_types = True
+
+    return mypy_build.build(mypyfiles, options=opt)
+
+
+def _get_mypy_asts(
+    build_result: mypy_build.BuildResult,
+    files: list[str],
+    package_paths: list[str],
+) -> list[mypy_nodes.MypyFile]:
+    """Get all module ASTs from Mypy.
+
+    We have to return the package ASTs first though, b/c we need to parse all reexports first.
+    """
+    package_ast = []
+    module_ast = []
+    for graph_key in build_result.graph:
+        ast = build_result.graph[graph_key].tree
+
+        if ast is None:  # pragma: no cover
+            raise ValueError
+
+        if ast.path.endswith("__init__.py"):
+            ast_package_path = ast.path.split("__init__.py")[0][:-1]
+            if ast_package_path in package_paths:
+                package_ast.append(ast)
+        elif ast.path in files:
+            module_ast.append(ast)
+
+    # The packages need to be checked first, since we have to get the reexported data first
+    return package_ast + module_ast
+
+
+def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
+    """Get the needed aliases from Mypy.
+
+    Mypy has a long list of all aliases it has found. We have to parse the list and get only the aliases we need for our
+    package we analyze.
+    """
+    aliases: dict[str, set[str]] = defaultdict(set)
+    for key in result_types:
+        if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
+            in_package = False
+            name = ""
+
+            if isinstance(key, mypy_nodes.NameExpr):
+                type_value = result_types[key]
+
+                if hasattr(type_value, "type") and getattr(type_value, "type", None) is not None:
+                    name = type_value.type.name
+                    in_package = package_name in type_value.type.fullname
+                elif hasattr(key, "name"):
+                    name = key.name
+                    fullname = ""
+
+                    if (
+                        hasattr(key, "node")
+                        and isinstance(key.node, mypy_nodes.TypeAlias)
+                        and isinstance(key.node.target, mypy_types.Instance)
+                    ):
+                        fullname = key.node.target.type.fullname
+                    elif isinstance(type_value, mypy_types.CallableType):
+                        bound_args = type_value.bound_args
+                        if bound_args and hasattr(bound_args[0], "type"):
+                            fullname = bound_args[0].type.fullname  # type: ignore[union-attr]
+                    elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
+                        fullname = key.node.fullname
+
+                    if not fullname:
+                        continue
+
+                    in_package = package_name in fullname
+            else:
+                in_package = package_name in key.fullname
+                if in_package:
+                    type_value = result_types[key]
+                    name = key.name
+                else:
+                    continue
+
+            # Try to find the original qname (fullname) of the alias
+            if in_package:
+                if (
+                    isinstance(type_value, mypy_types.CallableType)
+                    and type_value.bound_args
+                    and hasattr(type_value.bound_args[0], "type")
+                ):
+                    fullname = type_value.bound_args[0].type.fullname  # type: ignore[union-attr]
+                elif isinstance(type_value, mypy_types.Instance):
+                    fullname = type_value.type.fullname
+                elif isinstance(key, mypy_nodes.TypeVarExpr):
+                    fullname = key.fullname
+                elif isinstance(key, mypy_nodes.NameExpr) and isinstance(key.node, mypy_nodes.Var):
+                    fullname = key.node.fullname
+                else:  # pragma: no cover
+                    msg = f"Received unexpected type while searching for aliases. Skipping for '{name}'."
+                    logging.info(msg)
+                    continue
+
+                aliases[name].add(fullname)
+
+    return aliases
+
+# ############### Functions for finding referenced functions ####################
+
 def _update_class_subclass_relation(api: API) -> None:
     """
         For each class, updates each superclass by appending the id of the class to subclasses list of the superclass
@@ -122,69 +260,6 @@ def _update_class_subclass_relation(api: API) -> None:
             super_classes.append(class_to_append)
         for super_class in super_classes:
             super_class.subclasses.append(class_def.id)
-
-def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType | NamedSequenceType] | None:
-    """
-        Iterates through a nested type recursively, to find a NamedType
-
-        Parameters
-        ----------
-        nested_type : AbstractType
-            Abstract class for types
-        
-        Returns
-        ----------
-        type : list[NamedType] | None
-    """
-    if isinstance(nested_type, NamedType):
-        return [nested_type]
-    elif isinstance(nested_type, ListType):
-        if len(nested_type.types) == 0:
-            return None
-        return _get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
-    elif isinstance(nested_type, NamedSequenceType):
-        if len(nested_type.types) == 0:
-            return None
-        return [nested_type]
-    elif isinstance(nested_type, DictType):
-        return _get_named_types_from_nested_type(nested_type.value_type)
-    elif isinstance(nested_type, SetType):
-        if len(nested_type.types) == 0:
-            return None
-        return _get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
-    elif isinstance(nested_type, FinalType):
-        return _get_named_types_from_nested_type(nested_type.type_)
-    elif isinstance(nested_type, CallableType):
-        return _get_named_types_from_nested_type(nested_type.return_type)
-    elif isinstance(nested_type, UnionType):
-        result = []
-        for type in nested_type.types:
-            extracted_types = _get_named_types_from_nested_type(type)
-            if extracted_types is None:
-                continue
-            result.extend(extracted_types)
-        return result
-    elif isinstance(nested_type, TupleType):
-        result = []
-        for type in nested_type.types:
-            extracted_types = _get_named_types_from_nested_type(type)
-            if extracted_types is None:
-                continue
-            result.extend(extracted_types)
-        return result
-
-    for member_name in dir(nested_type):
-        if not member_name.startswith("__"):
-            member = getattr(nested_type, member_name)
-            if isinstance(member, AbstractType):
-                return _get_named_types_from_nested_type(member)
-            elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], AbstractType):
-                types: list[NamedType | NamedSequenceType] = []
-                for type in member:
-                    named_type = _get_named_types_from_nested_type(type)
-                    if named_type is not None:
-                        types.extend(named_type)
-                return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
 def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class, visited_classes: list[str]) -> Attribute | None:
     attribute = list(filter(lambda attribute: attribute.name == attribute_name, current_class.attributes))
@@ -223,81 +298,6 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
         return None
     method = method[0]
     return method
-
-def _get_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
-    closure = function.closures.get(function_name, None)
-    if closure is not None:
-        return closure
-    global_function = _get_global_function(api, function_name, function, imported_module_name)
-    return global_function
-
-def _get_global_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
-    # get module
-    module = _get_module_by_id(api, function.module_id_which_contains_def)
-    if module is None:
-        return None
-    
-    global_functions = module.global_functions
-    found_global_function: Function | None = None
-    for global_function in global_functions:
-        if function_name == global_function.name:
-            found_global_function = global_function
-            break
-    if found_global_function is None:
-        # there was no global function with given name in current module, so we look in imported modules
-        found_global_function = _get_imported_global_function(api, function_name, function, imported_module_name)
-        if found_global_function is None:
-            return None
-    
-    return found_global_function
-
-def _get_imported_global_function(api: API, imported_function_name: str, function: Function, imported_module_name: str | None = None):
-    # get module
-    module = _get_module_by_id(api, function.module_id_which_contains_def)
-    if module is None:
-        return None
-    
-    imports = module.qualified_imports
-    found_import: QualifiedImport | None = None
-    for qualified_import in imports:
-        # TODO pm already look for global functions here
-        alias = qualified_import.alias
-        qname = qualified_import.qualified_name
-        if imported_function_name == qname.split(".")[-1] or imported_function_name == alias or imported_function_name == qname:
-            found_import = qualified_import
-            break
-        if imported_module_name is not None:
-            if imported_module_name.split(".")[-1] == qname.split(".")[-1]:
-                found_import = qualified_import
-                break
-            if imported_module_name.split(".")[-1] == alias:
-                found_import = qualified_import
-                break
-
-    if found_import is None:
-        return None
-    
-    imported_module = _get_module_by_id(api, ".".join(found_import.qualified_name.split(".")[:-1]))
-    if imported_module is None:
-        if imported_module_name is not None:
-            imported_module = _get_module_by_id(api, imported_module_name)
-        if imported_module is None and "." not in found_import.qualified_name:  # then function is imported like this from . import global_function
-            # then __init__.py is the module that contains the imported function
-            imported_module = _get_module_by_id(api, ".".join(function.module_id_which_contains_def.split(".")[:-1]))
-        if imported_module is None:
-            return None
-        
-    
-    global_functions = imported_module.global_functions
-    found_global_function: Function | None = None
-    for global_function in global_functions:
-        if imported_function_name == global_function.name:
-            found_global_function = global_function
-            break
-    if found_global_function is None:
-        return None
-    
-    return found_global_function
 
 def _find_correct_type_by_path_to_call_reference(api: API):
     """
@@ -741,94 +741,6 @@ def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
 
                 call_reference.possibly_referenced_functions.extend(referenced_functions)
 
-def _get_class_by_id(api: API, class_id: str) -> Class | None:
-    class_name = class_id.split(".")[-1]
-    correct_id = "/".join(class_id.split("."))
-    result_class: Class | None = api.classes.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
-    if result_class is not None:
-        return result_class
-    if correct_id.startswith(api.path_to_package):
-        result_class = api.classes.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_class = api.classes.get(correct_id, None)
-    if result_class is not None:
-        return result_class
-
-    correct_id = "/".join(class_id.split("."))
-    if not correct_id.startswith(api.path_to_package):
-        correct_id = api.path_to_package + correct_id
-    found_id = False
-    for key in api.reexport_map.keys():
-        if key.endswith(f".{class_name}"):
-            for module in api.reexport_map[key]:
-                module_id = module.id
-                if module_id in correct_id:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-                if len(api.reexport_map[key]) == 1:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-            if found_id:
-                break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
-            # break
-    if correct_id.startswith(api.path_to_package):
-        result_class = api.classes.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_class = api.classes.get(correct_id, None)
-    return result_class
-
-def _get_module_by_id(api: API, module_id: str) -> Module | None:
-    module_name = module_id.split(".")[-1]
-    correct_id = "/".join(module_id.split("."))
-    result_module: Module | None = api.modules.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
-    if result_module is not None:
-        return result_module
-    if correct_id.startswith(api.path_to_package):
-        result_module = api.modules.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_module = api.modules.get(correct_id, None)
-    if result_module is not None:
-        return result_module
-
-    correct_id = "/".join(module_id.split("."))
-    if not correct_id.startswith(api.path_to_package):
-        correct_id = api.path_to_package + correct_id
-    found_id = False
-    for key in api.reexport_map.keys():
-        if key.endswith(f".{module_name}"):
-            for module in api.reexport_map[key]:
-                module_id = module.id
-                if module_id in correct_id:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-                if len(api.reexport_map[key]) == 1:
-                    correct_id = "/".join(f"{module_id}/{key}".split("."))
-                    found_id = True
-                    break
-            if found_id:
-                break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
-            # break
-    if correct_id.startswith(api.path_to_package):
-        result_module = api.modules.get(correct_id, None)
-    else:
-        correct_id = api.path_to_package + correct_id
-        result_module = api.modules.get(correct_id, None)
-    return result_module
-
 def _get_referenced_function_from_super_classes(
     api: API, 
     call_reference: CallReference, 
@@ -945,138 +857,231 @@ def _get_referenced_functions_from_class_and_subclasses(
                 referenced_functions
             )
 
-def _get_nearest_init_dirs(root: Path) -> list[Path]:
-    """Check for the nearest directory with an __init__.py file.
 
-    For the Mypy parser we need to start at a directory with an __init__.py file. Directories without __init__.py files
-    will be skipped py Mypy.
+# ################ Utilities for finding referenced functions #######################
+
+def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType | NamedSequenceType] | None:
     """
-    all_inits = list(root.glob("./**/__init__.py"))
-    shortest_init_paths = []
-    shortest_len = -1
-    for init in all_inits:
-        path_len = len(init.parts)
-        if shortest_len == -1:
-            shortest_len = path_len
-            shortest_init_paths.append(init.parent)
-        elif path_len <= shortest_len:  # pragma: no cover
-            if path_len == shortest_len:
-                shortest_init_paths.append(init.parent)
-            else:
-                shortest_len = path_len
-                shortest_init_paths = [init.parent]
+        Iterates through a nested type recursively, to find a NamedType
 
-    return shortest_init_paths
-
-
-def _get_mypy_build(files: list[str]) -> mypy_build.BuildResult:
-    """Build a mypy checker and return the build result."""
-    mypyfiles, opt = mypy_main.process_options(files)
-
-    # Disable the memory optimization of freeing ASTs when possible
-    opt.preserve_asts = True
-    # Only check parts of the code that have changed since the last check
-    opt.fine_grained_incremental = True
-    # Export inferred types for all expressions
-    opt.export_types = True
-
-    return mypy_build.build(mypyfiles, options=opt)
-
-
-def _get_mypy_asts(
-    build_result: mypy_build.BuildResult,
-    files: list[str],
-    package_paths: list[str],
-) -> list[mypy_nodes.MypyFile]:
-    """Get all module ASTs from Mypy.
-
-    We have to return the package ASTs first though, b/c we need to parse all reexports first.
+        Parameters
+        ----------
+        nested_type : AbstractType
+            Abstract class for types
+        
+        Returns
+        ----------
+        type : list[NamedType] | None
     """
-    package_ast = []
-    module_ast = []
-    for graph_key in build_result.graph:
-        ast = build_result.graph[graph_key].tree
+    if isinstance(nested_type, NamedType):
+        return [nested_type]
+    elif isinstance(nested_type, ListType):
+        if len(nested_type.types) == 0:
+            return None
+        return _get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
+    elif isinstance(nested_type, NamedSequenceType):
+        if len(nested_type.types) == 0:
+            return None
+        return [nested_type]
+    elif isinstance(nested_type, DictType):
+        return _get_named_types_from_nested_type(nested_type.value_type)
+    elif isinstance(nested_type, SetType):
+        if len(nested_type.types) == 0:
+            return None
+        return _get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
+    elif isinstance(nested_type, FinalType):
+        return _get_named_types_from_nested_type(nested_type.type_)
+    elif isinstance(nested_type, CallableType):
+        return _get_named_types_from_nested_type(nested_type.return_type)
+    elif isinstance(nested_type, UnionType):
+        result = []
+        for type in nested_type.types:
+            extracted_types = _get_named_types_from_nested_type(type)
+            if extracted_types is None:
+                continue
+            result.extend(extracted_types)
+        return result
+    elif isinstance(nested_type, TupleType):
+        result = []
+        for type in nested_type.types:
+            extracted_types = _get_named_types_from_nested_type(type)
+            if extracted_types is None:
+                continue
+            result.extend(extracted_types)
+        return result
 
-        if ast is None:  # pragma: no cover
-            raise ValueError
+    for member_name in dir(nested_type):
+        if not member_name.startswith("__"):
+            member = getattr(nested_type, member_name)
+            if isinstance(member, AbstractType):
+                return _get_named_types_from_nested_type(member)
+            elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], AbstractType):
+                types: list[NamedType | NamedSequenceType] = []
+                for type in member:
+                    named_type = _get_named_types_from_nested_type(type)
+                    if named_type is not None:
+                        types.extend(named_type)
+                return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
-        if ast.path.endswith("__init__.py"):
-            ast_package_path = ast.path.split("__init__.py")[0][:-1]
-            if ast_package_path in package_paths:
-                package_ast.append(ast)
-        elif ast.path in files:
-            module_ast.append(ast)
+def _get_class_by_id(api: API, class_id: str) -> Class | None:
+    class_name = class_id.split(".")[-1]
+    correct_id = "/".join(class_id.split("."))
+    result_class: Class | None = api.classes.get(correct_id, None)
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
+    if result_class is not None:
+        return result_class
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    if result_class is not None:
+        return result_class
 
-    # The packages need to be checked first, since we have to get the reexported data first
-    return package_ast + module_ast
+    correct_id = "/".join(class_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
+    for key in api.reexport_map.keys():
+        if key.endswith(f".{class_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
+            # break
+    if correct_id.startswith(api.path_to_package):
+        result_class = api.classes.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_class = api.classes.get(correct_id, None)
+    return result_class
 
+def _get_module_by_id(api: API, module_id: str) -> Module | None:
+    module_name = module_id.split(".")[-1]
+    correct_id = "/".join(module_id.split("."))
+    result_module: Module | None = api.modules.get(correct_id, None)
+    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
+    if result_module is not None:
+        return result_module
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    if result_module is not None:
+        return result_module
 
-def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
-    """Get the needed aliases from Mypy.
+    correct_id = "/".join(module_id.split("."))
+    if not correct_id.startswith(api.path_to_package):
+        correct_id = api.path_to_package + correct_id
+    found_id = False
+    for key in api.reexport_map.keys():
+        if key.endswith(f".{module_name}"):
+            for module in api.reexport_map[key]:
+                module_id = module.id
+                if module_id in correct_id:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+                if len(api.reexport_map[key]) == 1:
+                    correct_id = "/".join(f"{module_id}/{key}".split("."))
+                    found_id = True
+                    break
+            if found_id:
+                break
+            # module = api.reexport_map[key]
+            # test = module.copy().pop()
+            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
+            # break
+    if correct_id.startswith(api.path_to_package):
+        result_module = api.modules.get(correct_id, None)
+    else:
+        correct_id = api.path_to_package + correct_id
+        result_module = api.modules.get(correct_id, None)
+    return result_module
 
-    Mypy has a long list of all aliases it has found. We have to parse the list and get only the aliases we need for our
-    package we analyze.
-    """
-    aliases: dict[str, set[str]] = defaultdict(set)
-    for key in result_types:
-        if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
-            in_package = False
-            name = ""
+def _get_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
+    closure = function.closures.get(function_name, None)
+    if closure is not None:
+        return closure
+    global_function = _get_global_function(api, function_name, function, imported_module_name)
+    return global_function
 
-            if isinstance(key, mypy_nodes.NameExpr):
-                type_value = result_types[key]
+def _get_global_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
+    # get module
+    module = _get_module_by_id(api, function.module_id_which_contains_def)
+    if module is None:
+        return None
+    
+    global_functions = module.global_functions
+    found_global_function: Function | None = None
+    for global_function in global_functions:
+        if function_name == global_function.name:
+            found_global_function = global_function
+            break
+    if found_global_function is None:
+        # there was no global function with given name in current module, so we look in imported modules
+        found_global_function = _get_imported_global_function(api, function_name, function, imported_module_name)
+        if found_global_function is None:
+            return None
+    
+    return found_global_function
 
-                if hasattr(type_value, "type") and getattr(type_value, "type", None) is not None:
-                    name = type_value.type.name
-                    in_package = package_name in type_value.type.fullname
-                elif hasattr(key, "name"):
-                    name = key.name
-                    fullname = ""
+def _get_imported_global_function(api: API, imported_function_name: str, function: Function, imported_module_name: str | None = None):
+    # get module
+    module = _get_module_by_id(api, function.module_id_which_contains_def)
+    if module is None:
+        return None
+    
+    imports = module.qualified_imports
+    found_import: QualifiedImport | None = None
+    for qualified_import in imports:
+        # TODO pm already look for global functions here
+        alias = qualified_import.alias
+        qname = qualified_import.qualified_name
+        if imported_function_name == qname.split(".")[-1] or imported_function_name == alias or imported_function_name == qname:
+            found_import = qualified_import
+            break
+        if imported_module_name is not None:
+            if imported_module_name.split(".")[-1] == qname.split(".")[-1]:
+                found_import = qualified_import
+                break
+            if imported_module_name.split(".")[-1] == alias:
+                found_import = qualified_import
+                break
 
-                    if (
-                        hasattr(key, "node")
-                        and isinstance(key.node, mypy_nodes.TypeAlias)
-                        and isinstance(key.node.target, mypy_types.Instance)
-                    ):
-                        fullname = key.node.target.type.fullname
-                    elif isinstance(type_value, mypy_types.CallableType):
-                        bound_args = type_value.bound_args
-                        if bound_args and hasattr(bound_args[0], "type"):
-                            fullname = bound_args[0].type.fullname  # type: ignore[union-attr]
-                    elif hasattr(key, "node") and isinstance(key.node, mypy_nodes.Var):
-                        fullname = key.node.fullname
-
-                    if not fullname:
-                        continue
-
-                    in_package = package_name in fullname
-            else:
-                in_package = package_name in key.fullname
-                if in_package:
-                    type_value = result_types[key]
-                    name = key.name
-                else:
-                    continue
-
-            # Try to find the original qname (fullname) of the alias
-            if in_package:
-                if (
-                    isinstance(type_value, mypy_types.CallableType)
-                    and type_value.bound_args
-                    and hasattr(type_value.bound_args[0], "type")
-                ):
-                    fullname = type_value.bound_args[0].type.fullname  # type: ignore[union-attr]
-                elif isinstance(type_value, mypy_types.Instance):
-                    fullname = type_value.type.fullname
-                elif isinstance(key, mypy_nodes.TypeVarExpr):
-                    fullname = key.fullname
-                elif isinstance(key, mypy_nodes.NameExpr) and isinstance(key.node, mypy_nodes.Var):
-                    fullname = key.node.fullname
-                else:  # pragma: no cover
-                    msg = f"Received unexpected type while searching for aliases. Skipping for '{name}'."
-                    logging.info(msg)
-                    continue
-
-                aliases[name].add(fullname)
-
-    return aliases
+    if found_import is None:
+        return None
+    
+    imported_module = _get_module_by_id(api, ".".join(found_import.qualified_name.split(".")[:-1]))
+    if imported_module is None:
+        if imported_module_name is not None:
+            imported_module = _get_module_by_id(api, imported_module_name)
+        if imported_module is None and "." not in found_import.qualified_name:  # then function is imported like this from . import global_function
+            # then __init__.py is the module that contains the imported function
+            imported_module = _get_module_by_id(api, ".".join(function.module_id_which_contains_def.split(".")[:-1]))
+        if imported_module is None:
+            return None
+        
+    
+    global_functions = imported_module.global_functions
+    found_global_function: Function | None = None
+    for global_function in global_functions:
+        if imported_function_name == global_function.name:
+            found_global_function = global_function
+            break
+    if found_global_function is None:
+        return None
+    
+    return found_global_function

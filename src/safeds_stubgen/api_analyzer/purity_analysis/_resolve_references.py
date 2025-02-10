@@ -318,6 +318,9 @@ class ReferenceResolver:
         
         # if call reference is none then this call reference could not be found
         if call_reference_api is None:  
+            with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+                file.write(f"No Callref: {str(call_reference_id)} \n")
+                file.write(str(function_api.body.call_references))
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True, [], None)

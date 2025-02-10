@@ -372,11 +372,13 @@ class MyPyAstVisitor:
 
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
+        # analyze body for types of receivers of call references
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
+            # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
             with open("evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
                 file.write(f"Recursion Error: {str(err)} \n")
             if node.body is not None:
@@ -420,6 +422,142 @@ class MyPyAstVisitor:
             closures=closures,
         )
         self.__declaration_stack.append(function)
+
+    def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
+        function = self.__declaration_stack.pop()
+        if not isinstance(function, Function):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+
+            # Add the data of the function and its results to the API class
+            self.api.add_function(function)
+            self.api.add_results(function.results)
+
+            for parameter in function.parameters:
+                self.api.add_parameter(parameter)
+
+            # Ignore nested functions for now
+            if isinstance(parent, Module):
+                parent.add_function(function)
+            elif isinstance(parent, Class):
+                if function.name == "__init__":
+                    parent.add_constructor(function)
+                else:
+                    parent.add_method(function)
+
+    def enter_enumdef(self, node: mp_nodes.ClassDef) -> None:
+        id_ = self._create_id_from_stack(node.name)
+        self.__declaration_stack.append(
+            Enum(
+                id=id_,
+                name=node.name,
+                docstring=self.docstring_parser.get_class_documentation(node),
+            ),
+        )
+
+    def leave_enumdef(self, _: mp_nodes.ClassDef) -> None:
+        enum = self.__declaration_stack.pop()
+        if not isinstance(enum, Enum):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+
+            # Ignore nested functions for now
+            if isinstance(parent, Module):
+                self.api.add_enum(enum)
+                parent.add_enum(enum)
+
+    def enter_assignmentstmt(self, node: mp_nodes.AssignmentStmt) -> None:
+        # Assignments are attributes or enum instances
+        parent = self.__declaration_stack[-1]
+        assignments: list[Attribute | EnumInstance] = []
+
+        for lvalue in node.lvalues:
+            if isinstance(lvalue, mp_nodes.IndexExpr):
+                # e.g.: `self.obj.ob_dict['index'] = "some value"`
+                continue
+
+            if isinstance(parent, Class):
+                is_type_var = (
+                    hasattr(node, "rvalue")
+                    and hasattr(node.rvalue, "analyzed")
+                    and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
+                )
+                for assignment in self._parse_attributes(
+                    lvalue,
+                    node.unanalyzed_type,
+                    is_static=True,
+                    is_type_var=is_type_var,
+                ):
+                    assignments.append(assignment)
+            elif isinstance(parent, Function) and parent.name == "__init__":
+                grand_parent = self.__declaration_stack[-2]
+                # If the grandparent is not a class we ignore the attributes
+                if isinstance(grand_parent, Class) and not isinstance(lvalue, mp_nodes.NameExpr):
+                    # Ignore non instance attributes in __init__ classes
+                    for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
+                        assignments.append(assignment)
+
+            elif isinstance(parent, Enum):
+                names = []
+                if hasattr(lvalue, "items"):
+                    for item in lvalue.items:
+                        names.append(item.name)
+                elif hasattr(lvalue, "name"):
+                    names.append(lvalue.name)
+                else:  # pragma: no cover
+                    raise AttributeError("Expected lvalue to have attribtue 'name'.")
+
+                for name in names:
+                    assignments.append(
+                        EnumInstance(
+                            id=f"{parent.id}/{name}",
+                            name=name,
+                        ),
+                    )
+
+        self.__declaration_stack.append(assignments)
+
+    def leave_assignmentstmt(self, _: mp_nodes.AssignmentStmt) -> None:
+        # Assignments are attributes or enum instances
+        assignments = self.__declaration_stack.pop()
+
+        if not isinstance(assignments, list):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+            assert isinstance(parent, Function | Class | Enum)
+
+            for assignment in assignments:
+                if isinstance(assignment, Attribute):
+                    if isinstance(parent, Function):
+                        self.api.add_attribute(assignment)
+                        # Add the attributes to the (grand)parent class
+                        grandparent = self.__declaration_stack[-2]
+
+                        if not isinstance(grandparent, Class):  # pragma: no cover
+                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
+
+                        grandparent.add_attribute(assignment)
+                    elif isinstance(parent, Class):
+                        self.api.add_attribute(assignment)
+                        parent.add_attribute(assignment)
+
+                elif isinstance(assignment, EnumInstance):
+                    if isinstance(parent, Enum):
+                        self.api.add_enum_instance(assignment)
+                        parent.add_enum_instance(assignment)
+
+                else:  # pragma: no cover
+                    raise TypeError("Unexpected value type for assignments")
+
+    # ############################## Utilities ############################## #
+
+    # #### Function body analysis utilities
 
     def _extract_closures(self, body_block: mp_nodes.Block, parameter_of_func: dict[str, Parameter]) -> dict[str, Function]:
         closures: dict[str, Function] = {}
@@ -891,7 +1029,7 @@ class MyPyAstVisitor:
         possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
             possible_reason_for_no_found_functions += "Type node is none "
-            call_receiver_type = node
+            call_receiver_type = "None"
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
@@ -1199,6 +1337,10 @@ class MyPyAstVisitor:
         elif isinstance(type, str):
             full_name = type
         
+        if isinstance(full_name, mp_types.NoneType):
+            full_name = "None"
+        if not isinstance(full_name, str):
+            full_name = ""
         call_receiver = CallReceiver(
             full_name=full_name, 
             type=type, 
@@ -1216,141 +1358,6 @@ class MyPyAstVisitor:
         id = f"{function_name}.{expr.line}.{expr.column}"
         if call_references.get(id) is None:
             call_references[id] = call_reference
-
-
-    def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
-        function = self.__declaration_stack.pop()
-        if not isinstance(function, Function):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-
-            # Add the data of the function and its results to the API class
-            self.api.add_function(function)
-            self.api.add_results(function.results)
-
-            for parameter in function.parameters:
-                self.api.add_parameter(parameter)
-
-            # Ignore nested functions for now
-            if isinstance(parent, Module):
-                parent.add_function(function)
-            elif isinstance(parent, Class):
-                if function.name == "__init__":
-                    parent.add_constructor(function)
-                else:
-                    parent.add_method(function)
-
-    def enter_enumdef(self, node: mp_nodes.ClassDef) -> None:
-        id_ = self._create_id_from_stack(node.name)
-        self.__declaration_stack.append(
-            Enum(
-                id=id_,
-                name=node.name,
-                docstring=self.docstring_parser.get_class_documentation(node),
-            ),
-        )
-
-    def leave_enumdef(self, _: mp_nodes.ClassDef) -> None:
-        enum = self.__declaration_stack.pop()
-        if not isinstance(enum, Enum):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-
-            # Ignore nested functions for now
-            if isinstance(parent, Module):
-                self.api.add_enum(enum)
-                parent.add_enum(enum)
-
-    def enter_assignmentstmt(self, node: mp_nodes.AssignmentStmt) -> None:
-        # Assignments are attributes or enum instances
-        parent = self.__declaration_stack[-1]
-        assignments: list[Attribute | EnumInstance] = []
-
-        for lvalue in node.lvalues:
-            if isinstance(lvalue, mp_nodes.IndexExpr):
-                # e.g.: `self.obj.ob_dict['index'] = "some value"`
-                continue
-
-            if isinstance(parent, Class):
-                is_type_var = (
-                    hasattr(node, "rvalue")
-                    and hasattr(node.rvalue, "analyzed")
-                    and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
-                )
-                for assignment in self._parse_attributes(
-                    lvalue,
-                    node.unanalyzed_type,
-                    is_static=True,
-                    is_type_var=is_type_var,
-                ):
-                    assignments.append(assignment)
-            elif isinstance(parent, Function) and parent.name == "__init__":
-                grand_parent = self.__declaration_stack[-2]
-                # If the grandparent is not a class we ignore the attributes
-                if isinstance(grand_parent, Class) and not isinstance(lvalue, mp_nodes.NameExpr):
-                    # Ignore non instance attributes in __init__ classes
-                    for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
-                        assignments.append(assignment)
-
-            elif isinstance(parent, Enum):
-                names = []
-                if hasattr(lvalue, "items"):
-                    for item in lvalue.items:
-                        names.append(item.name)
-                elif hasattr(lvalue, "name"):
-                    names.append(lvalue.name)
-                else:  # pragma: no cover
-                    raise AttributeError("Expected lvalue to have attribtue 'name'.")
-
-                for name in names:
-                    assignments.append(
-                        EnumInstance(
-                            id=f"{parent.id}/{name}",
-                            name=name,
-                        ),
-                    )
-
-        self.__declaration_stack.append(assignments)
-
-    def leave_assignmentstmt(self, _: mp_nodes.AssignmentStmt) -> None:
-        # Assignments are attributes or enum instances
-        assignments = self.__declaration_stack.pop()
-
-        if not isinstance(assignments, list):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-            assert isinstance(parent, Function | Class | Enum)
-
-            for assignment in assignments:
-                if isinstance(assignment, Attribute):
-                    if isinstance(parent, Function):
-                        self.api.add_attribute(assignment)
-                        # Add the attributes to the (grand)parent class
-                        grandparent = self.__declaration_stack[-2]
-
-                        if not isinstance(grandparent, Class):  # pragma: no cover
-                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
-
-                        grandparent.add_attribute(assignment)
-                    elif isinstance(parent, Class):
-                        self.api.add_attribute(assignment)
-                        parent.add_attribute(assignment)
-
-                elif isinstance(assignment, EnumInstance):
-                    if isinstance(parent, Enum):
-                        self.api.add_enum_instance(assignment)
-                        parent.add_enum_instance(assignment)
-
-                else:  # pragma: no cover
-                    raise TypeError("Unexpected value type for assignments")
-
-    # ############################## Utilities ############################## #
 
     # #### Result utilities
 
