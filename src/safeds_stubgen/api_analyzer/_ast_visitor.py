@@ -997,7 +997,6 @@ class MyPyAstVisitor:
         
         found_expression = False
         for member_name in dir(expr):
-            # TODO pm if no Expression was found, then this is the final expression and a call reference needs to be added!!!!!
             if not member_name.startswith("__"):
                 member = getattr(expr, member_name, None)
                 if isinstance(member, mp_nodes.Expression):
