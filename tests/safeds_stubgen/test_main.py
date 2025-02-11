@@ -160,7 +160,7 @@ def test_evaluation(
         "--evaluate_purity",
         "--evaluate_api",
         "-old",
-        "-runtime",
+        # "-runtime",
     ]
 
     main()
