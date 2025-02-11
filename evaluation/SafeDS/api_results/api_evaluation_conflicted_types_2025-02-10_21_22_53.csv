@@ -1,0 +1,27 @@
+Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+safeds,safeds.data.image.containers._image,109,55,MemberExpr,object,,"Image, object",2025-02-10 21:33:31.905641
+safeds,safeds.data.image.containers._image,383,69,OpExpr,float,,OpExpr,2025-02-10 21:33:32.126563
+safeds,safeds.data.image.containers._image,389,69,OpExpr,float,,OpExpr,2025-02-10 21:33:32.136526
+safeds,safeds.data.image.containers._image,454,67,OpExpr,float,,OpExpr,2025-02-10 21:33:32.175578
+safeds,safeds.data.image.containers._image,460,67,OpExpr,float,,OpExpr,2025-02-10 21:33:32.187296
+safeds,safeds.data.image.containers._image,496,63,OpExpr,float,,OpExpr,2025-02-10 21:33:32.225686
+safeds,safeds.data.image.containers._image,496,101,OpExpr,float,,OpExpr,2025-02-10 21:33:32.229697
+safeds,safeds.data.image.containers._image,554,68,OpExpr,float,,OpExpr,2025-02-10 21:33:32.263646
+safeds,safeds.data.image.containers._image,560,68,OpExpr,float,,OpExpr,2025-02-10 21:33:32.275534
+safeds,safeds.data.tabular.containers._column,81,23,ConditionalExpr,"UnionType[ColumnType, None]",,ConditionalExpr,2025-02-10 21:33:32.390921
+safeds,safeds.data.tabular.containers._column,109,32,ConditionalExpr,"UnionType[List[T], None]",,ConditionalExpr,2025-02-10 21:33:32.405336
+safeds,safeds.data.tabular.containers._column,184,19,IndexExpr,"UnionType[int, slice]",,Column,2025-02-10 21:33:32.443532
+safeds,safeds.data.tabular.containers._column,191,19,CallExpr,"UnionType[int, slice]",,"bool, Column, UnionType[int, slice]",2025-02-10 21:33:32.461080
+safeds,safeds.data.tabular.containers._column,191,19,IndexExpr,"UnionType[int, slice]",,Column,2025-02-10 21:33:32.464589
+safeds,safeds.data.tabular.containers._column,388,15,IndexExpr,int,,Column,2025-02-10 21:33:32.542195
+safeds,safeds.data.tabular.containers._column,418,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-02-10 21:33:32.547217
+safeds,safeds.data.tabular.containers._column,444,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-02-10 21:33:32.557530
+safeds,safeds.data.tabular.containers._column,471,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-02-10 21:33:32.564482
+safeds,safeds.data.tabular.containers._column,471,19,UnaryExpr,"Callable[[T], bool]",,"Any, Callable[[T], bool]",2025-02-10 21:33:32.568558
+safeds,safeds.data.tabular.containers._column,581,11,OpExpr,Column,,OpExpr,2025-02-10 21:33:52.328651
+safeds,safeds.data.tabular.containers._table,618,12,IndexExpr,str,,Table,2025-02-10 21:33:52.910665
+safeds,safeds.data.tabular.containers._table,897,8,IndexExpr,Column,,DataFrame,2025-02-10 21:33:52.993799
+safeds,safeds.data.tabular.containers._table,1120,16,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-02-10 21:33:53.072743
+safeds,safeds.data.tabular.containers._table,1120,48,CallExpr,"Callable[[Row], _T]",,"Dict[_T, Table], Row, Callable[[Row], _T]",2025-02-10 21:33:53.074745
+safeds,safeds.data.tabular.containers._table,1120,48,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-02-10 21:33:53.075713
+safeds,safeds.data.tabular.containers._table,1122,16,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-02-10 21:33:53.077746

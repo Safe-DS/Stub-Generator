@@ -15,7 +15,7 @@ import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen._helpers import get_reexported_by
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
-from safeds_stubgen._evaluation import ApiEvaluation
+from evaluation._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -372,11 +372,13 @@ class MyPyAstVisitor:
 
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
+        # analyze body for types of receivers of call references
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
+            # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
             with open("evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
                 file.write(f"Recursion Error: {str(err)} \n")
             if node.body is not None:
@@ -420,6 +422,142 @@ class MyPyAstVisitor:
             closures=closures,
         )
         self.__declaration_stack.append(function)
+
+    def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
+        function = self.__declaration_stack.pop()
+        if not isinstance(function, Function):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+
+            # Add the data of the function and its results to the API class
+            self.api.add_function(function)
+            self.api.add_results(function.results)
+
+            for parameter in function.parameters:
+                self.api.add_parameter(parameter)
+
+            # Ignore nested functions for now
+            if isinstance(parent, Module):
+                parent.add_function(function)
+            elif isinstance(parent, Class):
+                if function.name == "__init__":
+                    parent.add_constructor(function)
+                else:
+                    parent.add_method(function)
+
+    def enter_enumdef(self, node: mp_nodes.ClassDef) -> None:
+        id_ = self._create_id_from_stack(node.name)
+        self.__declaration_stack.append(
+            Enum(
+                id=id_,
+                name=node.name,
+                docstring=self.docstring_parser.get_class_documentation(node),
+            ),
+        )
+
+    def leave_enumdef(self, _: mp_nodes.ClassDef) -> None:
+        enum = self.__declaration_stack.pop()
+        if not isinstance(enum, Enum):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+
+            # Ignore nested functions for now
+            if isinstance(parent, Module):
+                self.api.add_enum(enum)
+                parent.add_enum(enum)
+
+    def enter_assignmentstmt(self, node: mp_nodes.AssignmentStmt) -> None:
+        # Assignments are attributes or enum instances
+        parent = self.__declaration_stack[-1]
+        assignments: list[Attribute | EnumInstance] = []
+
+        for lvalue in node.lvalues:
+            if isinstance(lvalue, mp_nodes.IndexExpr):
+                # e.g.: `self.obj.ob_dict['index'] = "some value"`
+                continue
+
+            if isinstance(parent, Class):
+                is_type_var = (
+                    hasattr(node, "rvalue")
+                    and hasattr(node.rvalue, "analyzed")
+                    and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
+                )
+                for assignment in self._parse_attributes(
+                    lvalue,
+                    node.unanalyzed_type,
+                    is_static=True,
+                    is_type_var=is_type_var,
+                ):
+                    assignments.append(assignment)
+            elif isinstance(parent, Function) and parent.name == "__init__":
+                grand_parent = self.__declaration_stack[-2]
+                # If the grandparent is not a class we ignore the attributes
+                if isinstance(grand_parent, Class) and not isinstance(lvalue, mp_nodes.NameExpr):
+                    # Ignore non instance attributes in __init__ classes
+                    for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
+                        assignments.append(assignment)
+
+            elif isinstance(parent, Enum):
+                names = []
+                if hasattr(lvalue, "items"):
+                    for item in lvalue.items:
+                        names.append(item.name)
+                elif hasattr(lvalue, "name"):
+                    names.append(lvalue.name)
+                else:  # pragma: no cover
+                    raise AttributeError("Expected lvalue to have attribtue 'name'.")
+
+                for name in names:
+                    assignments.append(
+                        EnumInstance(
+                            id=f"{parent.id}/{name}",
+                            name=name,
+                        ),
+                    )
+
+        self.__declaration_stack.append(assignments)
+
+    def leave_assignmentstmt(self, _: mp_nodes.AssignmentStmt) -> None:
+        # Assignments are attributes or enum instances
+        assignments = self.__declaration_stack.pop()
+
+        if not isinstance(assignments, list):  # pragma: no cover
+            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
+
+        if len(self.__declaration_stack) > 0:
+            parent = self.__declaration_stack[-1]
+            assert isinstance(parent, Function | Class | Enum)
+
+            for assignment in assignments:
+                if isinstance(assignment, Attribute):
+                    if isinstance(parent, Function):
+                        self.api.add_attribute(assignment)
+                        # Add the attributes to the (grand)parent class
+                        grandparent = self.__declaration_stack[-2]
+
+                        if not isinstance(grandparent, Class):  # pragma: no cover
+                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
+
+                        grandparent.add_attribute(assignment)
+                    elif isinstance(parent, Class):
+                        self.api.add_attribute(assignment)
+                        parent.add_attribute(assignment)
+
+                elif isinstance(assignment, EnumInstance):
+                    if isinstance(parent, Enum):
+                        self.api.add_enum_instance(assignment)
+                        parent.add_enum_instance(assignment)
+
+                else:  # pragma: no cover
+                    raise TypeError("Unexpected value type for assignments")
+
+    # ############################## Utilities ############################## #
+
+    # #### Function body analysis utilities
 
     def _extract_closures(self, body_block: mp_nodes.Block, parameter_of_func: dict[str, Parameter]) -> dict[str, Function]:
         closures: dict[str, Function] = {}
@@ -660,6 +798,10 @@ class MyPyAstVisitor:
         if isinstance(expr, mp_nodes.CallExpr):
             self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
             return
+        
+        if isinstance(expr, mp_nodes.LambdaExpr):
+            # lambda expressions have a method called expr to get the body of the lamda function
+            self.extract_expression_info(expr.expr(), parameter_of_func, call_references)
 
         for member_name in dir(expr):
             if not member_name.startswith("__") and member_name != "expanded":  # expanded stores function itself which leads to infinite recursion
@@ -884,9 +1026,21 @@ class MyPyAstVisitor:
             self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
 
     def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | str | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
+        possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
-            return
+            possible_reason_for_no_found_functions += "Type node is none "
+            call_receiver_type = "None"
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type,
+                path=path,
+                call_references=call_references
+            )
         if isinstance(node, str):
+            possible_reason_for_no_found_functions += "Mypy Node is a string "
+            if node == "None":
+                possible_reason_for_no_found_functions += f"There is no end condition for {str(expr)}  "
+                
             call_receiver_type = node
             self._set_call_reference(
                 expr=expr,
@@ -896,14 +1050,23 @@ class MyPyAstVisitor:
             )
         if isinstance(node, mp_types.Type):
             call_receiver_type = node
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_types.Type "
+            
             if isinstance(call_receiver_type, mp_types.AnyType):
+                possible_reason_for_no_found_functions += "Type is Any "
                 if call_receiver_type.missing_import_name is not None:
                     call_receiver_type = call_receiver_type.missing_import_name
+                else:
+                    possible_reason_for_no_found_functions += "No missing import name "
+            abstact_type = self.mypy_type_to_abstract_type(node)
+            named_type = self._get_named_types_from_nested_type(abstact_type)
+                
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=named_type,
                 path=path,
-                call_references=call_references
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         if isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
@@ -918,61 +1081,79 @@ class MyPyAstVisitor:
             return
         if isinstance(node, mp_nodes.FuncDef):
             call_receiver_type = None
+            possible_reason_for_no_found_functions += ""
             if node.type is not None:
+                # types = self._get_named_types_from_nested_type(self._infer_type_from_return_stmts(node))
                 call_receiver_type = node.type.ret_type  # TODO  pm refactor types with mypy_type_to_abstract_type 
-            parameter = parameter_of_func.get(node.fullname)
-            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                if parameter.type is not None:
-                    extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                elif parameter.docstring.type is not None:
-                    extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                if extracted_type is not None and len(extracted_type) == 1:
-                    call_receiver_type = extracted_type[0]
-                elif extracted_type is not None and len(extracted_type) >= 1:
-                    call_receiver_type = extracted_type
-            if isinstance(call_receiver_type, mp_types.AnyType):
-                if call_receiver_type.missing_import_name is not None:
-                    call_receiver_type = call_receiver_type.missing_import_name
-                else:
-                    call_receiver_type = node.fullname
+                parameter = parameter_of_func.get(node.fullname)
+                if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                    if parameter.type is not None:
+                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                    elif parameter.docstring.type is not None:
+                        extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                    if extracted_type is not None and len(extracted_type) == 1:
+                        call_receiver_type = extracted_type[0]
+                    elif extracted_type is not None and len(extracted_type) >= 1:
+                        call_receiver_type = extracted_type
+                elif isinstance(call_receiver_type, mp_types.AnyType):
+                    possible_reason_for_no_found_functions += "Type is Any "
+                    if call_receiver_type.missing_import_name is not None:
+                        call_receiver_type = call_receiver_type.missing_import_name
+                    else:
+                        possible_reason_for_no_found_functions += "No missing import name "
+                        call_receiver_type = node.fullname
+            else:
+                possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
+                call_receiver_type = node.fullname
 
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
-                call_references=call_references
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.Var):
-            call_receiver_type = node.type  # TODO  pm refactor types with mypy_type_to_abstract_type 
-            parameter = parameter_of_func.get(node.fullname)
-            if expr.line == 71:
-                pass
-            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                if parameter.type is not None:
-                    extracted_type = self._get_named_types_from_nested_type(parameter.type)
-                elif parameter.docstring.type is not None:
-                    extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                if extracted_type is not None and len(extracted_type) == 1:
-                    call_receiver_type = extracted_type[0]
-                elif extracted_type is not None and len(extracted_type) >= 1:
-                    call_receiver_type = extracted_type
-            if isinstance(call_receiver_type, mp_types.AnyType):
-                # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
-                # TaggedTable line 165 166, somehow mypy cant infer the type here
-                if call_receiver_type.missing_import_name is not None:
-                    call_receiver_type = call_receiver_type.missing_import_name
-                else:
-                    call_receiver_type = node.fullname
+            possible_reason_for_no_found_functions += ""
+            if node.type is not None:
+                call_receiver_type = self._get_named_types_from_nested_type(self.mypy_type_to_abstract_type(node.type))  # TODO  pm refactor types with mypy_type_to_abstract_type 
+                if (call_receiver_type is not None and len(call_receiver_type) == 1):
+                    call_receiver_type = call_receiver_type[0]
+                parameter = parameter_of_func.get(node.fullname)
+
+                if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                    if parameter.type is not None:
+                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                    elif parameter.docstring.type is not None:
+                        extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
+                    if extracted_type is not None and len(extracted_type) == 1:
+                        call_receiver_type = extracted_type[0]
+                    elif extracted_type is not None and len(extracted_type) >= 1:
+                        call_receiver_type = extracted_type
+                elif isinstance(node.type, mp_types.AnyType):
+                    # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
+                    # TaggedTable line 165 166, somehow mypy cant infer the type here
+                    possible_reason_for_no_found_functions += "Type is Any "
+                    if node.type.missing_import_name is not None:
+                        call_receiver_type = node.type.missing_import_name
+                    else:
+                        possible_reason_for_no_found_functions += "No missing import name "
+                        call_receiver_type = node.fullname
+            else:
+                possible_reason_for_no_found_functions += "Node.type was None for Var "
+                call_receiver_type = node.fullname
 
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
-                call_references=call_references
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.TypeAlias):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeAlias "
             call_receiver_type = node.target
             if isinstance(call_receiver_type, mp_types.AnyType):
                 if call_receiver_type.missing_import_name is not None:
@@ -987,50 +1168,61 @@ class MyPyAstVisitor:
             )
             return
         elif isinstance(node, mp_nodes.Decorator):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.Decorator "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.TypeVarLikeExpr):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeVarLikeExpr "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.PlaceholderNode):
             return
         elif isinstance(node, mp_nodes.OverloadedFuncDef):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.OverloadedFuncDef "
+
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.TypeInfo):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeInfo "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         elif isinstance(node, mp_nodes.MypyFile):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.MypyFile "
             call_receiver_type = node.fullname
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
             )
             return
         else:
@@ -1101,10 +1293,11 @@ class MyPyAstVisitor:
         
     def _set_call_reference(self, 
         expr: mp_nodes.Expression, 
-        type: Any | sds_types.NamedType,  # can also be List of types for union type
+        type: Any | list[sds_types.NamedType | sds_types.NamedSequenceType],  # can also be List of types for union type
         path: list[str], 
         call_references: dict[str, CallReference],
-        is_super: bool = False
+        is_super: bool = False,
+        possible_reason_for_no_found_functions: str = ""
     ):
         """
             Helper function, to set a callreference into the call_references dictionary
@@ -1115,7 +1308,7 @@ class MyPyAstVisitor:
                 Current expression, will be used to get the line and column
             full_name : str
                 The full name of the call_reference, is also used as id
-            type : Any | sds_types.NamedType
+            type : Any | list[sds_types.NamedType | sds_types.NamedSequenceType]
                 The type of the receiver, if type Any, then its the type from mypy and if NamedType then from parameter
             path : list[str]
                 The path from the receiver to the call reference
@@ -1128,15 +1321,26 @@ class MyPyAstVisitor:
             print(error)
             return
         full_name = ""
-        if isinstance(type, sds_types.NamedType):
+        if isinstance(type, list) and len(type) == 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)):
+            full_name = type[0].qname
+            type = type[0]
+        elif isinstance(type, list) and len(type) > 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)):
+            full_name = "+".join(list(map(lambda x: x.qname, type)))
+        elif isinstance(type, sds_types.NamedType):
             full_name = type.qname
         elif hasattr(type, "type"):
-            full_name = type.type.fullname
+            full_name = type.type.fullname  # type: ignore
+        elif hasattr(type, "fullname"):
+            full_name = type.fullname  # type: ignore
+        elif hasattr(type, "name"):
+            full_name = type.name  # type: ignore
         elif isinstance(type, str):
             full_name = type
-        elif hasattr(type, "fullname"):
-            full_name = type.fullname
         
+        if isinstance(full_name, mp_types.NoneType):
+            full_name = "None"
+        if not isinstance(full_name, str):
+            full_name = ""
         call_receiver = CallReceiver(
             full_name=full_name, 
             type=type, 
@@ -1148,146 +1352,12 @@ class MyPyAstVisitor:
             line=expr.line, 
             receiver=call_receiver, 
             function_name=function_name,
-            isSuperCallRef=is_super
+            isSuperCallRef=is_super,
+            reason_for_no_found_functions=possible_reason_for_no_found_functions
         )
         id = f"{function_name}.{expr.line}.{expr.column}"
         if call_references.get(id) is None:
             call_references[id] = call_reference
-
-
-    def leave_funcdef(self, _: mp_nodes.FuncDef) -> None:
-        function = self.__declaration_stack.pop()
-        if not isinstance(function, Function):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-
-            # Add the data of the function and its results to the API class
-            self.api.add_function(function)
-            self.api.add_results(function.results)
-
-            for parameter in function.parameters:
-                self.api.add_parameter(parameter)
-
-            # Ignore nested functions for now
-            if isinstance(parent, Module):
-                parent.add_function(function)
-            elif isinstance(parent, Class):
-                if function.name == "__init__":
-                    parent.add_constructor(function)
-                else:
-                    parent.add_method(function)
-
-    def enter_enumdef(self, node: mp_nodes.ClassDef) -> None:
-        id_ = self._create_id_from_stack(node.name)
-        self.__declaration_stack.append(
-            Enum(
-                id=id_,
-                name=node.name,
-                docstring=self.docstring_parser.get_class_documentation(node),
-            ),
-        )
-
-    def leave_enumdef(self, _: mp_nodes.ClassDef) -> None:
-        enum = self.__declaration_stack.pop()
-        if not isinstance(enum, Enum):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-
-            # Ignore nested functions for now
-            if isinstance(parent, Module):
-                self.api.add_enum(enum)
-                parent.add_enum(enum)
-
-    def enter_assignmentstmt(self, node: mp_nodes.AssignmentStmt) -> None:
-        # Assignments are attributes or enum instances
-        parent = self.__declaration_stack[-1]
-        assignments: list[Attribute | EnumInstance] = []
-
-        for lvalue in node.lvalues:
-            if isinstance(lvalue, mp_nodes.IndexExpr):
-                # e.g.: `self.obj.ob_dict['index'] = "some value"`
-                continue
-
-            if isinstance(parent, Class):
-                is_type_var = (
-                    hasattr(node, "rvalue")
-                    and hasattr(node.rvalue, "analyzed")
-                    and isinstance(node.rvalue.analyzed, mp_nodes.TypeVarExpr)
-                )
-                for assignment in self._parse_attributes(
-                    lvalue,
-                    node.unanalyzed_type,
-                    is_static=True,
-                    is_type_var=is_type_var,
-                ):
-                    assignments.append(assignment)
-            elif isinstance(parent, Function) and parent.name == "__init__":
-                grand_parent = self.__declaration_stack[-2]
-                # If the grandparent is not a class we ignore the attributes
-                if isinstance(grand_parent, Class) and not isinstance(lvalue, mp_nodes.NameExpr):
-                    # Ignore non instance attributes in __init__ classes
-                    for assignment in self._parse_attributes(lvalue, node.unanalyzed_type, is_static=False):
-                        assignments.append(assignment)
-
-            elif isinstance(parent, Enum):
-                names = []
-                if hasattr(lvalue, "items"):
-                    for item in lvalue.items:
-                        names.append(item.name)
-                elif hasattr(lvalue, "name"):
-                    names.append(lvalue.name)
-                else:  # pragma: no cover
-                    raise AttributeError("Expected lvalue to have attribtue 'name'.")
-
-                for name in names:
-                    assignments.append(
-                        EnumInstance(
-                            id=f"{parent.id}/{name}",
-                            name=name,
-                        ),
-                    )
-
-        self.__declaration_stack.append(assignments)
-
-    def leave_assignmentstmt(self, _: mp_nodes.AssignmentStmt) -> None:
-        # Assignments are attributes or enum instances
-        assignments = self.__declaration_stack.pop()
-
-        if not isinstance(assignments, list):  # pragma: no cover
-            raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
-        if len(self.__declaration_stack) > 0:
-            parent = self.__declaration_stack[-1]
-            assert isinstance(parent, Function | Class | Enum)
-
-            for assignment in assignments:
-                if isinstance(assignment, Attribute):
-                    if isinstance(parent, Function):
-                        self.api.add_attribute(assignment)
-                        # Add the attributes to the (grand)parent class
-                        grandparent = self.__declaration_stack[-2]
-
-                        if not isinstance(grandparent, Class):  # pragma: no cover
-                            raise TypeError(f"Expected 'Class'. Got {grandparent.__class__}.")
-
-                        grandparent.add_attribute(assignment)
-                    elif isinstance(parent, Class):
-                        self.api.add_attribute(assignment)
-                        parent.add_attribute(assignment)
-
-                elif isinstance(assignment, EnumInstance):
-                    if isinstance(parent, Enum):
-                        self.api.add_enum_instance(assignment)
-                        parent.add_enum_instance(assignment)
-
-                else:  # pragma: no cover
-                    raise TypeError("Unexpected value type for assignments")
-
-    # ############################## Utilities ############################## #
 
     # #### Result utilities
 
