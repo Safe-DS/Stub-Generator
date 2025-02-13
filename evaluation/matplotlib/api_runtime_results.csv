@@ -1,3 +1,5 @@
 Library,Full Api Analysis Runtime [s],Function Body Anaylsis Runtime [s],Average function body analysis runtime [s],Finding Referenced Functions runtime [s],Date
 matplotlib,95.22464370727539,6.81,0.0,2.0092153549194336,2025-02-07 19:19:48.577158
 matplotlib,104.20807600021362,6.5,0.0,0.0,2025-02-07 19:33:40.121543
+matplotlib,139.87352538108826,9.43,0.0,0.0,2025-02-13 18:27:51.410307
+matplotlib,163.0895495414734,9.23,0.0,0.0,2025-02-13 18:27:51.578505
