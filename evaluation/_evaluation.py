@@ -277,7 +277,7 @@ class PurityEvaluation(Evaluation):
 				"Reason for no improvement": reason_for_no_improvement,
 				"Path": ".".join(path[::-1]),
 				"Left-most receiver": str(receiver_type),
-				"Possible reason for no found functions": possible_reason_for_no_found_function,
+				"Possible reason for no found functions": possible_reason_for_no_found_function.replace("\n", ""),
 				"Date": str(datetime.now())
 			},
 		]
@@ -760,6 +760,7 @@ class PurityEvaluation(Evaluation):
 		amount_of_improvements = 0
 		largest_reduction = 0
 		if not self.old:
+			# compute additional data if type-aware purity analysis
 			for call_ref in call_reference_data:
 				isImprovement = call_ref[6]
 				reduced_amount_of_found_functions = call_ref[7]
