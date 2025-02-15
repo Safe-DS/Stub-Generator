@@ -8,7 +8,7 @@ from ._helper import (
     NamingConvention,
     _convert_name_to_convention,
     _create_name_annotation,
-    _get_shortest_public_reexport,
+    _get_shortest_public_reexport_and_alias,
     _replace_if_safeds_keyword,
 )
 
@@ -61,10 +61,10 @@ def generate_stub_data(
         if len(splitted_text) <= 2 or (len(splitted_text) == 3 and splitted_text[1].startswith("package ")):
             continue
 
-        shortest_path, alias = _get_shortest_public_reexport(
+        shortest_path, alias = _get_shortest_public_reexport_and_alias(
             reexport_map=api.reexport_map,
             name=module.name,
-            qname="",
+            qname=module.id,
             is_module=True,
         )
         if shortest_path:
@@ -105,9 +105,8 @@ def create_stub_files(
         # Create and open module file
         public_module_name = module_name.lstrip("_")
         file_path = Path(corrected_module_dir / f"{public_module_name}.sdsstub")
-        Path(file_path).touch()
 
-        with file_path.open("w", encoding="utf-8") as f:
+        with file_path.open("w+", encoding="utf-8") as f:
             f.write(module_text)
 
     created_module_paths: set[str] = set()
@@ -123,25 +122,40 @@ def _create_outside_package_class(
     naming_convention: NamingConvention,
     created_module_paths: set[str],
 ) -> set[str]:
+    """Create imported classes from outside the package.
+
+    If classes of functions from outside the analyzed package are used, like e.g. `import math`, these classes and
+    functions will be created as stubs outside the actual package we analyze.
+    """
     path_parts = class_path.split(".")
+
+    # There are cases where we could not correctly parse or find the origin of a variable, which is then put into
+    #  the imports. But since these variables have no qname and only consist of a name we cannot create seperate files
+    #  for them.
+    #  E.g.: `x: numpy.some_class; ...; return x` would have the result type parsed as just "numpy"
+    if len(path_parts) == 1:  # pragma: no cover
+        return created_module_paths
+
     class_name = path_parts.pop(-1)
     module_name = path_parts[-1]
     module_path = "/".join(path_parts)
-
-    first_creation = False
-    if module_path not in created_module_paths:
-        created_module_paths.add(module_path)
-        first_creation = True
 
     module_dir = Path(out_path / module_path)
     module_dir.mkdir(parents=True, exist_ok=True)
 
     file_path = Path(module_dir / f"{module_name}.sdsstub")
-    if Path.exists(file_path) and not first_creation:
-        with file_path.open("a", encoding="utf-8") as f:
-            f.write(_create_outside_package_class_text(class_name, naming_convention))
+
+    if Path.exists(file_path):
+        text = _create_outside_package_class_text(class_name, naming_convention)
+
+        with file_path.open("r", encoding="utf-8") as f:
+            content = f.read()
+
+        if text not in content:
+            with file_path.open("a", encoding="utf-8") as f:
+                f.write(text)
     else:
-        with file_path.open("w", encoding="utf-8") as f:
+        with file_path.open("w+", encoding="utf-8") as f:
             module_text = ""
 
             # package name & annotation
