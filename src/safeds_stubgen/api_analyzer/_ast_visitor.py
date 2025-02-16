@@ -1087,13 +1087,13 @@ class MyPyAstVisitor:
                 parameter = parameter_of_func.get(node.fullname)
                 if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                     if parameter.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        call_receiver_type = parameter.type
                     elif parameter.docstring.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                    if extracted_type is not None and len(extracted_type) == 1:
-                        call_receiver_type = extracted_type[0]
-                    elif extracted_type is not None and len(extracted_type) >= 1:
-                        call_receiver_type = extracted_type
+                        call_receiver_type = parameter.docstring.type
+                    # if extracted_type is not None and len(extracted_type) == 1:
+                    #     call_receiver_type = extracted_type[0]
+                    # elif extracted_type is not None and len(extracted_type) >= 1:
+                    #     call_receiver_type = extracted_type
                 elif isinstance(call_receiver_type, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
                     if call_receiver_type.missing_import_name is not None:
@@ -1116,20 +1116,20 @@ class MyPyAstVisitor:
         elif isinstance(node, mp_nodes.Var):
             possible_reason_for_no_found_functions += ""
             if node.type is not None:
-                call_receiver_type = self._get_named_types_from_nested_type(self.mypy_type_to_abstract_type(node.type))  # TODO  pm refactor types with mypy_type_to_abstract_type 
-                if (call_receiver_type is not None and len(call_receiver_type) == 1):
-                    call_receiver_type = call_receiver_type[0]
+                call_receiver_type = self.mypy_type_to_abstract_type(node.type)  # TODO  pm refactor types with mypy_type_to_abstract_type 
+                # if (call_receiver_type is not None and len(call_receiver_type) == 1):
+                #     call_receiver_type = call_receiver_type[0]
                 parameter = parameter_of_func.get(node.fullname)
 
                 if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                     if parameter.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.type)
+                        call_receiver_type = parameter.type
                     elif parameter.docstring.type is not None:
-                        extracted_type = self._get_named_types_from_nested_type(parameter.docstring.type)
-                    if extracted_type is not None and len(extracted_type) == 1:
-                        call_receiver_type = extracted_type[0]
-                    elif extracted_type is not None and len(extracted_type) >= 1:
-                        call_receiver_type = extracted_type
+                        call_receiver_type = parameter.docstring.type
+                    # if extracted_type is not None and len(extracted_type) == 1:
+                    #     call_receiver_type = extracted_type[0]
+                    # elif extracted_type is not None and len(extracted_type) >= 1:
+                    #     call_receiver_type = extracted_type
                 elif isinstance(node.type, mp_types.AnyType):
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                     # TaggedTable line 165 166, somehow mypy cant infer the type here
