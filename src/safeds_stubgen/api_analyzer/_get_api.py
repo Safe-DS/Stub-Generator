@@ -323,117 +323,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 global_function_directly_imported = _get_function(api, type.split(".")[-1], function)
                 if global_function_directly_imported is not None and len(call_reference.receiver.path_to_call_reference) == 2:
                     call_reference.possibly_referenced_functions.append(global_function_directly_imported)
-            # classes: list[Class] | None = []
-            # modules: list[Module] = []
-            # classes, modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
-            # if isinstance(type, list):
-            #     if isinstance(type[0], NamedType) or isinstance(type[0], NamedSequenceType):
-            #         for t in type:
-            #             class_of_receiver = _get_class_by_id(api, t.qname)
-            #             if class_of_receiver is None:
-            #                 call_reference.reason_for_no_found_functions += f"no class with qname: {t.qname} (list) | "
-            #                 call_reference.fallbackToSignatureCheck = False
-            #                 continue
-            #             classes.append(class_of_receiver)
-            #     elif hasattr(type[0], "type") and api.classes.get("/".join(type[0].type.fullname.split(".")), None) is not None:
-            #         for t in type:
-            #             class_of_receiver = _get_class_by_id(api, t.type.fullname)
-            #             if class_of_receiver is None:
-            #                 call_reference.reason_for_no_found_functions += f"no class with type.fullname: {t.type.fullname} (list) | "
-            #                 call_reference.fallbackToSignatureCheck = False
-            #                 continue
-            #             classes.append(class_of_receiver)
-            #     elif hasattr(type[0], "fullname") and api.classes.get("/".join(type[0].fullname.split(".")), None) is not None:
-            #         for t in type:
-            #             class_of_receiver = _get_class_by_id(api, t.fullname)
-            #             if class_of_receiver is None:
-            #                 call_reference.reason_for_no_found_functions += f"no class with fullname: {t.fullname} (list) | "
-            #                 call_reference.fallbackToSignatureCheck = False
-            #                 continue
-            #             classes.append(class_of_receiver)
-            #     elif isinstance(type[0], str):  # super() or static method
-            #         for t in type:
-            #             class_of_receiver = _get_class_by_id(api, t)
-            #             if class_of_receiver is None:
-            #                 call_reference.reason_for_no_found_functions += f"no class with name: {t} (list) | "
-            #                 call_reference.fallbackToSignatureCheck = False
-            #                 continue
-            #             classes.append(class_of_receiver)
-            #     elif isinstance(type[0], mypy_types.AnyType):
-            #         missing_import_name = type[0].missing_import_name
-            #         if missing_import_name is not None:
-            #             class_of_receiver = _get_class_by_id(api, missing_import_name)
-            #             if class_of_receiver is not None:
-            #                 classes.append(class_of_receiver)
-            #             else:
-            #                 call_reference.reason_for_no_found_functions += "anytype (list) and missing_import_name class not found | "
-            #                 call_reference.fallbackToSignatureCheck = False
-            #                 continue
-            #         else:
-            #             call_reference.reason_for_no_found_functions += "anytype (list) | "
-            #             call_reference.fallbackToSignatureCheck = True
-            #             continue
-            #     else:
-            #         classes.append(type)
-
-            # elif isinstance(type, NamedType) or isinstance(type, NamedSequenceType):
-            #     class_of_receiver = _get_class_by_id(api, type.qname)
-            #     if class_of_receiver is None:
-            #         call_reference.reason_for_no_found_functions += f"no class with qname: {type.qname} | "
-            #         call_reference.fallbackToSignatureCheck = False
-            #         continue
-            #     classes.append(class_of_receiver)
-            # elif hasattr(type, "type") and api.classes.get("/".join(type.type.fullname.split(".")), None) is not None:
-            #     class_of_receiver = _get_class_by_id(api, type.type.fullname)
-            #     if class_of_receiver is None:
-            #         call_reference.reason_for_no_found_functions += f"no class with type.fullname: {type.type.fullname} | "
-            #         call_reference.fallbackToSignatureCheck = False
-            #         continue
-            #     classes.append(class_of_receiver)
-            # elif hasattr(type, "fullname") and api.classes.get("/".join(type.fullname.split(".")), None) is not None:
-            #     class_of_receiver = _get_class_by_id(api, type.fullname)
-            #     if class_of_receiver is None:
-            #         call_reference.reason_for_no_found_functions += f"no class with fullname: {type.fullname} | "
-            #         call_reference.fallbackToSignatureCheck = False
-            #         continue
-            #     classes.append(class_of_receiver)
-            # elif isinstance(type, str):  # super() or static method or imported global function
-            #     class_of_receiver = _get_class_by_id(api, type)
-            #     global_function_directly_imported = _get_function(api, type.split(".")[-1], function)
-            #     imported_module = _get_module_by_id(api, type)
-
-            #     if class_of_receiver is not None:
-            #         classes.append(class_of_receiver)
-
-            #     if imported_module is not None:
-            #         classes.append(imported_module)
-
-            #     if global_function_directly_imported is not None and len(call_reference.receiver.path_to_call_reference) == 2:
-            #         call_reference.possibly_referenced_functions.append(global_function_directly_imported)
-            # elif isinstance(type, mypy_types.AnyType):
-            #     missing_import_name = type.missing_import_name
-            #     if missing_import_name is not None:
-            #         class_of_receiver = _get_class_by_id(api, missing_import_name)
-            #         if class_of_receiver is not None:
-            #             classes.append(class_of_receiver)
-            #         else:
-            #             call_reference.reason_for_no_found_functions += "anytype and missing_import_name class not found | "
-            #             call_reference.fallbackToSignatureCheck = False
-            #             continue
-            #     else:
-            #         call_reference.reason_for_no_found_functions += "anytype | "
-            #         call_reference.fallbackToSignatureCheck = True
-            #         continue
-            # else:  # type is tuple or dict
-            #     classes.append(type)
-            
+           
             if not call_reference.isSuperCallRef:
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, call_reference.receiver.path_to_call_reference, 0)
-                # for classs in classes:
-                #     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, classs, call_reference.receiver.path_to_call_reference, 0)
-                # for module in modules:
-                #     _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, module, call_reference.receiver.path_to_call_reference, 0)
-
             else:
                 # TODO pm find out if we can use modules here
                 # here we have a super() call so we need to get the super classes
@@ -468,10 +360,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
     if type_of_receiver is None:
         return
-    # if depth == 0 and path_copy.copy().pop() == "()":
-    #     # here the start of the path is a call ref and if that function is imported, call _get_imported_global_function
-    #     _get_imported_global_function
-    #     pass
     if depth == 0:  
         # first part of path is a variable name etc so we can skip 
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
@@ -486,51 +374,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         _, _, next_types = _get_classes_and_modules_of_type(api, type_of_receiver, call_reference, None, key, True)
         for next_type in next_types:
             _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, next_type, path_copy, depth + 1)
-        return
-    
-        if isinstance(type_of_receiver, mypy_types.TupleType):  # TODO pm this typecheck didnt work
-            key = part.removeprefix("[").removesuffix("]")
-            if key == "":
-                for type in type_of_receiver.items:
-                    _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
-                return
-            else:
-                type_of_receiver = type_of_receiver.items[int(key)]
-        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 1:  # type: ignore | list
-            type_of_receiver = type_of_receiver.args[0]  # type: ignore
-        elif hasattr(type_of_receiver, "args") and len(type_of_receiver.args) == 2:  # type: ignore | dictionary
-            type_of_receiver = type_of_receiver.args[1]  # type: ignore
-        elif isinstance(type_of_receiver, list):
-            type_of_receiver = type_of_receiver[0]
-        elif isinstance(type_of_receiver, dict):
-            type_of_receiver = type_of_receiver[1]
-
-        if not isinstance(type_of_receiver, Class):
-            # here we get the correct class from namedType etc if possible
-            if isinstance(type_of_receiver, NamedType) or isinstance(type_of_receiver, NamedSequenceType):
-                # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
-                class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
-                if class_of_receiver is not None:
-                    type_of_receiver = class_of_receiver
-            elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
-                # class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
-                class_of_receiver = _get_class_by_id(api, type_of_receiver.type.fullname)
-                if class_of_receiver is not None:
-                    type_of_receiver = class_of_receiver
-            elif hasattr(type_of_receiver, "fullname") and api.classes.get("/".join(type_of_receiver.fullname.split("."))) is not None:
-                # class_of_receiver = api.classes.get("/".join(type_of_receiver.fullname.split(".")))
-                class_of_receiver = _get_class_by_id(api, type_of_receiver.fullname)
-                if class_of_receiver is not None:
-                    type_of_receiver = class_of_receiver
-            elif isinstance(type_of_receiver, mypy_types.AnyType):
-                missing_import_name = type_of_receiver.missing_import_name
-                if missing_import_name is not None:
-                    class_of_receiver = _get_class_by_id(api, missing_import_name)
-                    if class_of_receiver is not None:
-                        type_of_receiver = class_of_receiver
-            else:  # type_of_receiver is not a class 
-                pass
-        _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
         return
 
     if isinstance(type_of_receiver, Module):
@@ -606,45 +449,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         #     call_reference.fallbackToSignatureCheck = True
         return
 
-        if (isinstance(type_of_receiver, list)):
-            for type in type_of_receiver:
-                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
-            return
-        elif isinstance(type_of_receiver, NamedType) or isinstance(type_of_receiver, NamedSequenceType):
-            class_of_receiver = _get_class_by_id(api, type_of_receiver.qname)
-            # class_of_receiver = api.classes.get("/".join(type_of_receiver.qname.split(".")))
-            if class_of_receiver is not None:
-                type_of_receiver = class_of_receiver
-            else:
-                print(f"Class not found: {type_of_receiver.qname}")
-                call_reference.reason_for_no_found_functions += f"Class with name: {type_of_receiver.qname} not found, at path part {part} | "
-                call_reference.fallbackToSignatureCheck = False
-                return
-        elif hasattr(type_of_receiver, "type") and api.classes.get("/".join(type_of_receiver.type.fullname.split("."))) is not None:
-            # class_of_receiver = api.classes.get("/".join(type_of_receiver.type.fullname.split(".")))
-            class_of_receiver = _get_class_by_id(api, type_of_receiver.type.fullname)
-            if class_of_receiver is not None:
-                type_of_receiver = class_of_receiver
-            else:
-                print(f"Class not found: {type_of_receiver.type.fullname}")
-                call_reference.reason_for_no_found_functions += f"Class with name: {type_of_receiver.type.fullname} not found, at path part {part} | "
-                call_reference.fallbackToSignatureCheck = False
-                return
-        elif hasattr(type_of_receiver, "__origin__") and type_of_receiver.__origin__ is Union:
-            for type in get_args(type_of_receiver):
-                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
-            return
-        elif isinstance(type_of_receiver, AbstractType):
-            type_of_receiver = _get_named_types_from_nested_type(type_of_receiver)
-            for type in type_of_receiver:
-                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path, depth)
-            return
-        # elif isinstance(type_of_receiver, mypy_types.Type): # should not happen as mypy type is converted to abstract type in ast_visitors
-        #     pass
-        else:
-            call_reference.fallbackToSignatureCheck = True
-            return
-
     try:  # assume the part of the path is a name of a member 
         attribute_name = part
         # if isinstance(type_of_receiver, NamedType):
@@ -660,36 +464,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
             return
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_attribute, path_copy, depth + 1)
         return
-        # attribute can be object (class), list, tuple or dict so we need to extract the namedType from nested types
-        types = _get_named_types_from_nested_type(type_of_attribute)
-        if types is None or len(types) == 0:
-            print("NamedTypes not found")
-            call_reference.reason_for_no_found_functions += f"NamedTypes not found: {str(attribute_name)}, at path part {part} | "
-            call_reference.fallbackToSignatureCheck = True
-            return
-
-        for type in types:
-            if type.qname == "builtins.None":
-                continue
-            # class_id = "/".join(type.qname.split("."))
-            # if not class_id.startswith(api.path_to_package):
-            #     class_id = api.path_to_package + class_id
-            # found_class = api.classes.get(class_id, None)
-            # TODO id issue like the stuff with reexport, find the place where I already fixed this 
-            #tests/data/safeds/data/tabular/typing/Schema
-            #tests/data/safeds/data/tabular/typing/_schema/Schema
-            found_class = _get_class_by_id(api, type.qname)
-            if found_class is None:
-                # TODO pm what about builtins
-                # here we can find out if class is in package or not 
-                call_reference.reason_for_no_found_functions += f"Class of attribute: {type.name} not found, at path part {part} | "
-                call_reference.fallbackToSignatureCheck = False
-                # if one type cannot be found then this call ref should be impure as the function which could not be found could be impure
-                call_reference.receiver.found_classes = []
-                return
-            type_of_receiver = found_class
-            _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path_copy, depth + 1)
-        return  # next class found, check next part of path
 
     except KeyError:  # current part of path was not a member so we assume its a method
         is_last_method = all(item == "()" for item in path_copy)  # maybe we need to check for [] as well
@@ -715,28 +489,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 call_reference.fallbackToSignatureCheck = True
                 return
             _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, result.type, path_copy, depth + 1)
-            return
-            # get NamedType from result
-            types = _get_named_types_from_nested_type(result.type)  # will find the type of expressions like "method()[0]"
-            if types is None or len(types) == 0:
-                call_reference.reason_for_no_found_functions += f"NamedTypes of result: {str(result.name)} is None, at path part {part} "
-                call_reference.fallbackToSignatureCheck = True
-                return
-
-            for type in types:
-                if type.qname == "builtins.None":
-                    continue
-                found_class = _get_class_by_id(api, type.qname)
-                if found_class is None:
-                    # here we can find out if class is in package or not
-                    call_reference.receiver.found_classes = []
-                    # if one type cannot be found then this call ref should be impure as the function which could not be found could be impure
-                    call_reference.reason_for_no_found_functions += f"Result class: {str(type.qname)} not found, at path part {part} | "
-                    call_reference.fallbackToSignatureCheck = False
-                    return 
-                type_of_receiver = found_class
-                _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
-
             return
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
@@ -1162,7 +914,7 @@ def _get_classes_and_modules_of_type(api: API, type_to_analyze: Any, call_refere
         if return_next_type_only:
             return ([], [], [t for t in type_to_analyze])
         for t in type_to_analyze:
-            found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, t, call_reference, function)
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, t, call_reference, function)
             classes.extend(found_classes)
             modules.extend(found_modules)
 
@@ -1171,13 +923,13 @@ def _get_classes_and_modules_of_type(api: API, type_to_analyze: Any, call_refere
             if return_next_type_only:
                 return ([], [], [t for t in type_to_analyze.items])
             for type in type_to_analyze.items:
-                found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type, call_reference, function)
+                found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
                 classes.extend(found_classes)
                 modules.extend(found_modules)
         else:
             if return_next_type_only:
                 return ([], [], [type_to_analyze.items[int(key)]])
-            found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze.items[int(key)], call_reference, function)
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.items[int(key)], call_reference, function)
             classes.extend(found_classes)
             modules.extend(found_modules)
     elif isinstance(type_to_analyze, TupleType):
@@ -1185,44 +937,44 @@ def _get_classes_and_modules_of_type(api: API, type_to_analyze: Any, call_refere
             if return_next_type_only:
                 return ([], [], [t for t in type_to_analyze.types])
             for type in type_to_analyze.types:
-                found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type, call_reference, function)
+                found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
                 classes.extend(found_classes)
                 modules.extend(found_modules)
         else:
             if return_next_type_only:
                 return ([], [], [type_to_analyze.types[int(key)]])
-            found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze.types[int(key)], call_reference, function)
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.types[int(key)], call_reference, function)
             classes.extend(found_classes)
             modules.extend(found_modules)
     elif isinstance(type_to_analyze, ListType):
         if return_next_type_only:
             return ([], [], [t for t in type_to_analyze.types])
         for type in type_to_analyze.types:
-            found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type, call_reference, function)
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
             classes.extend(found_classes)
             modules.extend(found_modules)
     elif isinstance(type_to_analyze, DictType):
         if return_next_type_only:
             return ([], [], [type_to_analyze.value_type])
-        found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze.value_type, call_reference, function)
+        found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.value_type, call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
     elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 1:  # type: ignore | list
         if return_next_type_only:
             return ([], [], [type_to_analyze.args[0]])
-        found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze.args[0], call_reference, function)
+        found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.args[0], call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
     elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 2:  # type: ignore | dictionary
         if return_next_type_only:
             return ([], [], [type_to_analyze.args[1]])
-        found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze.args[1], call_reference, function)
+        found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.args[1], call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
     elif isinstance(type_to_analyze, dict):
         if return_next_type_only:
             return ([], [], [type_to_analyze[1]])
-        found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, type_to_analyze[1], call_reference, function)
+        found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze[1], call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
 
@@ -1238,12 +990,12 @@ def _get_classes_and_modules_of_type(api: API, type_to_analyze: Any, call_refere
         types = _get_named_types_from_nested_type(type_to_analyze)
         if types is not None:
             for t in types:
-                found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, t, call_reference, function, None, return_next_type_only)
+                found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, t, call_reference, function, None, return_next_type_only)
                 classes.extend(found_classes)
                 modules.extend(found_modules)
     elif hasattr(type_to_analyze, "__origin__") and type_to_analyze.__origin__ is Union:
         for t in get_args(type_to_analyze):
-            found_classes, found_modules, next_type = _get_classes_and_modules_of_type(api, t, call_reference, function, None, return_next_type_only)
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, t, call_reference, function, None, return_next_type_only)
             classes.extend(found_classes)
             modules.extend(found_modules)
     elif hasattr(type_to_analyze, "type") and api.classes.get("/".join(type_to_analyze.type.fullname.split(".")), None) is not None:
