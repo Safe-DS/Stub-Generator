@@ -1,3 +1,6 @@
-Library,Full Api Analysis Runtime [s],Function Body Anaylsis Runtime [s],Average function body analysis runtime [s],Finding Referenced Functions runtime [s],Date
-seaborn,107.51945328712463,1.36,0.0,0.0,2025-02-07 19:02:37.685762
-seaborn,110.34507751464844,1.31,0.0,0.11313366889953613,2025-02-07 19:11:16.113291
+Type-Aware,Library,Full Api Analysis Runtime [s],Function Body Anaylsis Runtime [s],Average function body analysis runtime [s],Finding Referenced Functions runtime [s],Date
+-,seaborn,107.51945328712463,1.36,0.0,0.0,2025-02-07 19:02:37.685762
+-,seaborn,110.34507751464844,1.31,0.0,0.11313366889953613,2025-02-07 19:11:16.113291
+No,seaborn,91.7244017124176,1.27994,0.00164,0.0,2025-02-20 11:17:02.824716
+Yes,seaborn,85.97551107406616,1.15789,0.00148,0.08299970626831055,2025-02-20 11:45:04.682773
+No,seaborn,85.55280017852783,1.09795,0.00141,0.0,2025-02-20 13:04:08.180956
