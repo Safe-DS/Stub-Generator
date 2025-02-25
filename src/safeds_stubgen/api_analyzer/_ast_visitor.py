@@ -368,7 +368,6 @@ class MyPyAstVisitor:
         reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
-        parameter_dict = {parameter.name: parameter for parameter in parameters}
 
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
@@ -376,6 +375,7 @@ class MyPyAstVisitor:
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
+            parameter_dict = {parameter.name: parameter for parameter in parameters}
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
@@ -1606,7 +1606,7 @@ class MyPyAstVisitor:
         function has the following returns "return 42" and "return True, 1.2" we would have to group the integer and
         boolean as "result_1: Union[int, bool]" and the float number as "result_2: Union[float, None]".
 
-        Paramters
+        Parameters
         ---------
         ret_type:
             An object representing a tuple with all inferred types.
