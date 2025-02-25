@@ -368,6 +368,8 @@ class MyPyAstVisitor:
         reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
+        
+        parameter_dict = {parameter.name: parameter for parameter in parameters}
 
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
@@ -375,7 +377,6 @@ class MyPyAstVisitor:
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
-            parameter_dict = {parameter.name: parameter for parameter in parameters}
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
