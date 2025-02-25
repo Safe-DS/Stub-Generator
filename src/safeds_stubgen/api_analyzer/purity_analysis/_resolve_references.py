@@ -124,7 +124,6 @@ class ReferenceResolver:
         self.module_analysis_result.call_graph_forest = build_call_graph(
             self.classes,
             self.module_analysis_result.raw_reasons,
-            module_name
         )
 
     @staticmethod
@@ -201,10 +200,11 @@ class ReferenceResolver:
             True if the parameters of the function match the arguments of the call, False otherwise.
         """
         if function.parameters:
-            argument_node: astroid.Arguments | None = None
-            temp = next(iter(function.parameters.values())).node.parent
-            if isinstance(temp, astroid.Arguments):
-                argument_node = temp
+            argument_node: astroid.Arguments | None = (
+                next(iter(function.parameters.values())).node.parent
+                if (isinstance(next(iter(function.parameters.values())).node.parent, astroid.Arguments))
+                else None
+            )
 
             # Get the parameters of the function and group them by kind.
             star_param = [
@@ -549,10 +549,9 @@ class ReferenceResolver:
 
         # Find imported functions or classes that are called for ImportFrom nodes.
         if call_reference.name in self.imports and not found_functions_through_type:
-            assert isinstance(call_reference.node, astroid.Call)
             import_def = self.imports.get(call_reference.name)
             inferred_node_def = safe_infer(call_reference.node.func) # type: ignore  pm: can be ignored, because once safe_infer fails, it returns None
-            if not inferred_node_def and call_reference.node.func is not None:
+            if not inferred_node_def:
                 with contextlib.suppress(astroid.InferenceError):
                     inferred_node_def = next(call_reference.node.func.infer())
             if not isinstance(inferred_node_def, astroid.FunctionDef | astroid.ClassDef):
@@ -612,7 +611,7 @@ class ReferenceResolver:
                 symbols = list(set(symbols) - set(missing_refined))
 
                 for symbol in missing_refined:
-                    if isinstance(symbol.node, MemberAccessTarget) and isinstance(value_reference.node, MemberAccessValue):
+                    if isinstance(symbol.node, MemberAccessTarget):
                         for klass in self.classes.values():
                             if klass.class_variables:
                                 if value_reference.node.member in klass.class_variables:
@@ -840,8 +839,8 @@ class ReferenceResolver:
                             ):
                                 continue
                         # Do not add functions that are not of the current class (or superclass).
-                        if isinstance(function.symbol.node, astroid.FunctionDef) and function.symbol.name not in klass.class_variables or not self.is_function_of_class(
-                            function.symbol.node,  # type: ignore # first condition of this if condition checks if node is of type FunctionDef
+                        if function.symbol.name not in klass.class_variables or not self.is_function_of_class(
+                            function.symbol.node,
                             klass,
                         ):
                             # Collect all functions of superclasses for the current klass instance.
