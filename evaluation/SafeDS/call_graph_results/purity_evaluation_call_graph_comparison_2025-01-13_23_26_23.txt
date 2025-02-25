@@ -1,2 +1,0 @@
-Call Graph comparison results (Type-aware vs Non Type-aware) at 2025-01-13_23_26_23
-Average results of the latest run:

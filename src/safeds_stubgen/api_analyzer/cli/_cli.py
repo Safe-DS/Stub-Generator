@@ -154,12 +154,10 @@ def _run_stub_generator(
     is_test_run:
         Set True if files in test directories should be parsed too.
     """
-    # TODO pm generate Evaluation object depending on cli parameters, add these cli parameters
-    # track time for get_purity_results, track type data of all expressions in get_api or track time of get_api 
     api_evaluator = None
     purity_evaluator = None
     if api_evaluation:
-        api_evaluator = ApiEvaluation(src_dir_path.stem, runtime_evaluation)
+        api_evaluator = ApiEvaluation(src_dir_path.stem, old_purity_analysis, runtime_evaluation)
     if purity_evaluation:
         purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path, is_runtime=runtime_evaluation)
 

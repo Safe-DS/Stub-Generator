@@ -157,11 +157,7 @@ class PurityAnalyzer:
         if not isinstance(call, astroid.Call):
             raise TypeError(f"Expected astroid.Call, got {call.__class__.__name__}") from None
 
-        func_ref_node_func_name = ""
-        if isinstance(call.func, astroid.Attribute):
-            func_ref_node_func_name = call.func.attrname
-        elif hasattr(call.func, "name"):
-            func_ref_node_func_name = call.func.name
+        func_ref_node_func_name = call.func.attrname if isinstance(call.func, astroid.Attribute) else call.func.name
 
         # Check if the function is open
         if func_ref_node_func_name == "open":

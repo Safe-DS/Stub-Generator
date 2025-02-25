@@ -1,0 +1,229 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,seaborn,seaborn.axisgrid,159,18,GeneratorExpr,None,,GeneratorExpr,2025-02-20 11:17:29.013477
+No,seaborn,seaborn.axisgrid,399,18,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.116450
+No,seaborn,seaborn.axisgrid,405,49,CallExpr,None,,"Any, Any",2025-02-20 11:17:29.119447
+No,seaborn,seaborn.axisgrid,406,49,CallExpr,None,,"Any, Any",2025-02-20 11:17:29.120447
+No,seaborn,seaborn.axisgrid,407,49,CallExpr,None,,"Any, Any",2025-02-20 11:17:29.122447
+No,seaborn,seaborn.axisgrid,423,31,OpExpr,None,,OpExpr,2025-02-20 11:17:29.133451
+No,seaborn,seaborn.axisgrid,430,19,OpExpr,int,,OpExpr,2025-02-20 11:17:29.136453
+No,seaborn,seaborn.axisgrid,430,43,OpExpr,int,,OpExpr,2025-02-20 11:17:29.137452
+No,seaborn,seaborn.axisgrid,437,22,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.138452
+No,seaborn,seaborn.axisgrid,438,23,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.139452
+No,seaborn,seaborn.axisgrid,918,29,SliceExpr,None,,SliceExpr,2025-02-20 11:17:29.339447
+No,seaborn,seaborn.axisgrid,919,34,SliceExpr,None,,SliceExpr,2025-02-20 11:17:29.341447
+No,seaborn,seaborn.axisgrid,1271,18,OpExpr,int,,OpExpr,2025-02-20 11:17:29.477452
+No,seaborn,seaborn.axisgrid,1271,49,OpExpr,float,,OpExpr,2025-02-20 11:17:29.477452
+No,seaborn,seaborn.axisgrid,1329,23,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.499451
+No,seaborn,seaborn.axisgrid,1691,26,OpExpr,int,,OpExpr,2025-02-20 11:17:29.746447
+No,seaborn,seaborn.axisgrid,1691,37,OpExpr,int,,OpExpr,2025-02-20 11:17:29.747448
+No,seaborn,seaborn.axisgrid,2101,15,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.911452
+No,seaborn,seaborn.axisgrid,2102,15,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.912451
+No,seaborn,seaborn.axisgrid,2103,15,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.913451
+No,seaborn,seaborn.axisgrid,2196,16,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.952446
+No,seaborn,seaborn.axisgrid,2198,19,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:29.954477
+No,seaborn,seaborn.categorical,140,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:30.075446
+No,seaborn,seaborn.categorical,495,40,GeneratorExpr,None,,GeneratorExpr,2025-02-20 11:17:30.291446
+No,seaborn,seaborn.categorical,554,23,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:30.313454
+No,seaborn,seaborn.categorical,1508,34,OpExpr,None,,OpExpr,2025-02-20 11:17:31.018450
+No,seaborn,seaborn.categorical,1508,52,OpExpr,None,,OpExpr,2025-02-20 11:17:31.019450
+No,seaborn,seaborn.categorical,1510,34,OpExpr,None,,OpExpr,2025-02-20 11:17:31.022448
+No,seaborn,seaborn.categorical,1510,52,OpExpr,None,,OpExpr,2025-02-20 11:17:31.023448
+No,seaborn,seaborn.categorical,1516,34,OpExpr,None,,OpExpr,2025-02-20 11:17:31.029451
+No,seaborn,seaborn.categorical,1516,52,OpExpr,None,,OpExpr,2025-02-20 11:17:31.030449
+No,seaborn,seaborn.categorical,1519,34,OpExpr,None,,OpExpr,2025-02-20 11:17:31.035451
+No,seaborn,seaborn.categorical,1519,52,OpExpr,None,,OpExpr,2025-02-20 11:17:31.036448
+No,seaborn,seaborn.categorical,1850,18,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:31.325447
+No,seaborn,seaborn.categorical,1851,20,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:31.326447
+No,seaborn,seaborn.categorical,1852,19,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:31.327448
+No,seaborn,seaborn.categorical,1884,22,OpExpr,int,,OpExpr,2025-02-20 11:17:31.349456
+No,seaborn,seaborn.categorical,1884,38,OpExpr,int,,OpExpr,2025-02-20 11:17:31.350469
+No,seaborn,seaborn.categorical,1932,33,OpExpr,int,,OpExpr,2025-02-20 11:17:31.388448
+No,seaborn,seaborn.categorical,1932,49,OpExpr,int,,OpExpr,2025-02-20 11:17:31.389447
+No,seaborn,seaborn.categorical,1940,33,OpExpr,int,,OpExpr,2025-02-20 11:17:31.395448
+No,seaborn,seaborn.categorical,1940,49,OpExpr,int,,OpExpr,2025-02-20 11:17:31.396447
+No,seaborn,seaborn.categorical,2515,7,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.493449
+No,seaborn,seaborn.categorical,2532,10,OpExpr,int,,OpExpr,2025-02-20 11:17:31.506473
+No,seaborn,seaborn.categorical,2637,7,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.528451
+No,seaborn,seaborn.categorical,2657,20,OpExpr,int,,OpExpr,2025-02-20 11:17:31.539450
+No,seaborn,seaborn.categorical,2660,10,OpExpr,int,,OpExpr,2025-02-20 11:17:31.540475
+No,seaborn,seaborn.categorical,3016,30,OpExpr,str,,OpExpr,2025-02-20 11:17:31.608446
+No,seaborn,seaborn.categorical,3071,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.637446
+No,seaborn,seaborn.categorical,3150,11,OpExpr,str,,OpExpr,2025-02-20 11:17:31.684451
+No,seaborn,seaborn.categorical,3200,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.703451
+No,seaborn,seaborn.categorical,3202,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.706448
+No,seaborn,seaborn.categorical,3190,12,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.708449
+No,seaborn,seaborn.categorical,3191,12,OpExpr,bool,,OpExpr,2025-02-20 11:17:31.709448
+No,seaborn,seaborn.categorical,3216,16,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:31.716452
+No,seaborn,seaborn.categorical,3258,7,OpExpr,str,,OpExpr,2025-02-20 11:17:31.736449
+No,seaborn,seaborn.distributions,1409,21,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:32.778446
+No,seaborn,seaborn.distributions,1697,13,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:32.839448
+No,seaborn,seaborn.distributions,2422,7,OpExpr,bool,,OpExpr,2025-02-20 11:17:33.064449
+No,seaborn,seaborn.distributions,2466,16,OpExpr,bool,,OpExpr,2025-02-20 11:17:33.078449
+No,seaborn,seaborn.distributions,2469,15,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:33.079479
+No,seaborn,seaborn.distributions,2470,14,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:33.080479
+No,seaborn,seaborn.distributions,2471,14,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:33.082495
+No,seaborn,seaborn.distributions,2472,14,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:33.083447
+No,seaborn,seaborn.distributions,2500,22,ConditionalExpr,bool,,ConditionalExpr,2025-02-20 11:17:33.090449
+No,seaborn,seaborn.distributions,2507,11,ConditionalExpr,bool,,ConditionalExpr,2025-02-20 11:17:33.094449
+No,seaborn,seaborn.distributions,2530,13,OpExpr,None,,OpExpr,2025-02-20 11:17:33.114449
+No,seaborn,seaborn.miscplot,21,40,OpExpr,int,,OpExpr,2025-02-20 11:17:33.767450
+No,seaborn,seaborn.palettes,191,22,IndexExpr,None,,"Dict[str, List[str]]",2025-02-20 11:17:33.860449
+No,seaborn,seaborn.palettes,409,15,SliceExpr,int,,SliceExpr,2025-02-20 11:17:33.942449
+No,seaborn,seaborn.palettes,480,13,ConditionalExpr,bool,,ConditionalExpr,2025-02-20 11:17:33.973449
+No,seaborn,seaborn.palettes,528,13,ConditionalExpr,bool,,ConditionalExpr,2025-02-20 11:17:33.988448
+No,seaborn,seaborn.palettes,571,14,IndexExpr,str,,dict,2025-02-20 11:17:33.994447
+No,seaborn,seaborn.palettes,572,24,OpExpr,int,,OpExpr,2025-02-20 11:17:33.996449
+No,seaborn,seaborn.palettes,575,15,IndexExpr,str,,dict,2025-02-20 11:17:34.004450
+No,seaborn,seaborn.palettes,576,10,OpExpr,int,,OpExpr,2025-02-20 11:17:34.006475
+No,seaborn,seaborn.palettes,728,17,OpExpr,float,,OpExpr,2025-02-20 11:17:34.036447
+No,seaborn,seaborn.palettes,833,22,OpExpr,str,,OpExpr,2025-02-20 11:17:34.097449
+No,seaborn,seaborn.palettes,834,17,IndexExpr,str,,"Dict[str, List[str]]",2025-02-20 11:17:34.099451
+No,seaborn,seaborn.rcmod,417,18,IndexExpr,None,,dict,2025-02-20 11:17:34.186448
+No,seaborn,seaborn.rcmod,422,24,OpExpr,int,,OpExpr,2025-02-20 11:17:34.193448
+No,seaborn,seaborn.regression,86,20,ConditionalExpr,int,,ConditionalExpr,2025-02-20 11:17:34.272452
+No,seaborn,seaborn.regression,639,7,OpExpr,bool,,OpExpr,2025-02-20 11:17:34.624447
+No,seaborn,seaborn.regression,921,18,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:34.656446
+No,seaborn,seaborn.regression,922,15,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:34.657447
+No,seaborn,seaborn.relational,374,23,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:34.771447
+No,seaborn,seaborn.relational,633,27,ConditionalExpr,bool,,ConditionalExpr,2025-02-20 11:17:34.961451
+No,seaborn,seaborn.relational,856,64,OpExpr,str,,OpExpr,2025-02-20 11:17:35.005451
+No,seaborn,seaborn.relational,945,16,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:35.067448
+No,seaborn,seaborn.utils,343,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:35.257448
+No,seaborn,seaborn.utils,358,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:35.271449
+No,seaborn,seaborn.utils,501,13,OpExpr,int,,OpExpr,2025-02-20 11:17:35.389447
+No,seaborn,seaborn.utils,501,29,OpExpr,int,,OpExpr,2025-02-20 11:17:35.389447
+No,seaborn,seaborn.widgets,79,7,OpExpr,bool,,OpExpr,2025-02-20 11:17:35.626484
+No,seaborn,seaborn._oldcore,585,20,IndexExpr,None,,"StyleMapping, Any",2025-02-20 11:17:36.136451
+No,seaborn,seaborn._oldcore,1083,19,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.389448
+No,seaborn,seaborn._oldcore,1274,25,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:36.508447
+No,seaborn,seaborn._oldcore,1275,25,ConditionalExpr,None,,ConditionalExpr,2025-02-20 11:17:36.509447
+No,seaborn,seaborn._oldcore,1593,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.622448
+No,seaborn,seaborn._oldcore,1600,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.626448
+No,seaborn,seaborn._oldcore,1605,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.628447
+No,seaborn,seaborn._oldcore,1610,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.630449
+No,seaborn,seaborn._oldcore,1630,9,OpExpr,bool,,OpExpr,2025-02-20 11:17:36.635447
+No,seaborn,seaborn.external.appdirs,125,7,OpExpr,None,,OpExpr,2025-02-20 11:17:37.116449
+No,seaborn,seaborn.external.docscrape,117,24,OpExpr,int,,OpExpr,2025-02-20 11:17:37.208449
+No,seaborn,seaborn.external.docscrape,116,11,OpExpr,int,,OpExpr,2025-02-20 11:17:37.209478
+No,seaborn,seaborn.external.docscrape,446,22,OpExpr,str,,OpExpr,2025-02-20 11:17:37.476446
+No,seaborn,seaborn.external.docscrape,565,17,OpExpr,int,,OpExpr,2025-02-20 11:17:37.566453
+No,seaborn,seaborn.external.docscrape,652,11,OpExpr,str,,OpExpr,2025-02-20 11:17:37.629446
+No,seaborn,seaborn.external.version,376,7,OpExpr,"UnionType[str, bytes, SupportsInt]",,OpExpr,2025-02-20 11:17:38.085003
+No,seaborn,seaborn._core.groupby,95,12,CallExpr,DataFrame,,"UnionType[Index, MultiIndex], Tuple[Any], Dict[str, Any], UnionType[str, List[str]], bool, bool, DataFrame",2025-02-20 11:17:38.179968
+No,seaborn,seaborn._core.groupby,95,12,MemberExpr,DataFrame,,"UnionType[Index, MultiIndex], Tuple[Any], Dict[str, Any], UnionType[str, List[str]], bool, bool, DataFrame",2025-02-20 11:17:38.181969
+No,seaborn,seaborn._core.moves,71,12,IndexExpr,str,,DataFrame,2025-02-20 11:17:38.220981
+No,seaborn,seaborn._core.moves,139,28,IndexExpr,str,,DataFrame,2025-02-20 11:17:38.258964
+No,seaborn,seaborn._core.moves,143,12,CallExpr,DataFrame,,"str, DataFrame, List[str], DataFrame",2025-02-20 11:17:38.259963
+No,seaborn,seaborn._core.moves,143,12,MemberExpr,DataFrame,,"str, DataFrame, List[str], DataFrame",2025-02-20 11:17:38.260963
+No,seaborn,seaborn._core.plot,512,21,ConditionalExpr,VariableSpecList,,ConditionalExpr,2025-02-20 11:17:38.474999
+No,seaborn,seaborn._core.plot,512,50,ConditionalExpr,VariableSpecList,,ConditionalExpr,2025-02-20 11:17:38.475966
+No,seaborn,seaborn._core.plot,531,11,OpExpr,bool,,OpExpr,2025-02-20 11:17:38.485001
+No,seaborn,seaborn._core.plot,952,12,CallExpr,Plot,,"None, Plot, Plot",2025-02-20 11:17:38.543964
+No,seaborn,seaborn._core.plot,952,12,MemberExpr,Plot,,"None, Plot, Plot",2025-02-20 11:17:38.544962
+No,seaborn,seaborn._core.plot,969,27,IndexExpr,str,,Plot,2025-02-20 11:17:38.551975
+No,seaborn,seaborn._core.plot,1033,23,UnaryExpr,Plot,,"bool, Plot",2025-02-20 11:17:38.574963
+No,seaborn,seaborn._core.plot,1067,19,OpExpr,Plot,,OpExpr,2025-02-20 11:17:38.595014
+No,seaborn,seaborn._core.plot,1139,18,IndexExpr,str,,Plot,2025-02-20 11:17:38.620969
+No,seaborn,seaborn._core.plot,1382,12,CallExpr,DataFrame,,"DataFrame, List[Any], DataFrame",2025-02-20 11:17:38.726964
+No,seaborn,seaborn._core.plot,1382,12,MemberExpr,DataFrame,,"DataFrame, List[Any], DataFrame",2025-02-20 11:17:38.727964
+No,seaborn,seaborn._core.plot,1414,39,GeneratorExpr,"Dict[Any, Any]",,GeneratorExpr,2025-02-20 11:17:38.753978
+No,seaborn,seaborn._core.plot,1426,25,CallExpr,PlotData,,"PlotData, Any, Any",2025-02-20 11:17:38.755963
+No,seaborn,seaborn._core.plot,1426,25,MemberExpr,PlotData,,"PlotData, Any, Any",2025-02-20 11:17:38.756968
+No,seaborn,seaborn._core.plot,1431,29,CallExpr,PlotData,,"PlotData, Any, Any",2025-02-20 11:17:38.758963
+No,seaborn,seaborn._core.plot,1431,29,MemberExpr,PlotData,,"PlotData, Any, Any",2025-02-20 11:17:38.759964
+No,seaborn,seaborn._core.plot,1430,19,OpExpr,PlotData,,OpExpr,2025-02-20 11:17:38.761962
+No,seaborn,seaborn._core.plot,1425,15,OpExpr,PlotData,,OpExpr,2025-02-20 11:17:38.761962
+No,seaborn,seaborn._core.plot,1553,11,OpExpr,PlotData,,OpExpr,2025-02-20 11:17:38.813963
+No,seaborn,seaborn._core.plot,1567,25,MemberExpr,"Dict[str, Scale]",,"Dict[str, Scale], str",2025-02-20 11:17:38.815973
+No,seaborn,seaborn._core.properties,86,18,GeneratorExpr,Any,,GeneratorExpr,2025-02-20 11:17:38.882977
+No,seaborn,seaborn._core.properties,109,22,NameExpr,List[],,List[Any],2025-02-20 11:17:38.891962
+No,seaborn,seaborn._core.properties,120,68,NameExpr,List[],,List[Any],2025-02-20 11:17:38.901962
+No,seaborn,seaborn._core.properties,121,36,NameExpr,List[],,List[Any],2025-02-20 11:17:38.903964
+No,seaborn,seaborn._core.properties,124,12,NameExpr,List[],,List[Any],2025-02-20 11:17:38.903964
+No,seaborn,seaborn._core.properties,124,40,NameExpr,List[],,List[Any],2025-02-20 11:17:38.905969
+No,seaborn,seaborn._core.properties,124,64,NameExpr,List[],,List[Any],2025-02-20 11:17:38.906964
+No,seaborn,seaborn._core.properties,128,65,NameExpr,List[],,List[Any],2025-02-20 11:17:38.910963
+No,seaborn,seaborn._core.properties,129,36,NameExpr,List[],,List[Any],2025-02-20 11:17:38.912975
+No,seaborn,seaborn._core.properties,131,12,NameExpr,List[],,List[Any],2025-02-20 11:17:38.912975
+No,seaborn,seaborn._core.properties,131,21,IndexExpr,List[],,List[Any],2025-02-20 11:17:38.913965
+No,seaborn,seaborn._core.properties,131,21,NameExpr,List[],,List[Any],2025-02-20 11:17:38.913965
+No,seaborn,seaborn._core.properties,131,33,NameExpr,List[],,List[Any],2025-02-20 11:17:38.914977
+No,seaborn,seaborn._core.properties,126,17,NameExpr,List[],,List[Any],2025-02-20 11:17:38.916012
+No,seaborn,seaborn._core.properties,126,31,NameExpr,List[],,List[Any],2025-02-20 11:17:38.916968
+No,seaborn,seaborn._core.properties,118,15,NameExpr,List[],,List[Any],2025-02-20 11:17:38.917965
+No,seaborn,seaborn._core.properties,118,29,NameExpr,List[],,List[Any],2025-02-20 11:17:38.917965
+No,seaborn,seaborn._core.properties,137,15,NameExpr,List[],,List[Any],2025-02-20 11:17:38.919965
+No,seaborn,seaborn._core.properties,252,37,NameExpr,List[],,List[Any],2025-02-20 11:17:38.974001
+No,seaborn,seaborn._core.properties,253,21,GeneratorExpr,Scale,,GeneratorExpr,2025-02-20 11:17:38.974993
+No,seaborn,seaborn._core.properties,253,47,NameExpr,List[],,List[Any],2025-02-20 11:17:38.975966
+No,seaborn,seaborn._core.properties,255,45,NameExpr,List[],,List[Any],2025-02-20 11:17:38.976988
+No,seaborn,seaborn._core.properties,270,68,NameExpr,List[],,List[Any],2025-02-20 11:17:38.989973
+No,seaborn,seaborn._core.properties,380,16,NameExpr,List[],,List[Any],2025-02-20 11:17:39.036004
+No,seaborn,seaborn._core.properties,382,37,NameExpr,List[],,List[Any],2025-02-20 11:17:39.036968
+No,seaborn,seaborn._core.properties,383,21,GeneratorExpr,Scale,,GeneratorExpr,2025-02-20 11:17:39.037966
+No,seaborn,seaborn._core.properties,383,47,NameExpr,List[],,List[Any],2025-02-20 11:17:39.038966
+No,seaborn,seaborn._core.properties,385,45,NameExpr,List[],,List[Any],2025-02-20 11:17:39.038966
+No,seaborn,seaborn._core.properties,438,43,SliceExpr,int,,SliceExpr,2025-02-20 11:17:39.058964
+No,seaborn,seaborn._core.properties,704,16,NameExpr,List[],,List[Any],2025-02-20 11:17:39.178965
+No,seaborn,seaborn._core.properties,707,37,NameExpr,List[],,List[Any],2025-02-20 11:17:39.179964
+No,seaborn,seaborn._core.properties,708,41,NameExpr,List[],,List[Any],2025-02-20 11:17:39.183968
+No,seaborn,seaborn._core.properties,710,45,NameExpr,List[],,List[Any],2025-02-20 11:17:39.183968
+No,seaborn,seaborn._core.properties,788,53,NameExpr,List[],,List[Any],2025-02-20 11:17:39.231982
+No,seaborn,seaborn._core.properties,790,46,NameExpr,List[],,List[Any],2025-02-20 11:17:39.232968
+No,seaborn,seaborn._core.rules,158,15,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.272963
+No,seaborn,seaborn._core.rules,157,7,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.272963
+No,seaborn,seaborn._core.rules,161,8,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.273964
+No,seaborn,seaborn._core.rules,163,8,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.273964
+No,seaborn,seaborn._core.rules,165,12,CallExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.275963
+No,seaborn,seaborn._core.rules,165,12,MemberExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.275963
+No,seaborn,seaborn._core.rules,164,35,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.277962
+No,seaborn,seaborn._core.rules,167,11,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-20 11:17:39.278964
+No,seaborn,seaborn._core.scales,1085,48,OpExpr,float,,OpExpr,2025-02-20 11:17:39.717966
+No,seaborn,seaborn._core.subplots,57,12,OpExpr,PairSpec,,OpExpr,2025-02-20 11:17:39.724989
+No,seaborn,seaborn._core.subplots,54,11,OpExpr,FacetSpec,,OpExpr,2025-02-20 11:17:39.729011
+No,seaborn,seaborn._core.subplots,72,17,OpExpr,PairSpec,,OpExpr,2025-02-20 11:17:39.740969
+No,seaborn,seaborn._core.subplots,70,17,OpExpr,FacetSpec,,OpExpr,2025-02-20 11:17:39.741968
+No,seaborn,seaborn._core.subplots,97,11,UnaryExpr,PairSpec,,"bool, PairSpec",2025-02-20 11:17:39.754000
+No,seaborn,seaborn._core.subplots,106,27,OpExpr,PairSpec,,OpExpr,2025-02-20 11:17:39.757000
+No,seaborn,seaborn._core.subplots,132,23,OpExpr,PairSpec,,OpExpr,2025-02-20 11:17:39.775963
+No,seaborn,seaborn._core.subplots,214,11,UnaryExpr,PairSpec,,"bool, PairSpec",2025-02-20 11:17:39.818963
+No,seaborn,seaborn._core.subplots,242,15,UnaryExpr,PairSpec,,"bool, PairSpec",2025-02-20 11:17:39.832964
+No,seaborn,seaborn._marks.base,151,18,IndexExpr,str,,Mark,2025-02-20 11:17:40.216991
+No,seaborn,seaborn._marks.base,155,23,OpExpr,str,,OpExpr,2025-02-20 11:17:40.219963
+No,seaborn,seaborn._marks.base,174,26,IndexExpr,str,,"UnionType[DataFrame, Dict[str, Any]]",2025-02-20 11:17:40.224967
+No,seaborn,seaborn._marks.base,176,24,IndexExpr,str,,"UnionType[Dict[str, Scale], None]",2025-02-20 11:17:40.225966
+No,seaborn,seaborn._marks.base,177,24,IndexExpr,str,,"UnionType[DataFrame, Dict[str, Any]]",2025-02-20 11:17:40.225966
+No,seaborn,seaborn._marks.base,207,12,ConditionalExpr,"Dict[Any, Any]",,ConditionalExpr,2025-02-20 11:17:40.239964
+No,seaborn,seaborn._marks.base,208,12,ConditionalExpr,"Dict[Any, Any]",,ConditionalExpr,2025-02-20 11:17:40.240964
+No,seaborn,seaborn._stats.aggregation,44,12,CallExpr,GroupBy,,"UnionType[str, None], DataFrame, GroupBy",2025-02-20 11:17:40.697015
+No,seaborn,seaborn._stats.aggregation,44,12,MemberExpr,GroupBy,,"UnionType[str, None], DataFrame, GroupBy",2025-02-20 11:17:40.699976
+No,seaborn,seaborn._stats.aggregation,102,12,CallExpr,GroupBy,,"str, DataFrame, Est, str, EstimateAggregator, GroupBy",2025-02-20 11:17:40.712006
+No,seaborn,seaborn._stats.aggregation,102,12,MemberExpr,GroupBy,,"str, DataFrame, Est, str, EstimateAggregator, GroupBy",2025-02-20 11:17:40.712967
+No,seaborn,seaborn._stats.counting,39,20,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.758966
+No,seaborn,seaborn._stats.counting,41,12,CallExpr,GroupBy,,"DataFrame, GroupBy",2025-02-20 11:17:40.758966
+No,seaborn,seaborn._stats.counting,41,12,MemberExpr,GroupBy,,"DataFrame, GroupBy",2025-02-20 11:17:40.760000
+No,seaborn,seaborn._stats.counting,205,21,CallExpr,str,,"Dict[str, Scale], str",2025-02-20 11:17:40.853002
+No,seaborn,seaborn._stats.counting,205,21,MemberExpr,"Dict[str, Scale]",,"Dict[str, Scale], str",2025-02-20 11:17:40.853967
+No,seaborn,seaborn._stats.counting,205,21,IndexExpr,str,,"Dict[str, Scale]",2025-02-20 11:17:40.853967
+No,seaborn,seaborn._stats.density,117,27,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.887963
+No,seaborn,seaborn._stats.density,125,19,CallExpr,str,,"DataFrame, str",2025-02-20 11:17:40.891964
+No,seaborn,seaborn._stats.density,125,19,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.892962
+No,seaborn,seaborn._stats.density,125,19,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.892962
+No,seaborn,seaborn._stats.density,129,18,OpExpr,DataFrame,,OpExpr,2025-02-20 11:17:40.896963
+No,seaborn,seaborn._stats.density,129,18,CallExpr,str,,"DataFrame, str",2025-02-20 11:17:40.896963
+No,seaborn,seaborn._stats.density,129,18,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.897966
+No,seaborn,seaborn._stats.density,129,18,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.899975
+No,seaborn,seaborn._stats.density,130,18,OpExpr,DataFrame,,OpExpr,2025-02-20 11:17:40.901968
+No,seaborn,seaborn._stats.density,130,18,CallExpr,str,,"DataFrame, str",2025-02-20 11:17:40.901968
+No,seaborn,seaborn._stats.density,130,18,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.902966
+No,seaborn,seaborn._stats.density,130,18,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.902966
+No,seaborn,seaborn._stats.density,166,53,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.923963
+No,seaborn,seaborn._stats.density,207,16,CallExpr,DataFrame,,"List[str], DataFrame",2025-02-20 11:17:40.936964
+No,seaborn,seaborn._stats.density,207,16,MemberExpr,DataFrame,,"List[str], DataFrame",2025-02-20 11:17:40.937963
+No,seaborn,seaborn._stats.density,207,16,IndexExpr,DataFrame,,"List[str], DataFrame",2025-02-20 11:17:40.938964
+No,seaborn,seaborn._stats.order,66,17,CallExpr,str,,"DataFrame, str",2025-02-20 11:17:40.953967
+No,seaborn,seaborn._stats.order,66,17,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.953967
+No,seaborn,seaborn._stats.order,66,17,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.954965
+No,seaborn,seaborn._stats.order,70,32,CallExpr,str,,"DataFrame, str",2025-02-20 11:17:40.957965
+No,seaborn,seaborn._stats.order,70,32,MemberExpr,DataFrame,,"DataFrame, str",2025-02-20 11:17:40.958968
+No,seaborn,seaborn._stats.order,70,32,IndexExpr,str,,DataFrame,2025-02-20 11:17:40.958968

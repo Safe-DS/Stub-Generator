@@ -815,12 +815,15 @@ class PurityEvaluation(Evaluation):
 			accuracy = (true_positives + true_negatives) / (true_positives + true_negatives + false_negatives + false_positives)
 			balanced_accuracy = ((true_positives / (true_positives + false_negatives)) + (true_negatives / (true_negatives + false_positives))) / 2
 
-		for purity_result_of_module in purity_results.purity_results.values():
-			for purity_result in purity_result_of_module.values():
-				if isinstance(purity_result, Pure) and not purity_result.is_class:
-					amount_of_classified_pure_functions += 1
-				elif isinstance(purity_result, Impure) and not purity_result.is_class:
-					amount_of_classified_impure_functions += 1
+		with open(f"evaluation/evaluation_tracking2.txt", newline='', mode="a") as file:
+			for purity_result_of_module in purity_results.purity_results.values():
+				for id, purity_result in purity_result_of_module.items():
+					if isinstance(purity_result, Pure) and not purity_result.is_class:
+						file.write(f"{id}: pure\n")
+						amount_of_classified_pure_functions += 1
+					elif isinstance(purity_result, Impure) and not purity_result.is_class:
+						amount_of_classified_impure_functions += 1
+						file.write(f"{id}: impure\n")
 
 		data = [
 			{
@@ -872,9 +875,10 @@ class PurityEvaluation(Evaluation):
 			writer.writerows(data)
 
 class ApiEvaluation(Evaluation):
-	def __init__(self, package_name: str, runtime_eval: bool = False):
+	def __init__(self, package_name: str, old_purity_analysis: bool, runtime_eval: bool = False):
 		self._start_time = 0
 		self._end_time = 0
+		self._old = old_purity_analysis
 		self.is_runtime_evaluation = runtime_eval
 		self._runtime = 0
 		self._body_runtimes: dict[str, float] = {}
@@ -937,6 +941,7 @@ class ApiEvaluation(Evaluation):
 
 	def body_runtime_results_to_csv(self):
 		fieldNames = [
+			"Type-Aware",
 			"Library",
 			"FunctionId",
 			"Runtime of body analysis",
@@ -946,6 +951,7 @@ class ApiEvaluation(Evaluation):
 
 		for id, runtime in self._body_runtimes.items():
 			data.append({
+				"Type-Aware": "Yes" if not self._old else "No",
 				"Library": self._package_name,
 				"FunctionId": id,
 				"Runtime of body analysis": runtime,
@@ -973,13 +979,14 @@ class ApiEvaluation(Evaluation):
 			body_runtime_sum = 0
 			average_body_runtime = 0
 		else:
-			body_runtime_sum = round(reduce(lambda acc, x: acc + x, self._body_runtimes.values(), 0), 2)
-			average_body_runtime = round(body_runtime_sum / len(self._body_runtimes), 2)
+			body_runtime_sum = round(reduce(lambda acc, x: acc + x, self._body_runtimes.values(), 0), 5)
+			average_body_runtime = round(body_runtime_sum / len(self._body_runtimes), 5)
 
 		# TODO pm print all runtimes of each body into a csv file
 		self.body_runtime_results_to_csv()
 		data = [
 			{
+				"Type-Aware": "Yes" if not self._old else "No",
 				"Library": self._package_name,
 				"Full Api Analysis Runtime [s]": self._runtime,
 				"Function Body Anaylsis Runtime [s]": body_runtime_sum,
@@ -989,6 +996,7 @@ class ApiEvaluation(Evaluation):
 			},
 		]
 		fieldNames = [
+			"Type-Aware",
 			"Library",
 			"Full Api Analysis Runtime [s]",
 			"Function Body Anaylsis Runtime [s]",
@@ -1400,6 +1408,7 @@ class ApiEvaluation(Evaluation):
 
 		if conflicted_types:
 			fieldnames = [
+				"Type-Aware",
 				"Library",
 				"Module",
 				"Line",
@@ -1411,6 +1420,7 @@ class ApiEvaluation(Evaluation):
 				"Date",
 			]
 			entry: dict[str, str] = {
+				"Type-Aware": "Yes" if not self._old else "No",
 				"Library": self._package_name,
 				"Module": module_id,
 				"Line": str(mypy_expr.line),
@@ -1440,6 +1450,7 @@ class ApiEvaluation(Evaluation):
 				writer.writerows(data)
 		if missing_types:
 			fieldnames = [
+				"Type-Aware",
 				"Library",
 				"Module",
 				"Line",
@@ -1451,6 +1462,7 @@ class ApiEvaluation(Evaluation):
 				"Date",
 			]
 			entry: dict[str, str] = {
+				"Type-Aware": "Yes" if not self._old else "No",
 				"Library": self._package_name,
 				"Module": module_id,
 				"Line": str(mypy_expr.line),
@@ -1534,6 +1546,7 @@ class ApiEvaluation(Evaluation):
 			type_coverage = 0
 
 		fieldnames = [
+			"Type-Aware",
 			"Library", 
 			"Runtime [seconds]",
 			"Expressions",
@@ -1551,6 +1564,7 @@ class ApiEvaluation(Evaluation):
 		fieldnames.extend(test_dict.keys())
 		fieldnames.append("Date")
 		entry: dict[str, str] = {
+			"Type-Aware": "Yes" if not self._old else "No",
 			"Library": self._package_name, 
 			"Runtime [seconds]": str(self._runtime),
 			"Expressions": str(amount_of_expressions),

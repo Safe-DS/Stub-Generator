@@ -1,7 +1,0 @@
-Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
-safeds,safeds.data.image.containers._image,82,12,CallExpr,,,,2025-02-09 18:48:28.323771
-safeds,safeds.data.image.containers._image,82,12,MemberExpr,,,,2025-02-09 18:48:28.325773
-safeds,safeds.data.image.containers._image,86,12,NameExpr,,,Any,2025-02-09 18:48:28.327772
-safeds,safeds.data.image.containers._image,81,13,CallExpr,,,,2025-02-09 18:48:28.329771
-safeds,safeds.data.image.containers._image,81,13,MemberExpr,,,,2025-02-09 18:48:28.330771
-safeds,safeds.data.image.containers._image,87,62,NameExpr,,,Any,2025-02-09 18:48:28.335771
