@@ -153,14 +153,14 @@ def test_evaluation(
         str(package_path),
         "-o",
         str(out_file_dir),
-        "-tr",
+        # "-tr",
         "--docstyle",
         docstyle,
         "-nc",
         "--evaluate_purity",
         # "--evaluate_api",
-        "-old",
-        # "-runtime",
+        # "-old",
+        "-runtime",
     ]
 
     main()
