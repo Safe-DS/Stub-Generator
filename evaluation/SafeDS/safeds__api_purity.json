@@ -678,7 +678,7 @@
         "NativeCall": 3
       }
     },
-    "safeds.data.tabular.containers._table.from_json_file.170.4": {
+    "safeds.data.tabular.containers._table.from_excel_file.126.4": {
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 10,
@@ -732,6 +732,54 @@
         "NonLocalVariableWrite": 4,
         "UnknownCall": 4,
         "NativeCall": 1
+      }
+    },
+    "safeds.data.tabular.containers._table.from_columns.244.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.from_rows.292.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 99,
+        "NonLocalVariableWrite": 30,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 215,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table._from_pandas_dataframe.342.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 94,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 214,
+        "NativeCall": 4,
+        "CallOfParameter": 10
+      }
+    },
+    "safeds.data.tabular.containers._table.__init__.385.4": {
+      "purity": "Impure",
+      "reasons": {
+        "NonLocalVariableRead": 93,
+        "NonLocalVariableWrite": 29,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 213,
+        "NativeCall": 4,
+        "CallOfParameter": 10
       }
     },
     "safeds.data.tabular.containers._table.__eq__.426.4": {
@@ -995,7 +1043,7 @@
         "NativeCall": 1
       }
     },
-    "safeds.data.tabular.containers._table.sort_columns.1554.4": {
+    "safeds.data.tabular.containers._table.remove_rows_with_missing_values.1303.4": {
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 5,
