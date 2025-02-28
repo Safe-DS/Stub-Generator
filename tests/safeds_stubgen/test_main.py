@@ -92,16 +92,6 @@ def test_main(
 @pytest.mark.parametrize(
     ("package_path", "out_file_dir", "docstyle"),
     [
-        # (
-        #     _astroid_evaluation_dir,
-        #     Path(_out_dir / f"{'astroid'}__api_purity.json"),
-        #     "numpydoc"
-        # ),
-        # (
-        #     _safeds_v19_evaluation_dir,
-        #     Path(_out_dir / f"{'safedsV19'}__api_purity.json"),
-        #     "numpydoc"
-        # ),
         (
             _safeds_v0_19_0_evaluation_dir,
             Path(_lib_dir / "evaluation" / "safeds"),
@@ -129,8 +119,6 @@ def test_main(
         ),
     ],
     ids=[
-        # "astroid",
-        # "safedsV19",
         "safeds_v0_19_0",
         "matplot_v3_7_2",
         "pandas_v2_0_3",
@@ -158,9 +146,9 @@ def test_evaluation(
         docstyle,
         "-nc",
         "--evaluate_purity",
-        # "--evaluate_api",
+        "--evaluate_api",
         # "-old",
-        "-runtime",
+        # "-runtime",
     ]
 
     main()
