@@ -815,15 +815,23 @@ class PurityEvaluation(Evaluation):
 			accuracy = (true_positives + true_negatives) / (true_positives + true_negatives + false_negatives + false_positives)
 			balanced_accuracy = ((true_positives / (true_positives + false_negatives)) + (true_negatives / (true_negatives + false_positives))) / 2
 
-		with open(f"evaluation/evaluation_tracking2.txt", newline='', mode="a") as file:
+		with open(f"evaluation/{self._package_name}/results/purity_results_{'old' if self.old else 'type_aware'}_{self.date}.txt", newline='', mode="a") as file:
 			for purity_result_of_module in purity_results.purity_results.values():
 				for id, purity_result in purity_result_of_module.items():
 					if isinstance(purity_result, Pure) and not purity_result.is_class:
-						file.write(f"{id}: pure\n")
+						if str(id) in ground_truth:
+							correct_result = ground_truth.get(str(id), None)
+							file.write(f"{id}: pure, correct_result: {correct_result}\n")
+						else:
+							file.write(f"{id}: pure\n")
 						amount_of_classified_pure_functions += 1
 					elif isinstance(purity_result, Impure) and not purity_result.is_class:
+						if str(id) in ground_truth:
+							correct_result = ground_truth.get(str(id), None)
+							file.write(f"{id}: impure, correct_result: {correct_result}\n")
+						else:
+							file.write(f"{id}: impure\n")
 						amount_of_classified_impure_functions += 1
-						file.write(f"{id}: impure\n")
 
 		data = [
 			{
