@@ -302,7 +302,7 @@ class CallReference:
     possibly_referenced_functions: list[Function] = field(default_factory=list)
     isSuperCallRef: bool = False
     reason_for_no_found_functions: str = ""
-    fallbackToSignatureCheck: bool = False
+    fallbackToSignatureCheck: bool = True
 
 @dataclass
 class CallReceiver:

@@ -882,6 +882,14 @@ class PurityEvaluation(Evaluation):
 			# Write the data rows
 			writer.writerows(data)
 
+	def compare_found_function_refs(self, func_which_contains_call_ref: NodeID, call_ref: NodeID, old_nodeIDs: list[NodeID], reduced_nodeIDs: list[NodeID]):
+		with open(f"evaluation/{self._package_name}/call_ref_results/comparison_of_found_functions_{self.date}.txt", newline='', mode="a") as file:
+			file.write(f"\nFunction that contains call ref: {str(func_which_contains_call_ref)}, call_ref: {str(call_ref)}\n")
+			for old_id in old_nodeIDs:
+				file.write(f"- old - {str(old_id)}\n")
+			for reduced_id in reduced_nodeIDs:
+				file.write(f"- new - {str(reduced_id)}\n")
+
 class ApiEvaluation(Evaluation):
 	def __init__(self, package_name: str, old_purity_analysis: bool, runtime_eval: bool = False):
 		self._start_time = 0

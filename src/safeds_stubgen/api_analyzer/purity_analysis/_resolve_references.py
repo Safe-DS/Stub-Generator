@@ -348,7 +348,7 @@ class ReferenceResolver:
                 else:
                     # type aware purity analysis found same amount of functions
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
-            return ([], True)
+            return ([], False)
 
         # no found functions, due to missing types etc, could be a bug of type aware purity analysis or there is actually no type available
         if len(possibly_referenced_functions) == 0:
@@ -358,7 +358,7 @@ class ReferenceResolver:
             if call_reference_api.fallbackToSignatureCheck:
                 result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
                 return (result, False)
-            return ([], True)  # no functions found so we dont have to look at functions by name 
+            return ([], False)  # no functions found so we dont have to look at functions by name 
 
         list_of_function_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
         reduced_function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_function_ids]
@@ -376,7 +376,10 @@ class ReferenceResolver:
             else:
                 # type aware purity analysis found same amount of functions
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
-        return (reduced_function_defs, True)
+            old_nodeIDs = list(map(lambda x: x.symbol.id, function_defs_old))
+            reduced_nodeIDs = list(map(lambda x: x.symbol.id, reduced_function_defs))
+            self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, old_nodeIDs, reduced_nodeIDs)
+        return (reduced_function_defs, False)
     
     def _reduce_function_defs_by_parameter_comparison(self, function_defs: list[FunctionScope], call_reference: Reference):
         """ Helper function for _get_function_scopes_by_call_reference
@@ -498,7 +501,7 @@ class ReferenceResolver:
 
         # Find builtins that are called, this includes open-like functions.
         # Because the parameters of the call node are relevant for the analysis, they are added to the (Builtin) Symbol.
-        if (call_reference.name in _BUILTINS or call_reference.name in (
+        if call_reference.name in _BUILTINS or call_reference.name in (
             "open",
             "read",
             "readline",
@@ -506,7 +509,7 @@ class ReferenceResolver:
             "write",
             "writelines",
             "close",
-        )) and ((found_functions_through_type and len(result_value_reference.referenced_symbols) == 0) or not found_functions_through_type):
+        ):
             # Construct an artificial FunctionDef node for the builtin function.
             assert isinstance(call_reference.node, astroid.Call)  
             # pm: fix pylance error, if call_reference is one of the built ins, it should be a Call
