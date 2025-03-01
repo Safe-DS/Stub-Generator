@@ -1,0 +1,1647 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,pandas,pandas.core.ops,165,11,UnaryExpr,Series,,"Any, Series",2025-02-28 21:52:23.963033
+No,pandas,pandas._testing,352,31,OpExpr,int,,OpExpr,2025-02-28 21:52:24.266485
+No,pandas,pandas._testing,358,33,OpExpr,int,,OpExpr,2025-02-28 21:52:24.275594
+No,pandas,pandas._testing,367,44,OpExpr,int,,OpExpr,2025-02-28 21:52:24.278696
+No,pandas,pandas._testing,433,9,OpExpr,int,,OpExpr,2025-02-28 21:52:24.324231
+No,pandas,pandas._testing,437,11,SliceExpr,int,,SliceExpr,2025-02-28 21:52:24.327251
+No,pandas,pandas._testing,769,12,GeneratorExpr,None,,GeneratorExpr,2025-02-28 21:52:24.454098
+No,pandas,pandas._testing,781,18,OpExpr,float,,OpExpr,2025-02-28 21:52:24.463456
+No,pandas,pandas.util.version,490,7,OpExpr,"UnionType[str, bytes, SupportsInt]",,OpExpr,2025-02-28 21:52:24.781498
+No,pandas,pandas.compat._optional,155,22,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:52:26.566608
+No,pandas,pandas.compat.numpy.function,163,16,CastExpr,"UnionType[bool, int, None]",,bool,2025-02-28 21:52:26.631797
+No,pandas,pandas.compat.numpy.function,390,37,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:26.666358
+No,pandas,pandas.core.accessor,121,16,OpExpr,bool,,OpExpr,2025-02-28 21:52:26.722607
+No,pandas,pandas.core.algorithms,137,17,CastExpr,ArrayLike,,BaseMaskedArray,2025-02-28 21:52:26.781838
+No,pandas,pandas.core.algorithms,147,17,CastExpr,ArrayLike,,Categorical,2025-02-28 21:52:26.787133
+No,pandas,pandas.core.algorithms,171,15,CastExpr,ArrayLike,,ndarray,2025-02-28 21:52:26.797329
+No,pandas,pandas.core.algorithms,786,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:26.973025
+No,pandas,pandas.core.algorithms,836,11,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:26.982209
+No,pandas,pandas.core.algorithms,933,27,IndexExpr,"UnionType[NDArray, None]",,ndarray,2025-02-28 21:52:27.055891
+No,pandas,pandas.core.algorithms,933,39,IndexExpr,"UnionType[NDArray, None]",,NDArray,2025-02-28 21:52:27.056890
+No,pandas,pandas.core.algorithms,961,17,CastExpr,ArrayLike,,BaseMaskedArray,2025-02-28 21:52:27.063042
+No,pandas,pandas.core.algorithms,991,17,CastExpr,ArrayLike,,ExtensionArray,2025-02-28 21:52:27.077786
+No,pandas,pandas.core.algorithms,1153,13,OpExpr,"UnionType[int, NDArray]",,OpExpr,2025-02-28 21:52:27.119018
+No,pandas,pandas.core.algorithms,1340,29,CastExpr,"UnionType[NumpyValueArrayLike, ExtensionArray]",,ArrayLike,2025-02-28 21:52:27.151638
+No,pandas,pandas.core.algorithms,1436,4,IndexExpr,int,,List[slice],2025-02-28 21:52:27.216409
+No,pandas,pandas.core.algorithms,1447,8,IndexExpr,int,,List[slice],2025-02-28 21:52:27.222384
+No,pandas,pandas.core.algorithms,1451,8,IndexExpr,int,,List[slice],2025-02-28 21:52:27.224437
+No,pandas,pandas.core.algorithms,1596,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:27.285712
+No,pandas,pandas.core.algorithms,1663,22,CallExpr,"UnionType[ArrayLike, Index]",,"UnionType[ArrayLike, Index], UnionType[ArrayLike, Index]",2025-02-28 21:52:27.332497
+No,pandas,pandas.core.algorithms,1663,22,MemberExpr,"UnionType[ArrayLike, Index]",,"UnionType[ArrayLike, Index], UnionType[ArrayLike, Index]",2025-02-28 21:52:27.333497
+No,pandas,pandas.core.apply,1304,31,MemberExpr,"List[Tuple[Any, Any]]",,"List[Tuple[Any, Any]], int",2025-02-28 21:52:27.815972
+No,pandas,pandas.core.apply,1348,12,MemberExpr,"UnionType[DataFrame, Series]",,"UnionType[DataFrame, Series], str",2025-02-28 21:52:27.826720
+No,pandas,pandas.core.arraylike,399,11,OpExpr,"Dict[str, Any]",,OpExpr,2025-02-28 21:52:28.088949
+No,pandas,pandas.core.arraylike,504,18,IndexExpr,ufunc,,"Dict[str, str]",2025-02-28 21:52:28.148830
+No,pandas,pandas.core.base,555,19,OpExpr,bool,,OpExpr,2025-02-28 21:52:28.254052
+No,pandas,pandas.core.base,550,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:28.259160
+No,pandas,pandas.core.base,1141,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:28.467895
+No,pandas,pandas.core.common,302,10,CastExpr,"UnionType[Iterable, T]",,List[Any],2025-02-28 21:52:28.597164
+No,pandas,pandas.core.construction,317,16,OpExpr,"UnionType[Dtype, None]",,OpExpr,2025-02-28 21:52:28.771127
+No,pandas,pandas.core.construction,328,14,CastExpr,"UnionType[Dtype, None]",,ExtensionDtype,2025-02-28 21:52:28.779313
+No,pandas,pandas.core.construction,334,26,CastExpr,"UnionType[List[object], AnyArrayLike]",,"UnionType[List[UnionType[Period, None]], AnyArrayLike]",2025-02-28 21:52:28.783835
+No,pandas,pandas.core.construction,571,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:28.864538
+No,pandas,pandas.core.construction,611,16,CastExpr,"UnionType[DtypeObj, None]",,dtype,2025-02-28 21:52:28.893784
+No,pandas,pandas.core.construction,734,28,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.959454
+No,pandas,pandas.core.construction,738,61,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.969760
+No,pandas,pandas.core.construction,740,46,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.970759
+No,pandas,pandas.core.construction,745,12,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.972756
+No,pandas,pandas.core.construction,745,18,CastExpr,"UnionType[List[], ndarray]",,ndarray,2025-02-28 21:52:28.972884
+No,pandas,pandas.core.construction,745,35,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.973883
+No,pandas,pandas.core.construction,746,20,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.975880
+No,pandas,pandas.core.construction,746,20,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.976879
+No,pandas,pandas.core.construction,748,16,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.976879
+No,pandas,pandas.core.construction,748,22,CallExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.977970
+No,pandas,pandas.core.construction,748,22,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.978969
+No,pandas,pandas.core.construction,747,15,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.979969
+No,pandas,pandas.core.construction,747,15,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.979969
+No,pandas,pandas.core.construction,750,25,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.981967
+No,pandas,pandas.core.construction,751,39,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.984126
+No,pandas,pandas.core.construction,756,38,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.986125
+No,pandas,pandas.core.construction,763,45,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.987124
+No,pandas,pandas.core.construction,765,26,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:28.989238
+No,pandas,pandas.core.frame,697,20,ConditionalExpr,"UnionType[Axes, None]",,ConditionalExpr,2025-02-28 21:52:29.060801
+No,pandas,pandas.core.frame,698,22,ConditionalExpr,"UnionType[Axes, None]",,ConditionalExpr,2025-02-28 21:52:29.061800
+No,pandas,pandas.core.frame,699,20,ConditionalExpr,"UnionType[Dtype, None]",,ConditionalExpr,2025-02-28 21:52:29.063923
+No,pandas,pandas.core.frame,735,23,CastExpr,None,,ndarray,2025-02-28 21:52:29.071223
+No,pandas,pandas.core.frame,746,24,ConditionalExpr,"UnionType[bool, None]",,ConditionalExpr,2025-02-28 21:52:29.075329
+No,pandas,pandas.core.frame,810,20,ConditionalExpr,"UnionType[Axes, None]",,ConditionalExpr,2025-02-28 21:52:29.093603
+No,pandas,pandas.core.frame,1039,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:29.148197
+No,pandas,pandas.core.frame,1045,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:29.150195
+No,pandas,pandas.core.frame,2238,53,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:29.348309
+No,pandas,pandas.core.frame,2248,16,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.354399
+No,pandas,pandas.core.frame,2250,16,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.358825
+No,pandas,pandas.core.frame,2255,24,CallExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.360945
+No,pandas,pandas.core.frame,2255,24,MemberExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.360945
+No,pandas,pandas.core.frame,2258,16,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.364943
+No,pandas,pandas.core.frame,2259,20,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.366013
+No,pandas,pandas.core.frame,2263,12,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.367014
+No,pandas,pandas.core.frame,2266,12,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.369018
+No,pandas,pandas.core.frame,2273,24,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.371136
+No,pandas,pandas.core.frame,2268,40,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.373135
+No,pandas,pandas.core.frame,2282,16,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.374133
+No,pandas,pandas.core.frame,2283,20,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.375133
+No,pandas,pandas.core.frame,2296,41,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.380234
+No,pandas,pandas.core.frame,2295,23,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.382325
+No,pandas,pandas.core.frame,2301,33,GeneratorExpr,List[ArrayLike],,GeneratorExpr,2025-02-28 21:52:29.384324
+No,pandas,pandas.core.frame,2301,34,IndexExpr,Index,,List[Any],2025-02-28 21:52:29.385323
+No,pandas,pandas.core.frame,2301,34,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.386324
+No,pandas,pandas.core.frame,2311,24,GeneratorExpr,Index,,GeneratorExpr,2025-02-28 21:52:29.397625
+No,pandas,pandas.core.frame,2312,12,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.399623
+No,pandas,pandas.core.frame,2312,46,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.402869
+No,pandas,pandas.core.frame,2317,28,NameExpr,List[ArrayLike],,List[Any],2025-02-28 21:52:29.406963
+No,pandas,pandas.core.frame,3131,20,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:52:29.525895
+No,pandas,pandas.core.frame,3656,60,IndexExpr,int,,DataFrame,2025-02-28 21:52:29.582488
+No,pandas,pandas.core.frame,3664,20,IndexExpr,int,,DataFrame,2025-02-28 21:52:29.585713
+No,pandas,pandas.core.frame,3700,51,NameExpr,List[],,List[Any],2025-02-28 21:52:29.593804
+No,pandas,pandas.core.frame,3957,8,IndexExpr,slice,,DataFrame,2025-02-28 21:52:29.773724
+No,pandas,pandas.core.frame,4177,25,CastExpr,IndexLabel,,int,2025-02-28 21:52:29.942112
+No,pandas,pandas.core.frame,4232,15,IndexExpr,int,,DataFrame,2025-02-28 21:52:29.970736
+No,pandas,pandas.core.frame,4258,12,IndexExpr,Hashable,,"Dict[Hashable, Series]",2025-02-28 21:52:29.986095
+No,pandas,pandas.core.frame,4276,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:29.993172
+No,pandas,pandas.core.frame,4685,29,OpExpr,None,,OpExpr,2025-02-28 21:52:30.038436
+No,pandas,pandas.core.frame,4684,11,UnaryExpr,None,,"Any, Any",2025-02-28 21:52:30.039436
+No,pandas,pandas.core.frame,4689,20,ConditionalExpr,DtypeObj,,ConditionalExpr,2025-02-28 21:52:30.041434
+No,pandas,pandas.core.frame,4697,12,NameExpr,DtypeObj,,"UnionType[ExtensionDtype, Any]",2025-02-28 21:52:30.049666
+No,pandas,pandas.core.frame,4699,39,NameExpr,DtypeObj,,"UnionType[ExtensionDtype, Any]",2025-02-28 21:52:30.051663
+No,pandas,pandas.core.frame,4703,35,NameExpr,DtypeObj,,"UnionType[ExtensionDtype, Any]",2025-02-28 21:52:30.052663
+No,pandas,pandas.core.frame,4770,11,OpExpr,"UnionType[bool, NoDefault]",,OpExpr,2025-02-28 21:52:30.062841
+No,pandas,pandas.core.frame,5686,49,OpExpr,int,,OpExpr,2025-02-28 21:52:30.221979
+No,pandas,pandas.core.frame,6396,19,OpExpr,Axis,,OpExpr,2025-02-28 21:52:30.350059
+No,pandas,pandas.core.frame,6647,17,CastExpr,"UnionType[Hashable, List[Hashable], None]",,List[Any],2025-02-28 21:52:30.395714
+No,pandas,pandas.core.frame,6658,21,CallExpr,"UnionType[Hashable, List[Hashable], None]",,"DataFrame, UnionType[Hashable, List[Hashable], None]",2025-02-28 21:52:30.399798
+No,pandas,pandas.core.frame,6658,21,IndexExpr,"UnionType[Hashable, List[Hashable], None]",,DataFrame,2025-02-28 21:52:30.401796
+No,pandas,pandas.core.frame,7081,15,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:30.441522
+No,pandas,pandas.core.frame,7837,11,OpExpr,DataFrame,,OpExpr,2025-02-28 21:52:30.582565
+No,pandas,pandas.core.frame,8109,27,UnaryExpr,None,,"Any, Any",2025-02-28 21:52:30.666195
+No,pandas,pandas.core.frame,9064,16,OpExpr,int,,OpExpr,2025-02-28 21:52:30.766978
+No,pandas,pandas.core.frame,9110,15,IndexExpr,IndexLabel,,"UnionType[DataFrame, Series, None]",2025-02-28 21:52:30.777243
+No,pandas,pandas.core.frame,9525,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:30.824797
+No,pandas,pandas.core.frame,9548,19,OpExpr,bool,,OpExpr,2025-02-28 21:52:30.836950
+No,pandas,pandas.core.frame,9785,15,OpExpr,str,,OpExpr,2025-02-28 21:52:30.856379
+No,pandas,pandas.core.frame,9955,15,OpExpr,int,,OpExpr,2025-02-28 21:52:30.884061
+No,pandas,pandas.core.frame,9955,26,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.885061
+No,pandas,pandas.core.frame,9955,48,UnaryExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.886062
+No,pandas,pandas.core.frame,9955,52,MemberExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.887059
+No,pandas,pandas.core.frame,9955,52,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.888058
+No,pandas,pandas.core.frame,9957,28,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.889183
+No,pandas,pandas.core.frame,9958,50,CallExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.891181
+No,pandas,pandas.core.frame,9958,50,MemberExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.891181
+No,pandas,pandas.core.frame,9961,46,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.893181
+No,pandas,pandas.core.frame,9965,41,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.899275
+No,pandas,pandas.core.frame,9962,24,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.902333
+No,pandas,pandas.core.frame,9954,22,NameExpr,int,,"UnionType[int, Dict[IndexLabel, int], Series]",2025-02-28 21:52:30.902333
+No,pandas,pandas.core.frame,11220,20,OpExpr,"UnionType[Series, DataFrame, List[Any], Dict[Any, Any]]",,OpExpr,2025-02-28 21:52:31.253328
+No,pandas,pandas.core.frame,11610,26,MemberExpr,"UnionType[DataFrame, Series]",,"Index, UnionType[DataFrame, Series]",2025-02-28 21:52:31.324402
+No,pandas,pandas.core.generic,333,15,CallExpr,NDFrameT,,"Manager, NDFrameT",2025-02-28 21:52:31.351015
+No,pandas,pandas.core.generic,333,15,MemberExpr,NDFrameT,,"Manager, NDFrameT",2025-02-28 21:52:31.352776
+No,pandas,pandas.core.generic,513,19,IndexExpr,Axis,,UnknownType,2025-02-28 21:52:31.386321
+No,pandas,pandas.core.generic,537,19,OpExpr,Axis,,OpExpr,2025-02-28 21:52:31.403583
+No,pandas,pandas.core.generic,568,8,IndexExpr,str,,"Dict[Any, Any]",2025-02-28 21:52:31.427835
+No,pandas,pandas.core.generic,729,8,NameExpr,"UnionType[AnyArrayLike, List[]]",,"UnionType[AnyArrayLike, List[Any]]",2025-02-28 21:52:31.475133
+No,pandas,pandas.core.generic,729,30,NameExpr,"UnionType[AnyArrayLike, List[]]",,"UnionType[AnyArrayLike, List[Any]]",2025-02-28 21:52:31.476422
+No,pandas,pandas.core.generic,730,33,NameExpr,"UnionType[AnyArrayLike, List[]]",,"UnionType[AnyArrayLike, List[Any]]",2025-02-28 21:52:31.478421
+No,pandas,pandas.core.generic,752,19,GeneratorExpr,NDFrameT,,GeneratorExpr,2025-02-28 21:52:31.486666
+No,pandas,pandas.core.generic,775,19,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.494515
+No,pandas,pandas.core.generic,775,19,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.495514
+No,pandas,pandas.core.generic,777,13,OpExpr,NDFrameT,,OpExpr,2025-02-28 21:52:31.497604
+No,pandas,pandas.core.generic,777,14,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:31.497604
+No,pandas,pandas.core.generic,780,15,CallExpr,NDFrameT,,"UnionType[Any, ndarray], List[Index], bool, NDFrameT",2025-02-28 21:52:31.502601
+No,pandas,pandas.core.generic,780,15,MemberExpr,NDFrameT,,"UnionType[Any, ndarray], List[Index], bool, NDFrameT",2025-02-28 21:52:31.503734
+No,pandas,pandas.core.generic,853,17,IndexExpr,Hashable,,NDFrame,2025-02-28 21:52:31.511417
+No,pandas,pandas.core.generic,854,12,IndexExpr,Hashable,,NDFrame,2025-02-28 21:52:31.512416
+No,pandas,pandas.core.generic,1001,15,OpExpr,"UnionType[Axis, None]",,OpExpr,2025-02-28 21:52:31.522642
+No,pandas,pandas.core.generic,1007,17,ConditionalExpr,NDFrameT,,ConditionalExpr,2025-02-28 21:52:31.526743
+No,pandas,pandas.core.generic,1030,27,IndexExpr,"UnionType[Renamer, None]",,ndarray,2025-02-28 21:52:31.536477
+No,pandas,pandas.core.generic,1030,35,NameExpr,"UnionType[Renamer, None]",,int,2025-02-28 21:52:31.537480
+No,pandas,pandas.core.generic,1029,28,NameExpr,"UnionType[Renamer, None]",,int,2025-02-28 21:52:31.538605
+No,pandas,pandas.core.generic,1240,21,ConditionalExpr,NDFrameT,,ConditionalExpr,2025-02-28 21:52:31.558868
+No,pandas,pandas.core.generic,1251,31,MemberExpr,NDFrameT,,"Axis, NDFrameT",2025-02-28 21:52:31.569082
+No,pandas,pandas.core.generic,1416,16,CastExpr,object,,NDFrame,2025-02-28 21:52:31.595671
+No,pandas,pandas.core.generic,1462,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, Any, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.620133
+No,pandas,pandas.core.generic,1462,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, Any, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.621192
+No,pandas,pandas.core.generic,1589,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, Any, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.641289
+No,pandas,pandas.core.generic,1589,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, Any, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.641289
+No,pandas,pandas.core.generic,1597,15,CallExpr,NDFrameT,,"int, NDFrameT",2025-02-28 21:52:31.644380
+No,pandas,pandas.core.generic,1597,15,MemberExpr,NDFrameT,,"int, NDFrameT",2025-02-28 21:52:31.645378
+No,pandas,pandas.core.generic,1776,21,CallExpr,int,,"NDFrame, int",2025-02-28 21:52:31.686726
+No,pandas,pandas.core.generic,1776,21,IndexExpr,int,,NDFrame,2025-02-28 21:52:31.688841
+No,pandas,pandas.core.generic,2530,17,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:31.828779
+No,pandas,pandas.core.generic,3444,30,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:52:31.911486
+No,pandas,pandas.core.generic,3447,30,ConditionalExpr,"UnionType[bool, None]",,ConditionalExpr,2025-02-28 21:52:31.915748
+No,pandas,pandas.core.generic,3529,24,ConditionalExpr,"UnionType[Dict[Any, Any], None]",,ConditionalExpr,2025-02-28 21:52:31.935955
+No,pandas,pandas.core.generic,3938,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.973622
+No,pandas,pandas.core.generic,3938,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:31.975619
+No,pandas,pandas.core.generic,4072,23,OpExpr,NDFrameT,,OpExpr,2025-02-28 21:52:31.987981
+No,pandas,pandas.core.generic,4073,12,IndexExpr,Axis,,List[slice],2025-02-28 21:52:31.989979
+No,pandas,pandas.core.generic,4082,23,IndexExpr,IndexLabel,,NDFrameT,2025-02-28 21:52:31.997459
+No,pandas,pandas.core.generic,4117,21,CallExpr,NDFrameT,,"UnionType[SingleArrayManager, SingleBlockManager, Any], NDFrameT, Any, NDFrameT",2025-02-28 21:52:32.031094
+No,pandas,pandas.core.generic,4117,21,MemberExpr,NDFrameT,,"UnionType[SingleArrayManager, SingleBlockManager, Any], NDFrameT, Any, NDFrameT",2025-02-28 21:52:32.032095
+No,pandas,pandas.core.generic,5334,15,OpExpr,"UnionType[Axis, None]",,OpExpr,2025-02-28 21:52:32.214834
+No,pandas,pandas.core.generic,5348,14,GeneratorExpr,NDFrameT,,GeneratorExpr,2025-02-28 21:52:32.220896
+No,pandas,pandas.core.generic,5349,12,CallExpr,NDFrameT,,"UnionType[Literal[index], Literal[columns]], NDFrameT",2025-02-28 21:52:32.224171
+No,pandas,pandas.core.generic,5349,12,MemberExpr,NDFrameT,,"UnionType[Literal[index], Literal[columns]], NDFrameT",2025-02-28 21:52:32.225677
+No,pandas,pandas.core.generic,5360,15,CallExpr,NDFrameT,,"Dict[UnionType[Literal[index], Literal[columns]], Any], UnionType[Hashable, None], UnionType[int, None], Any, UnionType[str, None], UnionType[Scalar, None], UnionType[bool, None], NDFrameT",2025-02-28 21:52:32.229181
+No,pandas,pandas.core.generic,5360,15,MemberExpr,NDFrameT,,"Dict[UnionType[Literal[index], Literal[columns]], Any], UnionType[Hashable, None], UnionType[int, None], Any, UnionType[str, None], UnionType[Scalar, None], UnionType[bool, None], NDFrameT",2025-02-28 21:52:32.230207
+No,pandas,pandas.core.generic,5443,13,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:32.278790
+No,pandas,pandas.core.generic,5451,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.283785
+No,pandas,pandas.core.generic,5451,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.284884
+No,pandas,pandas.core.generic,5632,15,SliceExpr,int,,SliceExpr,2025-02-28 21:52:32.312050
+No,pandas,pandas.core.generic,5709,15,SliceExpr,int,,SliceExpr,2025-02-28 21:52:32.315120
+No,pandas,pandas.core.generic,5845,18,IndexExpr,"UnionType[Axis, None]",,NDFrameT,2025-02-28 21:52:32.325048
+No,pandas,pandas.core.generic,5988,19,IndexExpr,str,,NDFrame,2025-02-28 21:52:32.372328
+No,pandas,pandas.core.generic,6018,20,IndexExpr,str,,NDFrame,2025-02-28 21:52:32.383519
+No,pandas,pandas.core.generic,6112,15,CallExpr,NDFrameT,,"NDFrameT, NDFrameT",2025-02-28 21:52:32.472923
+No,pandas,pandas.core.generic,6112,15,MemberExpr,NDFrameT,,"NDFrameT, NDFrameT",2025-02-28 21:52:32.474924
+No,pandas,pandas.core.generic,6317,22,GeneratorExpr,NDFrameT,,GeneratorExpr,2025-02-28 21:52:32.555735
+No,pandas,pandas.core.generic,6318,16,CallExpr,NDFrameT,,"NDFrameT, int",2025-02-28 21:52:32.556734
+No,pandas,pandas.core.generic,6318,16,MemberExpr,NDFrameT,,"NDFrameT, int",2025-02-28 21:52:32.557733
+No,pandas,pandas.core.generic,6325,19,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.561730
+No,pandas,pandas.core.generic,6325,19,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.561730
+No,pandas,pandas.core.generic,6454,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.575205
+No,pandas,pandas.core.generic,6454,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.577202
+No,pandas,pandas.core.generic,6516,15,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.585957
+No,pandas,pandas.core.generic,6516,15,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:32.586959
+No,pandas,pandas.core.generic,6685,23,CastExpr,NDFrameT,,UnknownType,2025-02-28 21:52:32.596136
+No,pandas,pandas.core.generic,6871,25,MemberExpr,NDFrameT,,"UnionType[FillnaOptions, None], UnionType[int, None], NDFrameT",2025-02-28 21:52:32.605866
+No,pandas,pandas.core.generic,6868,15,OpExpr,NDFrameT,,OpExpr,2025-02-28 21:52:32.607975
+No,pandas,pandas.core.generic,6918,29,ConditionalExpr,NDFrameT,,ConditionalExpr,2025-02-28 21:52:32.616074
+No,pandas,pandas.core.generic,6927,24,ConditionalExpr,"UnionType[Dict[Any, Any], None]",,ConditionalExpr,2025-02-28 21:52:32.621168
+No,pandas,pandas.core.generic,6979,29,MemberExpr,NDFrameT,,"UnionType[Hashable, Dict[Any, Any], Series, DataFrame], UnionType[int, None], NDFrameT",2025-02-28 21:52:32.671394
+No,pandas,pandas.core.generic,6987,27,MemberExpr,NDFrameT,,"NDFrameT, UnionType[Hashable, Dict[Any, Any], Series, DataFrame], NDFrameT",2025-02-28 21:52:32.674516
+No,pandas,pandas.core.generic,7620,14,ConditionalExpr,NDFrameT,,ConditionalExpr,2025-02-28 21:52:32.807178
+No,pandas,pandas.core.generic,7849,46,CallExpr,None,,"NDFrame, Any",2025-02-28 21:52:32.880940
+No,pandas,pandas.core.generic,7849,46,IndexExpr,None,,NDFrame,2025-02-28 21:52:32.881939
+No,pandas,pandas.core.generic,9585,15,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:33.243065
+No,pandas,pandas.core.generic,10118,19,CallExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:33.371030
+No,pandas,pandas.core.generic,10118,19,MemberExpr,NDFrameT,,"UnionType[ArrayManager, SingleArrayManager, BlockManager, SingleBlockManager], NDFrameT",2025-02-28 21:52:33.372029
+No,pandas,pandas.core.generic,10300,17,OpExpr,NDFrameT,,OpExpr,2025-02-28 21:52:33.395513
+No,pandas,pandas.core.generic,10301,8,IndexExpr,"UnionType[Axis, None]",,List[slice],2025-02-28 21:52:33.395513
+No,pandas,pandas.core.generic,10381,36,IndexExpr,None,,Index,2025-02-28 21:52:33.425920
+No,pandas,pandas.core.generic,10563,37,IndexExpr,None,,Index,2025-02-28 21:52:33.462001
+No,pandas,pandas.core.indexing,888,26,OpExpr,Tuple[Any],,OpExpr,2025-02-28 21:52:34.014690
+No,pandas,pandas.core.indexing,1008,30,OpExpr,Tuple[Any],,OpExpr,2025-02-28 21:52:34.071932
+No,pandas,pandas.core.indexing,1014,30,OpExpr,Tuple[Any],,OpExpr,2025-02-28 21:52:34.072930
+No,pandas,pandas.core.indexing,1338,16,IndexExpr,int,,List[slice],2025-02-28 21:52:34.244275
+No,pandas,pandas.core.indexing,1968,13,OpExpr,DataFrame,,OpExpr,2025-02-28 21:52:34.692395
+No,pandas,pandas.core.indexing,2245,29,MemberExpr,Series,,"Any, Any, bool, Series",2025-02-28 21:52:34.874687
+No,pandas,pandas.core.indexing,2248,19,OpExpr,bool,,OpExpr,2025-02-28 21:52:34.884884
+No,pandas,pandas.core.indexing,2271,27,MemberExpr,Series,,"Any, Series",2025-02-28 21:52:34.905190
+No,pandas,pandas.core.indexing,2279,27,MemberExpr,Series,,"Any, Series",2025-02-28 21:52:34.910295
+No,pandas,pandas.core.indexing,2289,19,MemberExpr,Series,,"Any, Series",2025-02-28 21:52:34.917385
+No,pandas,pandas.core.indexing,2297,19,MemberExpr,Series,,"Any, Series",2025-02-28 21:52:34.923670
+No,pandas,pandas.core.indexing,2322,19,OpExpr,DataFrame,,OpExpr,2025-02-28 21:52:34.947961
+No,pandas,pandas.core.indexing,2471,14,OpExpr,int,,OpExpr,2025-02-28 21:52:35.034580
+No,pandas,pandas.core.indexing,2472,4,IndexExpr,int,,List[slice],2025-02-28 21:52:35.035581
+No,pandas,pandas.core.missing,216,17,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:35.166617
+No,pandas,pandas.core.missing,847,38,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:35.363513
+No,pandas,pandas.core.missing,1028,12,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:35.440650
+No,pandas,pandas.core.missing,1029,14,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:35.445740
+No,pandas,pandas.core.nanops,115,18,OpExpr,F,,OpExpr,2025-02-28 21:52:35.475525
+No,pandas,pandas.core.nanops,334,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.531288
+No,pandas,pandas.core.nanops,460,23,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:35.605316
+No,pandas,pandas.core.nanops,460,23,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:52:35.606315
+No,pandas,pandas.core.nanops,460,58,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:35.607314
+No,pandas,pandas.core.nanops,773,11,OpExpr,None,,OpExpr,2025-02-28 21:52:35.699589
+No,pandas,pandas.core.nanops,881,8,OpExpr,dtype,,OpExpr,2025-02-28 21:52:35.754055
+No,pandas,pandas.core.nanops,994,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.814602
+No,pandas,pandas.core.nanops,1064,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.843082
+No,pandas,pandas.core.nanops,1248,9,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.883781
+No,pandas,pandas.core.nanops,1245,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.885780
+No,pandas,pandas.core.nanops,1256,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.895878
+No,pandas,pandas.core.nanops,1338,9,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.949413
+No,pandas,pandas.core.nanops,1335,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.950513
+No,pandas,pandas.core.nanops,1346,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:35.961774
+No,pandas,pandas.core.nanops,1423,8,IndexExpr,"UnionType[NDArray, None]",,ndarray,2025-02-28 21:52:36.013289
+No,pandas,pandas.core.nanops,1421,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:36.014288
+No,pandas,pandas.core.nanops,1485,16,OpExpr,"UnionType[NDArray, None]",,OpExpr,2025-02-28 21:52:36.032099
+No,pandas,pandas.core.nanops,1491,16,OpExpr,"UnionType[NDArray, None]",,OpExpr,2025-02-28 21:52:36.038792
+No,pandas,pandas.core.nanops,1491,16,IndexExpr,"UnionType[int, None]",,"UnionType[NDArray, None]",2025-02-28 21:52:36.038792
+No,pandas,pandas.core.nanops,1493,16,IndexExpr,"UnionType[int, None]",,Shape,2025-02-28 21:52:36.041694
+No,pandas,pandas.core.nanops,1519,25,OpExpr,int,,OpExpr,2025-02-28 21:52:36.051900
+No,pandas,pandas.core.nanops,1519,25,IndexExpr,"UnionType[int, None]",,"UnionType[NDArray, None]",2025-02-28 21:52:36.052900
+No,pandas,pandas.core.nanops,1522,26,OpExpr,int,,OpExpr,2025-02-28 21:52:36.055896
+No,pandas,pandas.core.nanops,1522,26,IndexExpr,"UnionType[int, None]",,Tuple[int],2025-02-28 21:52:36.056895
+No,pandas,pandas.core.nanops,1523,24,OpExpr,Tuple[int],,OpExpr,2025-02-28 21:52:36.057896
+No,pandas,pandas.core.nanops,1523,24,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:52:36.058894
+No,pandas,pandas.core.nanops,1523,45,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:36.060999
+No,pandas,pandas.core.nanops,1573,24,OpExpr,"UnionType[NDArray, None]",,OpExpr,2025-02-28 21:52:36.086314
+No,pandas,pandas.core.resample,193,19,IndexExpr,str,,Resampler,2025-02-28 21:52:36.270923
+No,pandas,pandas.core.resample,1629,26,ConditionalExpr,"UnionType[Literal[start], Literal[end], Literal[e], Literal[s], None]",,ConditionalExpr,2025-02-28 21:52:36.701289
+No,pandas,pandas.core.resample,2039,30,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:36.853581
+No,pandas,pandas.core.resample,2041,25,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:36.854580
+No,pandas,pandas.core.resample,2090,19,UnaryExpr,BaseOffset,,"Timestamp, BaseOffset",2025-02-28 21:52:36.865769
+No,pandas,pandas.core.resample,2097,24,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:36.868843
+No,pandas,pandas.core.resample,2098,22,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:36.870843
+No,pandas,pandas.core.resample,2147,27,MemberExpr,TimeGrouperOrigin,,"str, TimeGrouperOrigin",2025-02-28 21:52:36.886117
+No,pandas,pandas.core.resample,2149,22,ConditionalExpr,Timestamp,,ConditionalExpr,2025-02-28 21:52:36.887235
+No,pandas,pandas.core.resample,2150,26,OpExpr,Timestamp,,OpExpr,2025-02-28 21:52:36.888236
+No,pandas,pandas.core.resample,2153,30,OpExpr,Tick,,OpExpr,2025-02-28 21:52:36.890233
+No,pandas,pandas.core.resample,2155,24,ConditionalExpr,"UnionType[Timedelta, None]",,ConditionalExpr,2025-02-28 21:52:36.891232
+No,pandas,pandas.core.resample,2179,26,OpExpr,Timestamp,,OpExpr,2025-02-28 21:52:36.894304
+No,pandas,pandas.core.resample,2192,26,OpExpr,Timestamp,,OpExpr,2025-02-28 21:52:36.897300
+No,pandas,pandas.core.sample,32,34,IndexExpr,int,,NDFrame,2025-02-28 21:52:36.983673
+No,pandas,pandas.core.sample,62,23,IndexExpr,int,,NDFrame,2025-02-28 21:52:36.993406
+No,pandas,pandas.core.sample,99,11,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:37.009745
+No,pandas,pandas.core.sample,103,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:37.011743
+No,pandas,pandas.core.sample,151,11,CallExpr,"UnionType[RandomState, Generator]",,"int, int, bool, UnionType[ndarray, None], UnionType[RandomState, Generator]",2025-02-28 21:52:37.018809
+No,pandas,pandas.core.sample,151,11,MemberExpr,"UnionType[RandomState, Generator]",,"int, int, bool, UnionType[ndarray, None], UnionType[RandomState, Generator]",2025-02-28 21:52:37.019809
+No,pandas,pandas.core.series,410,17,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:37.080981
+No,pandas,pandas.core.series,431,20,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:52:37.091205
+No,pandas,pandas.core.series,478,17,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:37.104543
+No,pandas,pandas.core.series,478,17,UnaryExpr,None,,"Any, Any",2025-02-28 21:52:37.106540
+No,pandas,pandas.core.series,985,15,IndexExpr,int,,Series,2025-02-28 21:52:37.220373
+No,pandas,pandas.core.series,1081,32,IndexExpr,Tuple[Any],,Series,2025-02-28 21:52:37.287830
+No,pandas,pandas.core.series,3285,32,GeneratorExpr,"Callable[[Hashable, Hashable], Hashable]",,GeneratorExpr,2025-02-28 21:52:37.734316
+No,pandas,pandas.core.series,3620,24,CastExpr,"UnionType[bool, int, List[bool], List[int]]",,"List[UnionType[bool, int]]",2025-02-28 21:52:37.770533
+No,pandas,pandas.core.series,4685,15,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:52:37.901306
+No,pandas,pandas.core.series,5522,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:38.006983
+No,pandas,pandas.core.series,5664,30,OpExpr,Axis,,OpExpr,2025-02-28 21:52:38.016072
+No,pandas,pandas.core.sorting,94,12,OpExpr,Index,,OpExpr,2025-02-28 21:52:38.136878
+No,pandas,pandas.core.sorting,95,12,OpExpr,Index,,OpExpr,2025-02-28 21:52:38.137879
+No,pandas,pandas.core.sorting,103,22,CastExpr,"UnionType[List[bool], bool]",,bool,2025-02-28 21:52:38.139875
+No,pandas,pandas.core.sorting,249,28,OpExpr,Shape,,OpExpr,2025-02-28 21:52:38.205220
+No,pandas,pandas.core.sorting,423,18,IndexExpr,"UnionType[NDArray, None]",,ndarray,2025-02-28 21:52:38.282112
+No,pandas,pandas.core.sorting,481,15,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:38.329390
+No,pandas,pandas.core.sorting,482,18,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:38.330389
+No,pandas,pandas.core.sorting,522,22,GeneratorExpr,MultiIndex,,GeneratorExpr,2025-02-28 21:52:38.337511
+No,pandas,pandas.core.sorting,530,12,NameExpr,None,,int,2025-02-28 21:52:38.341506
+No,pandas,pandas.core.sorting,528,11,NameExpr,None,,int,2025-02-28 21:52:38.342602
+No,pandas,pandas.core.sorting,529,37,NameExpr,None,,int,2025-02-28 21:52:38.343201
+No,pandas,pandas.core.sorting,527,50,NameExpr,None,,int,2025-02-28 21:52:38.345200
+No,pandas,pandas.core.sorting,657,18,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:38.396003
+No,pandas,pandas.core.sorting,661,43,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:38.400078
+No,pandas,pandas.core.sorting,689,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:38.409261
+No,pandas,pandas.core.arrays.base,486,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:38.455157
+No,pandas,pandas.core.arrays.base,868,16,SliceExpr,int,,SliceExpr,2025-02-28 21:52:38.512359
+No,pandas,pandas.core.arrays.base,959,16,CastExpr,object,,ExtensionArray,2025-02-28 21:52:38.531210
+No,pandas,pandas.core.arrays.base,970,23,OpExpr,object,,OpExpr,2025-02-28 21:52:38.534206
+No,pandas,pandas.core.arrays.base,1501,45,SliceExpr,int,,SliceExpr,2025-02-28 21:52:38.638911
+No,pandas,pandas.core.arrays.base,1501,67,SliceExpr,int,,SliceExpr,2025-02-28 21:52:38.640035
+No,pandas,pandas.core.arrays.base,1528,8,IndexExpr,NDArray,,ExtensionArray,2025-02-28 21:52:38.648111
+No,pandas,pandas.core.arrays.base,1552,8,IndexExpr,NDArray,,ExtensionArrayT,2025-02-28 21:52:38.656320
+No,pandas,pandas.core.arrays.base,1571,8,IndexExpr,NDArray,,ExtensionArray,2025-02-28 21:52:38.668475
+No,pandas,pandas.core.arrays.boolean,112,67,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.856385
+No,pandas,pandas.core.arrays.boolean,111,11,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.857384
+No,pandas,pandas.core.arrays.boolean,111,11,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.858382
+No,pandas,pandas.core.arrays.boolean,115,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.860380
+No,pandas,pandas.core.arrays.boolean,118,21,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.861467
+No,pandas,pandas.core.arrays.boolean,118,21,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.861467
+No,pandas,pandas.core.arrays.boolean,114,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:38.862466
+No,pandas,pandas.core.arrays.boolean,319,51,OpExpr,"UnionType[List[str], None]",,OpExpr,2025-02-28 21:52:38.983404
+No,pandas,pandas.core.arrays.boolean,320,53,OpExpr,"UnionType[List[str], None]",,OpExpr,2025-02-28 21:52:38.984403
+No,pandas,pandas.core.arrays.categorical,508,20,CastExpr,AstypeArg,,CategoricalDtype,2025-02-28 21:52:39.171944
+No,pandas,pandas.core.arrays.categorical,779,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:39.273763
+No,pandas,pandas.core.arrays.categorical,1779,15,IndexExpr,int,,Categorical,2025-02-28 21:52:39.571223
+No,pandas,pandas.core.arrays.categorical,1821,14,OpExpr,int,,OpExpr,2025-02-28 21:52:39.597346
+No,pandas,pandas.core.arrays.datetimelike,1962,17,CastExpr,TimelikeOpsT,,DatetimeArray,2025-02-28 21:52:40.784587
+No,pandas,pandas.core.arrays.datetimelike,2104,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:40.868566
+No,pandas,pandas.core.arrays.datetimes,310,15,ConditionalExpr,"UnionType[str, BaseOffset, NoDefault, None]",,ConditionalExpr,2025-02-28 21:52:41.018792
+No,pandas,pandas.core.arrays.datetimes,2544,9,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:41.650031
+No,pandas,pandas.core.arrays.datetimes,2544,17,UnaryExpr,BaseOffset,,"UnionType[Timestamp, None], BaseOffset",2025-02-28 21:52:41.650031
+No,pandas,pandas.core.arrays.datetimes,2539,7,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:41.652028
+No,pandas,pandas.core.arrays.datetimes,2539,17,UnaryExpr,BaseOffset,,"UnionType[Timestamp, None], BaseOffset",2025-02-28 21:52:41.652709
+No,pandas,pandas.core.arrays.datetimes,2557,14,OpExpr,"UnionType[Timestamp, None]",,OpExpr,2025-02-28 21:52:41.657828
+No,pandas,pandas.core.arrays.datetimes,2557,22,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:41.658827
+No,pandas,pandas.core.arrays.datetimes,2557,23,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:41.659826
+No,pandas,pandas.core.arrays.datetimes,2562,16,OpExpr,"UnionType[Timestamp, None]",,OpExpr,2025-02-28 21:52:41.660825
+No,pandas,pandas.core.arrays.datetimes,2562,22,OpExpr,BaseOffset,,OpExpr,2025-02-28 21:52:41.661824
+No,pandas,pandas.core.arrays.datetimes,2562,23,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:52:41.662924
+No,pandas,pandas.core.arrays.datetimes,2564,12,CastExpr,"UnionType[Timestamp, None]",,Timestamp,2025-02-28 21:52:41.663924
+No,pandas,pandas.core.arrays.datetimes,2565,10,CastExpr,"UnionType[Timestamp, None]",,Timestamp,2025-02-28 21:52:41.665920
+No,pandas,pandas.core.arrays.datetimes,2578,24,CallExpr,BaseOffset,,"Timestamp, BaseOffset",2025-02-28 21:52:41.668009
+No,pandas,pandas.core.arrays.datetimes,2578,24,MemberExpr,BaseOffset,,"Timestamp, BaseOffset",2025-02-28 21:52:41.669009
+No,pandas,pandas.core.arrays.datetimes,2592,24,CallExpr,BaseOffset,,"Timestamp, BaseOffset",2025-02-28 21:52:41.676118
+No,pandas,pandas.core.arrays.datetimes,2592,24,MemberExpr,BaseOffset,,"Timestamp, BaseOffset",2025-02-28 21:52:41.677117
+No,pandas,pandas.core.arrays.interval,316,17,OpExpr,"UnionType[IntervalClosedType, None]",,OpExpr,2025-02-28 21:52:41.785842
+No,pandas,pandas.core.arrays.interval,322,24,CastExpr,"UnionType[Dtype, None]",,IntervalDtype,2025-02-28 21:52:41.786840
+No,pandas,pandas.core.arrays.interval,716,15,IndexExpr,PositionalIndexer,,IntervalArrayT,2025-02-28 21:52:41.932788
+No,pandas,pandas.core.arrays.interval,717,16,IndexExpr,PositionalIndexer,,IntervalArrayT,2025-02-28 21:52:41.933880
+No,pandas,pandas.core.arrays.interval,853,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:42.065855
+No,pandas,pandas.core.arrays.interval,1073,16,SliceExpr,int,,SliceExpr,2025-02-28 21:52:42.171140
+No,pandas,pandas.core.arrays.interval,1539,19,UnaryExpr,None,,"Any, Any",2025-02-28 21:52:42.377007
+No,pandas,pandas.core.arrays.masked,160,18,IndexExpr,PositionalIndexer,,BaseMaskedArrayT,2025-02-28 21:52:42.573643
+No,pandas,pandas.core.arrays.masked,165,19,IndexExpr,PositionalIndexer,,BaseMaskedArrayT,2025-02-28 21:52:42.575641
+No,pandas,pandas.core.arrays.masked,167,26,IndexExpr,PositionalIndexer,,BaseMaskedArrayT,2025-02-28 21:52:42.576640
+No,pandas,pandas.core.arrays.masked,622,19,OpExpr,"UnionType[NDArray, None]",,OpExpr,2025-02-28 21:52:42.846261
+No,pandas,pandas.core.arrays.masked,854,26,ConditionalExpr,BaseMaskedArrayT,,ConditionalExpr,2025-02-28 21:52:43.046130
+No,pandas,pandas.core.arrays.numeric,84,36,CallExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.295158
+No,pandas,pandas.core.arrays.numeric,84,36,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.296157
+No,pandas,pandas.core.arrays.numeric,89,58,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.300278
+No,pandas,pandas.core.arrays.numeric,92,12,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.302453
+No,pandas,pandas.core.arrays.numeric,92,20,CallExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.302532
+No,pandas,pandas.core.arrays.numeric,92,20,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.304534
+No,pandas,pandas.core.arrays.numeric,81,11,UnaryExpr,"UnionType[Array, ChunkedArray]",,"Any, UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.305531
+No,pandas,pandas.core.arrays.numeric,81,15,CallExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.306529
+No,pandas,pandas.core.arrays.numeric,81,15,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.307645
+No,pandas,pandas.core.arrays.numeric,95,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.308646
+No,pandas,pandas.core.arrays.numeric,98,21,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.309643
+No,pandas,pandas.core.arrays.numeric,98,21,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.310644
+No,pandas,pandas.core.arrays.numeric,94,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:43.311641
+No,pandas,pandas.core.arrays.numeric,125,11,OpExpr,"UnionType[NumericDtype, str, dtype]",,OpExpr,2025-02-28 21:52:43.324188
+No,pandas,pandas.core.arrays.numpy_,118,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:43.524917
+No,pandas,pandas.core.arrays.numpy_,417,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:43.704733
+No,pandas,pandas.core.arrays.period,1069,18,OpExpr,int,,OpExpr,2025-02-28 21:52:44.151520
+No,pandas,pandas.core.arrays.period,1072,16,OpExpr,int,,OpExpr,2025-02-28 21:52:44.155645
+No,pandas,pandas.core.arrays.string_,196,36,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:44.244862
+No,pandas,pandas.core.arrays.string_,201,26,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:44.245862
+No,pandas,pandas.core.arrays.string_,204,25,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:44.246860
+No,pandas,pandas.core.arrays.string_,204,25,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:44.246860
+No,pandas,pandas.core.arrays.string_,200,26,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:44.247858
+No,pandas,pandas.core.arrays.timedeltas,929,35,OpExpr,None,,OpExpr,2025-02-28 21:52:45.282879
+No,pandas,pandas.core.arrays.timedeltas,986,11,ConditionalExpr,str,,ConditionalExpr,2025-02-28 21:52:45.342962
+No,pandas,pandas.core.arrays._mixins,272,21,IndexExpr,PositionalIndexer2D,,NDArrayBackedExtensionArrayT,2025-02-28 21:52:45.455692
+No,pandas,pandas.core.arrays._mixins,281,17,IndexExpr,PositionalIndexer2D,,NDArrayBackedExtensionArrayT,2025-02-28 21:52:45.459804
+No,pandas,pandas.core.arrays._mixins,408,16,SliceExpr,int,,SliceExpr,2025-02-28 21:52:45.512807
+No,pandas,pandas.core.arrays._mixins,410,16,SliceExpr,int,,SliceExpr,2025-02-28 21:52:45.514894
+No,pandas,pandas.core.arrays._ranges,49,13,ConditionalExpr,"UnionType[Timestamp, Timedelta, None]",,ConditionalExpr,2025-02-28 21:52:45.547518
+No,pandas,pandas.core.arrays._ranges,50,11,ConditionalExpr,"UnionType[Timestamp, Timedelta, None]",,ConditionalExpr,2025-02-28 21:52:45.548515
+No,pandas,pandas.core.arrays._ranges,148,12,OpExpr,int,,OpExpr,2025-02-28 21:52:45.588547
+No,pandas,pandas.core.arrays._ranges,148,31,OpExpr,int,,OpExpr,2025-02-28 21:52:45.588547
+No,pandas,pandas.core.arrays._ranges,144,27,OpExpr,int,,OpExpr,2025-02-28 21:52:45.589547
+No,pandas,pandas.core.arrays._ranges,152,18,OpExpr,int,,OpExpr,2025-02-28 21:52:45.592543
+No,pandas,pandas.core.arrays.arrow.array,169,15,MemberExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.630660
+No,pandas,pandas.core.arrays.arrow.array,169,15,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.630660
+No,pandas,pandas.core.arrays.arrow.array,171,15,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.630660
+No,pandas,pandas.core.arrays.arrow.array,173,28,MemberExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.631660
+No,pandas,pandas.core.arrays.arrow.array,173,28,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.632659
+No,pandas,pandas.core.arrays.arrow.array,173,40,MemberExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.632659
+No,pandas,pandas.core.arrays.arrow.array,173,40,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.633658
+No,pandas,pandas.core.arrays.arrow.array,178,39,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.634657
+No,pandas,pandas.core.arrays.arrow.array,174,9,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.635655
+No,pandas,pandas.core.arrays.arrow.array,172,20,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.637451
+No,pandas,pandas.core.arrays.arrow.array,170,20,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.638449
+No,pandas,pandas.core.arrays.arrow.array,168,18,NameExpr,"UnionType[ArrowDtype, DataType, Dtype, None]",,"UnionType[ArrowDtype, pyarrow, Dtype, None]",2025-02-28 21:52:45.639447
+No,pandas,pandas.core.arrays.arrow.array,238,43,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:45.646646
+No,pandas,pandas.core.arrays.arrow.array,240,25,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:45.647646
+No,pandas,pandas.core.arrays.arrow.array,243,42,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:45.649644
+No,pandas,pandas.core.arrays.arrow.array,239,24,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:45.649644
+No,pandas,pandas.core.arrays.arrow.array,237,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:45.650643
+No,pandas,pandas.core.arrays.arrow.array,409,16,IndexExpr,PositionalIndexer,,ArrowExtensionArray,2025-02-28 21:52:45.745337
+No,pandas,pandas.core.arrays.arrow.array,723,16,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:45.936501
+No,pandas,pandas.core.arrays.arrow.array,736,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:45.961957
+No,pandas,pandas.core.arrays.arrow.array,868,24,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:46.041896
+No,pandas,pandas.core.arrays.arrow.array,1139,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:46.180903
+No,pandas,pandas.core.arrays.arrow.array,1447,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:46.395007
+No,pandas,pandas.core.arrays.arrow.array,1455,20,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:46.399103
+No,pandas,pandas.core.arrays.arrow.array,1457,21,ConditionalExpr,str,,ConditionalExpr,2025-02-28 21:52:46.400102
+No,pandas,pandas.core.arrays.arrow.array,1666,38,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.543179
+No,pandas,pandas.core.arrays.arrow.array,1667,16,IndexExpr,"UnionType[NDArray, bool]",,ndarray,2025-02-28 21:52:46.543179
+No,pandas,pandas.core.arrays.arrow.array,1670,52,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.547299
+No,pandas,pandas.core.arrays.arrow.array,1674,12,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.548298
+No,pandas,pandas.core.arrays.arrow.array,1674,21,CallExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.548298
+No,pandas,pandas.core.arrays.arrow.array,1674,21,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.550373
+No,pandas,pandas.core.arrays.arrow.array,1671,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.551372
+No,pandas,pandas.core.arrays.arrow.array,1671,71,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.554368
+No,pandas,pandas.core.arrays.arrow.array,1671,71,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.555368
+No,pandas,pandas.core.arrays.arrow.array,1676,40,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.556366
+No,pandas,pandas.core.arrays.arrow.array,1683,26,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.562773
+No,pandas,pandas.core.arrays.arrow.array,1684,8,IndexExpr,"UnionType[NDArray, bool]",,ndarray,2025-02-28 21:52:46.563771
+No,pandas,pandas.core.arrays.arrow.array,1685,37,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.565873
+No,pandas,pandas.core.arrays.arrow.array,1685,37,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:46.566873
+No,pandas,pandas.core.arrays.arrow.array,1795,43,OpExpr,int,,OpExpr,2025-02-28 21:52:46.671065
+No,pandas,pandas.core.arrays.arrow.array,1811,19,OpExpr,int,,OpExpr,2025-02-28 21:52:46.696518
+No,pandas,pandas.core.arrays.arrow.array,1816,19,OpExpr,int,,OpExpr,2025-02-28 21:52:46.698516
+No,pandas,pandas.core.arrays.arrow.dtype,92,16,NameExpr,DataType,,pyarrow,2025-02-28 21:52:46.986300
+No,pandas,pandas.core.arrays.arrow.dtype,93,51,NameExpr,DataType,,pyarrow,2025-02-28 21:52:46.989403
+No,pandas,pandas.core.arrays.arrow.dtype,90,26,NameExpr,DataType,,pyarrow,2025-02-28 21:52:46.991402
+No,pandas,pandas.core.arrays.arrow.dtype,95,29,NameExpr,DataType,,pyarrow,2025-02-28 21:52:46.992401
+No,pandas,pandas.core.arrays.arrow.dtype,311,14,CallExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:47.101638
+No,pandas,pandas.core.arrays.arrow.dtype,311,14,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:47.102635
+No,pandas,pandas.core.arrays.arrow._arrow_utils,49,13,OpExpr,dtype,,OpExpr,2025-02-28 21:52:47.197949
+No,pandas,pandas.core.arrays.arrow._arrow_utils,50,13,OpExpr,dtype,,OpExpr,2025-02-28 21:52:47.200946
+No,pandas,pandas.core.arrays.sparse.array,795,16,SliceExpr,int,,SliceExpr,2025-02-28 21:52:47.663420
+No,pandas,pandas.core.arrays.sparse.array,875,28,OpExpr,bool,,OpExpr,2025-02-28 21:52:47.719268
+No,pandas,pandas.core.arrays.sparse.array,930,25,IndexExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,SparseArrayT,2025-02-28 21:52:47.726743
+No,pandas,pandas.core.arrays.sparse.array,934,24,ConditionalExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,ConditionalExpr,2025-02-28 21:52:47.728817
+No,pandas,pandas.core.arrays.sparse.array,957,30,IndexExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,"SparseArrayT, Callable[[Sized], int], range",2025-02-28 21:52:47.734953
+No,pandas,pandas.core.arrays.sparse.array,961,26,IndexExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,"SparseArrayT, Callable[[Sized], int]",2025-02-28 21:52:47.739060
+No,pandas,pandas.core.arrays.sparse.array,994,22,CastExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,ndarray,2025-02-28 21:52:47.764695
+No,pandas,pandas.core.arrays.sparse.array,995,33,IndexExpr,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]]",,"UnionType[PositionalIndexer, Tuple[UnionType[int, ellipsis]]], Callable[[Sized], int]",2025-02-28 21:52:47.767293
+No,pandas,pandas.core.arrays.sparse.array,1459,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:48.018271
+No,pandas,pandas.core.arrays.sparse.dtype,312,11,OpExpr,object,,OpExpr,2025-02-28 21:52:48.362435
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,71,20,IndexExpr,NDArray,,"Any, UnionType[Tuple[int], List[int]]",2025-02-28 21:52:48.405763
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,79,20,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:48.417849
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,70,7,OpExpr,bool,,OpExpr,2025-02-28 21:52:48.418363
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,164,17,GeneratorExpr,Series,,GeneratorExpr,2025-02-28 21:52:48.446867
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,165,20,GeneratorExpr,Series,,GeneratorExpr,2025-02-28 21:52:48.447933
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,21,MemberExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.455703
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,21,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.456701
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,53,MemberExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.457701
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,53,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.457701
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,60,MemberExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.458699
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,198,60,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.458823
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,201,45,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.461821
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,206,39,MemberExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.462819
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,206,39,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.463902
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,206,46,MemberExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.463902
+No,pandas,pandas.core.arrays.sparse.scipy_sparse,206,46,NameExpr,coo_matrix,,UnknownType,2025-02-28 21:52:48.464903
+No,pandas,pandas.core.array_algos.masked_accumulations,70,4,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:48.540146
+No,pandas,pandas.core.array_algos.masked_reductions,113,11,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:48.576825
+No,pandas,pandas.core.array_algos.masked_reductions,119,17,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:48.578823
+No,pandas,pandas.core.array_algos.masked_reductions,154,7,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:48.593004
+No,pandas,pandas.core.array_algos.masked_reductions,167,7,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:48.598095
+No,pandas,pandas.core.array_algos.masked_reductions,185,7,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:48.610298
+No,pandas,pandas.core.array_algos.putmask,54,12,IndexExpr,NDArray,,ArrayLike,2025-02-28 21:52:48.622541
+No,pandas,pandas.core.array_algos.putmask,56,12,IndexExpr,NDArray,,ArrayLike,2025-02-28 21:52:48.623698
+No,pandas,pandas.core.array_algos.putmask,148,24,OpExpr,int,,OpExpr,2025-02-28 21:52:48.674946
+No,pandas,pandas.core.array_algos.quantile,97,12,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:48.703049
+No,pandas,pandas.core.array_algos.quantile,135,13,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:48.709162
+No,pandas,pandas.core.array_algos.replace,39,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:48.750016
+No,pandas,pandas.core.array_algos.replace,94,12,IndexExpr,NDArray,,ArrayLike,2025-02-28 21:52:48.778551
+No,pandas,pandas.core.array_algos.replace,150,8,IndexExpr,"UnionType[NDArray, None]",,ArrayLike,2025-02-28 21:52:48.808721
+No,pandas,pandas.core.array_algos.replace,150,25,IndexExpr,"UnionType[NDArray, None]",,ArrayLike,2025-02-28 21:52:48.809720
+No,pandas,pandas.core.array_algos.take,128,28,IndexExpr,int,,ndarray,2025-02-28 21:52:48.813822
+No,pandas,pandas.core.array_algos.take,138,7,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:48.823423
+No,pandas,pandas.core.array_algos.take,148,4,IndexExpr,int,,List[int],2025-02-28 21:52:48.825421
+No,pandas,pandas.core.array_algos.take,150,7,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:48.830541
+No,pandas,pandas.core.array_algos.take,150,42,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:48.830541
+No,pandas,pandas.core.array_algos.take,527,7,IndexExpr,int,,ndarray,2025-02-28 21:52:48.964384
+No,pandas,pandas.core.array_algos.take,530,21,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:48.965383
+No,pandas,pandas.core.array_algos.take,531,8,IndexExpr,int,,List[slice],2025-02-28 21:52:48.967381
+No,pandas,pandas.core.array_algos.transforms,31,19,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:49.022456
+No,pandas,pandas.core.array_algos.transforms,33,8,IndexExpr,int,,List[slice],2025-02-28 21:52:49.023454
+No,pandas,pandas.core.array_algos.transforms,35,8,IndexExpr,int,,List[slice],2025-02-28 21:52:49.024453
+No,pandas,pandas.core.computation.eval,329,12,OpExpr,int,,OpExpr,2025-02-28 21:52:49.318489
+No,pandas,pandas.core.computation.eval,355,14,IndexExpr,"UnionType[str, None]",,"Dict[str, UnknownType]",2025-02-28 21:52:49.325712
+No,pandas,pandas.core.computation.eval,413,15,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:52:49.341025
+No,pandas,pandas.core.computation.expr,805,38,OpExpr,int,,OpExpr,2025-02-28 21:52:49.893632
+No,pandas,pandas.core.computation.expr,808,24,IndexExpr,str,,"Dict[str, Callable[[Any, Any, Any, Any], BaseExprVisitor]]",2025-02-28 21:52:49.894630
+No,pandas,pandas.core.computation.ops,383,24,IndexExpr,str,,"Dict[str, Callable[[Any, Any], Any]]",2025-02-28 21:52:50.180607
+No,pandas,pandas.core.computation.ops,569,24,IndexExpr,"UnionType[Literal[+], Literal[-], Literal[~], Literal[not]]",,"Dict[str, function]",2025-02-28 21:52:50.315470
+No,pandas,pandas.core.computation.pytables,49,25,OpExpr,int,,OpExpr,2025-02-28 21:52:50.433902
+No,pandas,pandas.core.computation.pytables,50,26,OpExpr,"UnionType[Dict[str, Any], None]",,OpExpr,2025-02-28 21:52:50.434995
+No,pandas,pandas.core.computation.pytables,313,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:50.655580
+No,pandas,pandas.core.computation.pytables,313,48,OpExpr,bool,,OpExpr,2025-02-28 21:52:50.655580
+No,pandas,pandas.core.computation.pytables,574,33,OpExpr,int,,OpExpr,2025-02-28 21:52:50.855499
+No,pandas,pandas.core.computation.scope,38,16,IndexExpr,_KT,,MutableMapping,2025-02-28 21:52:50.902319
+No,pandas,pandas.core.computation.scope,40,8,IndexExpr,_KT,,DeepChainMap,2025-02-28 21:52:50.904740
+No,pandas,pandas.core.computation.scope,51,20,IndexExpr,_KT,,MutableMapping,2025-02-28 21:52:50.906740
+No,pandas,pandas.core.computation.scope,61,8,OpExpr,int,,OpExpr,2025-02-28 21:52:50.911849
+No,pandas,pandas.core.computation.scope,153,21,OpExpr,int,,OpExpr,2025-02-28 21:52:50.934481
+No,pandas,pandas.core.computation.scope,173,16,CallExpr,None,,"Any, None, FrameType, Any",2025-02-28 21:52:50.941783
+No,pandas,pandas.core.computation.scope,173,17,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:52:50.942783
+No,pandas,pandas.core.computation.scope,178,20,CallExpr,None,,"Any, None, FrameType, Any",2025-02-28 21:52:50.944782
+No,pandas,pandas.core.computation.scope,178,21,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:52:50.945781
+No,pandas,pandas.core.computation.scope,229,23,IndexExpr,str,,Scope,2025-02-28 21:52:50.959293
+No,pandas,pandas.core.computation.scope,233,23,IndexExpr,str,,Scope,2025-02-28 21:52:50.961289
+No,pandas,pandas.core.computation.scope,238,19,IndexExpr,str,,Scope,2025-02-28 21:52:50.963558
+No,pandas,pandas.core.computation.scope,244,23,IndexExpr,str,,Scope,2025-02-28 21:52:50.964558
+No,pandas,pandas.core.computation.scope,270,16,IndexExpr,str,,MutableMapping,2025-02-28 21:52:50.970660
+No,pandas,pandas.core.computation.scope,304,13,OpExpr,int,,OpExpr,2025-02-28 21:52:50.987346
+No,pandas,pandas.core.dtypes.base,515,23,CastExpr,"UnionType[UnknownType, ExtensionDtype, DTypeLike]",,"UnionType[ExtensionDtype, UnknownType]",2025-02-28 21:52:51.132695
+No,pandas,pandas.core.dtypes.cast,130,54,NameExpr,"UnionType[List[], Tuple[Any], range, ndarray, ExtensionArray]",,"UnionType[List[Any], Tuple[Any], range, ndarray, ExtensionArray]",2025-02-28 21:52:51.138855
+No,pandas,pandas.core.dtypes.cast,134,14,NameExpr,"UnionType[List[], Tuple[Any], range, ndarray, ExtensionArray]",,"UnionType[List[Any], Tuple[Any], range, ndarray, ExtensionArray]",2025-02-28 21:52:51.139853
+No,pandas,pandas.core.dtypes.cast,129,18,NameExpr,"UnionType[List[], Tuple[Any], range, ndarray, ExtensionArray]",,"UnionType[List[Any], Tuple[Any], range, ndarray, ExtensionArray]",2025-02-28 21:52:51.140852
+No,pandas,pandas.core.dtypes.cast,489,9,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.207478
+No,pandas,pandas.core.dtypes.cast,990,24,OpExpr,List[DtypeObj],,OpExpr,2025-02-28 21:52:51.482821
+No,pandas,pandas.core.dtypes.cast,1062,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.505196
+No,pandas,pandas.core.dtypes.cast,1084,16,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.515606
+No,pandas,pandas.core.dtypes.cast,1111,16,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.526541
+No,pandas,pandas.core.dtypes.cast,1054,8,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.529683
+No,pandas,pandas.core.dtypes.cast,1140,13,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.537746
+No,pandas,pandas.core.dtypes.cast,1141,16,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.539852
+No,pandas,pandas.core.dtypes.cast,1142,16,OpExpr,bool,,OpExpr,2025-02-28 21:52:51.540851
+No,pandas,pandas.core.dtypes.cast,1231,24,NameExpr,"UnionType[ndarray, List[]]",,"UnionType[ndarray, List[Any]]",2025-02-28 21:52:51.560184
+No,pandas,pandas.core.dtypes.cast,1239,44,NameExpr,"UnionType[ndarray, List[]]",,"UnionType[ndarray, List[Any]]",2025-02-28 21:52:51.561184
+No,pandas,pandas.core.dtypes.cast,1243,47,NameExpr,"UnionType[ndarray, List[]]",,"UnionType[ndarray, List[Any]]",2025-02-28 21:52:51.563181
+No,pandas,pandas.core.dtypes.cast,1543,11,OpExpr,int,,OpExpr,2025-02-28 21:52:51.655736
+No,pandas,pandas.core.dtypes.cast,1648,34,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.673548
+No,pandas,pandas.core.dtypes.cast,1652,25,CallExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.678725
+No,pandas,pandas.core.dtypes.cast,1652,25,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.679724
+No,pandas,pandas.core.dtypes.cast,1639,26,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.681813
+No,pandas,pandas.core.dtypes.cast,1659,18,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.687900
+No,pandas,pandas.core.dtypes.cast,1659,39,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.689894
+No,pandas,pandas.core.dtypes.cast,1659,39,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.689894
+No,pandas,pandas.core.dtypes.cast,1665,26,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.695031
+No,pandas,pandas.core.dtypes.cast,1673,4,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.697159
+No,pandas,pandas.core.dtypes.cast,1673,21,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.699157
+No,pandas,pandas.core.dtypes.cast,1676,34,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.700156
+No,pandas,pandas.core.dtypes.cast,1675,21,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.706378
+No,pandas,pandas.core.dtypes.cast,1675,21,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.707377
+No,pandas,pandas.core.dtypes.cast,1680,45,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.708377
+No,pandas,pandas.core.dtypes.cast,1684,27,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.710375
+No,pandas,pandas.core.dtypes.cast,1683,22,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.711446
+No,pandas,pandas.core.dtypes.cast,1683,22,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.712445
+No,pandas,pandas.core.dtypes.cast,1689,23,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.713444
+No,pandas,pandas.core.dtypes.cast,1689,23,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.713444
+No,pandas,pandas.core.dtypes.cast,1692,22,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.716509
+No,pandas,pandas.core.dtypes.cast,1692,22,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.717509
+No,pandas,pandas.core.dtypes.cast,1702,55,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.721638
+No,pandas,pandas.core.dtypes.cast,1699,7,MemberExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.725811
+No,pandas,pandas.core.dtypes.cast,1699,7,NameExpr,"UnionType[List[], ndarray]",,"UnionType[List[Any], ndarray]",2025-02-28 21:52:51.727101
+No,pandas,pandas.core.dtypes.cast,1728,18,CastExpr,ArrayLike,,"UnionType[PeriodArray, DatetimeArray, TimedeltaArray, IntervalArray]",2025-02-28 21:52:51.732753
+No,pandas,pandas.core.dtypes.cast,1778,35,OpExpr,Any,,OpExpr,2025-02-28 21:52:51.749072
+No,pandas,pandas.core.dtypes.concat,255,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:52.311820
+No,pandas,pandas.core.dtypes.dtypes,306,15,CastExpr,"UnionType[Dtype, None]",,CategoricalDtype,2025-02-28 21:52:52.423969
+No,pandas,pandas.core.dtypes.dtypes,391,13,OpExpr,Any,,OpExpr,2025-02-28 21:52:52.460139
+No,pandas,pandas.core.dtypes.dtypes,570,20,CastExpr,"UnionType[str, CategoricalDtype]",,CategoricalDtype,2025-02-28 21:52:52.518212
+No,pandas,pandas.core.dtypes.dtypes,574,12,ConditionalExpr,"UnionType[str, CategoricalDtype]",,ConditionalExpr,2025-02-28 21:52:52.521010
+No,pandas,pandas.core.dtypes.dtypes,576,22,ConditionalExpr,"UnionType[str, CategoricalDtype]",,ConditionalExpr,2025-02-28 21:52:52.522584
+No,pandas,pandas.core.dtypes.dtypes,879,19,IndexExpr,None,,UnknownType,2025-02-28 21:52:52.614901
+No,pandas,pandas.core.dtypes.dtypes,884,12,IndexExpr,None,,UnknownType,2025-02-28 21:52:52.619162
+No,pandas,pandas.core.dtypes.dtypes,900,15,OpExpr,str,,OpExpr,2025-02-28 21:52:52.630403
+No,pandas,pandas.core.dtypes.dtypes,919,17,OpExpr,str,,OpExpr,2025-02-28 21:52:52.635496
+No,pandas,pandas.core.dtypes.dtypes,983,15,OpExpr,object,,OpExpr,2025-02-28 21:52:52.673358
+No,pandas,pandas.core.dtypes.dtypes,1019,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.678439
+No,pandas,pandas.core.dtypes.dtypes,1021,21,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.679437
+No,pandas,pandas.core.dtypes.dtypes,1021,21,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.680438
+No,pandas,pandas.core.dtypes.dtypes,1018,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.681437
+No,pandas,pandas.core.dtypes.dtypes,1268,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.771893
+No,pandas,pandas.core.dtypes.dtypes,1270,21,MemberExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.772892
+No,pandas,pandas.core.dtypes.dtypes,1270,21,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.773890
+No,pandas,pandas.core.dtypes.dtypes,1267,22,NameExpr,"UnionType[Array, ChunkedArray]",,"UnionType[pyarrow, pyarrow]",2025-02-28 21:52:52.774891
+No,pandas,pandas.core.dtypes.dtypes,1293,17,CastExpr,List[DtypeObj],,IntervalDtype,2025-02-28 21:52:52.795448
+No,pandas,pandas.core.dtypes.dtypes,1453,19,IndexExpr,dtype,,"Dict[str, IntegerDtype]",2025-02-28 21:52:52.842706
+No,pandas,pandas.core.dtypes.dtypes,1457,19,IndexExpr,dtype,,"Dict[str, FloatingDtype]",2025-02-28 21:52:52.843703
+No,pandas,pandas.core.groupby.generic,389,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:53.376799
+No,pandas,pandas.core.groupby.generic,649,15,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:53.532253
+No,pandas,pandas.core.groupby.generic,752,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:53.632295
+No,pandas,pandas.core.groupby.generic,1400,15,NameExpr,List[],,List[Any],2025-02-28 21:52:53.833307
+No,pandas,pandas.core.groupby.generic,1413,44,NameExpr,List[],,List[Any],2025-02-28 21:52:53.835305
+No,pandas,pandas.core.groupby.generic,1420,16,NameExpr,List[],,List[Any],2025-02-28 21:52:53.837022
+No,pandas,pandas.core.groupby.generic,1433,16,NameExpr,List[],,List[Any],2025-02-28 21:52:53.839021
+No,pandas,pandas.core.groupby.generic,1441,52,NameExpr,List[],,List[Any],2025-02-28 21:52:53.841018
+No,pandas,pandas.core.groupby.generic,1443,47,NameExpr,List[],,List[Any],2025-02-28 21:52:53.842134
+No,pandas,pandas.core.groupby.generic,1449,16,NameExpr,List[],,List[Any],2025-02-28 21:52:53.844133
+No,pandas,pandas.core.groupby.generic,2649,15,IndexExpr,"UnionType[DataFrame, Series]",,"DataFrame, UnionType[DataFrame, Series]",2025-02-28 21:52:54.121053
+No,pandas,pandas.core.groupby.generic,2648,9,OpExpr,"UnionType[DataFrame, Series]",,OpExpr,2025-02-28 21:52:54.124050
+No,pandas,pandas.core.groupby.generic,2648,40,UnaryExpr,"UnionType[DataFrame, Series]",,"DataFrame, UnionType[DataFrame, Series]",2025-02-28 21:52:54.125049
+No,pandas,pandas.core.groupby.groupby,950,19,IndexExpr,str,,GroupBy,2025-02-28 21:52:54.262961
+No,pandas,pandas.core.groupby.groupby,1012,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:54.314002
+No,pandas,pandas.core.groupby.groupby,1186,22,CallExpr,DataFrame,,"ndarray, GroupBy, DataFrame",2025-02-28 21:52:54.354015
+No,pandas,pandas.core.groupby.groupby,1186,22,MemberExpr,DataFrame,,"ndarray, GroupBy, DataFrame",2025-02-28 21:52:54.355170
+No,pandas,pandas.core.groupby.groupby,1656,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:54.663140
+No,pandas,pandas.core.groupby.groupby,2055,15,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:52:54.748325
+No,pandas,pandas.core.groupby.groupby,2193,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:54.818442
+No,pandas,pandas.core.groupby.groupby,3061,12,CastExpr,"UnionType[PositionalIndexer, Tuple[Any]]",,int,2025-02-28 21:52:55.019841
+No,pandas,pandas.core.groupby.groupby,3145,31,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.045387
+No,pandas,pandas.core.groupby.groupby,3152,22,CallExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.047385
+No,pandas,pandas.core.groupby.groupby,3152,22,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.048480
+No,pandas,pandas.core.groupby.groupby,3153,28,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.050478
+No,pandas,pandas.core.groupby.groupby,3153,28,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.051477
+No,pandas,pandas.core.groupby.groupby,3156,26,CallExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.052477
+No,pandas,pandas.core.groupby.groupby,3156,26,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.053475
+No,pandas,pandas.core.groupby.groupby,3158,26,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.056137
+No,pandas,pandas.core.groupby.groupby,3155,30,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.057135
+No,pandas,pandas.core.groupby.groupby,3161,22,CallExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.059252
+No,pandas,pandas.core.groupby.groupby,3161,22,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.060252
+No,pandas,pandas.core.groupby.groupby,3163,28,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.062249
+No,pandas,pandas.core.groupby.groupby,3163,28,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.062249
+No,pandas,pandas.core.groupby.groupby,3170,23,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.063249
+No,pandas,pandas.core.groupby.groupby,3173,22,CallExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.068325
+No,pandas,pandas.core.groupby.groupby,3173,22,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.069324
+No,pandas,pandas.core.groupby.groupby,3175,33,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.073404
+No,pandas,pandas.core.groupby.groupby,3171,28,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.074403
+No,pandas,pandas.core.groupby.groupby,3171,69,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.075402
+No,pandas,pandas.core.groupby.groupby,3162,37,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.076401
+No,pandas,pandas.core.groupby.groupby,3162,37,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.077400
+No,pandas,pandas.core.groupby.groupby,3160,31,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.078399
+No,pandas,pandas.core.groupby.groupby,3160,31,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.079399
+No,pandas,pandas.core.groupby.groupby,3160,58,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.079399
+No,pandas,pandas.core.groupby.groupby,3154,34,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.081397
+No,pandas,pandas.core.groupby.groupby,3154,34,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.081516
+No,pandas,pandas.core.groupby.groupby,3151,26,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.082515
+No,pandas,pandas.core.groupby.groupby,3151,70,MemberExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.083515
+No,pandas,pandas.core.groupby.groupby,3151,70,NameExpr,ndarray,,ArrayLike,2025-02-28 21:52:55.084513
+No,pandas,pandas.core.groupby.groupby,3699,20,ConditionalExpr,ArrayLike,,ConditionalExpr,2025-02-28 21:52:55.230743
+No,pandas,pandas.core.groupby.groupby,3758,25,CastExpr,ArrayLike,,"UnionType[DatetimeArray, TimedeltaArray]",2025-02-28 21:52:55.261786
+No,pandas,pandas.core.groupby.groupby,4001,15,OpExpr,NDArray,,OpExpr,2025-02-28 21:52:55.345144
+No,pandas,pandas.core.groupby.groupby,4004,19,IndexExpr,NDArray,,GroupBy,2025-02-28 21:52:55.346231
+No,pandas,pandas.core.groupby.groupby,4095,17,CallExpr,OutputFrameOrSeries,,"GroupBy, OutputFrameOrSeries",2025-02-28 21:52:55.359676
+No,pandas,pandas.core.groupby.groupby,4095,17,MemberExpr,OutputFrameOrSeries,,"GroupBy, OutputFrameOrSeries",2025-02-28 21:52:55.360675
+No,pandas,pandas.core.groupby.groupby,4285,14,CastExpr,Index,,MultiIndex,2025-02-28 21:52:55.399882
+No,pandas,pandas.core.groupby.groupby,4289,58,OpExpr,Index,,OpExpr,2025-02-28 21:52:55.408763
+No,pandas,pandas.core.groupby.grouper,382,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:55.479598
+No,pandas,pandas.core.groupby.grouper,858,19,MemberExpr,NDFrameT,,"Axis, NDFrameT",2025-02-28 21:52:55.741596
+No,pandas,pandas.core.groupby.indexing,128,49,CastExpr,"UnionType[PositionalIndexer, Tuple[Any]]",,Iterable,2025-02-28 21:52:55.863582
+No,pandas,pandas.core.groupby.indexing,130,50,CastExpr,"UnionType[PositionalIndexer, Tuple[Any]]",,Tuple[Any],2025-02-28 21:52:55.867579
+No,pandas,pandas.core.groupby.indexing,127,42,CastExpr,"UnionType[PositionalIndexer, Tuple[Any]]",,Iterable,2025-02-28 21:52:55.871679
+No,pandas,pandas.core.groupby.indexing,135,44,CastExpr,"UnionType[PositionalIndexer, Tuple[Any]]",,int,2025-02-28 21:52:55.874781
+No,pandas,pandas.core.groupby.indexing,155,46,OpExpr,int,,OpExpr,2025-02-28 21:52:55.884207
+No,pandas,pandas.core.groupby.ops,157,16,IndexExpr,str,,"UnknownType, str",2025-02-28 21:52:55.999508
+No,pandas,pandas.core.groupby.ops,243,15,OpExpr,DtypeObj,,OpExpr,2025-02-28 21:52:56.037441
+No,pandas,pandas.core.groupby.ops,283,24,OpExpr,ndarray,,OpExpr,2025-02-28 21:52:56.056709
+No,pandas,pandas.core.groupby.ops,597,31,MemberExpr,"UnionType[NDArray, None]",,"UnionType[NDArray, None], ndarray",2025-02-28 21:52:56.149238
+No,pandas,pandas.core.groupby.ops,1116,21,IndexExpr,int,,NDFrame,2025-02-28 21:52:56.319799
+No,pandas,pandas.core.groupby.ops,1192,15,CallExpr,int,,"Any, int",2025-02-28 21:52:56.379242
+No,pandas,pandas.core.groupby.ops,1194,15,CallExpr,int,,"Any, int",2025-02-28 21:52:56.381240
+No,pandas,pandas.core.indexers.objects,165,22,OpExpr,int,,OpExpr,2025-02-28 21:52:56.464936
+No,pandas,pandas.core.indexers.objects,230,25,OpExpr,int,,OpExpr,2025-02-28 21:52:56.489799
+No,pandas,pandas.core.indexers.objects,315,31,OpExpr,"UnionType[Dict[Any, Any], None]",,OpExpr,2025-02-28 21:52:56.501993
+No,pandas,pandas.core.indexers.objects,317,30,ConditionalExpr,"UnionType[Dict[Any, Any], None]",,ConditionalExpr,2025-02-28 21:52:56.504391
+No,pandas,pandas.core.indexers.utils,395,15,IndexExpr,Index,,"Any, Index",2025-02-28 21:52:56.710099
+No,pandas,pandas.core.indexes.accessors,559,15,ConditionalExpr,Series,,ConditionalExpr,2025-02-28 21:52:56.915731
+No,pandas,pandas.core.indexes.base,756,15,ConditionalExpr,_IndexT,,ConditionalExpr,2025-02-28 21:52:57.243721
+No,pandas,pandas.core.indexes.base,1032,12,OpExpr,bool,,OpExpr,2025-02-28 21:52:57.388949
+No,pandas,pandas.core.indexes.base,1107,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:57.416661
+No,pandas,pandas.core.indexes.base,1202,15,IndexExpr,_IndexT,,"UnionType[Hashable, None], bool, _IndexT",2025-02-28 21:52:57.430195
+No,pandas,pandas.core.indexes.base,1390,11,OpExpr,None,,OpExpr,2025-02-28 21:52:57.500492
+No,pandas,pandas.core.indexes.base,3231,21,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.110018
+No,pandas,pandas.core.indexes.base,3276,11,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.130306
+No,pandas,pandas.core.indexes.base,3932,11,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.490015
+No,pandas,pandas.core.indexes.base,4039,28,CastExpr,Index,,PeriodArray,2025-02-28 21:52:58.524634
+No,pandas,pandas.core.indexes.base,4040,19,IndexExpr,NDArray,,ndarray,2025-02-28 21:52:58.526172
+No,pandas,pandas.core.indexes.base,4043,19,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.527765
+No,pandas,pandas.core.indexes.base,4043,19,IndexExpr,NDArray,,Index,2025-02-28 21:52:58.527781
+No,pandas,pandas.core.indexes.base,4244,22,IndexExpr,None,,Index,2025-02-28 21:52:58.583774
+No,pandas,pandas.core.indexes.base,4287,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:58.614379
+No,pandas,pandas.core.indexes.base,4438,11,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.674899
+No,pandas,pandas.core.indexes.base,4451,30,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.681134
+No,pandas,pandas.core.indexes.base,4459,34,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.682135
+No,pandas,pandas.core.indexes.base,4502,15,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.710621
+No,pandas,pandas.core.indexes.base,4501,13,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.717412
+No,pandas,pandas.core.indexes.base,4499,11,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.718413
+No,pandas,pandas.core.indexes.base,4735,15,OpExpr,bool,,OpExpr,2025-02-28 21:52:58.803332
+No,pandas,pandas.core.indexes.base,4824,24,ConditionalExpr,Index,,ConditionalExpr,2025-02-28 21:52:58.879096
+No,pandas,pandas.core.indexes.base,4830,11,OpExpr,Index,,OpExpr,2025-02-28 21:52:58.891468
+No,pandas,pandas.core.indexes.base,4875,19,ConditionalExpr,_IndexT,,ConditionalExpr,2025-02-28 21:52:58.896574
+No,pandas,pandas.core.indexes.base,5209,14,IndexExpr,slice,,_IndexT,2025-02-28 21:52:59.009505
+No,pandas,pandas.core.indexes.base,5531,15,CallExpr,NDArray,,"Index, NDArray",2025-02-28 21:52:59.081200
+No,pandas,pandas.core.indexes.base,5531,15,IndexExpr,NDArray,,Index,2025-02-28 21:52:59.081200
+No,pandas,pandas.core.indexes.base,5536,17,CallExpr,NDArray,,"Index, Callable[[Sized], int], NDArray",2025-02-28 21:52:59.084302
+No,pandas,pandas.core.indexes.base,5536,17,IndexExpr,NDArray,,"Index, Callable[[Sized], int]",2025-02-28 21:52:59.085300
+No,pandas,pandas.core.indexes.base,5538,22,IndexExpr,NDArray,,Index,2025-02-28 21:52:59.089448
+No,pandas,pandas.core.indexes.base,6045,13,OpExpr,Index,,OpExpr,2025-02-28 21:52:59.238229
+No,pandas,pandas.core.indexes.base,6661,18,ConditionalExpr,int,,ConditionalExpr,2025-02-28 21:52:59.421244
+No,pandas,pandas.core.indexes.base,6661,39,OpExpr,int,,OpExpr,2025-02-28 21:52:59.421654
+No,pandas,pandas.core.indexes.base,6662,12,IndexExpr,int,,ndarray,2025-02-28 21:52:59.422654
+No,pandas,pandas.core.indexes.base,6729,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:59.457600
+No,pandas,pandas.core.indexes.base,6732,11,OpExpr,bool,,OpExpr,2025-02-28 21:52:59.459599
+No,pandas,pandas.core.indexes.datetimelike,144,24,CastExpr,Any,,CategoricalIndex,2025-02-28 21:52:59.837576
+No,pandas,pandas.core.indexes.datetimelike,454,21,OpExpr,None,,OpExpr,2025-02-28 21:52:59.966239
+No,pandas,pandas.core.indexes.datetimelike,464,16,OpExpr,_TDT,,OpExpr,2025-02-28 21:52:59.972331
+No,pandas,pandas.core.indexes.datetimelike,464,26,OpExpr,_TDT,,OpExpr,2025-02-28 21:52:59.973438
+No,pandas,pandas.core.indexes.datetimelike,465,14,OpExpr,_TDT,,OpExpr,2025-02-28 21:52:59.975436
+No,pandas,pandas.core.indexes.datetimelike,465,25,OpExpr,_TDT,,OpExpr,2025-02-28 21:52:59.977434
+No,pandas,pandas.core.indexes.datetimelike,532,16,CastExpr,Index,,DatetimeTimedeltaMixin,2025-02-28 21:53:00.039427
+No,pandas,pandas.core.indexes.datetimes,462,15,UnaryExpr,Frequency,,"Any, Frequency",2025-02-28 21:53:00.332420
+No,pandas,pandas.core.indexes.datetimes,655,18,SliceExpr,None,,SliceExpr,2025-02-28 21:53:00.448826
+No,pandas,pandas.core.indexes.datetimes,737,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:00.479596
+No,pandas,pandas.core.indexes.datetimes,1037,23,OpExpr,None,,OpExpr,2025-02-28 21:53:00.497943
+No,pandas,pandas.core.indexes.datetimes,1038,19,IndexExpr,Frequency,,"Dict[str, type]",2025-02-28 21:53:00.499042
+No,pandas,pandas.core.indexes.datetimes,1042,9,OpExpr,None,,OpExpr,2025-02-28 21:53:00.507479
+No,pandas,pandas.core.indexes.datetimes,1035,7,OpExpr,Frequency,,OpExpr,2025-02-28 21:53:00.508479
+No,pandas,pandas.core.indexes.datetimes,1063,14,OpExpr,time,,OpExpr,2025-02-28 21:53:00.510595
+No,pandas,pandas.core.indexes.datetimes,1063,40,OpExpr,time,,OpExpr,2025-02-28 21:53:00.511594
+No,pandas,pandas.core.indexes.datetimes,1064,11,OpExpr,time,,OpExpr,2025-02-28 21:53:00.511594
+No,pandas,pandas.core.indexes.interval,909,11,OpExpr,IntervalIndex,,OpExpr,2025-02-28 21:53:01.001305
+No,pandas,pandas.core.indexes.interval,1061,15,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:01.029048
+No,pandas,pandas.core.indexes.interval,1109,19,OpExpr,None,,OpExpr,2025-02-28 21:53:01.053522
+No,pandas,pandas.core.indexes.interval,1109,20,OpExpr,None,,OpExpr,2025-02-28 21:53:01.053522
+No,pandas,pandas.core.indexes.interval,1113,26,OpExpr,None,,OpExpr,2025-02-28 21:53:01.057639
+No,pandas,pandas.core.indexes.interval,1113,27,OpExpr,None,,OpExpr,2025-02-28 21:53:01.057639
+No,pandas,pandas.core.indexes.interval,1115,20,OpExpr,None,,OpExpr,2025-02-28 21:53:01.058637
+No,pandas,pandas.core.indexes.interval,1115,26,OpExpr,None,,OpExpr,2025-02-28 21:53:01.058637
+No,pandas,pandas.core.indexes.interval,1115,27,OpExpr,None,,OpExpr,2025-02-28 21:53:01.059637
+No,pandas,pandas.core.indexes.interval,1117,18,OpExpr,None,,OpExpr,2025-02-28 21:53:01.059637
+No,pandas,pandas.core.indexes.interval,1117,26,OpExpr,None,,OpExpr,2025-02-28 21:53:01.060750
+No,pandas,pandas.core.indexes.interval,1117,27,OpExpr,None,,OpExpr,2025-02-28 21:53:01.060750
+No,pandas,pandas.core.indexes.multi,377,25,NameExpr,List[],,List[Any],2025-02-28 21:53:01.131470
+No,pandas,pandas.core.indexes.multi,382,12,NameExpr,List[],,List[Any],2025-02-28 21:53:01.131982
+No,pandas,pandas.core.indexes.multi,382,38,NameExpr,List[],,List[Any],2025-02-28 21:53:01.134575
+No,pandas,pandas.core.indexes.multi,382,49,NameExpr,List[],,List[Any],2025-02-28 21:53:01.135574
+No,pandas,pandas.core.indexes.multi,383,15,NameExpr,List[],,List[Any],2025-02-28 21:53:01.137573
+No,pandas,pandas.core.indexes.multi,407,8,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.141067
+No,pandas,pandas.core.indexes.multi,407,16,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.142066
+No,pandas,pandas.core.indexes.multi,408,8,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.142066
+No,pandas,pandas.core.indexes.multi,408,17,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.143066
+No,pandas,pandas.core.indexes.multi,410,15,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.144181
+No,pandas,pandas.core.indexes.multi,410,30,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.145181
+No,pandas,pandas.core.indexes.multi,415,27,IndexExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.145181
+No,pandas,pandas.core.indexes.multi,415,27,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.146180
+No,pandas,pandas.core.indexes.multi,419,70,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.152238
+No,pandas,pandas.core.indexes.multi,416,53,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.177589
+No,pandas,pandas.core.indexes.multi,416,61,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.177589
+No,pandas,pandas.core.indexes.multi,441,8,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.183781
+No,pandas,pandas.core.indexes.multi,442,69,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.189034
+No,pandas,pandas.core.indexes.multi,442,77,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.189119
+No,pandas,pandas.core.indexes.multi,444,31,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:01.190119
+No,pandas,pandas.core.indexes.multi,565,17,CastExpr,Iterable,,List[Tuple[Hashable]],2025-02-28 21:53:01.213116
+No,pandas,pandas.core.indexes.multi,1336,17,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:01.500309
+No,pandas,pandas.core.indexes.multi,1599,14,IndexExpr,int,,MultiIndex,2025-02-28 21:53:01.658748
+No,pandas,pandas.core.indexes.multi,1600,22,IndexExpr,int,,MultiIndex,2025-02-28 21:53:01.659863
+No,pandas,pandas.core.indexes.multi,1601,15,IndexExpr,int,,MultiIndex,2025-02-28 21:53:01.660862
+No,pandas,pandas.core.indexes.multi,1741,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:01.703573
+No,pandas,pandas.core.indexes.multi,2294,8,IndexExpr,int,,List[Any],2025-02-28 21:53:01.986673
+No,pandas,pandas.core.indexes.multi,2294,23,IndexExpr,int,,List[Any],2025-02-28 21:53:01.987672
+No,pandas,pandas.core.indexes.multi,2294,39,IndexExpr,int,,List[Any],2025-02-28 21:53:01.988672
+No,pandas,pandas.core.indexes.multi,2294,54,IndexExpr,int,,List[Any],2025-02-28 21:53:01.988800
+No,pandas,pandas.core.indexes.multi,2295,8,IndexExpr,int,,List[Any],2025-02-28 21:53:01.989799
+No,pandas,pandas.core.indexes.multi,2295,22,IndexExpr,int,,List[Any],2025-02-28 21:53:01.990798
+No,pandas,pandas.core.indexes.multi,2295,37,IndexExpr,int,,List[Any],2025-02-28 21:53:01.991796
+No,pandas,pandas.core.indexes.multi,2295,51,IndexExpr,int,,List[Any],2025-02-28 21:53:01.992795
+No,pandas,pandas.core.indexes.multi,2296,8,IndexExpr,int,,List[Any],2025-02-28 21:53:01.992795
+No,pandas,pandas.core.indexes.multi,2296,22,IndexExpr,int,,List[Any],2025-02-28 21:53:01.993909
+No,pandas,pandas.core.indexes.multi,2296,37,IndexExpr,int,,List[Any],2025-02-28 21:53:01.994908
+No,pandas,pandas.core.indexes.multi,2296,51,IndexExpr,int,,List[Any],2025-02-28 21:53:01.994908
+No,pandas,pandas.core.indexes.multi,2500,12,OpExpr,bool,,OpExpr,2025-02-28 21:53:02.072601
+No,pandas,pandas.core.indexes.multi,3065,24,CallExpr,"UnionType[int, List[int]]",,"MultiIndex, UnionType[int, List[int]]",2025-02-28 21:53:02.380943
+No,pandas,pandas.core.indexes.multi,3065,24,IndexExpr,"UnionType[int, List[int]]",,MultiIndex,2025-02-28 21:53:02.381942
+No,pandas,pandas.core.indexes.multi,3061,16,OpExpr,"UnionType[int, List[int]]",,OpExpr,2025-02-28 21:53:02.386037
+No,pandas,pandas.core.indexes.multi,3062,20,IndexExpr,"UnionType[int, List[int]]",,MultiIndex,2025-02-28 21:53:02.388037
+No,pandas,pandas.core.indexes.multi,3085,22,IndexExpr,int,,MultiIndex,2025-02-28 21:53:02.401532
+No,pandas,pandas.core.indexes.multi,3086,22,IndexExpr,int,,MultiIndex,2025-02-28 21:53:02.402531
+No,pandas,pandas.core.indexes.multi,3381,28,IndexExpr,NDArray,,int,2025-02-28 21:53:02.597119
+No,pandas,pandas.core.indexes.multi,3393,42,IndexExpr,NDArray,,"MultiIndex, int",2025-02-28 21:53:02.612696
+No,pandas,pandas.core.indexes.multi,3396,28,IndexExpr,NDArray,,int,2025-02-28 21:53:02.614696
+No,pandas,pandas.core.indexes.multi,3399,28,IndexExpr,NDArray,,int,2025-02-28 21:53:02.618766
+No,pandas,pandas.core.indexes.multi,3402,28,IndexExpr,NDArray,,int,2025-02-28 21:53:02.623285
+No,pandas,pandas.core.indexes.multi,3435,11,OpExpr,None,,OpExpr,2025-02-28 21:53:02.637458
+No,pandas,pandas.core.indexes.multi,3493,27,CallExpr,object,,"object, int",2025-02-28 21:53:02.670440
+No,pandas,pandas.core.indexes.multi,3679,21,MemberExpr,MultiIndex,,"MultiIndex, Any",2025-02-28 21:53:02.793572
+No,pandas,pandas.core.indexes.multi,3815,23,OpExpr,int,,OpExpr,2025-02-28 21:53:02.893524
+No,pandas,pandas.core.indexes.multi,3816,11,IndexExpr,int,,List[Tuple[Any]],2025-02-28 21:53:02.894524
+No,pandas,pandas.core.indexes.multi,3818,23,OpExpr,int,,OpExpr,2025-02-28 21:53:02.899615
+No,pandas,pandas.core.indexes.period,249,15,OpExpr,None,,OpExpr,2025-02-28 21:53:02.989785
+No,pandas,pandas.core.indexes.period,482,15,OpExpr,int,,OpExpr,2025-02-28 21:53:03.108149
+No,pandas,pandas.core.indexes.range,245,15,OpExpr,List[str],,OpExpr,2025-02-28 21:53:03.185019
+No,pandas,pandas.core.indexes.range,480,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:03.319100
+No,pandas,pandas.core.indexes.range,538,17,ConditionalExpr,Index,,ConditionalExpr,2025-02-28 21:53:03.338288
+No,pandas,pandas.core.indexes.range,639,24,OpExpr,Index,,OpExpr,2025-02-28 21:53:03.364607
+No,pandas,pandas.core.indexes.range,639,38,OpExpr,Index,,OpExpr,2025-02-28 21:53:03.364717
+No,pandas,pandas.core.indexes.range,645,42,OpExpr,Index,,OpExpr,2025-02-28 21:53:03.366715
+No,pandas,pandas.core.indexes.range,846,22,CastExpr,List[Index],,List[RangeIndex],2025-02-28 21:53:03.569782
+No,pandas,pandas.core.indexes.range,930,14,IndexExpr,slice,,RangeIndex,2025-02-28 21:53:03.610609
+No,pandas,pandas.core.interchange.column,209,19,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:03.824687
+No,pandas,pandas.core.interchange.column,210,15,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:03.825764
+No,pandas,pandas.core.interchange.column,212,34,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:03.827816
+No,pandas,pandas.core.interchange.column,207,11,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:03.829358
+No,pandas,pandas.core.interchange.dataframe,67,28,IndexExpr,str,,PandasDataFrameXchg,2025-02-28 21:53:03.902522
+No,pandas,pandas.core.interchange.dataframe,101,19,OpExpr,None,,OpExpr,2025-02-28 21:53:03.934264
+No,pandas,pandas.core.interchange.dataframe,102,15,OpExpr,None,,OpExpr,2025-02-28 21:53:03.936329
+No,pandas,pandas.core.interchange.dataframe,104,34,OpExpr,None,,OpExpr,2025-02-28 21:53:03.942435
+No,pandas,pandas.core.interchange.dataframe,99,11,OpExpr,None,,OpExpr,2025-02-28 21:53:03.945559
+No,pandas,pandas.core.interchange.from_dataframe,78,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:03.997515
+No,pandas,pandas.core.interchange.from_dataframe,273,61,OpExpr,Column,,OpExpr,2025-02-28 21:53:04.067122
+No,pandas,pandas.core.interchange.from_dataframe,287,41,OpExpr,Column,,OpExpr,2025-02-28 21:53:04.074190
+No,pandas,pandas.core.interchange.from_dataframe,434,12,OpExpr,Buffer,,OpExpr,2025-02-28 21:53:04.169643
+No,pandas,pandas.core.interchange.utils,87,45,CastExpr,DtypeObj,,dtype,2025-02-28 21:53:04.224442
+No,pandas,pandas.core.internals.array_manager,167,8,IndexExpr,int,,BaseArrayManager,2025-02-28 21:53:04.290056
+No,pandas,pandas.core.internals.array_manager,218,21,OpExpr,"UnionType[List[str], None]",,OpExpr,2025-02-28 21:53:04.318090
+No,pandas,pandas.core.internals.array_manager,261,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:04.343498
+No,pandas,pandas.core.internals.array_manager,264,21,OpExpr,None,,OpExpr,2025-02-28 21:53:04.345605
+No,pandas,pandas.core.internals.array_manager,395,19,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:53:04.444910
+No,pandas,pandas.core.internals.array_manager,461,17,GeneratorExpr,T,,GeneratorExpr,2025-02-28 21:53:04.478657
+No,pandas,pandas.core.internals.array_manager,584,15,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:53:04.512534
+No,pandas,pandas.core.internals.array_manager,584,27,IndexExpr,int,,T,2025-02-28 21:53:04.514580
+No,pandas,pandas.core.internals.array_manager,589,12,IndexExpr,int,,T,2025-02-28 21:53:04.516350
+No,pandas,pandas.core.internals.array_manager,594,12,CallExpr,int,,"T, int",2025-02-28 21:53:04.518347
+No,pandas,pandas.core.internals.array_manager,594,12,MemberExpr,T,,"T, int",2025-02-28 21:53:04.520389
+No,pandas,pandas.core.internals.array_manager,594,12,IndexExpr,int,,T,2025-02-28 21:53:04.520892
+No,pandas,pandas.core.internals.array_manager,630,8,IndexExpr,int,,List[Index],2025-02-28 21:53:04.540106
+No,pandas,pandas.core.internals.array_manager,655,12,IndexExpr,int,,T,2025-02-28 21:53:04.558503
+No,pandas,pandas.core.internals.array_manager,659,21,CallExpr,int,,"T, int",2025-02-28 21:53:04.561502
+No,pandas,pandas.core.internals.array_manager,659,21,MemberExpr,T,,"T, int",2025-02-28 21:53:04.562650
+No,pandas,pandas.core.internals.array_manager,659,21,IndexExpr,int,,T,2025-02-28 21:53:04.562650
+No,pandas,pandas.core.internals.array_manager,758,18,IndexExpr,int,,"UnionType[ndarray, ExtensionArray]",2025-02-28 21:53:04.612749
+No,pandas,pandas.core.internals.array_manager,774,22,IndexExpr,slice,,"UnionType[ndarray, ExtensionArray]",2025-02-28 21:53:04.627493
+No,pandas,pandas.core.internals.array_manager,776,21,IndexExpr,slice,,ArrayManager,2025-02-28 21:53:04.628517
+No,pandas,pandas.core.internals.array_manager,779,8,IndexExpr,int,,List[Index],2025-02-28 21:53:04.629625
+No,pandas,pandas.core.internals.array_manager,779,25,CallExpr,int,,"List[Index], int",2025-02-28 21:53:04.630624
+No,pandas,pandas.core.internals.array_manager,779,25,IndexExpr,int,,List[Index],2025-02-28 21:53:04.630624
+No,pandas,pandas.core.internals.array_manager,787,17,IndexExpr,int,,ArrayManager,2025-02-28 21:53:04.632622
+No,pandas,pandas.core.internals.array_manager,794,15,IndexExpr,int,,ArrayManager,2025-02-28 21:53:04.635717
+No,pandas,pandas.core.internals.array_manager,836,12,IndexExpr,"UnionType[int, slice, ndarray]",,ArrayManager,2025-02-28 21:53:04.647874
+No,pandas,pandas.core.internals.array_manager,842,16,ConditionalExpr,"UnionType[int, slice, ndarray]",,ConditionalExpr,2025-02-28 21:53:04.648873
+No,pandas,pandas.core.internals.array_manager,843,16,ConditionalExpr,"UnionType[int, slice, ndarray]",,ConditionalExpr,2025-02-28 21:53:04.650872
+No,pandas,pandas.core.internals.array_manager,844,16,ConditionalExpr,"UnionType[int, slice, ndarray]",,ConditionalExpr,2025-02-28 21:53:04.651938
+No,pandas,pandas.core.internals.array_manager,874,14,IndexExpr,int,,ArrayManager,2025-02-28 21:53:04.667994
+No,pandas,pandas.core.internals.array_manager,881,12,IndexExpr,int,,ArrayManager,2025-02-28 21:53:04.672096
+No,pandas,pandas.core.internals.array_manager,1121,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:04.776801
+No,pandas,pandas.core.internals.array_manager,1251,20,IndexExpr,slice,,SingleArrayManager,2025-02-28 21:53:04.847411
+No,pandas,pandas.core.internals.base,61,22,IndexExpr,int,,DataManager,2025-02-28 21:53:04.926533
+No,pandas,pandas.core.internals.base,98,29,CallExpr,int,,"T, int",2025-02-28 21:53:04.940434
+No,pandas,pandas.core.internals.base,98,29,MemberExpr,T,,"T, int",2025-02-28 21:53:04.942434
+No,pandas,pandas.core.internals.base,98,29,IndexExpr,int,,T,2025-02-28 21:53:04.943433
+No,pandas,pandas.core.internals.blocks,273,23,IndexExpr,"UnionType[slice, NDArray]",,Block,2025-02-28 21:53:05.043857
+No,pandas,pandas.core.internals.blocks,458,28,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.099907
+No,pandas,pandas.core.internals.blocks,472,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.101987
+No,pandas,pandas.core.internals.blocks,474,15,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.102988
+No,pandas,pandas.core.internals.blocks,572,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.136214
+No,pandas,pandas.core.internals.blocks,572,30,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.137213
+No,pandas,pandas.core.internals.blocks,590,23,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.143356
+No,pandas,pandas.core.internals.blocks,600,23,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.148496
+No,pandas,pandas.core.internals.blocks,683,19,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.176013
+No,pandas,pandas.core.internals.blocks,720,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.197373
+No,pandas,pandas.core.internals.blocks,736,19,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.207595
+No,pandas,pandas.core.internals.blocks,763,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.221961
+No,pandas,pandas.core.internals.blocks,800,43,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.227760
+No,pandas,pandas.core.internals.blocks,854,25,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.239354
+No,pandas,pandas.core.internals.blocks,852,23,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.240354
+No,pandas,pandas.core.internals.blocks,852,24,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.241351
+No,pandas,pandas.core.internals.blocks,861,23,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.244469
+No,pandas,pandas.core.internals.blocks,899,15,IndexExpr,"UnionType[int, Tuple[int, int], Tuple[slice, int]]",,Block,2025-02-28 21:53:05.257342
+No,pandas,pandas.core.internals.blocks,906,15,IndexExpr,"UnionType[slice, NDArray, NDArray]",,Block,2025-02-28 21:53:05.259339
+No,pandas,pandas.core.internals.blocks,1339,19,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.457848
+No,pandas,pandas.core.internals.blocks,1351,19,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:05.464053
+No,pandas,pandas.core.internals.blocks,1863,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.670793
+No,pandas,pandas.core.internals.blocks,2018,23,IndexExpr,"UnionType[slice, NDArray, NDArray]",,range,2025-02-28 21:53:05.760369
+No,pandas,pandas.core.internals.blocks,2025,15,IndexExpr,"UnionType[slice, NDArray, NDArray]",,ExtensionBlock,2025-02-28 21:53:05.765473
+No,pandas,pandas.core.internals.blocks,2034,21,IndexExpr,slice,,ExtensionBlock,2025-02-28 21:53:05.767557
+No,pandas,pandas.core.internals.blocks,2294,13,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.867959
+No,pandas,pandas.core.internals.blocks,2292,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.869157
+No,pandas,pandas.core.internals.blocks,2452,11,OpExpr,int,,OpExpr,2025-02-28 21:53:05.925921
+No,pandas,pandas.core.internals.blocks,2491,21,CastExpr,ArrayLike,,"UnionType[ndarray, DatetimeArray, TimedeltaArray]",2025-02-28 21:53:05.938216
+No,pandas,pandas.core.internals.blocks,2526,21,CallExpr,ArrayLike,,"ArrayLike, int",2025-02-28 21:53:05.955117
+No,pandas,pandas.core.internals.blocks,2526,21,MemberExpr,ArrayLike,,"ArrayLike, int",2025-02-28 21:53:05.957114
+No,pandas,pandas.core.internals.concat,99,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:05.998183
+No,pandas,pandas.core.internals.concat,139,37,NameExpr,List[],,List[Any],2025-02-28 21:53:06.018175
+No,pandas,pandas.core.internals.concat,152,4,NameExpr,List[],,List[Any],2025-02-28 21:53:06.035091
+No,pandas,pandas.core.internals.concat,156,19,NameExpr,List[],,List[Any],2025-02-28 21:53:06.041708
+No,pandas,pandas.core.internals.concat,160,19,IndexExpr,List[],,List[Any],2025-02-28 21:53:06.041708
+No,pandas,pandas.core.internals.concat,160,19,NameExpr,List[],,List[Any],2025-02-28 21:53:06.042707
+No,pandas,pandas.core.internals.concat,161,37,NameExpr,List[],,List[Any],2025-02-28 21:53:06.043706
+No,pandas,pandas.core.internals.concat,159,18,IndexExpr,List[],,List[Any],2025-02-28 21:53:06.043706
+No,pandas,pandas.core.internals.concat,159,18,NameExpr,List[],,List[Any],2025-02-28 21:53:06.044705
+No,pandas,pandas.core.internals.concat,163,28,NameExpr,List[],,List[Any],2025-02-28 21:53:06.047772
+No,pandas,pandas.core.internals.concat,522,38,CastExpr,DtypeObj,,ExtensionDtype,2025-02-28 21:53:06.213784
+No,pandas,pandas.core.internals.concat,732,28,SliceExpr,int,,SliceExpr,2025-02-28 21:53:06.318776
+No,pandas,pandas.core.internals.concat,733,32,SliceExpr,int,,SliceExpr,2025-02-28 21:53:06.319879
+No,pandas,pandas.core.internals.concat,735,18,OpExpr,JoinUnit,,OpExpr,2025-02-28 21:53:06.320877
+No,pandas,pandas.core.internals.concat,735,19,OpExpr,int,,OpExpr,2025-02-28 21:53:06.320877
+No,pandas,pandas.core.internals.concat,736,22,OpExpr,JoinUnit,,OpExpr,2025-02-28 21:53:06.323442
+No,pandas,pandas.core.internals.construction,683,11,UnaryExpr,"UnionType[Index, None]",,"Index, UnionType[Index, None]",2025-02-28 21:53:06.799711
+No,pandas,pandas.core.internals.construction,863,32,NameExpr,List[],,List[Any],2025-02-28 21:53:06.884959
+No,pandas,pandas.core.internals.construction,869,13,NameExpr,List[],,List[Any],2025-02-28 21:53:06.894404
+No,pandas,pandas.core.internals.construction,993,15,OpExpr,"UnionType[Index, None]",,OpExpr,2025-02-28 21:53:06.931677
+No,pandas,pandas.core.internals.managers,197,19,OpExpr,T,,OpExpr,2025-02-28 21:53:06.997979
+No,pandas,pandas.core.internals.managers,226,8,IndexExpr,int,,BaseBlockManager,2025-02-28 21:53:07.011059
+No,pandas,pandas.core.internals.managers,243,16,IndexExpr,int,,BaseBlockManager,2025-02-28 21:53:07.017244
+No,pandas,pandas.core.internals.managers,252,15,UnaryExpr,int,,"BaseBlockManager, int",2025-02-28 21:53:07.022912
+No,pandas,pandas.core.internals.managers,252,19,MemberExpr,int,,"BaseBlockManager, int",2025-02-28 21:53:07.023910
+No,pandas,pandas.core.internals.managers,252,19,IndexExpr,int,,BaseBlockManager,2025-02-28 21:53:07.024910
+No,pandas,pandas.core.internals.managers,263,23,MemberExpr,BaseBlockManager,,"BaseBlockManager, int",2025-02-28 21:53:07.031015
+No,pandas,pandas.core.internals.managers,273,26,IndexExpr,int,,BaseBlockManager,2025-02-28 21:53:07.035114
+No,pandas,pandas.core.internals.managers,274,22,MemberExpr,int,,"BaseBlockManager, int",2025-02-28 21:53:07.037112
+No,pandas,pandas.core.internals.managers,274,22,IndexExpr,int,,BaseBlockManager,2025-02-28 21:53:07.039506
+No,pandas,pandas.core.internals.managers,329,21,OpExpr,"UnionType[List[str], None]",,OpExpr,2025-02-28 21:53:07.065985
+No,pandas,pandas.core.internals.managers,389,11,OpExpr,T,,OpExpr,2025-02-28 21:53:07.106008
+No,pandas,pandas.core.internals.managers,592,27,OpExpr,T,,OpExpr,2025-02-28 21:53:07.208623
+No,pandas,pandas.core.internals.managers,721,15,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:53:07.251497
+No,pandas,pandas.core.internals.managers,721,27,IndexExpr,int,,T,2025-02-28 21:53:07.252496
+No,pandas,pandas.core.internals.managers,726,12,IndexExpr,int,,T,2025-02-28 21:53:07.254594
+No,pandas,pandas.core.internals.managers,734,12,CallExpr,int,,"T, int",2025-02-28 21:53:07.258707
+No,pandas,pandas.core.internals.managers,734,12,MemberExpr,T,,"T, int",2025-02-28 21:53:07.258707
+No,pandas,pandas.core.internals.managers,734,12,IndexExpr,int,,T,2025-02-28 21:53:07.259706
+No,pandas,pandas.core.internals.managers,752,24,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:07.265356
+No,pandas,pandas.core.internals.managers,759,8,IndexExpr,int,,List[Index],2025-02-28 21:53:07.266354
+No,pandas,pandas.core.internals.managers,815,19,OpExpr,bool,,OpExpr,2025-02-28 21:53:07.298053
+No,pandas,pandas.core.internals.managers,958,12,IndexExpr,int,,T,2025-02-28 21:53:07.368318
+No,pandas,pandas.core.internals.managers,962,21,CallExpr,int,,"T, int",2025-02-28 21:53:07.372383
+No,pandas,pandas.core.internals.managers,962,21,MemberExpr,T,,"T, int",2025-02-28 21:53:07.373382
+No,pandas,pandas.core.internals.managers,962,21,IndexExpr,int,,T,2025-02-28 21:53:07.374380
+No,pandas,pandas.core.internals.managers,1088,28,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.419291
+No,pandas,pandas.core.internals.managers,1089,28,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.424360
+No,pandas,pandas.core.internals.managers,1106,28,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.436491
+No,pandas,pandas.core.internals.managers,1107,28,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.439671
+No,pandas,pandas.core.internals.managers,1170,18,CastExpr,"UnionType[int, slice, ndarray]",,int,2025-02-28 21:53:07.459521
+No,pandas,pandas.core.internals.managers,1171,20,IndexExpr,"UnionType[int, slice, ndarray]",,BlockManager,2025-02-28 21:53:07.461642
+No,pandas,pandas.core.internals.managers,1199,17,IndexExpr,"UnionType[int, slice, ndarray]",,BlockManager,2025-02-28 21:53:07.470829
+No,pandas,pandas.core.internals.managers,1200,18,CallExpr,"UnionType[int, slice, ndarray]",,"BlockManager, UnionType[int, slice, ndarray]",2025-02-28 21:53:07.471829
+No,pandas,pandas.core.internals.managers,1200,18,IndexExpr,"UnionType[int, slice, ndarray]",,BlockManager,2025-02-28 21:53:07.473826
+No,pandas,pandas.core.internals.managers,1299,14,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.529824
+No,pandas,pandas.core.internals.managers,1306,19,IndexExpr,"UnionType[ndarray, List[int]]",,Block,2025-02-28 21:53:07.531823
+No,pandas,pandas.core.internals.managers,1314,12,SliceExpr,int,,SliceExpr,2025-02-28 21:53:07.537898
+No,pandas,pandas.core.internals.managers,1314,62,OpExpr,int,,OpExpr,2025-02-28 21:53:07.541030
+No,pandas,pandas.core.internals.managers,1345,19,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.556284
+No,pandas,pandas.core.internals.managers,1340,11,OpExpr,Block,,OpExpr,2025-02-28 21:53:07.561280
+No,pandas,pandas.core.internals.managers,1351,21,SliceExpr,int,,SliceExpr,2025-02-28 21:53:07.563395
+No,pandas,pandas.core.internals.managers,1351,61,OpExpr,int,,OpExpr,2025-02-28 21:53:07.566391
+No,pandas,pandas.core.internals.managers,1365,20,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.571508
+No,pandas,pandas.core.internals.managers,1367,22,IndexExpr,int,,BlockManager,2025-02-28 21:53:07.573234
+No,pandas,pandas.core.internals.managers,1409,39,OpExpr,int,,OpExpr,2025-02-28 21:53:07.600095
+No,pandas,pandas.core.internals.managers,1708,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:07.735677
+No,pandas,pandas.core.internals.managers,1762,20,CastExpr,"UnionType[dtype, None]",,dtype,2025-02-28 21:53:07.760194
+No,pandas,pandas.core.internals.managers,1978,18,IndexExpr,"UnionType[slice, ndarray]",,SingleBlockManager,2025-02-28 21:53:07.873613
+No,pandas,pandas.core.internals.managers,2137,51,NameExpr,List[],,List[Any],2025-02-28 21:53:07.937381
+No,pandas,pandas.core.internals.managers,2195,55,NameExpr,List[],,List[Any],2025-02-28 21:53:07.956465
+No,pandas,pandas.core.internals.ops,119,9,OpExpr,bool,,OpExpr,2025-02-28 21:53:08.096321
+No,pandas,pandas.core.internals.ops,114,12,OpExpr,bool,,OpExpr,2025-02-28 21:53:08.097319
+No,pandas,pandas.core.methods.describe,85,16,CastExpr,NDFrameT,,Series,2025-02-28 21:53:08.109966
+No,pandas,pandas.core.methods.describe,89,16,CastExpr,NDFrameT,,DataFrame,2025-02-28 21:53:08.111964
+No,pandas,pandas.core.methods.describe,227,10,CallExpr,Series,,"List[float], Series",2025-02-28 21:53:08.166491
+No,pandas,pandas.core.methods.describe,227,10,MemberExpr,Series,,"List[float], Series",2025-02-28 21:53:08.167490
+No,pandas,pandas.core.methods.describe,348,10,CallExpr,Series,,"List[float], Series",2025-02-28 21:53:08.220170
+No,pandas,pandas.core.methods.describe,348,10,MemberExpr,Series,,"List[float], Series",2025-02-28 21:53:08.222046
+No,pandas,pandas.core.methods.selectn,180,18,CastExpr,IndexLabel,,List[Hashable],2025-02-28 21:53:08.315749
+No,pandas,pandas.core.methods.to_dict,85,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:08.390606
+No,pandas,pandas.core.methods.to_dict,122,13,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:08.407903
+No,pandas,pandas.core.methods.to_dict,135,13,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:08.413163
+No,pandas,pandas.core.methods.to_dict,146,15,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:08.415286
+No,pandas,pandas.core.ops.array_ops,173,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:08.569733
+No,pandas,pandas.core.ops.array_ops,182,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:08.576830
+No,pandas,pandas.core.ops.array_ops,373,41,MemberExpr,None,,ArrayLike,2025-02-28 21:53:08.692788
+No,pandas,pandas.core.ops.array_ops,373,41,NameExpr,None,,ArrayLike,2025-02-28 21:53:08.693787
+No,pandas,pandas.core.ops.array_ops,381,45,NameExpr,None,,ArrayLike,2025-02-28 21:53:08.697898
+No,pandas,pandas.core.ops.docstrings,23,14,IndexExpr,str,,"Dict[str, Dict[str, UnionType[str, None]]]",2025-02-28 21:53:08.861665
+No,pandas,pandas.core.ops.mask_ops,53,17,OpExpr,"UnionType[bool, ndarray, NAType]",,OpExpr,2025-02-28 21:53:08.908975
+No,pandas,pandas.core.ops.mask_ops,57,23,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.912103
+No,pandas,pandas.core.ops.mask_ops,58,24,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.913102
+No,pandas,pandas.core.ops.mask_ops,60,13,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.915100
+No,pandas,pandas.core.ops.mask_ops,61,15,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.916179
+No,pandas,pandas.core.ops.mask_ops,62,15,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.917179
+No,pandas,pandas.core.ops.mask_ops,68,19,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.920175
+No,pandas,pandas.core.ops.mask_ops,68,20,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.921175
+No,pandas,pandas.core.ops.mask_ops,116,17,OpExpr,"UnionType[bool, ndarray, NAType]",,OpExpr,2025-02-28 21:53:08.933563
+No,pandas,pandas.core.ops.mask_ops,124,15,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.939705
+No,pandas,pandas.core.ops.mask_ops,166,17,OpExpr,"UnionType[bool, NAType, ndarray]",,OpExpr,2025-02-28 21:53:08.946807
+No,pandas,pandas.core.ops.mask_ops,171,19,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.949906
+No,pandas,pandas.core.ops.mask_ops,171,20,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.949906
+No,pandas,pandas.core.ops.mask_ops,180,23,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.955989
+No,pandas,pandas.core.ops.mask_ops,181,24,OpExpr,"UnionType[ndarray, None]",,OpExpr,2025-02-28 21:53:08.956989
+No,pandas,pandas.core.reshape.concat,424,19,GeneratorExpr,"UnionType[Iterable, Dict[HashableT, NDFrame]]",,GeneratorExpr,2025-02-28 21:53:09.218090
+No,pandas,pandas.core.reshape.concat,532,23,OpExpr,bool,,OpExpr,2025-02-28 21:53:09.257832
+No,pandas,pandas.core.reshape.concat,704,26,CallExpr,Index,,"Index, Index",2025-02-28 21:53:09.359947
+No,pandas,pandas.core.reshape.concat,704,26,MemberExpr,Index,,"Index, Index",2025-02-28 21:53:09.361072
+No,pandas,pandas.core.reshape.encoding,177,21,GeneratorExpr,None,,GeneratorExpr,2025-02-28 21:53:09.501312
+No,pandas,pandas.core.reshape.encoding,186,25,GeneratorExpr,"UnionType[str, Iterable, Dict[str, str]]",,GeneratorExpr,2025-02-28 21:53:09.507106
+No,pandas,pandas.core.reshape.encoding,257,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:09.539152
+No,pandas,pandas.core.reshape.encoding,266,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:09.546432
+No,pandas,pandas.core.reshape.encoding,509,28,OpExpr,"UnionType[None, str]",,OpExpr,2025-02-28 21:53:09.637778
+No,pandas,pandas.core.reshape.melt,97,18,CallExpr,DataFrame,,"Any, DataFrame",2025-02-28 21:53:09.694292
+No,pandas,pandas.core.reshape.melt,97,18,MemberExpr,DataFrame,,"Any, DataFrame",2025-02-28 21:53:09.694292
+No,pandas,pandas.core.reshape.melt,98,16,OpExpr,None,,OpExpr,2025-02-28 21:53:09.696291
+No,pandas,pandas.core.reshape.melt,101,61,OpExpr,None,,OpExpr,2025-02-28 21:53:09.698400
+No,pandas,pandas.core.reshape.melt,118,16,ConditionalExpr,DataFrame,,ConditionalExpr,2025-02-28 21:53:09.711582
+No,pandas,pandas.core.reshape.melt,144,8,IndexExpr,Hashable,,"Dict[Hashable, AnyArrayLike]",2025-02-28 21:53:09.723987
+No,pandas,pandas.core.reshape.melt,145,12,GeneratorExpr,DataFrame,,GeneratorExpr,2025-02-28 21:53:09.727006
+No,pandas,pandas.core.reshape.melt,148,8,IndexExpr,Hashable,,"Dict[Hashable, AnyArrayLike]",2025-02-28 21:53:09.730021
+No,pandas,pandas.core.reshape.melt,233,21,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:09.760260
+No,pandas,pandas.core.reshape.melt,239,29,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:09.768463
+No,pandas,pandas.core.reshape.melt,503,50,OpExpr,str,,OpExpr,2025-02-28 21:53:09.809744
+No,pandas,pandas.core.reshape.merge,689,20,OpExpr,int,,OpExpr,2025-02-28 21:53:09.959885
+No,pandas,pandas.core.reshape.merge,831,16,IndexExpr,"UnionType[str, None]",,DataFrame,2025-02-28 21:53:10.034486
+No,pandas,pandas.core.reshape.merge,876,13,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:10.057539
+No,pandas,pandas.core.reshape.merge,879,39,CallExpr,DataFrame,,"DataFrame, _MergeOperation",2025-02-28 21:53:10.060538
+No,pandas,pandas.core.reshape.merge,957,32,MemberExpr,DataFrame,,"DataFrame, Hashable",2025-02-28 21:53:10.074002
+No,pandas,pandas.core.reshape.merge,969,32,MemberExpr,DataFrame,,"DataFrame, Hashable",2025-02-28 21:53:10.079101
+No,pandas,pandas.core.reshape.merge,979,28,MemberExpr,DataFrame,,"DataFrame, Hashable",2025-02-28 21:53:10.083096
+No,pandas,pandas.core.reshape.merge,987,28,MemberExpr,DataFrame,,"DataFrame, Hashable",2025-02-28 21:53:10.088528
+No,pandas,pandas.core.reshape.merge,1024,28,ConditionalExpr,DataFrame,,ConditionalExpr,2025-02-28 21:53:10.120055
+No,pandas,pandas.core.reshape.merge,1652,13,OpExpr,bool,,OpExpr,2025-02-28 21:53:10.363811
+No,pandas,pandas.core.reshape.merge,1657,13,OpExpr,bool,,OpExpr,2025-02-28 21:53:10.366906
+No,pandas,pandas.core.reshape.merge,2303,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:10.688420
+No,pandas,pandas.core.reshape.merge,2383,17,CastExpr,ArrayLike,,DatetimeArray,2025-02-28 21:53:10.693521
+No,pandas,pandas.core.reshape.merge,2384,13,CastExpr,ArrayLike,,DatetimeArray,2025-02-28 21:53:10.694520
+No,pandas,pandas.core.reshape.merge,2385,13,CastExpr,ArrayLike,,DatetimeArray,2025-02-28 21:53:10.695520
+No,pandas,pandas.core.reshape.merge,2495,20,IndexExpr,ArrayLike,,"Dict[Callable[[UnionType[str, bytes, SupportsIndex]], generic], Callable[[int], Factorizer]]",2025-02-28 21:53:10.760298
+No,pandas,pandas.core.reshape.merge,2497,20,IndexExpr,ArrayLike,,"Dict[Callable[[UnionType[str, bytes, SupportsIndex]], generic], Callable[[int], Factorizer]]",2025-02-28 21:53:10.761408
+No,pandas,pandas.core.reshape.merge,2499,20,IndexExpr,ArrayLike,,"Dict[Callable[[UnionType[str, bytes, SupportsIndex]], generic], Callable[[int], Factorizer]]",2025-02-28 21:53:10.763407
+No,pandas,pandas.core.reshape.merge,2535,11,OpExpr,List[NDArray],,OpExpr,2025-02-28 21:53:10.788454
+No,pandas,pandas.core.reshape.merge,2536,11,OpExpr,List[NDArray],,OpExpr,2025-02-28 21:53:10.791560
+No,pandas,pandas.core.reshape.merge,2550,11,OpExpr,List[NDArray],,OpExpr,2025-02-28 21:53:10.802727
+No,pandas,pandas.core.reshape.merge,2551,11,OpExpr,List[NDArray],,OpExpr,2025-02-28 21:53:10.804725
+No,pandas,pandas.core.reshape.merge,2552,12,OpExpr,Shape,,OpExpr,2025-02-28 21:53:10.806885
+No,pandas,pandas.core.reshape.merge,2636,23,OpExpr,Index,,OpExpr,2025-02-28 21:53:10.848885
+No,pandas,pandas.core.reshape.merge,2638,28,OpExpr,Index,,OpExpr,2025-02-28 21:53:10.850883
+No,pandas,pandas.core.reshape.pivot,192,65,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:10.914860
+No,pandas,pandas.core.reshape.pivot,185,20,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:10.918856
+No,pandas,pandas.core.reshape.pivot,169,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:10.927085
+No,pandas,pandas.core.reshape.pivot,252,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:10.988709
+No,pandas,pandas.core.reshape.pivot,347,20,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:11.080389
+No,pandas,pandas.core.reshape.pivot,534,29,GeneratorExpr,DataFrame,,GeneratorExpr,2025-02-28 21:53:11.236927
+No,pandas,pandas.core.reshape.pivot,540,25,GeneratorExpr,DataFrame,,GeneratorExpr,2025-02-28 21:53:11.241078
+No,pandas,pandas.core.reshape.pivot,542,23,GeneratorExpr,DataFrame,,GeneratorExpr,2025-02-28 21:53:11.247190
+No,pandas,pandas.core.reshape.pivot,548,21,CastExpr,"UnionType[IndexLabel, NoDefault]",,List[Hashable],2025-02-28 21:53:11.250283
+No,pandas,pandas.core.reshape.pivot,550,16,MemberExpr,DataFrame,,"DataFrame, UnionType[IndexLabel, NoDefault]",2025-02-28 21:53:11.253381
+No,pandas,pandas.core.reshape.pivot,550,16,IndexExpr,"UnionType[IndexLabel, NoDefault]",,DataFrame,2025-02-28 21:53:11.253381
+No,pandas,pandas.core.reshape.pivot,553,47,MemberExpr,DataFrame,,"DataFrame, UnionType[IndexLabel, NoDefault]",2025-02-28 21:53:11.255379
+No,pandas,pandas.core.reshape.pivot,553,47,IndexExpr,"UnionType[IndexLabel, NoDefault]",,DataFrame,2025-02-28 21:53:11.256379
+No,pandas,pandas.core.reshape.reshape,316,25,OpExpr,"UnionType[Index, None]",,OpExpr,2025-02-28 21:53:11.629535
+No,pandas,pandas.core.reshape.reshape,319,24,OpExpr,"UnionType[Index, None]",,OpExpr,2025-02-28 21:53:11.632201
+No,pandas,pandas.core.reshape.reshape,588,7,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:11.891680
+No,pandas,pandas.core.reshape.reshape,688,19,IndexExpr,int,,Index,2025-02-28 21:53:11.950522
+No,pandas,pandas.core.reshape.reshape,791,21,IndexExpr,int,,DataFrame,2025-02-28 21:53:12.044578
+No,pandas,pandas.core.reshape.reshape,840,20,OpExpr,int,,OpExpr,2025-02-28 21:53:12.057763
+No,pandas,pandas.core.reshape.tile,403,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.177387
+No,pandas,pandas.core.reshape.tile,426,37,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:12.191897
+No,pandas,pandas.core.reshape.tile,446,13,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.203068
+No,pandas,pandas.core.reshape.tile,459,27,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:12.207455
+No,pandas,pandas.core.reshape.tile,568,32,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:12.306864
+No,pandas,pandas.core.reshape.tile,584,31,OpExpr,int,,OpExpr,2025-02-28 21:53:12.315045
+No,pandas,pandas.core.reshape.tile,587,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.321121
+No,pandas,pandas.core.reshape.tile,637,21,OpExpr,int,,OpExpr,2025-02-28 21:53:12.348831
+No,pandas,pandas.core.strings.accessor,112,16,ConditionalExpr,"UnionType[List[str], None]",,ConditionalExpr,2025-02-28 21:53:12.411595
+No,pandas,pandas.core.strings.accessor,119,20,ConditionalExpr,F,,ConditionalExpr,2025-02-28 21:53:12.412592
+No,pandas,pandas.core.strings.accessor,638,22,ConditionalExpr,AlignJoin,,ConditionalExpr,2025-02-28 21:53:12.634961
+No,pandas,pandas.core.strings.accessor,644,21,GeneratorExpr,None,,GeneratorExpr,2025-02-28 21:53:12.639279
+No,pandas,pandas.core.strings.accessor,646,46,OpExpr,None,,OpExpr,2025-02-28 21:53:12.648388
+No,pandas,pandas.core.strings.accessor,1489,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.740298
+No,pandas,pandas.core.strings.accessor,2621,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.901644
+No,pandas,pandas.core.strings.accessor,2627,21,OpExpr,bool,,OpExpr,2025-02-28 21:53:12.906889
+No,pandas,pandas.core.strings.accessor,3262,26,NameExpr,List[],,List[Any],2025-02-28 21:53:13.014539
+No,pandas,pandas.core.strings.accessor,3266,22,NameExpr,List[],,List[Any],2025-02-28 21:53:13.019690
+No,pandas,pandas.core.strings.accessor,3296,33,NameExpr,List[],,List[Any],2025-02-28 21:53:13.027260
+No,pandas,pandas.core.strings.accessor,3298,37,NameExpr,List[],,List[Any],2025-02-28 21:53:13.030780
+No,pandas,pandas.core.strings.accessor,3299,25,NameExpr,List[],,List[Any],2025-02-28 21:53:13.031808
+No,pandas,pandas.core.strings.object_array,102,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:13.220210
+No,pandas,pandas.core.strings.object_array,172,16,ConditionalExpr,int,,ConditionalExpr,2025-02-28 21:53:13.285094
+No,pandas,pandas.core.strings.object_array,166,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:13.288169
+No,pandas,pandas.core.strings.object_array,307,15,SliceExpr,None,,SliceExpr,2025-02-28 21:53:13.449858
+No,pandas,pandas.core.strings.object_array,313,21,SliceExpr,None,,SliceExpr,2025-02-28 21:53:13.454414
+No,pandas,pandas.core.strings.object_array,374,18,OpExpr,str,,OpExpr,2025-02-28 21:53:13.499390
+No,pandas,pandas.core.strings.object_array,376,18,OpExpr,str,,OpExpr,2025-02-28 21:53:13.500639
+No,pandas,pandas.core.strings.object_array,389,18,OpExpr,str,,OpExpr,2025-02-28 21:53:13.510288
+No,pandas,pandas.core.tools.datetimes,210,30,OpExpr,float,,OpExpr,2025-02-28 21:53:13.620383
+No,pandas,pandas.core.tools.times,64,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:14.122899
+No,pandas,pandas.core.util.hashing,297,15,CastExpr,ArrayLike,,Categorical,2025-02-28 21:53:14.265005
+No,pandas,pandas.core.util.hashing,336,15,CallExpr,ndarray,,"ndarray, ndarray",2025-02-28 21:53:14.284428
+No,pandas,pandas.core.util.hashing,336,15,MemberExpr,ndarray,,"ndarray, ndarray",2025-02-28 21:53:14.285427
+No,pandas,pandas.core.util.hashing,357,16,CallExpr,ndarray,,"str, ndarray",2025-02-28 21:53:14.292654
+No,pandas,pandas.core.util.hashing,357,16,MemberExpr,ndarray,,"str, ndarray",2025-02-28 21:53:14.293653
+No,pandas,pandas.core.util.hashing,361,12,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:14.306834
+No,pandas,pandas.core.util.hashing,363,12,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:14.309251
+No,pandas,pandas.core.util.hashing,365,12,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:14.311249
+No,pandas,pandas.core.window.ewm,81,18,OpExpr,"UnionType[float, None]",,OpExpr,2025-02-28 21:53:14.510209
+No,pandas,pandas.core.window.ewm,85,27,OpExpr,"UnionType[float, None]",,OpExpr,2025-02-28 21:53:14.515049
+No,pandas,pandas.core.window.ewm,90,17,OpExpr,"UnionType[float, None]",,OpExpr,2025-02-28 21:53:14.518572
+No,pandas,pandas.core.window.ewm,90,18,OpExpr,"UnionType[float, None]",,OpExpr,2025-02-28 21:53:14.519086
+No,pandas,pandas.core.window.ewm,622,12,OpExpr,bool,,OpExpr,2025-02-28 21:53:14.604738
+No,pandas,pandas.core.window.rolling,140,20,ConditionalExpr,NDFrame,,ConditionalExpr,2025-02-28 21:53:14.942486
+No,pandas,pandas.core.window.rolling,225,12,ConditionalExpr,Index,,ConditionalExpr,2025-02-28 21:53:14.997696
+No,pandas,pandas.core.window.rolling,271,29,OpExpr,bool,,OpExpr,2025-02-28 21:53:15.011070
+No,pandas,pandas.core.window.rolling,316,19,IndexExpr,str,,BaseWindow,2025-02-28 21:53:15.036880
+No,pandas,pandas.core.window.rolling,553,13,OpExpr,bool,,OpExpr,2025-02-28 21:53:15.196116
+No,pandas,pandas.core.window.rolling,1585,53,CallExpr,int,,"bool, RollingAndExpandingMixin, int",2025-02-28 21:53:15.549144
+No,pandas,pandas.core.window.rolling,1586,12,OpExpr,int,,OpExpr,2025-02-28 21:53:15.551142
+No,pandas,pandas.core.window.rolling,1672,70,OpExpr,int,,OpExpr,2025-02-28 21:53:15.617144
+No,pandas,pandas.core.window.rolling,1726,33,OpExpr,int,,OpExpr,2025-02-28 21:53:15.677686
+No,pandas,pandas.core.window.rolling,2331,53,CallExpr,int,,"bool, Rolling, int",2025-02-28 21:53:15.769732
+No,pandas,pandas.core.window.rolling,2332,12,OpExpr,int,,OpExpr,2025-02-28 21:53:15.771731
+No,pandas,pandas.core._numba.kernels.mean_,29,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.819766
+No,pandas,pandas.core._numba.kernels.mean_,51,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.830151
+No,pandas,pandas.core._numba.kernels.min_max_,31,24,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:15.879322
+No,pandas,pandas.core._numba.kernels.min_max_,56,28,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:15.903865
+No,pandas,pandas.core._numba.kernels.min_max_,58,28,OpExpr,ndarray,,OpExpr,2025-02-28 21:53:15.908614
+No,pandas,pandas.core._numba.kernels.sum_,28,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.919783
+No,pandas,pandas.core._numba.kernels.sum_,48,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.930701
+No,pandas,pandas.core._numba.kernels.var_,35,20,OpExpr,float,,OpExpr,2025-02-28 21:53:15.965212
+No,pandas,pandas.core._numba.kernels.var_,36,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.965212
+No,pandas,pandas.core._numba.kernels.var_,37,12,OpExpr,float,,OpExpr,2025-02-28 21:53:15.966213
+No,pandas,pandas.core._numba.kernels.var_,41,22,OpExpr,int,,OpExpr,2025-02-28 21:53:15.968211
+No,pandas,pandas.core._numba.kernels.var_,44,40,OpExpr,float,,OpExpr,2025-02-28 21:53:15.969666
+No,pandas,pandas.core._numba.kernels.var_,55,24,OpExpr,float,,OpExpr,2025-02-28 21:53:15.976658
+No,pandas,pandas.core._numba.kernels.var_,56,16,OpExpr,float,,OpExpr,2025-02-28 21:53:15.977661
+No,pandas,pandas.core._numba.kernels.var_,57,16,OpExpr,float,,OpExpr,2025-02-28 21:53:15.978657
+No,pandas,pandas.core._numba.kernels.var_,60,22,OpExpr,int,,OpExpr,2025-02-28 21:53:15.979772
+No,pandas,pandas.core._numba.kernels.var_,61,44,OpExpr,float,,OpExpr,2025-02-28 21:53:15.980773
+No,pandas,pandas.core._numba.kernels.var_,145,36,OpExpr,int,,OpExpr,2025-02-28 21:53:16.010611
+No,pandas,pandas.io.common,192,17,CastExpr,object,,int,2025-02-28 21:53:16.105451
+No,pandas,pandas.io.common,201,17,CastExpr,object,,List[Any],2025-02-28 21:53:16.107451
+No,pandas,pandas.io.common,360,26,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.137218
+No,pandas,pandas.io.common,415,57,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.152685
+No,pandas,pandas.io.common,426,57,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.156683
+No,pandas,pandas.io.common,1098,24,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:16.263812
+No,pandas,pandas.io.common,1099,28,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:16.264923
+No,pandas,pandas.io.common,1113,13,CastExpr,"UnionType[str, BaseBuffer]",,ReadCsvBuffer,2025-02-28 21:53:16.267921
+No,pandas,pandas.io.feather_format,75,7,UnaryExpr,DataFrame,,"DataFrame, Callable[[Sized], int], range, RangeIndex, DataFrame",2025-02-28 21:53:16.314547
+No,pandas,pandas.io.html,128,22,OpExpr,"UnionType[int, List[int], slice, None]",,OpExpr,2025-02-28 21:53:16.363888
+No,pandas,pandas.io.html,128,43,OpExpr,"UnionType[int, List[int], slice, None]",,OpExpr,2025-02-28 21:53:16.364996
+No,pandas,pandas.io.html,131,15,CastExpr,"UnionType[int, List[int], slice, None]",,"UnionType[int, List[int]]",2025-02-28 21:53:16.365997
+No,pandas,pandas.io.html,935,11,IndexExpr,"UnionType[str, None]",,"Dict[UnionType[str, None], type]",2025-02-28 21:53:16.734482
+No,pandas,pandas.io.parquet,93,31,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.891996
+No,pandas,pandas.io.parquet,95,9,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.892993
+No,pandas,pandas.io.parquet,102,8,OpExpr,Any,,OpExpr,2025-02-28 21:53:16.898103
+No,pandas,pandas.io.parquet,279,31,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.977984
+No,pandas,pandas.io.parquet,322,35,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.997764
+No,pandas,pandas.io.parquet,326,35,OpExpr,StorageOptions,,OpExpr,2025-02-28 21:53:16.999866
+No,pandas,pandas.io.pytables,173,12,OpExpr,int,,OpExpr,2025-02-28 21:53:17.066988
+No,pandas,pandas.io.pytables,396,8,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:17.103212
+No,pandas,pandas.io.pytables,396,29,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:17.104304
+No,pandas,pandas.io.pytables,395,7,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:17.105303
+No,pandas,pandas.io.pytables,448,18,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:17.122880
+No,pandas,pandas.io.pytables,575,26,ConditionalExpr,"UnionType[int, None]",,ConditionalExpr,2025-02-28 21:53:17.155969
+No,pandas,pandas.io.pytables,1363,17,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:17.375540
+No,pandas,pandas.io.pytables,1495,18,OpExpr,str,,OpExpr,2025-02-28 21:53:17.445129
+No,pandas,pandas.io.pytables,1626,21,IndexExpr,str,,"Dict[str, str]",2025-02-28 21:53:17.500080
+No,pandas,pandas.io.pytables,1746,46,OpExpr,bool,,OpExpr,2025-02-28 21:53:17.568382
+No,pandas,pandas.io.pytables,1762,11,OpExpr,None,,OpExpr,2025-02-28 21:53:17.573500
+No,pandas,pandas.io.pytables,1782,11,OpExpr,"UnionType[bool, List[str]]",,OpExpr,2025-02-28 21:53:17.575496
+No,pandas,pandas.io.pytables,1799,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:17.580610
+No,pandas,pandas.io.pytables,1887,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:17.607073
+No,pandas,pandas.io.pytables,1984,21,OpExpr,str,,OpExpr,2025-02-28 21:53:17.647353
+No,pandas,pandas.io.pytables,2059,21,MemberExpr,ndarray,,"ndarray, IndexCol",2025-02-28 21:53:17.683982
+No,pandas,pandas.io.pytables,2858,18,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:18.156457
+No,pandas,pandas.io.pytables,2867,22,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:18.165729
+No,pandas,pandas.io.pytables,2970,15,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:18.274975
+No,pandas,pandas.io.pytables,3008,23,OpExpr,ArrayLike,,OpExpr,2025-02-28 21:53:18.307890
+No,pandas,pandas.io.pytables,3283,26,OpExpr,"UnionType[List[IndexCol], None]",,OpExpr,2025-02-28 21:53:18.460058
+No,pandas,pandas.io.pytables,3284,30,OpExpr,"UnionType[List[Tuple[int, Any]], None]",,OpExpr,2025-02-28 21:53:18.461056
+No,pandas,pandas.io.pytables,3285,27,OpExpr,"UnionType[List[DataCol], None]",,OpExpr,2025-02-28 21:53:18.462173
+No,pandas,pandas.io.pytables,3286,28,OpExpr,"UnionType[List[], None]",,OpExpr,2025-02-28 21:53:18.464173
+No,pandas,pandas.io.pytables,3286,28,NameExpr,"UnionType[List[], None]",,"UnionType[List[Any], None]",2025-02-28 21:53:18.464173
+No,pandas,pandas.io.pytables,3287,20,OpExpr,"UnionType[Dict[Any, Any], None]",,OpExpr,2025-02-28 21:53:18.465172
+No,pandas,pandas.io.pytables,3816,15,GeneratorExpr,DataFrame,,GeneratorExpr,2025-02-28 21:53:18.792331
+No,pandas,pandas.io.pytables,3910,15,OpExpr,None,,OpExpr,2025-02-28 21:53:18.834012
+No,pandas,pandas.io.pytables,3921,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:18.842254
+No,pandas,pandas.io.pytables,4033,18,MemberExpr,DataFrame,,"Any, Any, DataFrame",2025-02-28 21:53:18.897135
+No,pandas,pandas.io.pytables,4042,22,MemberExpr,DataFrame,,"Any, Any, DataFrame",2025-02-28 21:53:18.902192
+No,pandas,pandas.io.pytables,4218,20,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:19.040073
+No,pandas,pandas.io.pytables,4370,22,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:19.119802
+No,pandas,pandas.io.pytables,4371,24,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:19.120800
+No,pandas,pandas.io.pytables,4418,16,UnaryExpr,"UnionType[NDArray, None]",,"bool, bool, UnionType[NDArray, None]",2025-02-28 21:53:19.148854
+No,pandas,pandas.io.pytables,4767,7,OpExpr,Index,,OpExpr,2025-02-28 21:53:19.341858
+No,pandas,pandas.io.pytables,4767,8,OpExpr,Index,,OpExpr,2025-02-28 21:53:19.342857
+No,pandas,pandas.io.pytables,4774,38,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:19.345970
+No,pandas,pandas.io.pytables,4775,8,IndexExpr,int,,"List[UnionType[slice, Index]]",2025-02-28 21:53:19.346968
+No,pandas,pandas.io.pytables,4773,7,UnaryExpr,Index,,"Index, Index",2025-02-28 21:53:19.348966
+No,pandas,pandas.io.pytables,4941,14,CastExpr,ArrayLike,,ndarray,2025-02-28 21:53:19.432479
+No,pandas,pandas.io.pytables,4974,37,ConditionalExpr,List[str],,ConditionalExpr,2025-02-28 21:53:19.445226
+No,pandas,pandas.io.pytables,5061,19,CallExpr,ndarray,,"str, bool, ndarray",2025-02-28 21:53:19.495542
+No,pandas,pandas.io.pytables,5061,19,MemberExpr,ndarray,,"str, bool, ndarray",2025-02-28 21:53:19.496541
+No,pandas,pandas.io.pytables,5132,9,OpExpr,str,,OpExpr,2025-02-28 21:53:19.537385
+No,pandas,pandas.io.pytables,5126,7,OpExpr,str,,OpExpr,2025-02-28 21:53:19.540383
+No,pandas,pandas.io.pytables,5215,43,IndexExpr,None,,"UnionType[int, None], UnionType[int, None]",2025-02-28 21:53:19.566592
+No,pandas,pandas.io.sql,101,38,OpExpr,"UnionType[str, Dict[str, Any], None]",,OpExpr,2025-02-28 21:53:19.644950
+No,pandas,pandas.io.sql,1013,18,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:19.868062
+No,pandas,pandas.io.sql,1017,26,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:19.869061
+No,pandas,pandas.io.sql,1018,28,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:19.870061
+No,pandas,pandas.io.sql,1792,24,CastExpr,"UnionType[DtypeArg, None]",,"Dict[Any, Any]",2025-02-28 21:53:20.174814
+No,pandas,pandas.io.sql,1826,11,OpExpr,str,,OpExpr,2025-02-28 21:53:20.198494
+No,pandas,pandas.io.sql,2363,24,CastExpr,"UnionType[DtypeArg, None]",,"Dict[Any, Any]",2025-02-28 21:53:20.466221
+No,pandas,pandas.io.stata,424,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:20.650665
+No,pandas,pandas.io.stata,598,37,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.762125
+No,pandas,pandas.io.stata,603,26,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.772432
+No,pandas,pandas.io.stata,606,37,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.774648
+No,pandas,pandas.io.stata,609,24,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.779768
+No,pandas,pandas.io.stata,610,16,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.782838
+No,pandas,pandas.io.stata,613,19,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.784837
+No,pandas,pandas.io.stata,618,23,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.788915
+No,pandas,pandas.io.stata,621,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.794565
+No,pandas,pandas.io.stata,626,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.799659
+No,pandas,pandas.io.stata,625,15,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.802656
+No,pandas,pandas.io.stata,625,40,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.805730
+No,pandas,pandas.io.stata,629,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.808822
+No,pandas,pandas.io.stata,628,15,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.812864
+No,pandas,pandas.io.stata,628,42,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.814558
+No,pandas,pandas.io.stata,632,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.817123
+No,pandas,pandas.io.stata,634,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.821236
+No,pandas,pandas.io.stata,635,19,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.827369
+No,pandas,pandas.io.stata,635,47,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.829466
+No,pandas,pandas.io.stata,631,15,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.832464
+No,pandas,pandas.io.stata,631,49,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.833462
+No,pandas,pandas.io.stata,643,20,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.843675
+No,pandas,pandas.io.stata,645,28,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:20.846781
+No,pandas,pandas.io.stata,655,27,IndexExpr,DataFrame,,StataMissingValue,2025-02-28 21:53:20.870394
+No,pandas,pandas.io.stata,757,30,OpExpr,str,,OpExpr,2025-02-28 21:53:20.930001
+No,pandas,pandas.io.stata,771,30,OpExpr,str,,OpExpr,2025-02-28 21:53:20.938468
+No,pandas,pandas.io.stata,774,30,OpExpr,str,,OpExpr,2025-02-28 21:53:20.941569
+No,pandas,pandas.io.stata,778,34,OpExpr,str,,OpExpr,2025-02-28 21:53:20.943566
+No,pandas,pandas.io.stata,782,34,OpExpr,str,,OpExpr,2025-02-28 21:53:20.946682
+No,pandas,pandas.io.stata,900,20,IndexExpr,float,,StataMissingValue,2025-02-28 21:53:20.961963
+No,pandas,pandas.io.stata,1279,12,OpExpr,int,,OpExpr,2025-02-28 21:53:21.199539
+No,pandas,pandas.io.stata,1280,35,OpExpr,int,,OpExpr,2025-02-28 21:53:21.200630
+No,pandas,pandas.io.stata,1361,23,IndexExpr,int,,StataReader,2025-02-28 21:53:21.244537
+No,pandas,pandas.io.stata,1371,23,IndexExpr,int,,StataReader,2025-02-28 21:53:21.249615
+No,pandas,pandas.io.stata,1558,31,OpExpr,"UnionType[int, str]",,OpExpr,2025-02-28 21:53:21.360824
+No,pandas,pandas.io.stata,1811,26,GeneratorExpr,str,,GeneratorExpr,2025-02-28 21:53:21.473230
+No,pandas,pandas.io.stata,1820,11,OpExpr,"UnionType[bool, None]",,OpExpr,2025-02-28 21:53:21.484298
+No,pandas,pandas.io.stata,1936,15,IndexExpr,List[str],,DataFrame,2025-02-28 21:53:21.584971
+No,pandas,pandas.io.stata,2086,7,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:21.633383
+No,pandas,pandas.io.stata,2107,15,OpExpr,AnyStr,,OpExpr,2025-02-28 21:53:21.644579
+No,pandas,pandas.io.stata,2108,11,OpExpr,AnyStr,,OpExpr,2025-02-28 21:53:21.646576
+No,pandas,pandas.io.stata,2140,33,OpExpr,"Dict[Any, Any]",,OpExpr,2025-02-28 21:53:21.658881
+No,pandas,pandas.io.stata,2139,11,UnaryExpr,"Dict[Any, Any]",,"Dict[Any, Any], Any",2025-02-28 21:53:21.660879
+No,pandas,pandas.io.stata,2139,15,MemberExpr,"Dict[Any, Any]",,"Dict[Any, Any], Any",2025-02-28 21:53:21.661878
+No,pandas,pandas.io.stata,2338,30,ConditionalExpr,"UnionType[Dict[Hashable, str], None]",,ConditionalExpr,2025-02-28 21:53:21.726164
+No,pandas,pandas.io.stata,2393,36,MemberExpr,DataFrame,,"DataFrame, str",2025-02-28 21:53:21.760155
+No,pandas,pandas.io.stata,2409,39,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:21.766368
+No,pandas,pandas.io.stata,2421,24,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:21.773427
+No,pandas,pandas.io.stata,2427,25,CallExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:21.779538
+No,pandas,pandas.io.stata,2453,20,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:21.813832
+No,pandas,pandas.io.stata,2459,26,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:21.819989
+No,pandas,pandas.io.stata,2814,12,OpExpr,"UnionType[datetime, None]",,OpExpr,2025-02-28 21:53:21.997458
+No,pandas,pandas.io.stata,2815,14,IndexExpr,"UnionType[datetime, None]",,"Dict[int, str]",2025-02-28 21:53:21.998457
+No,pandas,pandas.io.stata,2974,11,OpExpr,"UnionType[str, bytes]",,OpExpr,2025-02-28 21:53:22.091625
+No,pandas,pandas.io.stata,3296,8,IndexExpr,str,,StataWriter117,2025-02-28 21:53:22.176946
+No,pandas,pandas.io.stata,3318,16,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:22.187157
+No,pandas,pandas.io.stata,3347,12,OpExpr,"UnionType[datetime, None]",,OpExpr,2025-02-28 21:53:22.197357
+No,pandas,pandas.io.stata,3348,14,IndexExpr,"UnionType[datetime, None]",,"Dict[int, str]",2025-02-28 21:53:22.198358
+No,pandas,pandas.io.xml,700,8,OpExpr,"UnionType[FilePath, bytes, ReadBuffer, ReadBuffer]",,OpExpr,2025-02-28 21:53:22.551782
+No,pandas,pandas.io.excel._base,623,15,UnaryExpr,"Callable[[Any, Any], Any]",,"int, Callable[[Any, Any], Any]",2025-02-28 21:53:22.676076
+No,pandas,pandas.io.excel._base,660,21,CastExpr,"UnionType[int, List[int], None]",,int,2025-02-28 21:53:22.680188
+No,pandas,pandas.io.excel._base,661,26,OpExpr,"UnionType[int, List[int], None]",,OpExpr,2025-02-28 21:53:22.682185
+No,pandas,pandas.io.excel._base,663,21,CastExpr,"UnionType[int, List[int], None]",,List[Any],2025-02-28 21:53:22.683184
+No,pandas,pandas.io.excel._base,664,26,OpExpr,"UnionType[int, List[int], None]",,OpExpr,2025-02-28 21:53:22.685276
+No,pandas,pandas.io.excel._base,668,21,CastExpr,"UnionType[int, List[int], None]",,List[Any],2025-02-28 21:53:22.687275
+No,pandas,pandas.io.excel._base,672,19,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:22.691799
+No,pandas,pandas.io.excel._base,671,11,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.692797
+No,pandas,pandas.io.excel._base,674,12,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.692797
+No,pandas,pandas.io.excel._base,674,23,CastExpr,List[Any],,int,2025-02-28 21:53:22.693796
+No,pandas,pandas.io.excel._base,674,33,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.694915
+No,pandas,pandas.io.excel._base,675,19,OpExpr,List[Any],,OpExpr,2025-02-28 21:53:22.695914
+No,pandas,pandas.io.excel._base,675,41,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.696914
+No,pandas,pandas.io.excel._base,673,22,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.697913
+No,pandas,pandas.io.excel._base,681,12,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.698912
+No,pandas,pandas.io.excel._base,681,38,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.698912
+No,pandas,pandas.io.excel._base,682,56,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.700984
+No,pandas,pandas.io.excel._base,682,67,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:22.701983
+No,pandas,pandas.io.excel._base,676,24,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.702982
+No,pandas,pandas.io.excel._base,685,16,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.703981
+No,pandas,pandas.io.excel._base,686,16,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:22.705062
+No,pandas,pandas.io.excel._base,683,20,NameExpr,List[Any],,"UnionType[List[int], int, Callable[[int], object], None]",2025-02-28 21:53:22.706062
+No,pandas,pandas.io.excel._base,770,25,CastExpr,"UnionType[int, List[int], None]",,List[int],2025-02-28 21:53:22.750846
+No,pandas,pandas.io.excel._base,825,29,OpExpr,"UnionType[int, List[int], None]",,OpExpr,2025-02-28 21:53:22.783647
+No,pandas,pandas.io.excel._base,864,32,NameExpr,"UnionType[List[], Dict[Any, Any], bool]",,"UnionType[List[Any], Dict[Any, Any], bool]",2025-02-28 21:53:22.796401
+No,pandas,pandas.io.excel._base,1208,11,OpExpr,"UnionType[str, None]",,OpExpr,2025-02-28 21:53:22.842958
+No,pandas,pandas.io.excel._base,1216,12,CastExpr,"UnionType[FilePath, WriteExcelBuffer, ExcelWriter]",,IO,2025-02-28 21:53:22.845070
+No,pandas,pandas.io.excel._base,1513,23,IndexExpr,"UnionType[str, None]",,ExcelFile,2025-02-28 21:53:22.928450
+No,pandas,pandas.io.excel._base,1563,24,NameExpr,"UnionType[List[], Dict[Any, Any], bool]",,"UnionType[List[Any], Dict[Any, Any], bool]",2025-02-28 21:53:22.937962
+No,pandas,pandas.io.excel._odswriter,114,18,IndexExpr,"UnionType[str, None]",,ODSWriter,2025-02-28 21:53:23.099473
+No,pandas,pandas.io.excel._odswriter,120,27,CastExpr,"UnionType[Tuple[int, int], None]",,"Tuple[int, int]",2025-02-28 21:53:23.102573
+No,pandas,pandas.io.excel._openpyxl,457,30,IndexExpr,"UnionType[str, None]",,OpenpyxlWriter,2025-02-28 21:53:23.353591
+No,pandas,pandas.io.excel._openpyxl,459,24,IndexExpr,"UnionType[str, None]",,OpenpyxlWriter,2025-02-28 21:53:23.356589
+No,pandas,pandas.io.excel._openpyxl,467,26,IndexExpr,"UnionType[str, None]",,OpenpyxlWriter,2025-02-28 21:53:23.362706
+No,pandas,pandas.io.excel._openpyxl,474,22,IndexExpr,"UnionType[str, None]",,OpenpyxlWriter,2025-02-28 21:53:23.366797
+No,pandas,pandas.io.excel._openpyxl,480,27,CastExpr,"UnionType[Tuple[int, int], None]",,"Tuple[int, int]",2025-02-28 21:53:23.373879
+No,pandas,pandas.io.excel._openpyxl,482,20,OpExpr,"UnionType[Tuple[int, int], None]",,OpExpr,2025-02-28 21:53:23.380151
+No,pandas,pandas.io.excel._openpyxl,482,48,OpExpr,"UnionType[Tuple[int, int], None]",,OpExpr,2025-02-28 21:53:23.381150
+No,pandas,pandas.io.excel._openpyxl,570,15,IndexExpr,str,,OpenpyxlReader,2025-02-28 21:53:23.440571
+No,pandas,pandas.io.excel._openpyxl,574,15,IndexExpr,int,,OpenpyxlReader,2025-02-28 21:53:23.442707
+No,pandas,pandas.io.excel._pyxlsb,66,35,OpExpr,int,,OpExpr,2025-02-28 21:53:23.503965
+No,pandas,pandas.io.excel._util,84,15,IndexExpr,str,,"Dict[str, str]",2025-02-28 21:53:23.546985
+No,pandas,pandas.io.excel._util,86,15,IndexExpr,str,,"Dict[str, str]",2025-02-28 21:53:23.547985
+No,pandas,pandas.io.excel._util,91,15,IndexExpr,str,,MutableMapping,2025-02-28 21:53:23.550107
+No,pandas,pandas.io.excel._util,262,11,UnaryExpr,List[bool],,"List[bool], int",2025-02-28 21:53:23.570177
+No,pandas,pandas.io.excel._util,305,24,OpExpr,List[Hashable],,OpExpr,2025-02-28 21:53:23.576428
+No,pandas,pandas.io.formats.excel,91,11,OpExpr,"UnionType[Callable[[Any, Any], Any], None]",,OpExpr,2025-02-28 21:53:24.074363
+No,pandas,pandas.io.formats.excel,327,19,IndexExpr,"UnionType[str, None]",,CSSToExcelConverter,2025-02-28 21:53:24.124947
+No,pandas,pandas.io.formats.excel,463,19,IndexExpr,"UnionType[str, None]",,CSSToExcelConverter,2025-02-28 21:53:24.185739
+No,pandas,pandas.io.formats.excel,873,24,OpExpr,int,,OpExpr,2025-02-28 21:53:24.384259
+No,pandas,pandas.io.formats.format,210,19,ConditionalExpr,"UnionType[IO, None]",,ConditionalExpr,2025-02-28 21:53:24.417571
+No,pandas,pandas.io.formats.format,280,19,ConditionalExpr,"UnionType[IO, None]",,ConditionalExpr,2025-02-28 21:53:24.449535
+No,pandas,pandas.io.formats.format,693,32,CastExpr,"UnionType[List[Hashable], None]",,Axes,2025-02-28 21:53:24.603258
+No,pandas,pandas.io.formats.format,900,37,IndexExpr,int,,DataFrame,2025-02-28 21:53:24.692753
+No,pandas,pandas.io.formats.format,908,20,CastExpr,"UnionType[str, int]",,int,2025-02-28 21:53:24.695860
+No,pandas,pandas.io.formats.format,909,23,IndexExpr,"UnionType[str, int]",,DataFrameFormatter,2025-02-28 21:53:24.696858
+No,pandas,pandas.io.formats.format,914,20,IndexExpr,"UnionType[str, int]",,DataFrameFormatter,2025-02-28 21:53:24.697858
+No,pandas,pandas.io.formats.format,1103,20,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:24.761898
+No,pandas,pandas.io.formats.format,1482,20,ConditionalExpr,"UnionType[FloatFormatType, None]",,ConditionalExpr,2025-02-28 21:53:24.884073
+No,pandas,pandas.io.formats.format,1524,20,ConditionalExpr,"Callable[[Any, Any], Any]",,ConditionalExpr,2025-02-28 21:53:24.909367
+No,pandas,pandas.io.formats.format,1732,18,OpExpr,"UnionType[ndarray, List[float]]",,OpExpr,2025-02-28 21:53:25.007346
+No,pandas,pandas.io.formats.format,1751,19,MemberExpr,"UnionType[ndarray, List[float]]",,"int, UnionType[ndarray, List[float]], ndarray",2025-02-28 21:53:25.037624
+No,pandas,pandas.io.formats.format,1753,20,MemberExpr,"UnionType[ndarray, List[float]]",,"Any, UnionType[ndarray, List[float]], ndarray",2025-02-28 21:53:25.041691
+No,pandas,pandas.io.formats.format,1832,15,OpExpr,"UnionType[str, None]",,OpExpr,2025-02-28 21:53:25.069463
+No,pandas,pandas.io.formats.format,1941,20,OpExpr,str,,OpExpr,2025-02-28 21:53:25.119837
+No,pandas,pandas.io.formats.html,163,19,OpExpr,"UnionType[str, None]",,OpExpr,2025-02-28 21:53:25.254214
+No,pandas,pandas.io.formats.html,162,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:25.257404
+No,pandas,pandas.io.formats.html,217,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:25.293781
+No,pandas,pandas.io.formats.html,525,20,MemberExpr,"Dict[int, List[str]]",,"Dict[int, List[str]], int",2025-02-28 21:53:25.437986
+No,pandas,pandas.io.formats.info,315,11,SliceExpr,int,,SliceExpr,2025-02-28 21:53:25.478817
+No,pandas,pandas.io.formats.latex,91,14,IndexExpr,int,,RowStringConverter,2025-02-28 21:53:25.733274
+No,pandas,pandas.io.formats.latex,252,38,OpExpr,int,,OpExpr,2025-02-28 21:53:25.809945
+No,pandas,pandas.io.formats.latex,259,61,MemberExpr,List[str],,"List[str], int",2025-02-28 21:53:25.813063
+No,pandas,pandas.io.formats.latex,250,15,MemberExpr,List[str],,"List[str], int",2025-02-28 21:53:25.817154
+No,pandas,pandas.io.formats.printing,48,15,OpExpr,int,,OpExpr,2025-02-28 21:53:26.405271
+No,pandas,pandas.io.formats.printing,115,17,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:26.430562
+No,pandas,pandas.io.formats.printing,120,30,OpExpr,int,,OpExpr,2025-02-28 21:53:26.435698
+No,pandas,pandas.io.formats.printing,148,17,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:26.445906
+No,pandas,pandas.io.formats.printing,153,36,OpExpr,int,,OpExpr,2025-02-28 21:53:26.447991
+No,pandas,pandas.io.formats.printing,154,36,OpExpr,int,,OpExpr,2025-02-28 21:53:26.448991
+No,pandas,pandas.io.formats.printing,206,27,OpExpr,"UnionType[EscapeChars, None]",,OpExpr,2025-02-28 21:53:26.464339
+No,pandas,pandas.io.formats.printing,229,9,OpExpr,bool,,OpExpr,2025-02-28 21:53:26.469438
+No,pandas,pandas.io.formats.printing,323,4,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.495984
+No,pandas,pandas.io.formats.printing,325,8,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.496964
+No,pandas,pandas.io.formats.printing,324,7,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.497965
+No,pandas,pandas.io.formats.printing,382,19,GeneratorExpr,"Callable[[Any, Any], Any]",,GeneratorExpr,2025-02-28 21:53:26.531764
+No,pandas,pandas.io.formats.printing,385,19,GeneratorExpr,"Callable[[Any, Any], Any]",,GeneratorExpr,2025-02-28 21:53:26.535865
+No,pandas,pandas.io.formats.printing,386,19,GeneratorExpr,"Callable[[Any, Any], Any]",,GeneratorExpr,2025-02-28 21:53:26.539863
+No,pandas,pandas.io.formats.printing,389,19,GeneratorExpr,"Callable[[Any, Any], Any]",,GeneratorExpr,2025-02-28 21:53:26.544003
+No,pandas,pandas.io.formats.printing,399,39,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.561284
+No,pandas,pandas.io.formats.printing,400,43,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.564283
+No,pandas,pandas.io.formats.printing,414,24,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.565281
+No,pandas,pandas.io.formats.printing,428,62,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.654887
+No,pandas,pandas.io.formats.printing,437,62,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.675102
+No,pandas,pandas.io.formats.printing,440,62,OpExpr,int,,OpExpr,2025-02-28 21:53:26.680207
+No,pandas,pandas.io.formats.printing,440,62,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.680207
+No,pandas,pandas.io.formats.printing,448,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:26.683206
+No,pandas,pandas.io.formats.printing,448,27,NameExpr,int,,"UnionType[int, None]",2025-02-28 21:53:26.684315
+No,pandas,pandas.io.formats.printing,374,9,OpExpr,bool,,OpExpr,2025-02-28 21:53:26.685314
+No,pandas,pandas.io.formats.printing,371,9,OpExpr,bool,,OpExpr,2025-02-28 21:53:26.686313
+No,pandas,pandas.io.formats.printing,481,15,OpExpr,List[List[str]],,OpExpr,2025-02-28 21:53:26.689962
+No,pandas,pandas.io.formats.string,87,50,OpExpr,int,,OpExpr,2025-02-28 21:53:26.761003
+No,pandas,pandas.io.formats.style,254,20,NameExpr,"UnionType[str, Tuple[Any], List[], None]",,"UnionType[str, Tuple[Any], List[Any], None]",2025-02-28 21:53:26.830573
+No,pandas,pandas.io.formats.style,473,11,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:26.845951
+No,pandas,pandas.io.formats.style,1078,25,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:26.869355
+No,pandas,pandas.io.formats.style,1146,12,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:26.891857
+No,pandas,pandas.io.formats.style,1320,37,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:26.900974
+No,pandas,pandas.io.formats.style,1413,37,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:26.908200
+No,pandas,pandas.io.formats.style,1478,11,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:26.912275
+No,pandas,pandas.io.formats.style,1646,15,IndexExpr,"UnionType[Subset, None]",,Styler,2025-02-28 21:53:26.984969
+No,pandas,pandas.io.formats.style,1931,17,CallExpr,"UnionType[Subset, None]",,"Styler, UnionType[Subset, None]",2025-02-28 21:53:27.054880
+No,pandas,pandas.io.formats.style,1931,17,IndexExpr,"UnionType[Subset, None]",,Styler,2025-02-28 21:53:27.056881
+No,pandas,pandas.io.formats.style,2191,20,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.088243
+No,pandas,pandas.io.formats.style,2192,34,IndexExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.090242
+No,pandas,pandas.io.formats.style,2192,34,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.091373
+No,pandas,pandas.io.formats.style,2193,34,IndexExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.091399
+No,pandas,pandas.io.formats.style,2193,34,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.092401
+No,pandas,pandas.io.formats.style,2196,28,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.093397
+No,pandas,pandas.io.formats.style,2189,22,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.094396
+No,pandas,pandas.io.formats.style,2198,23,NameExpr,"UnionType[str, Tuple[Any], List[]]",,"UnionType[str, Tuple[Any], List[Any]]",2025-02-28 21:53:27.095395
+No,pandas,pandas.io.formats.style,2238,21,ConditionalExpr,"UnionType[int, None]",,ConditionalExpr,2025-02-28 21:53:27.098515
+No,pandas,pandas.io.formats.style,2293,32,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:27.116823
+No,pandas,pandas.io.formats.style,2304,32,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:27.126200
+No,pandas,pandas.io.formats.style,2314,24,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:27.131824
+No,pandas,pandas.io.formats.style,2475,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:27.160403
+No,pandas,pandas.io.formats.style,2647,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:27.170569
+No,pandas,pandas.io.formats.style,2664,19,IndexExpr,"UnionType[Subset, None]",,Styler,2025-02-28 21:53:27.183803
+No,pandas,pandas.io.formats.style,2987,12,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.213470
+No,pandas,pandas.io.formats.style,2991,27,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.215468
+No,pandas,pandas.io.formats.style,2991,57,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.216228
+No,pandas,pandas.io.formats.style,2992,16,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.217763
+No,pandas,pandas.io.formats.style,2990,13,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.218786
+No,pandas,pandas.io.formats.style,2988,13,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.219299
+No,pandas,pandas.io.formats.style,2986,11,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.220804
+No,pandas,pandas.io.formats.style,3012,19,NameExpr,"UnionType[str, List[], Tuple[Any], None]",,"UnionType[str, List[Any], Tuple[Any], None]",2025-02-28 21:53:27.228022
+No,pandas,pandas.io.formats.style,3014,18,OpExpr,float,,OpExpr,2025-02-28 21:53:27.229021
+No,pandas,pandas.io.formats.style,3015,19,OpExpr,float,,OpExpr,2025-02-28 21:53:27.230020
+No,pandas,pandas.io.formats.style,3067,12,NameExpr,str,,"UnionType[str, None]",2025-02-28 21:53:27.236195
+No,pandas,pandas.io.formats.style,3066,11,NameExpr,str,,"UnionType[str, None]",2025-02-28 21:53:27.240191
+No,pandas,pandas.io.formats.style,3068,61,NameExpr,str,,"UnionType[str, None]",2025-02-28 21:53:27.242189
+No,pandas,pandas.io.formats.style,3369,25,OpExpr,"UnionType[Axis, None]",,OpExpr,2025-02-28 21:53:27.278313
+No,pandas,pandas.io.formats.style,3572,12,ConditionalExpr,"UnionType[Any, None]",,ConditionalExpr,2025-02-28 21:53:27.302769
+No,pandas,pandas.io.formats.style,3585,14,CallExpr,"UnionType[NDFrame, List[Any], ndarray]",,"NDFrame, None, UnionType[NDFrame, List[Any], ndarray]",2025-02-28 21:53:27.313468
+No,pandas,pandas.io.formats.style,3585,14,MemberExpr,"UnionType[NDFrame, List[Any], ndarray]",,"NDFrame, None, UnionType[NDFrame, List[Any], ndarray]",2025-02-28 21:53:27.314465
+No,pandas,pandas.io.formats.style,3622,52,OpExpr,float,,OpExpr,2025-02-28 21:53:27.342302
+No,pandas,pandas.io.formats.style,3622,72,OpExpr,float,,OpExpr,2025-02-28 21:53:27.343300
+No,pandas,pandas.io.formats.style,3804,28,OpExpr,float,,OpExpr,2025-02-28 21:53:27.447339
+No,pandas,pandas.io.formats.style,3804,28,NameExpr,"UnionType[str, List[], Tuple[Any]]",,str,2025-02-28 21:53:27.449437
+No,pandas,pandas.io.formats.style,3805,24,NameExpr,"UnionType[str, List[], Tuple[Any]]",,str,2025-02-28 21:53:27.451435
+No,pandas,pandas.io.formats.style,3805,24,OpExpr,float,,OpExpr,2025-02-28 21:53:27.452434
+No,pandas,pandas.io.formats.style,3840,12,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.455504
+No,pandas,pandas.io.formats.style,3840,20,ConditionalExpr,"UnionType[str, List[], Tuple[Any]]",,ConditionalExpr,2025-02-28 21:53:27.456503
+No,pandas,pandas.io.formats.style,3840,43,IndexExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.457502
+No,pandas,pandas.io.formats.style,3840,43,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.458500
+No,pandas,pandas.io.formats.style,3840,20,IndexExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.458500
+No,pandas,pandas.io.formats.style,3840,20,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.459604
+No,pandas,pandas.io.formats.style,3839,22,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.460604
+No,pandas,pandas.io.formats.style,3841,26,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.460604
+No,pandas,pandas.io.formats.style,3843,12,ConditionalExpr,float,,ConditionalExpr,2025-02-28 21:53:27.461603
+No,pandas,pandas.io.formats.style,3844,12,ConditionalExpr,float,,ConditionalExpr,2025-02-28 21:53:27.463600
+No,pandas,pandas.io.formats.style,3851,19,OpExpr,float,,OpExpr,2025-02-28 21:53:27.465683
+No,pandas,pandas.io.formats.style,3851,32,OpExpr,float,,OpExpr,2025-02-28 21:53:27.466681
+No,pandas,pandas.io.formats.style,3855,21,OpExpr,float,,OpExpr,2025-02-28 21:53:27.467680
+No,pandas,pandas.io.formats.style,3855,34,OpExpr,float,,OpExpr,2025-02-28 21:53:27.468680
+No,pandas,pandas.io.formats.style,3865,30,OpExpr,float,,OpExpr,2025-02-28 21:53:27.469752
+No,pandas,pandas.io.formats.style,3867,64,OpExpr,float,,OpExpr,2025-02-28 21:53:27.470752
+No,pandas,pandas.io.formats.style,3867,73,OpExpr,float,,OpExpr,2025-02-28 21:53:27.471751
+No,pandas,pandas.io.formats.style,3867,28,OpExpr,float,,OpExpr,2025-02-28 21:53:27.472750
+No,pandas,pandas.io.formats.style,3871,30,OpExpr,float,,OpExpr,2025-02-28 21:53:27.474749
+No,pandas,pandas.io.formats.style,3871,43,OpExpr,float,,OpExpr,2025-02-28 21:53:27.474862
+No,pandas,pandas.io.formats.style,3873,38,OpExpr,float,,OpExpr,2025-02-28 21:53:27.475861
+No,pandas,pandas.io.formats.style,3873,51,OpExpr,float,,OpExpr,2025-02-28 21:53:27.477859
+No,pandas,pandas.io.formats.style,3875,22,OpExpr,float,,OpExpr,2025-02-28 21:53:27.478858
+No,pandas,pandas.io.formats.style,3875,37,OpExpr,float,,OpExpr,2025-02-28 21:53:27.479934
+No,pandas,pandas.io.formats.style,3875,50,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.480933
+No,pandas,pandas.io.formats.style,3878,22,OpExpr,float,,OpExpr,2025-02-28 21:53:27.482931
+No,pandas,pandas.io.formats.style,3884,4,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.485017
+No,pandas,pandas.io.formats.style,3885,4,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.490012
+No,pandas,pandas.io.formats.style,3890,12,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.494626
+No,pandas,pandas.io.formats.style,3890,19,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.494626
+No,pandas,pandas.io.formats.style,3890,34,ConditionalExpr,"UnionType[float, None]",,ConditionalExpr,2025-02-28 21:53:27.495745
+No,pandas,pandas.io.formats.style,3892,12,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.496744
+No,pandas,pandas.io.formats.style,3892,19,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.496744
+No,pandas,pandas.io.formats.style,3892,36,ConditionalExpr,"UnionType[float, None]",,ConditionalExpr,2025-02-28 21:53:27.497743
+No,pandas,pandas.io.formats.style,3891,13,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.498742
+No,pandas,pandas.io.formats.style,3889,11,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.499741
+No,pandas,pandas.io.formats.style,3894,11,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.500815
+No,pandas,pandas.io.formats.style,3896,11,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.502833
+No,pandas,pandas.io.formats.style,3896,19,CallExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.502833
+No,pandas,pandas.io.formats.style,3896,19,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.503832
+No,pandas,pandas.io.formats.style,3898,11,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.504831
+No,pandas,pandas.io.formats.style,3898,25,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.504831
+No,pandas,pandas.io.formats.style,3899,9,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.506939
+No,pandas,pandas.io.formats.style,3897,20,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.508938
+No,pandas,pandas.io.formats.style,3895,18,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.509936
+No,pandas,pandas.io.formats.style,3893,9,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.511039
+No,pandas,pandas.io.formats.style,3888,7,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.512039
+No,pandas,pandas.io.formats.style,3914,48,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.516131
+No,pandas,pandas.io.formats.style,3914,54,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.517132
+No,pandas,pandas.io.formats.style,3923,22,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.534160
+No,pandas,pandas.io.formats.style,3927,23,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.536159
+No,pandas,pandas.io.formats.style,3927,33,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.537249
+No,pandas,pandas.io.formats.style,3927,44,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.538249
+No,pandas,pandas.io.formats.style,3927,51,ConditionalExpr,"UnionType[str, List[], Tuple[Any]]",,ConditionalExpr,2025-02-28 21:53:27.538249
+No,pandas,pandas.io.formats.style,3927,51,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.540247
+No,pandas,pandas.io.formats.style,3937,24,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.546365
+No,pandas,pandas.io.formats.style,3938,24,NameExpr,float,,"UnionType[Any, float]",2025-02-28 21:53:27.547424
+No,pandas,pandas.io.formats.style,3939,24,NameExpr,str,,"UnionType[str, float, Callable[[Any, Any], Any]]",2025-02-28 21:53:27.547424
+No,pandas,pandas.io.formats.style,3940,24,ConditionalExpr,"UnionType[str, List[], Tuple[Any]]",,ConditionalExpr,2025-02-28 21:53:27.548423
+No,pandas,pandas.io.formats.style,3940,24,NameExpr,"UnionType[str, List[], Tuple[Any]]",,"UnionType[str, List[Any], Tuple[Any]]",2025-02-28 21:53:27.548423
+No,pandas,pandas.io.formats.style_render,106,23,NameExpr,"UnionType[str, Tuple[Any], List[], None]",,"UnionType[str, Tuple[Any], List[Any], None]",2025-02-28 21:53:27.571625
+No,pandas,pandas.io.formats.style_render,308,19,ConditionalExpr,"UnionType[int, None]",,ConditionalExpr,2025-02-28 21:53:27.671002
+No,pandas,pandas.io.formats.style_render,309,19,ConditionalExpr,"UnionType[int, None]",,ConditionalExpr,2025-02-28 21:53:27.672001
+No,pandas,pandas.io.formats.style_render,666,16,CallExpr,List[],,List[Any],2025-02-28 21:53:27.847555
+No,pandas,pandas.io.formats.style_render,666,16,MemberExpr,List[],,List[Any],2025-02-28 21:53:27.848554
+No,pandas,pandas.io.formats.style_render,668,16,CallExpr,List[],,List[Any],2025-02-28 21:53:27.849553
+No,pandas,pandas.io.formats.style_render,668,16,MemberExpr,List[],,List[Any],2025-02-28 21:53:27.849553
+No,pandas,pandas.io.formats.style_render,922,46,OpExpr,"Dict[Any, Any]",,OpExpr,2025-02-28 21:53:28.034879
+No,pandas,pandas.io.formats.style_render,937,24,CallExpr,"Dict[Any, Any]",,"Dict[Any, Any], int, Any",2025-02-28 21:53:28.043075
+No,pandas,pandas.io.formats.style_render,937,24,MemberExpr,"Dict[Any, Any]",,"Dict[Any, Any], int, Any",2025-02-28 21:53:28.044074
+No,pandas,pandas.io.formats.style_render,1146,15,IndexExpr,"UnionType[Subset, None]",,StylerRenderer,2025-02-28 21:53:28.059395
+No,pandas,pandas.io.formats.style_render,1333,46,NameExpr,"UnionType[Hashable, List[Hashable], None]",,int,2025-02-28 21:53:28.085048
+No,pandas,pandas.io.formats.style_render,1333,25,NameExpr,"UnionType[Hashable, List[Hashable], None]",,int,2025-02-28 21:53:28.086120
+No,pandas,pandas.io.formats.style_render,1566,27,OpExpr,float,,OpExpr,2025-02-28 21:53:28.130307
+No,pandas,pandas.io.formats.style_render,1568,23,OpExpr,float,,OpExpr,2025-02-28 21:53:28.131306
+No,pandas,pandas.io.formats.style_render,1571,13,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:28.134303
+No,pandas,pandas.io.formats.style_render,1573,13,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:28.136380
+No,pandas,pandas.io.formats.style_render,1721,20,CallExpr,"Callable[[Any, Any], Any]",,"str, Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.189704
+No,pandas,pandas.io.formats.style_render,1721,20,MemberExpr,"Callable[[Any, Any], Any]",,"str, Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.190704
+No,pandas,pandas.io.formats.style_render,1727,23,CallExpr,"Callable[[Any, Any], Any]",,"Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.195807
+No,pandas,pandas.io.formats.style_render,1727,23,MemberExpr,"Callable[[Any, Any], Any]",,"Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.195807
+No,pandas,pandas.io.formats.style_render,1729,23,CallExpr,"Callable[[Any, Any], Any]",,"Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.197914
+No,pandas,pandas.io.formats.style_render,1729,23,MemberExpr,"Callable[[Any, Any], Any]",,"Any, Callable[[Any, Any], Any]",2025-02-28 21:53:28.198913
+No,pandas,pandas.io.formats.style_render,1814,25,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:28.246001
+No,pandas,pandas.io.formats.style_render,1908,12,ConditionalExpr,Index,,ConditionalExpr,2025-02-28 21:53:28.277471
+No,pandas,pandas.io.formats.style_render,2205,25,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:28.366672
+No,pandas,pandas.io.formats.style_render,2209,25,ConditionalExpr,bool,,ConditionalExpr,2025-02-28 21:53:28.373749
+No,pandas,pandas.io.json._json,1112,29,IndexExpr,None,,Parser,2025-02-28 21:53:35.941952
+No,pandas,pandas.io.json._normalize,115,58,OpExpr,int,,OpExpr,2025-02-28 21:53:36.208307
+No,pandas,pandas.io.json._normalize,165,8,IndexExpr,str,,"Dict[str, Any]",2025-02-28 21:53:36.238876
+No,pandas,pandas.io.json._normalize,395,29,NameExpr,"UnionType[List[], str]",,"UnionType[List[Any], str]",2025-02-28 21:53:36.273230
+No,pandas,pandas.io.json._normalize,400,25,IndexExpr,"UnionType[List[], str]",,"Dict[str, Any]",2025-02-28 21:53:36.276228
+No,pandas,pandas.io.json._normalize,400,32,NameExpr,"UnionType[List[], str]",,"UnionType[List[Any], str]",2025-02-28 21:53:36.276228
+No,pandas,pandas.io.json._normalize,394,26,NameExpr,"UnionType[List[], str]",,"UnionType[List[Any], str]",2025-02-28 21:53:36.278225
+No,pandas,pandas.io.json._normalize,423,33,NameExpr,"UnionType[List[], str]",,"UnionType[List[Any], str]",2025-02-28 21:53:36.288255
+No,pandas,pandas.io.json._normalize,453,8,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.304250
+No,pandas,pandas.io.json._normalize,473,8,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.311018
+No,pandas,pandas.io.json._normalize,473,23,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.312019
+No,pandas,pandas.io.json._normalize,472,24,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.313018
+No,pandas,pandas.io.json._normalize,461,7,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.314017
+No,pandas,pandas.io.json._normalize,487,16,GeneratorExpr,str,,GeneratorExpr,2025-02-28 21:53:36.319340
+No,pandas,pandas.io.json._normalize,495,23,OpExpr,int,,OpExpr,2025-02-28 21:53:36.329138
+No,pandas,pandas.io.json._normalize,498,76,OpExpr,int,,OpExpr,2025-02-28 21:53:36.336037
+No,pandas,pandas.io.json._normalize,515,52,SliceExpr,int,,SliceExpr,2025-02-28 21:53:36.352145
+No,pandas,pandas.io.json._normalize,512,23,OpExpr,int,,OpExpr,2025-02-28 21:53:36.352928
+No,pandas,pandas.io.json._normalize,519,29,NameExpr,"UnionType[str, List[], None]",,"UnionType[str, List[Any], None]",2025-02-28 21:53:36.359654
+No,pandas,pandas.io.json._table_schema,291,25,CastExpr,"UnionType[DataFrame, Series]",,MultiIndex,2025-02-28 21:53:36.518977
+No,pandas,pandas.io.json._table_schema,306,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:36.538145
+No,pandas,pandas.io.parsers.base_parser,257,23,IndexExpr,int,,ParserBase,2025-02-28 21:53:36.807730
+No,pandas,pandas.io.parsers.base_parser,260,16,ConditionalExpr,int,,ConditionalExpr,2025-02-28 21:53:36.809730
+No,pandas,pandas.io.parsers.base_parser,260,49,IndexExpr,int,,ParserBase,2025-02-28 21:53:36.810727
+No,pandas,pandas.io.parsers.base_parser,350,27,CastExpr,List[Hashable],,List[Tuple[Any]],2025-02-28 21:53:36.871623
+No,pandas,pandas.io.parsers.base_parser,635,20,IndexExpr,List[Hashable],,List[int],2025-02-28 21:53:37.144588
+No,pandas,pandas.io.parsers.base_parser,739,11,OpExpr,bool,,OpExpr,2025-02-28 21:53:37.262241
+No,pandas,pandas.io.parsers.base_parser,1066,20,CastExpr,"UnionType[DtypeArg, None]",,"Dict[Any, Any]",2025-02-28 21:53:37.398324
+No,pandas,pandas.io.parsers.base_parser,1130,16,ConditionalExpr,"UnionType[Dict[Hashable, str], str, None]",,ConditionalExpr,2025-02-28 21:53:37.453553
+No,pandas,pandas.io.parsers.c_parser_wrapper,363,20,IndexExpr,int,,CParserWrapper,2025-02-28 21:53:37.789219
+No,pandas,pandas.io.parsers.python_parser,111,24,CastExpr,"UnionType[ReadCsvBuffer, List[]]",,Iterator,2025-02-28 21:53:37.841246
+No,pandas,pandas.io.parsers.python_parser,111,44,NameExpr,"UnionType[ReadCsvBuffer, List[]]",,"UnionType[ReadCsvBuffer, List[Any]]",2025-02-28 21:53:37.842372
+No,pandas,pandas.io.parsers.python_parser,113,27,NameExpr,"UnionType[ReadCsvBuffer, List[]]",,"UnionType[ReadCsvBuffer, List[Any]]",2025-02-28 21:53:37.845370
+No,pandas,pandas.io.parsers.python_parser,114,30,NameExpr,"UnionType[ReadCsvBuffer, List[]]",,"UnionType[ReadCsvBuffer, List[Any]]",2025-02-28 21:53:37.846369
+No,pandas,pandas.io.parsers.python_parser,109,22,NameExpr,"UnionType[ReadCsvBuffer, List[]]",,"UnionType[ReadCsvBuffer, List[Any]]",2025-02-28 21:53:37.847501
+No,pandas,pandas.io.parsers.python_parser,683,15,OpExpr,List[Scalar],,OpExpr,2025-02-28 21:53:38.176888
+No,pandas,pandas.io.parsers.python_parser,1085,37,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:38.303002
+No,pandas,pandas.io.parsers.python_parser,1085,54,SliceExpr,"UnionType[int, None]",,SliceExpr,2025-02-28 21:53:38.304001
+No,pandas,pandas.io.parsers.python_parser,1099,52,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:38.310158
+No,pandas,pandas.io.parsers.python_parser,1100,30,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:38.311157
+No,pandas,pandas.io.parsers.python_parser,1182,25,ConditionalExpr,"UnionType[str, None]",,ConditionalExpr,2025-02-28 21:53:38.338174
+No,pandas,pandas.io.parsers.python_parser,1182,25,OpExpr,"UnionType[str, None]",,OpExpr,2025-02-28 21:53:38.339247
+No,pandas,pandas.io.parsers.readers,1400,35,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[]]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any]]",2025-02-28 21:53:38.495509
+No,pandas,pandas.io.parsers.readers,1407,41,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[]]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any]]",2025-02-28 21:53:38.498627
+No,pandas,pandas.io.parsers.readers,1654,46,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.644079
+No,pandas,pandas.io.parsers.readers,1662,16,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.645079
+No,pandas,pandas.io.parsers.readers,1672,12,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.648076
+No,pandas,pandas.io.parsers.readers,1675,67,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.654290
+No,pandas,pandas.io.parsers.readers,1644,26,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.655288
+No,pandas,pandas.io.parsers.readers,1679,19,IndexExpr,CSVEngine,,"Dict[str, UnknownType]",2025-02-28 21:53:38.656287
+No,pandas,pandas.io.parsers.readers,1679,35,NameExpr,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[], IO]",,"UnionType[FilePath, ReadCsvBuffer, ReadCsvBuffer, List[Any], IO]",2025-02-28 21:53:38.657287
+No,pandas,pandas.io.parsers.readers,1955,7,OpExpr,"UnionType[str, None, NoDefault]",,OpExpr,2025-02-28 21:53:38.772423
+No,pandas,pandas.io.parsers.readers,1964,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:38.780815
+No,pandas,pandas.io.parsers.readers,2124,11,OpExpr,"Dict[str, Any]",,OpExpr,2025-02-28 21:53:38.848301
+No,pandas,pandas.io.sas.sas7bdat,357,11,OpExpr,int,,OpExpr,2025-02-28 21:53:39.035438
+No,pandas,pandas.io.sas.sas7bdat,360,15,SliceExpr,int,,SliceExpr,2025-02-28 21:53:39.037437
+No,pandas,pandas.io.sas.sas7bdat,360,42,OpExpr,int,,OpExpr,2025-02-28 21:53:39.037437
+No,pandas,pandas.io.sas.sas7bdat,458,12,OpExpr,int,,OpExpr,2025-02-28 21:53:39.119359
+No,pandas,pandas.io.sas.sas7bdat,462,12,OpExpr,int,,OpExpr,2025-02-28 21:53:39.123355
+No,pandas,pandas.io.sas.sas7bdat,466,12,OpExpr,int,,OpExpr,2025-02-28 21:53:39.127518
+No,pandas,pandas.io.sas.sas7bdat,469,12,OpExpr,int,,OpExpr,2025-02-28 21:53:39.132377
+No,pandas,pandas.io.sas.sas7bdat,506,22,OpExpr,int,,OpExpr,2025-02-28 21:53:39.170903
+No,pandas,pandas.io.sas.sas7bdat,514,26,OpExpr,int,,OpExpr,2025-02-28 21:53:39.178163
+No,pandas,pandas.io.sas.sas7bdat,520,26,OpExpr,int,,OpExpr,2025-02-28 21:53:39.183281
+No,pandas,pandas.io.sas.sas7bdat,527,26,OpExpr,int,,OpExpr,2025-02-28 21:53:39.187390
+No,pandas,pandas.io.sas.sas7bdat,672,41,OpExpr,"UnionType[int, None]",,OpExpr,2025-02-28 21:53:39.306757
+No,pandas,pandas.io.sas.sas_xport,170,20,CallExpr,str,,"str, int, int, Any",2025-02-28 21:53:39.391647
+No,pandas,pandas.io.sas.sas_xport,170,20,MemberExpr,str,,"str, int, int, Any",2025-02-28 21:53:39.392647
+No,pandas,pandas.plotting._misc,463,15,NameExpr,"UnionType[List[], Tuple[Any], None]",,"UnionType[List[Any], Tuple[Any], None]",2025-02-28 21:53:40.140602
+No,pandas,pandas.plotting._matplotlib.boxplot,276,17,OpExpr,None,,OpExpr,2025-02-28 21:53:40.410480
+No,pandas,pandas.plotting._matplotlib.boxplot,278,17,OpExpr,None,,OpExpr,2025-02-28 21:53:40.412590
+No,pandas,pandas.plotting._matplotlib.boxplot,297,13,ConditionalExpr,None,,ConditionalExpr,2025-02-28 21:53:40.431941
+No,pandas,pandas.plotting._matplotlib.boxplot,384,16,ConditionalExpr,Axes,,ConditionalExpr,2025-02-28 21:53:40.535686
+No,pandas,pandas.plotting._matplotlib.converter,149,31,OpExpr,time,,OpExpr,2025-02-28 21:53:40.694597
+No,pandas,pandas.plotting._matplotlib.converter,149,60,OpExpr,time,,OpExpr,2025-02-28 21:53:40.695597
+No,pandas,pandas.plotting._matplotlib.converter,514,23,OpExpr,PeriodIndex,,OpExpr,2025-02-28 21:53:41.095809
+No,pandas,pandas.plotting._matplotlib.converter,514,31,OpExpr,PeriodIndex,,OpExpr,2025-02-28 21:53:41.095809
+No,pandas,pandas.plotting._matplotlib.converter,527,58,OpExpr,float,,OpExpr,2025-02-28 21:53:41.102031
+No,pandas,pandas.plotting._matplotlib.converter,1098,35,OpExpr,int,,OpExpr,2025-02-28 21:53:41.703801
+No,pandas,pandas.plotting._matplotlib.core,224,28,NameExpr,"UnionType[bool, Tuple[Any], List[], ndarray]",,"UnionType[bool, Tuple[Any], List[Any], ndarray]",2025-02-28 21:53:41.808447
+No,pandas,pandas.plotting._matplotlib.core,252,12,NameExpr,"UnionType[bool, Tuple[Any], List[], ndarray]",,"UnionType[bool, Tuple[Any], List[Any], ndarray]",2025-02-28 21:53:41.829624
+No,pandas,pandas.plotting._matplotlib.core,252,27,NameExpr,"UnionType[bool, Tuple[Any], List[], ndarray]",,"UnionType[bool, Tuple[Any], List[Any], ndarray]",2025-02-28 21:53:41.830623
+No,pandas,pandas.plotting._matplotlib.core,251,26,NameExpr,"UnionType[bool, Tuple[Any], List[], ndarray]",,"UnionType[bool, Tuple[Any], List[Any], ndarray]",2025-02-28 21:53:41.831622
+No,pandas,pandas.plotting._matplotlib.core,253,27,NameExpr,"UnionType[bool, Tuple[Any], List[], ndarray]",,"UnionType[bool, Tuple[Any], List[Any], ndarray]",2025-02-28 21:53:41.834373
+No,pandas,pandas.plotting._matplotlib.core,257,11,OpExpr,None,,OpExpr,2025-02-28 21:53:41.835372
+No,pandas,pandas.plotting._matplotlib.core,741,21,OpExpr,Axis,,OpExpr,2025-02-28 21:53:42.185667
+No,pandas,pandas.plotting._matplotlib.core,935,17,IndexExpr,int,,MPLPlot,2025-02-28 21:53:42.351145
+No,pandas,pandas.plotting._matplotlib.core,937,12,IndexExpr,int,,MPLPlot,2025-02-28 21:53:42.353142
+No,pandas,pandas.plotting._matplotlib.core,1203,16,IndexExpr,None,,ScatterPlot,2025-02-28 21:53:42.616921
+No,pandas,pandas.plotting._matplotlib.core,1298,16,IndexExpr,None,,HexBinPlot,2025-02-28 21:53:42.769172
+No,pandas,pandas.plotting._matplotlib.core,1572,20,IndexExpr,None,,Axes,2025-02-28 21:53:43.010302
+No,pandas,pandas.plotting._matplotlib.core,1574,20,IndexExpr,None,,Axes,2025-02-28 21:53:43.011413
+No,pandas,pandas.plotting._matplotlib.groupby,121,20,IndexExpr,IndexLabel,,DataFrame,2025-02-28 21:53:43.320558
+No,pandas,pandas.plotting._matplotlib.hist,83,20,CallExpr,DataFrame,,"bool, DataFrame",2025-02-28 21:53:43.363119
+No,pandas,pandas.plotting._matplotlib.hist,83,20,MemberExpr,DataFrame,,"bool, DataFrame",2025-02-28 21:53:43.364118
+No,pandas,pandas.plotting._matplotlib.hist,406,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:43.594397
+No,pandas,pandas.plotting._matplotlib.hist,480,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:43.635813
+No,pandas,pandas.plotting._matplotlib.misc,60,16,OpExpr,None,,OpExpr,2025-02-28 21:53:43.685125
+No,pandas,pandas.plotting._matplotlib.misc,61,19,OpExpr,None,,OpExpr,2025-02-28 21:53:43.685125
+No,pandas,pandas.plotting._matplotlib.misc,154,14,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:43.803870
+No,pandas,pandas.plotting._matplotlib.misc,156,9,CallExpr,DataFrame,,"Any, DataFrame",2025-02-28 21:53:43.806997
+No,pandas,pandas.plotting._matplotlib.misc,156,9,MemberExpr,DataFrame,,"Any, DataFrame",2025-02-28 21:53:43.808996
+No,pandas,pandas.plotting._matplotlib.misc,263,14,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:43.947393
+No,pandas,pandas.plotting._matplotlib.misc,367,14,MemberExpr,DataFrame,,"DataFrame, Any",2025-02-28 21:53:44.073366
+No,pandas,pandas.plotting._matplotlib.misc,373,13,IndexExpr,None,,DataFrame,2025-02-28 21:53:44.079360
+No,pandas,pandas.plotting._matplotlib.misc,435,9,SliceExpr,int,,SliceExpr,2025-02-28 21:53:44.129490
+No,pandas,pandas.plotting._matplotlib.misc,436,9,SliceExpr,int,,SliceExpr,2025-02-28 21:53:44.132036
+No,pandas,pandas.plotting._matplotlib.style,167,16,CastExpr,"UnionType[MatplotlibColor, List[MatplotlibColor]]",,MatplotlibColor,2025-02-28 21:53:44.238088
+No,pandas,pandas.plotting._matplotlib.style,170,12,CastExpr,"UnionType[MatplotlibColor, List[MatplotlibColor]]",,List[MatplotlibColor],2025-02-28 21:53:44.242085
+No,pandas,pandas.plotting._matplotlib.style,231,11,SliceExpr,int,,SliceExpr,2025-02-28 21:53:44.263293
+No,pandas,pandas.plotting._matplotlib.tools,118,15,IndexExpr,int,,"Dict[int, Tuple[int, int]]",2025-02-28 21:53:44.544605
+No,pandas,pandas.plotting._matplotlib.tools,235,15,OpExpr,bool,,OpExpr,2025-02-28 21:53:44.558803
+No,pandas,pandas.plotting._matplotlib.tools,297,18,SliceExpr,int,,SliceExpr,2025-02-28 21:53:44.589344
+No,pandas,pandas.plotting._matplotlib.tools,402,35,OpExpr,int,,OpExpr,2025-02-28 21:53:44.643233
+No,pandas,pandas.plotting._matplotlib.tools,402,46,OpExpr,int,,OpExpr,2025-02-28 21:53:44.644231
+No,pandas,pandas.tseries.frequencies,437,11,OpExpr,int,,OpExpr,2025-02-28 21:53:44.914993
+No,pandas,pandas.tseries.frequencies,587,11,IndexExpr,str,,"Dict[str, int]",2025-02-28 21:53:45.010933
+No,pandas,pandas.tseries.frequencies,588,11,IndexExpr,str,,"Dict[str, int]",2025-02-28 21:53:45.012067
+No,pandas,pandas.tseries.frequencies,594,11,OpExpr,str,,OpExpr,2025-02-28 21:53:45.015063
+No,pandas,pandas.tseries.frequencies,609,11,OpExpr,str,,OpExpr,2025-02-28 21:53:45.022918
+No,pandas,pandas.tseries.holiday,469,19,SliceExpr,None,,SliceExpr,2025-02-28 21:53:45.204289
+No,pandas,pandas.util._decorators,56,15,OpExpr,"Callable[[Any, Any], Any]",,OpExpr,2025-02-28 21:53:45.252252
+No,pandas,pandas.util._decorators,441,23,OpExpr,F,,OpExpr,2025-02-28 21:53:45.394306
+No,pandas,pandas.util._decorators,482,23,ConditionalExpr,T,,ConditionalExpr,2025-02-28 21:53:45.403515
+No,pandas,pandas.util._decorators,492,32,OpExpr,int,,OpExpr,2025-02-28 21:53:45.411353
+No,pandas,pandas.util._doctools,31,15,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:45.420559
+No,pandas,pandas.util._doctools,31,41,OpExpr,DataFrame,,OpExpr,2025-02-28 21:53:45.421558
+No,pandas,pandas._config.config,223,44,IndexExpr,str,,DictWrapper,2025-02-28 21:53:46.060425
+No,pandas,pandas._config.config,234,16,IndexExpr,str,,"DictWrapper, object",2025-02-28 21:53:46.069369
+No,pandas,pandas._config.config,522,4,IndexExpr,str,,"Dict[str, RegisteredOption]",2025-02-28 21:53:46.144093
+No,pandas,pandas._config.config,571,4,IndexExpr,str,,"Dict[str, DeprecatedOption]",2025-02-28 21:53:46.152197
+No,pandas,pandas._config.config,619,12,IndexExpr,str,,"Dict[str, DeprecatedOption]",2025-02-28 21:53:46.174030
+No,pandas,pandas._config.config,644,15,OpExpr,str,,OpExpr,2025-02-28 21:53:46.180130
+No,pandas,pandas._config.config,709,14,ConditionalExpr,str,,ConditionalExpr,2025-02-28 21:53:46.237116
+No,pandas,pandas._config.config,728,8,NameExpr,Iterable,,List[str],2025-02-28 21:53:46.249359
+No,pandas,pandas._config.config,729,20,NameExpr,Iterable,,List[str],2025-02-28 21:53:46.252450
+No,pandas,pandas._testing.asserters,309,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:46.513858
+No,pandas,pandas._testing.asserters,743,11,OpExpr,"UnionType[bool, Literal[equiv]]",,OpExpr,2025-02-28 21:53:46.850249
+No,pandas,pandas._testing.asserters,879,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:46.886462
+No,pandas,pandas._testing.asserters,955,9,OpExpr,bool,,OpExpr,2025-02-28 21:53:47.024165
+No,pandas,pandas._testing.asserters,933,7,OpExpr,bool,,OpExpr,2025-02-28 21:53:47.027784
+No,pandas,pandas._testing.asserters,1358,15,IndexExpr,slice,,Series,2025-02-28 21:53:47.213987
+No,pandas,pandas._testing.asserters,1360,24,IndexExpr,slice,,Series,2025-02-28 21:53:47.215401
+No,pandas,pandas._testing.asserters,1364,28,IndexExpr,slice,,Series,2025-02-28 21:53:47.217802
+No,pandas,pandas._testing.contexts,118,15,OpExpr,None,,OpExpr,2025-02-28 21:53:47.248949
+No,pandas,pandas._testing.contexts,119,11,OpExpr,None,,OpExpr,2025-02-28 21:53:47.252049
+No,pandas,pandas._testing._warnings,94,35,CastExpr,"UnionType[UnknownType, bool, Tuple[UnknownType], None]",,UnknownType,2025-02-28 21:53:47.425740
+No,pandas,pandas._testing._warnings,196,7,OpExpr,"UnionType[UnknownType, bool, Tuple[UnknownType], None]",,OpExpr,2025-02-28 21:53:47.460224
+No,pandas,pandas._testing._warnings,198,23,CastExpr,"UnionType[UnknownType, bool, Tuple[UnknownType], None]",,UnknownType,2025-02-28 21:53:47.461223

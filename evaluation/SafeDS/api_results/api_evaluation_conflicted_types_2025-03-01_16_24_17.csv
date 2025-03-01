@@ -1,0 +1,125 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+Yes,safeds,safeds.data.image.containers._image,109,55,MemberExpr,object,,"Image, object",2025-03-01 16:26:03.193658
+Yes,safeds,safeds.data.image.containers._image,383,69,OpExpr,float,,OpExpr,2025-03-01 16:26:03.231303
+Yes,safeds,safeds.data.image.containers._image,389,69,OpExpr,float,,OpExpr,2025-03-01 16:26:03.233374
+Yes,safeds,safeds.data.image.containers._image,454,67,OpExpr,float,,OpExpr,2025-03-01 16:26:03.240474
+Yes,safeds,safeds.data.image.containers._image,460,67,OpExpr,float,,OpExpr,2025-03-01 16:26:03.242475
+Yes,safeds,safeds.data.image.containers._image,496,63,OpExpr,float,,OpExpr,2025-03-01 16:26:03.253824
+Yes,safeds,safeds.data.image.containers._image,496,101,OpExpr,float,,OpExpr,2025-03-01 16:26:03.253824
+Yes,safeds,safeds.data.image.containers._image,554,68,OpExpr,float,,OpExpr,2025-03-01 16:26:03.260001
+Yes,safeds,safeds.data.image.containers._image,560,68,OpExpr,float,,OpExpr,2025-03-01 16:26:03.261999
+Yes,safeds,safeds.data.tabular.containers._column,81,23,ConditionalExpr,"UnionType[ColumnType, None]",,ConditionalExpr,2025-03-01 16:26:03.285616
+Yes,safeds,safeds.data.tabular.containers._column,109,32,ConditionalExpr,"UnionType[List[T], None]",,ConditionalExpr,2025-03-01 16:26:03.287613
+Yes,safeds,safeds.data.tabular.containers._column,184,19,IndexExpr,"UnionType[int, slice]",,Column,2025-03-01 16:26:03.296846
+Yes,safeds,safeds.data.tabular.containers._column,191,19,CallExpr,"UnionType[int, slice]",,"bool, Column, UnionType[int, slice]",2025-03-01 16:26:03.299947
+Yes,safeds,safeds.data.tabular.containers._column,191,19,IndexExpr,"UnionType[int, slice]",,Column,2025-03-01 16:26:03.301946
+Yes,safeds,safeds.data.tabular.containers._column,388,15,IndexExpr,int,,Column,2025-03-01 16:26:03.322469
+Yes,safeds,safeds.data.tabular.containers._column,418,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-03-01 16:26:03.324450
+Yes,safeds,safeds.data.tabular.containers._column,444,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-03-01 16:26:03.327446
+Yes,safeds,safeds.data.tabular.containers._column,471,18,GeneratorExpr,"Callable[[T], bool]",,GeneratorExpr,2025-03-01 16:26:03.331574
+Yes,safeds,safeds.data.tabular.containers._column,471,19,UnaryExpr,"Callable[[T], bool]",,"Any, Callable[[T], bool]",2025-03-01 16:26:03.332574
+Yes,safeds,safeds.data.tabular.containers._column,581,11,OpExpr,Column,,OpExpr,2025-03-01 16:26:03.346749
+Yes,safeds,safeds.data.tabular.containers._table,618,12,IndexExpr,str,,Table,2025-03-01 16:26:03.544430
+Yes,safeds,safeds.data.tabular.containers._table,897,8,IndexExpr,Column,,DataFrame,2025-03-01 16:26:03.572812
+Yes,safeds,safeds.data.tabular.containers._table,1120,16,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-03-01 16:26:03.604415
+Yes,safeds,safeds.data.tabular.containers._table,1120,48,CallExpr,"Callable[[Row], _T]",,"Dict[_T, Table], Row, Callable[[Row], _T]",2025-03-01 16:26:03.605414
+Yes,safeds,safeds.data.tabular.containers._table,1120,48,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-03-01 16:26:03.605524
+Yes,safeds,safeds.data.tabular.containers._table,1122,16,IndexExpr,"Callable[[Row], _T]",,"Dict[_T, Table]",2025-03-01 16:26:03.606524
+Yes,safeds,safeds.data.tabular.containers._table,1548,40,ConditionalExpr,"UnionType[int, None]",,ConditionalExpr,2025-03-01 16:26:03.646169
+Yes,safeds,safeds.data.tabular.containers._table,1550,17,SliceExpr,int,,SliceExpr,2025-03-01 16:26:03.649293
+Yes,safeds,safeds.data.tabular.containers._table,1794,26,GeneratorExpr,"Callable[[Row], Any]",,GeneratorExpr,2025-03-01 16:26:03.664535
+Yes,safeds,safeds.data.tabular.containers._tagged_table,266,36,ConditionalExpr,"UnionType[List[Column], Table]",,ConditionalExpr,2025-03-01 16:26:03.828583
+Yes,safeds,safeds.data.tabular.containers._tagged_table,638,24,ConditionalExpr,str,,ConditionalExpr,2025-03-01 16:26:03.884904
+Yes,safeds,safeds.data.tabular.containers._time_series,665,28,ConditionalExpr,str,,ConditionalExpr,2025-03-01 16:26:03.988960
+Yes,safeds,safeds.data.tabular.containers._time_series,675,22,ConditionalExpr,str,,ConditionalExpr,2025-03-01 16:26:03.992081
+Yes,safeds,safeds.data.tabular.transformation._discretizer,82,19,UnaryExpr,Table,,"str, Table",2025-03-01 16:26:04.034885
+Yes,safeds,safeds.data.tabular.transformation._discretizer,82,23,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.035884
+Yes,safeds,safeds.data.tabular.transformation._discretizer,82,23,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.036882
+Yes,safeds,safeds.data.tabular.transformation._discretizer,86,32,IndexExpr,"UnionType[List[str], None]",,Table,2025-03-01 16:26:04.038997
+Yes,safeds,safeds.data.tabular.transformation._discretizer,139,15,UnaryExpr,Table,,"str, Table",2025-03-01 16:26:04.049225
+Yes,safeds,safeds.data.tabular.transformation._discretizer,139,19,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.049225
+Yes,safeds,safeds.data.tabular.transformation._discretizer,139,19,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.050226
+Yes,safeds,safeds.data.tabular.transformation._imputer,139,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.076460
+Yes,safeds,safeds.data.tabular.transformation._imputer,141,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.077460
+Yes,safeds,safeds.data.tabular.transformation._imputer,141,28,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.078460
+Yes,safeds,safeds.data.tabular.transformation._imputer,131,93,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.081561
+Yes,safeds,safeds.data.tabular.transformation._imputer,131,93,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.081561
+Yes,safeds,safeds.data.tabular.transformation._imputer,153,51,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.083560
+Yes,safeds,safeds.data.tabular.transformation._imputer,153,51,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.083560
+Yes,safeds,safeds.data.tabular.transformation._imputer,152,23,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.084559
+Yes,safeds,safeds.data.tabular.transformation._imputer,152,23,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.085558
+Yes,safeds,safeds.data.tabular.transformation._imputer,165,32,IndexExpr,"UnionType[List[str], None]",,Table,2025-03-01 16:26:04.092774
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,60,20,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.114170
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,60,20,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.115169
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,57,11,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.116177
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,57,11,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.117167
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,67,32,IndexExpr,"UnionType[List[str], None]",,Table,2025-03-01 16:26:04.118256
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,163,28,MemberExpr,Table,,"LabelEncoder, Table",2025-03-01 16:26:04.127353
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,163,28,CallExpr,Table,,"LabelEncoder, Table",2025-03-01 16:26:04.129634
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,155,11,MemberExpr,Table,,"LabelEncoder, Table",2025-03-01 16:26:04.131264
+Yes,safeds,safeds.data.tabular.transformation._label_encoder,155,11,CallExpr,Table,,"LabelEncoder, Table",2025-03-01 16:26:04.132263
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,115,20,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.148455
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,115,20,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.149455
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,107,12,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.151453
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,107,12,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.152579
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,137,27,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.169278
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,137,27,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.170310
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,202,24,CallExpr,Table,,"str, Table",2025-03-01 16:26:04.180629
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,202,24,MemberExpr,Table,,"str, Table",2025-03-01 16:26:04.181629
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,288,28,MemberExpr,Table,,"List[str], Table",2025-03-01 16:26:04.200067
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,288,28,CallExpr,Table,,"List[str], Table",2025-03-01 16:26:04.201066
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,280,11,MemberExpr,Table,,"List[str], Table",2025-03-01 16:26:04.202065
+Yes,safeds,safeds.data.tabular.transformation._one_hot_encoder,280,11,CallExpr,Table,,"List[str], Table",2025-03-01 16:26:04.203063
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,79,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.232536
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,81,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.233521
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,81,28,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.234521
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,73,12,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.235597
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,73,12,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.236597
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,74,14,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.237614
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,90,32,IndexExpr,"UnionType[List[str], None]",,Table,2025-03-01 16:26:04.239607
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,144,28,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.244588
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,146,28,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.245587
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,146,28,CallExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.245587
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,138,12,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.247744
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,138,12,CallExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.247744
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,139,14,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.249743
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,206,28,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.254824
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,208,28,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.255828
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,208,28,CallExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.255828
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,198,12,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.258070
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,198,12,CallExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.259065
+Yes,safeds,safeds.data.tabular.transformation._range_scaler,201,14,MemberExpr,Table,,"RangeScaler, Table",2025-03-01 16:26:04.260068
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,61,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.271473
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,63,28,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.272619
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,63,28,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.273648
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,55,12,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.275230
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,55,12,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.276232
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,56,14,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.277244
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,72,32,IndexExpr,"UnionType[List[str], None]",,Table,2025-03-01 16:26:04.278384
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,126,28,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.282394
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,128,28,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.283463
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,128,28,CallExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.284481
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,120,12,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.285475
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,120,12,CallExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.286460
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,121,14,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.287465
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,188,28,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.293713
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,190,28,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.294713
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,190,28,CallExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.295712
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,180,12,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.296729
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,180,12,CallExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.297728
+Yes,safeds,safeds.data.tabular.transformation._standard_scaler,183,14,MemberExpr,Table,,"StandardScaler, Table",2025-03-01 16:26:04.298851
+Yes,safeds,safeds.data.tabular.typing._schema,213,15,IndexExpr,str,,Schema,2025-03-01 16:26:04.386609
+Yes,safeds,safeds.exceptions._data,41,31,OpExpr,"UnionType[str, None]",,OpExpr,2025-03-01 16:26:04.424664
+Yes,safeds,safeds.exceptions._data,52,31,OpExpr,"UnionType[str, None]",,OpExpr,2025-03-01 16:26:04.429791
+Yes,safeds,safeds.exceptions._generic,66,30,ConditionalExpr,"UnionType[Bound, None]",,ConditionalExpr,2025-03-01 16:26:04.477433
+Yes,safeds,safeds.exceptions._generic,67,30,ConditionalExpr,"UnionType[Bound, None]",,ConditionalExpr,2025-03-01 16:26:04.478417
+Yes,safeds,safeds.exceptions._generic,85,29,ConditionalExpr,float,,ConditionalExpr,2025-03-01 16:26:04.485540
+Yes,safeds,safeds.ml.classical._util_sklearn,122,79,UnaryExpr,Table,,"str, Table",2025-03-01 16:26:04.544887
+Yes,safeds,safeds.ml.classical._util_sklearn,131,37,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.547442
+Yes,safeds,safeds.ml.classical._util_sklearn,132,8,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.548427
+Yes,safeds,safeds.ml.classical._util_sklearn,132,8,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.548427
+Yes,safeds,safeds.ml.classical._util_sklearn,142,39,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.593227
+Yes,safeds,safeds.ml.classical._util_sklearn,143,8,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.594208
+Yes,safeds,safeds.ml.classical._util_sklearn,143,8,CallExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.594208
+Yes,safeds,safeds.ml.classical._util_sklearn,152,17,MemberExpr,Table,,"UnionType[List[str], None], Table",2025-03-01 16:26:04.596344
+Yes,safeds,safeds.ml.classical._util_sklearn,162,8,IndexExpr,"UnionType[str, None]",,DataFrame,2025-03-01 16:26:04.601459
