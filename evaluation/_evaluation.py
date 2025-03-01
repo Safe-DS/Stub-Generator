@@ -307,7 +307,7 @@ class PurityEvaluation(Evaluation):
 		return call_graph_forest
 
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
-		if self.is_runtime or self.old:
+		if self.is_runtime:
 			return
 		with open(self.evaluation_filename, newline='', mode="a") as file:
 			file.write(f"Call Graph Evaluation started at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
