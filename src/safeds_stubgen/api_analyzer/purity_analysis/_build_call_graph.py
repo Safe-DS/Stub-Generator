@@ -409,6 +409,4 @@ def build_call_graph(classes: dict[str, ClassScope], raw_reasons: dict[NodeID, R
         The call graph forest for the given functions.
     """
     forest = CallGraphBuilder(classes, raw_reasons).call_graph_forest
-    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-        file.write(f"Built call graph forest for {str(len(classes))} classes of module {module_name} at {datetime.now()} \n")
     return forest

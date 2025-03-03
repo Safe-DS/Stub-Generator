@@ -27,14 +27,10 @@ import mypy.nodes as mp_nodes
 class Evaluation(ABC):
 	def start_timing(self):
 		self._start_time = time()
-		with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-			file.write(f"Evaluation timing started at {str(datetime.now())} \n")
 	
 	def end_timing(self):
 		self._end_time = time()
 		self._runtime = self._end_time - self._start_time
-		with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-			file.write(f"Evaluation timing ended at {str(datetime.now())} \n")
 
 	@abstractmethod
 	def get_results(self):
@@ -70,10 +66,7 @@ class PurityEvaluation(Evaluation):
 		self.metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		self.compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		self.call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		self.evaluation_filename = "evaluation/evaluation_tracking.txt"
 		self.runtime_results_filename = "evaluation/purity_runtime_results.csv"
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Purity Evaluation was initialized at {self.date} for package {self._package_name} \n")
 			
 		if self._package_name == "safeds":
 			self.call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -309,8 +302,6 @@ class PurityEvaluation(Evaluation):
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
 		if self.is_runtime:
 			return
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Call Graph Evaluation started at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
 		metric_fieldnames = [
 			"Type-Aware?",
 			"Library",
@@ -448,8 +439,6 @@ class PurityEvaluation(Evaluation):
 
 		# if compare file exists, compare old call graph metrics with new call graph metrics
 		compare_csv_data: dict[str, dict[str, str]] = {}
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Call Graph Evaluation finished at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
 
 		file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
 		if file_exists:
@@ -701,8 +690,6 @@ class PurityEvaluation(Evaluation):
 	def get_results(self, purity_results: APIPurity):
 		if self.is_runtime:
 			return
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Started writing results at {str(datetime.now())} for package {self._package_name} \n")
 		ground_truth: dict[str, str] = {}
 		filename = "evaluation/purity_evaluation.csv"
 		if self._package_name == "safeds":
@@ -816,22 +803,21 @@ class PurityEvaluation(Evaluation):
 			balanced_accuracy = ((true_positives / (true_positives + false_negatives)) + (true_negatives / (true_negatives + false_positives))) / 2
 
 		with open(f"evaluation/{self._package_name}/results/purity_results_{'old' if self.old else 'type_aware'}_{self.date}.txt", newline='', mode="a") as file:
-			for purity_result_of_module in purity_results.purity_results.values():
-				for id, purity_result in purity_result_of_module.items():
-					if isinstance(purity_result, Pure) and not purity_result.is_class:
-						if str(id) in ground_truth:
-							correct_result = ground_truth.get(str(id), None)
-							file.write(f"{id}: pure, correct_result: {correct_result}\n")
-						else:
-							file.write(f"{id}: pure\n")
-						amount_of_classified_pure_functions += 1
-					elif isinstance(purity_result, Impure) and not purity_result.is_class:
-						if str(id) in ground_truth:
-							correct_result = ground_truth.get(str(id), None)
-							file.write(f"{id}: impure, correct_result: {correct_result}\n")
-						else:
-							file.write(f"{id}: impure\n")
-						amount_of_classified_impure_functions += 1
+			for id, purity_result in flat_purity_results.items():
+				if isinstance(purity_result, Pure) and not purity_result.is_class:
+					if str(id) in ground_truth:
+						correct_result = ground_truth.get(str(id), None)
+						file.write(f"{id}: pure, correct_result: {correct_result}\n")
+					else:
+						file.write(f"{id}: pure\n")
+					amount_of_classified_pure_functions += 1
+				elif isinstance(purity_result, Impure) and not purity_result.is_class:
+					if str(id) in ground_truth:
+						correct_result = ground_truth.get(str(id), None)
+						file.write(f"{id}: impure, correct_result: {correct_result}\n")
+					else:
+						file.write(f"{id}: impure\n")
+					amount_of_classified_impure_functions += 1
 
 		data = [
 			{
