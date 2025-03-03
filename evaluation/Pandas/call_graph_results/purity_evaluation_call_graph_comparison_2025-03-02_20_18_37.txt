@@ -1,0 +1,11 @@
+Call Graph comparison results (Type-aware vs Non Type-aware) at 2025-03-02_20_18_37
+Average results of the latest run:
+Amount of call graphs: 200
+Mean amount of nodes: 5.113319265399333e+102
+Mean amount of edges: 5.352093007050154e+102
+Mean amount of leaves: 4.0555186871611657e+102
+Mean amount of cycles: 1.7221451300495412e+101
+Mean max depth: 167.39
+Mean branching factor: 0.65
+Mean percentage of leaves: 82.88%
+Amount of combined graphs: 76.0
