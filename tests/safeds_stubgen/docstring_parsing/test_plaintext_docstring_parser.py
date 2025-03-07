@@ -16,7 +16,6 @@ from safeds_stubgen.docstring_parsing import (
 
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring, ResultDocstring
-
 from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
@@ -30,7 +29,7 @@ mypy_file = _get_mypy_asts(
 )[0]
 
 
-@pytest.fixture()
+@pytest.fixture
 def plaintext_docstring_parser() -> PlaintextDocstringParser:
     return PlaintextDocstringParser()
 

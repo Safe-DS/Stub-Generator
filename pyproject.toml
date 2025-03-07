@@ -43,6 +43,7 @@ addopts = "--ignore=./tests/data --tb=short"
 [tool.ruff]
 line-length = 120
 target-version = "py311"
+extend-exclude = ["tests/data"]
 
 [tool.ruff.lint]
 select = [

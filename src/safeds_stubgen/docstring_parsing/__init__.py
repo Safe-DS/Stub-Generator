@@ -17,11 +17,11 @@ __all__ = [
     "AbstractDocstringParser",
     "AttributeDocstring",
     "ClassDocstring",
-    "create_docstring_parser",
     "DocstringParser",
     "DocstringStyle",
     "FunctionDocstring",
     "ParameterDocstring",
     "PlaintextDocstringParser",
     "ResultDocstring",
+    "create_docstring_parser",
 ]
