@@ -60,7 +60,7 @@ class DocstringParser(AbstractDocstringParser):
         if griffe_node is None:  # pragma: no cover
             msg = (
                 f"Something went wrong while searching for the docstring for {class_node.fullname}. Please make sure"
-                " that all directories with python files have an __init__.py file.",
+                " that all directories with python files have an __init__.py file."
             )
             logging.warning(msg)
 
