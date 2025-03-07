@@ -1,6 +1,7 @@
 @PythonModule("tests.data.various_modules_package.function_module")
 package tests.data.variousModulesPackage.functionModule
 
+from numpy import ndarray
 from tests.data.mainPackage.anotherPath.anotherModule import AnotherClass
 
 // TODO Result type information missing.
@@ -66,7 +67,8 @@ fun paramsWithDefaultValue(
     optional: Int? = null,
     @PythonName("tuple_") tuple: Tuple<Int, String, Boolean>,
     `literal`: literal<"Some String"> = "Some String",
-    @PythonName("any_") any: Any = false
+    @PythonName("any_") any: Any = false,
+    @PythonName("single_quote") singleQuote: String = "\""
 )
 
 // TODO List type has to many type arguments.
@@ -96,7 +98,7 @@ fun specialParams(
     @PythonName("none_none_bool_none_union") noneNoneBoolNoneUnion: Boolean?,
     @PythonName("none_list_union_none_none") noneListUnionNoneNone: List<Nothing?>?,
     none: Nothing?,
-    @PythonName("not_true") notTrue: Int = unknown
+    @PythonName("not_true") notTrue: Boolean = unknown
 )
 
 // TODO Result type information missing.
@@ -166,10 +168,6 @@ fun boolResult() -> result1: Boolean
 @Pure
 @PythonName("float_result")
 fun floatResult() -> result1: Float
-
-@Pure
-@PythonName("none_result")
-fun noneResult()
 
 @Pure
 @PythonName("obj_result")
@@ -263,6 +261,118 @@ fun resultFromOutsideThePackage() -> result1: AnotherClass
 @Pure
 @PythonName("ret_conditional_statement")
 fun retConditionalStatement() -> result1: union<Boolean, Int>
+
+// TODO Unknown type - Type could not be parsed.
+@Pure
+@PythonName("ignore_assignment")
+fun ignoreAssignment(
+    a: Int,
+    b: Int
+) -> (result1: Int, result2: unknown)
+
+// TODO Unknown type - Type could not be parsed.
+@Pure
+@PythonName("ignore_assignment2")
+fun ignoreAssignment2(
+    a: Int,
+    b: Int
+) -> result1: unknown
+
+// TODO Safe-DS does not support tuple types.
+// TODO Some parameter have no type information.
+// TODO Unknown type - Type could not be parsed.
+@Pure
+@PythonName("ignore_assignment3")
+fun ignoreAssignment3(
+    xys,
+    p
+) -> (result1: unknown, result2: unknown, result3: Tuple<Int, Int>)
+
+// TODO Some parameter have no type information.
+// TODO Unknown type - Type could not be parsed.
+@Pure
+@PythonName("ignore_assignment4")
+fun ignoreAssignment4(
+    a,
+    b,
+    c
+) -> (result1: unknown, result2: unknown)
+
+// TODO Result type information missing.
+@Pure
+@PythonName("return_inner_function")
+fun returnInnerFunction()
+
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("return_param1")
+fun returnParam1(
+    a
+) -> result1: Any
+
+@Pure
+@PythonName("return_param2")
+fun returnParam2(
+    a: Int
+) -> result1: Int
+
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("return_param3")
+fun returnParam3(
+    a: Int,
+    b,
+    c: Boolean
+) -> result1: union<Boolean, Int>
+
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("return_param4")
+fun returnParam4(
+    a: Int,
+    b,
+    x
+) -> (result1: union<Boolean, Int>, result2: Any, result3: Int, result4: Any)
+
+@Pure
+@PythonName("return_not_statement")
+fun returnNotStatement() -> result1: Boolean
+
+@Pure
+@PythonName("type_alias_param")
+fun typeAliasParam(
+    values: ArrayLike
+) -> result1: ArrayLike
+
+@Pure
+@PythonName("alias_subclass_result_type")
+fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
+
+// TODO Result type information missing.
+@Pure
+@PythonName("alias_subclass_param_type")
+fun aliasSubclassParamType(
+    x: union<ArrayLike, ndarray>
+)
+
+// TODO Some parameter have no type information.
+@Pure
+@PythonName("different_result_operants")
+fun differentResultOperants(
+    y
+) -> result1: Boolean
+
+@Pure
+@PythonName("none_result_1")
+fun noneResult1()
+
+@Pure
+@PythonName("none_result_2")
+fun noneResult2()
+
+@Pure
+@PythonName("none_result_3")
+fun noneResult3()
 
 class FunctionModuleClassA()
 

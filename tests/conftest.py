@@ -15,6 +15,6 @@ class SdsStubExtension(SingleFileSnapshotExtension):
         return bytes(normalized_data, encoding="utf8")
 
 
-@pytest.fixture()
+@pytest.fixture
 def snapshot_sds_stub(snapshot: SnapshotAssertion) -> SnapshotAssertion:
     return snapshot.use_extension(SdsStubExtension)
