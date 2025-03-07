@@ -340,8 +340,8 @@ class StubsStringGenerator:
         for method in methods:
             # Add methods of internal classes that are inherited if the methods themselfe are public
             if (
-                not method.is_public
-                and (not is_internal_class or (is_internal_class and is_internal(method.name)))
+                (not method.is_public
+                and (not is_internal_class or (is_internal_class and is_internal(method.name))))
                 or method.name in already_defined_names
             ):
                 continue

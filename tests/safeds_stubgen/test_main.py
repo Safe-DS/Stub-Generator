@@ -3,8 +3,9 @@ import sys
 from pathlib import Path
 
 import pytest
-from safeds_stubgen.main import main
 from syrupy import SnapshotAssertion
+
+from safeds_stubgen.main import main
 
 _lib_dir = Path(__file__).parent.parent.parent
 _test_package_name = "main_package"

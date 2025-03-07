@@ -859,8 +859,8 @@ class MyPyAstVisitor:
             lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
                 if (
-                    hasattr(lvalue_, "name")
-                    and self._is_attribute_already_defined(lvalue_.name)
+                    (hasattr(lvalue_, "name")
+                    and self._is_attribute_already_defined(lvalue_.name))
                     or isinstance(lvalue_, mp_nodes.IndexExpr)
                 ):
                     continue
@@ -1490,8 +1490,8 @@ class MyPyAstVisitor:
                         for qualified_import in reexport_source.qualified_imports:
 
                             if qname.endswith(qualified_import.qualified_name) and (
-                                qualified_import.alias is not None
-                                and not is_internal(qualified_import.alias)
+                                (qualified_import.alias is not None
+                                and not is_internal(qualified_import.alias))
                                 or (qualified_import.alias is None and not_internal)
                             ):
                                 # First we check if we've found the right import then do the following:
