@@ -31,7 +31,7 @@ class SequentialTableTransformer(
     /**
      * Transform the table using all the transformers sequentially.
      *
-     * Might change the order and type of columns base on the transformers used.
+     * Might change the order and type of columns based on the transformers used.
      *
      * @param table The table to be transformed.
      *

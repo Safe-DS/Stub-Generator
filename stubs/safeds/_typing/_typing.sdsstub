@@ -1,0 +1,17 @@
+@PythonModule("safeds._typing")
+package safeds.Typing
+
+@PythonName("_ConvertibleToBooleanCell")
+class ConvertibleToBooleanCell
+
+@PythonName("_ConvertibleToCell")
+class ConvertibleToCell
+
+@PythonName("_ConvertibleToIntCell")
+class ConvertibleToIntCell
+
+@PythonName("_ConvertibleToStringCell")
+class ConvertibleToStringCell
+
+@PythonName("_PythonLiteral")
+class PythonLiteral

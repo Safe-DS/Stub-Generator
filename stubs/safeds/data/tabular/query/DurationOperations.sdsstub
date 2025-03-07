@@ -1,0 +1,177 @@
+package safeds.data.tabular.query
+
+/**
+ * Namespace for operations on durations.
+ *
+ * This class cannot be instantiated directly. It can only be accessed using the `dur` attribute of a cell.
+ *
+ * @example
+ * pipeline example {
+ *     // from datetime import timedelta
+ *     // from safeds.data.tabular.containers import Column
+ *     // column = Column("a", [timedelta(days=-1), timedelta(days=0), timedelta(days=1)])
+ *     // column.transform(lambda cell: cell.dur.abs())
+ * }
+ */
+class DurationOperations {
+    /**
+     * Get the absolute value of the duration.
+     *
+     * @result cell The absolute value.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(days=-1), timedelta(days=1), None])
+     *     // column.transform(lambda cell: cell.dur.abs())
+     * }
+     */
+    @Pure
+    fun abs() -> cell: Cell<Nothing?>
+
+    /**
+     * Get the number of full weeks in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full weeks.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(days=8), timedelta(days=6), None])
+     *     // column.transform(lambda cell: cell.dur.full_weeks())
+     * }
+     */
+    @Pure
+    @PythonName("full_weeks")
+    fun fullWeeks() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full days in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full days.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(hours=25), timedelta(hours=23), None])
+     *     // column.transform(lambda cell: cell.dur.full_days())
+     * }
+     */
+    @Pure
+    @PythonName("full_days")
+    fun fullDays() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full hours in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full hours.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(minutes=61), timedelta(minutes=59), None])
+     *     // column.transform(lambda cell: cell.dur.full_hours())
+     * }
+     */
+    @Pure
+    @PythonName("full_hours")
+    fun fullHours() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full minutes in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full minutes.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(seconds=61), timedelta(seconds=59), None])
+     *     // column.transform(lambda cell: cell.dur.full_minutes())
+     * }
+     */
+    @Pure
+    @PythonName("full_minutes")
+    fun fullMinutes() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full seconds in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full seconds.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(milliseconds=1001), timedelta(milliseconds=999), None])
+     *     // column.transform(lambda cell: cell.dur.full_seconds())
+     * }
+     */
+    @Pure
+    @PythonName("full_seconds")
+    fun fullSeconds() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full milliseconds in the duration. The result is rounded toward zero.
+     *
+     * @result cell The number of full milliseconds.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(microseconds=1001), timedelta(microseconds=999), None])
+     *     // column.transform(lambda cell: cell.dur.full_milliseconds())
+     * }
+     */
+    @Pure
+    @PythonName("full_milliseconds")
+    fun fullMilliseconds() -> cell: Cell<Int?>
+
+    /**
+     * Get the number of full microseconds in the duration. The result is rounded toward zero.
+     *
+     * Since durations only have microsecond resolution at the moment, the rounding has no effect. This may change in
+     * the future.
+     *
+     * @result cell The number of full microseconds.
+     *
+     * @example
+     * pipeline example {
+     *     // from datetime import timedelta
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [timedelta(microseconds=1001), timedelta(microseconds=999), None])
+     *     // column.transform(lambda cell: cell.dur.full_microseconds())
+     * }
+     */
+    @Pure
+    @PythonName("full_microseconds")
+    fun fullMicroseconds() -> cell: Cell<Int?>
+
+    /**
+     * Convert the duration to a string.
+     *
+     * The following formats are supported:
+     *
+     * - `"iso"`: The duration is represented in the ISO 8601 format. This is the default.
+     * - `"pretty"`: The duration is represented in a human-readable format.
+     *
+     * !!! warning "API Stability"
+     *
+     *     Do not rely on the exact output of the `"pretty"` format. In future versions, we may change it without prior
+     *     notice.
+     *
+     * @param format The format to use.
+     *
+     * @result cell The string representation.
+     */
+    @Pure
+    @PythonName("to_string")
+    fun toString(
+        format: literal<"iso", "pretty"> = "iso"
+    ) -> cell: Cell<String?>
+}

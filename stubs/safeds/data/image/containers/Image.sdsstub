@@ -143,26 +143,26 @@ class Image(
     ) -> result: Image
 
     /**
-     * Return a new `Image` that is flipped vertically (horizontal axis, flips up-down and vice versa).
+     * Return a new `Image` where top and bottom are flipped along a horizontal axis.
      *
      * The original image is not modified.
      *
      * @result result The flipped image.
      */
     @Pure
-    @PythonName("flip_vertically")
-    fun flipVertically() -> result: Image
+    @PythonName("flip_top_and_bottom")
+    fun flipTopAndBottom() -> result: Image
 
     /**
-     * Return a new `Image` that is flipped horizontally (vertical axis, flips left-right and vice versa).
+     * Return a new `Image` where left and right sides are flipped along a vertical axis.
      *
      * The original image is not modified.
      *
      * @result result The flipped image.
      */
     @Pure
-    @PythonName("flip_horizontally")
-    fun flipHorizontally() -> result: Image
+    @PythonName("flip_left_and_right")
+    fun flipLeftAndRight() -> result: Image
 
     /**
      * Return a new `Image` with an adjusted brightness.

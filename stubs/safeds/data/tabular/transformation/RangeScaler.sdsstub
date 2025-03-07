@@ -6,14 +6,14 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
 /**
  * The RangeScaler transforms column values by scaling each value to a given range.
  *
- * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
+ * @param selector The list of columns used to fit the transformer. If `None`, all numeric columns are used.
  * @param min The minimum of the new range after the transformation
  * @param max The maximum of the new range after the transformation
  */
 class RangeScaler(
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
-    @PythonName("min_") min: Float = 0.0,
-    @PythonName("max_") max: Float = 1.0
+    selector: union<List<String>, String, Nothing?> = null,
+    min: Float = 0.0,
+    max: Float = 1.0
 ) sub InvertibleTableTransformer {
     /**
      * Whether the transformer is fitted.

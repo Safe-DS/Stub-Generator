@@ -39,46 +39,6 @@ class TablePlotter(
     ) -> plot: Image
 
     /**
-     * Create a violin plot for every numerical column.
-     *
-     * @param theme The color theme of the plot. Default is "light".
-     *
-     * @result plot The violin plot(s) as an image.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Table
-     *     // table = Table({"a": [1, 2], "b": [3, 42]})
-     *     // image = table.plot.violin_plots()
-     * }
-     */
-    @Pure
-    @PythonName("violin_plots")
-    fun violinPlots(
-        theme: literal<"dark", "light"> = "light"
-    ) -> plot: Image
-
-    /**
-     * Plot a correlation heatmap for all numerical columns of this `Table`.
-     *
-     * @param theme The color theme of the plot. Default is "light".
-     *
-     * @result plot The plot as an image.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Table
-     *     // table = Table({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
-     *     // image = table.plot.correlation_heatmap()
-     * }
-     */
-    @Pure
-    @PythonName("correlation_heatmap")
-    fun correlationHeatmap(
-        theme: literal<"dark", "light"> = "light"
-    ) -> plot: Image
-
-    /**
      * Plot a histogram for every column.
      *
      * @param maxBinCount The maximum number of bins to use in the histogram. Default is 10.
@@ -96,6 +56,26 @@ class TablePlotter(
     @Pure
     fun histograms(
         @PythonName("max_bin_count") maxBinCount: Int = 10,
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
+
+    /**
+     * Create a violin plot for every numerical column.
+     *
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The violin plot(s) as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2], "b": [3, 42]})
+     *     // image = table.plot.violin_plots()
+     * }
+     */
+    @Pure
+    @PythonName("violin_plots")
+    fun violinPlots(
         theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 
@@ -131,10 +111,12 @@ class TablePlotter(
     ) -> plot: Image
 
     /**
-     * Create a scatter plot for two columns in the table.
+     * Create a 2D histogram for two columns in the table.
      *
      * @param xName The name of the column to be plotted on the x-axis.
-     * @param yNames The name(s) of the column(s) to be plotted on the y-axis.
+     * @param yName The name of the column to be plotted on the y-axis.
+     * @param xMaxBinCount The maximum number of bins to use in the histogram for the x-axis. Default is 10.
+     * @param yMaxBinCount The maximum number of bins to use in the histogram for the y-axis. Default is 10.
      * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
@@ -148,14 +130,16 @@ class TablePlotter(
      *     //         "b": [2, 3, 4, 5, 6],
      *     //     }
      *     // )
-     *     // image = table.plot.scatter_plot("a", ["b"])
+     *     // image = table.plot.histogram_2d("a", "b")
      * }
      */
     @Pure
-    @PythonName("scatter_plot")
-    fun scatterPlot(
+    @PythonName("histogram_2d")
+    fun histogram2d(
         @PythonName("x_name") xName: String,
-        @PythonName("y_names") yNames: List<String>,
+        @PythonName("y_name") yName: String,
+        @PythonName("x_max_bin_count") xMaxBinCount: Int = 10,
+        @PythonName("y_max_bin_count") yMaxBinCount: Int = 10,
         theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 
@@ -191,12 +175,10 @@ class TablePlotter(
     ) -> plot: Image
 
     /**
-     * Create a 2D histogram for two columns in the table.
+     * Create a scatter plot for two columns in the table.
      *
      * @param xName The name of the column to be plotted on the x-axis.
-     * @param yName The name of the column to be plotted on the y-axis.
-     * @param xMaxBinCount The maximum number of bins to use in the histogram for the x-axis. Default is 10.
-     * @param yMaxBinCount The maximum number of bins to use in the histogram for the y-axis. Default is 10.
+     * @param yNames The name(s) of the column(s) to be plotted on the y-axis.
      * @param theme The color theme of the plot. Default is "light".
      *
      * @result plot The plot as an image.
@@ -210,16 +192,34 @@ class TablePlotter(
      *     //         "b": [2, 3, 4, 5, 6],
      *     //     }
      *     // )
-     *     // image = table.plot.histogram_2d("a", "b")
+     *     // image = table.plot.scatter_plot("a", ["b"])
      * }
      */
     @Pure
-    @PythonName("histogram_2d")
-    fun histogram2d(
+    @PythonName("scatter_plot")
+    fun scatterPlot(
         @PythonName("x_name") xName: String,
-        @PythonName("y_name") yName: String,
-        @PythonName("x_max_bin_count") xMaxBinCount: Int = 10,
-        @PythonName("y_max_bin_count") yMaxBinCount: Int = 10,
+        @PythonName("y_names") yNames: List<String>,
+        theme: literal<"dark", "light"> = "light"
+    ) -> plot: Image
+
+    /**
+     * Plot a correlation heatmap for all numerical columns of this `Table`.
+     *
+     * @param theme The color theme of the plot. Default is "light".
+     *
+     * @result plot The plot as an image.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"temperature": [10, 15, 20, 25, 30], "sales": [54, 74, 90, 206, 210]})
+     *     // image = table.plot.correlation_heatmap()
+     * }
+     */
+    @Pure
+    @PythonName("correlation_heatmap")
+    fun correlationHeatmap(
         theme: literal<"dark", "light"> = "light"
     ) -> plot: Image
 }

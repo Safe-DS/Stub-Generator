@@ -7,7 +7,7 @@ from safeds.data.tabular.transformation import TableTransformer
  * Replace missing values using the given strategy.
  *
  * @param strategy How to replace missing values.
- * @param columnNames The list of columns used to fit the transformer. If `None`, all columns are used.
+ * @param selector The list of columns used to fit the transformer. If `None`, all columns are used.
  * @param valueToReplace The value that should be replaced.
  *
  * @example
@@ -27,7 +27,7 @@ from safeds.data.tabular.transformation import TableTransformer
  */
 class SimpleImputer(
     strategy: Strategy,
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
+    selector: union<List<String>, String, Nothing?> = null,
     @PythonName("value_to_replace") valueToReplace: union<Float, String, Nothing?> = null
 ) sub TableTransformer {
     /**

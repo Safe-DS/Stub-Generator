@@ -6,12 +6,12 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
 /**
  * The LabelEncoder encodes one or more given columns into labels.
  *
- * @param columnNames The list of columns used to fit the transformer. If `None`, all non-numeric columns are used.
+ * @param selector The list of columns used to fit the transformer. If `None`, all non-numeric columns are used.
  * @param partialOrder The partial order of the labels. The labels are encoded in the order of the given list. Additional values are
  * assigned labels in the order they are encountered during fitting.
  */
 class LabelEncoder(
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null,
+    selector: union<List<String>, String, Nothing?> = null,
     @PythonName("partial_order") partialOrder: List<Any>? = null
 ) sub InvertibleTableTransformer {
     /**

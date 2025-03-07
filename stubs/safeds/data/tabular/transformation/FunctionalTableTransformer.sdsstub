@@ -33,7 +33,7 @@ class FunctionalTableTransformer(
      *
      * **Note:** The given table is not modified.
      *
-     * @param table The table on which on which the callable is executed.
+     * @param table The table on which the callable is executed.
      *
      * @result transformedTable The transformed table.
      */

@@ -2,11 +2,10 @@ package safeds.data.tabular.containers
 
 from pathlib import Path
 from safeds.data.labeled.containers import TabularDataset
-from safeds.data.labeled.containers import TimeSeriesDataset
 from safeds.data.tabular.plotting import TablePlotter
 from safeds.data.tabular.transformation import InvertibleTableTransformer
 from safeds.data.tabular.transformation import TableTransformer
-from safeds.data.tabular.typing import DataType
+from safeds.data.tabular.typing import ColumnType
 from safeds.data.tabular.typing import Schema
 
 /**
@@ -14,50 +13,56 @@ from safeds.data.tabular.typing import Schema
  *
  * To create a `Table` call the constructor or use one of the following static methods:
  *
- * | Method                                                                             | Description                            |
- * | ---------------------------------------------------------------------------------- | -------------------------------------- |
- * | [from_csv_file][safeds.data.tabular.containers._table.Table.from_csv_file]         | Create a table from a CSV file.        |
- * | [from_json_file][safeds.data.tabular.containers._table.Table.from_json_file]       | Create a table from a JSON file.       |
- * | [from_parquet_file][safeds.data.tabular.containers._table.Table.from_parquet_file] | Create a table from a Parquet file.    |
- * | [from_columns][safeds.data.tabular.containers._table.Table.from_columns]           | Create a table from a list of columns. |
- * | [from_dict][safeds.data.tabular.containers._table.Table.from_dict]                 | Create a table from a dictionary.      |
+ * - [`from_csv_file`][safeds.data.tabular.containers._table.Table.from_csv_file]: Create a table from a CSV file.
+ * - [`from_json_file`][safeds.data.tabular.containers._table.Table.from_json_file]: Create a table from a JSON file.
+ * - [`from_parquet_file`][safeds.data.tabular.containers._table.Table.from_parquet_file]: Create a table from a Parquet file.
+ * - [`from_columns`][safeds.data.tabular.containers._table.Table.from_columns]: Create a table from a list of columns.
+ * - [`from_dict`][safeds.data.tabular.containers._table.Table.from_dict]: Create a table from a dictionary.
  *
  * @param data The data of the table. If None, an empty table is created.
  *
  * @example
  * pipeline example {
  *     // from safeds.data.tabular.containers import Table
- *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+ *     // Table({"a": [1, 2, 3], "b": [4, 5, 6]})
  * }
  */
 class Table(
-    data: Map<String, List<Any>>? = null
+    data: Map<String, List<object>>
 ) {
     /**
-     * The names of the columns in the table.
-     */
-    @PythonName("column_names") attr columnNames: List<String>
-    /**
-     * The number of columns in the table.
+     * The number of columns.
+     *
+     * **Note:** This operation must compute the schema of the table, which can be expensive.
      */
     @PythonName("column_count") attr columnCount: Int
     /**
-     * The number of rows in the table.
+     * The names of the columns in the table.
+     *
+     * **Note:** This operation must compute the schema of the table, which can be expensive.
+     */
+    @PythonName("column_names") attr columnNames: List<String>
+    /**
+     * The number of rows.
      *
      * **Note:** This operation must fully load the data into memory, which can be expensive.
      */
     @PythonName("row_count") attr rowCount: Int
     /**
      * The plotter for the table.
+     *
+     * Call methods of the plotter to create various plots for the table.
      */
     attr plot: TablePlotter
     /**
-     * The schema of the table.
+     * The schema of the table, which is a mapping from column names to their types.
+     *
+     * **Note:** This operation must compute the schema of the table, which can be expensive.
      */
     attr `schema`: Schema
 
     /**
-     * Create a table from a list of columns.
+     * Create a table from columns.
      *
      * @param columns The columns.
      *
@@ -157,12 +162,9 @@ class Table(
     ) -> table: Table
 
     /**
-     * Return a new table with additional columns.
+     * Add columns to the table and return the result as a new table.
      *
-     * **Notes:**
-     *
-     * - The original table is not modified.
-     * - This operation must fully load the data into memory, which can be expensive.
+     * **Note:** The original table is not modified.
      *
      * @param columns The columns to add.
      *
@@ -179,11 +181,11 @@ class Table(
     @Pure
     @PythonName("add_columns")
     fun addColumns(
-        columns: union<Column<Any>, List<Column<Any>>>
+        columns: union<Column<Any>, List<Column<Any>>, Table>
     ) -> newTable: Table
 
     /**
-     * Return a new table with an additional computed column.
+     * Add a computed column to the table and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -196,7 +198,7 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
-     *     // table.add_computed_column("c", lambda row: row.get_value("a") + row.get_value("b"))
+     *     // table.add_computed_column("c", lambda row: row["a"] + row["b"])
      * }
      */
     @Pure
@@ -204,6 +206,35 @@ class Table(
     fun addComputedColumn(
         name: String,
         computer: (param1: Row) -> result1: Cell<Any>
+    ) -> newTable: Table
+
+    /**
+     * Add an index column to the table and return the result as a new table.
+     *
+     * **Note:** The original table is not modified.
+     *
+     * @param name The name of the new column.
+     * @param firstIndex The index to assign to the first row. Must be greater or equal to 0.
+     *
+     * @result newTable The table with the index column.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.add_index_column("id")
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.add_index_column("id", first_index=10)
+     * }
+     */
+    @Pure
+    @PythonName("add_index_column")
+    fun addIndexColumn(
+        name: String,
+        @PythonName("first_index") firstIndex: Int = 0
     ) -> newTable: Table
 
     /**
@@ -227,11 +258,11 @@ class Table(
     ) -> column: Column<Any>
 
     /**
-     * Get the data type of a column.
+     * Get the type of a column.
      *
      * @param name The name of the column.
      *
-     * @result type The data type of the column.
+     * @result type The type of the column.
      *
      * @example
      * pipeline example {
@@ -244,7 +275,7 @@ class Table(
     @PythonName("get_column_type")
     fun getColumnType(
         name: String
-    ) -> type: DataType
+    ) -> type: ColumnType
 
     /**
      * Check if the table has a column with a specific name.
@@ -259,6 +290,11 @@ class Table(
      *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
      *     // table.has_column("a")
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.has_column("c")
+     * }
      */
     @Pure
     @PythonName("has_column")
@@ -267,13 +303,11 @@ class Table(
     ) -> hasColumn: Boolean
 
     /**
-     * Return a new table without the specified columns.
+     * Remove the specified columns from the table and return the result as a new table.
      *
-     * **Notes:**
+     * **Note:** The original table is not modified.
      *
-     * - The original table is not modified.
-     *
-     * @param names The names of the columns to remove.
+     * @param selector The columns to remove.
      * @param ignoreUnknownNames If set to True, columns that are not present in the table will be ignored.
      * If set to False, an error will be raised if any of the specified columns do not exist.
      *
@@ -294,39 +328,25 @@ class Table(
     @Pure
     @PythonName("remove_columns")
     fun removeColumns(
-        names: union<List<String>, String>,
+        selector: union<List<String>, String>,
         @PythonName("ignore_unknown_names") ignoreUnknownNames: Boolean = false
     ) -> newTable: Table
 
     /**
-     * Return a new table with only the specified columns.
+     * Remove columns with too many missing values and return the result as a new table.
      *
-     * @param names The names of the columns to keep.
-     *
-     * @result newTable The table with only the specified columns.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Table
-     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
-     *     // table.remove_columns_except("a")
-     * }
-     */
-    @Pure
-    @PythonName("remove_columns_except")
-    fun removeColumnsExcept(
-        names: union<List<String>, String>
-    ) -> newTable: Table
-
-    /**
-     * Return a new table without columns that contain missing values.
+     * How many missing values are allowed is determined by the `missing_value_ratio_threshold` parameter. A column is
+     * removed if its missing value ratio is greater than the threshold. By default, a column is removed if it contains
+     * any missing values.
      *
      * **Notes:**
      *
      * - The original table is not modified.
      * - This operation must fully load the data into memory, which can be expensive.
      *
-     * @result newTable The table without columns containing missing values.
+     * @param missingValueRatioThreshold The maximum missing value ratio a column can have to be kept (inclusive). Must be between 0 and 1.
+     *
+     * @result newTable The table without columns that contain too many missing values.
      *
      * @example
      * pipeline example {
@@ -337,10 +357,12 @@ class Table(
      */
     @Pure
     @PythonName("remove_columns_with_missing_values")
-    fun removeColumnsWithMissingValues() -> newTable: Table
+    fun removeColumnsWithMissingValues(
+        @PythonName("missing_value_ratio_threshold") missingValueRatioThreshold: Float = 0
+    ) -> newTable: Table
 
     /**
-     * Return a new table without non-numeric columns.
+     * Remove non-numeric columns and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -358,7 +380,7 @@ class Table(
     fun removeNonNumericColumns() -> newTable: Table
 
     /**
-     * Return a new table with a column renamed.
+     * Rename a column and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -382,7 +404,7 @@ class Table(
     ) -> newTable: Table
 
     /**
-     * Return a new table with a column replaced by zero or more columns.
+     * Replace a column with zero or more columns and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -418,12 +440,35 @@ class Table(
     ) -> newTable: Table
 
     /**
-     * Return a new table with a column transformed.
+     * Select a subset of the columns and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
-     * @param name The name of the column to transform.
-     * @param transformer The function that transforms the column.
+     * @param selector The columns to keep.
+     *
+     * @result newTable The table with only a subset of the columns.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.select_columns("a")
+     * }
+     */
+    @Pure
+    @PythonName("select_columns")
+    fun selectColumns(
+        selector: union<List<String>, String>
+    ) -> newTable: Table
+
+    /**
+     * Transform columns with a custom function and return the result as a new table.
+     *
+     * **Note:** The original table is not modified.
+     *
+     * @param selector The names of the columns to transform.
+     * @param transformer The function that computes the new values. It may take either a single cell or a cell and the entire row as
+     * arguments (see examples).
      *
      * @result newTable The table with the transformed column.
      *
@@ -431,18 +476,28 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
-     *     // table.transform_column("a", lambda cell: cell + 1)
+     *     // table.transform_columns("a", lambda cell: cell + 1)
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.transform_columns(["a", "b"], lambda cell: cell + 1)
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.transform_columns("a", lambda cell, row: cell + row["b"])
      * }
      */
     @Pure
-    @PythonName("transform_column")
-    fun transformColumn(
-        name: String,
-        transformer: (param1: Cell<Any>) -> result1: Cell<Any>
+    @PythonName("transform_columns")
+    fun transformColumns(
+        selector: union<List<String>, String>,
+        transformer: union<(param1: Cell<Any>) -> result1: Cell<Any>, (param1: Cell<Any>, param2: Row) -> result1: Cell<Any>>
     ) -> newTable: Table
 
     /**
-     * Return how many rows in the table satisfy the predicate.
+     * Count how many rows in the table satisfy the predicate.
      *
      * The predicate can return one of three results:
      *
@@ -464,24 +519,70 @@ class Table(
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
-     *     // table = Table({"col1": [1, 2, 3], "col2": [1, 3, 3]})
-     *     // table.count_row_if(lambda row: row["col1"] == row["col2"])
+     *     // table = Table({"col1": [1, 2, 3], "col2": [1, 3, None]})
+     *     // table.count_rows_if(lambda row: row["col1"] < row["col2"])
      * }
      *
      * @example
      * pipeline example {
-     *     // table.count_row_if(lambda row: row["col1"] > row["col2"])
+     *     // print(table.count_rows_if(lambda row: row["col1"] < row["col2"], ignore_unknown=False))
      * }
      */
     @Pure
-    @PythonName("count_row_if")
-    fun countRowIf(
+    @PythonName("count_rows_if")
+    fun countRowsIf(
         predicate: (param1: Row) -> result1: Cell<Boolean?>,
         @PythonName("ignore_unknown") ignoreUnknown: Boolean = true
     ) -> count: Int?
 
     /**
-     * Return a new table without duplicate rows.
+     * Keep only rows that satisfy a condition and return the result as a new table.
+     *
+     * **Note:** The original table is not modified.
+     *
+     * @param predicate The function that determines which rows to keep.
+     *
+     * @result newTable The table containing only the specified rows.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.filter_rows(lambda row: row["a"] == 2)
+     * }
+     */
+    @Pure
+    @PythonName("filter_rows")
+    fun filterRows(
+        predicate: (param1: Row) -> result1: Cell<Boolean?>
+    ) -> newTable: Table
+
+    /**
+     * Keep only rows that satisfy a condition on a specific column and return the result as a new table.
+     *
+     * **Note:** The original table is not modified.
+     *
+     * @param name The name of the column.
+     * @param predicate The function that determines which rows to keep.
+     *
+     * @result newTable The table containing only the specified rows.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Table
+     *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
+     *     // table.filter_rows_by_column("a", lambda cell: cell == 2)
+     * }
+     */
+    @Pure
+    @PythonName("filter_rows_by_column")
+    fun filterRowsByColumn(
+        name: String,
+        predicate: (param1: Cell<Any>) -> result1: Cell<Boolean?>
+    ) -> newTable: Table
+
+    /**
+     * Remove duplicate rows and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -499,11 +600,11 @@ class Table(
     fun removeDuplicateRows() -> newTable: Table
 
     /**
-     * Return a new table without rows that satisfy a condition.
+     * Remove rows that satisfy a condition and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
-     * @param query The function that determines which rows to remove.
+     * @param predicate The function that determines which rows to remove.
      *
      * @result newTable The table without the specified rows.
      *
@@ -511,22 +612,22 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"a": [1, 2, 3], "b": [4, 5, 6]})
-     *     // table.remove_rows(lambda row: row.get_value("a") == 2)
+     *     // table.remove_rows(lambda row: row["a"] == 2)
      * }
      */
     @Pure
     @PythonName("remove_rows")
     fun removeRows(
-        query: (param1: Row) -> result1: Cell<Boolean>
+        predicate: (param1: Row) -> result1: Cell<Boolean?>
     ) -> newTable: Table
 
     /**
-     * Return a new table without rows that satisfy a condition on a specific column.
+     * Remove rows that satisfy a condition on a specific column and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
      * @param name The name of the column.
-     * @param query The function that determines which rows to remove.
+     * @param predicate The function that determines which rows to remove.
      *
      * @result newTable The table without the specified rows.
      *
@@ -541,17 +642,21 @@ class Table(
     @PythonName("remove_rows_by_column")
     fun removeRowsByColumn(
         name: String,
-        query: (param1: Cell<Any>) -> result1: Cell<Boolean>
+        predicate: (param1: Cell<Any>) -> result1: Cell<Boolean?>
     ) -> newTable: Table
 
     /**
-     * Return a new table without rows containing missing values in the specified columns.
+     * Remove rows that contain missing values in the specified columns and return the result as a new table.
+     *
+     * The resulting table no longer has missing values in the specified columns. Be aware that this method can discard
+     * a lot of data. Consider first removing columns with many missing values, or using one of the imputation methods
+     * (see "Related" section).
      *
      * **Note:** The original table is not modified.
      *
-     * @param columnNames Names of the columns to consider. If None, all columns are considered.
+     * @param selector The columns to check. If None, all columns are checked.
      *
-     * @result newTable The table without rows containing missing values in the specified columns.
+     * @result newTable The table without rows that contain missing values in the specified columns.
      *
      * @example
      * pipeline example {
@@ -559,20 +664,25 @@ class Table(
      *     // table = Table({"a": [1, None, 3], "b": [4, 5, None]})
      *     // table.remove_rows_with_missing_values()
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // table.remove_rows_with_missing_values(selector=["b"])
+     * }
      */
     @Pure
     @PythonName("remove_rows_with_missing_values")
     fun removeRowsWithMissingValues(
-        @PythonName("column_names") columnNames: List<String>? = null
+        selector: union<List<String>, String, Nothing?> = null
     ) -> newTable: Table
 
     /**
-     * Return a new table without rows containing outliers in the specified columns.
+     * Remove rows that contain outliers in the specified columns and return the result as a new table.
      *
-     * Whether a data point is an outlier in a column is determined by its z-score. The z-score the distance of the
-     * data point from the mean of the column divided by the standard deviation of the column. If the z-score is
-     * greater than the given threshold, the data point is considered an outlier. Missing values are ignored during the
-     * calculation of the z-score.
+     * Whether a value is an outlier in a column is determined by its z-score. The z-score the distance of the value
+     * from the mean of the column divided by the standard deviation of the column. If the z-score is greater than the
+     * given threshold, the value is considered an outlier. Missing values are ignored during the calculation of the
+     * z-score.
      *
      * The z-score is only defined for numeric columns. Non-numeric columns are ignored, even if they are specified in
      * `column_names`.
@@ -582,10 +692,10 @@ class Table(
      * - The original table is not modified.
      * - This operation must fully load the data into memory, which can be expensive.
      *
-     * @param columnNames Names of the columns to consider. If None, all numeric columns are considered.
-     * @param zScoreThreshold The z-score threshold for detecting outliers.
+     * @param selector The columns to check. If None, all columns are checked.
+     * @param zScoreThreshold The z-score threshold for detecting outliers. Must be greater than or equal to 0.
      *
-     * @result newTable The table without rows containing outliers in the specified columns.
+     * @result newTable The table without rows that contain outliers in the specified columns.
      *
      * @example
      * pipeline example {
@@ -602,14 +712,19 @@ class Table(
     @Pure
     @PythonName("remove_rows_with_outliers")
     fun removeRowsWithOutliers(
-        @PythonName("column_names") columnNames: List<String>? = null,
+        selector: union<List<String>, String, Nothing?> = null,
         @PythonName("z_score_threshold") zScoreThreshold: Float = 3
     ) -> newTable: Table
 
     /**
-     * Return a new table with the rows shuffled.
+     * Shuffle the rows and return the result as a new table.
      *
-     * **Note:** The original table is not modified.
+     * **Notes:**
+     *
+     * - The original table is not modified.
+     * - This operation must fully load the data into memory, which can be expensive.
+     *
+     * @param randomSeed The seed for the pseudorandom number generator.
      *
      * @result newTable The table with the rows shuffled.
      *
@@ -622,14 +737,17 @@ class Table(
      */
     @Pure
     @PythonName("shuffle_rows")
-    fun shuffleRows() -> newTable: Table
+    fun shuffleRows(
+        @PythonName("random_seed") randomSeed: Int = 0
+    ) -> newTable: Table
 
     /**
-     * Return a new table with a slice of rows.
+     * Slice the rows and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
-     * @param start The start index of the slice.
+     * @param start The start index of the slice. Nonnegative indices are counted from the beginning (starting at 0), negative
+     * indices from the end (starting at -1).
      * @param length The length of the slice. If None, the slice contains all rows starting from `start`. Must greater than or
      * equal to 0.
      *
@@ -655,7 +773,7 @@ class Table(
     ) -> newTable: Table
 
     /**
-     * Return a new table with the rows sorted.
+     * Sort the rows by a custom function and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -668,7 +786,7 @@ class Table(
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table({"a": [2, 1, 3], "b": [1, 1, 2]})
-     *     // table.sort_rows(lambda row: row.get_value("a") - row.get_value("b"))
+     *     // table.sort_rows(lambda row: row["a"] - row["b"])
      * }
      */
     @Pure
@@ -679,7 +797,7 @@ class Table(
     ) -> newTable: Table
 
     /**
-     * Return a new table with the rows sorted by a specific column.
+     * Sort the rows by a specific column and return the result as a new table.
      *
      * **Note:** The original table is not modified.
      *
@@ -706,15 +824,17 @@ class Table(
      * Create two tables by splitting the rows of the current table.
      *
      * The first table contains a percentage of the rows specified by `percentage_in_first`, and the second table
-     * contains the remaining rows.
+     * contains the remaining rows. By default, the rows are shuffled before splitting. You can disable this by setting
+     * `shuffle` to False.
      *
      * **Notes:**
      *
      * - The original table is not modified.
-     * - By default, the rows are shuffled before splitting. You can disable this by setting `shuffle` to False.
+     * - This operation must fully load the data into memory, which can be expensive.
      *
      * @param percentageInFirst The percentage of rows to include in the first table. Must be between 0 and 1.
      * @param shuffle Whether to shuffle the rows before splitting.
+     * @param randomSeed The seed for the pseudorandom number generator used for shuffling.
      *
      * @result firstTable The first table.
      * @result secondTable The second table.
@@ -732,18 +852,16 @@ class Table(
     @PythonName("split_rows")
     fun splitRows(
         @PythonName("percentage_in_first") percentageInFirst: Float,
-        shuffle: Boolean = true
+        shuffle: Boolean = true,
+        @PythonName("random_seed") randomSeed: Int = 0
     ) -> (firstTable: Table, secondTable: Table)
 
     /**
-     * Return a new table with the columns of another table added.
+     * Add the columns of other tables and return the result as a new table.
      *
-     * **Notes:**
+     * **Note:** The original tables are not modified.
      *
-     * - The original tables are not modified.
-     * - This operation must fully load the data into memory, which can be expensive.
-     *
-     * @param other The table to add as columns.
+     * @param others The tables to add as columns.
      *
      * @result newTable The table with the columns added.
      *
@@ -752,24 +870,21 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // table1 = Table({"a": [1, 2, 3]})
      *     // table2 = Table({"b": [4, 5, 6]})
-     *     // table1.add_table_as_columns(table2)
+     *     // table1.add_tables_as_columns(table2)
      * }
      */
     @Pure
-    @PythonName("add_table_as_columns")
-    fun addTableAsColumns(
-        other: Table
+    @PythonName("add_tables_as_columns")
+    fun addTablesAsColumns(
+        others: union<List<Table>, Table>
     ) -> newTable: Table
 
     /**
-     * Return a new table with the rows of another table added.
+     * Add the rows of other tables and return the result as a new table.
      *
-     * **Notes:**
+     * **Note:** The original tables are not modified.
      *
-     * - The original tables are not modified.
-     * - This operation must fully load the data into memory, which can be expensive.
-     *
-     * @param other The table to add as rows.
+     * @param others The tables to add as rows.
      *
      * @result newTable The table with the rows added.
      *
@@ -778,17 +893,17 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // table1 = Table({"a": [1, 2, 3]})
      *     // table2 = Table({"a": [4, 5, 6]})
-     *     // table1.add_table_as_rows(table2)
+     *     // table1.add_tables_as_rows(table2)
      * }
      */
     @Pure
-    @PythonName("add_table_as_rows")
-    fun addTableAsRows(
-        other: Table
+    @PythonName("add_tables_as_rows")
+    fun addTablesAsRows(
+        others: union<List<Table>, Table>
     ) -> newTable: Table
 
     /**
-     * Return a new table inverse-transformed by a **fitted, invertible** transformer.
+     * Inverse-transform the table by a **fitted, invertible** transformer and return the result as a new table.
      *
      * **Notes:**
      *
@@ -804,7 +919,7 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // from safeds.data.tabular.transformation import RangeScaler
      *     // table = Table({"a": [1, 2, 3]})
-     *     // transformer, transformed_table = RangeScaler(min_=0, max_=1, column_names="a").fit_and_transform(table)
+     *     // transformer, transformed_table = RangeScaler(min=0, max=1).fit_and_transform(table)
      *     // transformed_table.inverse_transform_table(transformer)
      * }
      */
@@ -815,21 +930,54 @@ class Table(
     ) -> newTable: Table
 
     /**
-     * Join a table with the current table and return the result.
+     * Join the current table (left table) with another table (right table) and return the result as a new table.
      *
-     * @param rightTable The other table which is to be joined to the current table.
-     * @param leftNames Name or list of names of columns from the current table on which to join right_table.
-     * @param rightNames Name or list of names of columns from right_table on which to join the current table.
-     * @param mode Specify which type of join you want to use. Options include 'inner', 'outer', 'left', 'right'.
+     * Rows are matched if the values in the specified columns are equal. The parameter `left_names` controls which
+     * columns are used for the left table, and `right_names` does the same for the right table.
+     *
+     * There are various types of joins, specified by the `mode` parameter:
+     *
+     * - `"inner"`:
+     *     Keep only rows that have matching values in both tables.
+     * - `"left"`:
+     *     Keep all rows from the left table and the matching rows from the right table. Cells with no match are
+     *     marked as missing values.
+     * - `"right"`:
+     *     Keep all rows from the right table and the matching rows from the left table. Cells with no match are
+     *     marked as missing values.
+     * - `"full"`:
+     *     Keep all rows from both tables. Cells with no match are marked as missing values.
+     *
+     * **Note:** The original tables are not modified.
+     *
+     * @param rightTable The table to join with the left table.
+     * @param leftNames Names of columns to join on in the left table.
+     * @param rightNames Names of columns to join on in the right table.
+     * @param mode Specify which type of join you want to use.
      *
      * @result newTable The table with the joined table.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
-     *     // table1 = Table({"a": [1, 2], "b": [3, 4]})
-     *     // table2 = Table({"d": [1, 5], "e": [5, 6]})
-     *     // table1.join(table2, "a", "d", mode="left")
+     *     // table1 = Table({"a": [1, 2], "b": [True, False]})
+     *     // table2 = Table({"c": [1, 3], "d": ["a", "b"]})
+     *     // table1.join(table2, "a", "c", mode="inner")
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table1.join(table2, "a", "c", mode="left")
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table1.join(table2, "a", "c", mode="right")
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // table1.join(table2, "a", "c", mode="full")
      * }
      */
     @Pure
@@ -837,11 +985,11 @@ class Table(
         @PythonName("right_table") rightTable: Table,
         @PythonName("left_names") leftNames: union<List<String>, String>,
         @PythonName("right_names") rightNames: union<List<String>, String>,
-        mode: literal<"inner", "left", "outer"> = "inner"
+        mode: literal<"inner", "left", "right", "full"> = "inner"
     ) -> newTable: Table
 
     /**
-     * Return a new table transformed by a **fitted** transformer.
+     * Transform the table with a **fitted** transformer and return the result as a new table.
      *
      * **Notes:**
      *
@@ -857,7 +1005,7 @@ class Table(
      *     // from safeds.data.tabular.containers import Table
      *     // from safeds.data.tabular.transformation import RangeScaler
      *     // table = Table({"a": [1, 2, 3]})
-     *     // transformer = RangeScaler(min_=0, max_=1, column_names="a").fit(table)
+     *     // transformer = RangeScaler(min=0, max=1).fit(table)
      *     // table.transform_table(transformer)
      * }
      */
@@ -869,6 +1017,11 @@ class Table(
 
     /**
      * Return a table with important statistics about this table.
+     *
+     * !!! warning "API Stability"
+     *
+     *     Do not rely on the exact output of this method. In future versions, we may change the displayed statistics
+     *     without prior notice.
      *
      * @result statistics The table with statistics.
      *
@@ -886,7 +1039,7 @@ class Table(
     /**
      * Return the data of the table as a list of columns.
      *
-     * @result columns List of columns.
+     * @result columns The columns of the table.
      *
      * @example
      * pipeline example {
@@ -923,7 +1076,9 @@ class Table(
     /**
      * Return a dictionary that maps column names to column values.
      *
-     * @result dict Dictionary representation of the table.
+     * **Note:** This operation must fully load the data into memory, which can be expensive.
+     *
+     * @result dict The dictionary representation of the table.
      *
      * @example
      * pipeline example {
@@ -985,65 +1140,33 @@ class Table(
      *
      * - The target column is the column that a model should predict.
      * - Feature columns are columns that a model should use to make predictions.
-     * - Extra columns are columns that are neither feature nor target. They can be used to provide additional context,
-     *   like an ID column.
+     * - Extra columns are columns that are neither feature nor target. They are ignored by models and can be used to
+     *   provide additional context. An ID or name column is a common example.
      *
      * Feature columns are implicitly defined as all columns except the target and extra columns. If no extra columns
      * are specified, all columns except the target column are used as features.
      *
      * @param targetName The name of the target column.
-     * @param extraNames Names of the columns that are neither feature nor target. If None, no extra columns are used, i.e. all but
+     * @param extraNames Names of the columns that are neither features nor target. If None, no extra columns are used, i.e. all but
      * the target column are used as features.
-     *
-     * @result dataset A new tabular dataset with the given target and feature names.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Table
      *     // table = Table(
      *     //     {
-     *     //         "item": ["apple", "milk", "beer"],
-     *     //         "price": [1.10, 1.19, 1.79],
-     *     //         "amount_bought": [74, 72, 51],
-     *     //     }
+     *     //         "extra": [1, 2, 3],
+     *     //         "feature": [4, 5, 6],
+     *     //         "target": [7, 8, 9],
+     *     //     },
      *     // )
-     *     // dataset = table.to_tabular_dataset(target_name="amount_bought", extra_names=["item"])
+     *     // dataset = table.to_tabular_dataset("target", extra_names="extra")
      * }
      */
     @Pure
     @PythonName("to_tabular_dataset")
     fun toTabularDataset(
         @PythonName("target_name") targetName: String,
-        @PythonName("extra_names") extraNames: List<String>? = null
-    ) -> dataset: TabularDataset
-
-    /**
-     * Return a new `TimeSeriesDataset` with columns marked as a target column, time or feature columns.
-     *
-     * The original table is not modified.
-     *
-     * @param targetName The name of the target column.
-     * @param windowSize The number of consecutive sample to use as input for prediction.
-     * @param extraNames Names of the columns that are neither features nor target. If None, no extra columns are used, i.e. all but
-     * the target column are used as features.
-     * @param forecastHorizon The number of time steps to predict into the future.
-     *
-     * @result dataset A new time series dataset with the given target and feature names.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Table
-     *     // table = Table({"day": [0, 1, 2], "price": [1.10, 1.19, 1.79], "amount_bought": [74, 72, 51]})
-     *     // dataset = table.to_time_series_dataset(target_name="amount_bought", window_size=2)
-     * }
-     */
-    @Pure
-    @PythonName("to_time_series_dataset")
-    fun toTimeSeriesDataset(
-        @PythonName("target_name") targetName: String,
-        @PythonName("window_size") windowSize: Int,
-        @PythonName("extra_names") extraNames: List<String>? = null,
-        @PythonName("forecast_horizon") forecastHorizon: Int = 1,
-        continuous: Boolean = false
-    ) -> dataset: TimeSeriesDataset
+        @PythonName("extra_names") extraNames: union<List<String>, String, Nothing?> = null
+    ) -> result1: TabularDataset
 }

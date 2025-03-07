@@ -1,41 +1,239 @@
 package safeds.data.tabular.containers
 
+from datetime import date
+from datetime import datetime
+from datetime import time
+from datetime import timedelta
+from safeds.Typing import ConvertibleToBooleanCell
+from safeds.Typing import ConvertibleToCell
+from safeds.Typing import ConvertibleToIntCell
+from safeds.Typing import PythonLiteral
+from safeds.data.tabular.query import DatetimeOperations
+from safeds.data.tabular.query import DurationOperations
+from safeds.data.tabular.query import MathOperations
+from safeds.data.tabular.query import StringOperations
+from safeds.data.tabular.typing import ColumnType
+
 /**
  * A single value in a table.
  *
- * This class cannot be instantiated directly. It is only used for arguments of callbacks.
+ * You only need to interact with this class in callbacks passed to higher-order functions. Most operations are grouped
+ * into namespaces, which are accessed through the following attributes:
+ *
+ * - `dt`: Operations on datetime/date/time values
+ * - `dur`: Operations on durations
+ * - `math`: Mathematical operations on numbers
+ * - `str`: Operations on strings
+ *
+ * This class only has methods that are not specific to a data type (e.g. `cast`), methods with corresponding
+ * operators (e.g. `add` for `+`), and static methods to create new cells.
  */
 class Cell<out TCo> {
     /**
+     * Namespace for operations on datetime/date/time values.
+     */
+    attr dt: DatetimeOperations
+    /**
+     * Namespace for operations on durations.
+     */
+    attr dur: DurationOperations
+    /**
+     * Namespace for mathematical operations.
+     */
+    attr math: MathOperations
+    /**
      * Namespace for operations on strings.
      */
-    attr str: StringCell
-    /**
-     * Namespace for operations on date time values.
-     */
-    attr dt: TemporalCell
+    attr str: StringOperations
 
     /**
-     * Return the first cell from the given list that is not None.
+     * Create a cell with a constant value.
      *
-     * @param cells The list of cells to be searched.
+     * @param value The value to create the cell from.
+     * @param type The type of the cell. If None, the type is inferred from the value.
      *
-     * @result cell Returns the contents of the first cell that is not None.
-     * If all cells in the list are None or the list is empty returns None.
-     */
-    @Pure
-    @PythonName("first_not_none")
-    static fun firstNotNone(
-        cells: List<Cell<Any>>
-    ) -> cell: Cell<Any>
-
-    /**
-     * Negate a boolean. This is equivalent to the `~` operator.
+     * @result cell The created cell.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [True, False])
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda _: Cell.constant(3))
+     * }
+     */
+    @Pure
+    static fun constant(
+        value: PythonLiteral?,
+        type: ColumnType? = null
+    ) -> cell: Cell<Any>
+
+    /**
+     * Create a cell with a date.
+     *
+     * Invalid dates are converted to missing values (`None`).
+     *
+     * @param year The year.
+     * @param month The month. Must be between 1 and 12.
+     * @param day The day. Must be between 1 and 31.
+     *
+     * @result cell The created cell.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda _: Cell.date(2025, 1, 15))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: Cell.date(2025, cell, 15))
+     * }
+     */
+    @Pure
+    static fun date(
+        year: ConvertibleToIntCell,
+        month: ConvertibleToIntCell,
+        day: ConvertibleToIntCell
+    ) -> cell: Cell<date?>
+
+    /**
+     * Create a cell with a datetime.
+     *
+     * Invalid datetimes are converted to missing values (`None`).
+     *
+     * @param year The year.
+     * @param month The month. Must be between 1 and 12.
+     * @param day The day. Must be between 1 and 31.
+     * @param hour The hour. Must be between 0 and 23.
+     * @param minute The minute. Must be between 0 and 59.
+     * @param second The second. Must be between 0 and 59.
+     * @param microsecond The microsecond. Must be between 0 and 999,999.
+     * @param timeZone The time zone. If None, values are assumed to be in local time. This is different from setting the time zone
+     * to `"UTC"`. Any TZ identifier defined in the
+     * [tz database](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones) is valid.
+     *
+     * @result cell The created cell.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda _: Cell.datetime(2025, 1, 15, hour=12))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: Cell.datetime(2025, 1, 15, hour=cell))
+     * }
+     */
+    @Pure
+    static fun datetime(
+        year: ConvertibleToIntCell,
+        month: ConvertibleToIntCell,
+        day: ConvertibleToIntCell,
+        hour: ConvertibleToIntCell = 0,
+        minute: ConvertibleToIntCell = 0,
+        second: ConvertibleToIntCell = 0,
+        microsecond: ConvertibleToIntCell = 0,
+        @PythonName("time_zone") timeZone: String? = null
+    ) -> cell: Cell<datetime?>
+
+    /**
+     * Create a cell with a duration.
+     *
+     * Invalid durations are converted to missing values (`None`).
+     *
+     * @param weeks The number of weeks.
+     * @param days The number of days.
+     * @param hours The number of hours.
+     * @param minutes The number of minutes.
+     * @param seconds The number of seconds.
+     * @param milliseconds The number of milliseconds.
+     * @param microseconds The number of microseconds.
+     *
+     * @result cell The created cell.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda _: Cell.duration(hours=1))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: Cell.duration(hours = cell))
+     * }
+     */
+    @Pure
+    static fun duration(
+        weeks: ConvertibleToIntCell = 0,
+        days: ConvertibleToIntCell = 0,
+        hours: ConvertibleToIntCell = 0,
+        minutes: ConvertibleToIntCell = 0,
+        seconds: ConvertibleToIntCell = 0,
+        milliseconds: ConvertibleToIntCell = 0,
+        microseconds: ConvertibleToIntCell = 0
+    ) -> cell: Cell<timedelta?>
+
+    /**
+     * Create a cell with a time.
+     *
+     * Invalid times are converted to missing values (`None`).
+     *
+     * @param hour The hour. Must be between 0 and 23.
+     * @param minute The minute. Must be between 0 and 59.
+     * @param second The second. Must be between 0 and 59.
+     * @param microsecond The microsecond. Must be between 0 and 999,999.
+     *
+     * @result cell The created cell.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda _: Cell.time(12, 0, 0))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: Cell.time(12, cell, 0, microsecond=1))
+     * }
+     */
+    @Pure
+    static fun time(
+        hour: ConvertibleToIntCell,
+        minute: ConvertibleToIntCell,
+        second: ConvertibleToIntCell,
+        microsecond: ConvertibleToIntCell = 0
+    ) -> cell: Cell<time?>
+
+    /**
+     * Return the first cell that is not None or None if all cells are None.
+     *
+     * @param cells The list of cells to be checked.
+     *
+     * @result cell The first cell that is not None or None if all cells are None.
+     */
+    @Pure
+    @PythonName("first_not_none")
+    static fun firstNotNone<P>(
+        cells: List<Cell<P>>
+    ) -> cell: Cell<union<P, Nothing?>>
+
+    /**
+     * Negate a Boolean. This is equivalent to the `~` operator.
+     *
+     * Do **not** use the `not` operator. Its behavior cannot be overwritten in Python, so it will not work as
+     * expected.
+     *
+     * @result cell The result of the Boolean negation.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [True, False, None])
      *     // column.transform(lambda cell: cell.not_())
      * }
      *
@@ -46,57 +244,74 @@ class Cell<out TCo> {
      */
     @Pure
     @PythonName("not_")
-    fun `not`() -> result1: Cell<Boolean>
+    fun `not`() -> cell: Cell<Boolean?>
 
     /**
-     * Perform a boolean AND operation. This is equivalent to the `&` operator.
+     * Perform a Boolean AND operation. This is equivalent to the `&` operator.
+     *
+     * Do **not** use the `and` operator. Its behavior cannot be overwritten in Python, so it will not work as
+     * expected.
+     *
+     * @param other The right operand.
+     *
+     * @result cell The result of the conjunction.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [True, False])
-     *     // column.transform(lambda cell: cell.and_(False))
+     *     // column = Column("a", [True, False, None])
+     *     // column.transform(lambda cell: cell.and_(True))
      * }
      *
      * @example
      * pipeline example {
-     *     // column.transform(lambda cell: cell & False)
+     *     // column.transform(lambda cell: cell & True)
      * }
      */
     @Pure
     @PythonName("and_")
     fun `and`(
-        other: union<Boolean, Cell<Boolean>>
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToBooleanCell
+    ) -> cell: Cell<Boolean?>
 
     /**
-     * Perform a boolean OR operation. This is equivalent to the `|` operator.
+     * Perform a Boolean OR operation. This is equivalent to the `|` operator.
+     *
+     * Do **not** use the `or` operator. Its behavior cannot be overwritten in Python, so it will not work as expected.
+     *
+     * @param other The right operand.
+     *
+     * @result cell The result of the disjunction.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [True, False])
-     *     // column.transform(lambda cell: cell.or_(True))
+     *     // column = Column("a", [True, False, None])
+     *     // column.transform(lambda cell: cell.or_(False))
      * }
      *
      * @example
      * pipeline example {
-     *     // column.transform(lambda cell: cell | True)
+     *     // column.transform(lambda cell: cell | False)
      * }
      */
     @Pure
     @PythonName("or_")
     fun `or`(
-        other: union<Boolean, Cell<Boolean>>
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToBooleanCell
+    ) -> cell: Cell<Boolean?>
 
     /**
-     * Perform a boolean XOR operation. This is equivalent to the `^` operator.
+     * Perform a Boolean XOR operation. This is equivalent to the `^` operator.
+     *
+     * @param other The right operand.
+     *
+     * @result cell The result of the exclusive or.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [True, False])
+     *     // column = Column("a", [True, False, None])
      *     // column.transform(lambda cell: cell.xor(True))
      * }
      *
@@ -107,68 +322,40 @@ class Cell<out TCo> {
      */
     @Pure
     fun xor(
-        other: union<Boolean, Cell<Boolean>>
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToBooleanCell
+    ) -> cell: Cell<Boolean?>
 
     /**
-     * Get the absolute value.
+     * Negate the value. This is equivalent to the unary `-` operator.
+     *
+     * @result cell The negated value.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, -2])
-     *     // column.transform(lambda cell: cell.abs())
-     * }
-     */
-    @Pure
-    fun abs() -> result1: Cell<RCo>
-
-    /**
-     * Round up to the nearest integer.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1.1, 2.9])
-     *     // column.transform(lambda cell: cell.ceil())
-     * }
-     */
-    @Pure
-    fun ceil() -> result1: Cell<RCo>
-
-    /**
-     * Round down to the nearest integer.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1.1, 2.9])
-     *     // column.transform(lambda cell: cell.floor())
-     * }
-     */
-    @Pure
-    fun floor() -> result1: Cell<RCo>
-
-    /**
-     * Negate the value.
-     *
-     * @example
-     * pipeline example {
-     *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, -2])
+     *     // column = Column("a", [1, -2, None])
      *     // column.transform(lambda cell: cell.neg())
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: -cell)
+     * }
      */
     @Pure
-    fun neg() -> result1: Cell<RCo>
+    fun neg() -> cell: Cell<Any>
 
     /**
      * Add a value. This is equivalent to the `+` operator.
      *
+     * @param other The right operand.
+     *
+     * @result cell The result of the addition.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.add(3))
      * }
      *
@@ -179,16 +366,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun add(
-        other: Any
-    ) -> result1: Cell<RCo>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
      * Divide by a value. This is equivalent to the `/` operator.
      *
+     * @param other The right operand.
+     *
+     * @result cell The result of the division.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [6, 8])
+     *     // column = Column("a", [6, 8, None])
      *     // column.transform(lambda cell: cell.div(2))
      * }
      *
@@ -199,16 +390,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun div(
-        other: Any
-    ) -> result1: Cell<RCo>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
      * Perform a modulo operation. This is equivalent to the `%` operator.
      *
+     * @param other The right operand.
+     *
+     * @result cell The result of the modulo operation.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [5, 6])
+     *     // column = Column("a", [5, 6, -1, None])
      *     // column.transform(lambda cell: cell.mod(3))
      * }
      *
@@ -219,16 +414,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun mod(
-        other: Any
-    ) -> result1: Cell<RCo>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
      * Multiply by a value. This is equivalent to the `*` operator.
      *
+     * @param other The right operand.
+     *
+     * @result cell The result of the multiplication.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [2, 3])
+     *     // column = Column("a", [2, 3, None])
      *     // column.transform(lambda cell: cell.mul(4))
      * }
      *
@@ -239,16 +438,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun mul(
-        other: Any
-    ) -> result1: Cell<RCo>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
      * Raise to a power. This is equivalent to the `**` operator.
      *
+     * @param other The right operand.
+     *
+     * @result cell The result of the exponentiation.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [2, 3])
+     *     // column = Column("a", [2, 3, None])
      *     // column.transform(lambda cell: cell.pow(3))
      * }
      *
@@ -258,17 +461,21 @@ class Cell<out TCo> {
      * }
      */
     @Pure
-    fun pow<PContra>(
-        other: union<Cell<PContra>, Float>
-    ) -> result1: Cell<RCo>
+    fun pow(
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
-     * Subtract a value. This is equivalent to the `-` operator.
+     * Subtract a value. This is equivalent to the binary `-` operator.
+     *
+     * @param other The right operand.
+     *
+     * @result cell The result of the subtraction.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [5, 6])
+     *     // column = Column("a", [5, 6, None])
      *     // column.transform(lambda cell: cell.sub(3))
      * }
      *
@@ -279,16 +486,29 @@ class Cell<out TCo> {
      */
     @Pure
     fun `sub`(
-        other: Any
-    ) -> result1: Cell<RCo>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Any>
 
     /**
-     * Check if equal to a value. This is equivalent to the `==` operator.
+     * Check if equal to a value. The default behavior is equivalent to the `==` operator.
+     *
+     * Missing values (indicated by `None`) are handled as follows:
+     *
+     * - If `propagate_missing_values` is `True` (default), the result will be a missing value if either the cell or
+     *   the other value is a missing value. Here, `None == None` is `None`. The intuition is that we do not know the
+     *   result of the comparison if we do not know the values, which is consistent with the other cell operations.
+     * - If `propagate_missing_values` is `False`, `None` will be treated as a regular value. Here, `None == None`
+     *   is `True`. This behavior is useful, if you want to work with missing values, e.g. to filter them out.
+     *
+     * @param other The value to compare to.
+     * @param propagateMissingValues Whether to propagate missing values.
+     *
+     * @result cell The result of the comparison.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.eq(2))
      * }
      *
@@ -296,19 +516,68 @@ class Cell<out TCo> {
      * pipeline example {
      *     // column.transform(lambda cell: cell == 2)
      * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell.eq(2, propagate_missing_values=False))
+     * }
      */
     @Pure
     fun eq(
-        other: Any
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToCell,
+        @PythonName("propagate_missing_values") propagateMissingValues: Boolean = true
+    ) -> cell: Cell<Boolean?>
 
     /**
-     * Check if greater than or equal to a value. This is equivalent to the `>=` operator.
+     * Check if not equal to a value. The default behavior is equivalent to the `!=` operator.
+     *
+     * Missing values (indicated by `None`) are handled as follows:
+     *
+     * - If `propagate_missing_values` is `True` (default), the result will be a missing value if either the cell or
+     *   the other value is a missing value. Here, `None != None` is `None`. The intuition is that we do not know the
+     *   result of the comparison if we do not know the values, which is consistent with the other cell operations.
+     * - If `propagate_missing_values` is `False`, `None` will be treated as a regular value. Here, `None != None`
+     *   is `False`. This behavior is useful, if you want to work with missing values, e.g. to filter them out.
+     *
+     * @param other The value to compare to.
+     * @param propagateMissingValues Whether to propagate missing values.
+     *
+     * @result cell The result of the comparison.
      *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda cell: cell.neq(2))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell != 2)
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell.neq(2, propagate_missing_values=False))
+     * }
+     */
+    @Pure
+    fun neq(
+        other: ConvertibleToCell,
+        @PythonName("propagate_missing_values") propagateMissingValues: Boolean = true
+    ) -> cell: Cell<Boolean?>
+
+    /**
+     * Check if greater than or equal to a value. This is equivalent to the `>=` operator.
+     *
+     * @param other The value to compare to.
+     *
+     * @result cell The result of the comparison.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.ge(2))
      * }
      *
@@ -319,16 +588,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun ge(
-        other: Any
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Boolean?>
 
     /**
      * Check if greater than a value. This is equivalent to the `>` operator.
      *
+     * @param other The value to compare to.
+     *
+     * @result cell The result of the comparison.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.gt(2))
      * }
      *
@@ -339,16 +612,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun gt(
-        other: Any
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Boolean?>
 
     /**
      * Check if less than or equal to a value. This is equivalent to the `<=` operator.
      *
+     * @param other The value to compare to.
+     *
+     * @result cell The result of the comparison.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.le(2))
      * }
      *
@@ -359,16 +636,20 @@ class Cell<out TCo> {
      */
     @Pure
     fun le(
-        other: Any
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Boolean?>
 
     /**
      * Check if less than a value. This is equivalent to the `<` operator.
      *
+     * @param other The value to compare to.
+     *
+     * @result cell The result of the comparison.
+     *
      * @example
      * pipeline example {
      *     // from safeds.data.tabular.containers import Column
-     *     // column = Column("example", [1, 2])
+     *     // column = Column("a", [1, 2, None])
      *     // column.transform(lambda cell: cell.lt(2))
      * }
      *
@@ -379,6 +660,26 @@ class Cell<out TCo> {
      */
     @Pure
     fun lt(
-        other: Any
-    ) -> result1: Cell<Boolean>
+        other: ConvertibleToCell
+    ) -> cell: Cell<Boolean?>
+
+    /**
+     * Cast the cell to a different type.
+     *
+     * @param type The type to cast to.
+     *
+     * @result cell The cast cell.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // from safeds.data.tabular.typing import ColumnType
+     *     // column = Column("a", [1, 2, None])
+     *     // column.transform(lambda cell: cell.cast(ColumnType.string()))
+     * }
+     */
+    @Pure
+    fun cast(
+        type: ColumnType
+    ) -> cell: Cell<Any>
 }

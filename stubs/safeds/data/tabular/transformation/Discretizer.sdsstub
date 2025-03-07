@@ -7,11 +7,11 @@ from safeds.data.tabular.transformation import TableTransformer
  * The Discretizer bins continuous data into intervals.
  *
  * @param binCount The number of bins to be created.
- * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
+ * @param selector The list of columns used to fit the transformer. If `None`, all numeric columns are used.
  */
 class Discretizer(
     @PythonName("bin_count") binCount: Int = 5,
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null
+    selector: union<List<String>, String, Nothing?> = null
 ) sub TableTransformer {
     /**
      * Whether the transformer is fitted.

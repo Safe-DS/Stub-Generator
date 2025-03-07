@@ -10,7 +10,7 @@ from safeds.ml.classical.Bases.SupportVectorMachineBase.SupportVectorMachineBase
  */
 class SupportVectorClassifier(
     c: union<Choice<Float>, Float> = 1.0,
-    kernel: union<Choice<Kernel?>, Kernel, Nothing?> = null
+    kernel: union<Choice<Kernel>, Kernel, Nothing?> = null
 ) sub Classifier {
     /**
      * The regularization strength.
@@ -27,5 +27,5 @@ class SupportVectorClassifier(
     /**
      * The type of kernel used.
      */
-    attr kernel: union<Choice<Kernel?>, Kernel>
+    attr kernel: union<Choice<Kernel>, Kernel>
 }

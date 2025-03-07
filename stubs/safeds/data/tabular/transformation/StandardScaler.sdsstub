@@ -6,10 +6,10 @@ from safeds.data.tabular.transformation import InvertibleTableTransformer
 /**
  * The StandardScaler transforms column values to a range by removing the mean and scaling to unit variance.
  *
- * @param columnNames The list of columns used to fit the transformer. If `None`, all numeric columns are used.
+ * @param selector The list of columns used to fit the transformer. If `None`, all numeric columns are used.
  */
 class StandardScaler(
-    @PythonName("column_names") columnNames: union<List<String>, String, Nothing?> = null
+    selector: union<List<String>, String, Nothing?> = null
 ) sub InvertibleTableTransformer {
     /**
      * Whether the transformer is fitted.

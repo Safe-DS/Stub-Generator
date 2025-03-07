@@ -1,0 +1,457 @@
+package safeds.data.tabular.query
+
+/**
+ * Namespace for mathematical operations.
+ *
+ * This class cannot be instantiated directly. It can only be accessed using the `math` attribute of a cell.
+ *
+ * @example
+ * pipeline example {
+ *     // from safeds.data.tabular.containers import Column
+ *     // column = Column("a", [-1, 0, 1])
+ *     // column.transform(lambda cell: cell.math.abs())
+ * }
+ */
+class MathOperations {
+    /**
+     * Get the absolute value.
+     *
+     * @result cell The absolute value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, -2, None])
+     *     // column.transform(lambda cell: cell.math.abs())
+     * }
+     */
+    @Pure
+    fun abs() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse cosine.
+     *
+     * @result cell The inverse cosine.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.acos())
+     * }
+     */
+    @Pure
+    fun acos() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse hyperbolic cosine.
+     *
+     * @result cell The inverse hyperbolic cosine.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.acosh())
+     * }
+     */
+    @Pure
+    fun acosh() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse sine.
+     *
+     * @result cell The inverse sine.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.asin())
+     * }
+     */
+    @Pure
+    fun asin() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse hyperbolic sine.
+     *
+     * @result cell The inverse hyperbolic sine.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.asinh())
+     * }
+     */
+    @Pure
+    fun asinh() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse tangent.
+     *
+     * @result cell The inverse tangent.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.atan())
+     * }
+     */
+    @Pure
+    fun atan() -> cell: Cell<Any>
+
+    /**
+     * Get the inverse hyperbolic tangent.
+     *
+     * @result cell The inverse hyperbolic tangent.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.atanh())
+     * }
+     */
+    @Pure
+    fun atanh() -> cell: Cell<Any>
+
+    /**
+     * Get the cube root.
+     *
+     * @result cell The cube root.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 8, None])
+     *     // column.transform(lambda cell: cell.math.cbrt())
+     * }
+     */
+    @Pure
+    fun cbrt() -> cell: Cell<Any>
+
+    /**
+     * Round up to the nearest integer.
+     *
+     * @result cell The rounded value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1.1, 3.0, None])
+     *     // column.transform(lambda cell: cell.math.ceil())
+     * }
+     */
+    @Pure
+    fun ceil() -> cell: Cell<Any>
+
+    /**
+     * Get the cosine.
+     *
+     * @result cell The cosine.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, math.pi / 2, math.pi, 3 * math.pi / 2, None])
+     *     // column.transform(lambda cell: cell.math.cos())
+     * }
+     */
+    @Pure
+    fun cos() -> cell: Cell<Any>
+
+    /**
+     * Get the hyperbolic cosine.
+     *
+     * @result cell The hyperbolic cosine.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.cosh())
+     * }
+     */
+    @Pure
+    fun cosh() -> cell: Cell<Any>
+
+    /**
+     * Convert degrees to radians.
+     *
+     * @result cell The value in radians.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, 90, 180, 270, None])
+     *     // column.transform(lambda cell: cell.math.degrees_to_radians())
+     * }
+     */
+    @Pure
+    @PythonName("degrees_to_radians")
+    fun degreesToRadians() -> cell: Cell<Any>
+
+    /**
+     * Get the exponential.
+     *
+     * @result cell The exponential.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.exp())
+     * }
+     */
+    @Pure
+    fun exp() -> cell: Cell<Any>
+
+    /**
+     * Round down to the nearest integer.
+     *
+     * @result cell The rounded value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1.1, 3.0, None])
+     *     // column.transform(lambda cell: cell.math.floor())
+     * }
+     */
+    @Pure
+    fun floor() -> cell: Cell<Any>
+
+    /**
+     * Get the natural logarithm.
+     *
+     * @result cell The natural logarithm.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, 1, math.e, None])
+     *     // column.transform(lambda cell: cell.math.ln())
+     * }
+     */
+    @Pure
+    fun ln() -> cell: Cell<Any>
+
+    /**
+     * Get the logarithm to the specified base.
+     *
+     * @param base The base of the logarithm. Must be positive and not equal to 1.
+     *
+     * @result cell The logarithm.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("a", [0, 1, math.e, None])
+     *     // column1.transform(lambda cell: cell.math.log(math.e))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column2 = Column("a", [0, 1, 10, None])
+     *     // column2.transform(lambda cell: cell.math.log(10))
+     * }
+     */
+    @Pure
+    fun log(
+        base: Float
+    ) -> cell: Cell<Any>
+
+    /**
+     * Get the common logarithm (base 10).
+     *
+     * @result cell The common logarithm.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, 1, 10, None])
+     *     // column.transform(lambda cell: cell.math.log10())
+     * }
+     */
+    @Pure
+    fun log10() -> cell: Cell<Any>
+
+    /**
+     * Convert radians to degrees.
+     *
+     * @result cell The value in degrees.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, math.pi / 2, math.pi, 3 * math.pi / 2, None])
+     *     // column.transform(lambda cell: cell.math.radians_to_degrees())
+     * }
+     */
+    @Pure
+    @PythonName("radians_to_degrees")
+    fun radiansToDegrees() -> cell: Cell<Any>
+
+    /**
+     * Round to the specified number of decimal places.
+     *
+     * @param decimalPlaces The number of decimal places to round to. Must be greater than or equal to 0.
+     *
+     * @result cell The rounded value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0.999, 1.123, 3.456, None])
+     *     // column.transform(lambda cell: cell.math.round_to_decimal_places(0))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell.math.round_to_decimal_places(2))
+     * }
+     */
+    @Pure
+    @PythonName("round_to_decimal_places")
+    fun roundToDecimalPlaces(
+        @PythonName("decimal_places") decimalPlaces: Int
+    ) -> cell: Cell<Any>
+
+    /**
+     * Round to the specified number of significant figures.
+     *
+     * @param significantFigures The number of significant figures to round to. Must be greater than or equal to 1.
+     *
+     * @result cell The rounded value.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0.999, 1.123, 3.456, None])
+     *     // column.transform(lambda cell: cell.math.round_to_significant_figures(1))
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column.transform(lambda cell: cell.math.round_to_significant_figures(2))
+     * }
+     */
+    @Pure
+    @PythonName("round_to_significant_figures")
+    fun roundToSignificantFigures(
+        @PythonName("significant_figures") significantFigures: Int
+    ) -> cell: Cell<Any>
+
+    /**
+     * Get the sign (-1 if negative, 0 for zero, and 1 if positive).
+     *
+     * Note that IEEE 754 defines a negative zero (-0) and a positive zero (+0). This method return a negative zero
+     * for -0 and a positive zero for +0.
+     *
+     * @result cell The sign.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column1 = Column("a", [-1, 0, 1, None])
+     *     // column1.transform(lambda cell: cell.math.sign())
+     * }
+     *
+     * @example
+     * pipeline example {
+     *     // column2 = Column("a", [-1.0, -0.0, +0.0, 1.0, None])
+     *     // column2.transform(lambda cell: cell.math.sign())
+     * }
+     */
+    @Pure
+    fun sign() -> cell: Cell<Any>
+
+    /**
+     * Get the sine.
+     *
+     * @result cell The sine.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, math.pi / 2, math.pi, 3 * math.pi / 2, None])
+     *     // column.transform(lambda cell: cell.math.sin())
+     * }
+     */
+    @Pure
+    fun sin() -> cell: Cell<Any>
+
+    /**
+     * Get the hyperbolic sine.
+     *
+     * @result cell The hyperbolic sine.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.sinh())
+     * }
+     */
+    @Pure
+    fun sinh() -> cell: Cell<Any>
+
+    /**
+     * Get the square root.
+     *
+     * @result cell The square root.
+     *
+     * @example
+     * pipeline example {
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [1, 4, None])
+     *     // column.transform(lambda cell: cell.math.sqrt())
+     * }
+     */
+    @Pure
+    fun sqrt() -> cell: Cell<Any>
+
+    /**
+     * Get the tangent.
+     *
+     * @result cell The tangent.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [0, math.pi / 4, 3 * math.pi / 4, None])
+     *     // column.transform(lambda cell: cell.math.tan())
+     * }
+     */
+    @Pure
+    fun tan() -> cell: Cell<Any>
+
+    /**
+     * Get the hyperbolic tangent.
+     *
+     * @result cell The hyperbolic tangent.
+     *
+     * @example
+     * pipeline example {
+     *     // import math
+     *     // from safeds.data.tabular.containers import Column
+     *     // column = Column("a", [-1, 0, 1, None])
+     *     // column.transform(lambda cell: cell.math.tanh())
+     * }
+     */
+    @Pure
+    fun tanh() -> cell: Cell<Any>
+}
