@@ -160,14 +160,12 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
     package we analyze.
     """
     aliases: dict[str, set[str]] = defaultdict(set)
-    for key in result_types:
+    for key, type_value in result_types.items():
         if isinstance(key, mypy_nodes.NameExpr | mypy_nodes.MemberExpr | mypy_nodes.TypeVarExpr):
             in_package = False
             name = ""
 
             if isinstance(key, mypy_nodes.NameExpr):
-                type_value = result_types[key]
-
                 if hasattr(type_value, "type") and getattr(type_value, "type", None) is not None:
                     name = type_value.type.name
                     in_package = package_name in type_value.type.fullname
@@ -195,7 +193,6 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
             else:
                 in_package = package_name in key.fullname
                 if in_package:
-                    type_value = result_types[key]
                     name = key.name
                 else:
                     continue

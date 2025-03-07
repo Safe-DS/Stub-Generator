@@ -1,6 +1,7 @@
 from copy import deepcopy
 
 import pytest
+
 from safeds_stubgen.api_analyzer import (
     AbstractType,
     Attribute,

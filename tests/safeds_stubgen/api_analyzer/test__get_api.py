@@ -4,6 +4,7 @@ from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
+
 from safeds_stubgen.api_analyzer import get_api
 from safeds_stubgen.docstring_parsing import DocstringStyle
 
