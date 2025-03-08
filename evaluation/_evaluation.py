@@ -781,12 +781,14 @@ class PurityEvaluation(Evaluation):
 				id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
 				flat_purity_results[id_str] = function_result
 
+		sorted_flat_purity_results: dict[str, PurityResult] = dict(sorted(flat_purity_results.items(), key=lambda item: item[0]))
+
 		if len(ground_truth) > 0:
-			for id, result in flat_purity_results.items():
+			for id, result in sorted_flat_purity_results.items():
 				if ground_truth.get(id, None) is None and not result.is_class:
 					pass
 			for function_id, correct_purity in ground_truth.items():
-				purity_result = flat_purity_results.get(function_id, None)
+				purity_result = sorted_flat_purity_results.get(function_id, None)
 				if purity_result is None:
 					continue
 				if isinstance(purity_result, Pure) and correct_purity == "Pure":
@@ -803,7 +805,7 @@ class PurityEvaluation(Evaluation):
 			balanced_accuracy = ((true_positives / (true_positives + false_negatives)) + (true_negatives / (true_negatives + false_positives))) / 2
 
 		with open(f"evaluation/{self._package_name}/results/purity_results_{'old' if self.old else 'type_aware'}_{self.date}.txt", newline='', mode="a") as file:
-			for id, purity_result in flat_purity_results.items():
+			for id, purity_result in sorted_flat_purity_results.items():
 				if isinstance(purity_result, Pure) and not purity_result.is_class:
 					if str(id) in ground_truth:
 						correct_result = ground_truth.get(str(id), None)
