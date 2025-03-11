@@ -16,8 +16,6 @@ _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 
-_astroid_evaluation_dir = Path(_lib_dir / "tests" / "data" / "astroid")
-_safeds_v19_evaluation_dir = Path(_lib_dir / "tests" / "data" / "safeds")
 _safeds_v0_19_0_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "safeds")
 _matplot_v3_7_2_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "matplotlib")
 _pandas_v2_0_3_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "pandas")

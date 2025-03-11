@@ -1,0 +1,19 @@
+Type-Aware?,Library,Module,Func Name,Line,Column,Improvement,#New,#Old,Reason for no improvement,Path,Left-most receiver,Possible reason for no found functions,Date
+Yes,pandas,pandas.conftest,endswith,133,7,No,0,1,Found no referenced functions,item.name.endswith.(),"NamedType(name='Item', qname='_pytest.nodes.Item')",MemberExpr:133(  NameExpr(item [l])  name) no class with qname: _pytest.nodes.Item no fallback | ,2025-03-09 21:56:03.315248
+Yes,pandas,pandas.conftest,ignore_doctest_warning,165,16,No,1,1,Found same amount of functions,ignore_doctest_warning.(),pandas.conftest.ignore_doctest_warning,,2025-03-09 21:56:03.417995
+Yes,pandas,pandas.conftest,skip_if_no,345,35,No,0,1,No call reference,,None,,2025-03-09 21:56:03.924905
+Yes,pandas,pandas.conftest,skip_if_no,362,35,No,0,1,No call reference,,None,,2025-03-09 21:56:03.932251
+Yes,pandas,pandas.io.common,writable,1070,19,No,0,1,Found no referenced functions,self.buffer.writable.(),"NamedType(name='_IOWrapper', qname='pandas.io.common._IOWrapper')",MemberExpr:1070(  NameExpr(self [l])  buffer) ,2025-03-09 21:56:03.933251
+Yes,pandas,pandas.conftest,type,400,54,No,0,0,No call reference,,None,,2025-03-09 21:56:03.935264
+Yes,pandas,pandas.conftest,type,423,56,No,0,0,No call reference,,None,,2025-03-09 21:56:03.943582
+Yes,pandas,pandas.conftest,__init__,493,12,No,0,48,Api analyzer bug,,None,,2025-03-09 21:56:03.951619
+Yes,pandas,pandas.conftest,pop,1865,27,No,0,0,Api analyzer bug,,None,,2025-03-09 21:56:03.952600
+Yes,pandas,pandas.conftest,__init__,1866,12,No,0,49,Api analyzer bug,,None,,2025-03-09 21:56:03.953771
+Yes,pandas,pandas.core.apply,__init__,1001,8,Yes,2,48,,super.().__init__.(),pandas.core.apply.SeriesApply,,2025-03-09 21:56:03.958884
+Yes,pandas,pandas.core.apply,copy,1100,17,No,0,15,Found no referenced functions,kwargs.copy.(),kwargs,MemberExpr:1100(  NameExpr(kwargs [l])  copy) Type is Any No missing import name ,2025-03-09 21:56:03.959901
+Yes,pandas,pandas.core.apply,_get_axis_number,1101,20,No,0,1,Found no referenced functions,obj.obj._get_axis_number.(),"NamedSequenceType(name='GroupBy', qname='pandas.core.groupby.groupby.GroupBy', types=[TypeVarType(name='NDFrameT', upper_bound=NamedType(name='NDFrame', qname='pandas.core.generic.NDFrame'))])",MemberExpr:1101(  NameExpr(obj [l])  obj) ,2025-03-09 21:56:03.959901
+Yes,pandas,pandas.core.apply,get,1101,45,No,0,1,Found no referenced functions,kwargs.get.(),kwargs,MemberExpr:1101(  NameExpr(kwargs [l])  get) Type is Any No missing import name ,2025-03-09 21:56:03.959901
+Yes,pandas,pandas.core.apply,__init__,1102,8,Yes,4,48,,super.().__init__.(),pandas.core.apply.GroupByApply,,2025-03-09 21:56:03.961895
+Yes,pandas,pandas.core.apply,__init__,1129,8,Yes,4,48,,super.().__init__.(),pandas.core.apply.ResamplerWindowApply,,2025-03-09 21:56:03.965005
+Yes,pandas,pandas.core.frame,construct_1d_arraylike_from_scalar,830,20,No,1,1,Found same amount of functions,construct_1d_arraylike_from_scalar.(),pandas.core.dtypes.cast.construct_1d_arraylike_from_scalar,,2025-03-09 21:56:04.116827
+Yes,pandas,pandas.core.frame,len,830,61,Yes,0,2,,len.(),builtins.len,,2025-03-09 21:56:04.116827

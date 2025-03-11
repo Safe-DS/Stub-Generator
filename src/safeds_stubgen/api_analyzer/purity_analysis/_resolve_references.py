@@ -338,6 +338,7 @@ class ReferenceResolver:
                 if 0 < len(result):
                     # type aware purity analysis provided an improvement
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
+                    self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, result, [])
                 else:
                     # type aware purity analysis found same amount of functions
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
