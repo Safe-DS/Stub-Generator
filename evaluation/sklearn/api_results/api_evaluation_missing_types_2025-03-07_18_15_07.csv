@@ -1,0 +1,7 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,sklearn,sklearn,139,4,NameExpr,,,Any,2025-03-07 18:16:33.891092
+No,sklearn,sklearn,139,19,CallExpr,,,,2025-03-07 18:16:33.893107
+No,sklearn,sklearn,139,19,MemberExpr,,,,2025-03-07 18:16:33.894088
+No,sklearn,sklearn,141,8,NameExpr,,,Any,2025-03-07 18:16:33.895222
+No,sklearn,sklearn,141,23,CallExpr,,,,2025-03-07 18:16:33.895251
+No,sklearn,sklearn,141,23,MemberExpr,,,,2025-03-07 18:16:33.896250

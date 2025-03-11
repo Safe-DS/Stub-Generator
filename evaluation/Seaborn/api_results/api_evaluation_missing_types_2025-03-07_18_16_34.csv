@@ -1,0 +1,6 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,seaborn,seaborn.algorithms,37,11,CallExpr,,,,2025-03-07 18:18:01.083373
+No,seaborn,seaborn.algorithms,37,11,MemberExpr,,,,2025-03-07 18:18:01.085889
+No,seaborn,seaborn.algorithms,39,4,NameExpr,,,Any,2025-03-07 18:18:01.086928
+No,seaborn,seaborn.algorithms,42,4,NameExpr,,,Any,2025-03-07 18:18:01.087927
+No,seaborn,seaborn.algorithms,43,4,NameExpr,,,Any,2025-03-07 18:18:01.088943

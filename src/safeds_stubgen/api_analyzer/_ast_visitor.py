@@ -380,8 +380,6 @@ class MyPyAstVisitor:
             function_body = self._extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
-            with open("evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                file.write(f"Recursion Error: {str(err)} \n")
             if node.body is not None:
                 function_body = Body(
                     line=node.body.line,

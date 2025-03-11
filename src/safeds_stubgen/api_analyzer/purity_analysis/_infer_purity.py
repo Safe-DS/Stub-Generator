@@ -111,12 +111,8 @@ class PurityAnalyzer:
         if code is None and not package_data:
             raise ValueError("The code and package data are None.")
         elif package_data:
-            with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                file.write(f"start resolving references and building call_graph of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
             references = resolve_references(code, api_data, module_name, path, package_data, old_purity_analysis=old_purity_analysis, evaluation=evaluation)  # type: ignore[arg-type]  # code is not None, so the type is correct.
         else:
-            with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                file.write(f"start resolving references and building call_graph of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
             references = resolve_references(code, api_data, module_name, path, old_purity_analysis=old_purity_analysis, evaluation=evaluation)  # type: ignore[arg-type]  # code is not None, so the type is correct.
         if references.call_graph_forest is None:
             raise ValueError("The call graph forest is empty.")
@@ -133,8 +129,6 @@ class PurityAnalyzer:
         self.api_data = api_data
         self.old_purity_analysis = old_purity_analysis
         self.evaluation = evaluation
-        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-            file.write(f"Finished resolving references and building call_graph of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
         self._analyze_purity()
 
     @staticmethod
@@ -641,8 +635,6 @@ def infer_purity(
     purity_analyzer = PurityAnalyzer(api_data, code, module_name, path, results, package_data, old_purity_analysis, evaluation)
     if evaluation is not None:
         evaluation.evaluate_call_graph_forest(purity_analyzer.call_graph_forest)
-        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-            file.write(f"Call Graph evaluation finished {datetime.now()} \n")
     return purity_analyzer.current_purity_results
 
 

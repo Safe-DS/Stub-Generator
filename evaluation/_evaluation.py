@@ -27,14 +27,10 @@ import mypy.nodes as mp_nodes
 class Evaluation(ABC):
 	def start_timing(self):
 		self._start_time = time()
-		with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-			file.write(f"Evaluation timing started at {str(datetime.now())} \n")
 	
 	def end_timing(self):
 		self._end_time = time()
 		self._runtime = self._end_time - self._start_time
-		with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-			file.write(f"Evaluation timing ended at {str(datetime.now())} \n")
 
 	@abstractmethod
 	def get_results(self):
@@ -70,10 +66,7 @@ class PurityEvaluation(Evaluation):
 		self.metrics_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
 		self.compare_filename = f"evaluation/purity_evaluation_call_graph_comparison_{self.date}.txt"
 		self.call_refs_filename = f"evaluation/purity_evaluation_call_refs_{self.date}.csv"
-		self.evaluation_filename = "evaluation/evaluation_tracking.txt"
 		self.runtime_results_filename = "evaluation/purity_runtime_results.csv"
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Purity Evaluation was initialized at {self.date} for package {self._package_name} \n")
 			
 		if self._package_name == "safeds":
 			self.call_graphs_filename = f"evaluation/safeds/call_graph_results/purity_evaluation_call_graphs_{self.date}.txt"
@@ -307,10 +300,8 @@ class PurityEvaluation(Evaluation):
 		return call_graph_forest
 
 	def evaluate_call_graph_forest(self, call_graph_forest: CallGraphForest):
-		if self.is_runtime or self.old:
+		if self.is_runtime:
 			return
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Call Graph Evaluation started at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
 		metric_fieldnames = [
 			"Type-Aware?",
 			"Library",
@@ -448,8 +439,6 @@ class PurityEvaluation(Evaluation):
 
 		# if compare file exists, compare old call graph metrics with new call graph metrics
 		compare_csv_data: dict[str, dict[str, str]] = {}
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Call Graph Evaluation finished at {str(datetime.now())} for package {self._package_name}, with an amount of {len(call_graph_forest.graphs)} \n")
 
 		file_exists = os.path.isfile(self.old_call_graph_metrics_filename)
 		if file_exists:
@@ -701,8 +690,6 @@ class PurityEvaluation(Evaluation):
 	def get_results(self, purity_results: APIPurity):
 		if self.is_runtime:
 			return
-		with open(self.evaluation_filename, newline='', mode="a") as file:
-			file.write(f"Started writing results at {str(datetime.now())} for package {self._package_name} \n")
 		ground_truth: dict[str, str] = {}
 		filename = "evaluation/purity_evaluation.csv"
 		if self._package_name == "safeds":
@@ -794,12 +781,14 @@ class PurityEvaluation(Evaluation):
 				id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
 				flat_purity_results[id_str] = function_result
 
+		sorted_flat_purity_results: dict[str, PurityResult] = dict(sorted(flat_purity_results.items(), key=lambda item: item[0]))
+
 		if len(ground_truth) > 0:
-			for id, result in flat_purity_results.items():
+			for id, result in sorted_flat_purity_results.items():
 				if ground_truth.get(id, None) is None and not result.is_class:
 					pass
 			for function_id, correct_purity in ground_truth.items():
-				purity_result = flat_purity_results.get(function_id, None)
+				purity_result = sorted_flat_purity_results.get(function_id, None)
 				if purity_result is None:
 					continue
 				if isinstance(purity_result, Pure) and correct_purity == "Pure":
@@ -816,7 +805,7 @@ class PurityEvaluation(Evaluation):
 			balanced_accuracy = ((true_positives / (true_positives + false_negatives)) + (true_negatives / (true_negatives + false_positives))) / 2
 
 		with open(f"evaluation/{self._package_name}/results/purity_results_{'old' if self.old else 'type_aware'}_{self.date}.txt", newline='', mode="a") as file:
-			for id, purity_result in flat_purity_results.items():
+			for id, purity_result in sorted_flat_purity_results.items():
 				if isinstance(purity_result, Pure) and not purity_result.is_class:
 					if str(id) in ground_truth:
 						correct_result = ground_truth.get(str(id), None)

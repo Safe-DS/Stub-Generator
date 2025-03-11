@@ -1,0 +1,413 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,matplotlib,matplotlib,1436,35,OpExpr,None,,OpExpr,2025-03-08 12:56:37.786437
+No,matplotlib,matplotlib.cbook,1244,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:38.430934
+No,matplotlib,matplotlib.projections,110,25,OpExpr,None,,OpExpr,2025-03-08 12:56:38.870053
+No,matplotlib,matplotlib.testing,74,56,OpExpr,None,,OpExpr,2025-03-08 12:56:38.897515
+No,matplotlib,matplotlib.animation,175,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:38.952720
+No,matplotlib,matplotlib.animation,754,27,OpExpr,None,,OpExpr,2025-03-08 12:56:39.122285
+No,matplotlib,matplotlib.animation,1046,29,IndexExpr,None,,MovieWriterRegistry,2025-03-08 12:56:39.191031
+No,matplotlib,matplotlib.animation,1410,29,ConditionalExpr,int,,ConditionalExpr,2025-03-08 12:56:39.317271
+No,matplotlib,matplotlib.animation,1678,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:39.372395
+No,matplotlib,matplotlib.artist,716,35,OpExpr,None,,OpExpr,2025-03-08 12:56:39.525832
+No,matplotlib,matplotlib.artist,716,52,OpExpr,None,,OpExpr,2025-03-08 12:56:39.525832
+No,matplotlib,matplotlib.artist,1612,18,OpExpr,int,,OpExpr,2025-03-08 12:56:39.766038
+No,matplotlib,matplotlib.artist,1636,18,OpExpr,int,,OpExpr,2025-03-08 12:56:39.773108
+No,matplotlib,matplotlib.artist,1751,24,OpExpr,None,,OpExpr,2025-03-08 12:56:39.840428
+No,matplotlib,matplotlib.axis,92,17,OpExpr,bool,,OpExpr,2025-03-08 12:56:39.874064
+No,matplotlib,matplotlib.axis,89,15,OpExpr,bool,,OpExpr,2025-03-08 12:56:39.876061
+No,matplotlib,matplotlib.axis,105,22,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:56:39.880128
+No,matplotlib,matplotlib.axis,1606,15,SliceExpr,None,,SliceExpr,2025-03-08 12:56:40.480556
+No,matplotlib,matplotlib.axis,1619,15,SliceExpr,None,,SliceExpr,2025-03-08 12:56:40.485659
+No,matplotlib,matplotlib.backend_bases,974,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:41.208068
+No,matplotlib,matplotlib.backend_bases,1081,25,OpExpr,None,,OpExpr,2025-03-08 12:56:41.223388
+No,matplotlib,matplotlib.backend_bases,1081,41,OpExpr,None,,OpExpr,2025-03-08 12:56:41.224511
+No,matplotlib,matplotlib.backend_bases,1123,25,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:41.226512
+No,matplotlib,matplotlib.backend_bases,1125,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:41.226512
+No,matplotlib,matplotlib.backend_bases,1348,35,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:41.273359
+No,matplotlib,matplotlib.backend_bases,2304,31,OpExpr,None,,OpExpr,2025-03-08 12:56:41.504655
+No,matplotlib,matplotlib.backend_tools,549,8,CallExpr,None,,"ToolViewsPositions, Any",2025-03-08 12:56:42.213500
+No,matplotlib,matplotlib.backend_tools,549,8,IndexExpr,None,,ToolViewsPositions,2025-03-08 12:56:42.214601
+No,matplotlib,matplotlib.backend_tools,550,8,CallExpr,None,,"ToolViewsPositions, Any",2025-03-08 12:56:42.215602
+No,matplotlib,matplotlib.backend_tools,550,8,IndexExpr,None,,ToolViewsPositions,2025-03-08 12:56:42.215602
+No,matplotlib,matplotlib.backend_tools,579,24,IndexExpr,None,,ToolViewsPositions,2025-03-08 12:56:42.223685
+No,matplotlib,matplotlib.bezier,168,26,OpExpr,float,,OpExpr,2025-03-08 12:56:42.486808
+No,matplotlib,matplotlib.bezier,568,52,OpExpr,float,,OpExpr,2025-03-08 12:56:42.682374
+No,matplotlib,matplotlib.bezier,571,52,OpExpr,float,,OpExpr,2025-03-08 12:56:42.684458
+No,matplotlib,matplotlib.bezier,584,60,OpExpr,float,,OpExpr,2025-03-08 12:56:42.699130
+No,matplotlib,matplotlib.cm,149,8,IndexExpr,None,,ColormapRegistry,2025-03-08 12:56:42.813437
+No,matplotlib,matplotlib.cm,291,15,IndexExpr,None,,ColormapRegistry,2025-03-08 12:56:42.839137
+No,matplotlib,matplotlib.cm,293,15,CallExpr,None,,"ColormapRegistry, Any",2025-03-08 12:56:42.840138
+No,matplotlib,matplotlib.cm,293,15,IndexExpr,None,,ColormapRegistry,2025-03-08 12:56:42.841136
+No,matplotlib,matplotlib.cm,464,41,OpExpr,None,,OpExpr,2025-03-08 12:56:42.868545
+No,matplotlib,matplotlib.cm,474,23,OpExpr,bool,,OpExpr,2025-03-08 12:56:42.881817
+No,matplotlib,matplotlib.collections,1114,68,OpExpr,str,,OpExpr,2025-03-08 12:56:43.284908
+No,matplotlib,matplotlib.colorbar,344,26,OpExpr,None,,OpExpr,2025-03-08 12:56:43.992806
+No,matplotlib,matplotlib.colorbar,420,11,OpExpr,None,,OpExpr,2025-03-08 12:56:44.016796
+No,matplotlib,matplotlib.colorbar,1446,57,OpExpr,float,,OpExpr,2025-03-08 12:56:44.529569
+No,matplotlib,matplotlib.colorbar,1452,57,OpExpr,float,,OpExpr,2025-03-08 12:56:44.535644
+No,matplotlib,matplotlib.colorbar,1456,17,OpExpr,int,,OpExpr,2025-03-08 12:56:44.536715
+No,matplotlib,matplotlib.colorbar,1537,31,OpExpr,float,,OpExpr,2025-03-08 12:56:44.568170
+No,matplotlib,matplotlib.colorbar,1537,61,OpExpr,float,,OpExpr,2025-03-08 12:56:44.570163
+No,matplotlib,matplotlib.colorbar,1556,27,OpExpr,float,,OpExpr,2025-03-08 12:56:44.582509
+No,matplotlib,matplotlib.colorbar,1556,61,OpExpr,float,,OpExpr,2025-03-08 12:56:44.583546
+No,matplotlib,matplotlib.colorbar,1565,21,OpExpr,int,,OpExpr,2025-03-08 12:56:44.590728
+No,matplotlib,matplotlib.colorbar,1573,21,OpExpr,int,,OpExpr,2025-03-08 12:56:44.595855
+No,matplotlib,matplotlib.colors,340,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:44.687460
+No,matplotlib,matplotlib.colors,346,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:44.695708
+No,matplotlib,matplotlib.colors,373,28,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:44.718221
+No,matplotlib,matplotlib.colors,446,28,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:44.752814
+No,matplotlib,matplotlib.colors,609,15,OpExpr,float,,OpExpr,2025-03-08 12:56:44.807132
+No,matplotlib,matplotlib.colors,634,25,OpExpr,float,,OpExpr,2025-03-08 12:56:44.824707
+No,matplotlib,matplotlib.colors,1147,30,OpExpr,None,,OpExpr,2025-03-08 12:56:45.027623
+No,matplotlib,matplotlib.colors,1160,34,OpExpr,None,,OpExpr,2025-03-08 12:56:45.032720
+No,matplotlib,matplotlib.colors,1970,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:45.325939
+No,matplotlib,matplotlib.colors,2569,43,OpExpr,None,,OpExpr,2025-03-08 12:56:45.587943
+No,matplotlib,matplotlib.colors,2571,43,OpExpr,None,,OpExpr,2025-03-08 12:56:45.592020
+No,matplotlib,matplotlib.colors,2573,43,OpExpr,None,,OpExpr,2025-03-08 12:56:45.596138
+No,matplotlib,matplotlib.colors,2575,43,OpExpr,None,,OpExpr,2025-03-08 12:56:45.599134
+No,matplotlib,matplotlib.dates,647,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:46.528987
+No,matplotlib,matplotlib.dates,785,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:46.546459
+No,matplotlib,matplotlib.dates,963,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:46.607524
+No,matplotlib,matplotlib.dates,1801,34,OpExpr,int,,OpExpr,2025-03-08 12:56:46.896715
+No,matplotlib,matplotlib.dates,1810,48,OpExpr,int,,OpExpr,2025-03-08 12:56:46.902170
+No,matplotlib,matplotlib.dates,1813,49,OpExpr,int,,OpExpr,2025-03-08 12:56:46.904264
+No,matplotlib,matplotlib.dates,1816,51,OpExpr,int,,OpExpr,2025-03-08 12:56:46.907263
+No,matplotlib,matplotlib.dviread,231,32,OpExpr,None,,OpExpr,2025-03-08 12:56:46.996100
+No,matplotlib,matplotlib.dviread,400,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:47.062371
+No,matplotlib,matplotlib.figure,161,13,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:47.440127
+No,matplotlib,matplotlib.figure,162,20,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:47.441127
+No,matplotlib,matplotlib.figure,164,13,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:47.442124
+No,matplotlib,matplotlib.figure,165,20,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:47.443258
+No,matplotlib,matplotlib.figure,904,27,OpExpr,None,,OpExpr,2025-03-08 12:56:47.600037
+No,matplotlib,matplotlib.figure,1190,15,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:47.662309
+No,matplotlib,matplotlib.figure,1295,16,OpExpr,bool,,OpExpr,2025-03-08 12:56:47.677595
+No,matplotlib,matplotlib.figure,1706,15,OpExpr,bool,,OpExpr,2025-03-08 12:56:47.767809
+No,matplotlib,matplotlib.figure,1949,21,OpExpr,None,,OpExpr,2025-03-08 12:56:47.836121
+No,matplotlib,matplotlib.figure,1950,27,OpExpr,None,,OpExpr,2025-03-08 12:56:47.837185
+No,matplotlib,matplotlib.figure,1951,25,OpExpr,None,,OpExpr,2025-03-08 12:56:47.837185
+No,matplotlib,matplotlib.figure,2917,11,OpExpr,bool,,OpExpr,2025-03-08 12:56:48.118493
+No,matplotlib,matplotlib.font_manager,1345,26,IndexExpr,str,,FontManager,2025-03-08 12:56:48.642756
+No,matplotlib,matplotlib.gridspec,98,32,OpExpr,int,,OpExpr,2025-03-08 12:56:48.744596
+No,matplotlib,matplotlib.gridspec,98,51,OpExpr,int,,OpExpr,2025-03-08 12:56:48.745595
+No,matplotlib,matplotlib.gridspec,280,21,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:56:48.826570
+No,matplotlib,matplotlib.gridspec,282,21,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:56:48.826570
+No,matplotlib,matplotlib.gridspec,512,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:48.900786
+No,matplotlib,matplotlib.gridspec,515,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:48.902864
+No,matplotlib,matplotlib.image,110,19,OpExpr,float,,OpExpr,2025-03-08 12:56:49.164562
+No,matplotlib,matplotlib.image,110,44,OpExpr,float,,OpExpr,2025-03-08 12:56:49.164562
+No,matplotlib,matplotlib.image,126,21,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:49.170634
+No,matplotlib,matplotlib.image,371,25,OpExpr,float,,OpExpr,2025-03-08 12:56:49.298990
+No,matplotlib,matplotlib.image,372,26,OpExpr,float,,OpExpr,2025-03-08 12:56:49.299982
+No,matplotlib,matplotlib.image,401,12,OpExpr,bool,,OpExpr,2025-03-08 12:56:49.325335
+No,matplotlib,matplotlib.image,1088,20,OpExpr,float,,OpExpr,2025-03-08 12:56:49.654510
+No,matplotlib,matplotlib.image,1089,21,OpExpr,float,,OpExpr,2025-03-08 12:56:49.656650
+No,matplotlib,matplotlib.image,1269,22,OpExpr,float,,OpExpr,2025-03-08 12:56:49.788097
+No,matplotlib,matplotlib.image,1270,23,OpExpr,float,,OpExpr,2025-03-08 12:56:49.790219
+No,matplotlib,matplotlib.image,1672,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:49.968639
+No,matplotlib,matplotlib.image,1802,13,OpExpr,float,,OpExpr,2025-03-08 12:56:50.038857
+No,matplotlib,matplotlib.image,1803,12,OpExpr,float,,OpExpr,2025-03-08 12:56:50.040981
+No,matplotlib,matplotlib.legend,474,22,ConditionalExpr,int,,ConditionalExpr,2025-03-08 12:56:50.170273
+No,matplotlib,matplotlib.legend,477,29,OpExpr,None,,OpExpr,2025-03-08 12:56:50.171272
+No,matplotlib,matplotlib.legend,565,19,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:50.203839
+No,matplotlib,matplotlib.legend,570,22,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:50.205916
+No,matplotlib,matplotlib.legend,574,21,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:50.206915
+No,matplotlib,matplotlib.legend,881,42,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:56:50.323060
+No,matplotlib,matplotlib.legend,885,24,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:56:50.326159
+No,matplotlib,matplotlib.legend,1224,22,OpExpr,None,,OpExpr,2025-03-08 12:56:50.446072
+No,matplotlib,matplotlib.legend,1308,7,OpExpr,None,,OpExpr,2025-03-08 12:56:50.486843
+No,matplotlib,matplotlib.markers,547,43,OpExpr,float,,OpExpr,2025-03-08 12:56:51.569584
+No,matplotlib,matplotlib.mathtext,225,15,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:51.851336
+No,matplotlib,matplotlib.mlab,116,32,OpExpr,None,,OpExpr,2025-03-08 12:56:51.890982
+No,matplotlib,matplotlib.mlab,118,46,OpExpr,None,,OpExpr,2025-03-08 12:56:51.894607
+No,matplotlib,matplotlib.mlab,155,25,OpExpr,None,,OpExpr,2025-03-08 12:56:51.901810
+No,matplotlib,matplotlib.mlab,154,28,OpExpr,None,,OpExpr,2025-03-08 12:56:51.901810
+No,matplotlib,matplotlib.mlab,259,28,OpExpr,int,,OpExpr,2025-03-08 12:56:51.933079
+No,matplotlib,matplotlib.mlab,281,11,OpExpr,int,,OpExpr,2025-03-08 12:56:51.945346
+No,matplotlib,matplotlib.mlab,283,21,OpExpr,int,,OpExpr,2025-03-08 12:56:51.946345
+No,matplotlib,matplotlib.mlab,286,18,OpExpr,int,,OpExpr,2025-03-08 12:56:51.952425
+No,matplotlib,matplotlib.mlab,365,26,OpExpr,None,,OpExpr,2025-03-08 12:56:51.988109
+No,matplotlib,matplotlib.mlab,367,25,OpExpr,None,,OpExpr,2025-03-08 12:56:51.988625
+No,matplotlib,matplotlib.mlab,364,11,OpExpr,None,,OpExpr,2025-03-08 12:56:51.989311
+No,matplotlib,matplotlib.mlab,371,24,OpExpr,None,,OpExpr,2025-03-08 12:56:51.990969
+No,matplotlib,matplotlib.mlab,370,11,OpExpr,None,,OpExpr,2025-03-08 12:56:51.991998
+No,matplotlib,matplotlib.mlab,384,13,OpExpr,None,,OpExpr,2025-03-08 12:56:51.998594
+No,matplotlib,matplotlib.mlab,386,35,OpExpr,None,,OpExpr,2025-03-08 12:56:52.004682
+No,matplotlib,matplotlib.mlab,392,18,OpExpr,None,,OpExpr,2025-03-08 12:56:52.009677
+No,matplotlib,matplotlib.mlab,398,17,OpExpr,None,,OpExpr,2025-03-08 12:56:52.017946
+No,matplotlib,matplotlib.mlab,412,15,OpExpr,None,,OpExpr,2025-03-08 12:56:52.024050
+No,matplotlib,matplotlib.mlab,427,23,OpExpr,None,,OpExpr,2025-03-08 12:56:52.027047
+No,matplotlib,matplotlib.mlab,430,22,OpExpr,None,,OpExpr,2025-03-08 12:56:52.027047
+No,matplotlib,matplotlib.mlab,432,8,OpExpr,None,,OpExpr,2025-03-08 12:56:52.028191
+No,matplotlib,matplotlib.mlab,432,18,OpExpr,None,,OpExpr,2025-03-08 12:56:52.029191
+No,matplotlib,matplotlib.mlab,432,35,OpExpr,None,,OpExpr,2025-03-08 12:56:52.030190
+No,matplotlib,matplotlib.mlab,432,47,OpExpr,None,,OpExpr,2025-03-08 12:56:52.031188
+No,matplotlib,matplotlib.mlab,438,13,OpExpr,None,,OpExpr,2025-03-08 12:56:52.036263
+No,matplotlib,matplotlib.mlab,829,16,OpExpr,int,,OpExpr,2025-03-08 12:56:52.083054
+No,matplotlib,matplotlib.offsetbox,1316,26,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:52.562579
+No,matplotlib,matplotlib.offsetbox,1318,21,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:52.563662
+No,matplotlib,matplotlib.offsetbox,1319,25,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:52.563662
+No,matplotlib,matplotlib.patches,1873,29,OpExpr,int,,OpExpr,2025-03-08 12:56:53.330851
+No,matplotlib,matplotlib.patches,1873,41,OpExpr,int,,OpExpr,2025-03-08 12:56:53.331866
+No,matplotlib,matplotlib.patches,2263,15,OpExpr,None,,OpExpr,2025-03-08 12:56:53.531558
+No,matplotlib,matplotlib.path,543,11,OpExpr,None,,OpExpr,2025-03-08 12:56:54.644448
+No,matplotlib,matplotlib.path,958,15,OpExpr,None,,OpExpr,2025-03-08 12:56:54.797032
+No,matplotlib,matplotlib.path,962,40,OpExpr,None,,OpExpr,2025-03-08 12:56:54.808815
+No,matplotlib,matplotlib.quiver,604,18,OpExpr,int,,OpExpr,2025-03-08 12:56:56.021762
+No,matplotlib,matplotlib.quiver,968,35,OpExpr,int,,OpExpr,2025-03-08 12:56:56.174165
+No,matplotlib,matplotlib.quiver,969,-1,OpExpr,int,,OpExpr,2025-03-08 12:56:56.176163
+No,matplotlib,matplotlib.quiver,970,-1,OpExpr,int,,OpExpr,2025-03-08 12:56:56.177395
+No,matplotlib,matplotlib.rcsetup,122,16,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:56.344099
+No,matplotlib,matplotlib.rcsetup,181,12,OpExpr,bool,,OpExpr,2025-03-08 12:56:56.368565
+No,matplotlib,matplotlib.sankey,159,41,OpExpr,int,,OpExpr,2025-03-08 12:56:56.604281
+No,matplotlib,matplotlib.sankey,468,23,OpExpr,None,,OpExpr,2025-03-08 12:56:56.748462
+No,matplotlib,matplotlib.sankey,485,40,IndexExpr,None,,Sankey,2025-03-08 12:56:56.756622
+No,matplotlib,matplotlib.sankey,481,33,IndexExpr,None,,Sankey,2025-03-08 12:56:56.759620
+No,matplotlib,matplotlib.sankey,495,26,OpExpr,None,,OpExpr,2025-03-08 12:56:56.766797
+No,matplotlib,matplotlib.sankey,595,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.827029
+No,matplotlib,matplotlib.sankey,597,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.828130
+No,matplotlib,matplotlib.sankey,599,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.829130
+No,matplotlib,matplotlib.sankey,613,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.837193
+No,matplotlib,matplotlib.sankey,615,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.839255
+No,matplotlib,matplotlib.sankey,617,45,OpExpr,float,,OpExpr,2025-03-08 12:56:56.841253
+No,matplotlib,matplotlib.sankey,621,44,OpExpr,float,,OpExpr,2025-03-08 12:56:56.844357
+No,matplotlib,matplotlib.sankey,701,47,OpExpr,int,,OpExpr,2025-03-08 12:56:56.929813
+No,matplotlib,matplotlib.sankey,710,43,OpExpr,int,,OpExpr,2025-03-08 12:56:56.938875
+No,matplotlib,matplotlib.streamplot,109,58,OpExpr,int,,OpExpr,2025-03-08 12:56:57.521911
+No,matplotlib,matplotlib.table,305,18,IndexExpr,None,,Table,2025-03-08 12:56:57.983455
+No,matplotlib,matplotlib.texmanager,256,29,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:58.304179
+No,matplotlib,matplotlib.texmanager,369,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:58.362965
+No,matplotlib,matplotlib.text,203,12,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:58.421989
+No,matplotlib,matplotlib.text,206,28,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:56:58.425098
+No,matplotlib,matplotlib.ticker,297,19,IndexExpr,None,,FixedFormatter,2025-03-08 12:56:59.359943
+No,matplotlib,matplotlib.ticker,1503,20,OpExpr,int,,OpExpr,2025-03-08 12:56:59.822368
+No,matplotlib,matplotlib.ticker,1906,30,OpExpr,int,,OpExpr,2025-03-08 12:56:59.971652
+No,matplotlib,matplotlib.ticker,2676,24,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:00.331705
+No,matplotlib,matplotlib.transforms,124,31,OpExpr,None,,OpExpr,2025-03-08 12:57:00.539579
+No,matplotlib,matplotlib.transforms,549,12,OpExpr,float,,OpExpr,2025-03-08 12:57:00.686761
+No,matplotlib,matplotlib.transforms,2875,24,OpExpr,float,,OpExpr,2025-03-08 12:57:01.434418
+No,matplotlib,matplotlib.transforms,2871,22,OpExpr,float,,OpExpr,2025-03-08 12:57:01.436505
+No,matplotlib,matplotlib.transforms,2883,7,OpExpr,bool,,OpExpr,2025-03-08 12:57:01.440608
+No,matplotlib,matplotlib.transforms,2935,11,OpExpr,float,,OpExpr,2025-03-08 12:57:01.449696
+No,matplotlib,matplotlib.transforms,2936,11,OpExpr,float,,OpExpr,2025-03-08 12:57:01.450785
+No,matplotlib,matplotlib.transforms,2936,30,OpExpr,float,,OpExpr,2025-03-08 12:57:01.451785
+No,matplotlib,matplotlib.widgets,448,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:01.631017
+No,matplotlib,matplotlib.widgets,719,23,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:01.721008
+No,matplotlib,matplotlib.widgets,1714,13,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:02.166084
+No,matplotlib,matplotlib.widgets,2189,41,OpExpr,None,,OpExpr,2025-03-08 12:57:02.419740
+No,matplotlib,matplotlib.widgets,2999,15,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:02.705794
+No,matplotlib,matplotlib.widgets,3816,15,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:03.086556
+No,matplotlib,matplotlib._constrained_layout,430,29,OpExpr,int,,OpExpr,2025-03-08 12:57:03.830233
+No,matplotlib,matplotlib._constrained_layout,431,30,OpExpr,int,,OpExpr,2025-03-08 12:57:03.832232
+No,matplotlib,matplotlib._constrained_layout,464,66,OpExpr,int,,OpExpr,2025-03-08 12:57:03.867406
+No,matplotlib,matplotlib._constrained_layout,472,59,OpExpr,int,,OpExpr,2025-03-08 12:57:03.878711
+No,matplotlib,matplotlib._constrained_layout,479,66,OpExpr,int,,OpExpr,2025-03-08 12:57:03.890969
+No,matplotlib,matplotlib._constrained_layout,718,17,OpExpr,None,,OpExpr,2025-03-08 12:57:04.093840
+No,matplotlib,matplotlib._constrained_layout,725,18,OpExpr,None,,OpExpr,2025-03-08 12:57:04.103706
+No,matplotlib,matplotlib._constrained_layout,732,17,OpExpr,None,,OpExpr,2025-03-08 12:57:04.113883
+No,matplotlib,matplotlib._constrained_layout,739,18,OpExpr,None,,OpExpr,2025-03-08 12:57:04.127294
+No,matplotlib,matplotlib._layoutgrid,287,18,IndexExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.513468
+No,matplotlib,matplotlib._layoutgrid,363,12,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.542080
+No,matplotlib,matplotlib._layoutgrid,363,12,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.543080
+No,matplotlib,matplotlib._layoutgrid,364,12,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.543080
+No,matplotlib,matplotlib._layoutgrid,364,12,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.544079
+No,matplotlib,matplotlib._layoutgrid,365,12,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.545080
+No,matplotlib,matplotlib._layoutgrid,365,12,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.545080
+No,matplotlib,matplotlib._layoutgrid,366,12,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.546078
+No,matplotlib,matplotlib._layoutgrid,366,12,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.547155
+No,matplotlib,matplotlib._layoutgrid,378,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.552255
+No,matplotlib,matplotlib._layoutgrid,378,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.553256
+No,matplotlib,matplotlib._layoutgrid,379,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.554255
+No,matplotlib,matplotlib._layoutgrid,379,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.555253
+No,matplotlib,matplotlib._layoutgrid,380,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.555253
+No,matplotlib,matplotlib._layoutgrid,380,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.557251
+No,matplotlib,matplotlib._layoutgrid,381,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.558251
+No,matplotlib,matplotlib._layoutgrid,381,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.559248
+No,matplotlib,matplotlib._layoutgrid,382,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.561246
+No,matplotlib,matplotlib._layoutgrid,382,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.562246
+No,matplotlib,matplotlib._layoutgrid,383,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.563359
+No,matplotlib,matplotlib._layoutgrid,383,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.564359
+No,matplotlib,matplotlib._layoutgrid,384,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.565358
+No,matplotlib,matplotlib._layoutgrid,384,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.566357
+No,matplotlib,matplotlib._layoutgrid,385,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.567356
+No,matplotlib,matplotlib._layoutgrid,385,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.568455
+No,matplotlib,matplotlib._layoutgrid,386,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.569454
+No,matplotlib,matplotlib._layoutgrid,386,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.570453
+No,matplotlib,matplotlib._layoutgrid,387,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.571452
+No,matplotlib,matplotlib._layoutgrid,387,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.572451
+No,matplotlib,matplotlib._layoutgrid,388,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.573612
+No,matplotlib,matplotlib._layoutgrid,388,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.574612
+No,matplotlib,matplotlib._layoutgrid,389,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.575611
+No,matplotlib,matplotlib._layoutgrid,389,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.575611
+No,matplotlib,matplotlib._layoutgrid,402,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.579724
+No,matplotlib,matplotlib._layoutgrid,402,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.580723
+No,matplotlib,matplotlib._layoutgrid,403,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.581722
+No,matplotlib,matplotlib._layoutgrid,403,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.582813
+No,matplotlib,matplotlib._layoutgrid,404,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.583931
+No,matplotlib,matplotlib._layoutgrid,404,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.584960
+No,matplotlib,matplotlib._layoutgrid,405,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.585991
+No,matplotlib,matplotlib._layoutgrid,405,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.586505
+No,matplotlib,matplotlib._layoutgrid,406,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.588563
+No,matplotlib,matplotlib._layoutgrid,406,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.589148
+No,matplotlib,matplotlib._layoutgrid,407,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.590147
+No,matplotlib,matplotlib._layoutgrid,407,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.592145
+No,matplotlib,matplotlib._layoutgrid,408,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.593144
+No,matplotlib,matplotlib._layoutgrid,408,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.594239
+No,matplotlib,matplotlib._layoutgrid,409,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.594239
+No,matplotlib,matplotlib._layoutgrid,409,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.595238
+No,matplotlib,matplotlib._layoutgrid,422,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.599319
+No,matplotlib,matplotlib._layoutgrid,422,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.600319
+No,matplotlib,matplotlib._layoutgrid,423,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.601318
+No,matplotlib,matplotlib._layoutgrid,423,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.601318
+No,matplotlib,matplotlib._layoutgrid,424,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.602318
+No,matplotlib,matplotlib._layoutgrid,424,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.603317
+No,matplotlib,matplotlib._layoutgrid,425,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.604377
+No,matplotlib,matplotlib._layoutgrid,425,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.605378
+No,matplotlib,matplotlib._layoutgrid,426,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.605378
+No,matplotlib,matplotlib._layoutgrid,426,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.606377
+No,matplotlib,matplotlib._layoutgrid,427,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.607375
+No,matplotlib,matplotlib._layoutgrid,427,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.608375
+No,matplotlib,matplotlib._layoutgrid,428,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.609477
+No,matplotlib,matplotlib._layoutgrid,428,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.609477
+No,matplotlib,matplotlib._layoutgrid,440,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.615587
+No,matplotlib,matplotlib._layoutgrid,440,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.616585
+No,matplotlib,matplotlib._layoutgrid,441,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.617584
+No,matplotlib,matplotlib._layoutgrid,441,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.618583
+No,matplotlib,matplotlib._layoutgrid,442,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.620666
+No,matplotlib,matplotlib._layoutgrid,442,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.620666
+No,matplotlib,matplotlib._layoutgrid,443,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.622666
+No,matplotlib,matplotlib._layoutgrid,443,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.623665
+No,matplotlib,matplotlib._layoutgrid,444,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.624782
+No,matplotlib,matplotlib._layoutgrid,444,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.625783
+No,matplotlib,matplotlib._layoutgrid,445,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.627780
+No,matplotlib,matplotlib._layoutgrid,445,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.628780
+No,matplotlib,matplotlib._layoutgrid,446,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.629859
+No,matplotlib,matplotlib._layoutgrid,446,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.630860
+No,matplotlib,matplotlib._layoutgrid,459,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.635947
+No,matplotlib,matplotlib._layoutgrid,459,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.636946
+No,matplotlib,matplotlib._layoutgrid,460,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.637945
+No,matplotlib,matplotlib._layoutgrid,460,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.638944
+No,matplotlib,matplotlib._layoutgrid,461,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.641157
+No,matplotlib,matplotlib._layoutgrid,461,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.642155
+No,matplotlib,matplotlib._layoutgrid,462,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.643153
+No,matplotlib,matplotlib._layoutgrid,462,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.644152
+No,matplotlib,matplotlib._layoutgrid,463,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.645271
+No,matplotlib,matplotlib._layoutgrid,463,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.646271
+No,matplotlib,matplotlib._layoutgrid,464,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.647269
+No,matplotlib,matplotlib._layoutgrid,464,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.648268
+No,matplotlib,matplotlib._layoutgrid,465,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.649267
+No,matplotlib,matplotlib._layoutgrid,465,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.650360
+No,matplotlib,matplotlib._layoutgrid,477,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.654358
+No,matplotlib,matplotlib._layoutgrid,477,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.654358
+No,matplotlib,matplotlib._layoutgrid,478,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.655446
+No,matplotlib,matplotlib._layoutgrid,478,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.655446
+No,matplotlib,matplotlib._layoutgrid,479,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.657444
+No,matplotlib,matplotlib._layoutgrid,479,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.657444
+No,matplotlib,matplotlib._layoutgrid,480,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.659442
+No,matplotlib,matplotlib._layoutgrid,480,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.660441
+No,matplotlib,matplotlib._layoutgrid,481,13,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.662497
+No,matplotlib,matplotlib._layoutgrid,481,13,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.663495
+No,matplotlib,matplotlib._layoutgrid,482,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.663495
+No,matplotlib,matplotlib._layoutgrid,482,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.664495
+No,matplotlib,matplotlib._layoutgrid,483,16,CallExpr,int,,"LayoutGrid, Any",2025-03-08 12:57:04.665493
+No,matplotlib,matplotlib._layoutgrid,483,16,IndexExpr,int,,LayoutGrid,2025-03-08 12:57:04.666564
+No,matplotlib,matplotlib._layoutgrid,547,41,OpExpr,int,,OpExpr,2025-03-08 12:57:04.714366
+No,matplotlib,matplotlib._mathtext,57,7,OpExpr,bool,,OpExpr,2025-03-08 12:57:04.716364
+No,matplotlib,matplotlib._mathtext,1333,25,OpExpr,None,,OpExpr,2025-03-08 12:57:05.250576
+No,matplotlib,matplotlib._type1font,463,21,SliceExpr,int,,SliceExpr,2025-03-08 12:57:06.473443
+No,matplotlib,matplotlib.axes._axes,686,15,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:06.792863
+No,matplotlib,matplotlib.axes._axes,1427,26,CallExpr,int,,"Any, Any",2025-03-08 12:57:07.032847
+No,matplotlib,matplotlib.axes._axes,1427,27,OpExpr,int,,OpExpr,2025-03-08 12:57:07.033951
+No,matplotlib,matplotlib.axes._axes,1428,26,CallExpr,int,,"Any, Any",2025-03-08 12:57:07.034969
+No,matplotlib,matplotlib.axes._axes,1428,27,OpExpr,int,,OpExpr,2025-03-08 12:57:07.035950
+No,matplotlib,matplotlib.axes._axes,2092,35,OpExpr,int,,OpExpr,2025-03-08 12:57:07.100498
+No,matplotlib,matplotlib.axes._axes,2093,26,OpExpr,int,,OpExpr,2025-03-08 12:57:07.102496
+No,matplotlib,matplotlib.axes._axes,2093,43,OpExpr,int,,OpExpr,2025-03-08 12:57:07.102496
+No,matplotlib,matplotlib.axes._axes,2175,30,OpExpr,str,,OpExpr,2025-03-08 12:57:07.113793
+No,matplotlib,matplotlib.axes._axes,2450,31,OpExpr,float,,OpExpr,2025-03-08 12:57:07.205278
+No,matplotlib,matplotlib.axes._axes,2774,28,OpExpr,int,,OpExpr,2025-03-08 12:57:07.313997
+No,matplotlib,matplotlib.axes._axes,2777,25,OpExpr,int,,OpExpr,2025-03-08 12:57:07.317075
+No,matplotlib,matplotlib.axes._axes,3219,17,OpExpr,int,,OpExpr,2025-03-08 12:57:07.435145
+No,matplotlib,matplotlib.axes._axes,3232,21,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:07.439201
+No,matplotlib,matplotlib.axes._axes,3276,24,OpExpr,None,,OpExpr,2025-03-08 12:57:07.477861
+No,matplotlib,matplotlib.axes._axes,3595,41,OpExpr,None,,OpExpr,2025-03-08 12:57:07.565267
+No,matplotlib,matplotlib.axes._axes,3642,46,OpExpr,bool,,OpExpr,2025-03-08 12:57:07.592868
+No,matplotlib,matplotlib.axes._axes,3642,59,OpExpr,bool,,OpExpr,2025-03-08 12:57:07.593867
+No,matplotlib,matplotlib.axes._axes,3650,23,OpExpr,bool,,OpExpr,2025-03-08 12:57:07.600941
+No,matplotlib,matplotlib.axes._axes,4135,26,OpExpr,int,,OpExpr,2025-03-08 12:57:07.723245
+No,matplotlib,matplotlib.axes._axes,4155,23,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:07.740507
+No,matplotlib,matplotlib.axes._axes,4270,24,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:07.828778
+No,matplotlib,matplotlib.axes._axes,4600,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:07.964638
+No,matplotlib,matplotlib.axes._axes,5026,33,OpExpr,None,,OpExpr,2025-03-08 12:57:08.171216
+No,matplotlib,matplotlib.axes._axes,5358,50,OpExpr,None,,OpExpr,2025-03-08 12:57:08.326040
+No,matplotlib,matplotlib.axes._axes,5372,34,OpExpr,int,,OpExpr,2025-03-08 12:57:08.336586
+No,matplotlib,matplotlib.axes._axes,6700,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:08.714429
+No,matplotlib,matplotlib.axes._axes,6782,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:08.759804
+No,matplotlib,matplotlib.axes._axes,6828,17,OpExpr,bool,,OpExpr,2025-03-08 12:57:08.790779
+No,matplotlib,matplotlib.axes._axes,6824,15,OpExpr,bool,,OpExpr,2025-03-08 12:57:08.791779
+No,matplotlib,matplotlib.axes._axes,6848,29,OpExpr,None,,OpExpr,2025-03-08 12:57:08.797427
+No,matplotlib,matplotlib.axes._axes,6886,26,OpExpr,None,,OpExpr,2025-03-08 12:57:08.819756
+No,matplotlib,matplotlib.axes._axes,6888,26,OpExpr,None,,OpExpr,2025-03-08 12:57:08.820754
+No,matplotlib,matplotlib.axes._axes,6900,60,OpExpr,None,,OpExpr,2025-03-08 12:57:08.827906
+No,matplotlib,matplotlib.axes._axes,6954,26,ConditionalExpr,str,,ConditionalExpr,2025-03-08 12:57:08.863550
+No,matplotlib,matplotlib.axes._axes,7248,11,OpExpr,None,,OpExpr,2025-03-08 12:57:08.922729
+No,matplotlib,matplotlib.axes._axes,7350,11,OpExpr,None,,OpExpr,2025-03-08 12:57:08.943187
+No,matplotlib,matplotlib.axes._axes,7784,27,OpExpr,None,,OpExpr,2025-03-08 12:57:09.001222
+No,matplotlib,matplotlib.axes._axes,8209,20,OpExpr,None,,OpExpr,2025-03-08 12:57:09.095644
+No,matplotlib,matplotlib.axes._base,60,64,OpExpr,None,,OpExpr,2025-03-08 12:57:09.154511
+No,matplotlib,matplotlib.axes._base,166,14,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:09.194566
+No,matplotlib,matplotlib.axes._base,1952,35,OpExpr,None,,OpExpr,2025-03-08 12:57:09.850586
+No,matplotlib,matplotlib.axes._base,2539,19,OpExpr,None,,OpExpr,2025-03-08 12:57:10.094515
+No,matplotlib,matplotlib.axes._base,2540,17,OpExpr,None,,OpExpr,2025-03-08 12:57:10.095529
+No,matplotlib,matplotlib.axes._base,2568,19,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.120059
+No,matplotlib,matplotlib.axes._base,3459,19,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:10.383265
+No,matplotlib,matplotlib.axes._base,3708,19,ConditionalExpr,None,,ConditionalExpr,2025-03-08 12:57:10.423928
+No,matplotlib,matplotlib.axes._base,4078,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.526793
+No,matplotlib,matplotlib.axes._base,4080,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.527915
+No,matplotlib,matplotlib.axes._base,4147,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.555293
+No,matplotlib,matplotlib.axes._base,4150,11,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.556292
+No,matplotlib,matplotlib.axes._base,4381,39,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.663818
+No,matplotlib,matplotlib.axes._base,4395,19,OpExpr,bool,,OpExpr,2025-03-08 12:57:10.679098
+No,matplotlib,matplotlib.backends.backend_pdf,266,21,OpExpr,int,,OpExpr,2025-03-08 12:57:12.443718
+No,matplotlib,matplotlib.backends.backend_pdf,290,7,OpExpr,int,,OpExpr,2025-03-08 12:57:12.464011
+No,matplotlib,matplotlib.backends.backend_pdf,587,11,OpExpr,None,,OpExpr,2025-03-08 12:57:12.543601
+No,matplotlib,matplotlib.backends.backend_pdf,747,53,OpExpr,None,,OpExpr,2025-03-08 12:57:12.629584
+No,matplotlib,matplotlib.backends.backend_pdf,2207,29,OpExpr,int,,OpExpr,2025-03-08 12:57:13.479913
+No,matplotlib,matplotlib.backends.backend_pdf,2207,39,OpExpr,int,,OpExpr,2025-03-08 12:57:13.479913
+No,matplotlib,matplotlib.backends.backend_pgf,719,11,OpExpr,None,,OpExpr,2025-03-08 12:57:14.286888
+No,matplotlib,matplotlib.backends.backend_pgf,849,49,OpExpr,None,,OpExpr,2025-03-08 12:57:14.342557
+No,matplotlib,matplotlib.backends.backend_pgf,961,26,OpExpr,None,,OpExpr,2025-03-08 12:57:14.381377
+No,matplotlib,matplotlib.backends.backend_ps,287,35,OpExpr,int,,OpExpr,2025-03-08 12:57:14.510163
+No,matplotlib,matplotlib.backends.backend_ps,493,17,OpExpr,None,,OpExpr,2025-03-08 12:57:14.635654
+No,matplotlib,matplotlib.backends.backend_ps,491,17,OpExpr,None,,OpExpr,2025-03-08 12:57:14.635654
+No,matplotlib,matplotlib.backends.backend_ps,838,35,OpExpr,None,,OpExpr,2025-03-08 12:57:14.889955
+No,matplotlib,matplotlib.backends.backend_ps,1173,23,OpExpr,str,,OpExpr,2025-03-08 12:57:15.102724
+No,matplotlib,matplotlib.backends.backend_ps,1219,13,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:15.121952
+No,matplotlib,matplotlib.backends.backend_ps,1219,37,OpExpr,str,,OpExpr,2025-03-08 12:57:15.121952
+No,matplotlib,matplotlib.backends.backend_qt,266,12,OpExpr,None,,OpExpr,2025-03-08 12:57:15.230600
+No,matplotlib,matplotlib.backends.backend_qt,419,45,OpExpr,int,,OpExpr,2025-03-08 12:57:15.317637
+No,matplotlib,matplotlib.backends.backend_svg,225,32,OpExpr,None,,OpExpr,2025-03-08 12:57:15.799962
+No,matplotlib,matplotlib.backends.backend_svg,239,21,OpExpr,None,,OpExpr,2025-03-08 12:57:15.805072
+No,matplotlib,matplotlib.backends.backend_svg,286,31,OpExpr,None,,OpExpr,2025-03-08 12:57:15.823428
+No,matplotlib,matplotlib.backends.backend_svg,295,25,OpExpr,None,,OpExpr,2025-03-08 12:57:15.830555
+No,matplotlib,matplotlib.backends.backend_svg,1177,15,OpExpr,None,,OpExpr,2025-03-08 12:57:16.465493
+No,matplotlib,matplotlib.backends.backend_webagg,188,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.670274
+No,matplotlib,matplotlib.backends.backend_webagg,193,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.672364
+No,matplotlib,matplotlib.backends.backend_webagg,198,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.674362
+No,matplotlib,matplotlib.backends.backend_webagg,201,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.675361
+No,matplotlib,matplotlib.backends.backend_webagg,205,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.676467
+No,matplotlib,matplotlib.backends.backend_webagg,208,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.677468
+No,matplotlib,matplotlib.backends.backend_webagg,212,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.678467
+No,matplotlib,matplotlib.backends.backend_webagg,215,17,OpExpr,str,,OpExpr,2025-03-08 12:57:16.678467
+No,matplotlib,matplotlib.backends.backend_wx,562,28,OpExpr,int,,OpExpr,2025-03-08 12:57:17.172639
+No,matplotlib,matplotlib.backends.backend_wxagg,46,20,OpExpr,None,,OpExpr,2025-03-08 12:57:17.600317
+No,matplotlib,matplotlib.backends._backend_tk,416,31,OpExpr,int,,OpExpr,2025-03-08 12:57:18.059729
+No,matplotlib,matplotlib.sphinxext.plot_directive,483,25,OpExpr,None,,OpExpr,2025-03-08 12:57:20.158202
+No,matplotlib,matplotlib.sphinxext.plot_directive,589,17,OpExpr,bool,,OpExpr,2025-03-08 12:57:20.222230
+No,matplotlib,matplotlib.testing.jpl_units.UnitDbl,156,24,OpExpr,None,,OpExpr,2025-03-08 12:57:21.173578
+No,matplotlib,matplotlib.tri._triinterpolate,184,30,IndexExpr,None,,TriInterpolator,2025-03-08 12:57:21.392321
+No,matplotlib,matplotlib._api.deprecation,35,13,ConditionalExpr,str,,ConditionalExpr,2025-03-08 12:57:22.566888
+No,matplotlib,matplotlib._api.deprecation,36,15,ConditionalExpr,bool,,ConditionalExpr,2025-03-08 12:57:22.567888
+No,matplotlib,matplotlib._api.deprecation,39,19,ConditionalExpr,str,,ConditionalExpr,2025-03-08 12:57:22.568887
+No,matplotlib,matplotlib._api.deprecation,41,15,ConditionalExpr,str,,ConditionalExpr,2025-03-08 12:57:22.568887
+No,matplotlib,matplotlib._api.deprecation,42,15,ConditionalExpr,str,,ConditionalExpr,2025-03-08 12:57:22.569885
+No,matplotlib,matplotlib._api.deprecation,496,17,OpExpr,bool,,OpExpr,2025-03-08 12:57:22.727650

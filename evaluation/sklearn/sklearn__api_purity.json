@@ -532,7 +532,8 @@
     "sklearn.calibration.__init__.1146.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1,
+        "UnknownCall": 2
       }
     },
     "sklearn.calibration.plot.1155.4": {
@@ -3529,6 +3530,11 @@
         "NativeCall": 35,
         "CallOfParameter": 68
       }
+    }
+  },
+  "sklearn.exceptions": {
+    "sklearn.exceptions.__init__.39.4": {
+      "purity": "Pure"
     },
     "sklearn.cluster._birch._predict.671.4": {
       "purity": "Impure",
@@ -6109,7 +6115,10 @@
     "sklearn.decomposition._fastica._gs_decorrelation.32.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 1
+        "NonLocalVariableRead": 3,
+        "NonLocalVariableWrite": 2,
+        "UnknownCall": 7,
+        "CallOfParameter": 1
       }
     },
     "sklearn.decomposition._fastica._sym_decorrelation.57.0": {
@@ -6147,13 +6156,17 @@
       "reasons": {
         "NonLocalVariableRead": 1,
         "NonLocalVariableWrite": 1,
-        "UnknownCall": 4
+        "FileRead": 1,
+        "UnknownCall": 14,
+        "NativeCall": 6,
+        "CallOfParameter": 1
       }
     },
     "sklearn.decomposition._fastica._exp.153.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 2
+        "NonLocalVariableRead": 8,
+        "UnknownCall": 1
       }
     },
     "sklearn.decomposition._fastica._cube.160.0": {
@@ -7774,8 +7787,8 @@
     "sklearn.ensemble._forest._set_oob_score_and_attributes.1031.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 69,
+        "NonLocalVariableWrite": 20,
         "FileRead": 1,
         "UnknownCall": 47,
         "NativeCall": 6,
@@ -7884,7 +7897,7 @@
         "FileRead": 1,
         "UnknownCall": 71,
         "NativeCall": 9,
-        "CallOfParameter": 11
+        "CallOfParameter": 10
       }
     }
   },
@@ -8266,7 +8279,7 @@
     "sklearn.ensemble._gb_losses.update_terminal_regions.246.4": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 2
+        "NonLocalVariableRead": 2
       }
     },
     "sklearn.ensemble._gb_losses._update_terminal_region.288.4": {
@@ -8539,8 +8552,9 @@
     "sklearn.ensemble._gb_losses._raw_prediction_to_proba.967.4": {
       "purity": "Impure",
       "reasons": {
+        "NonLocalVariableRead": 1,
         "NonLocalVariableWrite": 1,
-        "UnknownCall": 4
+        "UnknownCall": 1
       }
     },
     "sklearn.ensemble._gb_losses._raw_prediction_to_decision.973.4": {
@@ -8587,6 +8601,11 @@
         "NonLocalVariableWrite": 1,
         "UnknownCall": 3
       }
+    }
+  },
+  "sklearn.preprocessing._function_transformer": {
+    "sklearn.preprocessing._function_transformer._identity.15.0": {
+      "purity": "Pure"
     },
     "sklearn._loss.loss.loss_gradient.200.4": {
       "purity": "Impure",
@@ -9142,6 +9161,11 @@
         "NonLocalVariableRead": 4,
         "NonLocalVariableWrite": 17
       }
+    }
+  },
+  "sklearn.linear_model._sag": {
+    "sklearn.linear_model._sag.get_auto_step_size.19.0": {
+      "purity": "Pure"
     },
     "sklearn.ensemble._stacking.__init__.904.4": {
       "purity": "Impure",
@@ -10611,7 +10635,13 @@
     "sklearn.externals._packaging.version.base_version.159.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 13,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 105,
+        "NativeCall": 8,
+        "CallOfParameter": 11
       }
     },
     "sklearn.externals._packaging.version.epoch.163.4": {
@@ -10865,7 +10895,7 @@
     "sklearn.feature_extraction.image._to_graph.95.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2,
+        "NonLocalVariableRead": 24,
         "NonLocalVariableWrite": 1,
         "UnknownCall": 15,
         "CallOfParameter": 1
@@ -11949,8 +11979,13 @@
     "sklearn.feature_selection._univariate_selection.__init__.598.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 80,
+        "NonLocalVariableWrite": 33,
+        "FileRead": 1,
+        "FileWrite": 1,
+        "UnknownCall": 112,
+        "NativeCall": 7,
+        "CallOfParameter": 11
       }
     },
     "sklearn.feature_selection._univariate_selection._get_support_mask.602.4": {
@@ -12146,8 +12181,12 @@
     "sklearn.gaussian_process.kernels.n_dims.250.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 26,
+        "NonLocalVariableWrite": 1,
+        "FileRead": 1,
+        "UnknownCall": 22,
+        "NativeCall": 6,
+        "CallOfParameter": 1
       }
     },
     "sklearn.gaussian_process.kernels.hyperparameters.255.4": {
@@ -12704,7 +12743,7 @@
     "sklearn.gaussian_process.kernels.hyperparameter_sigma_0.2140.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
+        "NonLocalVariableRead": 2,
         "NonLocalVariableWrite": 1,
         "UnknownCall": 4
       }
@@ -13553,6 +13592,11 @@
         "NativeCall": 9,
         "CallOfParameter": 6
       }
+    }
+  },
+  "sklearn.ensemble._gb_losses": {
+    "sklearn.ensemble._gb_losses.__init__.33.4": {
+      "purity": "Pure"
     },
     "sklearn.inspection._plot.partial_dependence._plot_one_way_partial_dependence.870.4": {
       "purity": "Impure",
@@ -23914,7 +23958,7 @@
         "NonLocalVariableRead": 23,
         "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 25,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 4
       }

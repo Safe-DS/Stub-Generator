@@ -179,9 +179,6 @@ def _run_stub_generator(
             api_evaluator.get_runtime_result()
         api_evaluator.get_results()
 
-    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-        file.write(f"Analyzing API finished {datetime.now()} \n")
-
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)

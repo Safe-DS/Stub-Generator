@@ -4352,8 +4352,13 @@
     "matplotlib.artist._stale_axes_callback.103.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.artist.__repr__.112.4": {
@@ -5055,7 +5060,13 @@
     "matplotlib.artist.get_mouseover.1375.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1447,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.artist.set_mouseover.1382.4": {
@@ -5646,7 +5657,8 @@
     "matplotlib.patches.get_path.654.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableWrite": 3,
+        "UnknownCall": 3
       }
     },
     "matplotlib.patches.get_patch_transform.657.4": {
@@ -5740,13 +5752,13 @@
     "matplotlib.patches.get_x.779.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableWrite": 2
       }
     },
     "matplotlib.patches.get_y.783.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableWrite": 5
       }
     },
     "matplotlib.patches.get_xy.787.4": {
@@ -6353,7 +6365,10 @@
     "matplotlib.patches.get_angle.1766.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 8,
+        "NonLocalVariableWrite": 4,
+        "UnknownCall": 6,
+        "NativeCall": 2
       }
     },
     "matplotlib.patches.set_semimajor.1772.4": {
@@ -7361,7 +7376,13 @@
     "matplotlib.patches.get_annotation_clip.4554.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 37
       }
     },
     "matplotlib.patches._get_path_in_displaycoord.4562.4": {
@@ -8125,7 +8146,13 @@
     "matplotlib.colors.vmax.1556.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 735,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.colors.vmax.1560.4": {
@@ -8463,7 +8490,13 @@
     "matplotlib.lines._scale_dashes.63.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.lines.segment_hits.72.0": {
@@ -8545,13 +8578,16 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableWrite": 3,
+        "UnknownCall": 2
       }
     },
     "matplotlib.lines.get_fillstyle.512.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1,
+        "NonLocalVariableWrite": 3,
+        "UnknownCall": 2
       }
     },
     "matplotlib.lines.set_fillstyle.520.4": {
@@ -8569,7 +8605,8 @@
     "matplotlib.lines.set_markevery.540.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1,
+        "NonLocalVariableWrite": 3
       }
     },
     "matplotlib.lines.get_markevery.599.4": {
@@ -9332,6 +9369,11 @@
         "NativeCall": 49,
         "CallOfParameter": 40
       }
+    }
+  },
+  "matplotlib._enums": {
+    "matplotlib._enums._generate_next_value_.20.4": {
+      "purity": "Pure"
     },
     "matplotlib.markers._set_tuple_marker.496.4": {
       "purity": "Impure",
@@ -9940,7 +9982,8 @@
     "matplotlib.textpath.codes.389.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 2,
+        "UnknownCall": 1
       }
     },
     "matplotlib.textpath._revalidate_path.395.4": {
@@ -10169,7 +10212,8 @@
     "matplotlib._mathtext.render_rect_filled.230.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 8,
+        "UnknownCall": 1
       }
     },
     "matplotlib._mathtext.get_xheight.236.4": {
@@ -10722,11 +10766,22 @@
       "reasons": {
         "NonLocalVariableRead": 1
       }
+    }
+  },
+  "matplotlib.font_manager": {
+    "matplotlib.font_manager.get_fontext_synonyms.172.0": {
+      "purity": "Pure"
     },
     "matplotlib._mathtext.font.1678.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib._mathtext.get_current_underline_thickness.1683.4": {
@@ -11006,7 +11061,8 @@
     "matplotlib._mathtext.is_dropsub.2242.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2
+        "NonLocalVariableRead": 1,
+        "NonLocalVariableWrite": 1
       }
     },
     "matplotlib._mathtext.is_slanted.2247.4": {
@@ -11342,6 +11398,11 @@
       "reasons": {
         "NonLocalVariableRead": 1
       }
+    }
+  },
+  "matplotlib._afm": {
+    "matplotlib._afm._to_int.48.0": {
+      "purity": "Pure"
     },
     "matplotlib.font_manager.get_fontconfig_pattern.707.4": {
       "purity": "Impure",
@@ -11593,7 +11654,7 @@
     "matplotlib.font_manager.score_size.1177.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableWrite": 1
       }
     },
     "matplotlib.font_manager.findfont.1201.4": {
@@ -11889,13 +11950,25 @@
     "matplotlib._afm.get_fontname.468.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib._afm.postscript_name.473.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib._afm.get_fullname.476.4": {
@@ -12634,7 +12707,7 @@
     "matplotlib.figure.dpi.2259.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 2
+        "UnknownCall": 2
       }
     },
     "matplotlib.figure.get_dpi.2262.4": {
@@ -13432,7 +13505,8 @@
     "matplotlib.backend_bases.get_url.872.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 3,
+        "NonLocalVariableWrite": 3
       }
     },
     "matplotlib.backend_bases.get_gid.876.4": {
@@ -13444,7 +13518,13 @@
     "matplotlib.backend_bases.get_snap.880.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backend_bases.set_alpha.891.4": {
@@ -13754,8 +13834,13 @@
     "matplotlib.backend_bases.__init__.1492.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1490,
+        "NonLocalVariableWrite": 764,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1476,
+        "NativeCall": 46,
+        "CallOfParameter": 37
       }
     },
     "matplotlib.backend_bases.__init__.1534.4": {
@@ -14025,8 +14110,13 @@
     "matplotlib.backend_bases.release_mouse.2029.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 1446,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backend_bases.set_cursor.2039.4": {
@@ -14050,7 +14140,13 @@
     "matplotlib.backend_bases.device_pixel_ratio.2085.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backend_bases._set_device_pixel_ratio.2097.4": {
@@ -14074,13 +14170,20 @@
     "matplotlib.backend_bases.get_supported_filetypes.2160.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backend_bases.get_supported_filetypes_grouped.2165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1,
+        "NonLocalVariableWrite": 2
       }
     },
     "matplotlib.backend_bases._switch_canvas_and_return_print_method.2179.4": {
@@ -14106,6 +14209,11 @@
         "NativeCall": 49,
         "CallOfParameter": 40
       }
+    }
+  },
+  "matplotlib.widgets": {
+    "matplotlib.widgets.__init__.38.4": {
+      "purity": "Pure"
     },
     "matplotlib.backend_bases.get_default_filetype.2380.4": {
       "purity": "Impure",
@@ -16499,7 +16607,8 @@
     "matplotlib.ticker.get_offset.299.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1,
+        "UnknownCall": 1
       }
     },
     "matplotlib.ticker.set_offset_string.302.4": {
@@ -16569,7 +16678,9 @@
     "matplotlib.ticker.set_useOffset.454.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableRead": 7,
+        "NonLocalVariableWrite": 1,
+        "UnknownCall": 3
       }
     },
     "matplotlib.ticker.get_useLocale.490.4": {
@@ -17257,7 +17368,7 @@
     "matplotlib.ticker.base.2306.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableWrite": 2
       }
     },
     "matplotlib.ticker.subs.2311.4": {
@@ -17857,7 +17968,10 @@
     "matplotlib.collections.get_sizes.934.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 3,
+        "NonLocalVariableWrite": 3,
+        "UnknownCall": 5,
+        "NativeCall": 1
       }
     },
     "matplotlib.collections.set_sizes.945.4": {
@@ -17897,7 +18011,9 @@
     "matplotlib.collections.get_paths.1003.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 4,
+        "NonLocalVariableWrite": 3,
+        "UnknownCall": 4
       }
     },
     "matplotlib.collections.legend_elements.1006.4": {
@@ -18659,7 +18775,13 @@
     "matplotlib.cm.norm.590.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.cm.norm.594.4": {
@@ -18781,8 +18903,13 @@
     "matplotlib.hatch.__init__.68.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.hatch.set_vertices_and_codes.77.4": {
@@ -19115,9 +19242,9 @@
     "matplotlib.text.get_rotation.27.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "NonLocalVariableWrite": 1,
-        "UnknownCall": 3
+        "NonLocalVariableRead": 15,
+        "NonLocalVariableWrite": 4,
+        "UnknownCall": 11
       }
     },
     "matplotlib.text._get_textbox.54.0": {
@@ -19959,7 +20086,13 @@
     "matplotlib.text.get_anncoords.1924.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.text.set_anncoords.1932.4": {
@@ -21850,6 +21983,11 @@
       "reasons": {
         "UnknownCall": 3
       }
+    }
+  },
+  "matplotlib.spines": {
+    "matplotlib.spines.__str__.32.4": {
+      "purity": "Pure"
     },
     "matplotlib.axes._axes.scatter.4459.4": {
       "purity": "Impure",
@@ -22685,7 +22823,13 @@
     "matplotlib.legend.get_draggable.1200.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.legend._get_legend_handles.1207.0": {
@@ -23978,6 +24122,7 @@
     "matplotlib.image.set_resample.802.4": {
       "purity": "Impure",
       "reasons": {
+        "NonLocalVariableRead": 1,
         "NonLocalVariableWrite": 2
       }
     },
@@ -24253,7 +24398,7 @@
     "matplotlib.image.get_window_extent.1453.4": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 3
+        "NonLocalVariableRead": 3
       }
     },
     "matplotlib.image.contains.1464.4": {
@@ -24815,7 +24960,8 @@
     "matplotlib.axes._base.set_axes_locator.1162.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 2
+        "NonLocalVariableRead": 1,
+        "UnknownCall": 1
       }
     },
     "matplotlib.axes._base.get_axes_locator.1173.4": {
@@ -28588,7 +28734,7 @@
     "matplotlib.gridspec.is_first_row.647.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 4
       }
     },
     "matplotlib.gridspec.is_last_row.650.4": {
@@ -29108,16 +29254,16 @@
         "CallOfParameter": 41
       }
     },
-    "matplotlib.rcsetup.validate_hist_bins.780.0": {
+    "matplotlib.table.edges.368.4": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 1
+        "NonLocalVariableRead": 2
       }
     },
-    "matplotlib.rcsetup._convert_validator_spec.800.0": {
+    "matplotlib.table.edges.387.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableWrite": 1
+        "NonLocalVariableWrite": 2
       }
     }
   },
@@ -30317,7 +30463,8 @@
     "matplotlib.contour.get_alpha.1272.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 3,
+        "UnknownCall": 3
       }
     },
     "matplotlib.contour.set_alpha.1276.4": {
@@ -31093,6 +31240,11 @@
         "NativeCall": 49,
         "CallOfParameter": 40
       }
+    }
+  },
+  "matplotlib.texmanager": {
+    "matplotlib.texmanager._usepackage_if_not_loaded.39.0": {
+      "purity": "Pure"
     },
     "matplotlib.texmanager.__new__.104.4": {
       "purity": "Impure",
@@ -35708,7 +35860,12 @@
     "matplotlib.testing.jpl_units.UnitDbl.checkSameUnits.165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 52,
+        "FileRead": 1,
+        "UnknownCall": 64,
+        "NativeCall": 12,
+        "CallOfParameter": 1
       }
     }
   },
@@ -35769,7 +35926,12 @@
     "matplotlib.testing.jpl_units.EpochConverter.duration2float.61.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 76,
+        "NonLocalVariableWrite": 24,
+        "FileRead": 1,
+        "UnknownCall": 39,
+        "NativeCall": 11,
+        "CallOfParameter": 1
       }
     },
     "matplotlib.testing.jpl_units.EpochConverter.convert.75.4": {
@@ -36099,6 +36261,9 @@
         "NativeCall": 49,
         "CallOfParameter": 40
       }
+    },
+    "matplotlib.testing.jpl_units.StrConverter.default_units.94.4": {
+      "purity": "Pure"
     }
   },
   "matplotlib.backends.backend_pdf": {
@@ -36156,6 +36321,11 @@
       "reasons": {
         "NonLocalVariableRead": 2
       }
+    }
+  },
+  "matplotlib.testing.jpl_units.UnitDblConverter": {
+    "matplotlib.testing.jpl_units.UnitDblConverter.rad_fn.14.0": {
+      "purity": "Pure"
     },
     "matplotlib.backends.backend_pdf._datetime_to_pdf.210.0": {
       "purity": "Impure",
@@ -37174,7 +37344,13 @@
     "matplotlib.backends.backend_pdf.fill.2499.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2
+        "NonLocalVariableRead": 1447,
+        "NonLocalVariableWrite": 735,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backends.backend_pdf.paint.2514.4": {
@@ -38356,7 +38532,13 @@
     "matplotlib.backends._backend_tk._restore_foreground_window_at_end.40.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 2
+        "NonLocalVariableRead": 1445,
+        "NonLocalVariableWrite": 734,
+        "FileRead": 8,
+        "FileWrite": 5,
+        "UnknownCall": 1417,
+        "NativeCall": 44,
+        "CallOfParameter": 36
       }
     },
     "matplotlib.backends._backend_tk._blit.57.0": {
@@ -46929,9 +47111,13 @@
     "matplotlib.backends.backend_ps._try_distill.1156.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 4,
-        "CallOfParameter": 1
+        "NonLocalVariableRead": 89,
+        "NonLocalVariableWrite": 21,
+        "FileRead": 6,
+        "FileWrite": 1,
+        "UnknownCall": 67,
+        "NativeCall": 13,
+        "CallOfParameter": 10
       }
     },
     "matplotlib.backends.backend_ps.gs_distill.1163.0": {

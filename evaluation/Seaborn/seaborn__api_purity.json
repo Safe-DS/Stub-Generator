@@ -5241,6 +5241,9 @@
     "seaborn._core.subplots._check_dimension_uniqueness.46.4": {
       "purity": "Pure"
     },
+    "seaborn._core.subplots._check_dimension_uniqueness.46.4": {
+      "purity": "Pure"
+    },
     "seaborn._core.subplots._determine_grid_dimensions.78.4": {
       "purity": "Impure",
       "reasons": {

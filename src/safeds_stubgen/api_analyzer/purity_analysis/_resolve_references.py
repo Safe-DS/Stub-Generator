@@ -114,13 +114,9 @@ class ReferenceResolver:
 
         # Resolve the references for the module.
         self.module_analysis_result.classes = self.classes
-        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-            file.write(f"start resolving references of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
         resolved_references, raw_reasons = self._resolve_references()
         self.module_analysis_result.resolved_references = resolved_references
         self.module_analysis_result.raw_reasons = raw_reasons
-        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-            file.write(f"start building forest of module {module_name}, packageData was {'none' if package_data is None else 'not none'} at time: {datetime.now()} \n")
         self.module_analysis_result.call_graph_forest = build_call_graph(
             self.classes,
             self.module_analysis_result.raw_reasons,
@@ -318,9 +314,6 @@ class ReferenceResolver:
         
         # if call reference is none then this call reference could not be found
         if call_reference_api is None:  
-            # with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-            #     file.write(f"No Callref: {str(call_reference_id)} \n")
-            #     file.write(str(function_api.body.call_references))
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
             if self.evaluation is not None:
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True, [], None)
@@ -345,6 +338,7 @@ class ReferenceResolver:
                 if 0 < len(result):
                     # type aware purity analysis provided an improvement
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
+                    self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, result, [])
                 else:
                     # type aware purity analysis found same amount of functions
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)

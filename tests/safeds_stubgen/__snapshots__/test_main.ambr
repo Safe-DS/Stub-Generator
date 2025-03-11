@@ -2217,13 +2217,15 @@
       'purity_package.another_purity_path.another_purity_module.super_impure.172.4': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 2,
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.another_purity_path.another_purity_module.super_pure.176.4': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.another_purity_path.another_purity_module.super_same_name.103.4': dict({
@@ -2267,13 +2269,13 @@
       'purity_package.main_purity_module.global_func_call_ref_in_dict_generation_impure.783.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_call_ref_in_dict_generation_should_be_pure_but_impure.776.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_call_reference_in_index_impure.581.0': dict({
@@ -2489,13 +2491,13 @@
       'purity_package.main_purity_module.global_func_inside_of_lambda_with_map_impure.826.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_inside_of_lambda_with_map_should_be_pure_but_impure.818.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_isinstance_check_impure.738.0': dict({
@@ -2695,7 +2697,7 @@
       'purity_package.main_purity_module.global_func_operator_expression_should_be_pure_but_impure.722.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_operator_receiver_with_brackets_impure.841.0': dict({
@@ -2839,13 +2841,15 @@
       'purity_package.main_purity_module.global_func_super_nested_method_impure.623.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'NonLocalVariableRead': 2,
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_super_nested_method_should_be_pure_but_impure.615.0': dict({
         'purity': 'Impure',
         'reasons': dict({
           'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_union_type_from_docstring_impure.564.0': dict({
@@ -2869,25 +2873,25 @@
       'purity_package.main_purity_module.global_func_unreachable_code_impure.810.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_unreachable_code_should_be_pure_but_impure.802.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_with_keyword_impure.855.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_func_with_keyword_should_be_pure_but_impure.847.0': dict({
         'purity': 'Impure',
         'reasons': dict({
-          'UnknownCall': 1,
+          'NonLocalVariableRead': 1,
         }),
       }),
       'purity_package.main_purity_module.global_helper_func_nested_type_impure_with_list_and_dict.383.0': dict({

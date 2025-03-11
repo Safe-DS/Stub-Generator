@@ -1,0 +1,6 @@
+Type-Aware,Library,Module,Line,Column,Expr kind,Type Hint,DocString,Mypy inferred type,Date
+No,pandas,pandas.core.ops,134,8,NameExpr,,,Any,2025-03-07 18:15:06.841958
+No,pandas,pandas.core.ops,134,25,NameExpr,,,Any,2025-03-07 18:15:06.842976
+No,pandas,pandas.core.ops,135,8,NameExpr,,,Any,2025-03-07 18:15:06.843956
+No,pandas,pandas.core.ops,135,26,NameExpr,,,Any,2025-03-07 18:15:06.844957
+No,pandas,pandas.core.ops,138,8,NameExpr,,,Any,2025-03-07 18:15:06.844957
