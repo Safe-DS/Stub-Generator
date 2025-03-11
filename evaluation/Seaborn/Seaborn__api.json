@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "distribution": "",
+  "distribution": "seaborn",
   "package": "seaborn",
-  "version": "",
+  "version": "0.12.2",
   "modules": [
     {
       "id": "seaborn",

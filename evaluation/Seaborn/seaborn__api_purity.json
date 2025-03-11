@@ -3,10 +3,9 @@
     "seaborn.utils.ci_to_errsize.24.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -14,10 +13,9 @@
     "seaborn.utils._normal_quantile_func.54.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 24,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -31,55 +29,61 @@
     "seaborn.utils._default_color.88.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 71,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 36,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 56,
+        "NativeCall": 7,
+        "CallOfParameter": 5
       }
     },
     "seaborn.utils.desaturate.172.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 9,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 5
+        "FileWrite": 2,
+        "UnknownCall": 27,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.utils.saturate.207.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 9,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 6
+        "FileWrite": 2,
+        "UnknownCall": 27,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.utils.set_hls_values.224.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 9,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 6
+        "FileWrite": 2,
+        "UnknownCall": 27,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.utils.axlabel.251.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 87,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 114,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 102,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 111,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.utils.remove_na.264.0": {
@@ -98,31 +102,33 @@
     "seaborn.utils.despine.298.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 89,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 116,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 116,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 126,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.utils.move_legend.400.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 10,
-        "NonLocalVariableWrite": 5,
-        "UnknownCall": 17,
-        "NativeCall": 1
+        "NonLocalVariableRead": 91,
+        "NonLocalVariableWrite": 19,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 79,
+        "NativeCall": 10,
+        "CallOfParameter": 4
       }
     },
     "seaborn.utils._kde_support.490.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -130,10 +136,9 @@
     "seaborn.utils.ci.499.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -141,37 +146,37 @@
     "seaborn.utils.get_dataset_names.505.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 44,
-        "NonLocalVariableWrite": 8,
+        "NonLocalVariableRead": 86,
+        "NonLocalVariableWrite": 16,
         "FileRead": 3,
-        "FileWrite": 1,
-        "UnknownCall": 32,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 54,
+        "NativeCall": 8,
+        "CallOfParameter": 5
       }
     },
     "seaborn.utils.get_data_home.520.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 90,
-        "NonLocalVariableWrite": 33,
+        "NonLocalVariableRead": 125,
+        "NonLocalVariableWrite": 42,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 185,
-        "NativeCall": 3,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 202,
+        "NativeCall": 4,
+        "CallOfParameter": 11
       }
     },
     "seaborn.utils.load_dataset.538.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 138,
-        "NonLocalVariableWrite": 50,
+        "NonLocalVariableRead": 179,
+        "NonLocalVariableWrite": 58,
         "FileRead": 5,
-        "FileWrite": 3,
-        "UnknownCall": 227,
-        "NativeCall": 11,
-        "CallOfParameter": 13
+        "FileWrite": 4,
+        "UnknownCall": 244,
+        "NativeCall": 12,
+        "CallOfParameter": 15
       }
     },
     "seaborn.utils.axis_ticklabels_overlap.646.0": {
@@ -202,10 +207,9 @@
     "seaborn.utils.relative_luminance.717.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -221,7 +225,7 @@
       "reasons": {
         "NonLocalVariableRead": 1,
         "NonLocalVariableWrite": 1,
-        "UnknownCall": 2
+        "UnknownCall": 3
       }
     },
     "seaborn.utils._check_argument.788.0": {
@@ -246,10 +250,9 @@
     "seaborn.utils._deprecate_ci.835.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 20,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -474,8 +477,13 @@
     "seaborn.axisgrid.set.35.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 83,
+        "NonLocalVariableWrite": 14,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 63,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.axisgrid.fig.43.4": {
@@ -539,9 +547,9 @@
     "seaborn.axisgrid._get_palette.244.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 38,
+        "NonLocalVariableRead": 43,
         "NonLocalVariableWrite": 3,
-        "UnknownCall": 61,
+        "UnknownCall": 62,
         "NativeCall": 2,
         "CallOfParameter": 2
       }
@@ -562,22 +570,21 @@
     "seaborn.axisgrid.__init__.366.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 132,
-        "NonLocalVariableWrite": 70,
+        "NonLocalVariableRead": 166,
+        "NonLocalVariableWrite": 73,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 174,
-        "NativeCall": 10,
-        "CallOfParameter": 8
+        "FileWrite": 2,
+        "UnknownCall": 183,
+        "NativeCall": 12,
+        "CallOfParameter": 11
       }
     },
     "seaborn.axisgrid.facet_data.637.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 27,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 7,
         "CallOfParameter": 1
       }
@@ -585,10 +592,10 @@
     "seaborn.axisgrid.map.677.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 23,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -625,13 +632,13 @@
     "seaborn.axisgrid.facet_axis.858.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 57,
+        "NonLocalVariableRead": 115,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 100,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 109,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.axisgrid.despine.872.4": {
@@ -687,13 +694,13 @@
     "seaborn.axisgrid.refline.1030.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 87,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 114,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 99,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 108,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.axisgrid.axes.1067.4": {
@@ -718,10 +725,10 @@
     "seaborn.axisgrid._inner_axes.1096.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 28,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -729,10 +736,10 @@
     "seaborn.axisgrid._left_axes.1114.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 27,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 26,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -740,10 +747,10 @@
     "seaborn.axisgrid._not_left_axes.1126.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 27,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 26,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -751,10 +758,10 @@
     "seaborn.axisgrid._bottom_axes.1138.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 28,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -762,10 +769,10 @@
     "seaborn.axisgrid._not_bottom_axes.1155.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 28,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -773,22 +780,21 @@
     "seaborn.axisgrid.__init__.1186.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 132,
-        "NonLocalVariableWrite": 68,
+        "NonLocalVariableRead": 166,
+        "NonLocalVariableWrite": 71,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 174,
-        "NativeCall": 9,
-        "CallOfParameter": 8
+        "FileWrite": 2,
+        "UnknownCall": 183,
+        "NativeCall": 11,
+        "CallOfParameter": 11
       }
     },
     "seaborn.axisgrid.map.1360.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -796,10 +802,9 @@
     "seaborn.axisgrid.map_lower.1377.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -807,10 +812,9 @@
     "seaborn.axisgrid.map_upper.1392.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -825,61 +829,61 @@
     "seaborn.axisgrid.map_diag.1431.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 118,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 127,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.axisgrid._map_diag_iter_hue.1513.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 103,
-        "NonLocalVariableWrite": 60,
+        "NonLocalVariableRead": 131,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 129,
-        "NativeCall": 7,
-        "CallOfParameter": 8
+        "FileWrite": 2,
+        "UnknownCall": 138,
+        "NativeCall": 9,
+        "CallOfParameter": 11
       }
     },
     "seaborn.axisgrid._map_bivariate.1552.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 169,
-        "NonLocalVariableWrite": 83,
+        "NonLocalVariableRead": 202,
+        "NonLocalVariableWrite": 86,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 347,
-        "NativeCall": 12,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 357,
+        "NativeCall": 14,
+        "CallOfParameter": 16
       }
     },
     "seaborn.axisgrid._plot_bivariate.1574.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 57,
+        "NonLocalVariableRead": 120,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 105,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 114,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.axisgrid._plot_bivariate_iter_hue.1613.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 160,
-        "NonLocalVariableWrite": 77,
+        "NonLocalVariableRead": 187,
+        "NonLocalVariableWrite": 80,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 273,
-        "NativeCall": 9,
-        "CallOfParameter": 13
+        "FileWrite": 2,
+        "UnknownCall": 280,
+        "NativeCall": 11,
+        "CallOfParameter": 15
       }
     },
     "seaborn.axisgrid._add_axis_labels.1657.4": {
@@ -908,13 +912,13 @@
     "seaborn.axisgrid.get_var.1729.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 433,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 442,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.axisgrid._inject_kwargs.1763.4": {
@@ -932,25 +936,25 @@
     "seaborn.axisgrid.plot_joint.1796.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 121,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 101,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 110,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.axisgrid.plot_marginals.1832.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 122,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 103,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 112,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.axisgrid.refline.1893.4": {
@@ -970,25 +974,25 @@
     "seaborn.axisgrid.pairplot.2005.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 233,
-        "NonLocalVariableWrite": 100,
+        "NonLocalVariableRead": 265,
+        "NonLocalVariableWrite": 103,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 455,
-        "NativeCall": 12,
-        "CallOfParameter": 16
+        "FileWrite": 2,
+        "UnknownCall": 464,
+        "NativeCall": 14,
+        "CallOfParameter": 18
       }
     },
     "seaborn.axisgrid.jointplot.2179.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 397,
-        "NonLocalVariableWrite": 193,
+        "NonLocalVariableRead": 435,
+        "NonLocalVariableWrite": 197,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 640,
-        "NativeCall": 15,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 658,
+        "NativeCall": 17,
+        "CallOfParameter": 26
       }
     }
   },
@@ -1007,10 +1011,9 @@
     "seaborn._oldcore._check_list_length.58.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 20,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 8,
         "CallOfParameter": 1
       }
@@ -1025,9 +1028,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 23,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -1036,9 +1039,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 11,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "UnknownCall": 45,
+        "UnknownCall": 44,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -1058,8 +1061,8 @@
     "seaborn._oldcore.categorical_mapping.213.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 56,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 61,
+        "NonLocalVariableWrite": 4,
         "FileRead": 1,
         "UnknownCall": 76,
         "NativeCall": 9,
@@ -1069,10 +1072,10 @@
     "seaborn._oldcore.numeric_mapping.247.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 6,
+        "NonLocalVariableRead": 39,
+        "NonLocalVariableWrite": 5,
         "FileRead": 1,
-        "UnknownCall": 65,
+        "UnknownCall": 64,
         "NativeCall": 8,
         "CallOfParameter": 3
       }
@@ -1092,10 +1095,9 @@
     "seaborn._oldcore._lookup_single.364.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -1104,9 +1106,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 52,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 64,
+        "UnknownCall": 63,
         "NativeCall": 8,
         "CallOfParameter": 3
       }
@@ -1114,10 +1116,10 @@
     "seaborn._oldcore.numeric_mapping.433.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 8,
+        "NonLocalVariableRead": 32,
+        "NonLocalVariableWrite": 7,
         "FileRead": 1,
-        "UnknownCall": 50,
+        "UnknownCall": 48,
         "NativeCall": 6,
         "CallOfParameter": 5
       }
@@ -1125,10 +1127,13 @@
     "seaborn._oldcore.__init__.520.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 47,
-        "NonLocalVariableWrite": 13,
-        "UnknownCall": 65,
-        "CallOfParameter": 4
+        "NonLocalVariableRead": 106,
+        "NonLocalVariableWrite": 22,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 100,
+        "NativeCall": 8,
+        "CallOfParameter": 8
       }
     },
     "seaborn._oldcore._lookup_single.580.4": {
@@ -1140,10 +1145,9 @@
     "seaborn._oldcore._map_attributes.588.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 20,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 8,
         "CallOfParameter": 1
       }
@@ -1151,13 +1155,13 @@
     "seaborn._oldcore.__init__.632.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.get_semantics.652.4": {
@@ -1169,8 +1173,7 @@
     "seaborn._oldcore.has_xy_data.664.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 1
       }
     },
     "seaborn._oldcore.var_levels.669.4": {
@@ -1182,61 +1185,61 @@
     "seaborn._oldcore.assign_variables.689.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore._assign_variables_wideform.717.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore._assign_variables_longform.859.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 129,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 196,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 211,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn._oldcore.iter_data.973.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 285,
-        "NonLocalVariableWrite": 151,
+        "NonLocalVariableRead": 321,
+        "NonLocalVariableWrite": 159,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 435,
-        "NativeCall": 13,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 444,
+        "NativeCall": 15,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.comp_data.1095.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 282,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 318,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 435,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 444,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore._get_axes.1140.4": {
@@ -1248,13 +1251,13 @@
     "seaborn._oldcore._attach.1155.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 291,
-        "NonLocalVariableWrite": 162,
+        "NonLocalVariableRead": 327,
+        "NonLocalVariableWrite": 170,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 448,
-        "NativeCall": 13,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 457,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     },
     "seaborn._oldcore._log_scaled.1301.4": {
@@ -1283,37 +1286,37 @@
     "seaborn._oldcore.scale_categorical.1359.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 151,
+        "NonLocalVariableRead": 317,
+        "NonLocalVariableWrite": 159,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 427,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 444,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.VariableType.1453.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.__init__.1464.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.__eq__.1468.4": {
@@ -1325,49 +1328,49 @@
     "seaborn._oldcore.variable_type.1473.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.all_numeric.1531.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.all_datetime.1542.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.infer_orient.1556.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._oldcore.unique_dashes.1638.0": {
@@ -1383,13 +1386,13 @@
     "seaborn._oldcore.categorical_order.1735.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -1397,25 +1400,25 @@
     "seaborn.palettes.__enter__.63.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 6,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 15,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 53,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 63,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.__exit__.70.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 44,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 80,
+        "NonLocalVariableWrite": 14,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 53,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 63,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.as_hex.75.4": {
@@ -1441,46 +1444,45 @@
     "seaborn.palettes._repr_png_.96.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 340,
-        "NonLocalVariableWrite": 187,
-        "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 526,
-        "NativeCall": 15,
-        "CallOfParameter": 21
+        "NonLocalVariableRead": 389,
+        "NonLocalVariableWrite": 198,
+        "FileRead": 3,
+        "FileWrite": 2,
+        "UnknownCall": 549,
+        "NativeCall": 17,
+        "CallOfParameter": 23
       }
     },
     "seaborn.palettes._repr_html_.108.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 373,
-        "NonLocalVariableWrite": 194,
-        "FileRead": 3,
-        "FileWrite": 1,
-        "UnknownCall": 572,
-        "NativeCall": 16,
-        "CallOfParameter": 20
+        "NonLocalVariableRead": 389,
+        "NonLocalVariableWrite": 198,
+        "FileRead": 4,
+        "FileWrite": 2,
+        "UnknownCall": 547,
+        "NativeCall": 18,
+        "CallOfParameter": 22
       }
     },
     "seaborn.palettes.color_palette.122.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 50,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 60,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.hls_palette.258.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -1488,118 +1490,118 @@
     "seaborn.palettes.husl_palette.312.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 29,
-        "NativeCall": 7,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 48,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.mpl_palette.366.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 50,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 60,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes._color_to_rgb.420.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 27,
-        "NativeCall": 7,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 46,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.dark_palette.433.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 40,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 75,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 41,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 52,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.light_palette.484.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 40,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 75,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 41,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 52,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.diverging_palette.532.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 39,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 73,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 43,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 53,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.blend_palette.581.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 39,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 39,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 49,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.xkcd_palette.612.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 50,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 60,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.crayon_palette.638.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 50,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 60,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.palettes.cubehelix_palette.665.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 23,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -1629,31 +1631,37 @@
     "seaborn.rcmod.set_theme.82.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 46,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 82,
+        "NonLocalVariableWrite": 14,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 53,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 63,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.rcmod.set.126.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 1
+        "NonLocalVariableRead": 82,
+        "NonLocalVariableWrite": 14,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 63,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.rcmod.reset_defaults.135.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 2
       }
     },
     "seaborn.rcmod.reset_orig.140.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1
+        "NonLocalVariableRead": 2
       }
     },
     "seaborn.rcmod.axes_style.146.0": {
@@ -1707,13 +1715,13 @@
     "seaborn.rcmod.set_palette.502.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 43,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 14,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 51,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 61,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     }
   },
@@ -1721,89 +1729,101 @@
     "seaborn.external.husl.husl_to_rgb.31.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 4,
-        "NativeCall": 1
+        "NonLocalVariableRead": 27,
+        "FileRead": 1,
+        "UnknownCall": 20,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.husl_to_hex.35.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 4,
-        "NativeCall": 1
+        "NonLocalVariableRead": 27,
+        "FileRead": 1,
+        "UnknownCall": 20,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.rgb_to_husl.39.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 27,
         "FileRead": 1,
-        "UnknownCall": 32,
+        "UnknownCall": 22,
         "NativeCall": 7,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.hex_to_husl.43.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 1
+        "NonLocalVariableRead": 27,
+        "FileRead": 1,
+        "UnknownCall": 22,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.huslp_to_rgb.47.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 6,
-        "NativeCall": 1
+        "NonLocalVariableRead": 28,
+        "FileRead": 1,
+        "UnknownCall": 22,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.huslp_to_hex.51.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 6,
-        "NativeCall": 1
+        "NonLocalVariableRead": 28,
+        "FileRead": 1,
+        "UnknownCall": 22,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.rgb_to_huslp.55.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 28,
         "FileRead": 1,
-        "UnknownCall": 32,
+        "UnknownCall": 22,
         "NativeCall": 7,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.hex_to_huslp.59.0": {
       "purity": "Impure",
       "reasons": {
-        "UnknownCall": 1
+        "NonLocalVariableRead": 28,
+        "FileRead": 1,
+        "UnknownCall": 22,
+        "NativeCall": 7,
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.lch_to_rgb.63.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 27,
         "FileRead": 1,
-        "UnknownCall": 30,
+        "UnknownCall": 20,
         "NativeCall": 7,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.rgb_to_lch.67.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 26,
         "FileRead": 1,
-        "UnknownCall": 29,
+        "UnknownCall": 19,
         "NativeCall": 7,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.max_chroma.71.0": {
@@ -1817,7 +1837,7 @@
     "seaborn.external.husl._hrad_extremum.94.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
+        "NonLocalVariableRead": 2,
         "UnknownCall": 5,
         "NativeCall": 1
       }
@@ -1825,7 +1845,7 @@
     "seaborn.external.husl.max_chroma_pastel.117.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
+        "NonLocalVariableRead": 2,
         "UnknownCall": 5,
         "NativeCall": 1
       }
@@ -1833,12 +1853,11 @@
     "seaborn.external.husl.dot_product.122.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 17,
         "NativeCall": 6,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.f.126.0": {
@@ -1881,23 +1900,21 @@
     "seaborn.external.husl.xyz_to_rgb.192.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 17,
         "NativeCall": 6,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.rgb_to_xyz.197.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 17,
         "NativeCall": 6,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn.external.husl.xyz_to_luv.202.0": {
@@ -1947,7 +1964,7 @@
     "seaborn.external.husl.huslp_to_lch.288.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
+        "NonLocalVariableRead": 2,
         "UnknownCall": 5,
         "NativeCall": 1
       }
@@ -1955,7 +1972,7 @@
     "seaborn.external.husl.lch_to_huslp.302.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
+        "NonLocalVariableRead": 2,
         "UnknownCall": 5,
         "NativeCall": 1
       }
@@ -1965,10 +1982,13 @@
     "seaborn._compat.MarkerStyle.6.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 18,
-        "NonLocalVariableWrite": 8,
-        "UnknownCall": 12,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 77,
+        "NonLocalVariableWrite": 17,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 47,
+        "NativeCall": 8,
+        "CallOfParameter": 6
       }
     },
     "seaborn._compat.norm_from_scale.22.0": {
@@ -1980,10 +2000,9 @@
     "seaborn._compat.__call__.40.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 26,
+        "UnknownCall": 25,
         "NativeCall": 6,
         "CallOfParameter": 2
       }
@@ -1998,13 +2017,13 @@
     "seaborn._compat.set_scale_obj.108.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 427,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._compat.get_colormap.130.0": {
@@ -2030,13 +2049,13 @@
     "seaborn._compat.share_axis.158.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 33,
+        "NonLocalVariableRead": 129,
+        "NonLocalVariableWrite": 42,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 184,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 201,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     }
   },
@@ -2044,20 +2063,19 @@
     "seaborn.distributions.__init__.107.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.distributions.univariate.116.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 1
       }
     },
     "seaborn.distributions.data_variable.125.4": {
@@ -2069,38 +2087,39 @@
     "seaborn.distributions.has_xy_data.133.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 1
       }
     },
     "seaborn.distributions._add_legend.138.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 21,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 56,
+        "NonLocalVariableWrite": 13,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 22,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 44,
+        "NativeCall": 1,
+        "CallOfParameter": 4
       }
     },
     "seaborn.distributions._artist_kws.173.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 6,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 7
+        "FileWrite": 2,
+        "UnknownCall": 29,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.distributions._quantile_to_level.196.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 23,
+        "UnknownCall": 22,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2108,13 +2127,13 @@
     "seaborn.distributions._cmap_from_color.206.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 40,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 42,
+        "FileWrite": 2,
+        "UnknownCall": 50,
         "NativeCall": 8,
-        "CallOfParameter": 2
+        "CallOfParameter": 4
       }
     },
     "seaborn.distributions._default_discrete.220.4": {
@@ -2126,178 +2145,177 @@
     "seaborn.distributions._resolve_multiple.230.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 25,
+        "NonLocalVariableRead": 134,
+        "NonLocalVariableWrite": 32,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 212,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 218,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn.distributions._compute_univariate_density.301.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 292,
-        "NonLocalVariableWrite": 152,
+        "NonLocalVariableRead": 329,
+        "NonLocalVariableWrite": 160,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 440,
-        "NativeCall": 14,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 455,
+        "NativeCall": 15,
+        "CallOfParameter": 20
       }
     },
     "seaborn.distributions.plot_univariate_histogram.379.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 358,
-        "NonLocalVariableWrite": 177,
+        "NonLocalVariableRead": 402,
+        "NonLocalVariableWrite": 183,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 549,
-        "NativeCall": 15,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 573,
+        "NativeCall": 16,
+        "CallOfParameter": 24
       }
     },
     "seaborn.distributions.plot_bivariate_histogram.744.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 309,
-        "NonLocalVariableWrite": 155,
+        "NonLocalVariableRead": 340,
+        "NonLocalVariableWrite": 163,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 472,
-        "NativeCall": 14,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 478,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     },
     "seaborn.distributions.plot_univariate_density.901.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 347,
-        "NonLocalVariableWrite": 177,
+        "NonLocalVariableRead": 391,
+        "NonLocalVariableWrite": 183,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 539,
-        "NativeCall": 15,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 563,
+        "NativeCall": 16,
+        "CallOfParameter": 24
       }
     },
     "seaborn.distributions.plot_bivariate_density.1036.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 301,
-        "NonLocalVariableWrite": 154,
+        "NonLocalVariableRead": 332,
+        "NonLocalVariableWrite": 162,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 469,
-        "NativeCall": 14,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 475,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     },
     "seaborn.distributions.plot_univariate_ecdf.1222.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 343,
-        "NonLocalVariableWrite": 175,
+        "NonLocalVariableRead": 386,
+        "NonLocalVariableWrite": 181,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 529,
-        "NativeCall": 14,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 548,
+        "NativeCall": 16,
+        "CallOfParameter": 24
       }
     },
     "seaborn.distributions.plot_rug.1291.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 309,
-        "NonLocalVariableWrite": 169,
+        "NonLocalVariableRead": 344,
+        "NonLocalVariableWrite": 175,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 487,
-        "NativeCall": 14,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 499,
+        "NativeCall": 16,
+        "CallOfParameter": 21
       }
     },
     "seaborn.distributions._plot_single_rug.1325.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 52,
-        "NonLocalVariableWrite": 26,
+        "NonLocalVariableRead": 88,
+        "NonLocalVariableWrite": 34,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 73,
-        "NativeCall": 7,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 92,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.distributions.histplot.1374.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 369,
-        "NonLocalVariableWrite": 188,
+        "NonLocalVariableRead": 408,
+        "NonLocalVariableWrite": 194,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 571,
-        "NativeCall": 15,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 591,
+        "NativeCall": 16,
+        "CallOfParameter": 26
       }
     },
     "seaborn.distributions.kdeplot.1597.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 358,
-        "NonLocalVariableWrite": 187,
+        "NonLocalVariableRead": 397,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 559,
-        "NativeCall": 15,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 578,
+        "NativeCall": 16,
+        "CallOfParameter": 26
       }
     },
     "seaborn.distributions.ecdfplot.1877.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 349,
-        "NonLocalVariableWrite": 185,
+        "NonLocalVariableRead": 392,
+        "NonLocalVariableWrite": 191,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 541,
-        "NativeCall": 14,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 560,
+        "NativeCall": 16,
+        "CallOfParameter": 26
       }
     },
     "seaborn.distributions.rugplot.1989.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 316,
-        "NonLocalVariableWrite": 180,
+        "NonLocalVariableRead": 351,
+        "NonLocalVariableWrite": 186,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 506,
-        "NativeCall": 14,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 515,
+        "NativeCall": 16,
+        "CallOfParameter": 23
       }
     },
     "seaborn.distributions.displot.2111.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 380,
-        "NonLocalVariableWrite": 195,
+        "NonLocalVariableRead": 419,
+        "NonLocalVariableWrite": 201,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 598,
-        "NativeCall": 15,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 620,
+        "NativeCall": 17,
+        "CallOfParameter": 25
       }
     },
     "seaborn.distributions._freedman_diaconis_bins.2390.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2305,25 +2323,25 @@
     "seaborn.distributions.distplot.2405.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 387,
-        "NonLocalVariableWrite": 193,
+        "NonLocalVariableRead": 423,
+        "NonLocalVariableWrite": 199,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 628,
-        "NativeCall": 15,
-        "CallOfParameter": 22
+        "FileWrite": 2,
+        "UnknownCall": 644,
+        "NativeCall": 17,
+        "CallOfParameter": 27
       }
     },
     "seaborn.distributions.pdf.2523.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 384,
-        "NonLocalVariableWrite": 193,
+        "NonLocalVariableRead": 422,
+        "NonLocalVariableWrite": 199,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 625,
-        "NativeCall": 15,
-        "CallOfParameter": 21
+        "FileWrite": 2,
+        "UnknownCall": 644,
+        "NativeCall": 17,
+        "CallOfParameter": 26
       }
     }
   },
@@ -2338,10 +2356,9 @@
     "seaborn._statistics._define_support_grid.89.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2349,10 +2366,10 @@
     "seaborn._statistics._define_support_univariate.97.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 37,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 47,
+        "UnknownCall": 54,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2360,10 +2377,10 @@
     "seaborn._statistics._define_support_bivariate.106.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 37,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 48,
+        "UnknownCall": 55,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2371,10 +2388,10 @@
     "seaborn._statistics.define_support.124.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 37,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 48,
+        "UnknownCall": 55,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2382,10 +2399,10 @@
     "seaborn._statistics._fit.136.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 34,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 46,
+        "UnknownCall": 53,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2393,10 +2410,10 @@
     "seaborn._statistics._eval_univariate.147.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 38,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 39,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 50,
+        "UnknownCall": 57,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2404,10 +2421,10 @@
     "seaborn._statistics._eval_bivariate.165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 38,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 39,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 53,
+        "UnknownCall": 59,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2415,10 +2432,10 @@
     "seaborn._statistics.__call__.189.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 50,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 39,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 64,
+        "UnknownCall": 60,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2432,10 +2449,9 @@
     "seaborn._statistics._define_bin_edges.254.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2443,10 +2459,10 @@
     "seaborn._statistics.define_bin_params.275.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 29,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 23,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2454,10 +2470,10 @@
     "seaborn._statistics._eval_bivariate.335.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 35,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 34,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 28,
+        "UnknownCall": 24,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2465,10 +2481,10 @@
     "seaborn._statistics._eval_univariate.367.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 35,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 34,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 23,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2476,10 +2492,10 @@
     "seaborn._statistics.__call__.393.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 50,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 34,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 64,
+        "UnknownCall": 25,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2504,10 +2520,10 @@
     "seaborn._statistics.__call__.440.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 50,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 65,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2522,22 +2538,21 @@
     "seaborn._statistics.__call__.480.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 282,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 318,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 436,
-        "NativeCall": 12,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 447,
+        "NativeCall": 14,
+        "CallOfParameter": 21
       }
     },
     "seaborn._statistics._percentile_interval.519.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2553,23 +2568,21 @@
     "seaborn.algorithms.bootstrap.7.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 37,
+        "UnknownCall": 27,
         "NativeCall": 6,
-        "CallOfParameter": 4
+        "CallOfParameter": 3
       }
     },
     "seaborn.algorithms._structured_bootstrap.102.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 30,
+        "UnknownCall": 20,
         "NativeCall": 6,
-        "CallOfParameter": 4
+        "CallOfParameter": 3
       }
     },
     "seaborn.algorithms._handle_random_seed.121.0": {
@@ -2583,13 +2596,13 @@
     "seaborn._stats.counting.__call__.34.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._stats.counting.__post_init__.115.4": {
@@ -2601,10 +2614,10 @@
     "seaborn._stats.counting._define_bin_edges.122.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 21,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 23,
+        "UnknownCall": 22,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2612,10 +2625,10 @@
     "seaborn._stats.counting._define_bin_params.143.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 29,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 23,
+        "UnknownCall": 22,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2623,25 +2636,25 @@
     "seaborn._stats.counting._get_bins_and_eval.165.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 288,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 324,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 429,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 438,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._stats.counting._eval.170.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 131,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 195,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 210,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn._stats.counting._normalize.183.4": {
@@ -2654,13 +2667,13 @@
     "seaborn._stats.counting.__call__.201.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 294,
-        "NonLocalVariableWrite": 151,
+        "NonLocalVariableRead": 330,
+        "NonLocalVariableWrite": 159,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 430,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -2674,49 +2687,49 @@
     "seaborn._core.groupby._get_groups.49.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 427,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 436,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.groupby._reorder_columns.73.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 39,
-        "NonLocalVariableWrite": 12,
+        "NonLocalVariableRead": 76,
+        "NonLocalVariableWrite": 21,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 90,
-        "NativeCall": 1,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 108,
+        "NativeCall": 2,
+        "CallOfParameter": 8
       }
     },
     "seaborn._core.groupby.agg.79.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.groupby.apply.105.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 437,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -2724,25 +2737,25 @@
     "seaborn._core.rules.VarType.19.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.rules.__init__.31.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.rules.__eq__.35.4": {
@@ -2754,49 +2767,49 @@
     "seaborn._core.rules.variable_type.40.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.rules.all_numeric.114.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.rules.all_datetime.125.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.rules.categorical_order.139.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -2805,9 +2818,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 46,
+        "UnknownCall": 47,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2815,10 +2828,9 @@
     "seaborn.external.kde.evaluate.212.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 30,
         "FileRead": 1,
-        "UnknownCall": 33,
+        "UnknownCall": 32,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2841,9 +2853,8 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 46,
+        "UnknownCall": 47,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2851,10 +2862,9 @@
     "seaborn.external.kde.covariance_factor.327.37": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2869,9 +2879,8 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 46,
+        "UnknownCall": 47,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2879,10 +2888,9 @@
     "seaborn.external.kde.pdf.354.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 30,
         "FileRead": 1,
-        "UnknownCall": 33,
+        "UnknownCall": 32,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2897,10 +2905,9 @@
     "seaborn.external.kde.neff.375.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 18,
+        "UnknownCall": 17,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -2912,7 +2919,8 @@
       "reasons": {
         "NonLocalVariableRead": 12,
         "NonLocalVariableWrite": 5,
-        "UnknownCall": 15
+        "UnknownCall": 16,
+        "NativeCall": 1
       }
     },
     "seaborn.relational.update.222.8": {
@@ -2930,7 +2938,8 @@
       "reasons": {
         "NonLocalVariableRead": 24,
         "NonLocalVariableWrite": 6,
-        "UnknownCall": 43
+        "UnknownCall": 44,
+        "NativeCall": 1
       }
     },
     "seaborn.relational.__init__.529.4": {
@@ -2943,48 +2952,49 @@
     "seaborn.relational.plot.542.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 53,
-        "NonLocalVariableWrite": 14,
-        "FileRead": 1,
-        "UnknownCall": 63,
-        "NativeCall": 6,
-        "CallOfParameter": 3
+        "NonLocalVariableRead": 93,
+        "NonLocalVariableWrite": 22,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 84,
+        "NativeCall": 8,
+        "CallOfParameter": 6
       }
     },
     "seaborn.relational.lineplot.603.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 357,
-        "NonLocalVariableWrite": 188,
+        "NonLocalVariableRead": 399,
+        "NonLocalVariableWrite": 192,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 575,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 594,
+        "NativeCall": 16,
+        "CallOfParameter": 25
       }
     },
     "seaborn.relational.scatterplot.732.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 357,
-        "NonLocalVariableWrite": 188,
+        "NonLocalVariableRead": 399,
+        "NonLocalVariableWrite": 192,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 576,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 594,
+        "NativeCall": 16,
+        "CallOfParameter": 25
       }
     },
     "seaborn.relational.relplot.825.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 312,
-        "NonLocalVariableWrite": 170,
+        "NonLocalVariableRead": 350,
+        "NonLocalVariableWrite": 176,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 505,
-        "NativeCall": 13,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 518,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     }
   },
@@ -2992,10 +3002,10 @@
     "seaborn.regression.establish_variables.32.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 22,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3003,10 +3013,10 @@
     "seaborn.regression.dropna.56.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 21,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3017,10 +3027,10 @@
     "seaborn.regression.__init__.76.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 12,
+        "NonLocalVariableRead": 28,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "UnknownCall": 26,
+        "UnknownCall": 25,
         "NativeCall": 6,
         "CallOfParameter": 2
       }
@@ -3035,10 +3045,10 @@
     "seaborn.regression.estimate_data.154.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 30,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 32,
+        "UnknownCall": 31,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -3046,10 +3056,9 @@
     "seaborn.regression.fit_regression.188.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 29,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 26,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3057,10 +3066,10 @@
     "seaborn.regression.fit_fast.229.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 33,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 32,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 32,
+        "UnknownCall": 31,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -3074,10 +3083,9 @@
     "seaborn.regression.fit_poly.248.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 31,
         "FileRead": 1,
-        "UnknownCall": 26,
+        "UnknownCall": 29,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -3085,10 +3093,9 @@
     "seaborn.regression.reg_func.250.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3096,10 +3103,10 @@
     "seaborn.regression.fit_statsmodels.265.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 27,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 26,
+        "UnknownCall": 29,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -3107,10 +3114,9 @@
     "seaborn.regression.reg_func.271.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 24,
+        "UnknownCall": 23,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3125,10 +3131,10 @@
     "seaborn.regression.fit_logx.296.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 27,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 28,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 30,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -3143,10 +3149,9 @@
     "seaborn.regression.bin_predictor.317.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 25,
+        "UnknownCall": 24,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3185,22 +3190,21 @@
     "seaborn.regression.lmplot.560.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 119,
-        "NonLocalVariableWrite": 69,
+        "NonLocalVariableRead": 144,
+        "NonLocalVariableWrite": 72,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 160,
-        "NativeCall": 7,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 166,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn.regression.facet_kw_deprecation.576.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 20,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -3208,37 +3212,37 @@
     "seaborn.regression.update_datalim.619.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 135,
-        "NonLocalVariableWrite": 77,
+        "NonLocalVariableRead": 176,
+        "NonLocalVariableWrite": 86,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 203,
-        "NativeCall": 10,
-        "CallOfParameter": 8
+        "FileWrite": 2,
+        "UnknownCall": 229,
+        "NativeCall": 12,
+        "CallOfParameter": 11
       }
     },
     "seaborn.regression.regplot.736.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 233,
-        "NonLocalVariableWrite": 120,
+        "NonLocalVariableRead": 281,
+        "NonLocalVariableWrite": 123,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 395,
-        "NativeCall": 10,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 415,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.regression.residplot.838.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 241,
-        "NonLocalVariableWrite": 122,
+        "NonLocalVariableRead": 289,
+        "NonLocalVariableWrite": 125,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 403,
-        "NativeCall": 10,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 423,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -3246,18 +3250,19 @@
     "seaborn.external.appdirs.user_cache_dir.73.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 33,
+        "NonLocalVariableRead": 123,
+        "NonLocalVariableWrite": 42,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 185,
-        "NativeCall": 3,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 201,
+        "NativeCall": 4,
+        "CallOfParameter": 11
       }
     },
     "seaborn.external.appdirs._get_win_folder_from_registry.132.0": {
       "purity": "Impure",
       "reasons": {
+        "NonLocalVariableRead": 1,
         "UnknownCall": 1,
         "NativeCall": 1
       }
@@ -3289,13 +3294,13 @@
     "seaborn._core.data.__init__.49.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 77,
-        "NonLocalVariableWrite": 28,
+        "NonLocalVariableRead": 112,
+        "NonLocalVariableWrite": 37,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.data.__contains__.66.4": {
@@ -3307,25 +3312,25 @@
     "seaborn._core.data.join.72.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 86,
-        "NonLocalVariableWrite": 33,
+        "NonLocalVariableRead": 121,
+        "NonLocalVariableWrite": 42,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 178,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 195,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.data._assign_variables.119.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 77,
-        "NonLocalVariableWrite": 22,
+        "NonLocalVariableRead": 112,
+        "NonLocalVariableWrite": 31,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     }
   },
@@ -3411,13 +3416,13 @@
     "seaborn.external.docscrape.__init__.164.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 39,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 74,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 28,
-        "NativeCall": 7,
-        "CallOfParameter": 4
+        "FileWrite": 2,
+        "UnknownCall": 47,
+        "NativeCall": 8,
+        "CallOfParameter": 7
       }
     },
     "seaborn.external.docscrape.__getitem__.177.4": {
@@ -3429,10 +3434,10 @@
     "seaborn.external.docscrape.__setitem__.180.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 7,
         "CallOfParameter": 1
       }
@@ -3475,21 +3480,22 @@
     "seaborn.external.docscrape._parse_param_list.242.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 9,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 45,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 4,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 25,
+        "NativeCall": 1,
+        "CallOfParameter": 4
       }
     },
     "seaborn.external.docscrape._parse_see_also.299.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 25,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 7,
         "CallOfParameter": 1
       }
@@ -3510,33 +3516,34 @@
     "seaborn.external.docscrape._parse_summary.371.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 8,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 44,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 2,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 23,
+        "NativeCall": 1,
+        "CallOfParameter": 4
       }
     },
     "seaborn.external.docscrape._parse.393.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 35,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 70,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 25,
-        "NativeCall": 7,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 44,
+        "NativeCall": 8,
+        "CallOfParameter": 5
       }
     },
     "seaborn.external.docscrape._error_location.430.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 23,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 7,
         "CallOfParameter": 1
       }
@@ -3586,11 +3593,13 @@
     "seaborn.external.docscrape.dedent_lines.572.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 8,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 44,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 3
+        "FileWrite": 2,
+        "UnknownCall": 24,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.external.docscrape.header.577.0": {
@@ -3599,13 +3608,13 @@
     "seaborn.external.docscrape.__init__.582.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 40,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 75,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 35,
-        "NativeCall": 7,
-        "CallOfParameter": 4
+        "FileWrite": 2,
+        "UnknownCall": 54,
+        "NativeCall": 8,
+        "CallOfParameter": 7
       }
     },
     "seaborn.external.docscrape.get_func.609.4": {
@@ -3628,23 +3637,25 @@
     "seaborn.external.docscrape.__init__.638.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 11,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 47,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 13
+        "FileWrite": 2,
+        "UnknownCall": 34,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.external.docscrape.splitlines_x.669.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 39,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 74,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 30,
-        "NativeCall": 7,
-        "CallOfParameter": 4
+        "FileWrite": 2,
+        "UnknownCall": 49,
+        "NativeCall": 8,
+        "CallOfParameter": 7
       }
     },
     "seaborn.external.docscrape.methods.691.4": {
@@ -3676,36 +3687,37 @@
     "seaborn._core.plot.theme_context.94.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 44,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 80,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 50,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 60,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn._core.plot.build_plot_signature.114.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 12,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 48,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 11,
-        "NativeCall": 1
+        "FileWrite": 2,
+        "UnknownCall": 32,
+        "NativeCall": 2,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.plot.__init__.200.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 77,
-        "NonLocalVariableWrite": 41,
+        "NonLocalVariableRead": 112,
+        "NonLocalVariableWrite": 50,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot._resolve_positionals.234.4": {
@@ -3720,37 +3732,37 @@
     "seaborn._core.plot._repr_png_.277.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 373,
-        "NonLocalVariableWrite": 194,
-        "FileRead": 3,
-        "FileWrite": 1,
-        "UnknownCall": 572,
-        "NativeCall": 15,
-        "CallOfParameter": 20
+        "NonLocalVariableRead": 389,
+        "NonLocalVariableWrite": 198,
+        "FileRead": 4,
+        "FileWrite": 2,
+        "UnknownCall": 547,
+        "NativeCall": 17,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot._clone.283.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot._theme_with_defaults.309.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 48,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 84,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 51,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 61,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn._core.plot._variables.330.4": {
@@ -3762,169 +3774,169 @@
     "seaborn._core.plot.on.344.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 137,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.add.390.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.pair.479.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.facet.542.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.scale.605.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.share.632.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.limit.651.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.label.672.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 44,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 53,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.layout.700.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 45,
+        "NonLocalVariableRead": 137,
+        "NonLocalVariableWrite": 54,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.theme.745.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 100,
-        "NonLocalVariableWrite": 43,
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 52,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 194,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot.save.778.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 340,
-        "NonLocalVariableWrite": 187,
+        "NonLocalVariableRead": 375,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 524,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 537,
+        "NativeCall": 16,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot.show.796.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 373,
-        "NonLocalVariableWrite": 194,
+        "NonLocalVariableRead": 375,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 571,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 535,
+        "NativeCall": 16,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot.plot.816.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 340,
-        "NonLocalVariableWrite": 187,
+        "NonLocalVariableRead": 375,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 523,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 535,
+        "NativeCall": 16,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot._plot.823.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 340,
-        "NonLocalVariableWrite": 187,
+        "NonLocalVariableRead": 375,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 523,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 535,
+        "NativeCall": 16,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot.__init__.875.4": {
@@ -3933,44 +3945,44 @@
     "seaborn._core.plot.save.884.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 3,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 2,
+        "UnknownCall": 2
       }
     },
     "seaborn._core.plot.show.894.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 57,
+        "NonLocalVariableRead": 375,
+        "NonLocalVariableWrite": 193,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 131,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 535,
+        "NativeCall": 16,
+        "CallOfParameter": 22
       }
     },
     "seaborn._core.plot._repr_png_.910.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 49,
-        "NonLocalVariableWrite": 4,
-        "FileRead": 3,
-        "FileWrite": 1,
-        "UnknownCall": 51,
-        "NativeCall": 9,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 98,
+        "NonLocalVariableWrite": 19,
+        "FileRead": 4,
+        "FileWrite": 2,
+        "UnknownCall": 74,
+        "NativeCall": 10,
+        "CallOfParameter": 4
       }
     },
     "seaborn._core.plot._extract_data.949.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 92,
-        "NonLocalVariableWrite": 33,
+        "NonLocalVariableRead": 127,
+        "NonLocalVariableWrite": 42,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 178,
-        "NativeCall": 2,
-        "CallOfParameter": 9
+        "FileWrite": 2,
+        "UnknownCall": 195,
+        "NativeCall": 3,
+        "CallOfParameter": 11
       }
     },
     "seaborn._core.plot._resolve_label.965.4": {
@@ -3983,36 +3995,37 @@
     "seaborn._core.plot._setup_figure.980.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 283,
-        "NonLocalVariableWrite": 152,
+        "NonLocalVariableRead": 321,
+        "NonLocalVariableWrite": 160,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 431,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 443,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.plot._compute_stats.1080.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 14,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 50,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 5,
-        "NativeCall": 1
+        "FileWrite": 2,
+        "UnknownCall": 26,
+        "NativeCall": 2,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.plot._get_scale.1134.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 151,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 159,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.plot._get_subplot_data.1149.4": {
@@ -4027,58 +4040,61 @@
     "seaborn._core.plot._setup_scales.1171.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 290,
-        "NonLocalVariableWrite": 153,
+        "NonLocalVariableRead": 328,
+        "NonLocalVariableWrite": 161,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 437,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 449,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.plot._plot_layer.1295.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 263,
-        "NonLocalVariableWrite": 140,
+        "NonLocalVariableRead": 300,
+        "NonLocalVariableWrite": 145,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 412,
-        "NativeCall": 13,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 427,
+        "NativeCall": 15,
+        "CallOfParameter": 17
       }
     },
     "seaborn._core.plot.get_order.1310.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 14,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 50,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 4,
-        "NativeCall": 1
+        "FileWrite": 2,
+        "UnknownCall": 25,
+        "NativeCall": 2,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.plot._unscale_coords.1375.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 19,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 55,
+        "NonLocalVariableWrite": 13,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 33,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 54,
+        "NativeCall": 1,
+        "CallOfParameter": 5
       }
     },
     "seaborn._core.plot._generate_pairings.1407.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 13,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 49,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 4,
-        "NativeCall": 1
+        "FileWrite": 2,
+        "UnknownCall": 25,
+        "NativeCall": 2,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.plot._get_subplot_index.1449.4": {
@@ -4108,25 +4124,25 @@
     "seaborn._core.plot.split_generator.1485.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 279,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 315,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 429,
-        "NativeCall": 13,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 438,
+        "NativeCall": 15,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.plot._update_legend_contents.1545.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 155,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 191,
+        "NonLocalVariableWrite": 61,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 232,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 250,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._core.plot._make_legend.1593.4": {
@@ -4139,13 +4155,13 @@
     "seaborn._core.plot._finalize_figure.1642.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 281,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 319,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 437,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 449,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -4195,13 +4211,13 @@
     "seaborn._marks.base._resolve.126.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 133,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 169,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 203,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 220,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.base._infer_orient.199.4": {
@@ -4219,47 +4235,49 @@
     "seaborn._marks.base.resolve_properties.231.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 134,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 170,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 203,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 220,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.base.resolve_color.241.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 135,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 171,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 210,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 228,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.base.visible.274.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 133,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 169,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 203,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 220,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.base.document_properties.297.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 12,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 48,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 4
+        "FileWrite": 2,
+        "UnknownCall": 25,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     }
   },
@@ -4270,13 +4288,13 @@
     "seaborn._core.properties.default_scale.64.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.properties.infer_scale.77.4": {
@@ -4297,21 +4315,15 @@
     "seaborn._core.properties._check_dict_entries.107.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 3,
-        "FileRead": 1,
-        "UnknownCall": 28,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 1
       }
     },
     "seaborn._core.properties._check_list_length.115.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 21,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 20,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 8,
         "CallOfParameter": 1
       }
@@ -4351,9 +4363,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 49,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 68,
+        "UnknownCall": 67,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -4364,10 +4376,9 @@
     "seaborn._core.properties.mapping.241.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -4375,12 +4386,11 @@
     "seaborn._core.properties._get_values.249.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 24,
         "FileRead": 1,
-        "UnknownCall": 31,
+        "UnknownCall": 20,
         "NativeCall": 8,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn._core.properties._forward.279.4": {
@@ -4445,30 +4455,35 @@
     "seaborn._core.properties._get_values.378.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 29,
+        "UnknownCall": 14,
         "NativeCall": 8,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn._core.properties.standardize.408.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 17,
-        "NonLocalVariableWrite": 8,
-        "UnknownCall": 11,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 76,
+        "NonLocalVariableWrite": 17,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 46,
+        "NativeCall": 8,
+        "CallOfParameter": 6
       }
     },
     "seaborn._core.properties._default_values.411.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 17,
-        "NonLocalVariableWrite": 8,
-        "UnknownCall": 11,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 76,
+        "NonLocalVariableWrite": 17,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 46,
+        "NativeCall": 8,
+        "CallOfParameter": 6
       }
     },
     "seaborn._core.properties.standardize.447.4": {
@@ -4487,10 +4502,10 @@
     "seaborn._core.properties._get_dash_pattern.494.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 21,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 18,
+        "UnknownCall": 17,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -4510,33 +4525,37 @@
     "seaborn._core.properties.standardize.568.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 6,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 5
+        "FileWrite": 2,
+        "UnknownCall": 26,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.properties._standardize_color_sequence.576.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 63,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 34,
-        "NativeCall": 6,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 54,
+        "NativeCall": 7,
+        "CallOfParameter": 4
       }
     },
     "seaborn._core.properties.has_alpha.578.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 6,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 11,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 5
+        "FileWrite": 2,
+        "UnknownCall": 26,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.properties.infer_scale.591.4": {
@@ -4552,8 +4571,8 @@
     "seaborn._core.properties._mapping.663.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 8,
-        "UnknownCall": 21,
+        "NonLocalVariableRead": 13,
+        "UnknownCall": 22,
         "NativeCall": 2
       }
     },
@@ -4564,9 +4583,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 50,
-        "NonLocalVariableWrite": 6,
+        "NonLocalVariableWrite": 5,
         "FileRead": 1,
-        "UnknownCall": 68,
+        "UnknownCall": 67,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -4577,10 +4596,10 @@
     "seaborn._core.properties.mapping.691.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 22,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 23,
+        "UnknownCall": 22,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -4588,12 +4607,12 @@
     "seaborn._core.properties._get_values.702.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 37,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 34,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 47,
+        "UnknownCall": 33,
         "NativeCall": 9,
-        "CallOfParameter": 2
+        "CallOfParameter": 1
       }
     },
     "seaborn._core.properties.default_scale.742.4": {
@@ -4616,10 +4635,9 @@
     "seaborn._core.properties._default_values.753.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 21,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 20,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 8,
         "CallOfParameter": 1
       }
@@ -4688,10 +4706,9 @@
     "seaborn._core.scales.__call__.115.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -4705,22 +4722,22 @@
     "seaborn._core.scales._setup.164.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 151,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 159,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 429,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 438,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.scales.na_safe_cast.174.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 27,
+        "UnknownCall": 26,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -4754,7 +4771,8 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 1,
-        "UnknownCall": 2
+        "UnknownCall": 2,
+        "NativeCall": 1
       }
     },
     "seaborn._core.scales._get_formatter.235.4": {
@@ -4774,25 +4792,25 @@
     "seaborn._core.scales.set_default_locators_and_formatters.283.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.scales.convert_units.307.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 430,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.scales._finalize.326.4": {
@@ -4843,22 +4861,21 @@
     "seaborn._core.scales.normalize.452.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 431,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 440,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.scales.spacer.465.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -4894,21 +4911,23 @@
     "seaborn._core.scales._parse_for_log_params.652.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 6,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 2
+        "FileWrite": 2,
+        "UnknownCall": 23,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn._core.scales._get_locators.666.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 27,
-        "NonLocalVariableWrite": 7,
+        "NonLocalVariableRead": 26,
+        "NonLocalVariableWrite": 6,
         "FileRead": 1,
-        "UnknownCall": 34,
-        "NativeCall": 6,
+        "UnknownCall": 33,
+        "NativeCall": 7,
         "CallOfParameter": 1
       }
     },
@@ -4957,13 +4976,13 @@
     "seaborn._core.scales.__init__.902.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._core.scales.set_view_interval.917.4": {
@@ -5032,10 +5051,9 @@
     "seaborn._core.scales.convert_units.976.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5065,10 +5083,10 @@
     "seaborn._core.scales.logit.1012.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5076,10 +5094,9 @@
     "seaborn._core.scales.expit.1016.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5093,10 +5110,10 @@
     "seaborn._core.scales.forward.1033.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5104,10 +5121,10 @@
     "seaborn._core.scales.log.1037.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5115,10 +5132,9 @@
     "seaborn._core.scales.exp.1041.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5129,10 +5145,10 @@
     "seaborn._core.scales.symlog.1057.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 24,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5140,10 +5156,9 @@
     "seaborn._core.scales.symexp.1061.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5203,10 +5218,9 @@
     "seaborn._stats.base._check_grouping_vars.45.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 21,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 15,
+        "UnknownCall": 13,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5219,17 +5233,13 @@
     "seaborn._core.subplots.__init__.32.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 3,
+        "NonLocalVariableRead": 2,
         "NonLocalVariableWrite": 1,
-        "UnknownCall": 2
+        "UnknownCall": 1
       }
     },
     "seaborn._core.subplots._check_dimension_uniqueness.46.4": {
-      "purity": "Impure",
-      "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 1
-      }
+      "purity": "Pure"
     },
     "seaborn._core.subplots._determine_grid_dimensions.78.4": {
       "purity": "Impure",
@@ -5254,13 +5264,13 @@
     "seaborn._core.subplots.init_figure.142.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 94,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 121,
+        "NonLocalVariableWrite": 61,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 108,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 117,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn._core.subplots.__iter__.263.4": {
@@ -5274,25 +5284,25 @@
     "seaborn.miscplot.palplot.9.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 88,
-        "NonLocalVariableWrite": 57,
+        "NonLocalVariableRead": 115,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 109,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 118,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.miscplot.dogplot.33.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 62,
+        "NonLocalVariableRead": 139,
+        "NonLocalVariableWrite": 65,
         "FileRead": 3,
-        "FileWrite": 1,
-        "UnknownCall": 121,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 132,
+        "NativeCall": 11,
+        "CallOfParameter": 9
       }
     }
   },
@@ -5300,22 +5310,22 @@
     "seaborn.categorical.__init__.56.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical._hue_backcompat.121.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 21,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 15,
+        "UnknownCall": 14,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5323,10 +5333,10 @@
     "seaborn.categorical._palette_without_hue_backcompat.170.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 23,
+        "NonLocalVariableWrite": 2,
         "FileRead": 1,
-        "UnknownCall": 14,
+        "UnknownCall": 13,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5340,10 +5350,9 @@
     "seaborn.categorical._get_gray.186.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5359,10 +5368,9 @@
     "seaborn.categorical._native_width.227.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5370,10 +5378,9 @@
     "seaborn.categorical._nested_offsets.236.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 24,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5381,13 +5388,13 @@
     "seaborn.categorical.plot_strips.255.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 295,
-        "NonLocalVariableWrite": 154,
+        "NonLocalVariableRead": 334,
+        "NonLocalVariableWrite": 162,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 457,
-        "NativeCall": 13,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 474,
+        "NativeCall": 15,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical.plot_swarms.321.4": {
@@ -5395,40 +5402,41 @@
       "reasons": {
         "NonLocalVariableRead": 13,
         "NonLocalVariableWrite": 6,
-        "UnknownCall": 20
+        "UnknownCall": 21,
+        "NativeCall": 1
       }
     },
     "seaborn.categorical.draw.375.16": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 294,
-        "NonLocalVariableWrite": 160,
+        "NonLocalVariableRead": 333,
+        "NonLocalVariableWrite": 168,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 454,
-        "NativeCall": 13,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 471,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     },
     "seaborn.categorical.establish_variables.425.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical._group_longform.630.4": {
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 47,
+        "UnknownCall": 46,
         "NativeCall": 6,
         "CallOfParameter": 3
       }
@@ -5436,22 +5444,21 @@
     "seaborn.categorical.establish_colors.655.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 46,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 82,
+        "NonLocalVariableWrite": 14,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 51,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 61,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.categorical.hue_offsets.715.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 25,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5472,37 +5479,37 @@
     "seaborn.categorical.add_legend_data.769.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 89,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 116,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 100,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 109,
+        "NativeCall": 9,
+        "CallOfParameter": 8
       }
     },
     "seaborn.categorical.__init__.781.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical.draw_boxplot.796.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 127,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 123,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 132,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.categorical.restyle_boxplot.858.4": {
@@ -5521,22 +5528,22 @@
     "seaborn.categorical.__init__.896.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 427,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 436,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical.estimate_densities.927.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 29,
-        "NonLocalVariableWrite": 5,
+        "NonLocalVariableRead": 27,
+        "NonLocalVariableWrite": 4,
         "FileRead": 1,
-        "UnknownCall": 51,
+        "UnknownCall": 49,
         "NativeCall": 6,
         "CallOfParameter": 2
       }
@@ -5544,10 +5551,10 @@
     "seaborn.categorical.fit_kde.1052.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 32,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 47,
+        "UnknownCall": 54,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5555,10 +5562,9 @@
     "seaborn.categorical.kde_support.1067.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5590,13 +5596,13 @@
     "seaborn.categorical.draw_violins.1138.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 132,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 133,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 142,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.categorical.draw_single_observation.1313.4": {
@@ -5609,10 +5615,9 @@
     "seaborn.categorical.draw_box_lines.1327.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 25,
         "FileRead": 1,
-        "UnknownCall": 22,
+        "UnknownCall": 21,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5620,10 +5625,9 @@
     "seaborn.categorical.draw_quartiles.1361.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5631,10 +5635,9 @@
     "seaborn.categorical.draw_points.1375.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 25,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5649,10 +5652,9 @@
     "seaborn.categorical.draw_to_density.1395.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 24,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5673,13 +5675,13 @@
     "seaborn.categorical.estimate_statistic.1438.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 25,
+        "NonLocalVariableRead": 131,
+        "NonLocalVariableWrite": 33,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 196,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 211,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn.categorical.draw_confints.1494.4": {
@@ -5693,13 +5695,13 @@
     "seaborn.categorical.__init__.1525.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 95,
-        "NonLocalVariableWrite": 29,
+        "NonLocalVariableRead": 131,
+        "NonLocalVariableWrite": 36,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 198,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 213,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn.categorical.draw_bars.1542.4": {
@@ -5720,22 +5722,21 @@
     "seaborn.categorical.__init__.1596.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 104,
-        "NonLocalVariableWrite": 30,
+        "NonLocalVariableRead": 145,
+        "NonLocalVariableWrite": 38,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 214,
-        "NativeCall": 10,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 229,
+        "NativeCall": 11,
+        "CallOfParameter": 12
       }
     },
     "seaborn.categorical.hue_offsets.1637.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 23,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5743,9 +5744,9 @@
     "seaborn.categorical.draw_points.1646.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 16,
+        "NonLocalVariableRead": 15,
         "NonLocalVariableWrite": 8,
-        "UnknownCall": 30,
+        "UnknownCall": 29,
         "CallOfParameter": 1
       }
     },
@@ -5759,22 +5760,21 @@
     "seaborn.categorical.__init__.1747.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 278,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 314,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 426,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 435,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn.categorical._lv_box_ends.1788.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 26,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 28,
         "FileRead": 1,
-        "UnknownCall": 31,
+        "UnknownCall": 27,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5782,10 +5782,9 @@
     "seaborn.categorical._lv_outliers.1826.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5796,13 +5795,13 @@
     "seaborn.categorical._lvplot.1842.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 47,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 83,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 77,
-        "NativeCall": 7,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 96,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.categorical.height.1900.12": {
@@ -5814,33 +5813,37 @@
     "seaborn.categorical.vert_perc_box.1904.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 46,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 43
+        "NonLocalVariableRead": 85,
+        "NonLocalVariableWrite": 55,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 74,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.categorical.horz_perc_box.1910.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 46,
-        "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 44
+        "NonLocalVariableRead": 85,
+        "NonLocalVariableWrite": 55,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 75,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn.categorical.draw_letter_value_plot.1978.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 127,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 123,
-        "NativeCall": 7,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 132,
+        "NativeCall": 9,
+        "CallOfParameter": 9
       }
     },
     "seaborn.categorical.plot.2043.4": {
@@ -5853,109 +5856,109 @@
     "seaborn.categorical.boxplot.2224.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 346,
-        "NonLocalVariableWrite": 174,
+        "NonLocalVariableRead": 388,
+        "NonLocalVariableWrite": 180,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 551,
-        "NativeCall": 13,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 570,
+        "NativeCall": 15,
+        "CallOfParameter": 23
       }
     },
     "seaborn.categorical.violinplot.2297.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 375,
-        "NonLocalVariableWrite": 194,
+        "NonLocalVariableRead": 415,
+        "NonLocalVariableWrite": 200,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 576,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 590,
+        "NativeCall": 16,
+        "CallOfParameter": 25
       }
     },
     "seaborn.categorical.boxenplot.2399.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 327,
-        "NonLocalVariableWrite": 172,
+        "NonLocalVariableRead": 369,
+        "NonLocalVariableWrite": 178,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 507,
-        "NativeCall": 13,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 526,
+        "NativeCall": 15,
+        "CallOfParameter": 23
       }
     },
     "seaborn.categorical.stripplot.2495.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 304,
-        "NonLocalVariableWrite": 166,
+        "NonLocalVariableRead": 343,
+        "NonLocalVariableWrite": 174,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 487,
-        "NativeCall": 13,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 502,
+        "NativeCall": 15,
+        "CallOfParameter": 22
       }
     },
     "seaborn.categorical.swarmplot.2617.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 303,
-        "NonLocalVariableWrite": 166,
+        "NonLocalVariableRead": 342,
+        "NonLocalVariableWrite": 174,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 484,
-        "NativeCall": 13,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 499,
+        "NativeCall": 15,
+        "CallOfParameter": 22
       }
     },
     "seaborn.categorical.barplot.2739.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 263,
-        "NonLocalVariableWrite": 123,
+        "NonLocalVariableRead": 311,
+        "NonLocalVariableWrite": 125,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 444,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 466,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.categorical.pointplot.2829.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 375,
-        "NonLocalVariableWrite": 196,
+        "NonLocalVariableRead": 415,
+        "NonLocalVariableWrite": 202,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 578,
-        "NativeCall": 14,
-        "CallOfParameter": 20
+        "FileWrite": 2,
+        "UnknownCall": 592,
+        "NativeCall": 16,
+        "CallOfParameter": 25
       }
     },
     "seaborn.categorical.countplot.2919.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 263,
-        "NonLocalVariableWrite": 118,
+        "NonLocalVariableRead": 311,
+        "NonLocalVariableWrite": 121,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 441,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 463,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.categorical.catplot.3003.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 319,
-        "NonLocalVariableWrite": 172,
+        "NonLocalVariableRead": 357,
+        "NonLocalVariableWrite": 180,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 493,
-        "NativeCall": 13,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 510,
+        "NativeCall": 15,
+        "CallOfParameter": 21
       }
     },
     "seaborn.categorical.__init__.3354.4": {
@@ -5967,10 +5970,10 @@
     "seaborn.categorical.__call__.3362.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 30,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 29,
+        "NonLocalVariableWrite": 3,
         "FileRead": 1,
-        "UnknownCall": 35,
+        "UnknownCall": 34,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5978,10 +5981,9 @@
     "seaborn.categorical.beeswarm.3424.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 24,
+        "UnknownCall": 23,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -5989,10 +5991,9 @@
     "seaborn.categorical.could_overlap.3456.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6000,10 +6001,9 @@
     "seaborn.categorical.position_candidates.3470.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6011,10 +6011,9 @@
     "seaborn.categorical.first_non_overlapping_candidate.3487.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6022,10 +6021,9 @@
     "seaborn.categorical.add_gutters.3520.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 15,
+        "UnknownCall": 14,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6035,68 +6033,60 @@
     "seaborn.matrix._index_to_label.31.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 31,
-        "NonLocalVariableWrite": 3,
-        "FileRead": 1,
-        "UnknownCall": 28,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 3,
+        "UnknownCall": 2
       }
     },
     "seaborn.matrix._index_to_ticklabels.39.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
-        "FileRead": 1,
-        "UnknownCall": 28,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 1,
+        "UnknownCall": 1
       }
     },
     "seaborn.matrix._convert_colors.47.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 34,
-        "NonLocalVariableWrite": 4,
-        "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 31,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 43,
+        "NonLocalVariableWrite": 11,
+        "FileRead": 1,
+        "FileWrite": 2,
+        "UnknownCall": 26,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.matrix._matrix_mask.60.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 93,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 129,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 194,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 209,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn.matrix.__init__.100.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 102,
-        "NonLocalVariableWrite": 32,
+        "NonLocalVariableRead": 134,
+        "NonLocalVariableWrite": 39,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 218,
-        "NativeCall": 8,
-        "CallOfParameter": 11
+        "FileWrite": 2,
+        "UnknownCall": 224,
+        "NativeCall": 9,
+        "CallOfParameter": 13
       }
     },
     "seaborn.matrix._determine_cmap_params.192.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 24,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 23,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 33,
+        "UnknownCall": 32,
         "NativeCall": 6,
         "CallOfParameter": 2
       }
@@ -6105,9 +6095,8 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 27,
-        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 33,
+        "UnknownCall": 29,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6128,44 +6117,49 @@
     "seaborn.matrix.plot.294.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 113,
-        "NonLocalVariableWrite": 57,
+        "NonLocalVariableRead": 157,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 150,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 178,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.matrix.heatmap.355.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.__init__.466.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 35,
+        "NonLocalVariableRead": 208,
+        "NonLocalVariableWrite": 107,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 204,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 306,
+        "NativeCall": 11,
+        "CallOfParameter": 15
       }
     },
     "seaborn.matrix._calculate_linkage_scipy.529.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 4,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 138,
+        "NonLocalVariableWrite": 75,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 147,
+        "NativeCall": 9,
+        "CallOfParameter": 7
       }
     },
     "seaborn.matrix._calculate_linkage_fastcluster.534.4": {
@@ -6178,19 +6172,25 @@
     "seaborn.matrix.calculated_linkage.552.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 25,
-        "NonLocalVariableWrite": 1,
-        "FileRead": 1,
-        "UnknownCall": 17,
-        "NativeCall": 6,
-        "CallOfParameter": 1
+        "NonLocalVariableRead": 139,
+        "NonLocalVariableWrite": 75,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 149,
+        "NativeCall": 9,
+        "CallOfParameter": 7
       }
     },
     "seaborn.matrix.calculate_dendrogram.564.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 135,
+        "NonLocalVariableWrite": 75,
+        "FileRead": 2,
+        "FileWrite": 2,
+        "UnknownCall": 146,
+        "NativeCall": 9,
+        "CallOfParameter": 7
       }
     },
     "seaborn.matrix.reordered_ind.581.4": {
@@ -6202,49 +6202,49 @@
     "seaborn.matrix.plot.585.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 126,
-        "NonLocalVariableWrite": 75,
+        "NonLocalVariableRead": 167,
+        "NonLocalVariableWrite": 78,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 177,
-        "NativeCall": 8,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 197,
+        "NativeCall": 12,
+        "CallOfParameter": 8
       }
     },
     "seaborn.matrix.dendrogram.642.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.__init__.698.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 171,
-        "NonLocalVariableWrite": 83,
+        "NonLocalVariableRead": 196,
+        "NonLocalVariableWrite": 85,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 289,
-        "NativeCall": 9,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 287,
+        "NativeCall": 11,
+        "CallOfParameter": 17
       }
     },
     "seaborn.matrix._preprocess_colors.774.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 35,
-        "NonLocalVariableWrite": 4,
-        "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 35,
-        "NativeCall": 6,
-        "CallOfParameter": 2
+        "NonLocalVariableRead": 45,
+        "NonLocalVariableWrite": 11,
+        "FileRead": 1,
+        "FileWrite": 2,
+        "UnknownCall": 30,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn.matrix.format_data.816.4": {
@@ -6266,10 +6266,9 @@
     "seaborn.matrix.dim_ratios.900.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 19,
+        "UnknownCall": 18,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6277,73 +6276,73 @@
     "seaborn.matrix.color_list_to_matrix_and_cmap.919.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 63,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 24,
-        "NativeCall": 6,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 43,
+        "NativeCall": 7,
+        "CallOfParameter": 4
       }
     },
     "seaborn.matrix.plot_dendrograms.970.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.plot_colors.995.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.plot_matrix.1060.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.plot.1117.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 112,
+        "NonLocalVariableRead": 280,
+        "NonLocalVariableWrite": 115,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 389,
-        "NativeCall": 10,
-        "CallOfParameter": 14
+        "FileWrite": 2,
+        "UnknownCall": 409,
+        "NativeCall": 14,
+        "CallOfParameter": 19
       }
     },
     "seaborn.matrix.clustermap.1146.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 234,
-        "NonLocalVariableWrite": 118,
+        "NonLocalVariableRead": 282,
+        "NonLocalVariableWrite": 121,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 396,
-        "NativeCall": 10,
-        "CallOfParameter": 16
+        "FileWrite": 2,
+        "UnknownCall": 416,
+        "NativeCall": 14,
+        "CallOfParameter": 21
       }
     }
   },
@@ -6351,11 +6350,13 @@
     "seaborn._docstrings.__init__.10.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 7,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 43,
+        "NonLocalVariableWrite": 10,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 2
+        "FileWrite": 2,
+        "UnknownCall": 23,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "seaborn._docstrings.__getattr__.25.4": {
@@ -6375,13 +6376,13 @@
     "seaborn._docstrings.from_function_params.49.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 40,
-        "NonLocalVariableWrite": 4,
+        "NonLocalVariableRead": 75,
+        "NonLocalVariableWrite": 12,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 40,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 59,
+        "NativeCall": 8,
+        "CallOfParameter": 8
       }
     }
   },
@@ -6395,10 +6396,9 @@
     "seaborn._stats.density._check_var_list_or_boolean.99.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 21,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 19,
         "FileRead": 1,
-        "UnknownCall": 15,
+        "UnknownCall": 13,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6406,10 +6406,10 @@
     "seaborn._stats.density._fit.110.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 32,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableRead": 33,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 46,
+        "UnknownCall": 53,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6418,9 +6418,9 @@
       "purity": "Impure",
       "reasons": {
         "NonLocalVariableRead": 36,
-        "NonLocalVariableWrite": 2,
+        "NonLocalVariableWrite": 1,
         "FileRead": 1,
-        "UnknownCall": 48,
+        "UnknownCall": 55,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6428,37 +6428,37 @@
     "seaborn._stats.density._fit_and_evaluate.133.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 24,
+        "NonLocalVariableRead": 141,
+        "NonLocalVariableWrite": 32,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 217,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 239,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn._stats.density._transform.154.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 287,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 323,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 431,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 445,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._stats.density.__call__.172.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 289,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 325,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 432,
-        "NativeCall": 12,
-        "CallOfParameter": 19
+        "FileWrite": 2,
+        "UnknownCall": 446,
+        "NativeCall": 14,
+        "CallOfParameter": 21
       }
     }
   },
@@ -6547,13 +6547,13 @@
     "seaborn._marks.area._plot.23.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 232,
-        "NonLocalVariableWrite": 122,
+        "NonLocalVariableRead": 269,
+        "NonLocalVariableWrite": 127,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 367,
-        "NativeCall": 12,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 381,
+        "NativeCall": 14,
+        "CallOfParameter": 17
       }
     },
     "seaborn._marks.area._standardize_coordinate_parameters.53.4": {
@@ -6565,10 +6565,9 @@
     "seaborn._marks.area._get_verts.59.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6576,13 +6575,13 @@
     "seaborn._marks.area._legend_artist.71.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 138,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 174,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 234,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.area._standardize_coordinate_parameters.115.4": {
@@ -6609,49 +6608,49 @@
     "seaborn._marks.bar._make_patches.30.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 139,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 174,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 223,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 235,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.bar._resolve_properties.75.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 137,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 173,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 215,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 233,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.bar._legend_artist.91.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 138,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 173,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 222,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 234,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.bar._plot.133.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 147,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 182,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 238,
-        "NativeCall": 8,
-        "CallOfParameter": 11
+        "FileWrite": 2,
+        "UnknownCall": 252,
+        "NativeCall": 10,
+        "CallOfParameter": 13
       }
     },
     "seaborn._marks.bar._plot.203.4": {
@@ -6665,13 +6664,13 @@
     "seaborn._marks.bar.get_dimensions.232.12": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 151,
-        "NonLocalVariableWrite": 69,
+        "NonLocalVariableRead": 187,
+        "NonLocalVariableWrite": 76,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 258,
-        "NativeCall": 9,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 270,
+        "NativeCall": 11,
+        "CallOfParameter": 12
       }
     }
   },
@@ -6692,61 +6691,61 @@
     "seaborn._marks.dot._resolve_properties.47.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 136,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 172,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 210,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 227,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.dot._plot.62.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 139,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 173,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 224,
-        "NativeCall": 8,
-        "CallOfParameter": 11
+        "FileWrite": 2,
+        "UnknownCall": 237,
+        "NativeCall": 10,
+        "CallOfParameter": 13
       }
     },
     "seaborn._marks.dot._legend_artist.87.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 139,
-        "NonLocalVariableWrite": 53,
+        "NonLocalVariableRead": 173,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 223,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 235,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.dot._resolve_properties.132.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 136,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 172,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 216,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 233,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.dot._resolve_properties.185.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 136,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 172,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 214,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 231,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     }
   },
@@ -6754,25 +6753,25 @@
     "seaborn._marks.line._plot.49.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 147,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 183,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 224,
-        "NativeCall": 8,
-        "CallOfParameter": 11
+        "FileWrite": 2,
+        "UnknownCall": 242,
+        "NativeCall": 10,
+        "CallOfParameter": 13
       }
     },
     "seaborn._marks.line._legend_artist.83.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 146,
-        "NonLocalVariableWrite": 52,
+        "NonLocalVariableRead": 182,
+        "NonLocalVariableWrite": 60,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 222,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 240,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.line._handle_capstyle.111.4": {
@@ -6791,34 +6790,33 @@
     "seaborn._marks.line._plot.169.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 245,
-        "NonLocalVariableWrite": 136,
+        "NonLocalVariableRead": 282,
+        "NonLocalVariableWrite": 141,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 381,
-        "NativeCall": 13,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 397,
+        "NativeCall": 15,
+        "CallOfParameter": 17
       }
     },
     "seaborn._marks.line._legend_artist.202.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 136,
-        "NonLocalVariableWrite": 51,
+        "NonLocalVariableRead": 172,
+        "NonLocalVariableWrite": 59,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 207,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 224,
+        "NativeCall": 10,
+        "CallOfParameter": 12
       }
     },
     "seaborn._marks.line._setup_segments.219.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 23,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 22,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6832,10 +6830,9 @@
     "seaborn._marks.line._setup_segments.287.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 21,
+        "UnknownCall": 20,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
@@ -6845,13 +6842,13 @@
     "seaborn._marks.text._plot.40.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 237,
-        "NonLocalVariableWrite": 124,
+        "NonLocalVariableRead": 274,
+        "NonLocalVariableWrite": 129,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 361,
-        "NativeCall": 12,
-        "CallOfParameter": 15
+        "FileWrite": 2,
+        "UnknownCall": 376,
+        "NativeCall": 14,
+        "CallOfParameter": 17
       }
     }
   },
@@ -6859,37 +6856,37 @@
     "seaborn._stats.aggregation.__call__.38.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 281,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 317,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._stats.aggregation._process.85.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 76,
-        "NonLocalVariableWrite": 22,
+        "NonLocalVariableRead": 111,
+        "NonLocalVariableWrite": 31,
         "FileRead": 1,
-        "FileWrite": 1,
-        "UnknownCall": 175,
-        "NativeCall": 2,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 192,
+        "NativeCall": 3,
+        "CallOfParameter": 12
       }
     },
     "seaborn._stats.aggregation.__call__.93.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 287,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 323,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 430,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 439,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     },
     "seaborn._stats.aggregation.__call__.117.4": {
@@ -6900,25 +6897,25 @@
     "seaborn._stats.order._percentile.62.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 105,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 142,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 203,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 216,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn._stats.order.__call__.73.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 437,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -6926,25 +6923,25 @@
     "seaborn._stats.regression._fit_predict.22.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 97,
-        "NonLocalVariableWrite": 23,
+        "NonLocalVariableRead": 133,
+        "NonLocalVariableWrite": 31,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 197,
-        "NativeCall": 8,
-        "CallOfParameter": 10
+        "FileWrite": 2,
+        "UnknownCall": 212,
+        "NativeCall": 9,
+        "CallOfParameter": 12
       }
     },
     "seaborn._stats.regression.__call__.39.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 280,
-        "NonLocalVariableWrite": 150,
+        "NonLocalVariableRead": 316,
+        "NonLocalVariableWrite": 158,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 428,
-        "NativeCall": 12,
-        "CallOfParameter": 18
+        "FileWrite": 2,
+        "UnknownCall": 437,
+        "NativeCall": 14,
+        "CallOfParameter": 20
       }
     }
   },
@@ -6955,13 +6952,13 @@
     "seaborn.widgets._init_mutable_colormap.22.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 44,
-        "NonLocalVariableWrite": 6,
+        "NonLocalVariableRead": 79,
+        "NonLocalVariableWrite": 13,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 52,
-        "NativeCall": 8,
-        "CallOfParameter": 2
+        "FileWrite": 2,
+        "UnknownCall": 62,
+        "NativeCall": 9,
+        "CallOfParameter": 4
       }
     },
     "seaborn.widgets._update_lut.31.0": {
@@ -6973,13 +6970,13 @@
     "seaborn.widgets._show_cmap.37.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 91,
-        "NonLocalVariableWrite": 56,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 62,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 107,
-        "NativeCall": 7,
-        "CallOfParameter": 5
+        "FileWrite": 2,
+        "UnknownCall": 136,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_colorbrewer_palette.47.0": {
@@ -6988,37 +6985,37 @@
     "seaborn.widgets.choose_sequential.93.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 147,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 149,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_diverging.115.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 106,
-        "NonLocalVariableWrite": 59,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 146,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 148,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_qualitative.133.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 104,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 133,
+        "NonLocalVariableWrite": 62,
         "FileRead": 2,
-        "FileWrite": 1,
+        "FileWrite": 2,
         "UnknownCall": 142,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_dark_palette.143.0": {
@@ -7027,37 +7024,37 @@
     "seaborn.widgets.choose_dark_palette_rgb.180.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 60,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 145,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 147,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_dark_palette_hls.195.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 103,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 136,
-        "NativeCall": 8,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 146,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_dark_palette_husl.210.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 103,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 136,
-        "NativeCall": 8,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 146,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_light_palette.228.0": {
@@ -7066,37 +7063,37 @@
     "seaborn.widgets.choose_light_palette_rgb.265.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 60,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 145,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 147,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_light_palette_hls.280.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 103,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 136,
-        "NativeCall": 8,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 146,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_light_palette_husl.295.8": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 103,
-        "NonLocalVariableWrite": 58,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 136,
-        "NativeCall": 8,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 146,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_diverging_palette.313.0": {
@@ -7105,13 +7102,13 @@
     "seaborn.widgets.choose_diverging_palette.346.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 60,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 63,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 148,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 150,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     },
     "seaborn.widgets.choose_cubehelix_palette.372.0": {
@@ -7120,13 +7117,13 @@
     "seaborn.widgets.choose_cubehelix.405.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 107,
-        "NonLocalVariableWrite": 61,
+        "NonLocalVariableRead": 136,
+        "NonLocalVariableWrite": 64,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 148,
-        "NativeCall": 9,
-        "CallOfParameter": 6
+        "FileWrite": 2,
+        "UnknownCall": 150,
+        "NativeCall": 11,
+        "CallOfParameter": 8
       }
     }
   },
@@ -7143,58 +7140,57 @@
     "seaborn._testing.assert_artists_equal.24.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 62,
-        "NonLocalVariableWrite": 13,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 21,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 60,
-        "NativeCall": 10,
-        "CallOfParameter": 7
+        "FileWrite": 2,
+        "UnknownCall": 79,
+        "NativeCall": 11,
+        "CallOfParameter": 10
       }
     },
     "seaborn._testing.assert_legends_equal.50.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 62,
-        "NonLocalVariableWrite": 13,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 21,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 65,
-        "NativeCall": 10,
-        "CallOfParameter": 7
+        "FileWrite": 2,
+        "UnknownCall": 84,
+        "NativeCall": 11,
+        "CallOfParameter": 10
       }
     },
     "seaborn._testing.assert_plots_equal.64.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 62,
-        "NonLocalVariableWrite": 13,
+        "NonLocalVariableRead": 97,
+        "NonLocalVariableWrite": 21,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 62,
-        "NativeCall": 10,
-        "CallOfParameter": 7
+        "FileWrite": 2,
+        "UnknownCall": 81,
+        "NativeCall": 11,
+        "CallOfParameter": 10
       }
     },
     "seaborn._testing.assert_colors_equal.75.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 28,
-        "NonLocalVariableWrite": 3,
+        "NonLocalVariableRead": 63,
+        "NonLocalVariableWrite": 11,
         "FileRead": 2,
-        "FileWrite": 1,
-        "UnknownCall": 24,
-        "NativeCall": 7,
-        "CallOfParameter": 1
+        "FileWrite": 2,
+        "UnknownCall": 43,
+        "NativeCall": 8,
+        "CallOfParameter": 4
       }
     },
     "seaborn._testing.handle_array.77.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 22,
-        "NonLocalVariableWrite": 1,
+        "NonLocalVariableRead": 21,
         "FileRead": 1,
-        "UnknownCall": 20,
+        "UnknownCall": 19,
         "NativeCall": 6,
         "CallOfParameter": 1
       }
