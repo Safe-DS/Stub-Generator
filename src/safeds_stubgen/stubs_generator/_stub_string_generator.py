@@ -1020,13 +1020,13 @@ class StubsStringGenerator:
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
             if reexport.endswith(f"/{name}") or reexport == name:
-                for module in self.api.reexport_map[reexport]:
+                for module in self.api.reexport_map[reexport]:  # pragma: no cover
                     # Added "no cover" since I can't recreate this in the tests
                     if (
                         path.startswith(module.id)
                         and class_path.startswith(module.id)
                         and path.lstrip(module.id).lstrip("/") == name == class_name
-                    ):  # pragma: no cover
+                    ):
                         return True
 
         return False
