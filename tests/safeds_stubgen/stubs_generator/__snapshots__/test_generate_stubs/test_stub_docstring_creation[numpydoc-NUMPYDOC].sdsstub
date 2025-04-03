@@ -377,6 +377,7 @@ class ClassWithVariousParameterTypes(
     @PythonName("bool_type") boolType: Boolean,
     @PythonName("str_type") strType: String,
     @PythonName("float_type") floatType: Float,
+    @PythonName("byte_type") byteType: bytes,
     @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
     @PythonName("list_type_1") listType1: List<Any>,
     @PythonName("list_type_2") listType2: List<String>,
