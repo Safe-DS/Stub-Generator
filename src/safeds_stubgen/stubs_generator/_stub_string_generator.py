@@ -1013,13 +1013,13 @@ class StubsStringGenerator:
         return False
 
     def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
-        if class_path.endswith(f".{path}") or class_path == path:
+        if class_path.endswith(f"/{path}") or class_path == path:
             return True
 
         name = path.split("/")[-1]
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
-            if reexport.endswith(f".{name}") or reexport == name:
+            if reexport.endswith(f"/{name}") or reexport == name:
                 for module in self.api.reexport_map[reexport]:
                     # Added "no cover" since I can't recreate this in the tests
                     if (
