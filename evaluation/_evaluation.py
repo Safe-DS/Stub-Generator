@@ -11,7 +11,7 @@ from functools import reduce
 import astroid
 import astroid.nodes
 
-from safeds_stubgen.api_analyzer._api import Parameter
+from safeds_stubgen.api_analyzer._api import API, Parameter
 from safeds_stubgen.api_analyzer._types import AbstractType, BoundaryType, CallableType, DictType, EnumType, FinalType, ListType, LiteralType, NamedSequenceType, NamedType, SetType, TupleType, TypeVarType, UnionType, UnknownType
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import FunctionScope, NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, Pure, PurityResult
@@ -878,6 +878,92 @@ class PurityEvaluation(Evaluation):
 			for reduced_id in reduced_nodeIDs:
 				file.write(f"- new - {str(reduced_id)}\n")
 
+	def get_type_results(self, api: API, purity_results: APIPurity):
+		amount_call_refs = 0
+		amount_call_refs_with_type_info = 0
+		amount_call_refs_without_type_info = 0
+
+		amount_type_through_inference = 0
+		amount_type_through_type_hint = 0
+		amount_type_through_docstring = 0
+		amount_type_outside_of_package = 0
+		amount_missing_type_while_finding_function = 0
+		amount_decrease = 0
+		amount_increase = 0
+
+		amount_all_type_sources = 0
+
+		amount_typehint_and_docstring = 0
+		amount_typehint_and_inference = 0
+		amount_docstring_and_inference = 0
+
+		amount_only_typehint = 0
+		amount_only_docstring = 0
+		amount_only_inference = 0
+
+		flat_purity_results: dict[str, PurityResult] = {}
+		for module_result in purity_results.purity_results.values():
+			for function_id, function_result in module_result.items():
+				id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
+				flat_purity_results[id_str] = function_result
+
+		sorted_flat_purity_results: dict[str, PurityResult] = dict(sorted(flat_purity_results.items(), key=lambda item: item[0]))
+
+		for id, function in api.functions.items():
+			result = sorted_flat_purity_results[id]
+			if isinstance(result, Pure):
+				pass
+			else:
+				pass
+
+			for call_ref_id, call_ref in function.body.call_references.items():
+				receiver = call_ref.receiver
+				amount_call_refs += 1
+				amount_type_through_inference += 1 if receiver.typeThroughInference else 0 
+				amount_type_through_type_hint += 1 if receiver.typeThroughTypeHint else 0 
+				amount_type_through_docstring += 1 if receiver.typeThroughDocString else 0 
+				amount_type_outside_of_package += 1 if receiver.typeOutsideOfPackage else 0 
+				amount_missing_type_while_finding_function += 1 if receiver.missingTypesWhileFindingFunction else 0 
+				amount_decrease += receiver.decrease
+				amount_increase += receiver.increase
+
+				amount_all_type_sources += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+				amount_typehint_and_docstring += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+				amount_typehint_and_inference += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+				amount_docstring_and_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+				amount_only_typehint += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+				amount_only_docstring += 1 if not receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+				amount_only_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+
+		data = [
+			{
+				"Type-Aware?": "Yes" if not self.old else "No",
+				"Library": self._package_name, 
+				"#CallRefs": amount_call_refs,
+				""
+				"Date": str(datetime.now())
+			},
+		]
+
+		file_exists = os.path.isfile(filename)
+
+		# Open the file in write mode
+		with open(filename, "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=self.result_fieldnames)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data)
+
+				
 class ApiEvaluation(Evaluation):
 	def __init__(self, package_name: str, old_purity_analysis: bool, runtime_eval: bool = False):
 		self._start_time = 0

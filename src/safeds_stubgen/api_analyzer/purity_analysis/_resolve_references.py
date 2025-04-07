@@ -336,6 +336,7 @@ class ReferenceResolver:
             if self.evaluation is not None:
                 result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
                 if 0 < len(result):
+                    call_reference_api.receiver.decrease = len(result) - 1 # - 1 as the builtin is found later
                     # type aware purity analysis provided an improvement
                     self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
                     self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, result, [])
@@ -350,8 +351,10 @@ class ReferenceResolver:
                 result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type, call_reference_api.reason_for_no_found_functions)
             if call_reference_api.fallbackToSignatureCheck:
+                call_reference_api.receiver.missingTypesWhileFindingFunction = True
                 result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
                 return result
+            call_reference_api.receiver.typeOutsideOfPackage = True
             return [] 
 
         list_of_function_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
@@ -363,9 +366,11 @@ class ReferenceResolver:
                 pass
             if len(reduced_function_defs) < len(function_defs_old):
                 # type aware purity analysis provided an improvement
+                call_reference_api.receiver.decrease = len(function_defs_old) - len(reduced_function_defs)
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
             elif len(reduced_function_defs) > len(function_defs_old):
                 # found functions which old purity analysis couldn't find
+                call_reference_api.receiver.increase = len(reduced_function_defs) - len(function_defs_old)
                 self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, True, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type, call_reference_api.reason_for_no_found_functions)
             else:
                 # type aware purity analysis found same amount of functions

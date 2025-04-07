@@ -313,6 +313,10 @@ class CallReceiver:
     typeThroughTypeHint: bool = False
     typeThroughDocString: bool = False
     typeThroughInference: bool = False
+    typeOutsideOfPackage: bool = False
+    decrease: int = 0
+    increase: int = 0
+    missingTypesWhileFindingFunction: bool = False
 
 class UnknownValue:
     pass
