@@ -399,7 +399,7 @@ def global_func_from_docstring_same_name_pure(instance) -> int:
     return result
 
 def global_func_from_docstring_same_name_impure(instance) -> int:
-    """this function should be pure as same_name of ClassImpure is impure
+    """this function should be impure as same_name of ClassImpure is impure
 
     Parameters
     --------

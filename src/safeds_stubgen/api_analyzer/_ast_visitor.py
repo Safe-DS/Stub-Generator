@@ -371,13 +371,16 @@ class MyPyAstVisitor:
         
         parameter_dict = {parameter.name: parameter for parameter in parameters}
 
+        if (name == "foo"):
+            pass
+
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
         # analyze body for types of receivers of call references
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
         try:
-            function_body = self._extract_body_info(node.body, parameter_dict, call_references)
+            function_body = self.extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
             if node.body is not None:
@@ -673,8 +676,7 @@ class MyPyAstVisitor:
 
         # limited to depth 1
         # closures: dict[str, Function] = self._extract_closures(node.body, parameter_of_func)
-        # function_body = self._extract_body_info(node.body, parameter_of_func, {})
-        
+        # function_body = self._extract_body_info(node.body, parameter_of_func, {})        
         closures: dict[str, Function] = {}
         function_body = Body(
             line=-1,
@@ -705,12 +707,12 @@ class MyPyAstVisitor:
         )
         return function
 
-    def _extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
+    def extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
         """
             Entry point of body extraction
 
             Searches recursively for members of type mp_nodes.Block or mp_nodes.Expression
-            For Block, this function is called again and for expression, _extract_expression_info
+            For Block, this function is called again and for expression, _traverse_expr
             is called.
             A call_reference dictionary is passed along to store found call references.
 
@@ -745,21 +747,21 @@ class MyPyAstVisitor:
                     member = getattr(statement, member_name)
                     # what about patterns?
                     if isinstance(member, mp_nodes.Block):
-                        self._extract_body_info(member, parameter_of_func, call_references)
+                        self.extract_body_info(member, parameter_of_func, call_references)
                     elif isinstance(member, mp_nodes.Expression | mp_nodes.Lvalue):
-                        self.extract_expression_info(member, parameter_of_func, call_references)
+                        self.traverse_expr(member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) != 0:
                         if isinstance(member[0], mp_nodes.Block):
                             for body in member:
-                                self._extract_body_info(body, parameter_of_func, call_references)
+                                self.extract_body_info(body, parameter_of_func, call_references)
                         elif isinstance(member[0], mp_nodes.Expression | mp_nodes.Lvalue):
                             for expr in member:
-                                self.extract_expression_info(expr, parameter_of_func, call_references)
+                                self.traverse_expr(expr, parameter_of_func, call_references)
                         elif isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                             # generator expression member condlist
                             for condlist in member:
                                 for cond in condlist:
-                                    self.extract_expression_info(cond, parameter_of_func, call_references)
+                                    self.traverse_expr(cond, parameter_of_func, call_references)
                         else:
                             pass
                     else:
@@ -773,7 +775,7 @@ class MyPyAstVisitor:
             call_references=call_references
         )
 
-    def extract_expression_info(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
+    def traverse_expr(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
         """
             Entry point of expression extraction
 
@@ -795,48 +797,48 @@ class MyPyAstVisitor:
         if self.evaluation is not None and expr is not None:
             self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
         if isinstance(expr, mp_nodes.CallExpr):
-            self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
+            self.traverse_callExpr(expr, [], parameter_of_func, call_references)
             return
         
         if isinstance(expr, mp_nodes.LambdaExpr):
             # lambda expressions have a method called expr to get the body of the lamda function
-            self.extract_expression_info(expr.expr(), parameter_of_func, call_references)
+            self.traverse_expr(expr.expr(), parameter_of_func, call_references)
 
         for member_name in dir(expr):
             if not member_name.startswith("__") and member_name != "expanded":  # expanded stores function itself which leads to infinite recursion
                 try: 
                     member = getattr(expr, member_name, None)
                     if isinstance(member, mp_nodes.Expression):
-                        self.extract_expression_info(member, parameter_of_func, call_references)
+                        self.traverse_expr(member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                         for expr_of_member in member:
-                            self.extract_expression_info(expr_of_member, parameter_of_func, call_references)
+                            self.traverse_expr(expr_of_member, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
                         for tuple_item in member:
                             for tuple_expr in tuple_item:
                                 if tuple_expr is None:
                                     continue
-                                self.extract_expression_info(tuple_expr, parameter_of_func, call_references)
+                                self.traverse_expr(tuple_expr, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                         # generator expression member condlist
                         for condlist in member:
                             for cond in condlist:
-                                self.extract_expression_info(cond, parameter_of_func, call_references)
+                                self.traverse_expr(cond, parameter_of_func, call_references)
                     else:
                         pass
 
                 except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators'
                     logging.warning(f"Member not found with member name: {member_name}, expr: {expr}, error: {err}")
 
-    def extract_call_expression_info(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+    def traverse_callExpr(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
             Entry point of call expression extraction, but also handles nested calls
 
             A call reference has three attributes, that need to be examined. 
             - expr.callee:  this represents the part of the call reference which comes before "()" so this is the "callee()"
                             and to find the receiver of this call reference, we need to handle this case separately
-            - expr.analyzed: is of type Expression and therefore needs to be examined by extract_expression_info()
-            - expr.args: is of type list[Expression] and therefore needs to be examined by extract_expression_info() as well
+            - expr.analyzed: is of type Expression and therefore needs to be examined by traverse_expr()
+            - expr.args: is of type list[Expression] and therefore needs to be examined by traverse_expr() as well
 
             Parameters
             ----------
@@ -865,13 +867,13 @@ class MyPyAstVisitor:
         # start search for type
         pathCopy = path.copy()
         pathCopy.append("()")
-        self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, parameter_of_func, call_references)
+        self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
         if expr.analyzed is not None:
-            self.extract_expression_info(expr.analyzed, parameter_of_func, call_references)
+            self.traverse_expr(expr.analyzed, parameter_of_func, call_references)
         for arg in expr.args:
-            self.extract_expression_info(arg, parameter_of_func, call_references)
+            self.traverse_expr(arg, parameter_of_func, call_references)
 
-    def extract_expression_info_after_call_reference_found(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+    def traverse_callee(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
             A call reference was found and this function tries to retrieve the type of the receiver of the call
 
@@ -962,17 +964,17 @@ class MyPyAstVisitor:
                 self.extract_call_reference_data_from_node(expr, expr.callee.node, pathCopy, parameter_of_func, call_references)
                 # maybe add check if call reference could not be extracted
                 for arg in expr.args:
-                    self.extract_expression_info(arg, parameter_of_func, call_references)
+                    self.traverse_expr(arg, parameter_of_func, call_references)
                 # this is another call ref that needs to be extracted
-                self.extract_call_expression_info(expr, [], parameter_of_func, call_references)
+                self.traverse_callExpr(expr, [], parameter_of_func, call_references)
                 return
             # go deeper to find termination condition
             # find final receiver
             pathCopy.append("()")
-            self.extract_expression_info_after_call_reference_found(expr.callee, pathCopy, parameter_of_func, call_references)
+            self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
             # start finding info of another call expr
             newPath = []
-            self.extract_call_expression_info(expr, newPath, parameter_of_func, call_references)
+            self.traverse_callExpr(expr, newPath, parameter_of_func, call_references)
             return
 
         # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
@@ -983,13 +985,13 @@ class MyPyAstVisitor:
                 # add [] to path is already done above
                 pathCopy.append(expr.base.name)
                 self.extract_call_reference_data_from_node(expr, expr.base.node, pathCopy, parameter_of_func, call_references)
-                self.extract_expression_info(expr.index, parameter_of_func, call_references)
+                self.traverse_expr(expr.index, parameter_of_func, call_references)
                 return
         elif isinstance(expr, mp_nodes.OpExpr):
             pathCopy.append(f"${expr.op}$")
             self.extract_call_reference_data_from_node(expr, expr.method_type, pathCopy, parameter_of_func, call_references)
-            self.extract_expression_info(expr.left, parameter_of_func, call_references)
-            self.extract_expression_info(expr.right, parameter_of_func, call_references)
+            self.traverse_expr(expr.left, parameter_of_func, call_references)
+            self.traverse_expr(expr.right, parameter_of_func, call_references)
             return
         else:
             pass
@@ -999,23 +1001,23 @@ class MyPyAstVisitor:
             if not member_name.startswith("__"):
                 member = getattr(expr, member_name, None)
                 if isinstance(member, mp_nodes.Expression):
-                    self.extract_expression_info_after_call_reference_found(member, pathCopy, parameter_of_func, call_references)
+                    self.traverse_callee(member, pathCopy, parameter_of_func, call_references)
                     found_expression = True
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
                     for expr_of_member in member:
-                        self.extract_expression_info_after_call_reference_found(expr_of_member, pathCopy, parameter_of_func, call_references)
+                        self.traverse_callee(expr_of_member, pathCopy, parameter_of_func, call_references)
                     found_expression = True
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
                     for tuple_item in member:
                         for tuple_expr in tuple_item:
                             if tuple_expr is None:
                                 continue
-                            self.extract_expression_info_after_call_reference_found(tuple_expr, pathCopy, parameter_of_func, call_references)
+                            self.traverse_callee(tuple_expr, pathCopy, parameter_of_func, call_references)
                 elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                     # generator expression member condlist
                     for condlist in member:
                         for cond in condlist:
-                            self.extract_expression_info_after_call_reference_found(cond, pathCopy, parameter_of_func, call_references)
+                            self.traverse_callee(cond, pathCopy, parameter_of_func, call_references)
                     found_expression = True
                 else:
                     pass
@@ -1080,15 +1082,21 @@ class MyPyAstVisitor:
         if isinstance(node, mp_nodes.FuncDef):
             call_receiver_type = None
             possible_reason_for_no_found_functions += ""
+            typeThroughTypeHint = False
+            typeThroughDocString = False
+            typeThroughInference = False
             if node.type is not None:
                 # types = self._get_named_types_from_nested_type(self._infer_type_from_return_stmts(node))
-                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type)  # TODO  pm refactor types with mypy_type_to_abstract_type 
+                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type)
                 parameter = parameter_of_func.get(node.fullname)
                 if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                     if parameter.type is not None:
                         call_receiver_type = parameter.type
                     elif parameter.docstring.type is not None:
                         call_receiver_type = parameter.docstring.type
+
+                    typeThroughTypeHint = parameter.type is not None
+                    typeThroughDocString = parameter.docstring.type is not None
                     # if extracted_type is not None and len(extracted_type) == 1:
                     #     call_receiver_type = extracted_type[0]
                     # elif extracted_type is not None and len(extracted_type) >= 1:
@@ -1100,6 +1108,9 @@ class MyPyAstVisitor:
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
                         call_receiver_type = node.fullname
+                        
+                typeThroughInference = not isinstance(call_receiver_type, mp_types.AnyType)
+                
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
                 call_receiver_type = node.fullname
@@ -1109,7 +1120,10 @@ class MyPyAstVisitor:
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references,
-                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughDocString=typeThroughDocString,
+                typeThroughInference=typeThroughInference,
+                typeThroughTypeHint=typeThroughTypeHint,
             )
             return
         elif isinstance(node, mp_nodes.Var):
@@ -1295,7 +1309,10 @@ class MyPyAstVisitor:
         path: list[str], 
         call_references: dict[str, CallReference],
         is_super: bool = False,
-        possible_reason_for_no_found_functions: str = ""
+        possible_reason_for_no_found_functions: str = "",
+        typeThroughTypeHint: bool = False,
+        typeThroughDocString: bool = False,
+        typeThroughInference: bool = False,
     ):
         """
             Helper function, to set a callreference into the call_references dictionary
@@ -1343,7 +1360,10 @@ class MyPyAstVisitor:
             full_name=full_name, 
             type=type, 
             path_to_call_reference=path, 
-            found_classes=[]
+            found_classes=[],
+            typeThroughTypeHint=typeThroughTypeHint,
+            typeThroughDocString=typeThroughDocString,
+            typeThroughInference=typeThroughInference,
         )  # found Classes will later be found
         call_reference = CallReference(
             column=expr.column, 

@@ -310,6 +310,9 @@ class CallReceiver:
     full_name: str
     path_to_call_reference: list[str]
     found_classes: list[Class]
+    typeThroughTypeHint: bool = False
+    typeThroughDocString: bool = False
+    typeThroughInference: bool = False
 
 class UnknownValue:
     pass

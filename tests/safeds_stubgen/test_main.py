@@ -78,6 +78,7 @@ def test_main(
         "--docstyle",
         docstyle,
         "-nc",
+        # "-old"
     ]
 
     main()
@@ -144,8 +145,8 @@ def test_evaluation(
         docstyle,
         "-nc",
         "--evaluate_purity",
-        "--evaluate_api",
-        # "-old",
+        # "--evaluate_api",
+        "-old",
         # "-runtime",
     ]
 
