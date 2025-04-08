@@ -432,6 +432,8 @@ class DocstringParser(AbstractDocstringParser):
     def _get_griffe_docstring(self, qname: str) -> griffe_models.Docstring | None:
         griffe_node = self.griffe_index[qname] if qname in self.griffe_index else None
 
+        if griffe_node is None:
+            griffe_node = self.griffe_index["evaluation_packages." + qname] if "evaluation_packages." + qname in self.griffe_index else None
         if griffe_node is not None:
             return griffe_node.docstring
 

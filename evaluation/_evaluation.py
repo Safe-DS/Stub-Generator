@@ -883,6 +883,8 @@ class PurityEvaluation(Evaluation):
 		amount_call_refs_with_type_info = 0
 		amount_call_refs_without_type_info = 0
 
+		amount_call_refs_with_receiver_from_Parameter = 0
+
 		amount_type_through_inference = 0
 		amount_type_through_type_hint = 0
 		amount_type_through_docstring = 0
@@ -900,61 +902,432 @@ class PurityEvaluation(Evaluation):
 		amount_only_typehint = 0
 		amount_only_docstring = 0
 		amount_only_inference = 0
+		
+		amount_call_refs_with_type_info_is_from_parameter = 0
+		amount_call_refs_without_type_info_is_from_parameter = 0
+		amount_type_through_inference_is_from_parameter = 0
+		amount_type_through_type_hint_is_from_parameter = 0
+		amount_type_through_docstring_is_from_parameter = 0
+		amount_type_outside_of_package_is_from_parameter = 0
+		amount_missing_type_while_finding_function_is_from_parameter = 0
+		amount_decrease_is_from_parameter = 0
+		amount_increase_is_from_parameter = 0
 
-		flat_purity_results: dict[str, PurityResult] = {}
-		for module_result in purity_results.purity_results.values():
-			for function_id, function_result in module_result.items():
-				id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
-				flat_purity_results[id_str] = function_result
+		amount_all_type_sources_is_from_parameter = 0
 
-		sorted_flat_purity_results: dict[str, PurityResult] = dict(sorted(flat_purity_results.items(), key=lambda item: item[0]))
+		amount_typehint_and_docstring_is_from_parameter = 0
+		amount_typehint_and_inference_is_from_parameter = 0
+		amount_docstring_and_inference_is_from_parameter = 0
 
-		for id, function in api.functions.items():
-			result = sorted_flat_purity_results[id]
-			if isinstance(result, Pure):
-				pass
-			else:
-				pass
+		amount_only_typehint_is_from_parameter = 0
+		amount_only_docstring_is_from_parameter = 0
+		amount_only_inference_is_from_parameter = 0
 
-			for call_ref_id, call_ref in function.body.call_references.items():
-				receiver = call_ref.receiver
-				amount_call_refs += 1
-				amount_type_through_inference += 1 if receiver.typeThroughInference else 0 
-				amount_type_through_type_hint += 1 if receiver.typeThroughTypeHint else 0 
-				amount_type_through_docstring += 1 if receiver.typeThroughDocString else 0 
-				amount_type_outside_of_package += 1 if receiver.typeOutsideOfPackage else 0 
-				amount_missing_type_while_finding_function += 1 if receiver.missingTypesWhileFindingFunction else 0 
-				amount_decrease += receiver.decrease
-				amount_increase += receiver.increase
+		# flat_purity_results: dict[str, PurityResult] = {}
+		# for module_result in purity_results.purity_results.values():
+		# 	for function_id, function_result in module_result.items():
+		# 		id_str = f"{function_id.module}.{function_id.name}.{function_id.line}.{function_id.col}"
+		# 		flat_purity_results[id_str] = function_result
 
-				amount_all_type_sources += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+		# sorted_flat_purity_results: dict[str, PurityResult] = dict(sorted(flat_purity_results.items(), key=lambda item: item[0]))
 
-				amount_typehint_and_docstring += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
-				amount_typehint_and_inference += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
-				amount_docstring_and_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+		with open(f"evaluation/{self._package_name}/type_results/type_results_{self.date}.txt", newline='', mode="a") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+			fieldnames_single = [
+				"Type-Aware?",
+				"Library", 
+				"InFunction",
+				"name",
+				"line",
+				"column",
+				"IsFromParameter",
+				"HasTypeInfo",
+				"InferredType",
+				"TypeHint",
+				"DocString",
+				"MissingTypesOnPath",
+				"TypeOutsideOfPackage",
+				"Decrease",
+				"Increase",
+				"FoundType",
+				]
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldnames_single)
 
-				amount_only_typehint += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
-				amount_only_docstring += 1 if not receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
-				amount_only_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+			# Write the header
+			writer.writeheader()
+
+			for id, function in api.functions.items():
+				# result = sorted_flat_purity_results[id]
+				# if isinstance(result, Pure):
+				# 	pass
+				# else:
+				# 	pass
+
+				for call_ref_id, call_ref in function.body.call_references.items():
+					receiver = call_ref.receiver
+					amount_call_refs += 1
+					hasTypeInfo = (receiver.typeThroughInference or receiver.typeThroughTypeHint or receiver.typeThroughDocString) and not receiver.missingTypesWhileFindingFunction and not receiver.typeOutsideOfPackage
+					amount_call_refs_with_type_info += 1 if hasTypeInfo else 0 
+					amount_call_refs_without_type_info += 1 if not hasTypeInfo else 0 
+
+					amount_call_refs_with_receiver_from_Parameter += 1 if receiver.isFromParameter else 0
+
+					amount_type_through_inference += 1 if receiver.typeThroughInference else 0 
+					amount_type_through_type_hint += 1 if receiver.typeThroughTypeHint else 0 
+					amount_type_through_docstring += 1 if receiver.typeThroughDocString else 0 
+					amount_type_outside_of_package += 1 if receiver.typeOutsideOfPackage else 0 
+					amount_missing_type_while_finding_function += 1 if receiver.missingTypesWhileFindingFunction else 0 
+					amount_decrease += receiver.decrease
+					amount_increase += receiver.increase
+
+					amount_all_type_sources += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+					amount_typehint_and_docstring += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+					amount_typehint_and_inference += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+					amount_docstring_and_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+					amount_only_typehint += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+					amount_only_docstring += 1 if not receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+					amount_only_inference += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+
+					if receiver.isFromParameter:
+						amount_call_refs_with_type_info_is_from_parameter += 1 if hasTypeInfo else 0 
+						amount_call_refs_without_type_info_is_from_parameter += 1 if not hasTypeInfo else 0 
+						amount_type_through_inference_is_from_parameter += 1 if receiver.typeThroughInference else 0 
+						amount_type_through_type_hint_is_from_parameter += 1 if receiver.typeThroughTypeHint else 0 
+						amount_type_through_docstring_is_from_parameter += 1 if receiver.typeThroughDocString else 0 
+						amount_type_outside_of_package_is_from_parameter += 1 if receiver.typeOutsideOfPackage else 0 
+						amount_missing_type_while_finding_function_is_from_parameter += 1 if receiver.missingTypesWhileFindingFunction else 0 
+						amount_decrease_is_from_parameter += receiver.decrease
+						amount_increase_is_from_parameter += receiver.increase
+
+						amount_all_type_sources_is_from_parameter += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+						amount_typehint_and_docstring_is_from_parameter += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+						amount_typehint_and_inference_is_from_parameter += 1 if receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+						amount_docstring_and_inference_is_from_parameter += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+
+						amount_only_typehint_is_from_parameter += 1 if not receiver.typeThroughInference and receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+						amount_only_docstring_is_from_parameter += 1 if not receiver.typeThroughInference and not receiver.typeThroughTypeHint and receiver.typeThroughDocString else 0 
+						amount_only_inference_is_from_parameter += 1 if receiver.typeThroughInference and not receiver.typeThroughTypeHint and not receiver.typeThroughDocString else 0 
+
+					data = [
+						{
+							"Type-Aware?": "Yes" if not self.old else "No",
+							"Library": self._package_name, 
+							"InFunction": id,
+							"name": call_ref.function_name,
+							"line": call_ref.line,
+							"column": call_ref.column,
+							"IsFromParameter": "Yes" if receiver.isFromParameter else "No",
+							"HasTypeInfo": "Yes" if hasTypeInfo else "No",
+							"InferredType": "Yes" if receiver.typeThroughInference else "No",
+							"TypeHint": "Yes" if receiver.typeThroughTypeHint else "No",
+							"DocString": "Yes" if receiver.typeThroughDocString else "No",
+							"MissingTypesOnPath": "Yes" if receiver.missingTypesWhileFindingFunction else "No",
+							"TypeOutsideOfPackage": "Yes" if receiver.typeOutsideOfPackage else "No",
+							"Decrease": f"-{receiver.decrease}",
+							"Increase": f"+{receiver.increase}",
+							"FoundType": list(map(lambda x: x.id, receiver.found_classes))
+						},
+					]
+					# Write the data rows
+					writer.writerows(data)
+		
+		percentage_call_refs_with_receiver_from_Parameter = amount_call_refs_with_receiver_from_Parameter / amount_call_refs
+		percentage_call_refs_with_type_info = amount_call_refs_with_type_info / amount_call_refs
+		percentage_call_refs_without_type_info = amount_call_refs_without_type_info / amount_call_refs
+
+		percentage_type_through_inference = amount_type_through_inference / amount_call_refs
+		percentage_type_through_type_hint = amount_type_through_type_hint / amount_call_refs
+		percentage_type_through_docstring = amount_type_through_docstring / amount_call_refs
+		percentage_type_outside_of_package = amount_type_outside_of_package / amount_call_refs
+		percentage_missing_type_while_finding_function = amount_missing_type_while_finding_function / amount_call_refs
+		percentage_decrease = amount_decrease / amount_call_refs
+		percentage_increase = amount_increase / amount_call_refs
+
+		percentage_all_type_sources = amount_all_type_sources / amount_call_refs
+
+		percentage_typehint_and_docstring = amount_typehint_and_docstring / amount_call_refs
+		percentage_typehint_and_inference = amount_typehint_and_inference / amount_call_refs
+		percentage_docstring_and_inference = amount_docstring_and_inference / amount_call_refs
+
+		percentage_only_typehint = amount_only_typehint / amount_call_refs
+		percentage_only_docstring = amount_only_docstring / amount_call_refs
+		percentage_only_inference = amount_only_inference / amount_call_refs
+		
+		# only parameter receiver
+		percentage_call_refs_with_type_info_is_from_parameter = amount_call_refs_with_type_info_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_call_refs_without_type_info_is_from_parameter = amount_call_refs_without_type_info_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+
+		percentage_type_through_inference_is_from_parameter = amount_type_through_inference_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_type_through_type_hint_is_from_parameter = amount_type_through_type_hint_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_type_through_docstring_is_from_parameter = amount_type_through_docstring_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_type_outside_of_package_is_from_parameter = amount_type_outside_of_package_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_missing_type_while_finding_function_is_from_parameter = amount_missing_type_while_finding_function_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_decrease_is_from_parameter = amount_decrease_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_increase_is_from_parameter = amount_increase_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+
+		percentage_all_type_sources_is_from_parameter = amount_all_type_sources_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+
+		percentage_typehint_and_docstring_is_from_parameter = amount_typehint_and_docstring_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_typehint_and_inference_is_from_parameter = amount_typehint_and_inference_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_docstring_and_inference_is_from_parameter = amount_docstring_and_inference_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+
+		percentage_only_typehint_is_from_parameter = amount_only_typehint_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_only_docstring_is_from_parameter = amount_only_docstring_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+		percentage_only_inference_is_from_parameter = amount_only_inference_is_from_parameter / amount_call_refs_with_receiver_from_Parameter
+
 
 		data = [
 			{
 				"Type-Aware?": "Yes" if not self.old else "No",
 				"Library": self._package_name, 
 				"#CallRefs": amount_call_refs,
-				""
+
+				"#CallRefsIsFromParameter": amount_call_refs_with_receiver_from_Parameter,
+				"%CallRefsIsFromParameter": percentage_call_refs_with_receiver_from_Parameter,
+
+				"#CallRefsWithTypes": amount_call_refs_with_type_info,
+				"%CallRefsWithTypes": percentage_call_refs_with_type_info,
+
+				"#CallRefsWithoutTypes": amount_call_refs_without_type_info,
+				"%CallRefsWithoutTypes": percentage_call_refs_without_type_info,
+
+				"#CallRefsWithTypeThroughInference": amount_type_through_inference,
+				"%CallRefsWithTypeThroughInference": percentage_type_through_inference,
+
+				"#CallRefsWithTypeThroughSignatureTypeHint": amount_type_through_type_hint,
+				"%CallRefsWithTypeThroughSignatureTypeHint": percentage_type_through_type_hint,
+
+				"#CallRefsWithTypeThroughSignatureDocString": amount_type_through_docstring,
+				"%CallRefsWithTypeThroughSignatureDocString": percentage_type_through_docstring,
+
+				"#CallRefsWithTypeOutsideOfPackage": amount_type_outside_of_package,
+				"%CallRefsWithTypeOutsideOfPackage": percentage_type_outside_of_package,
+
+				"#CallRefsWithMissingTypeWhileFindingFunction": amount_missing_type_while_finding_function,
+				"%CallRefsWithMissingTypeWhileFindingFunction": percentage_missing_type_while_finding_function,
+
+				"#DecreasedReferences": amount_decrease,
+				"MeanDecrease": percentage_decrease,
+
+				"#IncreasedReferences": amount_increase,
+				"MeanIncrease": percentage_increase,
+
+				"#CallRefsWithAllTypeSources": amount_all_type_sources,
+				"%CallRefsWithAllTypeSources": percentage_all_type_sources,
+
+				"#CallRefsWithTypeHintAndDocstring": amount_typehint_and_docstring,
+				"%CallRefsWithTypeHintAndDocstring": percentage_typehint_and_docstring,
+				
+				"#CallRefsWithTypeHintAndInference": amount_typehint_and_inference,
+				"%CallRefsWithTypeHintAndInference": percentage_typehint_and_inference,
+				
+				"#CallRefsWithDocStringAndInference": amount_docstring_and_inference,
+				"%CallRefsWithDocStringAndInference": percentage_docstring_and_inference,
+				
+				"#CallRefsWithOnlyTypeHint": amount_only_typehint,
+				"%CallRefsWithOnlyTypeHint": percentage_only_typehint,
+				
+				"#CallRefsWithOnlyDocString": amount_only_docstring,
+				"%CallRefsWithOnlyDocString": percentage_only_docstring,
+				
+				"#CallRefsWithOnlyInference": amount_only_inference,
+				"%CallRefsWithOnlyInference": percentage_only_inference,
+
 				"Date": str(datetime.now())
 			},
 		]
 
-		file_exists = os.path.isfile(filename)
+		fieldnames = [
+			"Type-Aware?",
+			"Library", 
+			"#CallRefs",
+
+			"#CallRefsIsFromParameter",
+			"%CallRefsIsFromParameter",
+
+			"#CallRefsWithTypes",
+			"%CallRefsWithTypes",
+
+			"#CallRefsWithoutTypes",
+			"%CallRefsWithoutTypes",
+
+			"#CallRefsWithTypeThroughInference",
+			"%CallRefsWithTypeThroughInference",
+
+			"#CallRefsWithTypeThroughSignatureTypeHint",
+			"%CallRefsWithTypeThroughSignatureTypeHint",
+
+			"#CallRefsWithTypeThroughSignatureDocString",
+			"%CallRefsWithTypeThroughSignatureDocString",
+
+			"#CallRefsWithTypeOutsideOfPackage",
+			"%CallRefsWithTypeOutsideOfPackage",
+
+			"#CallRefsWithMissingTypeWhileFindingFunction",
+			"%CallRefsWithMissingTypeWhileFindingFunction",
+
+			"#DecreasedReferences",
+			"MeanDecrease",
+
+			"#IncreasedReferences",
+			"MeanIncrease",
+
+			"#CallRefsWithAllTypeSources",
+			"%CallRefsWithAllTypeSources",
+
+			"#CallRefsWithTypeHintAndDocstring",
+			"%CallRefsWithTypeHintAndDocstring",
+			
+			"#CallRefsWithTypeHintAndInference",
+			"%CallRefsWithTypeHintAndInference",
+			
+			"#CallRefsWithDocStringAndInference",
+			"%CallRefsWithDocStringAndInference",
+			
+			"#CallRefsWithOnlyTypeHint",
+			"%CallRefsWithOnlyTypeHint",
+			
+			"#CallRefsWithOnlyDocString",
+			"%CallRefsWithOnlyDocString",
+			
+			"#CallRefsWithOnlyInference",
+			"%CallRefsWithOnlyInference",
+
+			"Date",
+		]
+
+		data_is_from_parameter = [
+			{
+				"Type-Aware?": "Yes" if not self.old else "No",
+				"Library": self._package_name, 
+				"#CallRefs": amount_call_refs,
+
+				"#CallRefsIsFromParameter": amount_call_refs_with_receiver_from_Parameter,
+				"%CallRefsIsFromParameter": percentage_call_refs_with_receiver_from_Parameter,
+
+				"#CallRefsWithTypes": amount_call_refs_with_type_info_is_from_parameter,
+				"%CallRefsWithTypes": percentage_call_refs_with_type_info_is_from_parameter,
+
+				"#CallRefsWithoutTypes": amount_call_refs_without_type_info_is_from_parameter,
+				"%CallRefsWithoutTypes": percentage_call_refs_without_type_info_is_from_parameter,
+
+				"#CallRefsWithTypeThroughInference": amount_type_through_inference_is_from_parameter,
+				"%CallRefsWithTypeThroughInference": percentage_type_through_inference_is_from_parameter,
+
+				"#CallRefsWithTypeThroughSignatureTypeHint": amount_type_through_type_hint_is_from_parameter,
+				"%CallRefsWithTypeThroughSignatureTypeHint": percentage_type_through_type_hint_is_from_parameter,
+
+				"#CallRefsWithTypeThroughSignatureDocString": amount_type_through_docstring_is_from_parameter,
+				"%CallRefsWithTypeThroughSignatureDocString": percentage_type_through_docstring_is_from_parameter,
+
+				"#CallRefsWithTypeOutsideOfPackage": amount_type_outside_of_package_is_from_parameter,
+				"%CallRefsWithTypeOutsideOfPackage": percentage_type_outside_of_package_is_from_parameter,
+
+				"#CallRefsWithMissingTypeWhileFindingFunction": amount_missing_type_while_finding_function_is_from_parameter,
+				"%CallRefsWithMissingTypeWhileFindingFunction": percentage_missing_type_while_finding_function_is_from_parameter,
+
+				"#DecreasedReferences": amount_decrease_is_from_parameter,
+				"MeanDecrease": percentage_decrease_is_from_parameter,
+
+				"#IncreasedReferences": amount_increase_is_from_parameter,
+				"MeanIncrease": percentage_increase_is_from_parameter,
+
+				"#CallRefsWithAllTypeSources": amount_all_type_sources_is_from_parameter,
+				"%CallRefsWithAllTypeSources": percentage_all_type_sources_is_from_parameter,
+
+				"#CallRefsWithTypeHintAndDocstring": amount_typehint_and_docstring_is_from_parameter,
+				"%CallRefsWithTypeHintAndDocstring": percentage_typehint_and_docstring_is_from_parameter,
+				
+				"#CallRefsWithTypeHintAndInference": amount_typehint_and_inference_is_from_parameter,
+				"%CallRefsWithTypeHintAndInference": percentage_typehint_and_inference_is_from_parameter,
+				
+				"#CallRefsWithDocStringAndInference": amount_docstring_and_inference_is_from_parameter,
+				"%CallRefsWithDocStringAndInference": percentage_docstring_and_inference_is_from_parameter,
+				
+				"#CallRefsWithOnlyTypeHint": amount_only_typehint_is_from_parameter,
+				"%CallRefsWithOnlyTypeHint": percentage_only_typehint_is_from_parameter,
+				
+				"#CallRefsWithOnlyDocString": amount_only_docstring_is_from_parameter,
+				"%CallRefsWithOnlyDocString": percentage_only_docstring_is_from_parameter,
+				
+				"#CallRefsWithOnlyInference": amount_only_inference_is_from_parameter,
+				"%CallRefsWithOnlyInference": percentage_only_inference_is_from_parameter,
+
+				"Date": str(datetime.now())
+			},
+		]
+
+		fieldnames_is_from_parameter = [
+			"Type-Aware?",
+			"Library", 
+			"#CallRefs",
+
+			"#CallRefsIsFromParameter",
+			"%CallRefsIsFromParameter",
+
+			"#CallRefsWithTypes",
+			"%CallRefsWithTypes",
+
+			"#CallRefsWithoutTypes",
+			"%CallRefsWithoutTypes",
+
+			"#CallRefsWithTypeThroughInference",
+			"%CallRefsWithTypeThroughInference",
+
+			"#CallRefsWithTypeThroughSignatureTypeHint",
+			"%CallRefsWithTypeThroughSignatureTypeHint",
+
+			"#CallRefsWithTypeThroughSignatureDocString",
+			"%CallRefsWithTypeThroughSignatureDocString",
+
+			"#CallRefsWithTypeOutsideOfPackage",
+			"%CallRefsWithTypeOutsideOfPackage",
+
+			"#CallRefsWithMissingTypeWhileFindingFunction",
+			"%CallRefsWithMissingTypeWhileFindingFunction",
+
+			"#DecreasedReferences",
+			"MeanDecrease",
+
+			"#IncreasedReferences",
+			"MeanIncrease",
+
+			"#CallRefsWithAllTypeSources",
+			"%CallRefsWithAllTypeSources",
+
+			"#CallRefsWithTypeHintAndDocstring",
+			"%CallRefsWithTypeHintAndDocstring",
+			
+			"#CallRefsWithTypeHintAndInference",
+			"%CallRefsWithTypeHintAndInference",
+			
+			"#CallRefsWithDocStringAndInference",
+			"%CallRefsWithDocStringAndInference",
+			
+			"#CallRefsWithOnlyTypeHint",
+			"%CallRefsWithOnlyTypeHint",
+			
+			"#CallRefsWithOnlyDocString",
+			"%CallRefsWithOnlyDocString",
+			
+			"#CallRefsWithOnlyInference",
+			"%CallRefsWithOnlyInference",
+
+			"Date",
+		]
+
+		file_exists = os.path.isfile("evaluation/type_influence_evaluation.csv")
 
 		# Open the file in write mode
-		with open(filename, "a", newline="") as csvfile:
+		with open("evaluation/type_influence_evaluation.csv", "a", newline="") as csvfile:
 			# Define fieldnames (keys of the dictionary)
 
 			# Create a DictWriter object
-			writer = csv.DictWriter(csvfile, fieldnames=self.result_fieldnames)
+			writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
 			# Write the header
 			if not file_exists:
@@ -962,6 +1335,22 @@ class PurityEvaluation(Evaluation):
 
 			# Write the data rows
 			writer.writerows(data)
+		
+		file_exists = os.path.isfile("evaluation/type_influence_evaluation_only_parameter_receiver.csv")
+
+		# Open the file in write mode
+		with open("evaluation/type_influence_evaluation_only_parameter_receiver.csv", "a", newline="") as csvfile:
+			# Define fieldnames (keys of the dictionary)
+
+			# Create a DictWriter object
+			writer = csv.DictWriter(csvfile, fieldnames=fieldnames_is_from_parameter)
+
+			# Write the header
+			if not file_exists:
+				writer.writeheader()
+
+			# Write the data rows
+			writer.writerows(data_is_from_parameter)
 
 				
 class ApiEvaluation(Evaluation):

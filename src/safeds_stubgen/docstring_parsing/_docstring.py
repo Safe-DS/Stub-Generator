@@ -63,7 +63,7 @@ class ParameterDocstring:
                     lambda boundary: boundary.to_dict(), 
                     boundaries if boundaries else []
                 ), 
-                key=(lambda boundary_dict: float(boundary_dict["min"]) + float(boundary_dict["max"]))
+                key=(lambda boundary_dict: str(boundary_dict["min"]) + str(boundary_dict["max"]))
             ),
             "valid_values": valid_values
         }
@@ -89,7 +89,7 @@ class AttributeDocstring:
         return {
             "type": type,
             "description": self.description,
-            "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"])),
+            "boundaries": sorted(map(lambda boundary: boundary.to_dict(), boundaries), key=(lambda boundary_dict: str(boundary_dict["min"]) + str(boundary_dict["max"]))),
             "valid_values": valid_values
         }
 
