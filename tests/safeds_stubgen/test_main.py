@@ -145,7 +145,7 @@ def test_evaluation(
         docstyle,
         "-nc",
         "--evaluate_purity",
-        "--evaluate_api",
+        # "--evaluate_api",
         # "-old",
         # "-runtime",
     ]
