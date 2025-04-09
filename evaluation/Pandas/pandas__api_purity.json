@@ -11121,7 +11121,7 @@
       "reasons": {
         "NonLocalVariableRead": 4,
         "NonLocalVariableWrite": 2,
-        "UnknownCall": 23
+        "UnknownCall": 24
       }
     },
     "pandas.core.arrays.datetimelike._cmp_method.929.4": {
@@ -24080,8 +24080,13 @@
     "pandas.core.arrays.arrow.array._str_replace.1747.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 3,
-        "UnknownCall": 2
+        "NonLocalVariableRead": 44,
+        "NonLocalVariableWrite": 10,
+        "FileRead": 1,
+        "FileWrite": 2,
+        "UnknownCall": 24,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "pandas.core.arrays.arrow.array._str_repeat.1766.4": {
@@ -30345,8 +30350,8 @@
     "pandas.io.formats.style.to_string.1352.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1414,
-        "NonLocalVariableWrite": 547,
+        "NonLocalVariableRead": 1428,
+        "NonLocalVariableWrite": 551,
         "FileRead": 5,
         "FileWrite": 5,
         "UnknownCall": 1326,
@@ -30817,8 +30822,8 @@
     "pandas.io.formats.style_render._render.148.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1410,
-        "NonLocalVariableWrite": 547,
+        "NonLocalVariableRead": 1424,
+        "NonLocalVariableWrite": 551,
         "FileRead": 5,
         "FileWrite": 4,
         "UnknownCall": 1325,
@@ -31586,7 +31591,7 @@
         "FileWrite": 1,
         "UnknownCall": 117,
         "NativeCall": 1,
-        "CallOfParameter": 7
+        "CallOfParameter": 5
       }
     },
     "pandas.io.formats.excel._format_header.708.4": {
@@ -32493,7 +32498,7 @@
       "reasons": {
         "NonLocalVariableRead": 11,
         "NonLocalVariableWrite": 1,
-        "UnknownCall": 9,
+        "UnknownCall": 10,
         "CallOfParameter": 1
       }
     },
@@ -33136,7 +33141,7 @@
     "pandas.io.common.infer_compression.535.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 12,
+        "NonLocalVariableRead": 11,
         "UnknownCall": 2
       }
     },
@@ -36572,8 +36577,13 @@
     "pandas.io.pytables._maybe_adjust_name.5095.0": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 1,
-        "UnknownCall": 2
+        "NonLocalVariableRead": 42,
+        "NonLocalVariableWrite": 10,
+        "FileRead": 1,
+        "FileWrite": 2,
+        "UnknownCall": 24,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "pandas.io.pytables._dtype_to_kind.5120.0": {
@@ -38624,8 +38634,13 @@
     "pandas.io.sql.insert_records.1446.4": {
       "purity": "Impure",
       "reasons": {
-        "NonLocalVariableRead": 2,
-        "UnknownCall": 1
+        "NonLocalVariableRead": 43,
+        "NonLocalVariableWrite": 10,
+        "FileRead": 1,
+        "FileWrite": 2,
+        "UnknownCall": 23,
+        "NativeCall": 1,
+        "CallOfParameter": 3
       }
     },
     "pandas.io.sql.get_engine.1473.0": {
