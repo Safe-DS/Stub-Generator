@@ -1,0 +1,47 @@
+Call Graph comparison results (Type-aware vs Non Type-aware) at 2025-04-08_23_20_33
+Average results of the latest run:
+Amount of call graphs: 200
+Mean amount of nodes: 2.324522472798158e+112
+Mean amount of edges: 2.374635694984197e+112
+Mean amount of leaves: 1.5507261836935161e+112
+Mean amount of cycles: 1.6680120661695555e+108
+Mean max depth: 191.79
+Mean branching factor: 0.62
+Mean percentage of leaves: 77.69%
+Amount of combined graphs: 59.0
+
+Average results of the old purity analysis run:
+Amount of call graphs: 200
+Mean amount of nodes: 7.171707067279267e+115
+Mean amount of edges: 7.48517368245599e+115
+Mean amount of leaves: 5.736164364407275e+115
+Mean amount of cycles: 2.249649843546838e+114
+Mean max depth: 191.47
+Mean branching factor: 0.64
+Mean percentage of leaves: 83.8%
+Amount of combined graphs: 76.0
+
+Mean amount of nodes decreased by: 7.169382544806468e+115
+This is an 99.97% decrease
+
+Mean amount of edges decreased by: 7.482799046761006e+115
+This is an 99.97% decrease
+
+Mean amount of leaves decreased by: 5.734613638223581e+115
+This is an 99.97% decrease
+
+Mean amount of cycles decreased by: 2.249648175534772e+114
+This is an 100.0% decrease
+
+Mean max depth increased by: 0.32499999999998863
+This is an 0.17% increase
+
+Mean branching factor decreased by: 0.01829945500002672
+This is an 2.88% decrease
+
+Mean percentage of leaves decreased by: 0.061060593349069436
+This is an 7.29% decrease
+
+Amount of combined call graphs decreased by: 17.0
+This is an 22.37% decrease
+
