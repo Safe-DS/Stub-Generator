@@ -1091,30 +1091,26 @@ class MyPyAstVisitor:
             typeThroughDocString = False
             typeThroughInference = False
             isFromParameter = False
-            if node.type is not None:
-                # types = self._get_named_types_from_nested_type(self._infer_type_from_return_stmts(node))
-                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type)
-                parameter = parameter_of_func.get(node.fullname)
-                if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                    if parameter.type is not None:
-                        call_receiver_type = parameter.type
-                    elif parameter.docstring.type is not None:
-                        call_receiver_type = parameter.docstring.type
+            parameter_type = None
+            parameter = parameter_of_func.get(node.fullname)
+            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                if parameter.type is not None:
+                    parameter_type = parameter.type
+                elif parameter.docstring.type is not None:
+                    parameter_type = parameter.docstring.type
 
-                    isFromParameter = True
-                    typeThroughTypeHint = parameter.type is not None
-                    typeThroughDocString = parameter.docstring.type is not None
-                    # if extracted_type is not None and len(extracted_type) == 1:
-                    #     call_receiver_type = extracted_type[0]
-                    # elif extracted_type is not None and len(extracted_type) >= 1:
-                    #     call_receiver_type = extracted_type
-                elif isinstance(call_receiver_type, mp_types.AnyType):
+                isFromParameter = True
+                typeThroughTypeHint = parameter.type is not None
+                typeThroughDocString = parameter.docstring.type is not None
+            if node.type is not None:
+                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type)
+                if isinstance(call_receiver_type, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
                     if call_receiver_type.missing_import_name is not None:
                         call_receiver_type = call_receiver_type.missing_import_name
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
-                        call_receiver_type = node.fullname
+                        call_receiver_type = node.fullname if parameter_type is None else parameter_type
                         
                 typeThroughInference = not isinstance(node.type.ret_type, mp_types.AnyType) or (isinstance(node.type.ret_type, mp_types.AnyType) and node.type.ret_type.missing_import_name is not None)
                 if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":
@@ -1122,7 +1118,7 @@ class MyPyAstVisitor:
                 
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
-                call_receiver_type = node.fullname
+                call_receiver_type = node.fullname if parameter_type is None else parameter_type
 
             self._set_call_reference(
                 expr=expr,
@@ -1142,26 +1138,20 @@ class MyPyAstVisitor:
             typeThroughDocString = False
             typeThroughInference = False
             isFromParameter = False
+            parameter_type = None
+            parameter = parameter_of_func.get(node.fullname)
+            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                if parameter.type is not None:
+                    parameter_type = parameter.type
+                elif parameter.docstring.type is not None:
+                    parameter_type = parameter.docstring.type
+
+                isFromParameter = True
+                typeThroughTypeHint = parameter.type is not None
+                typeThroughDocString = parameter.docstring.type is not None
             if node.type is not None:
-                call_receiver_type = self.mypy_type_to_abstract_type(node.type)  # TODO  pm refactor types with mypy_type_to_abstract_type 
-                # if (call_receiver_type is not None and len(call_receiver_type) == 1):
-                #     call_receiver_type = call_receiver_type[0]
-                parameter = parameter_of_func.get(node.fullname)
-
-                if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
-                    if parameter.type is not None:
-                        call_receiver_type = parameter.type
-                    elif parameter.docstring.type is not None:
-                        call_receiver_type = parameter.docstring.type
-
-                    isFromParameter = True
-                    typeThroughTypeHint = parameter.type is not None
-                    typeThroughDocString = parameter.docstring.type is not None
-                    # if extracted_type is not None and len(extracted_type) == 1:
-                    #     call_receiver_type = extracted_type[0]
-                    # elif extracted_type is not None and len(extracted_type) >= 1:
-                    #     call_receiver_type = extracted_type
-                elif isinstance(node.type, mp_types.AnyType):
+                call_receiver_type = self.mypy_type_to_abstract_type(node.type)
+                if isinstance(node.type, mp_types.AnyType):
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                     # TaggedTable line 165 166, somehow mypy cant infer the type here
                     possible_reason_for_no_found_functions += "Type is Any "
@@ -1169,14 +1159,14 @@ class MyPyAstVisitor:
                         call_receiver_type = node.type.missing_import_name
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
-                        call_receiver_type = node.fullname
+                        call_receiver_type = node.fullname if parameter_type is None else parameter_type
 
                 typeThroughInference = not isinstance(node.type, mp_types.AnyType) or (isinstance(node.type, mp_types.AnyType) and node.type.missing_import_name is not None)
                 if isinstance(node.type, sds_types.NamedType) and node.type.name == "Any":
                     typeThroughInference = False
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for Var "
-                call_receiver_type = node.fullname
+                call_receiver_type = node.fullname if parameter_type is None else parameter_type
 
             self._set_call_reference(
                 expr=expr,
