@@ -338,10 +338,10 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             call_reference.reason_for_no_found_functions += f"the found class of a super call was not a class: {str(found_class)} | "
                             continue
                     for super_class_id in found_class.superclasses:
-                        found_class = _get_class_by_id(api, super_class_id)
-                        if found_class is not None:
-                            super_classes.append(found_class)
-                        elif found_class is None and super_class_id.startswith("builtins."):
+                        found_super_class = _get_class_by_id(api, super_class_id)
+                        if found_super_class is not None:
+                            super_classes.append(found_super_class)
+                        elif found_super_class is None and super_class_id.startswith("builtins."):
                             # builtin superclasses are handled in resolve_references
                             call_reference.receiver.type = super_class_id
                             call_reference.receiver.full_name = super_class_id
