@@ -318,6 +318,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
+            if function.name == "mask" and function.line == 6042:
+                with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+                    file.write(f"\nMask call ref 6042 {str(call_reference.isSuperCallRef)}\n")
             type = call_reference.receiver.type
             if isinstance(type, str):  # closures, global func or imported func which is called like this: func()
                 global_function_directly_imported = _get_function(api, type.split(".")[-1], function)
@@ -330,6 +333,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # TODO pm find out if we can use modules here
                 # here we have a super() call so we need to get the super classes
                 classes, _, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
+                if function.name == "mask" and function.line == 6042:
+                    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+                        file.write(f"\nMask call ref 6042 classes {str(classes)}\n")
                 for found_class in classes:
                     super_classes: list[Class] = []
                     if not isinstance(found_class, Class):
@@ -345,6 +351,9 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             # builtin superclasses are handled in resolve_references
                             call_reference.receiver.type = super_class_id
                             call_reference.receiver.full_name = super_class_id
+                    if function.name == "mask" and function.line == 6042:
+                        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
+                            file.write(f"\nMask call ref 6042 superclasses {str(super_classes)} for {found_class}\n")
                     for super_class in super_classes:
                         prev_found_classes_length = len(call_reference.receiver.found_classes)
                         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, super_class, call_reference.receiver.path_to_call_reference, 0)
