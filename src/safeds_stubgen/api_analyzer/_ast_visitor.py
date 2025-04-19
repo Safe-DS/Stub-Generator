@@ -372,9 +372,6 @@ class MyPyAstVisitor:
         
         parameter_dict = {parameter.name: parameter for parameter in parameters}
 
-        if (name == "foo"):
-            pass
-
         if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
             self.evaluation.start_body_runtime()
         # analyze body for types of receivers of call references
