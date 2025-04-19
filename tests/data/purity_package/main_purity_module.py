@@ -1,4 +1,4 @@
-from .another_purity_path.another_purity_module import ContextForWithTest, SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureInitClass, PureSuperInit, ImpureInitClass, ImpureSuperInit, PureSuperInitFromKeyError
+from .another_purity_path.another_purity_module import ContextForWithTest, SuperClass, ClassPure, ClassImpure, ChildClassPure, ChildClassImpure, ClassWithNestedClassAsMember, AnotherPureClass, PureSuperInit, ImpureSuperInit, PureSuperInitFromKeyError
 from . import another_purity_path
 from . import test_init_py_pure
 
@@ -8,7 +8,7 @@ from . import test_init_py_pure
 # check: tests\data\out\purity_package__api_purity.json after snapshot_update
 
 def global_func_same_name_pure() -> int:
-    child_class_instance: ChildClassPure = ChildClassPure()
+    child_class_instance = ChildClassPure()
     result = child_class_instance.same_name()
     return result
 
@@ -163,8 +163,6 @@ def global_func_find_deeply_nested_function_impure() -> int:
             break
     return 10
 
-# purity analysis seems to treat instanceVariable Read and write as impure
-
 def global_func_nested_class_should_be_pure_but_impure() -> int:
     """
         member access is counted as impure in general, dataflow analysis could improve this
@@ -282,7 +280,7 @@ def global_func_nested_member_from_super_impure() -> int:
     result = instance.super_member_pure.only_in_T()
     return result
 
-def global_func_nested_member_from_super_impure2() -> int:
+def global_func_nested_member_from_super_impure() -> int:
     instance = ClassWithNestedClassAsMember()
     result = instance.super_member_impure.only_in_T()
     return result
@@ -296,7 +294,7 @@ def global_func_multiple_recursion_impure() -> int:
     result = instance.recursive_function().recursive.recursive_function().return_class_pure().only_in_T()
     return result
 
-def global_func_multiple_recursion_impure2() -> int:
+def global_func_multiple_recursion_impure() -> int:
     instance = ClassWithNestedClassAsMember()
     result = instance.recursive_function().recursive.recursive_function().return_class_impure().only_in_T()
     return result
@@ -309,7 +307,7 @@ def global_func_double_function_impure() -> int:
     result = instance.double_function_pure()()
     return result
 
-def global_func_double_function_impure2() -> int:
+def global_func_double_function_impure() -> int:
     """
         purity analysis cant analyze ()() and returns UNKNOWNCALL, references are found correctly
     """
@@ -360,8 +358,6 @@ def global_func_start_with_dict_impure() -> int:
     instances = {"key": ClassImpure()}
     result = instances["key"].only_in_T()
     return result
-
-# TODO pm implement and test remaining cases, also test if there are multiple sources of type but different types, also add test cases, that have to use the boundary and enum type
 
 def global_func_start_with_nested_type_pure() -> int:
     instances = {"key": [{"key2": ClassPure()}]}
@@ -417,7 +413,6 @@ def global_func_from_docstring_as_list_same_name_pure(instances) -> int:
     instances : list[ClassPure]
         Lorem ipsum
     """
-    #fix
     result = instances[0].same_name()
     return result
 
@@ -616,7 +611,7 @@ def global_func_super_nested_method_should_be_pure_but_impure() -> int:
     """
         is impure as .super_pure() has a member variable read 
     """
-    instance = ClassWithNestedClassAsMember()
+    instance: ClassWithNestedClassAsMember = ClassWithNestedClassAsMember()
     result = instance.super_pure()
     return result
 
@@ -719,11 +714,8 @@ def global_func_set_comprehension_iterable_is_call_ref_impure() -> set[int]:
     result = {i for i in range(instance.same_name())}
     return result
 
-def global_func_operator_expression_should_be_pure_but_impure():
-    """
-        in OpExpr mypy doesnt store the type, this seems to be a bug
-    """
-    instance = ClassPure()
+def global_func_operator_expression_pure():
+    instance: ClassPure = ClassPure()
     result = (instance.same_name() + instance.same_name())
     return result
 
@@ -754,7 +746,7 @@ def global_func_closure_should_be_pure_but_impure():
         mypy some how cant infer the type here, seems to be a bug?
     """
     def closure():
-        instance = ClassPure()
+        instance: ClassPure = ClassPure()
         instance.same_name()  # instance has type any
     closure()
 
@@ -770,14 +762,8 @@ def global_func_call_another_global_func_pure():
 def global_func_call_another_global_func_impure():
     global_func_same_name_impure()
 
-# def global_func_builtin():
-#     return len([]).to_bytes()
-
-def global_func_call_ref_in_dict_generation_should_be_pure_but_impure():
-    """
-        mypy bug, as there is no type info in mypy ast for the call ref instance.same_name()
-    """
-    instance = ClassPure()
+def global_func_call_ref_in_dict_generation_pure():
+    instance: ClassPure = ClassPure()
     return {"foo": instance.same_name()}
 
 def global_func_call_ref_in_dict_generation_impure():
@@ -799,32 +785,26 @@ def global_func_module_class_with_static_method_pure():
 def global_func_module_class_with_static_method_impure():
     return another_purity_path.ClassWithImpureStaticMethods.test()
 
-def global_func_unreachable_code_should_be_pure_but_impure():
-    """
-        mypy doesnt track the type if code is unreachable
-    """
+def global_func_unreachable_code_pure():
     if False:
-        instance = ClassPure()
+        instance: ClassPure = ClassPure()
         return instance.same_name()
 
 def global_func_unreachable_code_impure():
-    """
-        mypy doesnt track the type if code is unreachable
-    """
     if False:
-        instance = ClassImpure()
+        instance: ClassImpure = ClassImpure()
         return instance.same_name()
     
 def global_func_inside_of_lambda_with_map_should_be_pure_but_impure():
     """
         mypy doesnt store the type inside of lambda bodies
     """
-    instances = [ClassPure()]
+    instances: list[ClassPure] = [ClassPure()]
     test = map(lambda x: x.same_name(), instances)
     return test
 
 def global_func_inside_of_lambda_with_map_impure():
-    instances = [ClassImpure()]
+    instances: list[ClassPure] = [ClassImpure()]
     test = map(lambda x: x.same_name(), instances)
     return test
 
@@ -833,46 +813,24 @@ def global_func_operator_receiver_with_brackets_should_be_pure_but_impure():
         Solution: look into the type of instance1 and retrieve the return type of __add__ which then is the receiver of .same_name()
         but actually  mypy should have the type stored in method_type attribute of OpExpr
     """
-    instance1 = ClassPure()
-    instance2 = ClassPure()
+    instance1: ClassPure = ClassPure()
+    instance2: ClassPure = ClassPure()
     return ((instance1 + instance2)
             .same_name())
 
 def global_func_operator_receiver_with_brackets_impure():
-    instance1 = ClassImpure()
-    instance2 = ClassImpure()
+    instance1: ClassImpure = ClassImpure()
+    instance2: ClassImpure = ClassImpure()
     return ((instance1 + instance2)
             .same_name())
 
-def global_func_with_keyword_should_be_pure_but_impure():
-    """
-        mypy doesnt track the type if code is in with block...
-    """
+def global_func_with_keyword_pure():
     with ContextForWithTest() as context:
-        instance = ClassPure()
+        instance: ClassPure = ClassPure()
         return instance.same_name()
 
 def global_func_with_keyword_impure():
     with ContextForWithTest() as context:
-        instance = ClassImpure()
+        instance: ClassImpure = ClassImpure()
         return instance.same_name()
         
-# def global_func_no_types_with_builtin_impure(x):
-#     return "; ".join(f"{k}: {v}" for k, v in x.items())
-
-# TODO pm these functions create this error src\safeds_stubgen\stubs_generator\_generate_stubs.py:128: in _create_outside_package_class
-#     module_name = path_parts[-1]
-# E   IndexError: list index out of range
-# def global_func_tuple_access_pure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure]):
-#     result = instance[1].same_name()
-#     return result
-
-# def global_func_tuple_access_impure(instance: tuple[ClassPure, AnotherPureClass, ClassImpure]):
-#     result = instance[2].same_name()
-#     return result
-
-# def global_func_tuple_access_unknown_index_impure(instance: tuple[ClassPure, ClassImpure], index: int):
-#     result = instance[0].same_name()
-#     return result
-
-# TODO pm add testcases where the index of a tuple is not known or where we have a path where union type is used

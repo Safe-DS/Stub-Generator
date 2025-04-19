@@ -290,7 +290,7 @@ class MyPyAstVisitor:
 
         is_public = self._is_public(name, node.fullname)
         is_static = node.is_static
-        if name == "global_func_from_docstring_same_name_pure":
+        if name == "global_func_inside_of_lambda_with_map_should_be_pure_but_impure":
             pass
         # Get docstring
         docstring = self.docstring_parser.get_function_documentation(node)
