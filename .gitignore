@@ -11,7 +11,6 @@ dist/
 out/
 
 #evaluation
-evaluation/
 evaluation_packages/
 tests/data/safeds/
 tests/data/astroid/
