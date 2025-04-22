@@ -369,8 +369,8 @@ class StubsStringGenerator:
         for method in methods:
             # Add methods of internal classes that are inherited if the methods themselfe are public
             if (
-                not method.is_public
-                and (not is_internal_class or (is_internal_class and is_internal(method.name)))
+                (not method.is_public
+                and (not is_internal_class or (is_internal_class and is_internal(method.name))))
                 or method.name in already_defined_names
             ):
                 continue
@@ -450,16 +450,19 @@ class StubsStringGenerator:
             docstring = self._create_sds_docstring(attr_docstring, inner_indentations)
 
             # check for boundaries and enums of attribute
-            if len(attribute_valid_values) != 0 and not (len(attribute_valid_values) == 1 and attribute_valid_values[0] == "None"):
-                for i, valid_value in enumerate(attribute_valid_values):
-                    if valid_value == "None":
-                        attribute_valid_values[i] = "null"
-                    elif valid_value in ["True", "False"]:
-                        attribute_valid_values[i] = valid_value.lower()
-                if len(attribute_valid_values) == 1 and attribute_valid_values[0] == "unlistable_str":
-                    type_string = ": String"
-                else:
-                    type_string = ": literal<" + ", ".join(attribute_valid_values) + ">"
+            # TODO valid values extractor has some problems and needs to be fixed once it is fixed, uncomment
+            # if len(attribute_valid_values) != 0 and not (len(attribute_valid_values) == 1 and attribute_valid_values[0] == "None"):
+            #     for i, valid_value in enumerate(attribute_valid_values):
+            #         if valid_value == "None":
+            #             attribute_valid_values[i] = "null"
+            #         elif valid_value in ["True", "False"]:
+            #             attribute_valid_values[i] = valid_value.lower()
+            #     if len(attribute_valid_values) == 1 and attribute_valid_values[0] == "unlistable_str":
+            #         type_string = ": String"
+            #     elif attribute_valid_values == ["false", "true"]:
+            #         type_string = ": Boolean"
+            #     else:
+            #         type_string = ": literal<" + ", ".join(attribute_valid_values) + ">"
             if len(attribute_boundaries) != 0:
                 boundary_data[attribute.name] = attribute_boundaries
 
@@ -711,16 +714,17 @@ class StubsStringGenerator:
 
             # Check for boundaries and enums 
             # TODO needs to be improved with union type etc
-            if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
-                for i, valid_value in enumerate(parameter_valid_values):
-                    if valid_value == "None":
-                        parameter_valid_values[i] = "null"
-                    elif valid_value in ["True", "False"]:
-                        parameter_valid_values[i] = valid_value.lower()
-                if len(parameter_valid_values) == 1 and parameter_valid_values[0] == "unlistable_str":
-                    type_string = ": String"
-                else:
-                    type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
+            # TODO valid values extractor has some problems and needs to be fixed once it is fixed, uncomment
+            # if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
+            #     for i, valid_value in enumerate(parameter_valid_values):
+            #         if valid_value == "None":
+            #             parameter_valid_values[i] = "null"
+            #         elif valid_value in ["True", "False"]:
+            #             parameter_valid_values[i] = valid_value.lower()
+            #     if len(parameter_valid_values) == 1 and parameter_valid_values[0] == "unlistable_str":
+            #         type_string = ": String"
+            #     else:
+            #         type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
             if len(parameter_boundaries) != 0:
                 boundary_data[parameter.name] = parameter_boundaries
 
@@ -1130,20 +1134,20 @@ class StubsStringGenerator:
         return False
 
     def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
-        if class_path.endswith(f".{path}") or class_path == path:
+        if class_path.endswith(f"/{path}") or class_path == path:
             return True
 
         name = path.split("/")[-1]
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
-            if reexport.endswith(f".{name}") or reexport == name:
-                for module in self.api.reexport_map[reexport]:
+            if reexport.endswith(f"/{name}") or reexport == name:
+                for module in self.api.reexport_map[reexport]:  # pragma: no cover
                     # Added "no cover" since I can't recreate this in the tests
                     if (
                         path.startswith(module.id)
                         and class_path.startswith(module.id)
                         and path.lstrip(module.id).lstrip("/") == name == class_name
-                    ):  # pragma: no cover
+                    ):
                         return True
 
         return False

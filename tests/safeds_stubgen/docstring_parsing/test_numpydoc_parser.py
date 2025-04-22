@@ -5,6 +5,7 @@ from pathlib import Path
 import pytest
 from griffe import Parser
 from mypy import nodes
+
 from safeds_stubgen.api_analyzer import (
     DictType,
     ListType,
@@ -27,7 +28,6 @@ from safeds_stubgen.docstring_parsing import (
 
 # noinspection PyProtectedMember
 from safeds_stubgen.docstring_parsing._docstring import AttributeDocstring
-
 from tests.safeds_stubgen._helpers import get_specific_mypy_node
 
 # Setup
@@ -42,7 +42,7 @@ mypy_file = _get_mypy_asts(
 )[0]
 
 
-@pytest.fixture()
+@pytest.fixture
 def numpydoc_parser() -> DocstringParser:
     return DocstringParser(Parser.numpy, _test_dir)
 

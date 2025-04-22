@@ -1659,7 +1659,7 @@ class MyPyAstVisitor:
                         if type__ not in result_array[i]:
                             result_array[i].append(type__)
 
-                            longest_inner_list = max(len(result_array[i]), longest_inner_list)
+                            longest_inner_list = max(longest_inner_list, len(result_array[i]))
                     else:
                         result_array.append([type__])
 
@@ -1743,8 +1743,8 @@ class MyPyAstVisitor:
             lvalues = list(lvalue.items)
             for lvalue_ in lvalues:
                 if (
-                    hasattr(lvalue_, "name")
-                    and self._is_attribute_already_defined(lvalue_.name)
+                    (hasattr(lvalue_, "name")
+                    and self._is_attribute_already_defined(lvalue_.name))
                     or isinstance(lvalue_, mp_nodes.IndexExpr)
                 ):
                     continue
@@ -2366,8 +2366,8 @@ class MyPyAstVisitor:
                         for qualified_import in reexport_source.qualified_imports:
 
                             if qname.endswith(qualified_import.qualified_name) and (
-                                qualified_import.alias is not None
-                                and not is_internal(qualified_import.alias)
+                                (qualified_import.alias is not None
+                                and not is_internal(qualified_import.alias))
                                 or (qualified_import.alias is None and not_internal)
                             ):
                                 # First we check if we've found the right import then do the following:

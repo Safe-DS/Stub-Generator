@@ -1,4 +1,5 @@
 import pytest
+
 from safeds_stubgen.docstring_parsing import DocstringStyle
 
 

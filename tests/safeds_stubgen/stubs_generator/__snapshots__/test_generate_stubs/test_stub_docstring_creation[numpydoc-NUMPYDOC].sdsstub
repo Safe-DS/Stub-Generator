@@ -139,7 +139,7 @@ fun inferTypes() -> (firstResult: Boolean, secondResult: String)
 @PythonName("infer_types2")
 fun inferTypes2(
     a: String,
-    b: literal<false, true>
+    b: Boolean
 ) -> funcResult: union<Boolean, Int, String>
 
 /**
@@ -157,7 +157,7 @@ fun inferTypes2(
 @PythonName("infer_types3")
 fun inferTypes3(
     a: String,
-    b: literal<false, true>
+    b: Boolean
 ) -> (result1: union<Boolean, Int, String>, funcResult2: Int)
 
 /**
@@ -374,10 +374,11 @@ class ClassWithVariousParameterTypes(
     @PythonName("optional_type") optionalType: Int,
     @PythonName("none_type") noneType: Nothing?,
     @PythonName("int_type") intType: Int,
-    @PythonName("bool_type") boolType: literal<false, true>,
+    @PythonName("bool_type") boolType: Boolean,
     @PythonName("str_type") strType: String,
     @PythonName("float_type") floatType: Float,
-    @PythonName("multiple_types") multipleTypes: literal<false, true>,
+    @PythonName("byte_type") byteType: bytes,
+    @PythonName("multiple_types") multipleTypes: Tuple<Int, Boolean>,
     @PythonName("list_type_1") listType1: List<Any>,
     @PythonName("list_type_2") listType2: List<String>,
     @PythonName("list_type_3") listType3: List<Int, Boolean>,
@@ -408,13 +409,13 @@ class ClassWithVariousAttributeTypes() {
     @PythonName("int_type")
     static attr intType: String
     @PythonName("bool_type")
-    static attr boolType: literal<false, true>
+    static attr boolType: String
     @PythonName("str_type")
     static attr strType: String
     @PythonName("float_type")
     static attr floatType: String
     @PythonName("multiple_types")
-    static attr multipleTypes: literal<false, true>
+    static attr multipleTypes: String
     @PythonName("list_type_1")
     static attr listType1: String
     @PythonName("list_type_2")
@@ -452,7 +453,7 @@ class ClassWithVariousAttributeTypes() {
     @PythonName("mapping_type")
     static attr mappingType: Map<Int, String>
     @PythonName("bool_op_type")
-    static attr boolOpType: literal<false, true, unlistable_str>
+    static attr boolOpType: union<Boolean, Int, String>
     @PythonName("list_type_5")
     static attr listType5: List<Int>
 }

@@ -26,6 +26,7 @@ from ._docstring import (
 
 if TYPE_CHECKING:
     from pathlib import Path
+
     from mypy import nodes
 
 
@@ -48,7 +49,7 @@ class DocstringParser(AbstractDocstringParser):
         for member in griffe_build.all_members.values():
             if isinstance(
                 member,
-                griffe_models.Class | griffe_models.Function | griffe_models.Attribute | griffe_models.Alias
+                griffe_models.Class | griffe_models.Function | griffe_models.Attribute | griffe_models.Alias,
             ):
                 self.griffe_index[member.path] = member
 
@@ -56,12 +57,12 @@ class DocstringParser(AbstractDocstringParser):
                 self._recursive_griffe_indexer(member)
 
     def get_class_documentation(self, class_node: nodes.ClassDef) -> ClassDocstring:
-        griffe_node = self.griffe_index[class_node.fullname] if class_node.fullname in self.griffe_index else None
+        griffe_node = self.griffe_index.get(class_node.fullname, None)
 
         if griffe_node is None:  # pragma: no cover
             msg = (
                 f"Something went wrong while searching for the docstring for {class_node.fullname}. Please make sure"
-                " that all directories with python files have an __init__.py file.",
+                " that all directories with python files have an __init__.py file."
             )
             logging.warning(msg)
 
@@ -430,7 +431,7 @@ class DocstringParser(AbstractDocstringParser):
         return annotation
 
     def _get_griffe_docstring(self, qname: str) -> griffe_models.Docstring | None:
-        griffe_node = self.griffe_index[qname] if qname in self.griffe_index else None
+        griffe_node = self.griffe_index.get(qname, None)
 
         if griffe_node is None:
             griffe_node = self.griffe_index["evaluation_packages." + qname] if "evaluation_packages." + qname in self.griffe_index else None
