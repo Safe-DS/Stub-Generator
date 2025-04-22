@@ -542,7 +542,7 @@ class StubsStringGenerator:
         result_string = self._create_result_string(function.results)
 
 
-        # TODO pm implement Reasons and check why purity_result is dict
+        # TODO implement Reasons and check why purity_result is dict
         purity_str = "@Pure"
         if purity_result["purity"] == "Impure":  # type: ignore somehow isinstance doesnt work here as PurityReason is a dict here
             # reasons_str = ""
@@ -710,7 +710,7 @@ class StubsStringGenerator:
             camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
             # Check for boundaries and enums 
-            # TODO pm extract into own function as this appears twice and needs to be improved with union type etc
+            # TODO needs to be improved with union type etc
             if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
                 for i, valid_value in enumerate(parameter_valid_values):
                     if valid_value == "None":

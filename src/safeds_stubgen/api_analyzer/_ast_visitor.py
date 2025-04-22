@@ -716,7 +716,7 @@ class MyPyAstVisitor:
 
             Parameters
             ----------
-            body_block : mp_nodes.Block
+            body_block : mp_nodes.Block | None
                 Holds info about the current block of code, at first, this is the whole function body
             parameter_of_func : dict[str, Parameter]
                 Contains the parameter of the function which the body belongs to, can be used if mypy has no
@@ -784,7 +784,7 @@ class MyPyAstVisitor:
 
             Parameters
             ----------
-            expr : mp_nodes.Expression
+            expr : mp_nodes.Expression | None
                 Holds info about the current examined expression
             parameter_of_func : dict[str, Parameter]
                 Contains the parameter of the function which the body belongs to, can be used if mypy has no
@@ -857,11 +857,6 @@ class MyPyAstVisitor:
         if self.evaluation is not None:
             self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
 
-        # we need to find the possibly referenced functions, so we need to go through the full expression
-        # it seems like we can only get the type of the last expression, so we need to store the path of 
-        # member, method accesses
-        # path.append(expr.callee)
-        
         # start search for type
         pathCopy = path.copy()
         pathCopy.append("()")
@@ -880,6 +875,7 @@ class MyPyAstVisitor:
             condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
             condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
             condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
+            etc.
             But there can also be nested combinations of those conditions.
 
             If there is no condition to be found, then, all members are searched, whether they are of type expression
@@ -900,7 +896,6 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
-        # TODO pm refactor
         pathCopy = path.copy()
         if hasattr(expr, "name"):
             pathCopy.append(expr.name) # type: ignore as ensured by hasattr
@@ -927,19 +922,11 @@ class MyPyAstVisitor:
                 pathCopy.append(expr.expr.name)
                 self.extract_call_reference_data_from_node(expr, expr.expr.node, pathCopy, parameter_of_func, call_references)
                 return
-                # isinstance checks also change the type, DAMN 
-                # Yes,safeds,safeds.data.image.containers._image,_set_device,109,55,No,Missing types or bug,2024-12-17 00:14:08.994581
-                # this is of type object, so my analysis cant find functions that are referenced, but before line 109 there is an isinstance check
-                
-                # it can also be a Class like Table.__size_of__ 
-
-                # check dunder methods
                 
         # condition: super().__init__() etc
         elif isinstance(expr, mp_nodes.SuperExpr):
             if isinstance(expr.info, mp_nodes.TypeInfo):
                 class_that_calls_super = expr.info.fullname
-                # call_receiver_type = list(map(lambda base: base.type.fullname, expr.info.bases))
                 pathCopy.append("()")
                 pathCopy.append("super")
 
@@ -966,7 +953,6 @@ class MyPyAstVisitor:
                 # this is another call ref that needs to be extracted
                 self.traverse_callExpr(expr, [], parameter_of_func, call_references)
                 return
-            # go deeper to find termination condition
             # find final receiver
             pathCopy.append("()")
             self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
@@ -1020,7 +1006,7 @@ class MyPyAstVisitor:
                 else:
                     pass
         if not found_expression:  # so expr is the final expression and the receiver of the call
-            pathCopy.append("not_implemented")  # TODO pm check which expressions dont have expressions and integrate them here so we can append something to the path
+            pathCopy.append("not_implemented")
             self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
 
     def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | str | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
@@ -1058,7 +1044,6 @@ class MyPyAstVisitor:
                 else:
                     possible_reason_for_no_found_functions += "No missing import name "
             abstact_type = self.mypy_type_to_abstract_type(node)
-            # named_type = self._get_named_types_from_nested_type(abstact_type)
             typeThroughInference = not isinstance(call_receiver_type, mp_types.AnyType) or (isinstance(call_receiver_type, mp_types.AnyType) and call_receiver_type.missing_import_name is not None)
             
             self._set_call_reference(
@@ -1150,7 +1135,6 @@ class MyPyAstVisitor:
                 call_receiver_type = self.mypy_type_to_abstract_type(node.type)
                 if isinstance(node.type, mp_types.AnyType):
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
-                    # TaggedTable line 165 166, somehow mypy cant infer the type here
                     possible_reason_for_no_found_functions += "Type is Any "
                     if node.type.missing_import_name is not None:
                         call_receiver_type = node.type.missing_import_name

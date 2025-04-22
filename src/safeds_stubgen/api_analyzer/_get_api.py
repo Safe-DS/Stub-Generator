@@ -301,20 +301,20 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
 
 def _find_correct_type_by_path_to_call_reference(api: API):
     """
-        Call references can be nested, for example: "instance.attribute.method()" or "instance.method().method2()" etc.
-        Therefore the call_reference type stores a path of the names to the call. The path is of type: list[str]
-        
-        For each call reference of each function, the correct class is attempted to be found,
-        by iterating through the path which is stored in the call_reference class.
-        For each string of the path, it is first assumed, that the string is the name of an attribute of the 
-        current class. If there is no attribute with the string of the path as name, then it is assumed
-        that the string is the name of a method. For either attribute or method, we try to find the next 
-        class along the path, until the the end of the path to the call reference is reached.
+    Call references can be nested, for example: "instance.attribute.method()" or "instance.method().method2()" etc.
+    Therefore the call_reference type stores a path of the names to the call. The path is of type: list[str]
+    
+    For each call reference of each function, the correct class is attempted to be found,
+    by iterating through the path which is stored in the call_reference class.
+    For each string of the path, it is first assumed, that the string is the name of an attribute of the 
+    current class. If there is no attribute with the string of the path as name, then it is assumed
+    that the string is the name of a method. For either attribute or method, we try to find the next 
+    class along the path, until the the end of the path to the call reference is reached.
 
-        Parameters:
-        ----------
-        api : API
-            Stores api data of analyzed package
+    Parameters:
+    ----------
+    api : API
+        Stores api data of analyzed package
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
@@ -494,32 +494,24 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
 def _find_all_referenced_functions_for_all_call_references(api: API) -> None:
     """
-        Once the correct receiver type was found in _find_correct_type_by_path_to_call_reference,
-        all possibly referenced functions for each call references need to be found by this function. 
+    Once the correct receiver type was found in _find_correct_type_by_path_to_call_reference,
+    all possibly referenced functions for each call references need to be found by this function. 
 
-        For that, found class of each call reference is accessed, if its None, the possibly referenced
-        functions for this call reference will be empty. If they are empty, the purity analysis will 
-        fall back to using a list of all functions with the same name as possibly referenced functions.
+    For that, found class of each call reference is accessed, if its None, the possibly referenced
+    functions for this call reference will be empty. If they are empty, the purity analysis will 
+    fall back to using a list of all functions with the same name as possibly referenced functions.
 
-        The possibly referenced functions can also be functions of the subclasses or superclasses.
-        Therefore we also need to check the superclasses, if the type of the receiver doesnt have the 
-        function. If the type has subtypes, we need to search for the function in each subtype.
+    The possibly referenced functions can also be functions of the subclasses or superclasses.
+    Therefore we also need to check the superclasses, if the type of the receiver doesnt have the 
+    function. If the type has subtypes, we need to search for the function in each subtype.
 
-        Parameters:
-        ----------
-        api : API
-            Stores api data of analyzed package
+    Parameters:
+    ----------
+    api : API
+        Stores api data of analyzed package
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
-            # if function.name == "fit" and function.line == 102 and call_reference.function_name == "fit":
-            #     type_str = ".".join(call_reference.receiver.full_name.split(".")[:-1] + ["AdaBoost"])
-            #     func = _get_imported_global_function(api, call_reference.receiver.full_name.split(".")[-1], function)
-            #     pass
-            if call_reference.isSuperCallRef:
-                pass
-            # TODO pm find out why __init__ functions referenced functions are not found!!!!!
-            # use found class of _find_correct_type_by_path_to_call_reference if not None
             if call_reference.receiver.found_classes is None or len(call_reference.receiver.found_classes) == 0:
                 continue
             else:   
@@ -571,18 +563,20 @@ def _get_referenced_function_from_super_classes(
     visited_classes: list[str],
 ) -> None:
     """
-        finds the first referenced function in super classes recursively
+    finds the first referenced function in super classes recursively
 
-        Parameters
-        ----------
-        api : API
-            Stores api data of analyzed package
-        call_reference : CallReference
-            The call reference
-        super_classes : list[Class]
-            The super classes of the type of the receiver of the super class or of those super classes
-        referenced_functions : list[Function]
-            Passed along recursion to store all possibly referenced functions
+    Parameters
+    ----------
+    api : API
+        Stores api data of analyzed package
+    call_reference : CallReference
+        The call reference
+    super_classes : list[Class]
+        The super classes of the type of the receiver of the super class or of those super classes
+    referenced_functions : list[Function]
+        Passed along recursion to store all possibly referenced functions
+    visited_classes : list[str]
+        stores visited classes to prevent loops
     """
     for super_class in super_classes:
         if super_class.id in visited_classes:
@@ -603,27 +597,12 @@ def _get_referenced_function_from_super_classes(
         else: 
             try:
                 next_super_classes: list[Class] = []
-                # for super_class_id in current_class.superclasses:
-                #     api.classes
-                #     super_class = filter(lambda class_id: class_id.endswith(api.package + "/".join(super_class_id.split("."))), api.classes.keys())
                 for next_super_class_id in super_class.superclasses:
-                    # correct_id = "/".join(next_super_class_id.split("."))
-                    # if correct_id.startswith(api.path_to_package):
-                    #     next_super_class = api.classes.get(correct_id, None)
-                    #     if next_super_class is not None:
-                    #         next_super_classes.append(next_super_class)
-                    # else:
-                    #     correct_id = api.path_to_package + "/" + correct_id
-                    #     next_super_class = api.classes.get(correct_id, None)
-                    #     if next_super_class is not None:
-                    #         next_super_classes.append(next_super_class)
                     next_super_class = _get_class_by_id(api, next_super_class_id)
                     if next_super_class is not None:
                         next_super_classes.append(next_super_class)
-                # super_classes = [api.classes["/".join(x.split("."))] for x in current_class.superclasses]
             except KeyError as error:
                 print(error)
-            # next_super_classes = [api.classes["/".join(x.split("."))] for x in super_class.superclasses]
             _get_referenced_function_from_super_classes(
                 api,
                 call_reference,
@@ -640,20 +619,20 @@ def _get_referenced_functions_from_class_and_subclasses(
     referenced_functions: list[Function]
 ) -> None:
     """
-        Finds all additional function defs with same name in sub classes recursively, as they could also be called
+    Finds all additional function defs with same name in sub classes recursively, as they could also be called
 
-        Parameters
-        ----------
-        api : API
-            Stores api data of analyzed package
-        call_reference : CallReference
-            The call reference
-        current_class_id : str
-            The id of the current class, which has the sub classes
-        visited_classes : list[str]
-            Stores visited class ids, so that we dont visit classes twice, during recursion
-        referenced_functions : list[Function]
-            Passed along recursion to store all possibly referenced functions
+    Parameters
+    ----------
+    api : API
+        Stores api data of analyzed package
+    call_reference : CallReference
+        The call reference
+    current_class_id : str
+        The id of the current class, which has the sub classes
+    visited_classes : list[str]
+        Stores visited class ids, so that we dont visit classes twice, during recursion
+    referenced_functions : list[Function]
+        Passed along recursion to store all possibly referenced functions
     """
     # find all additional function defs with same name in sub classes as they could also be called
     if current_class_id in visited_classes:
@@ -684,16 +663,16 @@ def _get_referenced_functions_from_class_and_subclasses(
 
 def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedType | NamedSequenceType] | None:
     """
-        Iterates through a nested type recursively, to find a NamedType
+    Iterates through a nested type recursively, to find a NamedType
 
-        Parameters
-        ----------
-        nested_type : AbstractType
-            Abstract class for types
-        
-        Returns
-        ----------
-        type : list[NamedType] | None
+    Parameters
+    ----------
+    nested_type : AbstractType
+        Abstract class for types
+    
+    Returns
+    ----------
+    type : list[NamedType] | None
     """
     if isinstance(nested_type, NamedType):
         return [nested_type]
@@ -749,7 +728,6 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
     class_name = class_id.split(".")[-1]
     correct_id = "/".join(class_id.split("."))
     result_class: Class | None = api.classes.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
     if result_class is not None:
         return result_class
     if correct_id.startswith(api.path_to_package):
@@ -778,10 +756,6 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
                     break
             if found_id:
                 break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(class_id.split(".")[:-1] + key.split("."))
-            # break
     if correct_id.startswith(api.path_to_package):
         result_class = api.classes.get(correct_id, None)
     else:
@@ -793,7 +767,6 @@ def _get_module_by_id(api: API, module_id: str) -> Module | None:
     module_name = module_id.split(".")[-1]
     correct_id = "/".join(module_id.split("."))
     result_module: Module | None = api.modules.get(correct_id, None)
-    #tests/data/safeds/data/tabular/typing/_column_type/ColumnType
     if result_module is not None:
         return result_module
     if correct_id.startswith(api.path_to_package):
@@ -822,10 +795,6 @@ def _get_module_by_id(api: API, module_id: str) -> Module | None:
                     break
             if found_id:
                 break
-            # module = api.reexport_map[key]
-            # test = module.copy().pop()
-            # correct_id = "/".join(module_id.split(".")[:-1] + key.split("."))
-            # break
     if correct_id.startswith(api.path_to_package):
         result_module = api.modules.get(correct_id, None)
     else:
@@ -869,7 +838,6 @@ def _get_imported_global_function(api: API, imported_function_name: str, functio
     imports = module.qualified_imports
     found_import: QualifiedImport | None = None
     for qualified_import in imports:
-        # TODO pm already look for global functions here
         alias = qualified_import.alias
         qname = qualified_import.qualified_name
         if imported_function_name == qname.split(".")[-1] or imported_function_name == alias or imported_function_name == qname:

@@ -503,7 +503,6 @@ class ReferenceResolver:
         ):
             # Construct an artificial FunctionDef node for the builtin function.
             assert isinstance(call_reference.node, astroid.Call)  
-            # pm: fix pylance error, if call_reference is one of the built ins, it should be a Call
             builtin_function = astroid.FunctionDef(
                 name=(
                     (
@@ -537,7 +536,6 @@ class ReferenceResolver:
         #     a()
         # It is not possible to analyze this any further before runtime, so they will later be marked as unknown.
         if call_reference.name in function.parameters:  # callbacks
-            # TODO pm but what if we got the type, do we still need to do this here then? 
             param = function.parameters[call_reference.name]
             result_value_reference.referenced_symbols.append(param)
 
