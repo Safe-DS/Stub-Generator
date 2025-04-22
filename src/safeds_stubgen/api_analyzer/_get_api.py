@@ -234,12 +234,12 @@ def _get_aliases(result_types: dict, package_name: str) -> dict[str, set[str]]:
 
 def _update_class_subclass_relation(api: API) -> None:
     """
-        For each class, updates each superclass by appending the id of the class to subclasses list of the superclass
+    For each class, updates each superclass by appending the id of the class to subclasses list of the superclass
 
-        Parameters
-        ----------
-        api : API
-            Stores api data of analyzed package
+    Parameters
+    ----------
+    api : API
+        Stores api data of analyzed package
     """
     for class_def in api.classes.values():
         super_classes: list[Class] = []
@@ -317,7 +317,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
             if not call_reference.isSuperCallRef:
                 _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, call_reference.receiver.path_to_call_reference, 0)
             else:
-                # TODO pm find out if we can use modules here
                 # here we have a super() call so we need to get the super classes
                 classes, _, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
                 for found_class in classes:
@@ -342,6 +341,22 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             break # for super types we can only take the first class where we found correct types
 
 def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
+    """
+    Recursive helper function of _find_correct_type_by_path_to_call_reference
+
+    Parameters:
+    ----------
+    api : API
+        Stores api data of analyzed package
+    call_reference : CallReference
+        The current call reference to find the correct type for
+    type_of_receiver : Class | Any,
+        Current type of receiver, used for recursion
+    path : list[str]
+        The path is traversed during recursion and gets smaller each time until its length is 0
+    depth : int
+        stores the depth of the recursion
+    """
     if len(path) == 0:
         return
     path_copy = path.copy()
@@ -404,10 +419,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                             break
                         type_of_receiver = found_class
                         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type, path_copy, depth + 1)
-        #     else:
-        #         call_reference.reason_for_no_found_functions += f"the found global function has no results, so we cant progress"
-        # else:
-        #     call_reference.reason_for_no_found_functions += f""
 
         class_from_module = None
         for class_from_mod in type_of_receiver.classes:
@@ -415,7 +426,7 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
                 class_from_module = class_from_mod
                 break
         if class_from_module is not None:
-            is_last_method = all(item == "()" for item in path_copy)  # maybe we need to check for [] as well
+            is_last_method = all(item == "()" for item in path_copy)
             if is_last_method:  # here we have "method()" or "method()()"
                 if class_from_module.constructor is not None:
                     call_reference.possibly_referenced_functions.append(class_from_module.constructor)
@@ -438,8 +449,6 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
 
     try:  # assume the part of the path is a name of a member 
         attribute_name = part
-        # if isinstance(type_of_receiver, NamedType):
-        #     pass
         attribute = _find_attribute_in_class_and_super_classes(api, attribute_name, type_of_receiver, [])  
         if attribute is None:
             raise KeyError()
@@ -706,6 +715,21 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
                 return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
 
 def _get_class_by_id(api: API, class_id: str) -> Class | None:
+    """
+    Helper function, to retrieve the class from API by id
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    class_id : str
+        The class id to search for
+        
+    Returns
+    ----------
+    class : Class | None
+        returns None if no class is found
+    """
     class_name = class_id.split(".")[-1]
     correct_id = "/".join(class_id.split("."))
     result_class: Class | None = api.classes.get(correct_id, None)
@@ -745,6 +769,21 @@ def _get_class_by_id(api: API, class_id: str) -> Class | None:
     return result_class
 
 def _get_module_by_id(api: API, module_id: str) -> Module | None:
+    """
+    Helper function, to retrieve the module from API by id
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    module_id : str
+        The class id to search for
+        
+    Returns
+    ----------
+    class : Module | None
+        returns None if no module is found
+    """
     module_name = module_id.split(".")[-1]
     correct_id = "/".join(module_id.split("."))
     result_module: Module | None = api.modules.get(correct_id, None)
@@ -783,14 +822,52 @@ def _get_module_by_id(api: API, module_id: str) -> Module | None:
         result_module = api.modules.get(correct_id, None)
     return result_module
 
-def _get_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
+def _get_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None) -> Function | None:
+    """
+    Helper function, to check if the function references a closure
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    function_name : str
+        The name of the call reference to search for
+    function : Function
+        The function which contains the call ref
+    imported_module_name : str | None
+        Imported Module name from mypy ast if available
+        
+    Returns
+    ----------
+    function: Function | None
+        returns None if no function is found
+    """
     closure = function.closures.get(function_name, None)
     if closure is not None:
         return closure
     global_function = _get_global_function(api, function_name, function, imported_module_name)
     return global_function
 
-def _get_global_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None):
+def _get_global_function(api: API, function_name: str, function: Function, imported_module_name: str | None = None) -> Function | None:
+    """
+    Helper function, to check if the function references a global function of the current module
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    function_name : str
+        The name of the call reference to search for
+    function : Function
+        The function which contains the call ref
+    imported_module_name : str | None
+        Imported Module name from mypy ast if available
+        
+    Returns
+    ----------
+    function: Function | None
+        returns None if no function is found
+    """
     # get module
     module = _get_module_by_id(api, function.module_id_which_contains_def)
     if module is None:
@@ -810,7 +887,26 @@ def _get_global_function(api: API, function_name: str, function: Function, impor
     
     return found_global_function
 
-def _get_imported_global_function(api: API, imported_function_name: str, function: Function, imported_module_name: str | None = None):
+def _get_imported_global_function(api: API, imported_function_name: str, function: Function, imported_module_name: str | None = None) -> Function | None:
+    """
+    Helper function, to check if the function references an imported global function
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    function_name : str
+        The name of the call reference to search for
+    function : Function
+        The function which contains the call ref
+    imported_module_name : str | None
+        Imported Module name from mypy ast if available
+        
+    Returns
+    ----------
+    function: Function | None
+        returns None if no function is found
+    """
     # get module
     module = _get_module_by_id(api, function.module_id_which_contains_def)
     if module is None:
@@ -857,7 +953,34 @@ def _get_imported_global_function(api: API, imported_function_name: str, functio
     
     return found_global_function
 
-def _get_classes_and_modules_of_type(api: API, type_to_analyze: Any, call_reference: CallReference, function: Function | None = None, key: int | None = None, return_next_type_only: bool = False) -> tuple[list[Class], list[Module], list[Any]]:
+def _get_classes_and_modules_of_type(
+    api: API, 
+    type_to_analyze: Any, 
+    call_reference: CallReference, 
+    function: Function | None = None, 
+    key: int | None = None, 
+    return_next_type_only: bool = False
+) -> tuple[list[Class], list[Module], list[Any]]:
+    """
+    Helper function, to get the modules and classes of a given type
+
+    Parameters
+    ----------
+    api : API
+        Abstract class for types
+    type_to_analyze : Any
+        The type of the receiver to find the classes and modules for
+    function : Function | None
+        The function which contains the call ref
+    key : int | None
+        Key of index expression like this array[index], this helps to get the correct type for tuple types
+    return_next_type_only : bool
+        Set to true, if no recursion, so this function will only return the next type of a nested type
+        
+    Returns
+    ----------
+    tuple[list[Class], list[Module], list[Any]]
+    """
     modules: list[Module] = []
     classes: list[Class] = []
     if isinstance(type_to_analyze, list):

@@ -3,7 +3,6 @@ from __future__ import annotations
 import builtins
 import contextlib
 import dataclasses
-from datetime import datetime
 
 import astroid
 from astroid.helpers import safe_infer

@@ -552,6 +552,22 @@ class MyPyAstVisitor:
     # #### Function body analysis utilities
 
     def _extract_closures(self, body_block: mp_nodes.Block, parameter_of_func: dict[str, Parameter]) -> dict[str, Function]:
+        """
+        extracts all closures so that references to these closures inside of the body block can be found.
+
+        Parameters
+        ----------
+        body_block : mp_nodes.Block | None
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+
+        Returns
+        ----------
+        dict[str, Function]
+            Contains info about the all closures inside of the body block
+        """
         closures: dict[str, Function] = {}
         statements = body_block.body
         for statement in statements:
@@ -578,6 +594,22 @@ class MyPyAstVisitor:
         return closures
     
     def _extract_closure(self, node: mp_nodes.FuncDef, parameter_of_func: dict[str, Parameter]) -> Function:
+        """
+        extracts a closure
+
+        Parameters
+        ----------
+        node : mp_nodes.FuncDef
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+
+        Returns
+        ----------
+        Function
+            Contains info about a closure inside of the body block
+        """
         name = node.name
         function_id = self._create_id_from_stack(name)  # function id is path
 
@@ -664,7 +696,7 @@ class MyPyAstVisitor:
         parameter_dict = {parameter.name: parameter for parameter in parameters}
         parameter_of_func.update(parameter_dict)
 
-        # limited to depth 1
+        # limited to depth 1, can be extended by uncommenting
         # closures: dict[str, Function] = self._extract_closures(node.body, parameter_of_func)
         # function_body = self._extract_body_info(node.body, parameter_of_func, {})        
         closures: dict[str, Function] = {}
@@ -699,28 +731,28 @@ class MyPyAstVisitor:
 
     def extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
         """
-            Entry point of body extraction
+        Entry point of body extraction
 
-            Searches recursively for members of type mp_nodes.Block or mp_nodes.Expression
-            For Block, this function is called again and for expression, _traverse_expr
-            is called.
-            A call_reference dictionary is passed along to store found call references.
+        Searches recursively for members of type mp_nodes.Block or mp_nodes.Expression
+        For Block, this function is called again and for expression, _traverse_expr
+        is called.
+        A call_reference dictionary is passed along to store found call references.
 
-            Parameters
-            ----------
-            body_block : mp_nodes.Block | None
-                Holds info about the current block of code, at first, this is the whole function body
-            parameter_of_func : dict[str, Parameter]
-                Contains the parameter of the function which the body belongs to, can be used if mypy has no
-                type info about the parameter
-            call_references : dict[str, CallReference]
-                Stores all found call references and is passed along the recursion
+        Parameters
+        ----------
+        body_block : mp_nodes.Block | None
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
 
-            Returns
-            ----------
-            body
-                Contains info about the function body and especially the call references. This body info 
-                is then stored in Function class
+        Returns
+        ----------
+        body
+            Contains info about the function body and especially the call references. This body info 
+            is then stored in Function class
         """
         if body_block is None: 
             return Body(
@@ -767,22 +799,22 @@ class MyPyAstVisitor:
 
     def traverse_expr(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
         """
-            Entry point of expression extraction
+        Entry point of expression extraction
 
-            Searches recursively for members of type mp_nodes.Expression.
-            Once a call expression is found, another recursion is started, in order to get the type of the 
-            receiver of the call reference.
-            A call_reference dictionary is passed along to store found call references.
+        Searches recursively for members of type mp_nodes.Expression.
+        Once a call expression is found, another recursion is started, in order to get the type of the 
+        receiver of the call reference.
+        A call_reference dictionary is passed along to store found call references.
 
-            Parameters
-            ----------
-            expr : mp_nodes.Expression | None
-                Holds info about the current examined expression
-            parameter_of_func : dict[str, Parameter]
-                Contains the parameter of the function which the body belongs to, can be used if mypy has no
-                type info about the parameter
-            call_references : dict[str, CallReference]
-                Stores all found call references and is passed along the recursion
+        Parameters
+        ----------
+        expr : mp_nodes.Expression | None
+            Holds info about the current examined expression
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
         """
         if isinstance(expr, mp_nodes.CallExpr):
             self.traverse_callExpr(expr, [], parameter_of_func, call_references)
@@ -820,29 +852,29 @@ class MyPyAstVisitor:
 
     def traverse_callExpr(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
-            Entry point of call expression extraction, but also handles nested calls
+        Entry point of call expression extraction, but also handles nested calls
 
-            A call reference has three attributes, that need to be examined. 
-            - expr.callee:  this represents the part of the call reference which comes before "()" so this is the "callee()"
-                            and to find the receiver of this call reference, we need to handle this case separately
-            - expr.analyzed: is of type Expression and therefore needs to be examined by traverse_expr()
-            - expr.args: is of type list[Expression] and therefore needs to be examined by traverse_expr() as well
+        A call reference has three attributes, that need to be examined. 
+        - expr.callee:  this represents the part of the call reference which comes before "()" so this is the "callee()"
+                        and to find the receiver of this call reference, we need to handle this case separately
+        - expr.analyzed: is of type Expression and therefore needs to be examined by traverse_expr()
+        - expr.args: is of type list[Expression] and therefore needs to be examined by traverse_expr() as well
 
-            Parameters
-            ----------
-            expr : mp_nodes.CallExpr
-                Holds info about the current examined call expression
-            path : list[str]
-                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
-                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
-                the names of the attributes or methods, that lead to the call reference
-                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
-                of the correct_receiver
-            parameter_of_func : dict[str, Parameter]
-                Contains the parameter of the function which the body belongs to, can be used if mypy has no
-                type info about the parameter
-            call_references : dict[str, CallReference]
-                Stores all found call references and is passed along the recursion
+        Parameters
+        ----------
+        expr : mp_nodes.CallExpr
+            Holds info about the current examined call expression
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
         """
         # start search for type
         pathCopy = path.copy()
@@ -855,33 +887,33 @@ class MyPyAstVisitor:
 
     def traverse_callee(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
-            A call reference was found and this function tries to retrieve the type of the receiver of the call
+        A call reference was found and this function tries to retrieve the type of the receiver of the call
 
-            There are different termination conditions, which this function tries to find.
+        There are different termination conditions, which this function tries to find.
 
-            condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
-            condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
-            condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
-            etc.
-            But there can also be nested combinations of those conditions.
+        condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+        condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+        condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
+        etc.
+        But there can also be nested combinations of those conditions.
 
-            If there is no condition to be found, then, all members are searched, whether they are of type expression
+        If there is no condition to be found, then, all members are searched, whether they are of type expression
 
-            Parameters
-            ----------
-            expr : mp_nodes.Expression
-                Holds info about the current examined expression
-            path : list[str]
-                A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
-                mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
-                the names of the attributes or methods, that lead to the call reference
-                Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
-                of the correct_receiver
-            parameter_of_func : dict[str, Parameter]
-                Contains the parameter of the function which the body belongs to, can be used if mypy has no
-                type info about the parameter
-            call_references : dict[str, CallReference]
-                Stores all found call references and is passed along the recursion
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Holds info about the current examined expression
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
         """
         pathCopy = path.copy()
         if hasattr(expr, "name"):
@@ -993,7 +1025,35 @@ class MyPyAstVisitor:
             pathCopy.append("not_implemented")
             self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
 
-    def extract_call_reference_data_from_node(self, expr: mp_nodes.Expression, node: mp_nodes.SymbolNode | mp_types.Type | str | None, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):  
+    def extract_call_reference_data_from_node(
+        self, 
+        expr: mp_nodes.Expression, 
+        node: mp_nodes.SymbolNode | mp_types.Type | str | None, 
+        path: list[str], 
+        parameter_of_func: dict[str, Parameter], 
+        call_references: dict[str, CallReference]
+    ):  
+        """
+        Helper function to extract typeinfo and to set the callreference 
+
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Holds info about the current examined expression
+        node : mp_nodes.SymbolNode | mp_types.Type | str | None
+            The Node that contains type info
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+        """
         possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
             possible_reason_for_no_found_functions += "Type node is none "
@@ -1230,16 +1290,16 @@ class MyPyAstVisitor:
 
     def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType | sds_types.NamedSequenceType] | None:
         """
-            Iterates through a nested type recursively, to find all NamedTypes
+        Iterates through a nested type recursively, to find all NamedTypes
 
-            Parameters
-            ----------
-            nested_type : AbstractType
-                Abstract class for types
-            
-            Returns
-            ----------
-            type : list[NamedType] | None
+        Parameters
+        ----------
+        nested_type : AbstractType
+            Abstract class for types
+        
+        Returns
+        ----------
+        type : list[NamedType] | None
         """
         if isinstance(nested_type, sds_types.NamedType):
             return [nested_type]
@@ -1304,20 +1364,20 @@ class MyPyAstVisitor:
         isFromParameter: bool = False,
     ):
         """
-            Helper function, to set a callreference into the call_references dictionary
+        Helper function, to set a callreference into the call_references dictionary
 
-            Parameters
-            ----------
-            expr : mp_nodes.Expression
-                Current expression, will be used to get the line and column
-            full_name : str
-                The full name of the call_reference, is also used as id
-            type : Any | list[sds_types.NamedType | sds_types.NamedSequenceType]
-                The type of the receiver, if type Any, then its the type from mypy and if NamedType then from parameter
-            path : list[str]
-                The path from the receiver to the call reference
-            call_references : dict[str, CallReference]
-                Dictionary of found call references
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Current expression, will be used to get the line and column
+        full_name : str
+            The full name of the call_reference, is also used as id
+        type : Any | list[sds_types.NamedType | sds_types.NamedSequenceType]
+            The type of the receiver, if type Any, then its the type from mypy and if NamedType then from parameter
+        path : list[str]
+            The path from the receiver to the call reference
+        call_references : dict[str, CallReference]
+            Dictionary of found call references
         """
         try:
             function_name = list(filter(lambda part: part != "()" and part != "[]", path))[0]
