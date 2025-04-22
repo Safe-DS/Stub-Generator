@@ -8,7 +8,6 @@ from datetime import datetime
 import astroid
 from astroid.helpers import safe_infer
 
-# from evaluation._evaluation import PurityEvaluation
 from safeds_stubgen.api_analyzer._api import API, Function
 from safeds_stubgen.api_analyzer.purity_analysis import build_call_graph, get_module_data
 from safeds_stubgen.api_analyzer.purity_analysis.model import (
@@ -81,7 +80,6 @@ class ReferenceResolver:
     package_data_is_provided: bool = False
     api_data: API | None
     old_purity_analysis: bool
-    evaluation: PurityEvaluation | None
 
     def __init__(
         self,
@@ -91,7 +89,6 @@ class ReferenceResolver:
         path: str | None = None,
         package_data: PackageData | None = None,
         old_purity_analysis: bool = False,
-        evaluation: PurityEvaluation | None = None,
     ):
         # Check if the module is part of a package and if the package data is given.
         if package_data and package_data.combined_module:
@@ -110,7 +107,6 @@ class ReferenceResolver:
         self.imports = module_data.imports
         self.api_data = api_data
         self.old_purity_analysis = old_purity_analysis
-        self.evaluation = evaluation
 
         # Resolve the references for the module.
         self.module_analysis_result.classes = self.classes
@@ -283,29 +279,21 @@ class ReferenceResolver:
         function_id = f"{node_id.module}.{node_id.name}.{node_id.line}.{node_id.col}"
         function_defs = self.functions.get(call_reference.name, None)
         if function_defs is None:  # the call reference references functions out side of the package, can not happen, as before this function is called, this is checked
-            if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, True, False, [], None)
             return []
 
         if self.old_purity_analysis:
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-            if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False, [], None)
             return result
         
         # api analyzer didn't provide any data at all, this shouldn't happen
         if self.api_data is None:
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-            if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False, [], None)
             return result
         
         function_api = self.api_data.functions.get(function_id)
         # api_analyzer doesn't has function which contains the call ref, could be a bug of api analyzer
         if function_api is None or self.api_data.functions[function_id].body is None:  
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-            if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, True, False, False, [], None)
             return result
         
         # try to get call_reference from api
@@ -315,41 +303,21 @@ class ReferenceResolver:
         # if call reference is none then this call reference could not be found
         if call_reference_api is None:  
             result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-            if self.evaluation is not None:
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, True, [], None)
             return result
 
         possibly_referenced_functions = call_reference_api.possibly_referenced_functions
 
         # here we reference a function of builtins through super(), so we access a builtin class and the purity of those is stored in a lookup table
         if call_reference_api.isSuperCallRef and call_reference_api.receiver.full_name.startswith("builtins.") and len(possibly_referenced_functions) == 0:
-            # call_reference.name = call_reference_api.receiver.full_name.split(".")[-1]  # change the name so that later the purity analysis looks for the correct builtin 
-            if self.evaluation is not None:
-                result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-                # type aware purity analysis provided an improvement as we got the type of the builtin
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], [], call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
             return []
 
         # for builtins we dont need to find possibly referenced functions by name so we return []
         # builtins are handled later
         if call_reference_api.receiver.full_name.startswith("builtins.") and len(call_reference_api.receiver.path_to_call_reference) == 2 and len(possibly_referenced_functions) == 0:
-            if self.evaluation is not None:
-                result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-                if 0 < len(result):
-                    call_reference_api.receiver.decrease = len(result) - 1 # - 1 as the builtin is found later
-                    # type aware purity analysis provided an improvement
-                    self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
-                    self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, result, [])
-                else:
-                    # type aware purity analysis found same amount of functions
-                    self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
             return []
 
         # no found functions, due to missing types etc, could be a bug of type aware purity analysis or there is actually no type available
         if len(possibly_referenced_functions) == 0:
-            if self.evaluation is not None:
-                result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, [], result, call_reference.id.line, call_reference.id.col, False, False, True, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type, call_reference_api.reason_for_no_found_functions)
             if call_reference_api.fallbackToSignatureCheck:
                 call_reference_api.receiver.missingTypesWhileFindingFunction = True
                 result = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
@@ -360,24 +328,6 @@ class ReferenceResolver:
         list_of_function_ids: list[str] = list(map(lambda api_func: self._get_id_from_api_function(api_func), possibly_referenced_functions))
         reduced_function_defs = [function_d for function_d in function_defs if self._get_id_from_nodeId(function_d.symbol.id) in list_of_function_ids]
 
-        if self.evaluation is not None:
-            function_defs_old = self._reduce_function_defs_by_parameter_comparison(function_defs, call_reference)
-            if len(reduced_function_defs) == 0:
-                pass
-            if len(reduced_function_defs) < len(function_defs_old):
-                # type aware purity analysis provided an improvement
-                call_reference_api.receiver.decrease = len(function_defs_old) - len(reduced_function_defs)
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, True, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
-            elif len(reduced_function_defs) > len(function_defs_old):
-                # found functions which old purity analysis couldn't find
-                call_reference_api.receiver.increase = len(reduced_function_defs) - len(function_defs_old)
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, True, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type, call_reference_api.reason_for_no_found_functions)
-            else:
-                # type aware purity analysis found same amount of functions
-                self.evaluation.evaluate_call_reference(node_id.module, call_reference.id.name, reduced_function_defs, function_defs_old, call_reference.id.line, call_reference.id.col, False, False, False, False, False, False, call_reference_api.receiver.path_to_call_reference, call_reference_api.receiver.type)
-            old_nodeIDs = list(map(lambda x: x.symbol.id, function_defs_old))
-            reduced_nodeIDs = list(map(lambda x: x.symbol.id, reduced_function_defs))
-            self.evaluation.compare_found_function_refs(func.symbol.id, call_reference.id, old_nodeIDs, reduced_nodeIDs)
         return reduced_function_defs
     
     def _reduce_function_defs_by_parameter_comparison(self, function_defs: list[FunctionScope], call_reference: Reference):
@@ -1050,12 +1000,6 @@ class ReferenceResolver:
                                                 NonLocalVariableWrite(symbol=referenced_symbol, origin=function.symbol)
                                             )
         
-        if self.evaluation is not None:
-            self.evaluation.found_call_refs_by_purity_analysis = amount_of_call_refs
-            if self.api_data is not None:
-                for function in self.api_data.functions.values():
-                    self.evaluation.found_call_refs_by_api_analysis += len(function.body.call_references)
-
         name_references: dict[str, list[ReferenceNode]] = self.merge_dicts(value_references, target_references)
         resolved_references: dict[str, list[ReferenceNode]] = self.merge_dicts(call_references, name_references)
         
@@ -1069,7 +1013,6 @@ def resolve_references(
     path: str | None = None,
     package_data: PackageData | None = None,
     old_purity_analysis: bool = False,
-    evaluation: PurityEvaluation | None = None
 ) -> ModuleAnalysisResult:
     """Resolve all references in a module.
 
@@ -1091,4 +1034,4 @@ def resolve_references(
     ModuleAnalysisResult
         The result of the reference resolving.
     """
-    return ReferenceResolver(api_data, code, module_name, path, package_data, old_purity_analysis, evaluation).module_analysis_result
+    return ReferenceResolver(api_data, code, module_name, path, package_data, old_purity_analysis).module_analysis_result

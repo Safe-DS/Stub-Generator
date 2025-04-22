@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_main[googledoc - boundary - enum]
+# name: test_main[test_googledoc_with_boundary_enum_extractor]
   dict({
     'attributes': list([
       dict({
@@ -485,7 +485,7 @@
     'version': '',
   })
 # ---
-# name: test_main[numpydoc - boundary - enum]
+# name: test_main[test_numpydoc_with_boundary_enum_extractor]
   dict({
     'attributes': list([
       dict({
@@ -982,7 +982,7 @@
     'version': '',
   })
 # ---
-# name: test_main[plaintext]
+# name: test_main[test_plaintext]
   dict({
     'attributes': list([
       dict({
@@ -1991,7 +1991,7 @@
     'version': '',
   })
 # ---
-# name: test_main[purity]
+# name: test_main[test_purity_analysis]
   dict({
     'purity_package.__init__': dict({
     }),
@@ -2891,7 +2891,7 @@
     }),
   })
 # ---
-# name: test_main[restdoc - boundary - enum]
+# name: test_main[test_restdoc_with_boundary_enum_extractor]
   dict({
     'attributes': list([
       dict({

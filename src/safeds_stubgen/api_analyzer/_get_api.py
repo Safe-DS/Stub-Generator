@@ -11,7 +11,6 @@ from mypy import types as mypy_types
 
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
 from safeds_stubgen.api_analyzer._types import AbstractType, CallableType, DictType, FinalType, ListType, NamedSequenceType, NamedType, SetType, TupleType, UnionType
-from evaluation._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import DocstringStyle, create_docstring_parser
 
 from ._api import API, Attribute, CallReference, Function, Class, Module, QualifiedImport
@@ -29,7 +28,6 @@ def get_api(
     is_test_run: bool = False,
     type_source_preference: TypeSourcePreference = TypeSourcePreference.CODE,
     type_source_warning: TypeSourceWarning = TypeSourceWarning.WARN,
-    evaluation: ApiEvaluation | None = None,
     old_purity_analysis: bool = False
 ) -> API:
     """Parse a given code package with Mypy, walk the Mypy AST and create an API object."""
@@ -85,7 +83,6 @@ def get_api(
         aliases=aliases,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
-        evaluation=evaluation
     )
     walker = ASTWalker(handler=callable_visitor)
 
@@ -93,14 +90,10 @@ def get_api(
         walker.walk(tree=tree)
 
     api = callable_visitor.api
-    if evaluation is not None and evaluation.is_runtime_evaluation:
-        evaluation.start_finding_referenced_functions_runtime()
     if not old_purity_analysis:
         _update_class_subclass_relation(api)
         _find_correct_type_by_path_to_call_reference(api)
         _find_all_referenced_functions_for_all_call_references(api)
-    if evaluation is not None and evaluation.is_runtime_evaluation:
-        evaluation.end_finding_referenced_functions_runtime()
 
     return api
 
@@ -315,9 +308,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
     """
     for function in api.functions.values():
         for call_reference in function.body.call_references.values():
-            if function.name == "mask" and function.line == 6042:
-                with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                    file.write(f"\nMask call ref 6042 {str(call_reference.isSuperCallRef)}\n")
             type = call_reference.receiver.type
             if isinstance(type, str):  # closures, global func or imported func which is called like this: func()
                 global_function_directly_imported = _get_function(api, type.split(".")[-1], function)
@@ -330,9 +320,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                 # TODO pm find out if we can use modules here
                 # here we have a super() call so we need to get the super classes
                 classes, _, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
-                if function.name == "mask" and function.line == 6042:
-                    with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                        file.write(f"\nMask call ref 6042 classes {str(classes)}\n")
                 for found_class in classes:
                     super_classes: list[Class] = []
                     if not isinstance(found_class, Class):
@@ -348,9 +335,6 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                             # builtin superclasses are handled in resolve_references
                             call_reference.receiver.type = super_class_id
                             call_reference.receiver.full_name = super_class_id
-                    if function.name == "mask" and function.line == 6042:
-                        with open(f"evaluation/evaluation_tracking.txt", newline='', mode="a") as file:
-                            file.write(f"\nMask call ref 6042 superclasses {str(super_classes)} for {found_class}\n")
                     for super_class in super_classes:
                         prev_found_classes_length = len(call_reference.receiver.found_classes)
                         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, super_class, call_reference.receiver.path_to_call_reference, 0)

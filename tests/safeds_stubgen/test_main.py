@@ -16,12 +16,6 @@ _main_dir = Path(_lib_dir / "src" / "main.py")
 _test_package_dir = Path(_lib_dir / "tests" / "data" / _test_package_name)
 _out_dir = Path(_lib_dir / "tests" / "data" / "out")
 
-_safeds_v0_19_0_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "safeds")
-_matplot_v3_7_2_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "matplotlib")
-_pandas_v2_0_3_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "pandas")
-_scikit_v1_3_0_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "sklearn")
-_seaborn_v0_12_2_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "seaborn")
-
 @pytest.mark.parametrize(
     ("test_package_name", "out_file_dir", "docstyle"),
     [
@@ -52,11 +46,11 @@ _seaborn_v0_12_2_evaluation_dir = Path(_lib_dir / "evaluation_packages" / "seabo
         ),
     ],
     ids=[
-        "plaintext",
-        "numpydoc - boundary - enum",
-        "googledoc - boundary - enum",
-        "restdoc - boundary - enum",
-        "purity"
+        "test_plaintext",
+        "test_numpydoc_with_boundary_enum_extractor",
+        "test_googledoc_with_boundary_enum_extractor",
+        "test_restdoc_with_boundary_enum_extractor",
+        "test_purity_analysis"
     ],
 )
 def test_main(
@@ -78,7 +72,7 @@ def test_main(
         "--docstyle",
         docstyle,
         "-nc",
-        # "-old"
+        # "-old" # uncomment to run stelligkeitsbasierte purity analysis
     ]
 
     main()
@@ -87,71 +81,6 @@ def test_main(
         json_data = json.load(f)
 
     assert json_data == snapshot
-
-@pytest.mark.parametrize(
-    ("package_path", "out_file_dir", "docstyle"),
-    [
-        (
-            _safeds_v0_19_0_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "safeds"),
-            "numpydoc"
-        ),
-        (
-            _matplot_v3_7_2_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "matplotlib"),
-            "numpydoc"
-        ),
-        (
-            _pandas_v2_0_3_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "pandas"),
-            "numpydoc"
-        ),
-        (
-            _scikit_v1_3_0_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "sklearn"),
-            "numpydoc"
-        ),
-        (
-            _seaborn_v0_12_2_evaluation_dir,
-            Path(_lib_dir / "evaluation" / "seaborn"),
-            "numpydoc"
-        ),
-    ],
-    ids=[
-        "safeds_v0_19_0",
-        "matplot_v3_7_2",
-        "pandas_v2_0_3",
-        "scikit_v1_3_0",
-        "seaborn_v0_12_2"
-    ],
-)
-def test_evaluation(
-    package_path: Path,
-    out_file_dir: Path,
-    docstyle: str,
-    snapshot: SnapshotAssertion
-) -> None:
-    # Overwrite system arguments
-
-    sys.argv = [
-        str(_main_dir),
-        "-v",
-        "-s",
-        str(package_path),
-        "-o",
-        str(out_file_dir),
-        # "-tr",
-        "--docstyle",
-        docstyle,
-        "-nc",
-        "--evaluate_purity",
-        # "--evaluate_api",
-        # "-old",
-        # "-runtime",
-    ]
-
-    # main()
-    assert True
 
 def test_main_empty() -> None:
     # Overwrite system arguments

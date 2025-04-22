@@ -5,7 +5,6 @@ from pathlib import Path
 
 import astroid
 
-# from safeds_stubgen._evaluation import PurityEvaluation
 from safeds_stubgen.api_analyzer._api import API
 from safeds_stubgen.api_analyzer.purity_analysis import get_module_data
 from safeds_stubgen.api_analyzer.purity_analysis._resolve_references import resolve_references
@@ -106,14 +105,13 @@ class PurityAnalyzer:
         results: dict[NodeID, dict[NodeID, PurityResult]] | None = None,
         package_data: PackageData | None = None,
         old_purity_analysis: bool = False,
-        evaluation: PurityEvaluation | None = None,
     ) -> None:
         if code is None and not package_data:
             raise ValueError("The code and package data are None.")
         elif package_data:
-            references = resolve_references(code, api_data, module_name, path, package_data, old_purity_analysis=old_purity_analysis, evaluation=evaluation)  # type: ignore[arg-type]  # code is not None, so the type is correct.
+            references = resolve_references(code, api_data, module_name, path, package_data, old_purity_analysis=old_purity_analysis)  # type: ignore[arg-type]  # code is not None, so the type is correct.
         else:
-            references = resolve_references(code, api_data, module_name, path, old_purity_analysis=old_purity_analysis, evaluation=evaluation)  # type: ignore[arg-type]  # code is not None, so the type is correct.
+            references = resolve_references(code, api_data, module_name, path, old_purity_analysis=old_purity_analysis)  # type: ignore[arg-type]  # code is not None, so the type is correct.
         if references.call_graph_forest is None:
             raise ValueError("The call graph forest is empty.")
 
@@ -128,7 +126,6 @@ class PurityAnalyzer:
         self.cached_module_results: dict[NodeID, dict[NodeID, PurityResult]] = results if results else {}
         self.api_data = api_data
         self.old_purity_analysis = old_purity_analysis
-        self.evaluation = evaluation
         self._analyze_purity()
 
     @staticmethod
@@ -598,7 +595,6 @@ def infer_purity(
     results: dict[NodeID, dict[NodeID, PurityResult]] | None = None,
     package_data: PackageData | None = None,
     old_purity_analysis: bool = False,
-    evaluation: PurityEvaluation | None = None,
 ) -> dict[NodeID, dict[NodeID, PurityResult]]:
     """
     Infer the purity of functions.
@@ -632,9 +628,7 @@ def infer_purity(
         The purity results of the functions in the module.
         The key is the NodeID of the module, the value is a dictionary of the purity results of the functions in the module.
     """
-    purity_analyzer = PurityAnalyzer(api_data, code, module_name, path, results, package_data, old_purity_analysis, evaluation)
-    if evaluation is not None:
-        evaluation.evaluate_call_graph_forest(purity_analyzer.call_graph_forest)
+    purity_analyzer = PurityAnalyzer(api_data, code, module_name, path, results, package_data, old_purity_analysis)
     return purity_analyzer.current_purity_results
 
 
@@ -643,7 +637,6 @@ def get_purity_results(
     api_data: API,
     test_run: bool = False,
     old_purity_analysis: bool = False,
-    evaluation: PurityEvaluation | None = None,
 ) -> APIPurity:
     """Get the purity results of a package.
 
@@ -686,7 +679,6 @@ def get_purity_results(
         results=package_purity.purity_results, 
         package_data=package_data, 
         old_purity_analysis=old_purity_analysis,
-        evaluation=evaluation
     )
 
     # Group the results by file name.

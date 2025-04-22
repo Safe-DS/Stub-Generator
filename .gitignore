@@ -10,13 +10,6 @@ build/
 dist/
 out/
 
-#evaluation
-evaluation_packages/
-tests/data/safeds/
-tests/data/astroid/
-*_call_graphs_*.txt
-evaluation_tracking.txt
-
 # Node
 .npm/
 node_modules/

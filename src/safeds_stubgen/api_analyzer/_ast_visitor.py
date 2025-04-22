@@ -15,7 +15,6 @@ import safeds_stubgen.api_analyzer._types as sds_types
 from safeds_stubgen import is_internal
 from safeds_stubgen._helpers import get_reexported_by
 from safeds_stubgen.api_analyzer._type_source_enums import TypeSourcePreference, TypeSourceWarning
-from evaluation._evaluation import ApiEvaluation
 from safeds_stubgen.docstring_parsing import ResultDocstring
 
 from ._api import (
@@ -64,7 +63,6 @@ class MyPyAstVisitor:
         aliases: dict[str, set[str]],
         type_source_preference: TypeSourcePreference,
         type_source_warning: TypeSourceWarning,
-        evaluation: ApiEvaluation | None = None,
     ) -> None:
         self.docstring_parser: AbstractDocstringParser = docstring_parser
         self.type_source_preference = type_source_preference
@@ -77,7 +75,6 @@ class MyPyAstVisitor:
         self.type_var_types: set[sds_types.TypeVarType] = set()
         self.current_module_id = ""
         
-        self.evaluation = evaluation
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -321,7 +318,7 @@ class MyPyAstVisitor:
                 msg = f"Different type hint and docstring types for '{function_id}'."
                 logging.info(msg)
 
-            if doc_type is not None and self.evaluation is None and (
+            if doc_type is not None and (
                 code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
             ):
                 parameters[i] = dataclasses.replace(
@@ -372,8 +369,6 @@ class MyPyAstVisitor:
         
         parameter_dict = {parameter.name: parameter for parameter in parameters}
 
-        if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
-            self.evaluation.start_body_runtime()
         # analyze body for types of receivers of call references
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
         call_references = {}
@@ -397,9 +392,6 @@ class MyPyAstVisitor:
                     end_column=-1,
                     call_references=call_references
                 )
-        finally:
-            if self.evaluation is not None and self.evaluation.is_runtime_evaluation:
-                self.evaluation.end_body_runtime(function_id)
         
         # Create and add Function to stack
         function = Function(
@@ -621,7 +613,7 @@ class MyPyAstVisitor:
                 msg = f"Different type hint and docstring types for '{function_id}'."
                 logging.info(msg)
 
-            if doc_type is not None and self.evaluation is None and (
+            if doc_type is not None and (
                 code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
             ):
                 parameters[i] = dataclasses.replace(
@@ -792,8 +784,6 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
-        if self.evaluation is not None and expr is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
         if isinstance(expr, mp_nodes.CallExpr):
             self.traverse_callExpr(expr, [], parameter_of_func, call_references)
             return
@@ -854,9 +844,6 @@ class MyPyAstVisitor:
             call_references : dict[str, CallReference]
                 Stores all found call references and is passed along the recursion
         """
-        if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
-
         # start search for type
         pathCopy = path.copy()
         pathCopy.append("()")
@@ -905,9 +892,6 @@ class MyPyAstVisitor:
                 pathCopy.append(f"[{str(key)}]")
             else:
                 pathCopy.append("[]")
-
-        if self.evaluation is not None:
-            self.evaluation.evaluate_expression(expr, parameter_of_func, self.current_module_id, self.mypy_type_to_abstract_type)
 
         # termination conditions
 

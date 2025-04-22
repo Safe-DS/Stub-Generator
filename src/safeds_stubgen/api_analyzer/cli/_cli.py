@@ -1,12 +1,10 @@
 from __future__ import annotations
 
 import argparse
-from datetime import datetime
 import logging
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-from evaluation._evaluation import ApiEvaluation, PurityEvaluation
 from safeds_stubgen.api_analyzer.purity_analysis._infer_purity import get_purity_results
 from safeds_stubgen.api_analyzer import TypeSourcePreference, TypeSourceWarning, get_api
 from safeds_stubgen.stubs_generator import StubsStringGenerator, create_stub_files, generate_stub_data
@@ -29,9 +27,6 @@ def cli() -> None:
         type_source_preference=args.type_source_preference,
         type_source_warning=args.show_type_source_warning,
         old_purity_analysis=args.old_purity_analysis,
-        purity_evaluation=args.evaluate_purity,
-        api_evaluation=args.evaluate_api,
-        runtime_evaluation=args.evaluate_runtime,
     )
 
 
@@ -104,27 +99,6 @@ def _get_args() -> argparse.Namespace:
         required=False,
         action="store_true",
     )
-    parser.add_argument(
-        "-evalP",
-        "--evaluate_purity",
-        help="Set this flag to run the purity evaluation.",
-        required=False,
-        action="store_true",
-    )
-    parser.add_argument(
-        "-evalA",
-        "--evaluate_api",
-        help="Set this flag to run the api evaluation.",
-        required=False,
-        action="store_true",
-    )
-    parser.add_argument(
-        "-runtime",
-        "--evaluate_runtime",
-        help="Set this flag to run only the runtime evaluation of Api or Purity.",
-        required=False,
-        action="store_true",
-    )
 
     return parser.parse_args()
 
@@ -138,9 +112,6 @@ def _run_stub_generator(
     type_source_preference: TypeSourcePreference,
     type_source_warning: TypeSourceWarning,
     old_purity_analysis: bool = False,
-    purity_evaluation: bool = False,
-    api_evaluation: bool = False,
-    runtime_evaluation: bool = False,
 ) -> None:
     """
     Create API data of a package and Safe-DS stub files.
@@ -154,15 +125,6 @@ def _run_stub_generator(
     is_test_run:
         Set True if files in test directories should be parsed too.
     """
-    api_evaluator = None
-    purity_evaluator = None
-    if api_evaluation:
-        api_evaluator = ApiEvaluation(src_dir_path.stem, old_purity_analysis, runtime_evaluation)
-    if purity_evaluation:
-        purity_evaluator = PurityEvaluation(src_dir_path.stem, old_purity_analysis, out_dir_path=out_dir_path, is_runtime=runtime_evaluation)
-
-    if api_evaluator is not None:
-        api_evaluator.start_timing()
     # Generate the API data
     api = get_api(
         root=src_dir_path,
@@ -170,33 +132,18 @@ def _run_stub_generator(
         is_test_run=is_test_run,
         type_source_preference=type_source_preference,
         type_source_warning=type_source_warning,
-        evaluation=api_evaluator,
         old_purity_analysis=old_purity_analysis
     )
-    if api_evaluator is not None:
-        api_evaluator.end_timing()
-        if runtime_evaluation:
-            api_evaluator.get_runtime_result()
-        api_evaluator.get_results()
 
     # Create an API file
     out_file_api = out_dir_path.joinpath(f"{src_dir_path.stem}__api.json")
     api.to_json_file(out_file_api)
     
-    if purity_evaluator is not None:
-        purity_evaluator.start_timing()
     api_purity = get_purity_results(
         src_dir_path, api_data=api,
         test_run=is_test_run,
         old_purity_analysis=old_purity_analysis,
-        evaluation=purity_evaluator if not runtime_evaluation else None
     )
-    if purity_evaluator is not None:
-        purity_evaluator.end_timing()
-        if runtime_evaluation:
-            purity_evaluator.get_runtime_result()
-        purity_evaluator.get_results(api_purity)
-        purity_evaluator.get_type_results(api, api_purity)
 
     out_file_api_purity = out_dir_path.joinpath(f"{src_dir_path.stem}__api_purity.json")
     api_purity.to_json_file(
@@ -204,9 +151,8 @@ def _run_stub_generator(
         shorten=True
     )  # Shorten is set to True by default, therefore the results will only contain the count of each reason.
 
-    if not api_evaluation and not purity_evaluation:
-        # Generate the stub data
-        stubs_generator = StubsStringGenerator(api=api, purity_api=api_purity, convert_identifiers=convert_identifiers)
-        stub_data = generate_stub_data(stubs_generator=stubs_generator, out_path=out_dir_path)
-        # Create the stub files
-        create_stub_files(stubs_generator=stubs_generator, stubs_data=stub_data, out_path=out_dir_path)
+    # Generate the stub data
+    stubs_generator = StubsStringGenerator(api=api, purity_api=api_purity, convert_identifiers=convert_identifiers)
+    stub_data = generate_stub_data(stubs_generator=stubs_generator, out_path=out_dir_path)
+    # Create the stub files
+    create_stub_files(stubs_generator=stubs_generator, stubs_data=stub_data, out_path=out_dir_path)
