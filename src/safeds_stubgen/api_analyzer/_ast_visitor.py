@@ -1056,7 +1056,7 @@ class MyPyAstVisitor:
         possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
             possible_reason_for_no_found_functions += "Type node is none "
-            call_receiver_type: Any = "None"
+            call_receiver_type_none = "None"
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
@@ -1068,26 +1068,26 @@ class MyPyAstVisitor:
             if node == "None":
                 possible_reason_for_no_found_functions += f"There is no end condition for {str(expr)}  "
                 
-            call_receiver_type = node
+            call_receiver_type_str = node
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_str,
                 path=path,
                 call_references=call_references,
                 typeThroughInference=True
             )
         elif isinstance(node, mp_types.Type):
-            call_receiver_type: Any = node
+            call_receiver_type_type: mp_types.Type | str = node
             possible_reason_for_no_found_functions += "Mypy Node is a mp_types.Type "
             
-            if isinstance(call_receiver_type, mp_types.AnyType):
+            if isinstance(call_receiver_type_type, mp_types.AnyType):
                 possible_reason_for_no_found_functions += "Type is Any "
-                if call_receiver_type.missing_import_name is not None:
-                    call_receiver_type = call_receiver_type.missing_import_name
+                if call_receiver_type_type.missing_import_name is not None:
+                    call_receiver_type_type = call_receiver_type_type.missing_import_name
                 else:
                     possible_reason_for_no_found_functions += "No missing import name "
             abstact_type = self.mypy_type_to_abstract_type(node)
-            typeThroughInference = not isinstance(call_receiver_type, mp_types.AnyType) or (isinstance(call_receiver_type, mp_types.AnyType) and call_receiver_type.missing_import_name is not None)
+            typeThroughInference = not isinstance(call_receiver_type_type, mp_types.AnyType) or (isinstance(call_receiver_type_type, mp_types.AnyType) and call_receiver_type_type.missing_import_name is not None)
             
             self._set_call_reference(
                 expr=expr,
@@ -1100,17 +1100,17 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
             # here a global function is referenced that is in the same module
-            call_receiver_type: Any = node.fullname
+            call_receiver_type_funcdef = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_funcdef,
                 path=path,
                 call_references=call_references,
                 typeThroughInference=True
             )
             return
         elif isinstance(node, mp_nodes.FuncDef):
-            call_receiver_type = None
+            call_receiver_type_funcdef: Any = None
             possible_reason_for_no_found_functions += ""
             typeThroughTypeHint = False
             typeThroughDocString = False
@@ -1128,14 +1128,14 @@ class MyPyAstVisitor:
                 typeThroughTypeHint = parameter.type is not None
                 typeThroughDocString = parameter.docstring.type is not None
             if node.type is not None:
-                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type) # type: ignore
-                if isinstance(call_receiver_type, mp_types.AnyType):
+                call_receiver_type_funcdef = self.mypy_type_to_abstract_type(node.type.ret_type) # type: ignore
+                if isinstance(call_receiver_type_funcdef, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
-                    if call_receiver_type.missing_import_name is not None:
-                        call_receiver_type = call_receiver_type.missing_import_name
+                    if call_receiver_type_funcdef.missing_import_name is not None:
+                        call_receiver_type_funcdef = call_receiver_type_funcdef.missing_import_name
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
-                        call_receiver_type = node.fullname if parameter_type is None else parameter_type
+                        call_receiver_type_funcdef = node.fullname if parameter_type is None else parameter_type
                         
                 typeThroughInference = not isinstance(node.type.ret_type, mp_types.AnyType) or (isinstance(node.type.ret_type, mp_types.AnyType) and node.type.ret_type.missing_import_name is not None)  # type: ignore
                 if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":  # type: ignore
@@ -1143,11 +1143,11 @@ class MyPyAstVisitor:
                 
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
-                call_receiver_type: Any = node.fullname if parameter_type is None else parameter_type
+                call_receiver_type_funcdef: Any = node.fullname if parameter_type is None else parameter_type
 
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_funcdef,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1175,26 +1175,26 @@ class MyPyAstVisitor:
                 typeThroughTypeHint = parameter.type is not None
                 typeThroughDocString = parameter.docstring.type is not None
             if node.type is not None:
-                call_receiver_type: Any = self.mypy_type_to_abstract_type(node.type)
+                call_receiver_type_var: Any = self.mypy_type_to_abstract_type(node.type)
                 if isinstance(node.type, mp_types.AnyType):
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                     possible_reason_for_no_found_functions += "Type is Any "
                     if node.type.missing_import_name is not None:
-                        call_receiver_type = node.type.missing_import_name
+                        call_receiver_type_var = node.type.missing_import_name
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
-                        call_receiver_type = node.fullname if parameter_type is None else parameter_type
+                        call_receiver_type_var = node.fullname if parameter_type is None else parameter_type
 
                 typeThroughInference = not isinstance(node.type, mp_types.AnyType) or (isinstance(node.type, mp_types.AnyType) and node.type.missing_import_name is not None)
                 if isinstance(node.type, sds_types.NamedType) and node.type.name == "Any":
                     typeThroughInference = False
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for Var "
-                call_receiver_type: Any = node.fullname if parameter_type is None else parameter_type
+                call_receiver_type_var: Any = node.fullname if parameter_type is None else parameter_type
 
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_var,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1206,16 +1206,16 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.TypeAlias):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeAlias "
-            call_receiver_type: Any = node.target
-            if isinstance(call_receiver_type, mp_types.AnyType):
-                if call_receiver_type.missing_import_name is not None:
-                    call_receiver_type = call_receiver_type.missing_import_name
+            call_receiver_type_type_alias: Any = node.target
+            if isinstance(call_receiver_type_type_alias, mp_types.AnyType):
+                if call_receiver_type_type_alias.missing_import_name is not None:
+                    call_receiver_type_type_alias = call_receiver_type_type_alias.missing_import_name
                 else:
-                    call_receiver_type = node.fullname
-            typeThroughInference = not isinstance(call_receiver_type, mp_types.AnyType) or (isinstance(call_receiver_type, mp_types.AnyType) and call_receiver_type.missing_import_name is not None)
+                    call_receiver_type_type_alias = node.fullname
+            typeThroughInference = not isinstance(call_receiver_type_type_alias, mp_types.AnyType) or (isinstance(call_receiver_type_type_alias, mp_types.AnyType) and call_receiver_type_type_alias.missing_import_name is not None)
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_type_alias,
                 path=path,
                 call_references=call_references,
                 typeThroughInference=typeThroughInference,
@@ -1223,10 +1223,10 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.Decorator):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.Decorator "
-            call_receiver_type = node.fullname
+            call_receiver_type_decorator = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_decorator,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1235,10 +1235,10 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.TypeVarLikeExpr):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeVarLikeExpr "
-            call_receiver_type = node.fullname
+            call_receiver_type_typeVarLikeExpr = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_typeVarLikeExpr,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1250,10 +1250,10 @@ class MyPyAstVisitor:
         elif isinstance(node, mp_nodes.OverloadedFuncDef):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.OverloadedFuncDef "
 
-            call_receiver_type = node.fullname
+            call_receiver_type_overloadedFuncdef = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_overloadedFuncdef,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1262,10 +1262,10 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.TypeInfo):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeInfo "
-            call_receiver_type = node.fullname
+            call_receiver_type_typeInfo = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_typeInfo,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
@@ -1274,10 +1274,10 @@ class MyPyAstVisitor:
             return
         elif isinstance(node, mp_nodes.MypyFile):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.MypyFile "
-            call_receiver_type = node.fullname
+            call_receiver_type_mypyFile = node.fullname
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_mypyFile,
                 path=path,
                 call_references=call_references,
                 possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
