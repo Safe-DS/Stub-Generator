@@ -1059,7 +1059,7 @@ class MyPyAstVisitor:
             call_receiver_type_none = "None"
             self._set_call_reference(
                 expr=expr,
-                type=call_receiver_type,
+                type=call_receiver_type_none,
                 path=path,
                 call_references=call_references
             )
