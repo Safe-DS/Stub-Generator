@@ -5,12 +5,10 @@ from typing import TYPE_CHECKING, Literal
 
 from _griffe import models as griffe_models
 from griffe import load
-from griffe import Docstring
 from griffe import DocstringAttribute, DocstringParameter
 from griffe import parse_docstring_annotation
 from griffe import DocstringSectionKind, Parser
 from griffe import Expr, ExprAttribute, ExprBinOp, ExprBoolOp, ExprList, ExprName, ExprSubscript, ExprTuple
-from griffe.docstrings.utils import parse_annotation
 
 # noinspection PyProtectedMember
 import safeds_stubgen.api_analyzer._types as sds_types

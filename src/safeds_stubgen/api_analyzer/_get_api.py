@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from typing import TYPE_CHECKING, Any, get_args, get_origin, Union
+from typing import TYPE_CHECKING, Any, get_args, Union
 
 import mypy.build as mypy_build
 import mypy.main as mypy_main

@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import builtins
 import dataclasses
 import logging
 from copy import deepcopy
@@ -374,7 +373,7 @@ class MyPyAstVisitor:
         call_references: dict[str, CallReference] = {}
         try:
             function_body = self.extract_body_info(node.body, parameter_dict, call_references)
-        except RecursionError as err:
+        except RecursionError:
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
             if node.body is not None:
                 function_body = Body(

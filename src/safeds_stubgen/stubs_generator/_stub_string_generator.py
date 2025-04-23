@@ -23,7 +23,7 @@ from safeds_stubgen.api_analyzer import (
     result_name_generator,
 )
 from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import NodeID
-from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, ImpurityReason, Unknown, PurityResult, UnknownCall
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, PurityResult
 from safeds_stubgen.docstring_parsing import AttributeDocstring
 
 from ._helper import (
