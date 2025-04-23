@@ -1143,7 +1143,7 @@ class MyPyAstVisitor:
                 
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
-                call_receiver_type_funcdef_full: Any = node.fullname if parameter_type is None else parameter_type
+                call_receiver_type_funcdef_full = node.fullname if parameter_type is None else parameter_type
 
             self._set_call_reference(
                 expr=expr,
