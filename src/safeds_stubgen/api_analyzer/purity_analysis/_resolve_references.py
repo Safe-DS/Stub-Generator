@@ -329,7 +329,7 @@ class ReferenceResolver:
 
         return reduced_function_defs
     
-    def _reduce_function_defs_by_parameter_comparison(self, function_defs: list[FunctionScope], call_reference: Reference):
+    def _reduce_function_defs_by_parameter_comparison(self, function_defs: list[FunctionScope], call_reference: Reference) -> list[FunctionScope]:
         """ Helper function for _get_function_scopes_by_call_reference
 
         Once we dont have necessary data from the api, we have to fall back to reducing the list of functionScopes by 
@@ -491,7 +491,7 @@ class ReferenceResolver:
         # Find imported functions or classes that are called for ImportFrom nodes.
         if call_reference.name in self.imports:
             import_def = self.imports.get(call_reference.name)
-            inferred_node_def = safe_infer(call_reference.node.func) # type: ignore  pm: can be ignored, because once safe_infer fails, it returns None
+            inferred_node_def = safe_infer(call_reference.node.func) # type: ignore
             if not inferred_node_def:
                 with contextlib.suppress(astroid.InferenceError):
                     inferred_node_def = next(call_reference.node.func.infer())

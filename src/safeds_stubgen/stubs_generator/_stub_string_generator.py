@@ -22,6 +22,7 @@ from safeds_stubgen.api_analyzer import (
     VarianceKind,
     result_name_generator,
 )
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import NodeID
 from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, ImpurityReason, Unknown, PurityResult, UnknownCall
 from safeds_stubgen.docstring_parsing import AttributeDocstring
 
@@ -79,16 +80,18 @@ class StubsStringGenerator:
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
     
-    def _create_function_purity_id(self, function: Function):
+    def _create_function_purity_id(self, function: Function) -> NodeID:
         full_id = function.id.split("/")
         id = full_id[-1]
-        return f"{function.module_id_which_contains_def}.{id}.{function.line}.{function.column}"
+        nodeId = NodeID(function.module_id_which_contains_def, id, function.line, function.column)
+        return nodeId
     
     def _get_purity_result(self, function: Function) -> PurityResult:
         function_id = self._create_function_purity_id(function)
-        purity_dict = self.purity_api.to_dict()
-        purity_data = purity_dict[function.module_id_which_contains_def]
-        return purity_data[function_id]
+        module_node_id = NodeID(None, function.module_id_which_contains_def)
+        purity_dict = self.purity_api.purity_results[module_node_id]
+        purity_data = purity_dict[function_id]
+        return purity_data
 
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
         module_data = []
@@ -416,8 +419,8 @@ class StubsStringGenerator:
                 attribute_type_data = attribute.type.to_dict()
                 if attribute.docstring.boundaries is not None:
                     attribute_boundaries = sorted(map(lambda boundary: boundary.to_dict(), attribute.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
-                if attribute.docstring.valid_values is not None:
-                    attribute_valid_values = sorted(attribute.docstring.valid_values)
+                # if attribute.docstring.valid_values is not None:
+                #     attribute_valid_values = sorted(attribute.docstring.valid_values)
 
                 # Don't create TypeVar attributes
                 if attribute_type_data["kind"] == "TypeVarType":
@@ -545,15 +548,13 @@ class StubsStringGenerator:
         result_string = self._create_result_string(function.results)
 
 
-        # TODO implement Reasons and check why purity_result is dict
         purity_str = "@Pure"
-        if purity_result["purity"] == "Impure":  # type: ignore somehow isinstance doesnt work here as PurityReason is a dict here
-            # reasons_str = ""
-            # reasons = purity_result["reasons"]  # type: ignore PurityReason is a dict here
-            # for reason in reasons:
-            #     reasons_str += str(reason) + ","
-            # purity_str = f"@Impure([{reasons_str}])"
-            purity_str = "@Impure([ImpurityReason.Other])"
+        if isinstance(purity_result, Impure):
+            reasons_str = ""
+            reasons = purity_result.reasons
+            reasons_str = ", ".join(list(map(lambda x: str(x), reasons)))
+
+            purity_str = f"@Impure([{reasons_str}])"
 
         # Create string and return
         return (
@@ -649,8 +650,8 @@ class StubsStringGenerator:
                 parameter_type_data = parameter.type.to_dict()
                 if parameter.docstring.boundaries is not None:
                     parameter_boundaries = sorted(map(lambda boundary: boundary.to_dict(), parameter.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
-                if parameter.docstring.valid_values is not None:
-                    parameter_valid_values = sorted(parameter.docstring.valid_values)
+                # if parameter.docstring.valid_values is not None:
+                #     parameter_valid_values = sorted(parameter.docstring.valid_values)
                 
                 # Default value
                 if parameter.is_optional:

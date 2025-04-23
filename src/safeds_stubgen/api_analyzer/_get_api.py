@@ -289,7 +289,7 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
     method = method[0]
     return method
 
-def _find_correct_type_by_path_to_call_reference(api: API):
+def _find_correct_type_by_path_to_call_reference(api: API) -> None:
     """
     Call references can be nested, for example: "instance.attribute.method()" or "instance.method().method2()" etc.
     Therefore the call_reference type stores a path of the names to the call. The path is of type: list[str]
@@ -340,7 +340,7 @@ def _find_correct_type_by_path_to_call_reference(api: API):
                         if prev_found_classes_length < len(call_reference.receiver.found_classes):
                             break # for super types we can only take the first class where we found correct types
 
-def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int):
+def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_reference: CallReference, type_of_receiver: Class | Any, path: list[str], depth: int) -> None:
     """
     Recursive helper function of _find_correct_type_by_path_to_call_reference
 
@@ -713,6 +713,7 @@ def _get_named_types_from_nested_type(nested_type: AbstractType) -> list[NamedTy
                     if named_type is not None:
                         types.extend(named_type)
                 return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
+    return None
 
 def _get_class_by_id(api: API, class_id: str) -> Class | None:
     """
@@ -1032,13 +1033,13 @@ def _get_classes_and_modules_of_type(
         found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.value_type, call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
-    elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 1:  # type: ignore | list
+    elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 1:  # type: ignore
         if return_next_type_only:
             return ([], [], [type_to_analyze.args[0]])
         found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.args[0], call_reference, function)
         classes.extend(found_classes)
         modules.extend(found_modules)
-    elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 2:  # type: ignore | dictionary
+    elif hasattr(type_to_analyze, "args") and len(type_to_analyze.args) == 2:  # type: ignore
         if return_next_type_only:
             return ([], [], [type_to_analyze.args[1]])
         found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type_to_analyze.args[1], call_reference, function)

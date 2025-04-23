@@ -371,7 +371,7 @@ class MyPyAstVisitor:
 
         # analyze body for types of receivers of call references
         closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
-        call_references = {}
+        call_references: dict[str, CallReference] = {}
         try:
             function_body = self.extract_body_info(node.body, parameter_dict, call_references)
         except RecursionError as err:
@@ -797,7 +797,7 @@ class MyPyAstVisitor:
             call_references=call_references
         )
 
-    def traverse_expr(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]):
+    def traverse_expr(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
         """
         Entry point of expression extraction
 
@@ -917,7 +917,7 @@ class MyPyAstVisitor:
         """
         pathCopy = path.copy()
         if hasattr(expr, "name"):
-            pathCopy.append(expr.name) # type: ignore as ensured by hasattr
+            pathCopy.append(expr.name) # type: ignore
         if isinstance(expr, mp_nodes.IndexExpr):
             if isinstance(expr.index, mp_nodes.IntExpr):
                 key = expr.index.value
@@ -973,7 +973,7 @@ class MyPyAstVisitor:
             pathCopy.append("()")
             self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
             # start finding info of another call expr
-            newPath = []
+            newPath: list[str] = []
             self.traverse_callExpr(expr, newPath, parameter_of_func, call_references)
             return
 
@@ -1032,7 +1032,7 @@ class MyPyAstVisitor:
         path: list[str], 
         parameter_of_func: dict[str, Parameter], 
         call_references: dict[str, CallReference]
-    ):  
+    ) -> None:  
         """
         Helper function to extract typeinfo and to set the callreference 
 
@@ -1129,7 +1129,7 @@ class MyPyAstVisitor:
                 typeThroughTypeHint = parameter.type is not None
                 typeThroughDocString = parameter.docstring.type is not None
             if node.type is not None:
-                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type)
+                call_receiver_type = self.mypy_type_to_abstract_type(node.type.ret_type) # type: ignore
                 if isinstance(call_receiver_type, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
                     if call_receiver_type.missing_import_name is not None:
@@ -1138,8 +1138,8 @@ class MyPyAstVisitor:
                         possible_reason_for_no_found_functions += "No missing import name "
                         call_receiver_type = node.fullname if parameter_type is None else parameter_type
                         
-                typeThroughInference = not isinstance(node.type.ret_type, mp_types.AnyType) or (isinstance(node.type.ret_type, mp_types.AnyType) and node.type.ret_type.missing_import_name is not None)
-                if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":
+                typeThroughInference = not isinstance(node.type.ret_type, mp_types.AnyType) or (isinstance(node.type.ret_type, mp_types.AnyType) and node.type.ret_type.missing_import_name is not None)  # type: ignore
+                if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":  # type: ignore
                     typeThroughInference = False
                 
             else:
@@ -1350,6 +1350,7 @@ class MyPyAstVisitor:
                         if named_type is not None:
                             types.extend(named_type)
                     return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
+        return None
         
     def _set_call_reference(self, 
         expr: mp_nodes.Expression, 
@@ -1362,7 +1363,7 @@ class MyPyAstVisitor:
         typeThroughDocString: bool = False,
         typeThroughInference: bool = False,
         isFromParameter: bool = False,
-    ):
+    ) -> None:
         """
         Helper function, to set a callreference into the call_references dictionary
 
