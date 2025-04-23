@@ -1057,14 +1057,13 @@ class MyPyAstVisitor:
         possible_reason_for_no_found_functions = f"{str(expr)} "
         if node is None:
             possible_reason_for_no_found_functions += "Type node is none "
-            call_receiver_type = "None"
+            call_receiver_type: Any = "None"
             self._set_call_reference(
                 expr=expr,
                 type=call_receiver_type,
                 path=path,
                 call_references=call_references
             )
-            return
         elif isinstance(node, str):
             possible_reason_for_no_found_functions += "Mypy Node is a string "
             if node == "None":
