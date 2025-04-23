@@ -1,4 +1,3 @@
-from datetime import datetime
 from safeds_stubgen.api_analyzer.purity_analysis.model import (
     Builtin,
     CallGraphForest,
