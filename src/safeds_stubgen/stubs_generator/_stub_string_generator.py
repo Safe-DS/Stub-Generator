@@ -414,7 +414,7 @@ class StubsStringGenerator:
 
             attribute_type_data = None
             attribute_boundaries: list[dict[str, Any]] = []
-            attribute_valid_values: list[str] = []
+            # attribute_valid_values: list[str] = []
             if attribute.type:
                 attribute_type_data = attribute.type.to_dict()
                 if attribute.docstring.boundaries is not None:
@@ -642,7 +642,7 @@ class StubsStringGenerator:
             type_string = ""
             param_value = ""
             parameter_boundaries: list[dict[str, Any]] = []
-            parameter_valid_values: list[str] = []
+            # parameter_valid_values: list[str] = []
 
             # Parameter type
             if parameter.type is not None:
