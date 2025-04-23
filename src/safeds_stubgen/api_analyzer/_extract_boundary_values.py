@@ -724,8 +724,8 @@ def _analyze_matches(matches: list[tuple[str, Span]], boundaries: BoundaryList) 
                 if match["match_label"] == "BOUNDARY_TYPE":
                     type_ = match["match_string"].text  # type: ignore 
                 else:
-                    match_label = match["match_label"]
-                    match_string = match["match_string"]
+                    match_label = match["match_label"]  # type: ignore
+                    match_string = match["match_string"]  # type: ignore
 
             boundaries.add_boundary(match_label, type_, match_string)  # type: ignore
 

@@ -1064,7 +1064,8 @@ class MyPyAstVisitor:
                 path=path,
                 call_references=call_references
             )
-        if isinstance(node, str):
+            return
+        elif isinstance(node, str):
             possible_reason_for_no_found_functions += "Mypy Node is a string "
             if node == "None":
                 possible_reason_for_no_found_functions += f"There is no end condition for {str(expr)}  "
@@ -1077,7 +1078,7 @@ class MyPyAstVisitor:
                 call_references=call_references,
                 typeThroughInference=True
             )
-        if isinstance(node, mp_types.Type):
+        elif isinstance(node, mp_types.Type):
             call_receiver_type = node
             possible_reason_for_no_found_functions += "Mypy Node is a mp_types.Type "
             
@@ -1099,7 +1100,7 @@ class MyPyAstVisitor:
                 typeThroughInference=typeThroughInference
             )
             return
-        if isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
+        elif isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
             # here a global function is referenced that is in the same module
             call_receiver_type = node.fullname
             self._set_call_reference(
@@ -1110,7 +1111,7 @@ class MyPyAstVisitor:
                 typeThroughInference=True
             )
             return
-        if isinstance(node, mp_nodes.FuncDef):
+        elif isinstance(node, mp_nodes.FuncDef):
             call_receiver_type = None
             possible_reason_for_no_found_functions += ""
             typeThroughTypeHint = False

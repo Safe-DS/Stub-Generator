@@ -252,9 +252,9 @@ def _update_class_subclass_relation(api: API) -> None:
             super_class.subclasses.append(class_def.id)
 
 def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, current_class: Class, visited_classes: list[str]) -> Attribute | None:
-    attribute = list(filter(lambda attribute: attribute.name == attribute_name, current_class.attributes))
+    attributes = list(filter(lambda attribute: attribute.name == attribute_name, current_class.attributes))
     visited_classes.append(current_class.id)
-    if len(attribute) != 1:
+    if len(attributes) != 1:
         # look in superclass
         for super_class_name in current_class.superclasses:
             super_class = _get_class_by_id(api, super_class_name)
@@ -266,15 +266,15 @@ def _find_attribute_in_class_and_super_classes(api: API, attribute_name: str, cu
             if attribute is not None:
                 return attribute
         return None
-    attribute = attribute[0]
+    attribute = attributes[0]
     return attribute
 
 def _find_method_in_class_and_super_classes(api: API, method_name: str, current_class: Class, visited_classes: list[str]) -> Function | None:
-    method = list(filter(lambda method: method.name == method_name, current_class.methods))
+    methods = list(filter(lambda method: method.name == method_name, current_class.methods))
     visited_classes.append(current_class.id)
     if method_name == "__init__" and current_class.constructor is not None:
-        method = [current_class.constructor]
-    if len(method) != 1:
+        methods = [current_class.constructor]
+    if len(methods) != 1:
         # look in superclass
         for super_class_name in current_class.superclasses:
             super_class = _get_class_by_id(api, super_class_name)
@@ -286,7 +286,7 @@ def _find_method_in_class_and_super_classes(api: API, method_name: str, current_
             if method is not None:
                 return method
         return None
-    method = method[0]
+    method = methods[0]
     return method
 
 def _find_correct_type_by_path_to_call_reference(api: API) -> None:
@@ -373,8 +373,8 @@ def _find_correct_types_by_path_to_call_reference_recursively(api: API, call_ref
         _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, type_of_receiver, path_copy, depth + 1)
         return 
     if part.startswith("[") and part.endswith("]"):
-        key = part.removeprefix("[").removesuffix("]")
-        key = int(key) if key != "" else None
+        str_key = part.removeprefix("[").removesuffix("]")
+        key = int(str_key) if str_key != "" else None
         _, _, next_types = _get_classes_and_modules_of_type(api, type_of_receiver, call_reference, None, key, True)
         for next_type in next_types:
             _find_correct_types_by_path_to_call_reference_recursively(api, call_reference, next_type, path_copy, depth + 1)
@@ -1010,8 +1010,8 @@ def _get_classes_and_modules_of_type(
         if key is None:
             if return_next_type_only:
                 return ([], [], [t for t in type_to_analyze.types])
-            for type in type_to_analyze.types:
-                found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
+            for abst_type in type_to_analyze.types:
+                found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, abst_type, call_reference, function)
                 classes.extend(found_classes)
                 modules.extend(found_modules)
         else:
@@ -1023,8 +1023,8 @@ def _get_classes_and_modules_of_type(
     elif isinstance(type_to_analyze, ListType):
         if return_next_type_only:
             return ([], [], [t for t in type_to_analyze.types])
-        for type in type_to_analyze.types:
-            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, type, call_reference, function)
+        for abst_type in type_to_analyze.types:
+            found_classes, found_modules, _ = _get_classes_and_modules_of_type(api, abst_type, call_reference, function)
             classes.extend(found_classes)
             modules.extend(found_modules)
     elif isinstance(type_to_analyze, DictType):
