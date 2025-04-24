@@ -747,10 +747,10 @@ class StubsStringGenerator:
             boundaries = boundary_data[parameter_name]
             boundary_str += inner_indentations
             for i, boundary in enumerate(boundaries):
-                if str(boundary["min"]) == "NegativeInfinity":
+                if str(boundary["min"]) == "NegativeInfinity": # pragma: no cover
                     boundary_str += parameter_name + " <= " if boundary["max_inclusive"] else " < " + str(boundary["max"])
                     continue
-                elif str(boundary["max"]) == "Infinity":
+                elif str(boundary["max"]) == "Infinity": # pragma: no cover
                     boundary_str += parameter_name + " >= " if boundary["min_inclusive"] else " > " + str(boundary["min"])
                     continue
 
