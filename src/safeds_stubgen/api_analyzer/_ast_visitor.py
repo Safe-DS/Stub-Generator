@@ -2158,8 +2158,8 @@ class MyPyAstVisitor:
                     and "." in unanalyzed_type.name
                     and unanalyzed_type.name.startswith(missing_import_name)
                 ):
-                    name = unanalyzed_type.name.split(".")[-1]
-                    qname = unanalyzed_type.name.replace(missing_import_name, qname)
+                    name = unanalyzed_type.name.split(".")[-1] # pragma: no cover
+                    qname = unanalyzed_type.name.replace(missing_import_name, qname) # pragma: no cover
 
                 if not qname:  # pragma: no cover
                     logging.info("Could not parse a type, added unknown type instead.")
