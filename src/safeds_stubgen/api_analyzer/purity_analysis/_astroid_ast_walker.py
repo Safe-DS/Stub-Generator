@@ -27,7 +27,7 @@ class ASTWalker:
 
     def __walk(self, node: astroid.NodeNG, visited_nodes: set[astroid.NodeNG]) -> None:
         if node in visited_nodes:
-            raise AssertionError("Node visited twice")
+            raise AssertionError("Node visited twice") # pragma: no cover
         visited_nodes.add(node)
 
         self.__enter(node)

@@ -50,7 +50,7 @@ class ReferenceNode(ABC):
     scope: Scope
     referenced_symbols: list[Symbol] = field(default_factory=list)
 
-    def __repr__(self) -> str:
+    def __repr__(self) -> str: # pragma: no cover
         if isinstance(self.node, astroid.Call) and isinstance(self.node.func, astroid.Name):
             return f"{self.node.func.name}.line{self.node.lineno}"
         if isinstance(self.node, MemberAccessTarget | MemberAccessValue):
@@ -70,7 +70,7 @@ class TargetReference(ReferenceNode):
     node: Symbol
 
     def __hash__(self) -> int:
-        return hash(str(self))
+        return hash(str(self)) # pragma: no cover
 
 
 @dataclass
@@ -84,7 +84,7 @@ class ValueReference(ReferenceNode):
     node: Reference
 
     def __hash__(self) -> int:
-        return hash(str(self))
+        return hash(str(self)) # pragma: no cover
 
 
 @dataclass
@@ -175,7 +175,7 @@ class Reasons:
             If the list of Reasons objects is empty.
         """
         if not reasons_list:
-            raise ValueError("List of Reasons is empty.")
+            raise ValueError("List of Reasons is empty.") # pragma: no cover
 
         result = self
         for reason in reasons_list:

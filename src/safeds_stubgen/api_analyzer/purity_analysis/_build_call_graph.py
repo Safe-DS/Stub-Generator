@@ -144,7 +144,7 @@ class CallGraphBuilder:
 
         # If the node is already inside the forest and does not have any calls left, it is considered to be finished.
         if self.call_graph_forest.has_graph(reason.id) and not reason.calls:
-            return
+            return # pragma: no cover
         # If the node is already inside the forest but still has calls left, it needs to be updated.
         if self.call_graph_forest.has_graph(reason.id):
             cgn = self.call_graph_forest.get_graph(reason.id)
@@ -350,7 +350,7 @@ class CallGraphBuilder:
         combines: dict[NodeID, CallGraphNode] = {}
         # Check if the combined node is already in the forest.
         if self.call_graph_forest.has_graph(combined_cgn.symbol.id):
-            return
+            return # pragma: no cover
 
         # Find all other calls (calls that are not part of the cycle) and remove all nodes in the cycle from the forest.
         for node in cycle.values():

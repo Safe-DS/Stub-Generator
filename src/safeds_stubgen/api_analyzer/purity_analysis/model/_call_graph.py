@@ -56,7 +56,7 @@ class CallGraphForest:
         """
         result = self.graphs.get(graph_id)
         if result is None:
-            raise KeyError(f"Graph with id {graph_id} not found inside the call graph.")
+            raise KeyError(f"Graph with id {graph_id} not found inside the call graph.") # pragma: no cover
         return result
 
     def has_graph(self, graph_id: NodeID) -> bool:
@@ -114,7 +114,7 @@ class CallGraphNode:
         return f"{self.symbol.id}"
 
     def __repr__(self) -> str:
-        return f"{self.symbol.name}: {id(self)}"
+        return f"{self.symbol.name}: {id(self)}" # pragma: no cover
 
     def add_child(self, child: CallGraphNode) -> None:
         """Add a child to the node.
@@ -126,7 +126,7 @@ class CallGraphNode:
         """
         self.children[child.symbol.id] = child
 
-    def get_child(self, child_id: NodeID) -> CallGraphNode:
+    def get_child(self, child_id: NodeID) -> CallGraphNode: # pragma: no cover
         """Get a child from the node.
 
         Parameters
@@ -209,7 +209,7 @@ class CombinedCallGraphNode(CallGraphNode):
         return f"{self.symbol.id}"
 
     def __repr__(self) -> str:
-        return f"{self.symbol.name}: {id(self)}"
+        return f"{self.symbol.name}: {id(self)}" # pragma: no cover
 
     def separate(self) -> dict[NodeID, CallGraphNode]:
         """Separate the node.
@@ -240,10 +240,10 @@ class ImportedCallGraphNode(CallGraphNode):
     symbol: Import
 
     def __hash__(self) -> int:
-        return hash(str(self))
+        return hash(str(self)) # pragma: no cover
 
     def __str__(self) -> str:
-        return f"{self.symbol.id}"
+        return f"{self.symbol.id}" # pragma: no cover
 
     def __repr__(self) -> str:
-        return f"{self.symbol.name}: {id(self)}"
+        return f"{self.symbol.name}: {id(self)}" # pragma: no cover

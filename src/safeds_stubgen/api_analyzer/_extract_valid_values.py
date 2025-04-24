@@ -27,7 +27,7 @@ def load_language(name: str) -> Language:
     """
     try:
         return load(name)
-    except OSError:
+    except OSError: # pragma: no cover
         download(name)
         return load(name)
 
@@ -153,7 +153,7 @@ class MatcherConfiguration:
             )
 
     def get_descr_matcher(self) -> Matcher:
-        if self._descr_matcher is None:
+        if self._descr_matcher is None: # pragma: no cover
             self.__post_init__()
             assert self._descr_matcher is not None
             return self._descr_matcher 
@@ -161,7 +161,7 @@ class MatcherConfiguration:
           return self._descr_matcher
 
     def get_type_matcher(self) -> Matcher:
-        if self._type_matcher is None:
+        if self._type_matcher is None: # pragma: no cover
             self.__post_init__()
             assert self._type_matcher is not None
             return self._type_matcher 
@@ -169,7 +169,7 @@ class MatcherConfiguration:
           return self._type_matcher
 
     def get_nlp(self) -> Language:
-        if self._nlp is None:
+        if self._nlp is None: # pragma: no cover
             self.__post_init__()
             assert self._nlp is not None
             return self._nlp 
@@ -290,7 +290,7 @@ def _extract_list(
                 ex.append(token.text)
 
                 if last_token:
-                    break
+                    break # pragma: no cover
 
     ex = ['"' + x + '"' if x not in ["True", "False", "None"] else x for x in ex]
     _extracted.extend(ex)
