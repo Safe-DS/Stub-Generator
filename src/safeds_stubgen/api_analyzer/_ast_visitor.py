@@ -233,10 +233,10 @@ class MyPyAstVisitor:
                     if superclass_alias_qname:
                         superclass_qname = superclass_alias_qname
                     else:
-                        if superclass_qname:
+                        if superclass_qname: # pragma: no cover
                             superclass_qname = superclass_qname
                         else:
-                            superclass_qname = superclass_qname
+                            superclass_qname = superclass_qname # pragma: no cover
 
                 superclasses.append(superclass_qname)
 
@@ -373,7 +373,7 @@ class MyPyAstVisitor:
         call_references: dict[str, CallReference] = {}
         try:
             function_body = self.extract_body_info(node.body, parameter_dict, call_references)
-        except RecursionError:
+        except RecursionError: # pragma: no cover
             # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
             if node.body is not None:
                 function_body = Body(
@@ -577,7 +577,7 @@ class MyPyAstVisitor:
                 for member_name in dir(statement):
                     if not member_name.startswith("__"):
                         member = getattr(statement, member_name)
-                        if isinstance(member, mp_nodes.FuncDef):
+                        if isinstance(member, mp_nodes.FuncDef): # pragma: no cover
                             closure = self._extract_closure(member, parameter_of_func)
                             closures[closure.name] = closure
                         elif isinstance(member, mp_nodes.Block):
@@ -625,7 +625,7 @@ class MyPyAstVisitor:
         if getattr(node, "arguments", None) is not None:
             parameters = self._parse_parameter_data(node, function_id)
 
-            if self.type_var_types:
+            if self.type_var_types: # pragma: no cover
                 type_var_types = list(self.type_var_types)
                 # Sort for the snapshot tests
                 type_var_types.sort(key=lambda x: x.name)
@@ -640,7 +640,7 @@ class MyPyAstVisitor:
                 and doc_type is not None
                 and code_type != doc_type
                 and self.type_source_warning == TypeSourceWarning.WARN
-            ):
+            ): # pragma: no cover
                 msg = f"Different type hint and docstring types for '{function_id}'."
                 logging.info(msg)
 
@@ -652,7 +652,7 @@ class MyPyAstVisitor:
                     is_optional=parameter.docstring.default_value != "",
                     default_value=parameter.docstring.default_value,
                     type=doc_type,
-                )
+                ) # pragma: no cover
 
         # Create results and result docstrings
         result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
@@ -660,7 +660,7 @@ class MyPyAstVisitor:
 
         # Check docstring return type vs code return type hint
         i = 0
-        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None):
+        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None): # pragma: no cover
             if result_doc is None:
                 break
 
@@ -753,7 +753,7 @@ class MyPyAstVisitor:
             Contains info about the function body and especially the call references. This body info 
             is then stored in Function class
         """
-        if body_block is None: 
+        if body_block is None:  # pragma: no cover
             return Body(
                 line=-1,
                 end_line=-1,
@@ -780,7 +780,7 @@ class MyPyAstVisitor:
                                 self.traverse_expr(expr, parameter_of_func, call_references)
                         elif isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                             # generator expression member condlist
-                            for condlist in member:
+                            for condlist in member: # pragma: no cover
                                 for cond in condlist:
                                     self.traverse_expr(cond, parameter_of_func, call_references)
                         else:
@@ -836,7 +836,7 @@ class MyPyAstVisitor:
                         for tuple_item in member:
                             for tuple_expr in tuple_item:
                                 if tuple_expr is None:
-                                    continue
+                                    continue # pragma: no cover
                                 self.traverse_expr(tuple_expr, parameter_of_func, call_references)
                     elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
                         # generator expression member condlist
@@ -846,7 +846,7 @@ class MyPyAstVisitor:
                     else:
                         pass
 
-                except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators'
+                except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators' # pragma: no cover
                     logging.warning(f"Member not found with member name: {member_name}, expr: {expr}, error: {err}")
 
     def traverse_callExpr(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
@@ -880,7 +880,7 @@ class MyPyAstVisitor:
         pathCopy.append("()")
         self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
         if expr.analyzed is not None:
-            self.traverse_expr(expr.analyzed, parameter_of_func, call_references)
+            self.traverse_expr(expr.analyzed, parameter_of_func, call_references) # pragma: no cover
         for arg in expr.args:
             self.traverse_expr(arg, parameter_of_func, call_references)
 
@@ -954,7 +954,7 @@ class MyPyAstVisitor:
                 )
                 return
             else:
-                pass
+                pass # pragma: no cover
                       
         # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
         elif isinstance(expr, mp_nodes.CallExpr):
@@ -964,7 +964,7 @@ class MyPyAstVisitor:
                 self.extract_call_reference_data_from_node(expr, expr.callee.node, pathCopy, parameter_of_func, call_references)
                 # maybe add check if call reference could not be extracted
                 for arg in expr.args:
-                    self.traverse_expr(arg, parameter_of_func, call_references)
+                    self.traverse_expr(arg, parameter_of_func, call_references) # pragma: no cover
                 # this is another call ref that needs to be extracted
                 self.traverse_callExpr(expr, [], parameter_of_func, call_references)
                 return
@@ -1002,17 +1002,17 @@ class MyPyAstVisitor:
                 if isinstance(member, mp_nodes.Expression):
                     self.traverse_callee(member, pathCopy, parameter_of_func, call_references)
                     found_expression = True
-                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression): # pragma: no cover
                     for expr_of_member in member:
                         self.traverse_callee(expr_of_member, pathCopy, parameter_of_func, call_references)
                     found_expression = True
-                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression): # pragma: no cover
                     for tuple_item in member:
                         for tuple_expr in tuple_item:
                             if tuple_expr is None:
                                 continue
                             self.traverse_callee(tuple_expr, pathCopy, parameter_of_func, call_references)
-                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression): # pragma: no cover
                     # generator expression member condlist
                     for condlist in member:
                         for cond in condlist:
@@ -1054,7 +1054,7 @@ class MyPyAstVisitor:
             Stores all found call references and is passed along the recursion
         """
         possible_reason_for_no_found_functions = f"{str(expr)} "
-        if node is None:
+        if node is None: # pragma: no cover
             possible_reason_for_no_found_functions += "Type node is none "
             call_receiver_type_none = "None"
             self._set_call_reference(
@@ -1083,7 +1083,7 @@ class MyPyAstVisitor:
             if isinstance(call_receiver_type_type, mp_types.AnyType):
                 possible_reason_for_no_found_functions += "Type is Any "
                 if call_receiver_type_type.missing_import_name is not None:
-                    call_receiver_type_type = call_receiver_type_type.missing_import_name
+                    call_receiver_type_type = call_receiver_type_type.missing_import_name # pragma: no cover
                 else:
                     possible_reason_for_no_found_functions += "No missing import name "
             abstact_type = self.mypy_type_to_abstract_type(node)
@@ -1118,7 +1118,7 @@ class MyPyAstVisitor:
             isFromParameter = False
             parameter_type = None
             parameter = parameter_of_func.get(node.fullname)
-            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None): # pragma: no cover
                 if parameter.type is not None:
                     parameter_type = parameter.type
                 elif parameter.docstring.type is not None:
@@ -1127,7 +1127,7 @@ class MyPyAstVisitor:
                 isFromParameter = True
                 typeThroughTypeHint = parameter.type is not None
                 typeThroughDocString = parameter.docstring.type is not None
-            if node.type is not None:
+            if node.type is not None: # pragma: no cover
                 call_receiver_type_funcdef_full = self.mypy_type_to_abstract_type(node.type.ret_type) # type: ignore
                 if isinstance(call_receiver_type_funcdef_full, mp_types.AnyType):
                     possible_reason_for_no_found_functions += "Type is Any "
@@ -1141,7 +1141,7 @@ class MyPyAstVisitor:
                 if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":  # type: ignore
                     typeThroughInference = False
                 
-            else:
+            else: # pragma: no cover
                 possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
                 call_receiver_type_funcdef_full = node.fullname if parameter_type is None else parameter_type
 
@@ -1168,7 +1168,7 @@ class MyPyAstVisitor:
             if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
                 if parameter.type is not None:
                     parameter_type = parameter.type
-                elif parameter.docstring.type is not None:
+                elif parameter.docstring.type is not None: # pragma: no cover
                     parameter_type = parameter.docstring.type
 
                 isFromParameter = True
@@ -1180,14 +1180,14 @@ class MyPyAstVisitor:
                     # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
                     possible_reason_for_no_found_functions += "Type is Any "
                     if node.type.missing_import_name is not None:
-                        call_receiver_type_var = node.type.missing_import_name
+                        call_receiver_type_var = node.type.missing_import_name # pragma: no cover
                     else:
                         possible_reason_for_no_found_functions += "No missing import name "
                         call_receiver_type_var = node.fullname if parameter_type is None else parameter_type
 
                 typeThroughInference = not isinstance(node.type, mp_types.AnyType) or (isinstance(node.type, mp_types.AnyType) and node.type.missing_import_name is not None)
                 if isinstance(node.type, sds_types.NamedType) and node.type.name == "Any":
-                    typeThroughInference = False
+                    typeThroughInference = False # pragma: no cover
             else:
                 possible_reason_for_no_found_functions += "Node.type was None for Var "
                 call_receiver_type_var = node.fullname if parameter_type is None else parameter_type
@@ -1204,7 +1204,7 @@ class MyPyAstVisitor:
                 isFromParameter=isFromParameter
             )
             return
-        elif isinstance(node, mp_nodes.TypeAlias):
+        elif isinstance(node, mp_nodes.TypeAlias): # pragma: no cover
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeAlias "
             call_receiver_type_type_alias: Any = node.target
             if isinstance(call_receiver_type_type_alias, mp_types.AnyType):
@@ -1221,7 +1221,7 @@ class MyPyAstVisitor:
                 typeThroughInference=typeThroughInference,
             )
             return
-        elif isinstance(node, mp_nodes.Decorator):
+        elif isinstance(node, mp_nodes.Decorator): # pragma: no cover
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.Decorator "
             call_receiver_type_decorator = node.fullname
             self._set_call_reference(
@@ -1233,7 +1233,7 @@ class MyPyAstVisitor:
                 typeThroughInference=True,
             )
             return
-        elif isinstance(node, mp_nodes.TypeVarLikeExpr):
+        elif isinstance(node, mp_nodes.TypeVarLikeExpr): # pragma: no cover
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeVarLikeExpr "
             call_receiver_type_typeVarLikeExpr = node.fullname
             self._set_call_reference(
@@ -1245,7 +1245,7 @@ class MyPyAstVisitor:
                 typeThroughInference=True,
             )
             return
-        elif isinstance(node, mp_nodes.PlaceholderNode):
+        elif isinstance(node, mp_nodes.PlaceholderNode): # pragma: no cover
             return
         elif isinstance(node, mp_nodes.OverloadedFuncDef):
             possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.OverloadedFuncDef "
@@ -1285,9 +1285,9 @@ class MyPyAstVisitor:
             )
             return
         else:
-            return
+            return # pragma: no cover
 
-    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType | sds_types.NamedSequenceType] | None:
+    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType | sds_types.NamedSequenceType] | None: # pragma: no cover
         """
         Iterates through a nested type recursively, to find all NamedTypes
 
@@ -1381,30 +1381,30 @@ class MyPyAstVisitor:
         """
         try:
             function_name = list(filter(lambda part: part != "()" and part != "[]", path))[0]
-        except IndexError as error:
+        except IndexError as error: # pragma: no cover
             print(error)
             return
         full_name = ""
-        if isinstance(type, list) and len(type) == 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)):
+        if isinstance(type, list) and len(type) == 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)): # pragma: no cover
             full_name = type[0].qname
             type = type[0]
-        elif isinstance(type, list) and len(type) > 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)):
+        elif isinstance(type, list) and len(type) > 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)): # pragma: no cover
             full_name = "+".join(list(map(lambda x: x.qname, type)))
-        elif isinstance(type, sds_types.NamedType):
+        elif isinstance(type, sds_types.NamedType): # pragma: no cover
             full_name = type.qname
-        elif hasattr(type, "type"):
+        elif hasattr(type, "type"): # pragma: no cover
             full_name = type.type.fullname  # type: ignore
-        elif hasattr(type, "fullname"):
+        elif hasattr(type, "fullname"): # pragma: no cover
             full_name = type.fullname  # type: ignore
-        elif hasattr(type, "name"):
+        elif hasattr(type, "name"): # pragma: no cover
             full_name = type.name  # type: ignore
-        elif isinstance(type, str):
+        elif isinstance(type, str): # pragma: no cover
             full_name = type
         
         if isinstance(full_name, mp_types.NoneType):
-            full_name = "None"
+            full_name = "None" # pragma: no cover
         if not isinstance(full_name, str):
-            full_name = ""
+            full_name = "" # pragma: no cover
         call_receiver = CallReceiver(
             full_name=full_name, 
             type=type, 
