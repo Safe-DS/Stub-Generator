@@ -2,8 +2,9 @@ from __future__ import annotations
 
 from abc import ABCMeta, abstractmethod
 from collections import Counter
-from dataclasses import dataclass
-from typing import TYPE_CHECKING, Any
+from dataclasses import dataclass, field
+import re
+from typing import TYPE_CHECKING, Any, ClassVar
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -110,6 +111,162 @@ class NamedSequenceType(AbstractType):
 
     def __hash__(self) -> int:
         return hash(frozenset([self.name, self.qname, *self.types]))
+
+
+@dataclass(frozen=True)
+class EnumType(AbstractType):
+    values: frozenset[str] = field(default_factory=frozenset)
+    full_match: str = field(default="", compare=False)
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> EnumType:
+        return EnumType(d["values"]) # pragma: no cover
+
+    @classmethod
+    def from_string(cls, string: str) -> EnumType | None: # pragma: no cover
+        def remove_backslash(e: str) -> str:
+            e = e.replace(r"\"", '"')
+            return e.replace(r"\'", "'")
+
+        enum_match = re.search(r"{(.*?)}", string)
+        if enum_match:
+            quotes = "'\""
+            values = set()
+            enum_str = enum_match.group(1)
+            value = ""
+            inside_value = False
+            curr_quote = None
+            for i, char in enumerate(enum_str):
+                if char in quotes and (i == 0 or (i > 0 and enum_str[i - 1] != "\\")):
+                    if not inside_value:
+                        inside_value = True
+                        curr_quote = char
+                    elif inside_value:
+                        if curr_quote == char:
+                            inside_value = False
+                            curr_quote = None
+                            values.add(remove_backslash(value))
+                            value = ""
+                        else:
+                            value += char
+                elif inside_value:
+                    value += char
+
+            return EnumType(frozenset(values), enum_match.group(0))
+
+        return None
+
+    def update(self, enum: EnumType) -> EnumType: # pragma: no cover
+        values = set(self.values)
+        values.update(enum.values)
+        return EnumType(frozenset(values))
+
+    def to_dict(self) -> dict[str, Any]:
+        return {"kind": self.__class__.__name__, "values": set(self.values)} # pragma: no cover
+
+
+@dataclass(frozen=True)
+class BoundaryType(AbstractType):
+    NEGATIVE_INFINITY: ClassVar = "NegativeInfinity"
+    INFINITY: ClassVar = "Infinity"
+
+    base_type: str
+    min: float | int | str
+    max: float | int | str
+    min_inclusive: bool
+    max_inclusive: bool
+
+    full_match: str = field(default="", compare=False)
+
+    @classmethod
+    def _is_inclusive(cls, bracket: str) -> bool: # pragma: no cover
+        if bracket in ("(", ")"):
+            return False
+        if bracket in ("[", "]"):
+            return True
+        raise ValueError(f"{bracket} is not one of []()")
+
+    @classmethod
+    def from_dict(cls, d: dict[str, Any]) -> BoundaryType: # pragma: no cover
+        return BoundaryType(
+            d["base_type"],
+            d["min"],
+            d["max"],
+            d["min_inclusive"],
+            d["max_inclusive"],
+        )
+
+    @classmethod
+    def from_string(cls, string: str) -> BoundaryType | None: # pragma: no cover
+        pattern = r"""(?P<base_type>float|int)?[ ]  # optional base type of either float or int
+                    (in|of)[ ](the[ ])?(range|interval)[ ](of[ ])?
+                    # 'in' or 'of', optional 'the', 'range' or 'interval', optional 'of'
+                    `?(?P<min_bracket>[\[(])(?P<min>[-+]?\d+(.\d*)?|negative_infinity),[ ]  # left side of the range
+                    (?P<max>[-+]?\d+(.\d*)?|infinity)(?P<max_bracket>[\])])`?"""  # right side of the range
+        match = re.search(pattern, string, re.VERBOSE)
+
+        if match is not None:
+            base_type = match.group("base_type")
+            if base_type is None:
+                base_type = "float"
+
+            min_value: str | int | float = match.group("min")
+            if min_value != "negative_infinity":
+                if base_type == "int":
+                    min_value = int(min_value)
+                else:
+                    min_value = float(min_value)
+            else:
+                min_value = BoundaryType.NEGATIVE_INFINITY
+
+            max_value: str | int | float = match.group("max")
+            if max_value != "infinity":
+                if base_type == "int":
+                    max_value = int(max_value)
+                else:
+                    max_value = float(max_value)
+            else:
+                max_value = BoundaryType.INFINITY
+
+            min_bracket = match.group("min_bracket")
+            max_bracket = match.group("max_bracket")
+            min_inclusive = BoundaryType._is_inclusive(min_bracket)
+            max_inclusive = BoundaryType._is_inclusive(max_bracket)
+
+            return BoundaryType(
+                base_type=base_type,
+                min=min_value,
+                max=max_value,
+                min_inclusive=min_inclusive,
+                max_inclusive=max_inclusive,
+                full_match=match.group(0),
+            )
+
+        return None
+
+    def __eq__(self, __o: object) -> bool:
+        if isinstance(__o, BoundaryType):
+            eq = (
+                self.base_type == __o.base_type
+                and self.min == __o.min
+                and self.min_inclusive == __o.min_inclusive
+                and self.max == __o.max
+            )
+            if eq:
+                if self.max == BoundaryType.INFINITY:
+                    return True
+                return self.max_inclusive == __o.max_inclusive
+        return False # pragma: no cover
+
+    def  to_dict(self) -> dict[str, Any]:
+        return {
+            "kind": self.__class__.__name__,
+            "base_type": self.base_type,
+            "min": self.min,
+            "max": self.max,
+            "min_inclusive": self.min_inclusive,
+            "max_inclusive": self.max_inclusive,
+        }
 
 
 @dataclass(frozen=True)

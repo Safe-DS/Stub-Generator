@@ -30,7 +30,7 @@ def test_correct_hash() -> None:
         is_optional=True,
         default_value="test_str",
         assigned_by=ParameterAssignment.POSITION_OR_NAME,
-        docstring=ParameterDocstring(None, "r", "r"),
+        docstring=ParameterDocstring(None, "r", "r", "r"),
         type=NamedType(name="str", qname=""),
     )
     assert hash(parameter) == hash(deepcopy(parameter))

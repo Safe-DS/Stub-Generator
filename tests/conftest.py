@@ -2,7 +2,7 @@ import re
 from typing import Any
 
 import pytest
-from syrupy import SnapshotAssertion
+from syrupy.assertion import SnapshotAssertion
 from syrupy.extensions.single_file import SingleFileSnapshotExtension
 from syrupy.types import SerializedData
 

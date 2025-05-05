@@ -1,11 +1,998 @@
 # serializer version: 1
-# name: test_main
+# name: test_main[test_googledoc_with_boundary_enum_extractor]
   dict({
     'attributes': list([
       dict({
         'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+    ]),
+    'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              Attributes:
+                  attribute1 (float):
+                      Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                      to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                      updating these values (messages).
+                  attribute2 (str):
+                      If "mean", then replace missing values using the mean along each column. 
+                      If "median", then replace missing values using the median along each column. 
+                      If "most_frequent", then replace missing using the most frequent value along each column. 
+                      If "constant", then replace missing values with fill_value.
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            Attributes:
+                attribute1 (float):
+                    Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
+                attribute2 (str):
+                    If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+    ]),
+    'distribution': '',
+    'enum_instances': list([
+    ]),
+    'enums': list([
+    ]),
+    'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Attributes:
+                attribute1 (float):
+                    Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
+                attribute2 (str):
+                    If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': 'Lorem ipsum',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Lorem ipsum
+            
+            Args:
+                param1 (str): If "mean", then replace missing values using the mean along each column. 
+                    If "median", then replace missing values using the median along each column. 
+                    If "most_frequent", then replace missing using the most frequent value along each column. 
+                    If "constant", then replace missing values with fill_value.
+                param2 (str or bool): Valid values are [False, None, 'sparse matrix']
+                param3 (float): Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                    to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                    updating these values (messages).
+                param4 (int or float): If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                    If None (default), then draw X.shape[0] samples.
+                    If int, then max_samples values in [0, 10].
+                    If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'global_func1_google',
+        'parameters': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param1',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param2',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param3',
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param4',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/result_1',
+        ]),
+      }),
+    ]),
+    'modules': list([
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/boundary_enum_package_googledoc',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes',
+        ]),
+        'docstring': 'GoogleDoc Docstring of the main_module_googledoc.py module.',
+        'enums': list([
+        ]),
+        'functions': list([
+          'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google',
+        ]),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc',
+        'name': 'main_module_googledoc',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+    ]),
+    'package': 'boundary_enum_package_googledoc',
+    'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param1',
+        'is_optional': False,
+        'name': 'param1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': "Valid values are [False, None, 'sparse matrix']",
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'bool',
+                'qname': 'builtins.bool',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param2',
+        'is_optional': False,
+        'name': 'param2',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            If bootstrap is True, the number of samples to draw from X to train each base estimator.
+            If None (default), then draw X.shape[0] samples.
+            If int, then max_samples values in [0, 10].
+            If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+          ]),
+        }),
+      }),
+    ]),
+    'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_googledoc/main_module_googledoc/global_func1_google/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_googledoc.main_module_googledoc.test',
+        }),
+      }),
+    ]),
+    'schemaVersion': 1,
+    'version': '',
+  })
+# ---
+# name: test_main[test_numpydoc_with_boundary_enum_extractor]
+  dict({
+    'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+    ]),
+    'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              Attributes
+              ----------
+              attribute1 : float
+                  Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                  to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                  updating these values (messages).
+              attribute2 : str
+                  If "mean", then replace missing values using the mean along each column. 
+                  If "median", then replace missing values using the median along each column. 
+                  If "most_frequent", then replace missing using the most frequent value along each column. 
+                  If "constant", then replace missing values with fill_value.
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            Attributes
+            ----------
+            attribute1 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            attribute2 : str
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+    ]),
+    'distribution': '',
+    'enum_instances': list([
+    ]),
+    'enums': list([
+    ]),
+    'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Attributes
+            ----------
+            attribute1 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            attribute2 : str
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': 'Lorem ipsum',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Lorem ipsum
+            
+            Parameters
+            --------
+            param1 : str
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            
+            param2 : str or bool
+                Valid values are [False, None, 'sparse matrix']
+            
+            param3 : float
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            
+            param4 : int or float
+                If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                If None (default), then draw X.shape[0] samples.
+                If int, then max_samples values in [0, 10].
+                If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'global_func1_numpy',
+        'parameters': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param1',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param2',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param3',
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param4',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/result_1',
+        ]),
+      }),
+    ]),
+    'modules': list([
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/boundary_enum_package_numpydoc',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes',
+        ]),
+        'docstring': 'NumpyDoc Docstring of the main_module_numpydoc.py module.',
+        'enums': list([
+        ]),
+        'functions': list([
+          'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy',
+        ]),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc',
+        'name': 'main_module_numpydoc',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+    ]),
+    'package': 'boundary_enum_package_numpydoc',
+    'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '''
+            If "mean", then replace missing values using the mean along each column. 
+            If "median", then replace missing values using the median along each column. 
+            If "most_frequent", then replace missing using the most frequent value along each column. 
+            If "constant", then replace missing values with fill_value.
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'str',
+            'qname': 'builtins.str',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param1',
+        'is_optional': False,
+        'name': 'param1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': "Valid values are [False, None, 'sparse matrix']",
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'bool',
+                'qname': 'builtins.bool',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param2',
+        'is_optional': False,
+        'name': 'param2',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+            to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+            updating these values (messages).
+          ''',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': '''
+            If bootstrap is True, the number of samples to draw from X to train each base estimator.
+            If None (default), then draw X.shape[0] samples.
+            If int, then max_samples values in [0, 10].
+            If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+          ''',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+          ]),
+        }),
+      }),
+    ]),
+    'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_numpydoc/main_module_numpydoc/global_func1_numpy/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_numpydoc.main_module_numpydoc.test',
+        }),
+      }),
+    ]),
+    'schemaVersion': 1,
+    'version': '',
+  })
+# ---
+# name: test_main[test_plaintext]
+  dict({
+    'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_init_attr_private',
         'is_public': False,
@@ -19,8 +1006,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/attr_1',
         'is_public': True,
@@ -34,8 +1025,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/init_attr',
         'is_public': True,
@@ -49,8 +1044,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/NestedPrivateClass/nested_class_attr',
         'is_public': False,
@@ -64,8 +1063,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_attr_in_private_class',
         'is_public': False,
@@ -79,8 +1082,12 @@
       }),
       dict({
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_init_attr_in_private_class',
         'is_public': False,
@@ -429,14 +1436,20 @@
           'description': '''
             Function Docstring.
             
-            param_2: bool.
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
           ''',
           'examples': list([
           ]),
           'full_docstring': '''
             Function Docstring.
             
-            param_2: bool.
+            Parameters
+            ---------
+            param_2 : bool, optional.
+                Valid values are True and False.
           ''',
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function',
@@ -666,9 +1679,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/another_path/another_module/yetAnotherClass/another_function/self',
         'is_optional': False,
@@ -679,9 +1696,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/param_1',
         'is_optional': False,
@@ -696,9 +1717,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/NestedClass/nested_class_function/self',
         'is_optional': False,
@@ -709,9 +1734,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/init_param_1',
         'is_optional': False,
@@ -722,9 +1751,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/__init__/self',
         'is_optional': False,
@@ -735,9 +1768,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_1',
         'is_optional': False,
@@ -752,9 +1789,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': False,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/param_2',
         'is_optional': True,
@@ -769,9 +1810,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/ModuleClass/_some_function/self',
         'is_optional': False,
@@ -782,9 +1827,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/__init__/self',
         'is_optional': False,
@@ -795,9 +1844,13 @@
         'assigned_by': 'IMPLICIT',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/_PrivateClass/public_func_in_private_class/self',
         'is_optional': False,
@@ -808,9 +1861,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': '"first param"',
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_1',
         'is_optional': True,
@@ -825,9 +1882,13 @@
         'assigned_by': 'POSITION_OR_NAME',
         'default_value': None,
         'docstring': dict({
+          'boundaries': list([
+          ]),
           'default_value': '',
           'description': '',
           'type': None,
+          'valid_values': list([
+          ]),
         }),
         'id': 'tests/data/main_package/main_module/global_func/main_test_param_2',
         'is_optional': True,
@@ -923,6 +1984,1358 @@
           'kind': 'NamedType',
           'name': 'AnotherClass',
           'qname': 'tests.data.main_package.another_path.another_module.AnotherClass',
+        }),
+      }),
+    ]),
+    'schemaVersion': 1,
+    'version': '',
+  })
+# ---
+# name: test_main[test_purity_analysis]
+  dict({
+    'purity_package.__init__': dict({
+    }),
+    'purity_package.another_purity_path.__init__': dict({
+    }),
+    'purity_package.another_purity_path.another_purity_module': dict({
+      'purity_package.another_purity_path.another_purity_module.ClassWithNestedClassAsMember.145.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__add__.54.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__add__.78.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__enter__.209.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'FileWrite': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.__exit__.213.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'FileWrite': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.135.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.146.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.182.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.189.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.193.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.197.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.201.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.205.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.__init__.8.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.double_function_impure.169.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.double_function_pure.166.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.116.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.51.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.75.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_impure.90.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.113.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.48.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.72.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_child_and_child_of_child_pure.87.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.24.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.45.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_impure.69.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.122.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.30.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_impure.96.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.119.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.27.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_of_child_pure.93.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.21.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.42.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.in_super_and_child_pure.66.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_T.39.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_T.63.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_child.110.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_child.84.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_child_self.125.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_child_self.99.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_super_impure.18.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_super_nested_call_impure.142.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_super_nested_call_pure.139.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.only_in_super_pure.15.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.recursive_function.163.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.return_class_impure.157.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.return_class_pure.160.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.11.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.185.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.36.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.same_name.60.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.super_impure.172.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.super_pure.176.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.another_purity_path.another_purity_module.super_same_name.103.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.another_purity_path.another_purity_module.super_same_name.129.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+    }),
+    'purity_package.main_purity_module': dict({
+      'purity_package.main_purity_module.closure.739.4': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.closure.748.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.closure.754.4': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_all_functions_pure.133.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_call_another_global_func_impure.762.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_call_another_global_func_pure.759.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_call_ref_in_dict_generation_impure.769.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_call_ref_in_dict_generation_pure.765.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_call_reference_in_index_impure.576.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_call_reference_in_index_pure.570.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_closure_impure.753.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_closure_pure.738.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_closure_should_be_pure_but_impure.743.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_generator_impure.662.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_generator_pure.657.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_iterable_is_call_ref_impure.682.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_iterable_is_call_ref_pure.677.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_with_if_generator_impure.672.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_dict_comprehension_with_if_generator_pure.667.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_double_function_impure.302.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_double_function_impure.310.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_find_deeply_nested_function_impure.148.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_same_name_impure.507.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_same_name_pure.496.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_with_union_same_name_impure.529.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_dict_with_union_same_name_pure.518.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_list_same_name_impure.419.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_list_same_name_pure.408.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_multiple_tuple_same_name_impure.485.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_multiple_tuple_same_name_pure.474.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_tuple_same_name_impure.441.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_as_tuple_same_name_pure.430.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_same_name_impure.397.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_docstring_same_name_pure.386.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_as_multiple_tuple_same_name_impure.463.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_as_multiple_tuple_same_name_pure.452.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_impure.184.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_impure.196.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_nested_pure_but_impure.188.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_from_parameter_same_name_pure.180.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_import_global_func_impure.779.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_child_and_child_of_child_from_T_impure.103.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 3,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_child_and_child_of_child_from_T_pure.93.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_in_child_and_child_of_child_from_child_of_child_impure.114.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_child_and_child_of_child_from_child_of_child_pure.109.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_in_super_and_child_from_T_impure.88.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_super_and_child_from_T_pure.83.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_in_super_and_child_from_super_impure.74.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_super_and_child_of_child_from_T_impure.124.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_in_super_and_child_of_child_from_T_pure.119.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_init_import_impure.776.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_init_import_pure.773.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_inside_of_lambda_with_map_impure.806.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_inside_of_lambda_with_map_should_be_pure_but_impure.798.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_isinstance_check_impure.730.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_isinstance_check_should_be_pure_but_impure.722.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_generator_impure.632.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_generator_pure.627.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_iterable_is_call_ref_impure.652.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_iterable_is_call_ref_pure.647.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_with_if_generator_impure.642.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_list_comprehension_with_if_generator_pure.637.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_module_class_with_static_method_impure.785.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_module_class_with_static_method_pure.782.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_member_impure.247.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 3,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_member_should_be_pure_but_impure.238.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_methods_impure.257.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_nested_methods_pure.252.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_multiple_recursion_impure.288.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_multiple_recursion_impure.297.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_class_impure.175.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_class_should_be_pure_but_impure.166.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_from_second_call_reference_impure.205.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_from_second_call_reference_pure.200.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_nested_member_from_super_impure.275.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_member_from_super_impure.283.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 2,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_method_from_super_impure.270.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_method_from_super_pure.262.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_dict_impure.233.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_dict_should_be_pure_but_impure.224.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_list_impure.219.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_nested_with_list_should_be_pure_but_impure.210.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableWrite': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_Child_impure.49.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_Child_pure.44.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_only_in_T_from_Child_impure.39.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_T_from_Child_pure.34.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_only_in_T_impure.29.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_T_pure.20.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_only_in_super_from_T_impure.59.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_super_from_T_pure.54.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_only_in_super_from_child_impure.69.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_only_in_super_from_child_pure.64.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_operator_expression_pure.717.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_operator_receiver_with_brackets_impure.821.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_operator_receiver_with_brackets_should_be_pure_but_impure.811.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_return_impure_class.325.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_return_pure_class.318.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_same_name_impure.15.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_same_name_pure.10.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_self_impure.587.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_self_pure.582.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_generator_impure.692.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_generator_pure.687.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_iterable_is_call_ref_impure.712.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_iterable_is_call_ref_pure.707.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_with_if_generator_impure.702.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_set_comprehension_with_if_generator_pure.697.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_dict_impure.357.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_dict_pure.352.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_function_impure.328.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_function_pure.321.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_list_impure.337.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_list_pure.332.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_nested_type_and_function_impure.382.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_nested_type_and_function_pure.375.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_nested_type_impure.367.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_nested_type_pure.362.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_start_with_tuple_impure.347.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_start_with_tuple_pure.342.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_super_from_builtin_keyError_pure.623.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_super_init_impure.596.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_super_init_pure.592.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_super_method_impure.605.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_super_method_pure.600.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_super_nested_method_impure.618.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_super_nested_method_should_be_pure_but_impure.610.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+          'UnknownCall': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_union_type_from_docstring_impure.559.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_union_type_from_docstring_pure.548.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_union_type_impure.544.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_union_type_pure.540.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_unreachable_code_impure.793.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_unreachable_code_pure.788.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_func_with_keyword_impure.832.0': dict({
+        'purity': 'Impure',
+        'reasons': dict({
+          'NonLocalVariableRead': 1,
+        }),
+      }),
+      'purity_package.main_purity_module.global_func_with_keyword_pure.827.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_helper_func_nested_type_impure_with_list_and_dict.379.0': dict({
+        'purity': 'Pure',
+      }),
+      'purity_package.main_purity_module.global_helper_func_nested_type_pure_with_list_and_dict.372.0': dict({
+        'purity': 'Pure',
+      }),
+    }),
+  })
+# ---
+# name: test_main[test_restdoc_with_boundary_enum_extractor]
+  dict({
+    'attributes': list([
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute1',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute2',
+        'is_public': True,
+        'is_static': False,
+        'name': 'attribute2',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'str',
+          'qname': 'builtins.str',
+        }),
+      }),
+    ]),
+    'classes': list([
+      dict({
+        'attributes': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute1',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/attribute2',
+        ]),
+        'classes': list([
+        ]),
+        'constructor': dict({
+          'docstring': dict({
+            'description': '',
+            'examples': list([
+            ]),
+            'full_docstring': '''
+              :param attribute1:
+                  Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                  to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                  updating these values (messages).
+              :type attribute1: float
+              :param attribute2:
+                  If "mean", then replace missing values using the mean along each column. 
+                  If "median", then replace missing values using the median along each column. 
+                  If "most_frequent", then replace missing using the most frequent value along each column. 
+                  If "constant", then replace missing values with fill_value.
+              :type attribute2: str
+            ''',
+          }),
+          'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__',
+          'is_class_method': False,
+          'is_property': False,
+          'is_public': True,
+          'is_static': False,
+          'name': '__init__',
+          'parameters': list([
+            'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+          ]),
+          'reexported_by': list([
+          ]),
+          'results': list([
+          ]),
+        }),
+        'docstring': dict({
+          'description': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+          ''',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            ClassAndConstructorWithParameters
+            
+            Dolor sit amet.
+            
+            :param attribute1:
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type attribute1: float
+            :param attribute2:
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type attribute2: str
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes',
+        'inherits_from_exception': False,
+        'is_public': True,
+        'methods': list([
+        ]),
+        'name': 'ClassWithAttributes',
+        'reexported_by': list([
+        ]),
+        'superclasses': list([
+        ]),
+        'type_parameters': list([
+        ]),
+      }),
+    ]),
+    'distribution': '',
+    'enum_instances': list([
+    ]),
+    'enums': list([
+    ]),
+    'functions': list([
+      dict({
+        'docstring': dict({
+          'description': '',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            :param attribute1:
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type attribute1: float
+            :param attribute2:
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type attribute2: str
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': '__init__',
+        'parameters': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+        ]),
+      }),
+      dict({
+        'docstring': dict({
+          'description': 'Lorem ipsum',
+          'examples': list([
+          ]),
+          'full_docstring': '''
+            Lorem ipsum
+            
+            :param param1: 
+                If "mean", then replace missing values using the mean along each column. 
+                If "median", then replace missing values using the median along each column. 
+                If "most_frequent", then replace missing using the most frequent value along each column. 
+                If "constant", then replace missing values with fill_value.
+            :type param1: int
+            :param param2: Valid values are [False, None, 'sparse matrix']
+            :type param2: str or bool
+            :param param3: 
+                Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative
+                to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when
+                updating these values (messages).
+            :type param3: float
+            :param param4:
+                If bootstrap is True, the number of samples to draw from X to train each base estimator.
+                If None (default), then draw X.shape[0] samples.
+                If int, then max_samples values in [0, 10].
+                If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].
+            :type param4: int or float
+          ''',
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest',
+        'is_class_method': False,
+        'is_property': False,
+        'is_public': True,
+        'is_static': False,
+        'name': 'global_func1_rest',
+        'parameters': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param1',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param2',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param3',
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param4',
+        ]),
+        'reexported_by': list([
+        ]),
+        'results': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/result_1',
+        ]),
+      }),
+    ]),
+    'modules': list([
+      dict({
+        'classes': list([
+        ]),
+        'docstring': '',
+        'enums': list([
+        ]),
+        'functions': list([
+        ]),
+        'id': 'tests/data/boundary_enum_package_restdoc',
+        'name': '__init__',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+      dict({
+        'classes': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes',
+        ]),
+        'docstring': 'ReST Docstring of the main_module_restdoc.py module.',
+        'enums': list([
+        ]),
+        'functions': list([
+          'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest',
+        ]),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc',
+        'name': 'main_module_restdoc',
+        'qualified_imports': list([
+        ]),
+        'wildcard_imports': list([
+        ]),
+      }),
+    ]),
+    'package': 'boundary_enum_package_restdoc',
+    'parameters': list([
+      dict({
+        'assigned_by': 'IMPLICIT',
+        'default_value': None,
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': '',
+          'type': None,
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/ClassWithAttributes/__init__/self',
+        'is_optional': False,
+        'name': 'self',
+        'type': None,
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': 'If "mean", then replace missing values using the mean along each column.  If "median", then replace missing values using the median along each column.  If "most_frequent", then replace missing using the most frequent value along each column.  If "constant", then replace missing values with fill_value.',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'int',
+            'qname': 'builtins.int',
+          }),
+          'valid_values': list([
+            '"constant"',
+            '"mean"',
+            '"median"',
+            '"most_frequent"',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param1',
+        'is_optional': False,
+        'name': 'param1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'int',
+          'qname': 'builtins.int',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+          ]),
+          'default_value': '',
+          'description': "Valid values are [False, None, 'sparse matrix']",
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'bool',
+                'qname': 'builtins.bool',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'str',
+                'qname': 'builtins.str',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            '"sparse matrix"',
+            'False',
+            'None',
+            'True',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param2',
+        'is_optional': False,
+        'name': 'param2',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'bool',
+              'qname': 'builtins.bool',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'str',
+              'qname': 'builtins.str',
+            }),
+          ]),
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': False,
+              'min': 0.5,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': 'Damping factor in the range [0.5, 1.0) is the extent to which the current value is maintained relative to incoming values (weighted 1 - damping). This in order to avoid numerical oscillations when updating these values (messages).',
+          'type': dict({
+            'kind': 'NamedType',
+            'name': 'float',
+            'qname': 'builtins.float',
+          }),
+          'valid_values': list([
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param3',
+        'is_optional': False,
+        'name': 'param3',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'float',
+          'qname': 'builtins.float',
+        }),
+      }),
+      dict({
+        'assigned_by': 'POSITION_OR_NAME',
+        'default_value': '',
+        'docstring': dict({
+          'boundaries': list([
+            dict({
+              'base_type': 'float',
+              'kind': 'BoundaryType',
+              'max': 1.0,
+              'max_inclusive': True,
+              'min': 0.0,
+              'min_inclusive': False,
+            }),
+            dict({
+              'base_type': 'int',
+              'kind': 'BoundaryType',
+              'max': 10,
+              'max_inclusive': True,
+              'min': 0,
+              'min_inclusive': True,
+            }),
+          ]),
+          'default_value': '',
+          'description': 'If bootstrap is True, the number of samples to draw from X to train each base estimator. If None (default), then draw X.shape[0] samples. If int, then max_samples values in [0, 10]. If float, then draw max_samples * X.shape[0] samples. Thus, max_samples should be in the interval (0.0, 1.0].',
+          'type': dict({
+            'kind': 'UnionType',
+            'types': list([
+              dict({
+                'kind': 'NamedType',
+                'name': 'float',
+                'qname': 'builtins.float',
+              }),
+              dict({
+                'kind': 'NamedType',
+                'name': 'int',
+                'qname': 'builtins.int',
+              }),
+            ]),
+          }),
+          'valid_values': list([
+            'None',
+          ]),
+        }),
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/param4',
+        'is_optional': False,
+        'name': 'param4',
+        'type': dict({
+          'kind': 'UnionType',
+          'types': list([
+            dict({
+              'kind': 'NamedType',
+              'name': 'float',
+              'qname': 'builtins.float',
+            }),
+            dict({
+              'kind': 'NamedType',
+              'name': 'int',
+              'qname': 'builtins.int',
+            }),
+          ]),
+        }),
+      }),
+    ]),
+    'results': list([
+      dict({
+        'id': 'tests/data/boundary_enum_package_restdoc/main_module_restdoc/global_func1_rest/result_1',
+        'name': 'result_1',
+        'type': dict({
+          'kind': 'NamedType',
+          'name': 'test',
+          'qname': 'tests.data.boundary_enum_package_restdoc.main_module_restdoc.test',
         }),
       }),
     ]),

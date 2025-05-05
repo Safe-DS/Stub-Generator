@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from griffe.enumerations import Parser
+from griffe import Parser
 
 from ._docstring_parser import DocstringParser
 from ._docstring_style import DocstringStyle
@@ -15,6 +15,7 @@ if TYPE_CHECKING:
 
 
 def create_docstring_parser(style: DocstringStyle, package_path: Path) -> AbstractDocstringParser:
+    # pm: Whats about EpyDoc?
     if style == DocstringStyle.GOOGLE:
         return DocstringParser(parser=Parser.google, package_path=package_path)
     elif style == DocstringStyle.NUMPYDOC:

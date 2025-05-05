@@ -1,7 +1,6 @@
 @PythonModule("tests.data.various_modules_package.function_module")
 package tests.data.variousModulesPackage.functionModule
 
-from numpy import ndarray
 from tests.data.mainPackage.anotherPath.anotherModule import AnotherClass
 
 // TODO Result type information missing.
@@ -346,13 +345,13 @@ fun typeAliasParam(
 
 @Pure
 @PythonName("alias_subclass_result_type")
-fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray>
+fun aliasSubclassResultType() -> result1: union<ArrayLike, ndarray<Any, Any>>
 
 // TODO Result type information missing.
 @Pure
 @PythonName("alias_subclass_param_type")
 fun aliasSubclassParamType(
-    x: union<ArrayLike, ndarray>
+    x: union<ArrayLike, ndarray<Any, Any>>
 )
 
 // TODO Some parameter have no type information.
