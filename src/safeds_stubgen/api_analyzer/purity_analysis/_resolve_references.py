@@ -463,7 +463,10 @@ class ReferenceResolver:
                     else None
                 ),
                 lineno=call_reference.node.lineno,
+                end_lineno=call_reference.node.end_lineno,
                 col_offset=call_reference.node.col_offset,
+                end_col_offset=call_reference.node.end_col_offset,
+                parent=None
             )
             builtin_call = Builtin(
                 node=builtin_function,

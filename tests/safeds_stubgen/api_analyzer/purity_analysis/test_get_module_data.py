@@ -229,8 +229,7 @@ def to_string(symbol: Symbol) -> str:
         | astroid.SetComp
         | astroid.DictComp
         | astroid.GeneratorExp
-        | astroid.TryExcept
-        | astroid.TryFinally
+        | astroid.Try
         | astroid.With,
     ):
         return f"{symbol.node.__class__.__name__}"
@@ -262,8 +261,7 @@ def to_string_class(node: astroid.NodeNG | ClassScope) -> str | None:
     elif isinstance(
         node,
         astroid.Lambda
-        | astroid.TryExcept
-        | astroid.TryFinally
+        | astroid.Try
         | astroid.ListComp
         | astroid.SetComp
         | astroid.DictComp
@@ -349,7 +347,9 @@ def transform_member_access(member_access: MemberAccess) -> str:
                 "local_func",
                 lineno=1,
                 col_offset=0,
-                parent=astroid.ClassDef("A", lineno=2, col_offset=3, end_lineno=2, end_col_offset=10),
+                parent=astroid.ClassDef("A", lineno=2, col_offset=3, end_lineno=2, end_col_offset=10, parent=None),
+                end_lineno=1,
+                end_col_offset=0
             ),
             "A.local_func.1.0",
         ),
@@ -358,6 +358,8 @@ def transform_member_access(member_access: MemberAccess) -> str:
                 "global_func",
                 lineno=1,
                 col_offset=0,
+                end_lineno=1,
+                end_col_offset=0,
                 parent=astroid.ClassDef(
                     "A",
                     lineno=2,
@@ -374,12 +376,14 @@ def transform_member_access(member_access: MemberAccess) -> str:
                 "var1",
                 lineno=1,
                 col_offset=5,
-                parent=astroid.FunctionDef("func1", lineno=1, col_offset=0),
+                parent=astroid.FunctionDef("func1", lineno=1, col_offset=0, parent=None, end_lineno=1, end_col_offset=0),
+                end_lineno=1,
+                end_col_offset=5
             ),
             "func1.var1.1.5",
         ),
         (
-            astroid.Name("var2", lineno=20, col_offset=0, parent=astroid.FunctionDef("func1", lineno=1, col_offset=0)),
+            astroid.Name("var2", lineno=20, col_offset=0, end_lineno=20, end_col_offset=0, parent=astroid.FunctionDef("func1", lineno=1, col_offset=0, parent=None, end_lineno=1, end_col_offset=0)),
             "func1.var2.20.0",
         ),
         (
@@ -399,7 +403,11 @@ def transform_member_access(member_access: MemberAccess) -> str:
                         end_lineno=2,
                         end_col_offset=10,
                     ),
+                    end_lineno=1,
+                    end_col_offset=0
                 ),
+                end_lineno=20,
+                end_col_offset=0
             ),
             "numpy.glob.20.0",
         ),
@@ -2941,7 +2949,7 @@ def try_except(num1, num2):
                                 SimpleScope("Parameter.AssignName.num1", []),
                                 SimpleScope("Parameter.AssignName.num2", []),
                                 SimpleScope(
-                                    "TryExcept",
+                                    "Try",
                                     [
                                         SimpleScope("LocalVariable.AssignName.result", []),
                                         SimpleScope("LocalVariable.AssignName.error", []),
@@ -2983,7 +2991,7 @@ def try_except_finally(num1, num2, num3):
                                 SimpleScope("Parameter.AssignName.num2", []),
                                 SimpleScope("Parameter.AssignName.num3", []),
                                 SimpleScope(
-                                    "TryFinally",
+                                    "Try",
                                     [
                                         SimpleScope("LocalVariable.AssignName.result", []),
                                         SimpleScope("LocalVariable.AssignName.error", []),
@@ -3032,7 +3040,7 @@ def try_except_else_finally(num1, num2, num3):
                                 SimpleScope("Parameter.AssignName.num2", []),
                                 SimpleScope("Parameter.AssignName.num3", []),
                                 SimpleScope(
-                                    "TryFinally",
+                                    "Try",
                                     [
                                         SimpleScope("LocalVariable.AssignName.result", []),
                                         SimpleScope("LocalVariable.AssignName.error", []),

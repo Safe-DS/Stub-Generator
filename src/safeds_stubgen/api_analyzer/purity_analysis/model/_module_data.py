@@ -344,6 +344,10 @@ class NodeID:
             case astroid.ClassDef():
                 return NodeID(module, node.name, node.lineno, node.col_offset)
             case astroid.FunctionDef():
+                try: # workaround for "AttributeError: 'FunctionDef' object has no attribute 'decorators'", so that node.fromlineno can be called
+                    node.decorators
+                except AttributeError:
+                    node.postinit(astroid.Arguments(None, None, astroid.NodeNG(node.lineno, node.col_offset, None, end_lineno=node.end_lineno, end_col_offset=node.end_col_offset)), [], None)
                 return NodeID(module, node.name, node.fromlineno, node.col_offset)
             case astroid.AssignName():
                 return NodeID(module, node.name, node.lineno, node.col_offset)
