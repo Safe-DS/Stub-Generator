@@ -4,7 +4,7 @@ import logging
 from collections import defaultdict
 from pathlib import Path
 from types import NoneType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from safeds_stubgen import is_internal
 from safeds_stubgen.api_analyzer import (
@@ -22,6 +22,8 @@ from safeds_stubgen.api_analyzer import (
     VarianceKind,
     result_name_generator,
 )
+from safeds_stubgen.api_analyzer.purity_analysis.model._module_data import NodeID
+from safeds_stubgen.api_analyzer.purity_analysis.model._purity import APIPurity, Impure, PurityResult
 from safeds_stubgen.docstring_parsing import AttributeDocstring
 
 from ._helper import (
@@ -45,16 +47,20 @@ class StubsStringGenerator:
     method.
     """
 
-    def __init__(self, api: API, convert_identifiers: bool) -> None:
+    def __init__(self, api: API, purity_api: APIPurity, convert_identifiers: bool) -> None:
         self.module_id: str = ""
         self.class_generics: list = []
         self.module_imports: set[str] = set()
         self.currently_creating_reexport_data: bool = False
+        self.import_index: dict[str, str] = {}
 
-        self.api = api
+        self.api: API = api
+        self.purity_api = purity_api
         self.naming_convention = NamingConvention.SAFE_DS if convert_identifiers else NamingConvention.PYTHON
         self.classes_outside_package: set[str] = set()
         self.reexport_modules: dict[str, list[Class | Function]] = defaultdict(list)
+
+        self.purity_api = purity_api
 
     def __call__(self, module: Module) -> tuple[str, str]:
         self._set_module_id(module.id)
@@ -62,8 +68,30 @@ class StubsStringGenerator:
         self.class_generics = []
         self.module_imports = set()
 
+        # narrow purity dict TODO
+        purity_dict = self.purity_api.to_dict()
+        module_path = self.module_id.split("/")
+        package_name = self.api.package
+        index_to_split = module_path.index(package_name)
+        module_path = module_path[index_to_split:]
+        self.module_path = ".".join(module_path)
+        self.module_purity_data: dict[str, PurityResult] = purity_dict[self.module_path]
+
         self._current_todo_msgs: set[str] = set()
         return self._create_module_string(module)
+    
+    def _create_function_purity_id(self, function: Function) -> NodeID:
+        full_id = function.id.split("/")
+        id = full_id[-1]
+        nodeId = NodeID(function.module_id_which_contains_def, id, function.line, function.column)
+        return nodeId
+    
+    def _get_purity_result(self, function: Function) -> PurityResult:
+        function_id = self._create_function_purity_id(function)
+        module_node_id = NodeID(None, function.module_id_which_contains_def)
+        purity_dict = self.purity_api.purity_results[module_node_id]
+        purity_data = purity_dict[function_id]
+        return purity_data
 
     def create_reexport_module_strings(self, out_path: Path) -> list[tuple[Path, str, str, bool]]:
         module_data = []
@@ -97,7 +125,8 @@ class StubsStringGenerator:
                 if isinstance(element, Class):
                     module_text = f"\n{self._create_class_string(class_=element, in_reexport_module=True)}\n"
                 elif isinstance(element, Function):
-                    module_text = f"\n{self._create_function_string(function=element, in_reexport_module=True)}\n"
+                    purity_result = self._get_purity_result(element)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
+                    module_text = f"\n{self._create_function_string(function=element, purity_result=purity_result, in_reexport_module=True)}\n"
                 else:  # pragma: no cover
                     msg = f"Could not create a module for {element.id}. Unsupported type {type(element)}."
                     logging.warning(msg)
@@ -141,8 +170,10 @@ class StubsStringGenerator:
         # Create global functions and properties
         for function in module.global_functions:
             if function.is_public:
+                purity_result = self._get_purity_result(function)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
                 function_string = self._create_function_string(
                     function=function,
+                    purity_result=purity_result,
                     is_method=False,
                     in_reexport_module=in_reexport_module,
                 )
@@ -199,14 +230,15 @@ class StubsStringGenerator:
         else:
             constructor = class_.constructor
             parameter_info = ""
+            parameter_boundaries = ""
             if constructor:
-                parameter_info = self._create_parameter_string(
+                parameter_info, parameter_boundaries = self._create_parameter_string(
                     constructor.parameters,
                     class_indentation,
                     is_instance_method=True,
                 )
 
-            constructor_info = f"({parameter_info})"
+            constructor_info = f"({parameter_info}){parameter_boundaries}"
 
         # Type parameters
         constraints_info = ""
@@ -254,7 +286,7 @@ class StubsStringGenerator:
         class_signature_todo = self._create_todo_msg(class_indentation)
 
         # Attributes
-        class_text, added_class_attributes = self._create_class_attribute_string(class_.attributes, inner_indentations)
+        class_text, added_class_attributes, attribute_boundaries = self._create_class_attribute_string(class_.attributes, inner_indentations)
 
         # Inner classes
         for inner_class in class_.classes:
@@ -323,7 +355,7 @@ class StubsStringGenerator:
         # Close class
         class_text += f"{class_indentation}}}"
 
-        return f"{docstring}{class_signature} {{{class_text}"
+        return f"{docstring}{class_signature} {{{class_text}{attribute_boundaries}"
 
     def _create_class_method_string(
         self,
@@ -351,9 +383,10 @@ class StubsStringGenerator:
                     self._create_property_function_string(method, inner_indentations),
                 )
             else:
+                purity_result = self._get_purity_result(method)  # TODO for class methods, the module can be different, as a class can inherit methods so they are from a different module, so I cant use the module path here
                 all_method_names.add(method.name)
                 class_methods.append(
-                    self._create_function_string(function=method, indentations=inner_indentations, is_method=True),
+                    self._create_function_string(function=method, purity_result=purity_result, indentations=inner_indentations, is_method=True),
                 )
 
         method_text = ""
@@ -371,19 +404,26 @@ class StubsStringGenerator:
         self,
         attributes: list[Attribute],
         inner_indentations: str,
-    ) -> tuple[str, set[str]]:
+    ) -> tuple[str, set[str], str]:
         class_attributes: list[str] = []
         all_attr_names: set[str] = set()
+        boundary_data: dict[str, list[dict[str, Any]]] = {}
         for attribute in attributes:
             if not attribute.is_public:
                 continue
 
-            attribute_type = None
+            attribute_type_data = None
+            attribute_boundaries: list[dict[str, Any]] = []
+            # attribute_valid_values: list[str] = []
             if attribute.type:
-                attribute_type = attribute.type.to_dict()
+                attribute_type_data = attribute.type.to_dict()
+                if attribute.docstring.boundaries is not None:
+                    attribute_boundaries = sorted(map(lambda boundary: boundary.to_dict(), attribute.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
+                # if attribute.docstring.valid_values is not None:
+                #     attribute_valid_values = sorted(attribute.docstring.valid_values)
 
                 # Don't create TypeVar attributes
-                if attribute_type["kind"] == "TypeVarType":
+                if attribute_type_data["kind"] == "TypeVarType":
                     continue
 
             static_string = "static " if attribute.is_static else ""
@@ -401,16 +441,33 @@ class StubsStringGenerator:
 
             # Create type information
             attr_docstring: AttributeDocstring = attribute.docstring
-            if attribute_type is None and attr_docstring and attr_docstring.type:
-                attribute_type = attr_docstring.type.to_dict()
+            if attribute_type_data is None and attr_docstring and attr_docstring.type:
+                attribute_type_data = attr_docstring.type.to_dict()
 
-            attr_type = self._create_type_string(attribute_type)
+            attr_type = self._create_type_string(attribute_type_data)
             type_string = f": {attr_type}" if attr_type else ""
             if not type_string:
                 self._current_todo_msgs.add("attr without type")
 
             # Create docstring text
             docstring = self._create_sds_docstring(attr_docstring, inner_indentations)
+
+            # check for boundaries and enums of attribute
+            # TODO valid values extractor has some problems and needs to be fixed once it is fixed, uncomment
+            # if len(attribute_valid_values) != 0 and not (len(attribute_valid_values) == 1 and attribute_valid_values[0] == "None"):
+            #     for i, valid_value in enumerate(attribute_valid_values):
+            #         if valid_value == "None":
+            #             attribute_valid_values[i] = "null"
+            #         elif valid_value in ["True", "False"]:
+            #             attribute_valid_values[i] = valid_value.lower()
+            #     if len(attribute_valid_values) == 1 and attribute_valid_values[0] == "unlistable_str":
+            #         type_string = ": String"
+            #     elif attribute_valid_values == ["false", "true"]:
+            #         type_string = ": Boolean"
+            #     else:
+            #         type_string = ": literal<" + ", ".join(attribute_valid_values) + ">"
+            if len(attribute_boundaries) != 0:
+                boundary_data[attribute.name] = attribute_boundaries
 
             # Create attribute string
             class_attributes.append(
@@ -421,14 +478,17 @@ class StubsStringGenerator:
             )
 
         attribute_text = ""
+        boundaries = ""
         if class_attributes:
+            boundaries = self._create_boundary_string(boundary_data, inner_indentations)
             attribute_infos = "\n".join(class_attributes)
             attribute_text += f"\n{attribute_infos}\n"
-        return attribute_text, all_attr_names
+        return attribute_text, all_attr_names, boundaries
 
     def _create_function_string(
         self,
         function: Function,
+        purity_result: PurityResult,
         indentations: str = "",
         is_method: bool = False,
         in_reexport_module: bool = False,
@@ -449,7 +509,7 @@ class StubsStringGenerator:
                 self._current_todo_msgs.add("class_method")
 
         # Parameters
-        func_params = self._create_parameter_string(
+        func_params, boundaries = self._create_parameter_string(
             parameters=function.parameters,
             indentations=indentations,
             is_instance_method=not is_static and is_method,
@@ -487,14 +547,23 @@ class StubsStringGenerator:
 
         result_string = self._create_result_string(function.results)
 
+
+        purity_str = "@Pure"
+        if isinstance(purity_result, Impure):
+            reasons_str = ""
+            reasons = purity_result.reasons
+            reasons_str = ", ".join(list(map(lambda x: str(x), reasons)))
+
+            purity_str = f"@Impure([{reasons_str}])"
+
         # Create string and return
         return (
             f"{self._create_todo_msg(indentations)}"
             f"{docstring}"
-            f"{indentations}@Pure\n"
+            f"{indentations}{purity_str}\n"
             f"{function_name_annotation}"
             f"{indentations}{static}fun {camel_case_name}{type_var_info}"
-            f"({func_params}){result_string}"
+            f"({func_params}){result_string}{boundaries}"
         )
 
     def _create_property_function_string(self, function: Function, indentations: str = "") -> str:
@@ -559,8 +628,9 @@ class StubsStringGenerator:
         parameters: list[Parameter],
         indentations: str,
         is_instance_method: bool = False,
-    ) -> str:
+    ) -> tuple[str, str] :  # also returns the boundaries as second entry of the returned tuple
         parameters_data: list[str] = []
+        boundary_data: dict[str, list[dict[str, Any]]] = {}
         first_loop_skipped = False
         for parameter in parameters:
             # Skip self parameter for functions
@@ -571,12 +641,18 @@ class StubsStringGenerator:
             assigned_by = parameter.assigned_by
             type_string = ""
             param_value = ""
+            parameter_boundaries: list[dict[str, Any]] = []
+            # parameter_valid_values: list[str] = []
 
             # Parameter type
             if parameter.type is not None:
                 param_default_value = parameter.default_value
                 parameter_type_data = parameter.type.to_dict()
-
+                if parameter.docstring.boundaries is not None:
+                    parameter_boundaries = sorted(map(lambda boundary: boundary.to_dict(), parameter.docstring.boundaries), key=(lambda boundary_dict: boundary_dict["min"] + boundary_dict["max"]))
+                # if parameter.docstring.valid_values is not None:
+                #     parameter_valid_values = sorted(parameter.docstring.valid_values)
+                
                 # Default value
                 if parameter.is_optional:
                     if isinstance(param_default_value, str):
@@ -637,16 +713,63 @@ class StubsStringGenerator:
             # Check if it's a Safe-DS keyword and escape it
             camel_case_name = _replace_if_safeds_keyword(camel_case_name)
 
+            # Check for boundaries and enums 
+            # TODO needs to be improved with union type etc
+            # TODO valid values extractor has some problems and needs to be fixed once it is fixed, uncomment
+            # if len(parameter_valid_values) != 0 and not (len(parameter_valid_values) == 1 and parameter_valid_values[0] == "None"):
+            #     for i, valid_value in enumerate(parameter_valid_values):
+            #         if valid_value == "None":
+            #             parameter_valid_values[i] = "null"
+            #         elif valid_value in ["True", "False"]:
+            #             parameter_valid_values[i] = valid_value.lower()
+            #     if len(parameter_valid_values) == 1 and parameter_valid_values[0] == "unlistable_str":
+            #         type_string = ": String"
+            #     else:
+            #         type_string = ": literal<" + ", ".join(parameter_valid_values) + ">"
+            if len(parameter_boundaries) != 0:
+                boundary_data[parameter.name] = parameter_boundaries
+
             # Create string and append to the list
             parameters_data.append(
                 f"{name_annotation}{camel_case_name}{type_string}{param_value}",
             )
-
+            
         inner_indentations = indentations + INDENTATION
         if parameters_data:
+            boundaries = self._create_boundary_string(boundary_data, inner_indentations)
             inner_param_data = f",\n{inner_indentations}".join(parameters_data)
-            return f"\n{inner_indentations}{inner_param_data}\n{indentations}"
-        return ""
+            return (f"\n{inner_indentations}{inner_param_data}\n{indentations}", boundaries)
+        return ("", "")
+    
+    def _create_boundary_string(self, boundary_data: dict[str, list[dict[str, Any]]], inner_indentations: str) -> str:
+        boundary_str = ""
+        for parameter_name in boundary_data:
+            boundaries = boundary_data[parameter_name]
+            boundary_str += inner_indentations
+            for i, boundary in enumerate(boundaries):
+                if str(boundary["min"]) == "NegativeInfinity": # pragma: no cover
+                    boundary_str += parameter_name + " <= " if boundary["max_inclusive"] else " < " + str(boundary["max"])
+                    continue
+                elif str(boundary["max"]) == "Infinity": # pragma: no cover
+                    boundary_str += parameter_name + " >= " if boundary["min_inclusive"] else " > " + str(boundary["min"])
+                    continue
+
+                if boundary["min_inclusive"]:  # []
+                    boundary_str += parameter_name + " >= " + str(boundary["min"]) + " and "
+                else:  # ()
+                    boundary_str += parameter_name + " > " + str(boundary["min"]) + " and "
+
+                if boundary["max_inclusive"]:
+                    boundary_str += parameter_name + " <= " + str(boundary["max"])
+                else:
+                    boundary_str += parameter_name + " < " + str(boundary["max"])
+                if i + 1 < len(boundaries):
+                    boundary_str += " or "
+            boundary_str += ",\n"
+
+        if len(boundary_str) == 0:
+            return ""
+        return f" where {{\n{boundary_str}}}"
 
     def _create_enum_string(self, enum_data: Enum) -> str:
         # Docstring
@@ -1012,20 +1135,20 @@ class StubsStringGenerator:
         return False
 
     def _is_path_connected_to_class(self, path: str, class_path: str) -> bool:
-        if class_path.endswith(path):
+        if class_path.endswith(f"/{path}") or class_path == path:
             return True
 
         name = path.split("/")[-1]
         class_name = class_path.split("/")[-1]
         for reexport in self.api.reexport_map:
-            if reexport.endswith(name):
-                for module in self.api.reexport_map[reexport]:
+            if reexport.endswith(f"/{name}") or reexport == name:
+                for module in self.api.reexport_map[reexport]:  # pragma: no cover
                     # Added "no cover" since I can't recreate this in the tests
                     if (
                         path.startswith(module.id)
                         and class_path.startswith(module.id)
                         and path.lstrip(module.id).lstrip("/") == name == class_name
-                    ):  # pragma: no cover
+                    ):
                         return True
 
         return False
@@ -1047,28 +1170,49 @@ class StubsStringGenerator:
 
         module_id = self._get_module_id(get_actual_id=True).replace("/", ".")
         if module_id not in import_qname:
-            # We need the full path for an import from the same package, but we sometimes don't get enough information,
-            # therefore we have to search for the class and get its id
-            import_qname_path = import_qname.replace(".", "/")
-            in_package = False
             qname = ""
-            for class_id in self.api.classes:
-                if self._is_path_connected_to_class(import_qname_path, class_id):
-                    qname = class_id.replace("/", ".")
+            module_id_parts = module_id.split(".")
 
-                    name = qname.split(".")[-1]
-                    shortest_qname, _ = _get_shortest_public_reexport_and_alias(
-                        reexport_map=self.api.reexport_map,
-                        name=name,
-                        qname=qname,
-                        is_module=False,
-                    )
+            # First we hope that we already found and indexed the type we are searching
+            if import_qname in self.import_index:
+                qname = self.import_index[import_qname]
 
-                    if shortest_qname:
-                        qname = f"{shortest_qname}.{name}"
+            # To save performance we next try to build the possible paths the type could originate from
+            if not qname:
+                for i in range(1, len(module_id_parts)):
+                    test_id = ".".join(module_id_parts[:-i]) + "." + import_qname
+                    if test_id.replace(".", "/") in self.api.classes:
+                        qname = test_id
+                        break
 
-                    in_package = True
-                    break
+            # If the tries above did not work we have to use this performance heavy way.
+            # We need the full path for an import from the same package, but we sometimes don't get enough
+            # information, therefore we have to search for the class and get its id
+            if not qname:
+                import_qname_path = import_qname.replace(".", "/")
+                import_path_name = import_qname_path.split("/")[-1]
+                for class_id in self.api.classes:
+                    if (import_path_name == class_id.split("/")[-1] and
+                            self._is_path_connected_to_class(import_qname_path, class_id)):
+                        qname = class_id.replace("/", ".")
+                        break
+
+            in_package = False
+            if qname:
+                self.import_index[import_qname] = qname
+
+                name = qname.split(".")[-1]
+                shortest_qname, _ = _get_shortest_public_reexport_and_alias(
+                    reexport_map=self.api.reexport_map,
+                    name=name,
+                    qname=qname,
+                    is_module=False,
+                )
+
+                if shortest_qname:
+                    qname = f"{shortest_qname}.{name}"
+
+                in_package = True
 
             qname = qname or import_qname
 

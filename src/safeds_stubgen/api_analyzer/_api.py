@@ -6,6 +6,8 @@ from dataclasses import dataclass, field
 from enum import Enum as PythonEnum
 from typing import TYPE_CHECKING, Any
 
+from safeds_stubgen.api_analyzer._types import NamedType
+
 if TYPE_CHECKING:
     from pathlib import Path
 
@@ -36,7 +38,7 @@ def ensure_file_exists(file: Path) -> None:
 
 
 class API:
-    def __init__(self, distribution: str, package: str, version: str) -> None:
+    def __init__(self, distribution: str, package: str, version: str, path_to_package: str) -> None:
         self.distribution: str = distribution
         self.package: str = package
         self.version: str = version
@@ -49,6 +51,7 @@ class API:
         self.attributes_: dict[str, Attribute] = {}
         self.parameters_: dict[str, Parameter] = {}
         self.reexport_map: dict[str, set[Module]] = defaultdict(set)
+        self.path_to_package: str = path_to_package
 
     def add_module(self, module: Module) -> None:
         self.modules[module.id] = module
@@ -56,8 +59,22 @@ class API:
     def add_class(self, class_: Class) -> None:
         self.classes[class_.id] = class_
 
+    def create_astroid_module_path(self, path_str: str) -> str:
+        package_name = self.package 
+        module_path_list = path_str.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        return correct_module_path
+    
+    def create_astroid_id(self, function: Function) -> str:
+        correct_module_path = self.create_astroid_module_path(function.module_id_which_contains_def)
+        full_id = function.id.split("/")
+        id = full_id[-1]
+        return f"{correct_module_path}.{id}.{function.line}.{function.column}"
+
     def add_function(self, function: Function) -> None:
-        self.functions[function.id] = function
+        self.functions[self.create_astroid_id(function)] = function
 
     def add_enum(self, enum: Enum) -> None:
         self.enums[enum.id] = enum
@@ -168,6 +185,7 @@ class Class:
     id: str
     name: str
     superclasses: list[str]
+    subclasses: list[str]
     is_public: bool
     docstring: ClassDocstring
     constructor: Function | None = None
@@ -235,8 +253,12 @@ class Attribute:
 @dataclass
 class Function:
     id: str
+    module_id_which_contains_def: str
+    line: int
+    column: int
     name: str
     docstring: FunctionDocstring
+    body: Body
     is_public: bool
     is_static: bool
     is_class_method: bool
@@ -246,6 +268,7 @@ class Function:
     results: list[Result] = field(default_factory=list)
     reexported_by: list[Module] = field(default_factory=list)
     parameters: list[Parameter] = field(default_factory=list)
+    closures: dict[str, Function] = field(default_factory=dict)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -259,8 +282,42 @@ class Function:
             "results": [result.id for result in self.results],
             "reexported_by": [module.id for module in self.reexported_by],
             "parameters": [parameter.id for parameter in self.parameters],
+            # "closures": [closure.to_dict for closure in self.closures],
         }
 
+@dataclass
+class Body:
+    line: int
+    column: int
+    end_line: int | None
+    end_column: int | None
+    call_references: dict[str, CallReference] = field(default_factory=dict)
+
+@dataclass
+class CallReference:
+    receiver: CallReceiver
+    function_name: str
+    line: int
+    column: int
+    possibly_referenced_functions: list[Function] = field(default_factory=list)
+    isSuperCallRef: bool = False
+    reason_for_no_found_functions: str = ""
+    fallbackToSignatureCheck: bool = True
+
+@dataclass
+class CallReceiver:
+    type: Any | NamedType
+    full_name: str
+    path_to_call_reference: list[str]
+    found_classes: list[Class]
+    isFromParameter: bool = False
+    typeThroughTypeHint: bool = False
+    typeThroughDocString: bool = False
+    typeThroughInference: bool = False
+    typeOutsideOfPackage: bool = False
+    decrease: int = 0
+    increase: int = 0
+    missingTypesWhileFindingFunction: bool = False
 
 class UnknownValue:
     pass

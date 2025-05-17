@@ -17,6 +17,8 @@ from ._api import (
     VarianceKind,
     WildcardImport,
 )
+from safeds_stubgen.api_analyzer._extract_boundary_values import extract_boundary
+from safeds_stubgen.api_analyzer._extract_valid_values import extract_valid_literals
 from ._ast_visitor import result_name_generator
 from ._get_api import get_api
 from ._mypy_helpers import get_classdef_definitions, get_funcdef_definitions, get_mypyfile_definitions
@@ -36,6 +38,7 @@ from ._types import (
     TypeVarType,
     UnionType,
     UnknownType,
+    EnumType
 )
 
 __all__ = [
@@ -46,6 +49,9 @@ __all__ = [
     "Class",
     "DictType",
     "Enum",
+    "EnumType",
+    "extract_boundary",
+    "extract_valid_literals",
     "FinalType",
     "Function",
     "ListType",

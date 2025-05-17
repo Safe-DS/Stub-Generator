@@ -29,7 +29,7 @@ class EnumTest3(IntEnum):
     ele_ven = 11
 
 
-class EmptyEnum(Enum, IntEnum):
+class EmptyEnum(IntEnum):
     ...
 
 

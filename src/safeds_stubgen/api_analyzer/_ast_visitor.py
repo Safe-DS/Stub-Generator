@@ -5,7 +5,7 @@ import logging
 from copy import deepcopy
 from itertools import zip_longest
 from types import NoneType
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 import mypy.nodes as mp_nodes
 import mypy.types as mp_types
@@ -19,6 +19,9 @@ from safeds_stubgen.docstring_parsing import ResultDocstring
 from ._api import (
     API,
     Attribute,
+    Body,
+    CallReceiver,
+    CallReference,
     Class,
     Enum,
     EnumInstance,
@@ -69,6 +72,8 @@ class MyPyAstVisitor:
         self.mypy_file: mp_nodes.MypyFile | None = None
         # We gather type var types used as a parameter type in a function
         self.type_var_types: set[sds_types.TypeVarType] = set()
+        self.current_module_id = ""
+        
 
     def enter_moduledef(self, node: mp_nodes.MypyFile) -> None:
         self.mypy_file = node
@@ -121,6 +126,12 @@ class MyPyAstVisitor:
         # the __init__.py file we set the name to __init__
         name = "__init__" if is_package else node.name
 
+        package_name = self.api.package
+        module_path_list = node.fullname.split(".")
+        index_to_split = module_path_list.index(package_name)
+        module_path = module_path_list[index_to_split:]
+        correct_module_path = ".".join(module_path)
+        self.current_module_id = correct_module_path
         # Remember module, so we can later add classes and global functions
         module = Module(
             id_=id_,
@@ -139,7 +150,7 @@ class MyPyAstVisitor:
         module = self.__declaration_stack.pop()
         if not isinstance(module, Module):  # pragma: no cover
             raise AssertionError("Imbalanced push/pop on stack")  # noqa: TRY004
-
+        self.current_module_id = ""
         self.api.add_module(module)
 
     def enter_classdef(self, node: mp_nodes.ClassDef) -> None:
@@ -219,7 +230,13 @@ class MyPyAstVisitor:
                 # Check if the superclass name is an alias and find the real name
                 if superclass_name in self.aliases:
                     _, superclass_alias_qname = self._find_alias(superclass_name)
-                    superclass_qname = superclass_alias_qname if superclass_alias_qname else superclass_qname
+                    if superclass_alias_qname:
+                        superclass_qname = superclass_alias_qname
+                    else:
+                        if superclass_qname: # pragma: no cover
+                            superclass_qname = superclass_qname
+                        else:
+                            superclass_qname = superclass_qname # pragma: no cover
 
                 superclasses.append(superclass_qname)
 
@@ -241,6 +258,7 @@ class MyPyAstVisitor:
             id=id_,
             name=node.name,
             superclasses=superclasses,
+            subclasses=[],  # will be updated after api generation is completed
             is_public=self._is_public(node.name, node.fullname),
             docstring=docstring,
             reexported_by=reexported_by,
@@ -264,14 +282,14 @@ class MyPyAstVisitor:
 
     def enter_funcdef(self, node: mp_nodes.FuncDef) -> None:
         name = node.name
-        function_id = self._create_id_from_stack(name)
+        function_id = self._create_id_from_stack(name)  # function id is path
 
         is_public = self._is_public(name, node.fullname)
         is_static = node.is_static
-
+        if name == "global_func_inside_of_lambda_with_map_should_be_pure_but_impure":
+            pass
         # Get docstring
         docstring = self.docstring_parser.get_function_documentation(node)
-
         # Function args & TypeVar
         parameters: list[Parameter] = []
         type_var_types: list[sds_types.TypeVarType] = []
@@ -347,12 +365,42 @@ class MyPyAstVisitor:
         reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
         # Sort for snapshot tests
         reexported_by.sort(key=lambda x: x.id)
+        
+        parameter_dict = {parameter.name: parameter for parameter in parameters}
 
+        # analyze body for types of receivers of call references
+        closures: dict[str, Function] = self._extract_closures(node.body, parameter_dict)
+        call_references: dict[str, CallReference] = {}
+        try:
+            function_body = self.extract_body_info(node.body, parameter_dict, call_references)
+        except RecursionError: # pragma: no cover
+            # catch Recursion error for sklearn lib, as there are bodies with extremely nested structures, which leads to a recursion error
+            if node.body is not None:
+                function_body = Body(
+                    line=node.body.line,
+                    end_line=node.body.end_line,
+                    column=node.body.column,
+                    end_column=node.body.end_column,
+                    call_references=call_references
+                )
+            else:
+                function_body = Body(
+                    line=-1,
+                    end_line=-1,
+                    column=-1,
+                    end_column=-1,
+                    call_references=call_references
+                )
+        
         # Create and add Function to stack
         function = Function(
             id=function_id,
+            module_id_which_contains_def=self.current_module_id,
+            line=node.line,
+            column=node.column,
             name=name,
             docstring=docstring,
+            body=function_body,
             is_public=is_public,
             is_static=is_static,
             is_class_method=node.is_class,
@@ -362,6 +410,7 @@ class MyPyAstVisitor:
             parameters=parameters,
             type_var_types=type_var_types,
             result_docstrings=result_docstrings,
+            closures=closures,
         )
         self.__declaration_stack.append(function)
 
@@ -498,6 +547,885 @@ class MyPyAstVisitor:
                     raise TypeError("Unexpected value type for assignments")
 
     # ############################## Utilities ############################## #
+
+    # #### Function body analysis utilities
+
+    def _extract_closures(self, body_block: mp_nodes.Block, parameter_of_func: dict[str, Parameter]) -> dict[str, Function]:
+        """
+        extracts all closures so that references to these closures inside of the body block can be found.
+
+        Parameters
+        ----------
+        body_block : mp_nodes.Block | None
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+
+        Returns
+        ----------
+        dict[str, Function]
+            Contains info about the all closures inside of the body block
+        """
+        closures: dict[str, Function] = {}
+        statements = body_block.body
+        for statement in statements:
+            if isinstance(statement, mp_nodes.FuncDef):
+                closure = self._extract_closure(statement, parameter_of_func)
+                closures[closure.name] = closure
+            else:
+                for member_name in dir(statement):
+                    if not member_name.startswith("__"):
+                        member = getattr(statement, member_name)
+                        if isinstance(member, mp_nodes.FuncDef): # pragma: no cover
+                            closure = self._extract_closure(member, parameter_of_func)
+                            closures[closure.name] = closure
+                        elif isinstance(member, mp_nodes.Block):
+                            closures.update(self._extract_closures(member, parameter_of_func))
+                        elif isinstance(member, list) and len(member) != 0:
+                            if isinstance(member[0], mp_nodes.Block):
+                                for body in member:
+                                    closures.update(self._extract_closures(body, parameter_of_func))
+                            else:
+                                pass
+                        else:
+                            pass
+        return closures
+    
+    def _extract_closure(self, node: mp_nodes.FuncDef, parameter_of_func: dict[str, Parameter]) -> Function:
+        """
+        extracts a closure
+
+        Parameters
+        ----------
+        node : mp_nodes.FuncDef
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+
+        Returns
+        ----------
+        Function
+            Contains info about a closure inside of the body block
+        """
+        name = node.name
+        function_id = self._create_id_from_stack(name)  # function id is path
+
+        is_public = self._is_public(name, node.fullname)
+        is_static = node.is_static
+
+        # Get docstring
+        docstring = self.docstring_parser.get_function_documentation(node)
+        # Function args & TypeVar
+        parameters: list[Parameter] = []
+        type_var_types: list[sds_types.TypeVarType] = []
+        # Reset the type_var_types list
+        self.type_var_types = set()
+        if getattr(node, "arguments", None) is not None:
+            parameters = self._parse_parameter_data(node, function_id)
+
+            if self.type_var_types: # pragma: no cover
+                type_var_types = list(self.type_var_types)
+                # Sort for the snapshot tests
+                type_var_types.sort(key=lambda x: x.name)
+
+        # Check docstring parameter types vs code parameter type hint
+        for i, parameter in enumerate(parameters):
+            code_type = parameter.type
+            doc_type = parameter.docstring.type
+
+            if (
+                code_type is not None
+                and doc_type is not None
+                and code_type != doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ): # pragma: no cover
+                msg = f"Different type hint and docstring types for '{function_id}'."
+                logging.info(msg)
+
+            if doc_type is not None and (
+                code_type is None or self.type_source_preference == TypeSourcePreference.DOCSTRING
+            ):
+                parameters[i] = dataclasses.replace(
+                    parameter,
+                    is_optional=parameter.docstring.default_value != "",
+                    default_value=parameter.docstring.default_value,
+                    type=doc_type,
+                ) # pragma: no cover
+
+        # Create results and result docstrings
+        result_docstrings = self.docstring_parser.get_result_documentation(node.fullname)
+        results_code = self._parse_results(node, function_id, result_docstrings)
+
+        # Check docstring return type vs code return type hint
+        i = 0
+        for result_type, result_doc in zip_longest(results_code, result_docstrings, fillvalue=None): # pragma: no cover
+            if result_doc is None:
+                break
+
+            result_doc_type = result_doc.type
+
+            if (
+                result_type is not None
+                and result_doc_type is not None
+                and result_type != result_doc_type
+                and self.type_source_warning == TypeSourceWarning.WARN
+            ):
+                msg = f"Different type hint and docstring types for the result of '{function_id}'."
+                logging.info(msg)
+
+            if result_doc_type is not None:
+                if result_type is None:
+                    # Add missing returns
+                    result_name = result_doc.name if result_doc.name else f"result_{i + 1}"
+                    new_result = Result(type=result_doc_type, name=result_name, id=f"{function_id}/{result_name}")
+                    results_code.append(new_result)
+
+                elif self.type_source_preference == TypeSourcePreference.DOCSTRING:
+                    # Overwrite the type with the docstring type if preference is set, else prefer the code (default)
+                    results_code[i] = dataclasses.replace(results_code[i], type=result_doc_type)
+
+            i += 1
+
+        # Get reexported data
+        reexported_by = get_reexported_by(qname=node.fullname, reexport_map=self.api.reexport_map)
+        # Sort for snapshot tests
+        reexported_by.sort(key=lambda x: x.id)
+        parameter_dict = {parameter.name: parameter for parameter in parameters}
+        parameter_of_func.update(parameter_dict)
+
+        # limited to depth 1, can be extended by uncommenting
+        # closures: dict[str, Function] = self._extract_closures(node.body, parameter_of_func)
+        # function_body = self._extract_body_info(node.body, parameter_of_func, {})        
+        closures: dict[str, Function] = {}
+        function_body = Body(
+            line=-1,
+            end_line=-1,
+            column=-1,
+            end_column=-1,
+            call_references={}
+        )
+
+        function = Function(
+            id=function_id,
+            module_id_which_contains_def=self.current_module_id,
+            line=node.line,
+            column=node.column,
+            name=name,
+            docstring=docstring,
+            body=function_body,
+            is_public=is_public,
+            is_static=is_static,
+            is_class_method=node.is_class,
+            is_property=node.is_property,
+            results=results_code,
+            reexported_by=reexported_by,
+            parameters=parameters,
+            type_var_types=type_var_types,
+            result_docstrings=result_docstrings,
+            closures=closures,
+        )
+        return function
+
+    def extract_body_info(self, body_block: mp_nodes.Block | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> Body:
+        """
+        Entry point of body extraction
+
+        Searches recursively for members of type mp_nodes.Block or mp_nodes.Expression
+        For Block, this function is called again and for expression, _traverse_expr
+        is called.
+        A call_reference dictionary is passed along to store found call references.
+
+        Parameters
+        ----------
+        body_block : mp_nodes.Block | None
+            Holds info about the current block of code, at first, this is the whole function body
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+
+        Returns
+        ----------
+        body
+            Contains info about the function body and especially the call references. This body info 
+            is then stored in Function class
+        """
+        if body_block is None:  # pragma: no cover
+            return Body(
+                line=-1,
+                end_line=-1,
+                column=-1,
+                end_column=-1,
+                call_references=call_references
+            )
+        statements = body_block.body
+        for statement in statements:
+            for member_name in dir(statement):
+                if not member_name.startswith("__"):
+                    member = getattr(statement, member_name)
+                    # what about patterns?
+                    if isinstance(member, mp_nodes.Block):
+                        self.extract_body_info(member, parameter_of_func, call_references)
+                    elif isinstance(member, mp_nodes.Expression | mp_nodes.Lvalue):
+                        self.traverse_expr(member, parameter_of_func, call_references)
+                    elif isinstance(member, list) and len(member) != 0:
+                        if isinstance(member[0], mp_nodes.Block):
+                            for body in member:
+                                self.extract_body_info(body, parameter_of_func, call_references)
+                        elif isinstance(member[0], mp_nodes.Expression | mp_nodes.Lvalue):
+                            for expr in member:
+                                self.traverse_expr(expr, parameter_of_func, call_references)
+                        elif isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
+                            # generator expression member condlist
+                            for condlist in member: # pragma: no cover
+                                for cond in condlist:
+                                    self.traverse_expr(cond, parameter_of_func, call_references)
+                        else:
+                            pass
+                    else:
+                        pass
+
+        return Body(
+            line=body_block.line,
+            end_line=body_block.end_line,
+            column=body_block.column,
+            end_column=body_block.end_column,
+            call_references=call_references
+        )
+
+    def traverse_expr(self, expr: mp_nodes.Expression | None, parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+        """
+        Entry point of expression extraction
+
+        Searches recursively for members of type mp_nodes.Expression.
+        Once a call expression is found, another recursion is started, in order to get the type of the 
+        receiver of the call reference.
+        A call_reference dictionary is passed along to store found call references.
+
+        Parameters
+        ----------
+        expr : mp_nodes.Expression | None
+            Holds info about the current examined expression
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+        """
+        if isinstance(expr, mp_nodes.CallExpr):
+            self.traverse_callExpr(expr, [], parameter_of_func, call_references)
+            return
+        
+        if isinstance(expr, mp_nodes.LambdaExpr):
+            # lambda expressions have a method called expr to get the body of the lamda function
+            self.traverse_expr(expr.expr(), parameter_of_func, call_references)
+
+        for member_name in dir(expr):
+            if not member_name.startswith("__") and member_name != "expanded":  # expanded stores function itself which leads to infinite recursion
+                try: 
+                    member = getattr(expr, member_name, None)
+                    if isinstance(member, mp_nodes.Expression):
+                        self.traverse_expr(member, parameter_of_func, call_references)
+                    elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression):
+                        for expr_of_member in member:
+                            self.traverse_expr(expr_of_member, parameter_of_func, call_references)
+                    elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression):
+                        for tuple_item in member:
+                            for tuple_expr in tuple_item:
+                                if tuple_expr is None:
+                                    continue # pragma: no cover
+                                self.traverse_expr(tuple_expr, parameter_of_func, call_references)
+                    elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression):
+                        # generator expression member condlist
+                        for condlist in member:
+                            for cond in condlist:
+                                self.traverse_expr(cond, parameter_of_func, call_references)
+                    else:
+                        pass
+
+                except AttributeError as err:  # fix AttributeError: 'IntExpr' object has no attribute 'operators' # pragma: no cover
+                    logging.warning(f"Member not found with member name: {member_name}, expr: {expr}, error: {err}")
+
+    def traverse_callExpr(self, expr: mp_nodes.CallExpr, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+        """
+        Entry point of call expression extraction, but also handles nested calls
+
+        A call reference has three attributes, that need to be examined. 
+        - expr.callee:  this represents the part of the call reference which comes before "()" so this is the "callee()"
+                        and to find the receiver of this call reference, we need to handle this case separately
+        - expr.analyzed: is of type Expression and therefore needs to be examined by traverse_expr()
+        - expr.args: is of type list[Expression] and therefore needs to be examined by traverse_expr() as well
+
+        Parameters
+        ----------
+        expr : mp_nodes.CallExpr
+            Holds info about the current examined call expression
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+        """
+        # start search for type
+        pathCopy = path.copy()
+        pathCopy.append("()")
+        self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
+        if expr.analyzed is not None:
+            self.traverse_expr(expr.analyzed, parameter_of_func, call_references) # pragma: no cover
+        for arg in expr.args:
+            self.traverse_expr(arg, parameter_of_func, call_references)
+
+    def traverse_callee(self, expr: mp_nodes.Expression, path: list[str], parameter_of_func: dict[str, Parameter], call_references: dict[str, CallReference]) -> None:
+        """
+        A call reference was found and this function tries to retrieve the type of the receiver of the call
+
+        There are different termination conditions, which this function tries to find.
+
+        condition 1: instance.(...).call_reference()  # instance is of type class with member that leads to call_reference
+        condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+        condition 3: list[0].(...).call_reference()  # list[Class], tuple or dict with Class having a member that leads to the call_reference
+        etc.
+        But there can also be nested combinations of those conditions.
+
+        If there is no condition to be found, then, all members are searched, whether they are of type expression
+
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Holds info about the current examined expression
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+        """
+        pathCopy = path.copy()
+        if hasattr(expr, "name"):
+            pathCopy.append(expr.name) # type: ignore
+        if isinstance(expr, mp_nodes.IndexExpr):
+            if isinstance(expr.index, mp_nodes.IntExpr):
+                key = expr.index.value
+                pathCopy.append(f"[{str(key)}]")
+            else:
+                pathCopy.append("[]")
+
+        # termination conditions
+
+        # condition: callref()
+        if isinstance(expr, mp_nodes.NameExpr): # here we have no member expression just call ref
+            self.extract_call_reference_data_from_node(expr, expr.node, pathCopy, parameter_of_func, call_references)
+            return
+
+        # condition: receiver.member()
+        elif isinstance(expr, mp_nodes.MemberExpr):
+            if isinstance(expr.expr, mp_nodes.NameExpr):
+                pathCopy.append(expr.expr.name)
+                self.extract_call_reference_data_from_node(expr, expr.expr.node, pathCopy, parameter_of_func, call_references)
+                return
+                
+        # condition: super().__init__() etc
+        elif isinstance(expr, mp_nodes.SuperExpr):
+            if isinstance(expr.info, mp_nodes.TypeInfo):
+                class_that_calls_super = expr.info.fullname
+                pathCopy.append("()")
+                pathCopy.append("super")
+
+                self._set_call_reference(
+                    expr=expr,
+                    type=class_that_calls_super,
+                    path=pathCopy,
+                    call_references=call_references,
+                    is_super=True
+                )
+                return
+            else:
+                pass # pragma: no cover
+                      
+        # condition 2: func().(...).call_reference()  # func() -> Class with member that leads to the call_reference
+        elif isinstance(expr, mp_nodes.CallExpr):
+            if isinstance(expr.callee, mp_nodes.NameExpr):
+                pathCopy.append("()")
+                pathCopy.append(expr.callee.name)
+                self.extract_call_reference_data_from_node(expr, expr.callee.node, pathCopy, parameter_of_func, call_references)
+                # maybe add check if call reference could not be extracted
+                for arg in expr.args:
+                    self.traverse_expr(arg, parameter_of_func, call_references) # pragma: no cover
+                # this is another call ref that needs to be extracted
+                self.traverse_callExpr(expr, [], parameter_of_func, call_references)
+                return
+            # find final receiver
+            pathCopy.append("()")
+            self.traverse_callee(expr.callee, pathCopy, parameter_of_func, call_references)
+            # start finding info of another call expr
+            newPath: list[str] = []
+            self.traverse_callExpr(expr, newPath, parameter_of_func, call_references)
+            return
+
+        # condition 3: list[0].(...).call_reference()  # list[Class] or tuple with Class having a member that leads to the call_reference
+        # also for tuple and dict
+        # here we can also have nested types that ultimately lead to Class being used
+        elif isinstance(expr, mp_nodes.IndexExpr):
+            if isinstance(expr.base, mp_nodes.NameExpr):
+                # add [] to path is already done above
+                pathCopy.append(expr.base.name)
+                self.extract_call_reference_data_from_node(expr, expr.base.node, pathCopy, parameter_of_func, call_references)
+                self.traverse_expr(expr.index, parameter_of_func, call_references)
+                return
+        elif isinstance(expr, mp_nodes.OpExpr):
+            pathCopy.append(f"${expr.op}$")
+            self.extract_call_reference_data_from_node(expr, expr.method_type, pathCopy, parameter_of_func, call_references)
+            self.traverse_expr(expr.left, parameter_of_func, call_references)
+            self.traverse_expr(expr.right, parameter_of_func, call_references)
+            return
+        else:
+            pass
+        
+        found_expression = False
+        for member_name in dir(expr):
+            if not member_name.startswith("__"):
+                member = getattr(expr, member_name, None)
+                if isinstance(member, mp_nodes.Expression):
+                    self.traverse_callee(member, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], mp_nodes.Expression): # pragma: no cover
+                    for expr_of_member in member:
+                        self.traverse_callee(expr_of_member, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], tuple) and len(member[0]) == 2 and isinstance(member[0][1], mp_nodes.Expression): # pragma: no cover
+                    for tuple_item in member:
+                        for tuple_expr in tuple_item:
+                            if tuple_expr is None:
+                                continue
+                            self.traverse_callee(tuple_expr, pathCopy, parameter_of_func, call_references)
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], list) and len(member[0]) > 0 and isinstance(member[0][0], mp_nodes.Expression): # pragma: no cover
+                    # generator expression member condlist
+                    for condlist in member:
+                        for cond in condlist:
+                            self.traverse_callee(cond, pathCopy, parameter_of_func, call_references)
+                    found_expression = True
+                else:
+                    pass
+        if not found_expression:  # so expr is the final expression and the receiver of the call
+            pathCopy.append("not_implemented")
+            self.extract_call_reference_data_from_node(expr, "None", pathCopy, parameter_of_func, call_references)
+
+    def extract_call_reference_data_from_node(
+        self, 
+        expr: mp_nodes.Expression, 
+        node: mp_nodes.SymbolNode | mp_types.Type | str | None, 
+        path: list[str], 
+        parameter_of_func: dict[str, Parameter], 
+        call_references: dict[str, CallReference]
+    ) -> None:  
+        """
+        Helper function to extract typeinfo and to set the callreference 
+
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Holds info about the current examined expression
+        node : mp_nodes.SymbolNode | mp_types.Type | str | None
+            The Node that contains type info
+        path : list[str]
+            A call reference can have a nested receiver, like this for example "receiver.attribute[0].correct_receiver.call()
+            mypy only stores node info of the receiver at the start of the call expression, so the path is used to store 
+            the names of the attributes or methods, that lead to the call reference
+            Later in _get_api.py, once the info about all classes is retrieved, the path can be used to find the type
+            of the correct_receiver
+        parameter_of_func : dict[str, Parameter]
+            Contains the parameter of the function which the body belongs to, can be used if mypy has no
+            type info about the parameter
+        call_references : dict[str, CallReference]
+            Stores all found call references and is passed along the recursion
+        """
+        possible_reason_for_no_found_functions = f"{str(expr)} "
+        if node is None: # pragma: no cover
+            possible_reason_for_no_found_functions += "Type node is none "
+            call_receiver_type_none = "None"
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_none,
+                path=path,
+                call_references=call_references
+            )
+        elif isinstance(node, str):
+            possible_reason_for_no_found_functions += "Mypy Node is a string "
+            if node == "None":
+                possible_reason_for_no_found_functions += f"There is no end condition for {str(expr)}  "
+                
+            call_receiver_type_str = node
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_str,
+                path=path,
+                call_references=call_references,
+                typeThroughInference=True
+            )
+        elif isinstance(node, mp_types.Type):
+            call_receiver_type_type: mp_types.Type | str = node
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_types.Type "
+            
+            if isinstance(call_receiver_type_type, mp_types.AnyType):
+                possible_reason_for_no_found_functions += "Type is Any "
+                if call_receiver_type_type.missing_import_name is not None:
+                    call_receiver_type_type = call_receiver_type_type.missing_import_name # pragma: no cover
+                else:
+                    possible_reason_for_no_found_functions += "No missing import name "
+            abstact_type = self.mypy_type_to_abstract_type(node)
+            typeThroughInference = not isinstance(call_receiver_type_type, mp_types.AnyType) or (isinstance(call_receiver_type_type, mp_types.AnyType) and call_receiver_type_type.missing_import_name is not None)
+            
+            self._set_call_reference(
+                expr=expr,
+                type=abstact_type,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=typeThroughInference
+            )
+            return
+        elif isinstance(node, mp_nodes.FuncDef) and len(path) == 2:
+            # here a global function is referenced that is in the same module
+            call_receiver_type_funcdef = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_funcdef,
+                path=path,
+                call_references=call_references,
+                typeThroughInference=True
+            )
+            return
+        elif isinstance(node, mp_nodes.FuncDef):
+            call_receiver_type_funcdef_full: Any = None
+            possible_reason_for_no_found_functions += ""
+            typeThroughTypeHint = False
+            typeThroughDocString = False
+            typeThroughInference = False
+            isFromParameter = False
+            parameter_type = None
+            parameter = parameter_of_func.get(node.fullname)
+            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None): # pragma: no cover
+                if parameter.type is not None:
+                    parameter_type = parameter.type
+                elif parameter.docstring.type is not None:
+                    parameter_type = parameter.docstring.type
+
+                isFromParameter = True
+                typeThroughTypeHint = parameter.type is not None
+                typeThroughDocString = parameter.docstring.type is not None
+            if node.type is not None: # pragma: no cover
+                call_receiver_type_funcdef_full = self.mypy_type_to_abstract_type(node.type.ret_type) # type: ignore
+                if isinstance(call_receiver_type_funcdef_full, mp_types.AnyType):
+                    possible_reason_for_no_found_functions += "Type is Any "
+                    if call_receiver_type_funcdef_full.missing_import_name is not None:
+                        call_receiver_type_funcdef_full = call_receiver_type_funcdef_full.missing_import_name
+                    else:
+                        possible_reason_for_no_found_functions += "No missing import name "
+                        call_receiver_type_funcdef_full = node.fullname if parameter_type is None else parameter_type
+                        
+                typeThroughInference = not isinstance(node.type.ret_type, mp_types.AnyType) or (isinstance(node.type.ret_type, mp_types.AnyType) and node.type.ret_type.missing_import_name is not None)  # type: ignore
+                if isinstance(node.type.ret_type, sds_types.NamedType) and node.type.ret_type.name == "Any":  # type: ignore
+                    typeThroughInference = False
+                
+            else: # pragma: no cover
+                possible_reason_for_no_found_functions += "Node.type was None for FuncDef"
+                call_receiver_type_funcdef_full = node.fullname if parameter_type is None else parameter_type
+
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_funcdef_full,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughDocString=typeThroughDocString,
+                typeThroughInference=typeThroughInference,
+                typeThroughTypeHint=typeThroughTypeHint,
+                isFromParameter=isFromParameter
+            )
+            return
+        elif isinstance(node, mp_nodes.Var):
+            possible_reason_for_no_found_functions += ""
+            typeThroughTypeHint = False
+            typeThroughDocString = False
+            typeThroughInference = False
+            isFromParameter = False
+            parameter_type = None
+            parameter = parameter_of_func.get(node.fullname)
+            if parameter is not None and (parameter.type is not None or parameter.docstring.type is not None):
+                if parameter.type is not None:
+                    parameter_type = parameter.type
+                elif parameter.docstring.type is not None: # pragma: no cover
+                    parameter_type = parameter.docstring.type
+
+                isFromParameter = True
+                typeThroughTypeHint = parameter.type is not None
+                typeThroughDocString = parameter.docstring.type is not None
+            if node.type is not None:
+                call_receiver_type_var: Any = self.mypy_type_to_abstract_type(node.type)
+                if isinstance(node.type, mp_types.AnyType):
+                    # analyzing static methods, mypy sets the type as Any but with the fullname we can retrieve the type
+                    possible_reason_for_no_found_functions += "Type is Any "
+                    if node.type.missing_import_name is not None:
+                        call_receiver_type_var = node.type.missing_import_name # pragma: no cover
+                    else:
+                        possible_reason_for_no_found_functions += "No missing import name "
+                        call_receiver_type_var = node.fullname if parameter_type is None else parameter_type
+
+                typeThroughInference = not isinstance(node.type, mp_types.AnyType) or (isinstance(node.type, mp_types.AnyType) and node.type.missing_import_name is not None)
+                if isinstance(node.type, sds_types.NamedType) and node.type.name == "Any":
+                    typeThroughInference = False # pragma: no cover
+            else:
+                possible_reason_for_no_found_functions += "Node.type was None for Var "
+                call_receiver_type_var = node.fullname if parameter_type is None else parameter_type
+
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_var,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughDocString=typeThroughDocString,
+                typeThroughInference=typeThroughInference,
+                typeThroughTypeHint=typeThroughTypeHint,
+                isFromParameter=isFromParameter
+            )
+            return
+        elif isinstance(node, mp_nodes.TypeAlias): # pragma: no cover
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeAlias "
+            call_receiver_type_type_alias: Any = node.target
+            if isinstance(call_receiver_type_type_alias, mp_types.AnyType):
+                if call_receiver_type_type_alias.missing_import_name is not None:
+                    call_receiver_type_type_alias = call_receiver_type_type_alias.missing_import_name
+                else:
+                    call_receiver_type_type_alias = node.fullname
+            typeThroughInference = not isinstance(call_receiver_type_type_alias, mp_types.AnyType) or (isinstance(call_receiver_type_type_alias, mp_types.AnyType) and call_receiver_type_type_alias.missing_import_name is not None)
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_type_alias,
+                path=path,
+                call_references=call_references,
+                typeThroughInference=typeThroughInference,
+            )
+            return
+        elif isinstance(node, mp_nodes.Decorator): # pragma: no cover
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.Decorator "
+            call_receiver_type_decorator = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_decorator,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=True,
+            )
+            return
+        elif isinstance(node, mp_nodes.TypeVarLikeExpr): # pragma: no cover
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeVarLikeExpr "
+            call_receiver_type_typeVarLikeExpr = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_typeVarLikeExpr,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=True,
+            )
+            return
+        elif isinstance(node, mp_nodes.PlaceholderNode): # pragma: no cover
+            return
+        elif isinstance(node, mp_nodes.OverloadedFuncDef):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.OverloadedFuncDef "
+
+            call_receiver_type_overloadedFuncdef = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_overloadedFuncdef,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=True,
+            )
+            return
+        elif isinstance(node, mp_nodes.TypeInfo):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.TypeInfo "
+            call_receiver_type_typeInfo = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_typeInfo,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=True,
+            )
+            return
+        elif isinstance(node, mp_nodes.MypyFile):
+            possible_reason_for_no_found_functions += "Mypy Node is a mp_nodes.MypyFile "
+            call_receiver_type_mypyFile = node.fullname
+            self._set_call_reference(
+                expr=expr,
+                type=call_receiver_type_mypyFile,
+                path=path,
+                call_references=call_references,
+                possible_reason_for_no_found_functions=possible_reason_for_no_found_functions,
+                typeThroughInference=True,
+            )
+            return
+        else:
+            return # pragma: no cover
+
+    def _get_named_types_from_nested_type(self, nested_type: AbstractType) -> list[sds_types.NamedType | sds_types.NamedSequenceType] | None: # pragma: no cover
+        """
+        Iterates through a nested type recursively, to find all NamedTypes
+
+        Parameters
+        ----------
+        nested_type : AbstractType
+            Abstract class for types
+        
+        Returns
+        ----------
+        type : list[NamedType] | None
+        """
+        if isinstance(nested_type, sds_types.NamedType):
+            return [nested_type]
+        elif isinstance(nested_type, sds_types.ListType):
+            if len(nested_type.types) == 0:
+                return None
+            return self._get_named_types_from_nested_type(nested_type.types[0])  # a list can only have one type
+        elif isinstance(nested_type, sds_types.NamedSequenceType):
+            if len(nested_type.types) == 0:
+                return None
+            return [nested_type]
+        elif isinstance(nested_type, sds_types.DictType):
+            return self._get_named_types_from_nested_type(nested_type.value_type)
+        elif isinstance(nested_type, sds_types.SetType):
+            if len(nested_type.types) == 0:
+                return None
+            return self._get_named_types_from_nested_type(nested_type.types[0])  # a set can only have one type 
+        elif isinstance(nested_type, sds_types.FinalType):
+            return self._get_named_types_from_nested_type(nested_type.type_)
+        elif isinstance(nested_type, sds_types.CallableType):
+            return self._get_named_types_from_nested_type(nested_type.return_type)
+        elif isinstance(nested_type, sds_types.UnionType):
+            result = []
+            for type in nested_type.types:
+                extracted_types = self._get_named_types_from_nested_type(type)
+                if extracted_types is None:
+                    continue
+                result.extend(extracted_types)
+            return result
+        elif isinstance(nested_type, sds_types.TupleType):
+            result = []
+            for type in nested_type.types:
+                extracted_types = self._get_named_types_from_nested_type(type)
+                if extracted_types is None:
+                    continue
+                result.extend(extracted_types)
+            return result
+
+        for member_name in dir(nested_type):
+            if not member_name.startswith("__"):
+                member = getattr(nested_type, member_name)
+                if isinstance(member, sds_types.AbstractType):
+                    return self._get_named_types_from_nested_type(member)
+                elif isinstance(member, list) and len(member) > 0 and isinstance(member[0], sds_types.AbstractType):
+                    types: list[sds_types.NamedType | sds_types.NamedSequenceType] = []
+                    for type in member:
+                        named_type = self._get_named_types_from_nested_type(type)
+                        if named_type is not None:
+                            types.extend(named_type)
+                    return list(filter(lambda type: not type.qname.startswith("builtins"), list(set(types))))
+        return None
+        
+    def _set_call_reference(self, 
+        expr: mp_nodes.Expression, 
+        type: Any | list[sds_types.NamedType | sds_types.NamedSequenceType],  # can also be List of types for union type
+        path: list[str], 
+        call_references: dict[str, CallReference],
+        is_super: bool = False,
+        possible_reason_for_no_found_functions: str = "",
+        typeThroughTypeHint: bool = False,
+        typeThroughDocString: bool = False,
+        typeThroughInference: bool = False,
+        isFromParameter: bool = False,
+    ) -> None:
+        """
+        Helper function, to set a callreference into the call_references dictionary
+
+        Parameters
+        ----------
+        expr : mp_nodes.Expression
+            Current expression, will be used to get the line and column
+        full_name : str
+            The full name of the call_reference, is also used as id
+        type : Any | list[sds_types.NamedType | sds_types.NamedSequenceType]
+            The type of the receiver, if type Any, then its the type from mypy and if NamedType then from parameter
+        path : list[str]
+            The path from the receiver to the call reference
+        call_references : dict[str, CallReference]
+            Dictionary of found call references
+        """
+        try:
+            function_name = list(filter(lambda part: part != "()" and part != "[]", path))[0]
+        except IndexError as error: # pragma: no cover
+            print(error)
+            return
+        full_name = ""
+        if isinstance(type, list) and len(type) == 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)): # pragma: no cover
+            full_name = type[0].qname
+            type = type[0]
+        elif isinstance(type, list) and len(type) > 1 and (isinstance(type[0], sds_types.NamedType) or isinstance(type[0], sds_types.NamedSequenceType)): # pragma: no cover
+            full_name = "+".join(list(map(lambda x: x.qname, type)))
+        elif isinstance(type, sds_types.NamedType): # pragma: no cover
+            full_name = type.qname
+        elif hasattr(type, "type"): # pragma: no cover
+            full_name = type.type.fullname  # type: ignore
+        elif hasattr(type, "fullname"): # pragma: no cover
+            full_name = type.fullname  # type: ignore
+        elif hasattr(type, "name"): # pragma: no cover
+            full_name = type.name  # type: ignore
+        elif isinstance(type, str): # pragma: no cover
+            full_name = type
+        
+        if isinstance(full_name, mp_types.NoneType):
+            full_name = "None" # pragma: no cover
+        if not isinstance(full_name, str):
+            full_name = "" # pragma: no cover
+        call_receiver = CallReceiver(
+            full_name=full_name, 
+            type=type, 
+            path_to_call_reference=path, 
+            found_classes=[],
+            typeThroughTypeHint=typeThroughTypeHint,
+            typeThroughDocString=typeThroughDocString,
+            typeThroughInference=typeThroughInference,
+            isFromParameter=isFromParameter,
+        )  # found Classes will later be found
+        call_reference = CallReference(
+            column=expr.column, 
+            line=expr.line, 
+            receiver=call_receiver, 
+            function_name=function_name,
+            isSuperCallRef=is_super,
+            reason_for_no_found_functions=possible_reason_for_no_found_functions
+        )
+        id = f"{function_name}.{expr.line}.{expr.column}"
+        if call_references.get(id) is None:
+            call_references[id] = call_reference
 
     # #### Result utilities
 
@@ -747,7 +1675,7 @@ class MyPyAstVisitor:
         function has the following returns "return 42" and "return True, 1.2" we would have to group the integer and
         boolean as "result_1: Union[int, bool]" and the float number as "result_2: Union[float, None]".
 
-        Paramters
+        Parameters
         ---------
         ret_type:
             An object representing a tuple with all inferred types.
@@ -775,7 +1703,7 @@ class MyPyAstVisitor:
                         if type__ not in result_array[i]:
                             result_array[i].append(type__)
 
-                            longest_inner_list = max(len(result_array[i]), longest_inner_list)
+                            longest_inner_list = max(longest_inner_list, len(result_array[i]))
                     else:
                         result_array.append([type__])
 
@@ -1230,8 +2158,8 @@ class MyPyAstVisitor:
                     and "." in unanalyzed_type.name
                     and unanalyzed_type.name.startswith(missing_import_name)
                 ):
-                    name = unanalyzed_type.name.split(".")[-1]
-                    qname = unanalyzed_type.name.replace(missing_import_name, qname)
+                    name = unanalyzed_type.name.split(".")[-1] # pragma: no cover
+                    qname = unanalyzed_type.name.replace(missing_import_name, qname) # pragma: no cover
 
                 if not qname:  # pragma: no cover
                     logging.info("Could not parse a type, added unknown type instead.")
@@ -1452,18 +2380,12 @@ class MyPyAstVisitor:
                         continue
 
                     # If the whole module was reexported we have to check if the name or alias is intern
-                    if module_is_reexported:
+                    if module_is_reexported and not_internal and (isinstance(parent, Module) or parent.is_public):
 
                         # Check the wildcard imports of the source
                         for wildcard_import in reexport_source.wildcard_imports:
-                            if (
-                                (
-                                    (is_from_same_package and wildcard_import.module_name == module_name)
-                                    or (is_from_another_package and wildcard_import.module_name == module_qname)
-                                )
-                                and not_internal
-                                and (isinstance(parent, Module) or parent.is_public)
-                            ):
+                            if ((is_from_same_package and wildcard_import.module_name == module_name)
+                                    or (is_from_another_package and wildcard_import.module_name == module_qname)):
                                 return True
 
                         # Check the qualified imports of the source
@@ -1474,11 +2396,9 @@ class MyPyAstVisitor:
                             if (
                                 qualified_import.qualified_name in {module_name, module_qname}
                                 and (
-                                    (qualified_import.alias is None and not_internal)
+                                    qualified_import.alias is None
                                     or (qualified_import.alias is not None and not is_internal(qualified_import.alias))
                                 )
-                                and not_internal
-                                and (isinstance(parent, Module) or parent.is_public)
                             ):
                                 # If the module name or alias is not internal, check if the parent is public
                                 return True
