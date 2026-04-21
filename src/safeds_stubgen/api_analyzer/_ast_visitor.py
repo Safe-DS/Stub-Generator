@@ -775,7 +775,7 @@ class MyPyAstVisitor:
                         if type__ not in result_array[i]:
                             result_array[i].append(type__)
 
-                            longest_inner_list = max(len(result_array[i]), longest_inner_list)
+                            longest_inner_list = max(longest_inner_list, len(result_array[i]))
                     else:
                         result_array.append([type__])
 
@@ -1452,18 +1452,12 @@ class MyPyAstVisitor:
                         continue
 
                     # If the whole module was reexported we have to check if the name or alias is intern
-                    if module_is_reexported:
+                    if module_is_reexported and not_internal and (isinstance(parent, Module) or parent.is_public):
 
                         # Check the wildcard imports of the source
                         for wildcard_import in reexport_source.wildcard_imports:
-                            if (
-                                (
-                                    (is_from_same_package and wildcard_import.module_name == module_name)
-                                    or (is_from_another_package and wildcard_import.module_name == module_qname)
-                                )
-                                and not_internal
-                                and (isinstance(parent, Module) or parent.is_public)
-                            ):
+                            if ((is_from_same_package and wildcard_import.module_name == module_name)
+                                    or (is_from_another_package and wildcard_import.module_name == module_qname)):
                                 return True
 
                         # Check the qualified imports of the source
@@ -1474,11 +1468,9 @@ class MyPyAstVisitor:
                             if (
                                 qualified_import.qualified_name in {module_name, module_qname}
                                 and (
-                                    (qualified_import.alias is None and not_internal)
+                                    qualified_import.alias is None
                                     or (qualified_import.alias is not None and not is_internal(qualified_import.alias))
                                 )
-                                and not_internal
-                                and (isinstance(parent, Module) or parent.is_public)
                             ):
                                 # If the module name or alias is not internal, check if the parent is public
                                 return True
